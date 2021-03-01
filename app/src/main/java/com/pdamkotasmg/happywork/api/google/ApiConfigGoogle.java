@@ -1,6 +1,7 @@
 package com.pdamkotasmg.happywork.api.google;
 
-import com.pdamkotasmg.myapplication.api.server.ApiService;
+
+import com.pdamkotasmg.happywork.api.server.ApiService;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
