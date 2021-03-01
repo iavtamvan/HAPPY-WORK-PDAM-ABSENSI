@@ -54,6 +54,16 @@
                         android:text="Judul Berita"
                         android:textColor="@color/primary"
                         android:textSize="12dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/tv_list_feeds_nama_penerbit"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="left"
+                        android:text="Nama Penerbit"
+                        android:textColor="@color/black"
+                        android:textSize="10dp" />
                     <TextView
                         android:id="@+id/tv_list_feeds_tanggal_berita"
                         android:layout_width="match_parent"
@@ -63,6 +73,7 @@
                         android:text="Type 15-Feb-2021"
                         android:textColor="@color/grey"
                         android:textSize="10dp" />
+
                 </LinearLayout>
             </LinearLayout>
 
