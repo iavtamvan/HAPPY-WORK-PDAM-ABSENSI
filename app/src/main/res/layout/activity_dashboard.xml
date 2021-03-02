@@ -236,7 +236,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="left"
-                    android:text="Berita hot yang perlu kamu tahu"
+                    android:text="Berita hot yang perlu kamu tau"
                     android:textColor="@color/black"
                     android:textSize="11dp" />
 
