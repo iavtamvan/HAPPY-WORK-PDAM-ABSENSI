@@ -1,5 +1,10 @@
 package com.pdamkotasmg.happywork.api.server;
 
+import com.pdamkotasmg.happywork.fitur.feeds.model.BeritaRootModel;
+
+import retrofit2.Call;
+import retrofit2.http.GET;
+
 public interface ApiService {
 //    // google
 //    @GET("siteverify")
@@ -32,8 +37,8 @@ public interface ApiService {
 //    @GET("auth-pelanggan/refresh-token")
 //    Call<RefreshTokenRoot> refreshToken(@Header("Authorization") String auth);
 //
-//    @GET("portal-web/berita")
-//    Call<BeritaRootModel> getNews();
+    @GET("portal-web/berita")
+    Call<BeritaRootModel> getNews();
 //
 //    @Headers({ "Content-Type: application/json;charset=UTF-8"})
 //    @GET("pengaduan/mobile/aduanku")
