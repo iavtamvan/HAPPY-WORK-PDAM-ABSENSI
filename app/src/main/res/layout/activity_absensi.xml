@@ -7,22 +7,48 @@
     android:orientation="vertical"
     tools:context=".fitur.absensi.AbsensiActivity">
 
+    <include
+        android:id="@+id/include_header"
+        layout="@layout/content_header"
+        android:layout_alignParentBottom="true"
+        tools:ignore="IncludeLayoutParam" />
+
     <com.camerakit.CameraKitView
-        android:id="@+id/camera"
+        android:id="@+id/camera_front"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:adjustViewBounds="true"
         android:keepScreenOn="true"
-        android:layout_weight="1"
         app:camera_facing="front"
         app:camera_flash="off"
         app:camera_focus="auto"
         app:camera_permissions="camera" />
 
-    <Button
+    <com.camerakit.CameraKitView
+        android:id="@+id/camera_back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:keepScreenOn="true"
+        android:visibility="gone"
+        app:camera_facing="back"
+        app:camera_flash="off"
+        app:camera_focus="auto"
+        app:camera_permissions="camera" />
+
+    <LinearLayout
+        android:id="@+id/div_camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Jepret"
-        android:id="@+id/btn_jepret"/>
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:src="@drawable/ic_camera" />
+    </LinearLayout>
 </LinearLayout>
