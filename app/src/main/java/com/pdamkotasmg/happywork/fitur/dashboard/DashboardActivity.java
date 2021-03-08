@@ -1,32 +1,20 @@
 package com.pdamkotasmg.happywork.fitur.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.pdamkotasmg.happywork.R;
-import com.pdamkotasmg.happywork.api.server.ApiConfig;
-import com.pdamkotasmg.happywork.api.server.ApiService;
-import com.pdamkotasmg.happywork.fitur.feeds.adapter.FeedsAdapter;
+import com.pdamkotasmg.happywork.fitur.absensi.AbsensiActivity;
 import com.pdamkotasmg.happywork.fitur.feeds.controller.FeedsController;
-import com.pdamkotasmg.happywork.fitur.feeds.model.BeritaRootModel;
-import com.pdamkotasmg.happywork.fitur.feeds.model.DataItem;
-import com.pdamkotasmg.happywork.utils.Config;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -49,6 +37,10 @@ public class DashboardActivity extends AppCompatActivity {
         initView();
         feedsController = new FeedsController();
         feedsController.getFeeds(getApplicationContext(), rv);
+
+        divRekamWaktu.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), AbsensiActivity.class));
+        });
     }
 
     private void initView() {

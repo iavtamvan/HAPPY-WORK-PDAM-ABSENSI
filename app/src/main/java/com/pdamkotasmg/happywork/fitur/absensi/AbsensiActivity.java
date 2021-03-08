@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -53,6 +54,7 @@ public class AbsensiActivity extends AppCompatActivity {
         cameraFront.startVideo();
         divCamera.setOnClickListener(v -> {
             cameraFront.captureImage((cameraKitView, bytes) -> {
+                Toast.makeText(this, "Captured", Toast.LENGTH_SHORT).show();
                 File makeFile = new File(Environment.getExternalStorageDirectory() + "/PDAM-ABSENSI");
                 makeFile.mkdirs();
                 File savedPhoto = new File(makeFile, nameUser + currentDate + "_" + currentTime + "_FF.xxkampretnotfailable");
@@ -68,31 +70,11 @@ public class AbsensiActivity extends AppCompatActivity {
             });
         });
     }
-
     @Override
     protected void onStart() {
-        cameraFront.onStart();
         super.onStart();
+        cameraFront.onStart();
     }
-//
-//    @Override
-//    protected void onPause() {
-//        cameraFront.onPause();
-//        super.onPause();
-//    }
-//
-//    @Override
-//    protected void onStop() {
-//        cameraFront.onStop();
-//        super.onStop();
-//    }
-//
-    @Override
-    protected void onResume() {
-        cameraFront.onResume();
-        super.onResume();
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

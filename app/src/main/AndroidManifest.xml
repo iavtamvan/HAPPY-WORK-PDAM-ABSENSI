@@ -27,13 +27,13 @@
         android:theme="@style/Theme.HappyWork"
         android:requestLegacyExternalStorage="true">
         <activity android:name=".fitur.absensi.AbsensiActivity">
+        </activity>
+        <activity android:name=".fitur.dashboard.DashboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".fitur.dashboard.DashboardActivity">
         </activity>
         <activity android:name=".MainActivity"></activity>
     </application>
