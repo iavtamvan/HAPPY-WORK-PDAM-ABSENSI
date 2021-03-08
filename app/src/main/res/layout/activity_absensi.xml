@@ -41,14 +41,19 @@
     <LinearLayout
         android:id="@+id/div_camera"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            android:src="@drawable/ic_camera" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="lt_camera.json"
+            app:lottie_loop="true"
+            app:lottie_speed="1" />
     </LinearLayout>
 </LinearLayout>

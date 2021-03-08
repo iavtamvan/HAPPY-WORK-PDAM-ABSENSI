@@ -87,11 +87,11 @@ public class AbsensiActivity extends AppCompatActivity {
 //        super.onStop();
 //    }
 //
-//    @Override
-//    protected void onResume() {
-//        cameraFront.onStart();
-//        super.onResume();
-//    }
+    @Override
+    protected void onResume() {
+        cameraFront.onResume();
+        super.onResume();
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
