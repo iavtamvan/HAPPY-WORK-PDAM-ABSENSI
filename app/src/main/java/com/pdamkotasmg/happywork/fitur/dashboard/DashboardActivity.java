@@ -2,21 +2,28 @@ package com.pdamkotasmg.happywork.fitur.dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.fitur.absensi.AbsensiActivity;
 import com.pdamkotasmg.happywork.fitur.feeds.controller.FeedsController;
+import com.pdamkotasmg.happywork.fitur.kehadiran.view.KehadiranActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DashboardActivity extends AppCompatActivity {
+
+    private FeedsController feedsController;
+    private int statusExpandedCode = 1;
+
 
     private ImageView ivTutorialVideo;
     private TextView divNamaLengkap;
@@ -27,8 +34,9 @@ public class DashboardActivity extends AppCompatActivity {
     private LottieAnimationView lavThumbUp;
     private CircleImageView ciProfileImage;
     private RecyclerView rv;
+    private CardView divLainnyaExpanded;
+    private LinearLayout divOvertime;
 
-    private FeedsController feedsController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +45,21 @@ public class DashboardActivity extends AppCompatActivity {
         initView();
         feedsController = new FeedsController();
         feedsController.getFeeds(getApplicationContext(), rv);
+        divLainnyaExpanded.setVisibility(View.GONE);
 
         divRekamWaktu.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), AbsensiActivity.class));
+        });
+
+        divKehadiran.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), KehadiranActivity.class));
+        });
+        divLainnya.setOnClickListener(v -> {
+            if (statusExpandedCode == 1 ){
+                divLainnyaExpanded.setVisibility(View.VISIBLE);
+            }else {
+                divLainnyaExpanded.setVisibility(View.GONE);
+            }
         });
     }
 
@@ -53,5 +73,7 @@ public class DashboardActivity extends AppCompatActivity {
         lavThumbUp = findViewById(R.id.lav_thumbUp);
         ciProfileImage = findViewById(R.id.ci_profile_image);
         rv = findViewById(R.id.rv);
+        divLainnyaExpanded = findViewById(R.id.div_lainnya_expanded);
+        divOvertime = findViewById(R.id.div_overtime);
     }
 }
