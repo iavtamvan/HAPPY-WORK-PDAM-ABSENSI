@@ -58,6 +58,7 @@ public class AbsensiActivity extends AppCompatActivity {
     private String getIpAdress;
     private String getNetworkUsing;
     private String getHwid;
+    private String getSSIDWifi;
 
     private String replaceTimeServer;
     private String timeServer;
@@ -110,6 +111,7 @@ public class AbsensiActivity extends AppCompatActivity {
         getIpAdress = Formatter.formatIpAddress(ipAddress);
         getNetworkUsing = String.valueOf(cm.getActiveNetworkInfo().getTypeName());
         getHwid  = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        getSSIDWifi = connectionInfo.getSSID().replace("\"", "");
 
         Log.d("debug", "getModel: " + getModel);
         Log.d("debug", "getProduct: " + getProduct);
@@ -122,6 +124,7 @@ public class AbsensiActivity extends AppCompatActivity {
         Log.d("debug", "ipAdress: " + getIpAdress);
         Log.d("debug", "wifi: " + getNetworkUsing);
         Log.d("debug", "hwid: " + getHwid);
+        Log.d("debug", "ssid: " + getSSIDWifi);
 
         String DEBUG_TAG = "debug";
         ConnectivityManager connMgr =
