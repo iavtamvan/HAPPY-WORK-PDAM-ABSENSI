@@ -94,12 +94,17 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0'
 
-
     //spinner
     implementation 'com.jaredrummler:material-spinner:1.3.1'
 
     //circle image
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //getTimeGlobal
+    implementation 'com.github.kk121:SecureTimer:v1.0'
+
+    //get Device Info
+    implementation 'com.an.deviceinfo:deviceinfo:0.1.5'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
