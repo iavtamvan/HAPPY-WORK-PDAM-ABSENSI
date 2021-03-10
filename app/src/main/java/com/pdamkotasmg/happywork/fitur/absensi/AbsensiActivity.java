@@ -37,10 +37,8 @@ import java.util.Date;
 
 public class AbsensiActivity extends AppCompatActivity {
 
-    private int currentTime;
     private String currentDate;
     private String nameUser;
-    private String getDeviceInfo;
     private double getLat, getLongi;
     private String getJaringanWifi, getJaringanPaketData;
     private String getAkurasiLokasi;
@@ -87,8 +85,6 @@ public class AbsensiActivity extends AppCompatActivity {
         Log.d("debug", "timeServer: " + replaceTimeServer);
 
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        currentTime = calendar.get(Calendar.MILLISECOND);
         Date cDate = new Date();
         currentDate = new SimpleDateFormat("yyyy-MM-dd").format(cDate);
         Log.d("debug", "dateNow: " + currentDate);

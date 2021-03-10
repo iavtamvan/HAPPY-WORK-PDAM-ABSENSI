@@ -25,7 +25,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class DashboardActivity extends AppCompatActivity {
 
     private FeedsController feedsController;
-    private int statusExpandedCode = 1;
+    private boolean statusExpandedTrue = false;
     private static final int RC_CAMERA_AND_LOCATION = 1;
 
     private ImageView ivTutorialVideo;
@@ -59,13 +59,16 @@ public class DashboardActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), KehadiranActivity.class));
         });
         divLainnya.setOnClickListener(v -> {
-            if (statusExpandedCode == 1 ){
+            if (!statusExpandedTrue) {
                 divLainnyaExpanded.setVisibility(View.VISIBLE);
-            }else {
+                statusExpandedTrue = true;
+            } else {
                 divLainnyaExpanded.setVisibility(View.GONE);
+                statusExpandedTrue = false;
             }
         });
     }
+
     @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)
     private void methodRequiresTwoPermission() {
         String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
