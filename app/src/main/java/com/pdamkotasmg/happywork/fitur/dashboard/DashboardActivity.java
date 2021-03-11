@@ -17,6 +17,7 @@ import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.fitur.absensi.AbsensiActivity;
 import com.pdamkotasmg.happywork.fitur.feeds.controller.FeedsController;
 import com.pdamkotasmg.happywork.fitur.kehadiran.view.KehadiranActivity;
+import com.pdamkotasmg.happywork.fitur.payslip.PayslipActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -66,6 +67,10 @@ public class DashboardActivity extends AppCompatActivity {
                 divLainnyaExpanded.setVisibility(View.GONE);
                 statusExpandedTrue = false;
             }
+        });
+
+        divPayslip.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), PayslipActivity.class));
         });
     }
 
