@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -21,6 +22,8 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.fitur.dashboard.DashboardActivity;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,12 +61,14 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         packageString = new ArrayList<>();
         stringslist = new ArrayList<>();
-//        stringslist.add("com.samsung.android.provider.filterprovider");
-        stringslist.add("com.lexa.fakegps");
-        stringslist.add("com.reddoorz.app");
+//        stringslist.add("com.lexa.fakegps");
+//        stringslist.add("com.reddoorz.app");
         stringslist.add("id.co.bri.brimo");
 //        stringslist.add("com.samsung.android.video");
 //        stringslist.add("com.samsung.android.tapack.authfw");
+//        stringslist.add("com.samsung.android.app.dressroom");
+//        stringslist.add("com.android.theme.icon.roundedrect");
+//        stringslist.add("com.samsung.android.provider.filterprovider");
 
         isMockSettingsON(SplashScreenActivity.this);
 
@@ -85,37 +90,63 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         PackageManager pm = context.getPackageManager();
         List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
-//        Log.d(TAG, "packages list : " + packages);
-        boolean ketemu = false;
+        boolean finding = false;
         for (ApplicationInfo applicationInfo : packages) {
             try {
                 for (i = 0; i < stringslist.size(); i++) {
                     packageInfo = pm.getPackageInfo(applicationInfo.packageName, PackageManager.GET_PERMISSIONS);
+                    Log.d(TAG, "packages : " + packageInfo.packageName);
                     if (packageInfo.packageName.equalsIgnoreCase(stringslist.get(i))) {
                         Log.d(TAG, packageInfo.packageName + " : Fuck Moc: Sama");
-                        ketemu = true;
+                        finding = true;
                         break;
                     } else {
                         Log.d(TAG, packageInfo.packageName + " : Fuck Moc: Lanjut");
                     }
                 }
-                if (ketemu) break;
+                if (finding) break;
 
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
         }
-        if (!ketemu) {
+        if (!finding) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     startActivity(new Intent(SplashScreenActivity.this, DashboardActivity.class));
-                    finish();
+                    finishAffinity();
                 }
             }, SPLASH_TIME_OUT);
 
         } else {
-            Toast.makeText(context, "Un install fake", Toast.LENGTH_SHORT).show();
+            MaterialDialog mDialog = new MaterialDialog.Builder(this)
+                    .setTitle("Haayyoooooooo....")
+                    .setMessage("Uninstall fake GPS kamu " + packageInfo.packageName + "\n\n Hubungi kepegawaian untuk aktivasi kembali...")
+                    .setAnimation("lt_bohong.json")
+                    .setCancelable(false)
+                    .setNegativeButton("Oke deh, jangan suka bohong ya", new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            dialogInterface.dismiss();
+                            finishAffinity();
+                        }
+                    })
+                    .setPositiveButton("Uninstall Aplikasi Presensi", new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            Toast.makeText(context, "Uninstall aplikasi presensi beraksi...", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(Intent.ACTION_DELETE);
+                            intent.setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
+                            startActivity(intent);
+                        }
+                    })
+                    .build();
+
+            // Show Dialog
+            mDialog.show();
+//            Toast.makeText(context, "Un install fake", Toast.LENGTH_SHORT).show();
+//            finishAffinity();
         }
 
 //        for (ApplicationInfo applicationInfo : packages) {
