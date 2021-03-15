@@ -79,6 +79,8 @@ dependencies {
     //get lat long, address
     implementation 'com.github.delight-im:Android-SimpleLocation:v1.1.0'
 
+    //mock location
+
     // permission for android
     implementation 'pub.devrel:easypermissions:2.0.1'
 

@@ -2,6 +2,8 @@ package com.pdamkotasmg.happywork.fitur.absensi;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -34,6 +36,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import im.delight.android.location.SimpleLocation;
 
 public class AbsensiActivity extends AppCompatActivity {
 
@@ -42,6 +48,7 @@ public class AbsensiActivity extends AppCompatActivity {
     private double getLat, getLongi;
     private String getJaringanWifi, getJaringanPaketData;
     private String getAkurasiLokasi;
+    private String debug = "debug";
 
     //device info
     private Device device;
@@ -57,6 +64,14 @@ public class AbsensiActivity extends AppCompatActivity {
     private String getNetworkUsing;
     private String getHwid;
     private String getSSIDWifi;
+    private String address_gps;
+    private String city;
+    private String state;
+    private String country;
+    private String postalCode;
+    private String knownName;
+    private Double lati, longi;
+    private SimpleLocation location;
 
     private String replaceTimeServer;
     private String timeServer;
@@ -76,7 +91,7 @@ public class AbsensiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_absensi);
         getSupportActionBar().hide();
         initView();
-        nameUser = "Nama_";
+        nameUser = "Nama";
         tvHeaderJudul.setText("REKAM RUPAMU");
 
         Date currentTimeInMillis = SecureTimer.with(AbsensiActivity.this).getCurrentDate();
@@ -109,20 +124,48 @@ public class AbsensiActivity extends AppCompatActivity {
         getHwid  = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         getSSIDWifi = connectionInfo.getSSID().replace("\"", "");
 
-        Log.d("debug", "getModel: " + getModel);
-        Log.d("debug", "getProduct: " + getProduct);
-        Log.d("debug", "getDevice: " + getDevice);
-        Log.d("debug", "getBuildBrand: " + getBuildBrand);
-        Log.d("debug", "getOsVersion: " + getOsVersion);
-        Log.d("debug", "getSdkVersion: " + getSdkVersion);
-        Log.d("debug", "getBuildNumber: " + getBuildNumber);
-        Log.d("debug", "getBuildIncremental: " + getBuildIncremental);
-        Log.d("debug", "ipAdress: " + getIpAdress);
-        Log.d("debug", "wifi: " + getNetworkUsing);
-        Log.d("debug", "hwid: " + getHwid);
-        Log.d("debug", "ssid: " + getSSIDWifi);
+        location = new SimpleLocation(AbsensiActivity.this);
+        if (!location.hasLocationEnabled()) {
+            SimpleLocation.openSettings(AbsensiActivity.this);
+        }
+        lati = location.getLatitude();
+        longi = location.getLongitude();
+        Geocoder geocoder;
+        List<Address> addressList;
+        geocoder = new Geocoder(AbsensiActivity.this, Locale.getDefault());
+        try {
+            addressList = geocoder.getFromLocation(lati, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            address_gps = addressList.get(0).getAddressLine(0); // If any additional address_gps line present than only, check with max available address_gps lines by getMaxAddressLineIndex()
+            city = addressList.get(0).getLocality();
+            state = addressList.get(0).getAdminArea();
+            country = addressList.get(0).getCountryName();
+            postalCode = addressList.get(0).getPostalCode();
+            knownName = addressList.get(0).getFeatureName(); // Only if available else return NULL
+            Log.d("debug", "loc: " + address_gps + " ");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        String DEBUG_TAG = "debug";
+        Log.d(debug, "getModel: " + getModel);
+        Log.d(debug, "getProduct: " + getProduct);
+        Log.d(debug, "getDevice: " + getDevice);
+        Log.d(debug, "getBuildBrand: " + getBuildBrand);
+        Log.d(debug, "getOsVersion: " + getOsVersion);
+        Log.d(debug, "getSdkVersion: " + getSdkVersion);
+        Log.d(debug, "getBuildNumber: " + getBuildNumber);
+        Log.d(debug, "getBuildIncremental: " + getBuildIncremental);
+        Log.d(debug, "ipAdress: " + getIpAdress);
+        Log.d(debug, "connectionType: " + getNetworkUsing);
+        Log.d(debug, "hwid: " + getHwid);
+        Log.d(debug, "ssid: " + getSSIDWifi);
+        Log.d(debug, "address_gps: " + address_gps);
+
+        Log.d(debug, "city: " + city);
+        Log.d(debug, "state: " + state);
+        Log.d(debug, "country: " + country);
+        Log.d(debug, "postalCode: " + postalCode);
+        Log.d(debug, "knownName: " + knownName);
+
         ConnectivityManager connMgr =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         boolean isWifiConn = false;
@@ -137,8 +180,8 @@ public class AbsensiActivity extends AppCompatActivity {
                 isMobileConn |= networkInfo.isConnected();
             }
         }
-        Log.d(DEBUG_TAG, "Wifi connected: " + isWifiConn);
-        Log.d(DEBUG_TAG, "Mobile connected: " + isMobileConn);
+        Log.d(debug, "Wifi connected: " + isWifiConn);
+        Log.d(debug, "Mobile connected: " + isMobileConn);
 
         cameraBack.setVisibility(View.GONE);
         cameraFront.startVideo();
@@ -147,11 +190,12 @@ public class AbsensiActivity extends AppCompatActivity {
                 Toast.makeText(this, "Captured", Toast.LENGTH_SHORT).show();
                 File makeFile = new File(Environment.getExternalStorageDirectory() + "/PDAM-ABSENSI");
                 makeFile.mkdirs();
-                File savedPhoto = new File(makeFile, nameUser + currentDate + "_" + timeServer + "_FF.xxkampretnotfailable");
+                File savedPhoto = new File(makeFile, nameUser + "_" + replaceTimeServer + "_FF.xxkampretnotfailable");
                 try {
                     FileOutputStream outputStream = new FileOutputStream(savedPhoto.getPath());
-                    Log.d("debug", "path: " + savedPhoto);
-                    Log.d("debug", "makefile : " + makeFile);
+                    Log.d(debug, "path: " + savedPhoto);
+                    Log.d(debug, "nameFile: " + savedPhoto.getName());
+                    Log.d(debug, "directory : " + makeFile);
                     outputStream.write(bytes);
                     outputStream.close();
                     cameraFront.onStop();
@@ -176,7 +220,6 @@ public class AbsensiActivity extends AppCompatActivity {
     }
 
     PermissionManager permissionManager = new PermissionManager(this);
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -201,7 +244,6 @@ public class AbsensiActivity extends AppCompatActivity {
             }
         }, 10000);
     }
-
 
     private void initView() {
         cameraBack = findViewById(R.id.camera_back);
