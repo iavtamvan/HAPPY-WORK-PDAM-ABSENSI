@@ -150,6 +150,8 @@ public class AbsensiActivity extends AppCompatActivity {
                 File savedPhoto = new File(makeFile, nameUser + currentDate + "_" + timeServer + "_FF.xxkampretnotfailable");
                 try {
                     FileOutputStream outputStream = new FileOutputStream(savedPhoto.getPath());
+                    Log.d("debug", "path: " + savedPhoto);
+                    Log.d("debug", "makefile : " + makeFile);
                     outputStream.write(bytes);
                     outputStream.close();
                     cameraFront.onStop();
@@ -183,7 +185,6 @@ public class AbsensiActivity extends AppCompatActivity {
     }
 
     boolean doubleBackToExitPressedOnce = false;
-
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -198,7 +199,7 @@ public class AbsensiActivity extends AppCompatActivity {
             public void run() {
                 doubleBackToExitPressedOnce = false;
             }
-        }, 2000);
+        }, 10000);
     }
 
 
