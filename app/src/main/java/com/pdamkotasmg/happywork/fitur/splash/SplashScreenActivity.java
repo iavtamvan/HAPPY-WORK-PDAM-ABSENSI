@@ -34,6 +34,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private boolean flag = true;
     private PackageInfo packageInfo;
     int i;
+    private String npp;
 
     private List<String> stringslist;
     private List<String> packageString;
@@ -45,6 +46,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         getSupportActionBar().hide();
+        npp = "122222";
         //This is where we change our app name font to blacklist font
         Typeface typeface = ResourcesCompat.getFont(this, R.font.roboto);
 
@@ -61,17 +63,17 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         packageString = new ArrayList<>();
         stringslist = new ArrayList<>();
-//        stringslist.add("com.lexa.fakegps");
-//        stringslist.add("com.reddoorz.app");
-        stringslist.add("id.co.bri.brimo");
-//        stringslist.add("com.samsung.android.video");
-//        stringslist.add("com.samsung.android.tapack.authfw");
-//        stringslist.add("com.samsung.android.app.dressroom");
-//        stringslist.add("com.android.theme.icon.roundedrect");
-//        stringslist.add("com.samsung.android.provider.filterprovider");
-
+        stringslist.add("com.lexa.fakegps");
+        stringslist.add("com.fakegps.mock");
+        stringslist.add("com.blogspot.newapphorizons.fakegps");
+        stringslist.add("com.gsmartstudio.fakegps");
+        stringslist.add("org.hola.gpslocation");
+        stringslist.add("com.incorporateapps.fakegps.fre");
+        stringslist.add("com.rosteam.gpsemulator");
+        stringslist.add("com.usefullapps.fakegpslocationpro");
+        stringslist.add("ru.gavrikov.mocklocations");
+        stringslist.add("com.locationchanger");
         isMockSettingsON(SplashScreenActivity.this);
-
     }
 
     public boolean isMockSettingsON(Context context) {
@@ -121,7 +123,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         } else {
             MaterialDialog mDialog = new MaterialDialog.Builder(this)
-                    .setTitle("Haayyoooooooo....")
+                    .setTitle("Haayyoooooooo " + npp + " ....")
                     .setMessage("Uninstall fake GPS kamu " + packageInfo.packageName + "\n\n Hubungi kepegawaian untuk aktivasi kembali...")
                     .setAnimation("lt_bohong.json")
                     .setCancelable(false)
