@@ -32,8 +32,6 @@
                 app:lottie_loop="true"
                 app:lottie_speed="1" />
 
-
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_kehadiran"
                 android:layout_width="match_parent"
