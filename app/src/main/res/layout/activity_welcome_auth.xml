@@ -41,8 +41,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Selamat Datang di Security Presensi \nPDAM Kota Semarang"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Selamat Datang di Security Presensi PDAM Kota Semarang"
                     android:textColor="@color/primary"
                     android:textSize="18dp"
                     android:textStyle="bold" />
@@ -51,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="11dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/poppins_medium"
                     android:text="Udah punya akun? langsung masuk saja"
                     android:textColor="@color/black"
                     android:textSize="13dp" />
@@ -73,6 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:background="@color/primary"
+                    android:fontFamily="@font/poppins_medium"
                     android:text="Punya Akun"
                     android:textColor="@color/white"
                     android:textSize="13dp"
@@ -82,6 +83,7 @@
                     android:id="@+id/tv_page_register"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
+                    android:fontFamily="@font/poppins_medium"
                     android:gravity="center"
                     android:text="Belum punya akun"
                     android:textColor="@color/primary"

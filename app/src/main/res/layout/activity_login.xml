@@ -45,8 +45,8 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:enabled="false"
-                        android:fontFamily="@font/roboto_medium"
-                        android:hint="Company Name"
+                        android:fontFamily="@font/poppins_medium"
+                        android:hint="Nama Perusahaan"
                         android:text="PDAM Kota Semarang" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,7 +59,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:fontFamily="@font/roboto_medium"
+                        android:fontFamily="@font/poppins_medium"
                         android:hint="NPP" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,7 +73,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:fontFamily="@font/roboto_medium"
+                        android:fontFamily="@font/poppins_medium"
                         android:hint="Password"
                         android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -83,7 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="20dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/poppins_medium"
                     android:text="Masuk"
                     android:textSize="13dp"
                     android:textStyle="bold" />

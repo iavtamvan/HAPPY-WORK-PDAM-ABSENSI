@@ -24,7 +24,7 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             android:id="@+id/appname"
-            android:fontFamily="@font/roboto_medium"
+            android:fontFamily="@font/poppins_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/logo"

@@ -10,7 +10,7 @@
     <!--    top mulai -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="140dp"
         android:background="@drawable/bubletop">
 
         <LinearLayout
@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/poppins_medium"
                     android:gravity="left|center"
                     android:text="PDAM Kota Semarang"
                     android:textColor="@color/white"
@@ -49,7 +49,7 @@
                 android:id="@+id/div_nama_lengkap"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/poppins_medium"
                 android:gravity="left|center"
                 android:text="Hai, Ade Fajr Ariav, S.Kom"
                 android:textColor="@color/white"
@@ -81,7 +81,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
+                        android:fontFamily="@font/poppins_medium"
                         android:gravity="center"
                         android:text="Rekam Waktu"
                         android:textColor="@color/white"
@@ -108,7 +108,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
+                        android:fontFamily="@font/poppins_medium"
                         android:gravity="center"
                         android:text="PaySlip"
                         android:textColor="@color/white"
@@ -135,7 +135,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
+                        android:fontFamily="@font/poppins_medium"
                         android:gravity="center"
                         android:text="Kehadiran"
                         android:textColor="@color/white"
@@ -163,7 +163,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
+                        android:fontFamily="@font/poppins_medium"
                         android:gravity="center"
                         android:text="Lainya"
                         android:textColor="@color/white"
@@ -213,7 +213,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/poppins_medium"
                     android:gravity="center"
                     android:text="Lembur"
                     android:textColor="@color/black"
@@ -240,7 +240,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/poppins_medium"
                     android:visibility="gone"
                     android:gravity="center"
                     android:text="PaySlip"
@@ -268,7 +268,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/poppins_medium"
                     android:visibility="gone"
                     android:gravity="center"
                     android:text="Kehadiran"
@@ -297,7 +297,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/poppins_medium"
                     android:gravity="center"
                     android:text="Lainya"
                     android:textColor="@color/white"
@@ -341,7 +341,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/poppins_medium"
                     android:gravity="left"
                     android:text="Atasan kamu"
                     android:textColor="@color/black"
@@ -368,7 +368,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/poppins_medium"
                     android:gravity="left"
                     android:text="Berita hot yang perlu kamu tau"
                     android:textColor="@color/black"

@@ -26,7 +26,7 @@
                 android:id="@+id/tv_header_judul"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/poppins_medium"
                 android:gravity="center"
                 android:text="Judul"
                 android:textColor="@color/black"
