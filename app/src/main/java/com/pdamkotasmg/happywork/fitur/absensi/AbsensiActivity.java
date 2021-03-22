@@ -42,13 +42,10 @@ import java.util.Locale;
 import im.delight.android.location.SimpleLocation;
 
 public class AbsensiActivity extends AppCompatActivity {
+    private String debug = "debug";
 
     private String currentDate;
     private String nameUser;
-    private double getLat, getLongi;
-    private String getJaringanWifi, getJaringanPaketData;
-    private String getAkurasiLokasi;
-    private String debug = "debug";
 
     //device info
     private Device device;

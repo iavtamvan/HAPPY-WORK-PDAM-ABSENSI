@@ -7,7 +7,7 @@ public class ApiConfig {
 
     public static ApiService getApiService(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://app.pdamkotasmg.co.id:58080/pdam-pengaduan-api-laravel/public/api/")
+                .baseUrl("https://app.pdamkotasmg.co.id/tirta-proxy-dev/pdam-portal-pegawai/public/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

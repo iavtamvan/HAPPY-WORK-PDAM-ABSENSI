@@ -1,9 +1,13 @@
 package com.pdamkotasmg.happywork.api.server;
 
+import com.pdamkotasmg.happywork.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.happywork.fitur.feeds.model.BeritaRootModel;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 public interface ApiService {
 //    // google
@@ -17,12 +21,27 @@ public interface ApiService {
 //            @Field("phone") String phone
 //    );
 //
-//    @FormUrlEncoded
-//    @POST("auth-pelanggan/login")
-//    Call<AkunRootModel> login(
-//            @Field("phone") String noHp,
-//            @Field("otp") String otp
-//    );
+    @FormUrlEncoded
+    @POST("auth/login")
+    Call<AkunRootModel> login(
+            @Field("npp") String npp,
+            @Field("password") String password,
+            @Field("hwid") String hwid,
+            @Field("model") String model,
+            @Field("product") String product,
+            @Field("device") String device,
+            @Field("build_brand") String build_brand,
+            @Field("os_version") String os_version,
+            @Field("sdk_version") String sdk_version,
+            @Field("build_number") String build_number,
+            @Field("build_incremental") String build_incremental,
+            @Field("ip_address") String ip_address,
+            @Field("connection_type") String connection_type,
+            @Field("ssid") String ssid,
+            @Field("location_city") String location_city,
+            @Field("latitude") String latitude,
+            @Field("longitude") String longitude
+    );
 //
 //    @POST("auth-pelanggan/register")
 //    Call<RegisterModel> register(

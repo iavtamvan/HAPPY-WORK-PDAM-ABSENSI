@@ -23,12 +23,7 @@ public class WelcomeAuthActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         initView();
         tvPageRegister.setVisibility(View.GONE);
-        btnPageLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            }
-        });
+        btnPageLogin.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), LoginActivity.class)));
     }
 
     private void initView() {

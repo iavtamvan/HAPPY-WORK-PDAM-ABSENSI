@@ -1,7 +1,6 @@
 package com.pdamkotasmg.happywork.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -19,26 +18,64 @@ public final class Config {
 
 
     //data akun
-    public static final String SHARED_PREF_NAME = "PUBLIC-PDAM";
+    public static final String SHARED_PREF_NAME = "HAPPY-WORK";
 
-    public static final String SHARED_ACCES_TOKEN = "token";
-    public static final String SHARED_PREF_DISM = "dism";
-    public static final String SHARED_PREF_NO_ANGG = "nolangg";
-    public static final String SHARED_PREF_NAMA = "nama";
-    public static final String SHARED_PREF_A_AMAT = "alamat";
-    public static final String SHARED_PREF_TE_EPON = "telepon";
-    public static final String SHARED_PREF_EMAIL = "email";
-    public static final String SHARED_PREF_C_BANG = "cabang";
-    public static final String SHARED_PREF__ARIF = "tarif";
-    public static final String SHARED_PREF_KELU_AHAN = "kelurahan";
-    public static final String SHARED_PREF_KECA_ATAN = "kecamatan";
-    public static final String SHARED_PREF_S_ATUS = "status";
-    public static final String SHARED_PREF_STATU__KET = "status_ket";
-    public static final String SHARED_PEMBAYARAN_BULAN = "bulan";
-    public static final String SHARED_PEMBAYARAN_TAGIHAN = "tagihan";
-    public static final String SHARED_PEMBAYARAN_STATUS_REKENING = "status_rekening";
+    public static final String SHARED_GETMODEL = "getModel";
+    public static final String SHARED_GETPRODUCT = "getProduct";
+    public static final String SHARED_GETDEVICE = "getDevice";
+    public static final String SHARED_GETBUILDBRAND = "getBuildBrand";
+    public static final String SHARED_GETOSVERSION = "getOsVersion";
+    public static final String SHARED_GETSDKVERSION = "getSdkVersion";
+    public static final String SHARED_GETBUILDNUMBER = "getBuildNumber";
+    public static final String SHARED_GETBUILDINCREMENTAL = "getBuildIncremental";
+    public static final String SHARED_IPADRESS = "ipAdress";
+    public static final String SHARED_CONNECTIONTYPE = "connectionType";
+    public static final String SHARED_HWID = "hwid";
+    public static final String SHARED_SSID = "ssid";
+    public static final String SHARED_ADDRESS_GPS = "address_gps";
+    public static final String SHARED_CITY = "city";
+    public static final String SHARED_STATE = "state";
+    public static final String SHARED_COUNTRY = "country";
+    public static final String SHARED_POSTALCODE = "postalCode";
+    public static final String SHARED_KNOWNNAME = "knownName";
+    public static final String SHARED_LATI = "latitude";
+    public static final String SHARED_LONGITUDE = "longitude";
 
-    public static final String SHARED_STATUS_PELANGGAN_DASHBOARD = "status_pelanggan_pdam";
+    public static final String SHARED_ACCESS_TOKEN = "access_token";
+    public static final String SHARED_TOKEN_TYPE = "token_type";
+    public static final String SHARED_NPP_PROFILE = "npp_profile";
+    public static final String SHARED_NAME = "name";
+    public static final String SHARED_AVATAR = "avatar";
+    public static final String SHARED_ALAMAT = "alamat";
+    public static final String SHARED_RT = "rt";
+    public static final String SHARED_RW = "rw";
+    public static final String SHARED_KELURAHAN = "kelurahan";
+    public static final String SHARED_KECAMATAN = "kecamatan";
+    public static final String SHARED_KOTA = "kota";
+    public static final String SHARED_JENIS_KEL = "jenis_kel";
+    public static final String SHARED_TMPT_LAHIR = "tmpt_lahir";
+    public static final String SHARED_TGL_LAHIR = "tgl_lahir";
+    public static final String SHARED_TGL_MASUK = "tgl_masuk";
+    public static final String SHARED_SATUS_PEG = "satus_peg";
+    public static final String SHARED_AGAMA = "agama";
+    public static final String SHARED_NAMASUSI = "namasusi";
+    public static final String SHARED_PKTGOL = "pktgol";
+    public static final String SHARED_SUBSATKER = "subsatker";
+    public static final String SHARED_SATKER = "satker";
+    public static final String SHARED_JABATAN = "jabatan";
+    public static final String SHARED_KET = "ket";
+    public static final String SHARED_TLP = "tlp";
+    public static final String SHARED_PEK = "pek";
+    public static final String SHARED_ST_DATA = "st_data";
+    public static final String SHARED_SATKER_FORMATTED = "satker_formatted";
+    public static final String SHARED_SUBSATKER_FORMATTED = "subsatker_formatted";
+
+    public static final String SHARED_STATUS_APLIKASI = "status_aplikasi";
+    public static final String SHARED_APLIKASI_VERSION = "aplikasi_version";
+
+    public static final String SHARED_PATH_FOTO = "path_foto";
+    public static final String SHARED_ABSENSI_MASUK = "shared_absensi_masuk";
+    public static final String SHARED_ABSENSI_KELUAR = "shared_absensi_keluar";
 
     //bundle
 
@@ -75,24 +112,24 @@ public final class Config {
     public static void logout(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString(SHARED_ACCES_TOKEN, "");
-        editor.putString(SHARED_PREF_DISM, "");
-        editor.putString(SHARED_PREF_NO_ANGG, "");
-        editor.putString(SHARED_PREF_NAMA, "");
-        editor.putString(SHARED_PREF_A_AMAT, "");
-        editor.putString(SHARED_PREF_TE_EPON, "");
-        editor.putString(SHARED_PREF_EMAIL, "");
-        editor.putString(SHARED_PREF_C_BANG, "");
-        editor.putString(SHARED_PREF__ARIF, "");
-        editor.putString(SHARED_PREF_KELU_AHAN, "");
-        editor.putString(SHARED_PREF_KECA_ATAN, "");
-        editor.putString(SHARED_PREF_S_ATUS, "");
-        editor.putString(SHARED_PREF_STATU__KET, "");
-        editor.putString(SHARED_PEMBAYARAN_BULAN, "");
-        editor.putString(SHARED_PEMBAYARAN_TAGIHAN, "");
-        editor.putString(SHARED_PEMBAYARAN_STATUS_REKENING, "");
-        editor.putString(SHARED_STATUS_PELANGGAN_DASHBOARD, "");
+//
+//        editor.putString(SHARED_ACCES_TOKEN, "");
+//        editor.putString(SHARED_PREF_DISM, "");
+//        editor.putString(SHARED_PREF_NO_ANGG, "");
+//        editor.putString(SHARED_PREF_NAMA, "");
+//        editor.putString(SHARED_PREF_A_AMAT, "");
+//        editor.putString(SHARED_PREF_TE_EPON, "");
+//        editor.putString(SHARED_PREF_EMAIL, "");
+//        editor.putString(SHARED_PREF_C_BANG, "");
+//        editor.putString(SHARED_PREF__ARIF, "");
+//        editor.putString(SHARED_PREF_KELU_AHAN, "");
+//        editor.putString(SHARED_PREF_KECA_ATAN, "");
+//        editor.putString(SHARED_PREF_S_ATUS, "");
+//        editor.putString(SHARED_PREF_STATU__KET, "");
+//        editor.putString(SHARED_PEMBAYARAN_BULAN, "");
+//        editor.putString(SHARED_PEMBAYARAN_TAGIHAN, "");
+//        editor.putString(SHARED_PEMBAYARAN_STATUS_REKENING, "");
+//        editor.putString(SHARED_STATUS_PELANGGAN_DASHBOARD, "");
 //        editor.putString("regId", "");
         editor.apply();
 
