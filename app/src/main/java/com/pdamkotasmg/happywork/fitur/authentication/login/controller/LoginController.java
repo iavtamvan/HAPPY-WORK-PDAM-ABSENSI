@@ -1,13 +1,16 @@
 package com.pdamkotasmg.happywork.fitur.authentication.login.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
+import com.pdamkotasmg.happywork.fitur.authentication.login.LoginActivity;
 import com.pdamkotasmg.happywork.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.happywork.fitur.authentication.login.model.Data;
+import com.pdamkotasmg.happywork.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.happywork.utils.Config;
 
 import retrofit2.Call;
@@ -142,6 +145,8 @@ public class LoginController {
                     editor.apply();
 
                     Toast.makeText(context, "Sukses Login" + name, Toast.LENGTH_SHORT).show();
+                    ((LoginActivity) context).finishAffinity();
+                    context.startActivity(new Intent(context, DashboardActivity.class));
                 } else {
                     Toast.makeText(context, "[Else] Login Gagal", Toast.LENGTH_SHORT).show();
                 }
