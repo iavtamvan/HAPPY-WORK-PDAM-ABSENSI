@@ -42,6 +42,9 @@ import java.util.Locale;
 import im.delight.android.location.SimpleLocation;
 
 public class SplashScreenActivity extends AppCompatActivity {
+    // TODO (splash) getting data Update APlikasi
+    // TODO (splash) getting data ListFake GPS
+
     private String TAG = "debug";
     private static int SPLASH_TIME_OUT = 3000;
     private boolean flag = true;

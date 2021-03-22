@@ -113,8 +113,7 @@ public class LoginController {
                     SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                    editor.putString(Config.SHARED_ACCESS_TOKEN, access_token);
-                    editor.putString(Config.SHARED_TOKEN_TYPE, token_type);
+                    editor.putString(Config.SHARED_ACCESS_TOKEN, token_type + ": " + access_token);
                     editor.putString(Config.SHARED_NPP_PROFILE, npp_profile);
                     editor.putString(Config.SHARED_NAME, name);
                     editor.putString(Config.SHARED_AVATAR, avatar);
