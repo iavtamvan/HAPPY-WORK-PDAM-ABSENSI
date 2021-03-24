@@ -2,6 +2,8 @@ package com.pdamkotasmg.happywork.api.server;
 
 import com.pdamkotasmg.happywork.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.happywork.fitur.feeds.model.BeritaRootModel;
+import com.pdamkotasmg.happywork.fitur.splash.model.PackageNameRootModel;
+import com.pdamkotasmg.happywork.fitur.splash.model.androidVersion.AndroidVersionModel;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -42,6 +44,11 @@ public interface ApiService {
             @Field("latitude") String latitude,
             @Field("longitude") String longitude
     );
+    @GET("masterdata/forbid-app")
+    Call<PackageNameRootModel> getPackageName();
+    @GET("masterdata/config/by-key/android-version-latest")
+    Call<AndroidVersionModel> getAndroidVersion();
+
 //
 //    @POST("auth-pelanggan/register")
 //    Call<RegisterModel> register(

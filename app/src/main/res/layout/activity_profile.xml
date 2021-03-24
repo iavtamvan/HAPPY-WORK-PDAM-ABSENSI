@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_medium"
                 android:gravity="center"
-                android:text="Ade Fajr Ariav, S.Kom"
+                android:text="-"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
 
@@ -48,7 +48,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/poppins_medium"
                 android:gravity="center"
-                android:text="Staf"
+                android:text="-"
                 android:textColor="@color/white"
                 android:textSize="11dp" />
 
@@ -112,7 +112,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="1111111"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="14dp" />
 
@@ -139,7 +139,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="Jl. Pucang Jajar Timur Raya26, Rt 06, Rw 21, Kel. Batursari, Kec. Mranggen, Demak"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="14dp" />
 
@@ -166,7 +166,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="Male"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="14dp" />
 
@@ -193,7 +193,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="Semarang, 1994-03-12"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="14dp" />
 
@@ -220,7 +220,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="Pegawai Tetap"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="14dp" />
 
@@ -247,14 +247,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="Islam"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="14dp" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/tv_profile_golongan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -271,10 +270,11 @@
                         android:textSize="11dp" />
 
                     <TextView
+                        android:id="@+id/tv_profile_golongan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="C/1"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="14dp" />
 
@@ -301,7 +301,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="Sub Bidang Teknologi dan Informasi"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="14dp" />
 
@@ -328,7 +328,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="Bidang Pengembangan Program"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="14dp" />
 

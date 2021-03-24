@@ -28,8 +28,15 @@ import androidx.core.content.res.ResourcesCompat;
 import com.an.deviceinfo.device.model.Device;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.pdamkotasmg.happywork.BuildConfig;
 import com.pdamkotasmg.happywork.R;
+import com.pdamkotasmg.happywork.api.server.ApiConfig;
+import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.authentication.WelcomeAuthActivity;
+import com.pdamkotasmg.happywork.fitur.splash.model.Data;
+import com.pdamkotasmg.happywork.fitur.splash.model.DataItem;
+import com.pdamkotasmg.happywork.fitur.splash.model.PackageNameRootModel;
+import com.pdamkotasmg.happywork.fitur.splash.model.androidVersion.AndroidVersionModel;
 import com.pdamkotasmg.happywork.utils.Config;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
@@ -40,16 +47,24 @@ import java.util.List;
 import java.util.Locale;
 
 import im.delight.android.location.SimpleLocation;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SplashScreenActivity extends AppCompatActivity {
     // TODO (splash) getting data Update APlikasi
-    // TODO (splash) getting data ListFake GPS
+    // TODO (splash) getting data ListFake GPS DONE
 
     private String TAG = "debug";
+    private String androidVersionDevice;
+    private String androidVersionDeviceServer;
     private static int SPLASH_TIME_OUT = 3000;
     private boolean flag = true;
     private PackageInfo packageInfo;
     int i;
+    private Data dataItem;
+    private com.pdamkotasmg.happywork.fitur.splash.model.androidVersion.Data dataAndroidVersion;
+    private List<DataItem> dataItemList;
 
     //device info
     private Device device;
@@ -82,7 +97,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         getSupportActionBar().hide();
-        //This is where we change our app name font to blacklist font
+        androidVersionDevice = BuildConfig.VERSION_NAME;
+        Log.d(TAG, "onCreate: " + androidVersionDevice);
         Typeface typeface = ResourcesCompat.getFont(this, R.font.roboto);
 
         TextView appname = findViewById(R.id.appname);
@@ -98,18 +114,83 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         packageString = new ArrayList<>();
         stringslist = new ArrayList<>();
-        stringslist.add("com.lexa.fakegps");
-        stringslist.add("com.fakegps.mock");
-        stringslist.add("com.blogspot.newapphorizons.fakegps");
-        stringslist.add("com.gsmartstudio.fakegps");
-        stringslist.add("org.hola.gpslocation");
-        stringslist.add("com.incorporateapps.fakegps.fre");
-        stringslist.add("com.rosteam.gpsemulator");
-        stringslist.add("com.usefullapps.fakegpslocationpro");
-        stringslist.add("ru.gavrikov.mocklocations");
-        stringslist.add("com.locationchanger");
-        gettingDataDeviceInfo();
-        
+        // TODO 1 getAndroidVersion DONE
+        // TODO 2 getPackageNameFromServer DONE
+        // TODO 3 getDeviceInfo Done
+        // TODO 4 MockLocation Matching DONE
+        getAplicationVersionFromServer();
+    }
+
+    private void getAplicationVersionFromServer() {
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.getAndroidVersion().enqueue(new Callback<AndroidVersionModel>() {
+            @Override
+            public void onResponse(Call<AndroidVersionModel> call, Response<AndroidVersionModel> response) {
+                if (response.isSuccessful()) {
+                    androidVersionDeviceServer = response.body().getData().getVal();
+                    Log.d(TAG, "onResponse: " + androidVersionDeviceServer);
+                    if (!androidVersionDevice.equalsIgnoreCase(androidVersionDeviceServer)) {
+                        Toast.makeText(SplashScreenActivity.this, "Perbarui aplikasi kamu", Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "Update Aplikasi : update aplikasi kamu");
+                        MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
+                                .setTitle("Perbarui aplikas kamu")
+//                                .setMessage("Uninstall fake GPS kamu " + packageInfo.packageName + "\n\n Hubungi kepegawaian untuk aktivasi kembali...")
+                                .setAnimation("lt_update.json")
+                                .setCancelable(false)
+                                .setNegativeButton("Gak mau", new MaterialDialog.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int which) {
+                                        dialogInterface.dismiss();
+                                        finishAffinity();
+                                    }
+                                })
+                                .setPositiveButton("Perbarui", new MaterialDialog.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int which) {
+                                        Toast.makeText(SplashScreenActivity.this, "Link Playstore", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .build();
+
+                        // Show Dialog
+                        mDialog.show();
+                    } else {
+                        Log.d(TAG, "Update Aplikasi : Updated");
+                        getPackageNameFromServer();
+                        new Handler().postDelayed(() -> {
+                            gettingDataDeviceInfo();
+                        }, 2000);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AndroidVersionModel> call, Throwable t) {
+                Toast.makeText(SplashScreenActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getPackageNameFromServer() {
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.getPackageName().enqueue(new Callback<PackageNameRootModel>() {
+            @Override
+            public void onResponse(Call<PackageNameRootModel> call, Response<PackageNameRootModel> response) {
+                if (response.isSuccessful()) {
+                    dataItem = response.body().getData();
+                    dataItemList = dataItem.getData();
+                    for (int j = 0; j < dataItemList.size(); j++) {
+                        stringslist.add(dataItemList.get(j).getPackageName());
+                    }
+                    Log.d(TAG, "listPackage: " + stringslist);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PackageNameRootModel> call, Throwable t) {
+                Toast.makeText(SplashScreenActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void gettingDataDeviceInfo() {
@@ -130,7 +211,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         getBuildIncremental = Build.VERSION.INCREMENTAL;
         getIpAdress = Formatter.formatIpAddress(ipAddress);
         getNetworkUsing = String.valueOf(cm.getActiveNetworkInfo().getTypeName());
-        getHwid  = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        getHwid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         getSSIDWifi = connectionInfo.getSSID().replace("\"", "");
 
         location = new SimpleLocation(SplashScreenActivity.this);
@@ -155,24 +236,24 @@ public class SplashScreenActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Log.d(TAG, "getModel: " + getModel);
-        Log.d(TAG, "getProduct: " + getProduct);
-        Log.d(TAG, "getDevice: " + getDevice);
-        Log.d(TAG, "getBuildBrand: " + getBuildBrand);
-        Log.d(TAG, "getOsVersion: " + getOsVersion);
-        Log.d(TAG, "getSdkVersion: " + getSdkVersion);
-        Log.d(TAG, "getBuildNumber: " + getBuildNumber);
-        Log.d(TAG, "getBuildIncremental: " + getBuildIncremental);
-        Log.d(TAG, "ipAdress: " + getIpAdress);
-        Log.d(TAG, "connectionType: " + getNetworkUsing);
-        Log.d(TAG, "hwid: " + getHwid);
-        Log.d(TAG, "ssid: " + getSSIDWifi);
-        Log.d(TAG, "address_gps: " + address_gps);
-        Log.d(TAG, "city: " + city);
-        Log.d(TAG, "state: " + state);
-        Log.d(TAG, "country: " + country);
-        Log.d(TAG, "postalCode: " + postalCode);
-        Log.d(TAG, "knownName: " + knownName);
+//        Log.d(TAG, "getModel: " + getModel);
+//        Log.d(TAG, "getProduct: " + getProduct);
+//        Log.d(TAG, "getDevice: " + getDevice);
+//        Log.d(TAG, "getBuildBrand: " + getBuildBrand);
+//        Log.d(TAG, "getOsVersion: " + getOsVersion);
+//        Log.d(TAG, "getSdkVersion: " + getSdkVersion);
+//        Log.d(TAG, "getBuildNumber: " + getBuildNumber);
+//        Log.d(TAG, "getBuildIncremental: " + getBuildIncremental);
+//        Log.d(TAG, "ipAdress: " + getIpAdress);
+//        Log.d(TAG, "connectionType: " + getNetworkUsing);
+//        Log.d(TAG, "hwid: " + getHwid);
+//        Log.d(TAG, "ssid: " + getSSIDWifi);
+//        Log.d(TAG, "address_gps: " + address_gps);
+//        Log.d(TAG, "city: " + city);
+//        Log.d(TAG, "state: " + state);
+//        Log.d(TAG, "country: " + country);
+//        Log.d(TAG, "postalCode: " + postalCode);
+//        Log.d(TAG, "knownName: " + knownName);
 
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -224,13 +305,13 @@ public class SplashScreenActivity extends AppCompatActivity {
             try {
                 for (i = 0; i < stringslist.size(); i++) {
                     packageInfo = pm.getPackageInfo(applicationInfo.packageName, PackageManager.GET_PERMISSIONS);
-                    Log.d(TAG, "packages : " + packageInfo.packageName);
+//                    Log.d(TAG, "packages : " + packageInfo.packageName);
                     if (packageInfo.packageName.equalsIgnoreCase(stringslist.get(i))) {
                         Log.d(TAG, packageInfo.packageName + " : Fuck Moc: Sama");
                         finding = true;
                         break;
                     } else {
-                        Log.d(TAG, packageInfo.packageName + " : Fuck Moc: Lanjut");
+//                        Log.d(TAG, packageInfo.packageName + " : Fuck Moc: Lanjut");
                     }
                 }
                 if (finding) break;
@@ -246,7 +327,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             }, SPLASH_TIME_OUT);
 
         } else {
-            MaterialDialog mDialog = new MaterialDialog.Builder(this)
+            MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
                     .setTitle("Haayyoooooooo kamu" + " ....?")
                     .setMessage("Uninstall fake GPS kamu " + packageInfo.packageName + "\n\n Hubungi kepegawaian untuk aktivasi kembali...")
                     .setAnimation("lt_bohong.json")

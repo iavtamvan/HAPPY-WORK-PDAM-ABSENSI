@@ -42,7 +42,6 @@ public final class Config {
     public static final String SHARED_LONGITUDE = "longitude";
 
     public static final String SHARED_ACCESS_TOKEN = "access_token";
-    public static final String SHARED_TOKEN_TYPE = "token_type";
     public static final String SHARED_NPP_PROFILE = "npp_profile";
     public static final String SHARED_NAME = "name";
     public static final String SHARED_AVATAR = "avatar";

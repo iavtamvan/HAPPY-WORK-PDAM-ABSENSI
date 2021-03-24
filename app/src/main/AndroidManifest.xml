@@ -3,6 +3,14 @@
     package="com.pdamkotasmg.happywork"
     android:versionCode="1"
     android:versionName="1.0">
+<!--    <queries>-->
+<!--        <intent>-->
+<!--            <action android:name="android.intent.action.SEND" />-->
+<!--            <data android:mimeType="image/jpeg" />-->
+<!--        </intent>-->
+<!--    </queries>-->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -34,16 +42,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyWork">
         <activity android:name=".fitur.profil.ProfileActivity">
+        </activity>
+        <activity android:name=".fitur.authentication.login.LoginActivity"></activity>
+        <activity android:name=".fitur.authentication.ReisterActivity" />
+        <activity android:name=".fitur.authentication.WelcomeAuthActivity"></activity>
+        <activity android:name=".fitur.splash.SplashScreenActivity"
+            android:keepScreenOn="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".fitur.authentication.login.LoginActivity"></activity>
-        <activity android:name=".fitur.authentication.ReisterActivity" />
-        <activity android:name=".fitur.authentication.WelcomeAuthActivity"></activity>
-        <activity android:name=".fitur.splash.SplashScreenActivity">
         </activity>
         <activity android:name=".fitur.payslip.PayslipActivity" />
         <activity android:name=".fitur.kehadiran.view.KehadiranActivity" />
