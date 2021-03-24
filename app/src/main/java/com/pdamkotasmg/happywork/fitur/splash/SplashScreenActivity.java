@@ -52,7 +52,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SplashScreenActivity extends AppCompatActivity {
-    // TODO (splash) getting data Update APlikasi
+    // TODO (splash) getting data Update APlikasi DONE
     // TODO (splash) getting data ListFake GPS DONE
 
     private String TAG = "debug";

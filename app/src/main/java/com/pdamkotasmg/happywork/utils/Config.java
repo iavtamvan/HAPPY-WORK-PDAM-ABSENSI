@@ -77,7 +77,6 @@ public final class Config {
     public static final String SHARED_ABSENSI_KELUAR = "shared_absensi_keluar";
 
     //bundle
-
     public static final String BUNDLE_LINK_NEWS = "link_news";
     public static final String BUNDLE_NOHP = "nohp";
     public static final String BUNDLE_NOLANGG = "nomor_langganan";
@@ -111,7 +110,7 @@ public final class Config {
     public static void logout(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-//
+
 //        editor.putString(SHARED_ACCES_TOKEN, "");
 //        editor.putString(SHARED_PREF_DISM, "");
 //        editor.putString(SHARED_PREF_NO_ANGG, "");
@@ -130,6 +129,7 @@ public final class Config {
 //        editor.putString(SHARED_PEMBAYARAN_STATUS_REKENING, "");
 //        editor.putString(SHARED_STATUS_PELANGGAN_DASHBOARD, "");
 //        editor.putString("regId", "");
+
         editor.apply();
 
 //        context.startActivity(new Intent(context, WelcomeActivity.class));

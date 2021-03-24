@@ -3,6 +3,7 @@ package com.pdamkotasmg.happywork.fitur.authentication.login.controller;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
@@ -82,6 +83,7 @@ public class LoginController {
                     dataLogin = response.body().getData();
 
                     access_token = dataLogin.getAccessToken();
+                    Log.d("debug", "onResponse: " + access_token);
                     token_type = dataLogin.getTokenType();
                     npp_profile = dataLogin.getUser().getNpp();
                     name = dataLogin.getUser().getName();
@@ -113,7 +115,7 @@ public class LoginController {
                     SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                    editor.putString(Config.SHARED_ACCESS_TOKEN, token_type + ": " + access_token);
+                    editor.putString(Config.SHARED_ACCESS_TOKEN, token_type + " " + access_token);
                     editor.putString(Config.SHARED_NPP_PROFILE, npp_profile);
                     editor.putString(Config.SHARED_NAME, name);
                     editor.putString(Config.SHARED_AVATAR, avatar);
@@ -147,6 +149,10 @@ public class LoginController {
                     ((LoginActivity) context).finishAffinity();
                     context.startActivity(new Intent(context, DashboardActivity.class));
                 } else {
+                    Log.d("debug", "errorBody: " + response.errorBody());
+                    Log.d("debug", "contentLength: " + response.errorBody().contentLength());
+                    Log.d("debug", "code: " + response.code());
+                    Log.d("debug", "message: " + response.message());
                     Toast.makeText(context, "[Else] Login Gagal", Toast.LENGTH_SHORT).show();
                 }
             }

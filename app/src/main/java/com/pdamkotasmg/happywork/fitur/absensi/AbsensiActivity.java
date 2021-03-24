@@ -42,6 +42,7 @@ import java.util.Locale;
 import im.delight.android.location.SimpleLocation;
 
 public class AbsensiActivity extends AppCompatActivity {
+    // TODO  Biometrck fingerprint
     private String debug = "debug";
 
     private String currentDate;
