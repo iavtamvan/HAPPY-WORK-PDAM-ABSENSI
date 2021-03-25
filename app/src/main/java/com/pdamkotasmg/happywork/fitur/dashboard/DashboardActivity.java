@@ -1,18 +1,23 @@
 package com.pdamkotasmg.happywork.fitur.dashboard;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.marcoscg.fingerauth.FingerAuth;
+import com.marcoscg.fingerauth.FingerAuthDialog;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.fitur.absensi.AbsensiActivity;
 import com.pdamkotasmg.happywork.fitur.feeds.controller.FeedsController;
@@ -40,6 +45,7 @@ public class DashboardActivity extends AppCompatActivity {
     private RecyclerView rv;
     private CardView divLainnyaExpanded;
     private LinearLayout divOvertime;
+    private String TAG = "debug";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +58,18 @@ public class DashboardActivity extends AppCompatActivity {
         divLainnyaExpanded.setVisibility(View.GONE);
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         divNamaLengkap.setText("Hai, " + sharedPreferences.getString(Config.SHARED_NAME,""));
+
+
         divRekamWaktu.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), AbsensiActivity.class));
+            boolean hasFingerprintSupport = FingerAuth.hasFingerprintSupport(this);
+
+            if (hasFingerprintSupport) {
+                Log.d(TAG, "fingerprint: enable");
+                fingerPrintSHow();
+            } else {
+                Log.d(TAG, "fingerprint: disable");
+                startActivity(new Intent(getApplicationContext(), AbsensiActivity.class));
+            }
         });
 
         divKehadiran.setOnClickListener(v -> {
@@ -78,6 +94,36 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
+    private void fingerPrintSHow() {
+        new FingerAuthDialog(this)
+                .setTitle("Fingerprint")
+                .setCancelable(false)
+                .setMaxFailedCount(3) // Number of attemps, default 3
+                .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setOnFingerAuthListener(new FingerAuth.OnFingerAuthListener() {
+                    @Override
+                    public void onSuccess() {
+                        startActivity(new Intent(getApplicationContext(), AbsensiActivity.class));
+                        Toast.makeText(DashboardActivity.this, "onSuccess ", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Toast.makeText(DashboardActivity.this, "Coba lagi", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError() {
+                        Toast.makeText(DashboardActivity.this, "Tidak ada yang sama", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
+    }
 
     private void initView() {
         ivTutorialVideo = findViewById(R.id.iv_tutorial_video);

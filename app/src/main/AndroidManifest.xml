@@ -31,6 +31,12 @@
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
 
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
+    <uses-feature
+        android:name="android.hardware.fingerprint"
+        android:required="false" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -45,7 +51,8 @@
         <activity android:name=".fitur.authentication.login.LoginActivity" >
         </activity>
         <activity android:name=".fitur.authentication.ReisterActivity" />
-        <activity android:name=".fitur.authentication.WelcomeAuthActivity" />
+        <activity android:name=".fitur.authentication.WelcomeAuthActivity">
+        </activity>
         <activity
             android:name=".fitur.splash.SplashScreenActivity"
             android:keepScreenOn="true">
