@@ -58,6 +58,17 @@ public class Device{
     @SerializedName("longitude")
     private String longitude;
 
+    @SerializedName("app_version")
+    private String appVersion;
+
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
+    }
+
     public void setProduct(String product){
         this.product = product;
     }

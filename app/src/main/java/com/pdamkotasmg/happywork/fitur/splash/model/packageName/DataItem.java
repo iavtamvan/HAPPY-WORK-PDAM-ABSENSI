@@ -1,4 +1,4 @@
-package com.pdamkotasmg.happywork.fitur.splash.model;
+package com.pdamkotasmg.happywork.fitur.splash.model.packageName;
 
 import com.google.gson.annotations.SerializedName;
 

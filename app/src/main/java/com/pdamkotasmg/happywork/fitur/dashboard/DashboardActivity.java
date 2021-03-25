@@ -1,6 +1,7 @@
 package com.pdamkotasmg.happywork.fitur.dashboard;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,6 +18,8 @@ import com.pdamkotasmg.happywork.fitur.absensi.AbsensiActivity;
 import com.pdamkotasmg.happywork.fitur.feeds.controller.FeedsController;
 import com.pdamkotasmg.happywork.fitur.kehadiran.view.KehadiranActivity;
 import com.pdamkotasmg.happywork.fitur.payslip.PayslipActivity;
+import com.pdamkotasmg.happywork.fitur.profil.ProfileActivity;
+import com.pdamkotasmg.happywork.utils.Config;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -47,7 +50,8 @@ public class DashboardActivity extends AppCompatActivity {
         feedsController = new FeedsController();
         feedsController.getFeeds(getApplicationContext(), rv);
         divLainnyaExpanded.setVisibility(View.GONE);
-
+        SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        divNamaLengkap.setText("Hai, " + sharedPreferences.getString(Config.SHARED_NAME,""));
         divRekamWaktu.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), AbsensiActivity.class));
         });
@@ -67,6 +71,10 @@ public class DashboardActivity extends AppCompatActivity {
 
         divPayslip.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), PayslipActivity.class));
+        });
+
+        divNamaLengkap.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
         });
     }
 

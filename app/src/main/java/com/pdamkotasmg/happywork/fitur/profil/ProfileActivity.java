@@ -1,7 +1,9 @@
 package com.pdamkotasmg.happywork.fitur.profil;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -11,11 +13,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.pdamkotasmg.happywork.R;
+import com.pdamkotasmg.happywork.fitur.dashboard.DashboardActivity;
+import com.pdamkotasmg.happywork.fitur.perangkat.PerangkatActivity;
+import com.pdamkotasmg.happywork.fitur.profil.controller.ProfileController;
 import com.pdamkotasmg.happywork.utils.Config;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
+
+    private ProfileController profileController;
 
     //token
     private String access_token;
@@ -78,6 +87,13 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         getSupportActionBar().hide();
         initView();
+        profileController = new ProfileController();
+        tvHeaderJudul.setText("Profil");
+        ivHeaderInfo.setVisibility(View.GONE);
+        ivHeaderBackArrow.setOnClickListener(v -> {
+            finishAffinity();
+            startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+        });
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         npp_profile = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
@@ -120,11 +136,31 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfileSatker.setText(satker);
 
         cvKlikPerangkat.setOnClickListener(v -> {
-
+            startActivity(new Intent(getApplicationContext(), PerangkatActivity.class));
         });
 
         cvKlikKeluar.setOnClickListener(v -> {
+            MaterialDialog mDialog = new MaterialDialog.Builder(ProfileActivity.this)
+                    .setMessage("Yakin mau keluar?")
+                    .setAnimation("lt_logout.json")
+                    .setCancelable(false)
+                    .setNegativeButton("Gak", new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .setPositiveButton("Iya", new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            profileController.logout(ProfileActivity.this);
+                            finishAffinity();
+                        }
+                    })
+                    .build();
 
+            // Show Dialog
+            mDialog.show();
         });
 
     }

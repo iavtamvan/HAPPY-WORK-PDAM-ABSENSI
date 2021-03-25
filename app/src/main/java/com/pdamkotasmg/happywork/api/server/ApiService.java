@@ -3,9 +3,10 @@ package com.pdamkotasmg.happywork.api.server;
 import com.pdamkotasmg.happywork.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.happywork.fitur.feeds.model.BeritaRootModel;
 import com.pdamkotasmg.happywork.fitur.perangkat.model.PerangkatRootModel;
-import com.pdamkotasmg.happywork.fitur.splash.model.PackageNameRootModel;
+import com.pdamkotasmg.happywork.fitur.splash.model.packageName.PackageNameRootModel;
 import com.pdamkotasmg.happywork.fitur.splash.model.androidVersion.AndroidVersionModel;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -15,7 +16,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface ApiService {
-//    // google
+    //    // google
 //    @GET("siteverify")
 //    Call<ResponseBody> getCaptcha(@Query("secret") String secretKey, @Query("response") String responseToken);
 //
@@ -45,19 +46,28 @@ public interface ApiService {
             @Field("ssid") String ssid,
             @Field("location_city") String location_city,
             @Field("latitude") String latitude,
-            @Field("longitude") String longitude
+            @Field("longitude") String longitude,
+            @Field("app_version") String app_version
     );
+
+    @POST("auth/logout")
+    Call<ResponseBody> logout(@Header("Authorization") String auth);
+
+    @POST("auth/delete-all-session")
+    Call<ResponseBody> deleteAllSession(@Header("Authorization") String auth);
 
     @GET("masterdata/forbid-app")
     Call<PackageNameRootModel> getPackageName();
+
     @GET("masterdata/config/by-key/android-version-latest")
     Call<AndroidVersionModel> getAndroidVersion();
 
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @GET("auth/current-session")
-    Call<PerangkatRootModel> getAktifDevice(@Header("Authorization") String auth);
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("auth/active-session")
+    Call<PerangkatRootModel> getHistoryAktifDevice(@Header("Authorization") String auth);
 
-//
+
+    //
 //    @POST("auth-pelanggan/register")
 //    Call<RegisterModel> register(
 //            @Body RegisterModel registerModel

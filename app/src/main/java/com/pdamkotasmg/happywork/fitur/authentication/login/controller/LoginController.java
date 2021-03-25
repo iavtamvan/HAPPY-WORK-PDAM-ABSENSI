@@ -53,6 +53,7 @@ public class LoginController {
     private String st_data;
     private String satker_formatted;
     private String subsatker_formatted;
+    private String app_version;
 
     public void login(
             Context context,
@@ -72,11 +73,12 @@ public class LoginController {
             String ssid,
             String location_city,
             String latitude,
-            String longitude
+            String longitude,
+            String appVersion
     ) {
         ApiService apiService = ApiConfig.getApiService();
         apiService.login(npp, password, hwid, model, product, device, build_brand, os_version, sdk_version, build_number, build_incremental, ip_address, connection_type, ssid, location_city, latitude, longitude
-        ).enqueue(new Callback<AkunRootModel>() {
+                , appVersion).enqueue(new Callback<AkunRootModel>() {
             @Override
             public void onResponse(Call<AkunRootModel> call, Response<AkunRootModel> response) {
                 if (response.isSuccessful()) {
@@ -111,6 +113,7 @@ public class LoginController {
                     st_data = dataLogin.getUser().getRlPegawai().getStData();
                     satker_formatted = dataLogin.getUser().getRlPegawai().getSatkerFormatted();
                     subsatker_formatted = dataLogin.getUser().getRlPegawai().getSubsatkerFormatted();
+                    app_version = dataLogin.getDevice().getAppVersion();
 
                     SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -142,10 +145,11 @@ public class LoginController {
                     editor.putString(Config.SHARED_ST_DATA, st_data);
                     editor.putString(Config.SHARED_SATKER_FORMATTED, satker_formatted);
                     editor.putString(Config.SHARED_SUBSATKER_FORMATTED, subsatker_formatted);
+                    editor.putString(Config.SHARED_APP_VERSION, app_version);
 
                     editor.apply();
 
-                    Toast.makeText(context, "Sukses Login" + name, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Sukses Login " + appVersion, Toast.LENGTH_SHORT).show();
                     ((LoginActivity) context).finishAffinity();
                     context.startActivity(new Intent(context, DashboardActivity.class));
                 } else {

@@ -22,6 +22,17 @@ public class Data{
     @SerializedName("key")
     private String key;
 
+    @SerializedName("error")
+    private String error;
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
     public void setVal(String val){
         this.val = val;
     }

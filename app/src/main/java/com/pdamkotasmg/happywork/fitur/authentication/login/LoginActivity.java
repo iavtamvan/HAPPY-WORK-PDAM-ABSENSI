@@ -8,6 +8,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.pdamkotasmg.happywork.BuildConfig;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.fitur.authentication.login.controller.LoginController;
 import com.pdamkotasmg.happywork.utils.Config;
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private String postalCode;
     private String knownName;
     private Double lati, longi;
+    private String appVersion;
     private LoginController loginController;
 
     private Button btnMasuk;
@@ -65,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         knownName = sharedPreferences.getString(Config.SHARED_KNOWNNAME, "");
         lati = Double.valueOf(sharedPreferences.getString(Config.SHARED_LATI, ""));
         longi = Double.valueOf(sharedPreferences.getString(Config.SHARED_LONGITUDE, ""));
+        appVersion = BuildConfig.VERSION_NAME;
 
         Log.d(TAG, "getModel: " + getModel);
         Log.d(TAG, "getProduct: " + getProduct);
@@ -91,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
         btnMasuk.setOnClickListener(v -> {
             loginController.login(LoginActivity.this, edtNpp.getText().toString().trim(), edtPassword.getText().toString().trim(),
                     getHwid, getModel, getProduct, getDevice, getBuildBrand, getOsVersion, getSdkVersion, getBuildNumber, getBuildIncremental,
-                    getIpAdress, getNetworkUsing,getSSIDWifi, city, String.valueOf(lati), String.valueOf(longi));
+                    getIpAdress, getNetworkUsing,getSSIDWifi, city, String.valueOf(lati), String.valueOf(longi), appVersion);
 
         });
     }

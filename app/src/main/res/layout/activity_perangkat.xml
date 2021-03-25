@@ -95,6 +95,15 @@
                 android:text="Riwayat Perangkat Tersambung"
                 android:textColor="@color/primary"
                 android:textSize="13dp" />
+            <TextView
+                android:id="@+id/tv_delete_all_session"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Hapus semua sesi"
+                android:textColor="@color/red"
+                android:textSize="11dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_perangkat_tersambung"

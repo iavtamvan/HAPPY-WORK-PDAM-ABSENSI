@@ -9,7 +9,7 @@
     android:orientation="vertical"
     tools:context=".fitur.authentication.WelcomeAuthActivity">
 
-    <com.factor.bouncy.BouncyNestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
@@ -95,7 +95,7 @@
 
         </LinearLayout>
 
-    </com.factor.bouncy.BouncyNestedScrollView>
+    </ScrollView>
 
 
 </LinearLayout>

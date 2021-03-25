@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import static android.content.Context.MODE_PRIVATE;
 
 public final class Config {
+    public static final String APLICATION_NAME = "Happy Work";
 
     //API KEY
     public static final String GOOGLE_API_KEY_CAPTCHA_SITE_KEY = "6Lf0J0kaAAAAAAiSo7blYknl2sipxzpGN8B8ubjz";
@@ -15,6 +16,7 @@ public final class Config {
     public static final String ERROR_MSG = "Koneksi kamu lagi jelek";
     public static final String ERROR_PASSWORD = "Pastikan Kata Sandi Anda Sama";
     public static final String ERROR_DATA_REGISTER = "Pastikan Data Anda Dengan Benar";
+    public static final String ERROR_SESSION = "Sesi login anda telah habis";
 
 
     //data akun
@@ -68,6 +70,7 @@ public final class Config {
     public static final String SHARED_ST_DATA = "st_data";
     public static final String SHARED_SATKER_FORMATTED = "satker_formatted";
     public static final String SHARED_SUBSATKER_FORMATTED = "subsatker_formatted";
+    public static final String SHARED_APP_VERSION = "app_version";
 
     public static final String SHARED_STATUS_APLIKASI = "status_aplikasi";
     public static final String SHARED_APLIKASI_VERSION = "aplikasi_version";
