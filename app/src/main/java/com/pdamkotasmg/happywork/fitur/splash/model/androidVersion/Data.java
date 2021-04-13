@@ -4,80 +4,80 @@ import com.google.gson.annotations.SerializedName;
 
 public class Data{
 
-    @SerializedName("val")
-    private String val;
+    @SerializedName("android-app-name")
+    private String androidAppName;
 
-    @SerializedName("updated_at")
-    private String updatedAt;
+    @SerializedName("android-logo-url")
+    private String androidLogoUrl;
 
-    @SerializedName("created_at")
-    private String createdAt;
+    @SerializedName("android-version-alpha")
+    private String androidVersionAlpha;
 
-    @SerializedName("id")
-    private Integer id;
+    @SerializedName("android-version-beta")
+    private String androidVersionBeta;
 
-    @SerializedName("deleted_at")
-    private Object deletedAt;
+    @SerializedName("android-version-latest")
+    private String androidVersionLatest;
 
-    @SerializedName("key")
-    private String key;
+    @SerializedName("android-version-min")
+    private String androidVersionMin;
 
-    @SerializedName("error")
-    private String error;
+    @SerializedName("android-version-rc")
+    private String androidVersionRc;
 
-    public String getError() {
-        return error;
+    public String getAndroidAppName() {
+        return androidAppName;
     }
 
-    public void setError(String error) {
-        this.error = error;
+    public void setAndroidAppName(String androidAppName) {
+        this.androidAppName = androidAppName;
     }
 
-    public void setVal(String val){
-        this.val = val;
+    public String getAndroidLogoUrl() {
+        return androidLogoUrl;
     }
 
-    public String getVal(){
-        return val;
+    public void setAndroidLogoUrl(String androidLogoUrl) {
+        this.androidLogoUrl = androidLogoUrl;
     }
 
-    public void setUpdatedAt(String updatedAt){
-        this.updatedAt = updatedAt;
+    public String getAndroidVersionAlpha() {
+        return androidVersionAlpha;
     }
 
-    public String getUpdatedAt(){
-        return updatedAt;
+    public void setAndroidVersionAlpha(String androidVersionAlpha) {
+        this.androidVersionAlpha = androidVersionAlpha;
     }
 
-    public void setCreatedAt(String createdAt){
-        this.createdAt = createdAt;
+    public String getAndroidVersionBeta() {
+        return androidVersionBeta;
     }
 
-    public String getCreatedAt(){
-        return createdAt;
+    public void setAndroidVersionBeta(String androidVersionBeta) {
+        this.androidVersionBeta = androidVersionBeta;
     }
 
-    public void setId(Integer id){
-        this.id = id;
+    public String getAndroidVersionLatest() {
+        return androidVersionLatest;
     }
 
-    public Integer getId(){
-        return id;
+    public void setAndroidVersionLatest(String androidVersionLatest) {
+        this.androidVersionLatest = androidVersionLatest;
     }
 
-    public void setDeletedAt(Object deletedAt){
-        this.deletedAt = deletedAt;
+    public String getAndroidVersionMin() {
+        return androidVersionMin;
     }
 
-    public Object getDeletedAt(){
-        return deletedAt;
+    public void setAndroidVersionMin(String androidVersionMin) {
+        this.androidVersionMin = androidVersionMin;
     }
 
-    public void setKey(String key){
-        this.key = key;
+    public String getAndroidVersionRc() {
+        return androidVersionRc;
     }
 
-    public String getKey(){
-        return key;
+    public void setAndroidVersionRc(String androidVersionRc) {
+        this.androidVersionRc = androidVersionRc;
     }
 }

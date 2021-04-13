@@ -2,9 +2,13 @@ package com.pdamkotasmg.happywork.fitur.absensi;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -22,12 +26,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.an.deviceinfo.device.model.Device;
-import com.an.deviceinfo.permission.PermissionManager;
-import com.camerakit.CameraKitView;
 import com.krishna.securetimer.SecureTimer;
+import com.otaliastudios.cameraview.CameraListener;
+import com.otaliastudios.cameraview.CameraView;
+import com.otaliastudios.cameraview.PictureResult;
+import com.otaliastudios.cameraview.controls.Audio;
 import com.pdamkotasmg.happywork.R;
 
 import java.io.File;
@@ -38,7 +45,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
+import id.zelory.compressor.Compressor;
 import im.delight.android.location.SimpleLocation;
 
 public class AbsensiActivity extends AppCompatActivity {
@@ -72,15 +81,26 @@ public class AbsensiActivity extends AppCompatActivity {
     private SimpleLocation location;
 
     private String replaceTimeServer;
+    private String replaceTimeServerFinal;
     private String timeServer;
 
-    private CameraKitView cameraBack;
-    private CameraKitView cameraFront;
+    private String imageFrontPath;
+    private String imageBackPath;
+    private Random random;
+    private Integer randomInteger;
+
+    private File compressedImageFile;
+
+    // TODO kamera front
+    // TODO kamera back
+    private CameraView cameraBack;
+    private CameraView cameraFront;
     private Button btnJepret;
     private LinearLayout divCamera;
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
     private ImageView ivHeaderInfo;
+    private ImageView ivCameraBack;
 
     @SuppressLint("HardwareIds")
     @Override
@@ -92,10 +112,19 @@ public class AbsensiActivity extends AppCompatActivity {
         nameUser = "Nama";
         tvHeaderJudul.setText("REKAM RUPAMU");
 
+        random = new Random();
+        randomInteger = random.nextInt(80 - 65) + 65;
+        Log.d("deug", "random Number: " + randomInteger);
+
+        cameraFront.setLifecycleOwner(AbsensiActivity.this);
+        cameraFront.setAudio(Audio.OFF);
+        cameraFront.setVisibility(View.VISIBLE);
+
         Date currentTimeInMillis = SecureTimer.with(AbsensiActivity.this).getCurrentDate();
         timeServer = String.valueOf(currentTimeInMillis);
-        replaceTimeServer = timeServer.replace(" GMT+07:00 ", " ");
-        Log.d("debug", "timeServer: " + replaceTimeServer);
+        replaceTimeServer = timeServer.replace(" GMT+07:00 ", "");
+        replaceTimeServerFinal = replaceTimeServer.replaceAll(" ", "");
+        Log.d("debug", "timeServer: " + replaceTimeServerFinal);
 
         Calendar calendar = Calendar.getInstance();
         Date cDate = new Date();
@@ -119,7 +148,7 @@ public class AbsensiActivity extends AppCompatActivity {
         getBuildIncremental = Build.VERSION.INCREMENTAL;
         getIpAdress = Formatter.formatIpAddress(ipAddress);
         getNetworkUsing = String.valueOf(cm.getActiveNetworkInfo().getTypeName());
-        getHwid  = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        getHwid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         getSSIDWifi = connectionInfo.getSSID().replace("\"", "");
 
         location = new SimpleLocation(AbsensiActivity.this);
@@ -168,7 +197,7 @@ public class AbsensiActivity extends AppCompatActivity {
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         boolean isWifiConn = false;
         boolean isMobileConn = false;
-        for (android.net.Network network : connMgr.getAllNetworks()) {
+        for (Network network : connMgr.getAllNetworks()) {
             NetworkInfo networkInfo = connMgr.getNetworkInfo(network);
             if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
                 isWifiConn |= networkInfo.isConnected();
@@ -181,51 +210,131 @@ public class AbsensiActivity extends AppCompatActivity {
         Log.d(debug, "Wifi connected: " + isWifiConn);
         Log.d(debug, "Mobile connected: " + isMobileConn);
 
-        cameraBack.setVisibility(View.GONE);
-        cameraFront.startVideo();
+//        cameraBack.setVisibility(View.GONE);
         divCamera.setOnClickListener(v -> {
-            cameraFront.captureImage((cameraKitView, bytes) -> {
-                Toast.makeText(this, "Captured", Toast.LENGTH_SHORT).show();
-                File makeFile = new File(Environment.getExternalStorageDirectory() + "/PDAM-ABSENSI");
-                makeFile.mkdirs();
-                File savedPhoto = new File(makeFile, nameUser + "_" + replaceTimeServer + "_FF.xxkampretnotfailable");
-                try {
-                    FileOutputStream outputStream = new FileOutputStream(savedPhoto.getPath());
-                    Log.d(debug, "path: " + savedPhoto);
-                    Log.d(debug, "nameFile: " + savedPhoto.getName());
-                    Log.d(debug, "directory : " + makeFile);
-                    outputStream.write(bytes);
-                    outputStream.close();
-                    cameraFront.onStop();
-                    cameraFront.stopVideo();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            cameraFront.takePicture();
+            cameraFront.addCameraListener(new CameraListener() {
+                @Override
+                public void onPictureTaken(@NonNull PictureResult result) {
+                    Bitmap mainbitmapFronnt = null;
+                    mainbitmapFronnt = decodeSampledBitmapFromResource(result.getData(), 640, 480);
+                    mainbitmapFronnt = RotateBitmap(mainbitmapFronnt, 270);
+                    Log.d("debug", "mainbitmapFronnt back " + mainbitmapFronnt);
+                    cameraFront.setVisibility(View.GONE);
+                    ivCameraBack.setImageBitmap(mainbitmapFronnt);
+                    ivCameraBack.setDrawingCacheEnabled(true);
+
+                    File makeFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "/PDAM-ABSENSI");
+                    makeFile.mkdirs();
+                    File savedPhoto = new File(makeFile, nameUser + "_" + replaceTimeServerFinal + "_" + randomInteger + "_FF.xxfotokampret"); // TODO FF artinya Foto Front
+                    Log.d("debug", "saved Photo: " + savedPhoto);
+                    try {
+                        FileOutputStream outputStream = new FileOutputStream(savedPhoto.getPath());
+                        Log.d("debug", "path aduan: " + savedPhoto);
+                        Log.d("debug", "nameFile aduan: " + savedPhoto.getName());
+                        Log.d("debug", "directory aduan : " + makeFile);
+                        outputStream.write(result.getData());
+                        outputStream.close();
+                        compressedImageFile = new Compressor(AbsensiActivity.this)
+                                .setMaxWidth(640)
+                                .setMaxHeight(480)
+                                .setQuality(75)
+                                .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                                .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
+                                        Environment.DIRECTORY_PICTURES).getAbsolutePath())
+                                .compressToFile(savedPhoto);
+                        Log.d("debug", "compressed (FF): " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getName());
+                        imageFrontPath = compressedImageFile.getPath();
+                        Log.d("debug", "compressed path (FF): " + imageFrontPath);
+//                        tvPerformClick.post(() -> ivResult.performClick());
+//                        divAmbilGambar.setVisibility(View.GONE);
+//                        divUlangiAmbilGambar.setVisibility(View.VISIBLE);
+                        cameraFront.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 }
             });
         });
+//        cameraFront.startVideo();
+//        divCamera.setOnClickListener(v -> {
+//            cameraFront.captureImage((cameraKitView, bytes) -> {
+//                Toast.makeText(this, "Captured", Toast.LENGTH_SHORT).show();
+//                File makeFile = new File(Environment.getExternalStorageDirectory() + "/PDAM-ABSENSI");
+//                makeFile.mkdirs();
+//                File savedPhoto = new File(makeFile, nameUser + "_" + replaceTimeServer + "_FF.xxkampretnotfailable");
+//                try {
+//                    FileOutputStream outputStream = new FileOutputStream(savedPhoto.getPath());
+//                    Log.d(debug, "path: " + savedPhoto);
+//                    Log.d(debug, "nameFile: " + savedPhoto.getName());
+//                    Log.d(debug, "directory : " + makeFile);
+//                    outputStream.write(bytes);
+//                    outputStream.close();
+//                    cameraFront.onStop();
+//                    cameraFront.stopVideo();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            });
+//        });
+    }
+
+    public static Bitmap decodeSampledBitmapFromResource(byte[] data,
+                                                         int reqWidth, int reqHeight) {
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        // BitmapFactory.decodeResource(res, resId, options);
+        BitmapFactory.decodeByteArray(data, 0, data.length, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth,
+                reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeByteArray(data, 0, data.length, options);
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options,
+                                            int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            if (width > height) {
+                inSampleSize = Math.round((float) height / (float) reqHeight);
+            } else {
+                inSampleSize = Math.round((float) width / (float) reqWidth);
+            }
+        }
+        return inSampleSize;
+    }
+
+    // rotate the bitmap to portrait
+    public static Bitmap RotateBitmap(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(),
+                source.getHeight(), matrix, true);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        cameraFront.onStart();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        cameraFront.onStart();
-    }
-
-    PermissionManager permissionManager = new PermissionManager(this);
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        cameraFront.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        permissionManager.handleResult(requestCode, permissions, grantResults);
     }
 
     boolean doubleBackToExitPressedOnce = false;
+
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -250,5 +359,6 @@ public class AbsensiActivity extends AppCompatActivity {
         ivHeaderBackArrow = findViewById(R.id.iv_header_back_arrow);
         tvHeaderJudul = findViewById(R.id.tv_header_judul);
         ivHeaderInfo = findViewById(R.id.iv_header_info);
+        ivCameraBack = findViewById(R.id.iv_camera_back);
     }
 }

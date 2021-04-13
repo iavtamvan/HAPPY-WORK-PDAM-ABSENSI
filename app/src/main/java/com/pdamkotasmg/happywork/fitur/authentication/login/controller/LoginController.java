@@ -85,35 +85,44 @@ public class LoginController {
                     dataLogin = response.body().getData();
 
                     access_token = dataLogin.getAccessToken();
-                    Log.d("debug", "onResponse: " + access_token);
+                    Log.d("debug", "token: " + access_token);
                     token_type = dataLogin.getTokenType();
                     npp_profile = dataLogin.getUser().getNpp();
                     name = dataLogin.getUser().getName();
                     avatar = dataLogin.getUser().getAvatar();
-                    alamat = dataLogin.getUser().getRlPegawai().getAlamat();
-                    rt = dataLogin.getUser().getRlPegawai().getRt();
-                    rw = dataLogin.getUser().getRlPegawai().getRw();
-                    kelurahan = dataLogin.getUser().getRlPegawai().getKelurahan();
-                    kecamatan = dataLogin.getUser().getRlPegawai().getKecamatan();
-                    kota = dataLogin.getUser().getRlPegawai().getKota();
-                    jenis_kel = dataLogin.getUser().getRlPegawai().getJenisKel();
-                    tmpt_lahir = dataLogin.getUser().getRlPegawai().getTmptLahir();
-                    tgl_lahir = dataLogin.getUser().getRlPegawai().getTglLahir();
-                    tgl_masuk = dataLogin.getUser().getRlPegawai().getTglMasuk();
-                    satus_peg = dataLogin.getUser().getRlPegawai().getSatusPeg();
-                    agama = dataLogin.getUser().getRlPegawai().getAgama();
-                    namasusi = dataLogin.getUser().getRlPegawai().getNamasusi();
-                    pktgol = dataLogin.getUser().getRlPegawai().getPktgol();
-                    subsatker = dataLogin.getUser().getRlPegawai().getSubsatker();
-                    satker = dataLogin.getUser().getRlPegawai().getSatker();
-                    jabatan = dataLogin.getUser().getRlPegawai().getJabatan();
-                    ket = dataLogin.getUser().getRlPegawai().getKet();
-                    tlp = dataLogin.getUser().getRlPegawai().getTlp();
-                    pek = dataLogin.getUser().getRlPegawai().getPek();
-                    st_data = dataLogin.getUser().getRlPegawai().getStData();
-                    satker_formatted = dataLogin.getUser().getRlPegawai().getSatkerFormatted();
-                    subsatker_formatted = dataLogin.getUser().getRlPegawai().getSubsatkerFormatted();
+
+                    if (dataLogin.getUser().getRlPegawai() == null){
+                        Log.d("debug ", "RL Pegawai: Kosong");
+                    } else {
+                        alamat = dataLogin.getUser().getRlPegawai().getAlamat();
+                        rt = dataLogin.getUser().getRlPegawai().getRt();
+                        rw = dataLogin.getUser().getRlPegawai().getRw();
+                        kelurahan = dataLogin.getUser().getRlPegawai().getKelurahan();
+                        kecamatan = dataLogin.getUser().getRlPegawai().getKecamatan();
+                        kota = dataLogin.getUser().getRlPegawai().getKota();
+                        jenis_kel = dataLogin.getUser().getRlPegawai().getJenisKel();
+                        tmpt_lahir = dataLogin.getUser().getRlPegawai().getTmptLahir();
+                        tgl_lahir = dataLogin.getUser().getRlPegawai().getTglLahir();
+                        tgl_masuk = dataLogin.getUser().getRlPegawai().getTglMasuk();
+                        satus_peg = dataLogin.getUser().getRlPegawai().getSatusPeg();
+                        agama = dataLogin.getUser().getRlPegawai().getAgama();
+                        namasusi = dataLogin.getUser().getRlPegawai().getNamasusi();
+                        pktgol = dataLogin.getUser().getRlPegawai().getPktgol();
+                        subsatker = dataLogin.getUser().getRlPegawai().getSubsatker();
+                        satker = dataLogin.getUser().getRlPegawai().getSatker();
+                        jabatan = dataLogin.getUser().getRlPegawai().getJabatan();
+                        ket = dataLogin.getUser().getRlPegawai().getKet();
+                        tlp = dataLogin.getUser().getRlPegawai().getTlp();
+                        pek = dataLogin.getUser().getRlPegawai().getPek();
+                        st_data = dataLogin.getUser().getRlPegawai().getStData();
+                        satker_formatted = dataLogin.getUser().getRlPegawai().getSatkerFormatted();
+                        subsatker_formatted = dataLogin.getUser().getRlPegawai().getSubsatkerFormatted();
+                    }
+
                     app_version = dataLogin.getDevice().getAppVersion();
+
+                    app_version = !dataLogin.getDevice().getAppVersion().isEmpty() ? dataLogin.getDevice().getAppVersion(): "";
+
 
                     SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -153,10 +162,10 @@ public class LoginController {
                     ((LoginActivity) context).finishAffinity();
                     context.startActivity(new Intent(context, DashboardActivity.class));
                 } else {
-                    Log.d("debug", "errorBody: " + response.errorBody());
-                    Log.d("debug", "contentLength: " + response.errorBody().contentLength());
-                    Log.d("debug", "code: " + response.code());
-                    Log.d("debug", "message: " + response.message());
+                    Log.d("debug login res server", "errorBody: " + response.errorBody());
+                    Log.d("debug login res server", "contentLength: " + response.errorBody().contentLength());
+                    Log.d("debug login res server", "code: " + response.code());
+                    Log.d("debug login res server", "message: " + response.message());
                     Toast.makeText(context, "[Else] Login Gagal", Toast.LENGTH_SHORT).show();
                 }
             }

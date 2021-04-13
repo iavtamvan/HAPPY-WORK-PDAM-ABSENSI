@@ -59,7 +59,7 @@ public interface ApiService {
     @GET("masterdata/forbid-app")
     Call<PackageNameRootModel> getPackageName();
 
-    @GET("masterdata/config/by-key/android-version-latest")
+    @GET("masterdata/config/all")
     Call<AndroidVersionModel> getAndroidVersion();
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})

@@ -13,30 +13,31 @@
         android:layout_alignParentBottom="true"
         tools:ignore="IncludeLayoutParam" />
 
-    <com.camerakit.CameraKitView
+    <com.otaliastudios.cameraview.CameraView
         android:id="@+id/camera_front"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:adjustViewBounds="true"
         android:keepScreenOn="true"
-        app:camera_facing="front"
-        app:camera_flash="off"
-        app:camera_focus="auto"
-        app:camera_permissions="camera" />
+        android:layout_weight="1"
+        app:cameraAudio="off"
+        app:cameraFacing="front"
+        app:cameraGesturePinch="zoom" />
 
-    <com.camerakit.CameraKitView
-        android:id="@+id/camera_back"
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:adjustViewBounds="true"
+        android:id="@+id/iv_camera_back"/>
+
+    <com.otaliastudios.cameraview.CameraView
+        android:id="@+id/camera_back"
+        android:layout_width="0.1dp"
+        android:layout_height="0.1dp"
         android:keepScreenOn="true"
-        android:visibility="gone"
-        app:camera_facing="back"
-        app:camera_flash="off"
-        app:camera_focus="auto"
-        app:camera_permissions="camera" />
+        app:cameraAudio="off"
+        app:cameraFacing="back"
+        app:cameraGesturePinch="zoom" />
+
 
     <LinearLayout
         android:id="@+id/div_camera"

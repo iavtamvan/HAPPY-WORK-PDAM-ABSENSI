@@ -1,5 +1,6 @@
 package com.pdamkotasmg.happywork.fitur.splash;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,10 +34,10 @@ import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.authentication.WelcomeAuthActivity;
+import com.pdamkotasmg.happywork.fitur.splash.model.androidVersion.AndroidVersionModel;
 import com.pdamkotasmg.happywork.fitur.splash.model.packageName.Data;
 import com.pdamkotasmg.happywork.fitur.splash.model.packageName.DataItem;
 import com.pdamkotasmg.happywork.fitur.splash.model.packageName.PackageNameRootModel;
-import com.pdamkotasmg.happywork.fitur.splash.model.androidVersion.AndroidVersionModel;
 import com.pdamkotasmg.happywork.utils.Config;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
@@ -47,6 +48,8 @@ import java.util.List;
 import java.util.Locale;
 
 import im.delight.android.location.SimpleLocation;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,6 +57,7 @@ import retrofit2.Response;
 public class SplashScreenActivity extends AppCompatActivity {
     // TODO (splash) getting data Update APlikasi DONE
     // TODO (splash) getting data ListFake GPS DONE
+    private static final int RC_CAMERA_AND_LOCATION = 1;
 
     private String TAG = "debug";
     private String androidVersionDevice;
@@ -118,7 +122,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         // TODO 2 getPackageNameFromServer DONE
         // TODO 3 getDeviceInfo Done
         // TODO 4 MockLocation Matching DONE
-        getAplicationVersionFromServer();
+        methodRequiresTwoPermission();
     }
 
     private void getAplicationVersionFromServer() {
@@ -127,8 +131,8 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<AndroidVersionModel> call, Response<AndroidVersionModel> response) {
                 if (response.isSuccessful()) {
-                    androidVersionDeviceServer = response.body().getData().getVal();
-                    Log.d(TAG, "onResponse: " + androidVersionDeviceServer);
+                    androidVersionDeviceServer = response.body().getData().getAndroidVersionLatest();
+                    Log.d(TAG, "Android Version Latest : " + androidVersionDeviceServer);
                     if (!androidVersionDevice.equalsIgnoreCase(androidVersionDeviceServer)) {
                         Toast.makeText(SplashScreenActivity.this, "Perbarui aplikasi kamu", Toast.LENGTH_LONG).show();
                         Log.d(TAG, "Update Aplikasi : update aplikasi kamu");
@@ -322,6 +326,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
         if (!finding) {
             new Handler().postDelayed(() -> {
+                // TODO intent ke WelcomeActivity.class
+                Log.d(TAG, "Status Fack: Tidak ada fake gps");
                 startActivity(new Intent(SplashScreenActivity.this, WelcomeAuthActivity.class));
                 finishAffinity();
             }, SPLASH_TIME_OUT);
@@ -356,5 +362,20 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (count > 0)
             return true;
         return false;
+    }
+    @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)
+    private void methodRequiresTwoPermission() {
+        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
+                , Manifest.permission.CAMERA};
+        if (EasyPermissions.hasPermissions(this, perms)) {
+            getAplicationVersionFromServer();
+            // Already have permission, do the thing
+            // ...
+        } else {
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions(this, getString(R.string.app_name),
+                    RC_CAMERA_AND_LOCATION, perms);
+            Toast.makeText(this, "Izinkan semua permisi yang diberikan", Toast.LENGTH_SHORT).show();
+        }
     }
 }
