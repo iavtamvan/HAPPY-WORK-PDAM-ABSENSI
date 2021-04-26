@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'kotlin-android'
 }
 
 android {
@@ -33,6 +34,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testImplementation 'junit:junit:4.+'
 
     // library recycler view
@@ -43,8 +45,8 @@ dependencies {
 
     // retrofit, gson
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
 
     //iamge slider
     implementation "com.android.support:support-v4:+"

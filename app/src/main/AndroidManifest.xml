@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.pdamkotasmg.happywork"
     android:versionCode="1"
     android:versionName="1.0">
-    <!-- <queries> -->
-    <!-- <intent> -->
-    <!-- <action android:name="android.intent.action.SEND" /> -->
-    <!-- <data android:mimeType="image/jpeg" /> -->
-    <!-- </intent> -->
-    <!-- </queries> -->
+
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -28,9 +24,7 @@
     <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
-
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
     <uses-feature
@@ -39,20 +33,22 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HappyWork">
-        <activity android:name=".fitur.perangkat.PerangkatActivity">
-        </activity>
-        <activity android:name=".fitur.profil.ProfileActivity"></activity>
-        <activity android:name=".fitur.authentication.login.LoginActivity" >
-        </activity>
+        android:theme="@style/Theme.HappyWork"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="n">
+        <activity android:name=".MainActivity2"></activity>
+        <activity android:name=".fitur.perangkat.PerangkatActivity" />
+        <activity android:name=".fitur.profil.ProfileActivity" />
+        <activity android:name=".fitur.authentication.login.LoginActivity" />
         <activity android:name=".fitur.authentication.ReisterActivity" />
-        <activity android:name=".fitur.authentication.WelcomeAuthActivity">
-        </activity>
+        <activity android:name=".fitur.authentication.WelcomeAuthActivity" />
         <activity
             android:name=".fitur.splash.SplashScreenActivity"
             android:keepScreenOn="true">
@@ -65,8 +61,7 @@
         <activity android:name=".fitur.payslip.PayslipActivity" />
         <activity android:name=".fitur.kehadiran.view.KehadiranActivity" />
         <activity android:name=".fitur.absensi.AbsensiActivity" />
-        <activity android:name=".fitur.dashboard.DashboardActivity" >
-        </activity>
+        <activity android:name=".fitur.dashboard.DashboardActivity" />
         <activity android:name=".MainActivity" />
 
         <meta-data
