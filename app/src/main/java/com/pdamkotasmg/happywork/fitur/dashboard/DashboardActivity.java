@@ -1,6 +1,5 @@
 package com.pdamkotasmg.happywork.fitur.dashboard;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,7 +18,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.marcoscg.fingerauth.FingerAuth;
 import com.marcoscg.fingerauth.FingerAuthDialog;
 import com.pdamkotasmg.happywork.R;
-import com.pdamkotasmg.happywork.fitur.absensi.AbsensiActivity;
+import com.pdamkotasmg.happywork.fitur.absensi.CheckLocationActivity;
 import com.pdamkotasmg.happywork.fitur.feeds.controller.FeedsController;
 import com.pdamkotasmg.happywork.fitur.kehadiran.view.KehadiranActivity;
 import com.pdamkotasmg.happywork.fitur.payslip.PayslipActivity;
@@ -68,7 +67,7 @@ public class DashboardActivity extends AppCompatActivity {
                 fingerPrintSHow();
             } else {
                 Log.d(TAG, "fingerprint: disable");
-                startActivity(new Intent(getApplicationContext(), AbsensiActivity.class));
+                startActivity(new Intent(getApplicationContext(), CheckLocationActivity.class));
             }
         });
 
@@ -97,18 +96,13 @@ public class DashboardActivity extends AppCompatActivity {
     private void fingerPrintSHow() {
         new FingerAuthDialog(this)
                 .setTitle("Fingerprint")
-                .setCancelable(false)
+                .setCancelable(true)
                 .setMaxFailedCount(3) // Number of attemps, default 3
-                .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
+                .setNegativeButton("Batal", (dialogInterface, i) -> dialogInterface.dismiss())
                 .setOnFingerAuthListener(new FingerAuth.OnFingerAuthListener() {
                     @Override
                     public void onSuccess() {
-                        startActivity(new Intent(getApplicationContext(), AbsensiActivity.class));
+                        startActivity(new Intent(getApplicationContext(), CheckLocationActivity.class));
                         Toast.makeText(DashboardActivity.this, "onSuccess ", Toast.LENGTH_SHORT).show();
                     }
 

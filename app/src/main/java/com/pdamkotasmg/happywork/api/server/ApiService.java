@@ -1,10 +1,11 @@
 package com.pdamkotasmg.happywork.api.server;
 
+import com.pdamkotasmg.happywork.fitur.absensi.model.checkLocationModel.CheckLocationRootModel;
 import com.pdamkotasmg.happywork.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.happywork.fitur.feeds.model.BeritaRootModel;
 import com.pdamkotasmg.happywork.fitur.perangkat.model.PerangkatRootModel;
-import com.pdamkotasmg.happywork.fitur.splash.model.packageName.PackageNameRootModel;
 import com.pdamkotasmg.happywork.fitur.splash.model.androidVersion.AndroidVersionModel;
+import com.pdamkotasmg.happywork.fitur.splash.model.packageName.PackageNameRootModel;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -55,6 +56,12 @@ public interface ApiService {
 
     @POST("auth/delete-all-session")
     Call<ResponseBody> deleteAllSession(@Header("Authorization") String auth);
+
+    @FormUrlEncoded
+    @POST("attendance/check-location")
+    Call<CheckLocationRootModel> checkLocation(@Header("Authorization") String auth,
+                                               @Field("latitude") double latitude,
+                                               @Field("longitude") double longitude);
 
     @GET("masterdata/forbid-app")
     Call<PackageNameRootModel> getPackageName();

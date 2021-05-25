@@ -1,6 +1,7 @@
 package com.pdamkotasmg.happywork.fitur.splash;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.widget.TextView;
@@ -34,6 +36,7 @@ import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.authentication.WelcomeAuthActivity;
+import com.pdamkotasmg.happywork.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.happywork.fitur.splash.model.androidVersion.AndroidVersionModel;
 import com.pdamkotasmg.happywork.fitur.splash.model.packageName.Data;
 import com.pdamkotasmg.happywork.fitur.splash.model.packageName.DataItem;
@@ -62,7 +65,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private String TAG = "debug";
     private String androidVersionDevice;
     private String androidVersionDeviceServer;
-    private static int SPLASH_TIME_OUT = 3000;
+    private static int SPLASH_TIME_OUT = 2000;
     private boolean flag = true;
     private PackageInfo packageInfo;
     int i;
@@ -197,6 +200,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("HardwareIds")
     private void gettingDataDeviceInfo() {
         WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo connectionInfo = wm.getConnectionInfo();
@@ -328,8 +332,20 @@ public class SplashScreenActivity extends AppCompatActivity {
             new Handler().postDelayed(() -> {
                 // TODO intent ke WelcomeActivity.class
                 Log.d(TAG, "Status Fack: Tidak ada fake gps");
-                startActivity(new Intent(SplashScreenActivity.this, WelcomeAuthActivity.class));
-                finishAffinity();
+                SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+                String telepon = sp.getString(Config.SHARED_NAME, "");
+                // TODO jika belum masuk ke LoginActivity
+                if (telepon.equalsIgnoreCase("") || TextUtils.isEmpty(telepon)){
+                    finishAffinity();
+                    startActivity(new Intent(getApplicationContext(), WelcomeAuthActivity.class));
+                }
+                // TODO jika sudah nantinya akan masuk ke Home
+                else {
+                    finishAffinity();
+                    startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                    Log.d("nohp", "run: " + telepon);
+                }
+
             }, SPLASH_TIME_OUT);
 
         } else {
