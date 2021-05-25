@@ -156,6 +156,9 @@ class LoginController {
                             Log.d("debug login res server", "message: " + response?.message())
                             Toast.makeText(context, "[Else] Login Gagal", Toast.LENGTH_SHORT).show()
                         }
+
+
+
                     }
 
                     override fun onFailure(call: Call<AkunRootModel?>?, t: Throwable?) {

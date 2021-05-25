@@ -294,9 +294,7 @@ class SplashScreenActivity : AppCompatActivity() {
         } else {
             val mDialog = MaterialDialog.Builder(this@SplashScreenActivity)
                     .setTitle("Haayyoooooooo kamu" + " ....?")
-                    .setMessage("""Uninstall fake GPS kamu ${packageInfo?.packageName}
-
- Hubungi kepegawaian untuk aktivasi kembali...""")
+                    .setMessage("""Uninstall fake GPS kamu ${packageInfo?.packageName} Hubungi kepegawaian untuk aktivasi kembali...""")
                     .setAnimation("lt_bohong.json")
                     .setCancelable(false)
                     .setNegativeButton("Oke deh, jangan suka bohong ya") { dialogInterface, which ->
