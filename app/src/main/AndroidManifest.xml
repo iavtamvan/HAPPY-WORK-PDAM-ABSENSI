@@ -19,14 +19,14 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.Manifest.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera.front" />
-    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
@@ -44,30 +44,46 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyWork">
-        <activity android:name=".fitur.absensi.CheckLocationActivity"></activity>
-        <activity android:name=".fitur.perangkat.PerangkatActivity"></activity>
-        <activity android:name=".fitur.profil.ProfileActivity" />
-        <activity android:name=".fitur.authentication.login.LoginActivity"></activity>
-        <activity android:name=".fitur.authentication.ReisterActivity" />
-        <activity android:name=".fitur.authentication.WelcomeAuthActivity"></activity>
-        <activity
-            android:name=".fitur.splash.SplashScreenActivity"
-            android:keepScreenOn="true">
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.pdamkotasmg.happywork"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+
+
+        <activity android:name=".fitur.absensi.AbsensiV2Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".fitur.absensi.CheckLocationActivity" />
+        <activity android:name=".fitur.perangkat.PerangkatActivity" />
+        <activity android:name=".fitur.profil.ProfileActivity" />
+        <activity android:name=".fitur.authentication.login.LoginActivity" />
+        <activity android:name=".fitur.authentication.ReisterActivity" />
+        <activity android:name=".fitur.authentication.WelcomeAuthActivity" />
+        <activity
+            android:name=".fitur.splash.SplashScreenActivity"
+            android:keepScreenOn="true">
+        </activity>
         <activity android:name=".fitur.payslip.PayslipActivity" />
         <activity android:name=".fitur.kehadiran.view.KehadiranActivity" />
         <activity android:name=".fitur.absensi.AbsensiActivity" />
-        <activity android:name=".fitur.dashboard.DashboardActivity"></activity>
+        <activity android:name=".fitur.dashboard.DashboardActivity" />
         <activity android:name=".MainActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+
     </application>
 
 </manifest>
