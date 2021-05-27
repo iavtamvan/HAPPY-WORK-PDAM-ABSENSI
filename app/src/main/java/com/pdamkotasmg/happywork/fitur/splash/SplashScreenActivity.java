@@ -392,6 +392,26 @@ public class SplashScreenActivity extends AppCompatActivity {
             EasyPermissions.requestPermissions(this, getString(R.string.app_name),
                     RC_CAMERA_AND_LOCATION, perms);
             Toast.makeText(this, "Izinkan semua permisi yang diberikan", Toast.LENGTH_SHORT).show();
+            MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
+                    .setTitle("Izinkan semua permisi yang diberikan.")
+                    .setCancelable(false)
+                    .setNegativeButton("Oke deh, Ulangi!", (dialogInterface, which) -> {
+                        dialogInterface.dismiss();
+                        getAplicationVersionFromServer();
+                    })
+                    .setPositiveButton("Uninstall Aplikasi Presensi", new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            Toast.makeText(SplashScreenActivity.this, "Uninstall aplikasi presensi beraksi...", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(Intent.ACTION_DELETE);
+                            intent.setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
+                            startActivity(intent);
+                        }
+                    })
+                    .build();
+
+            // Show Dialog
+            mDialog.show();
         }
     }
 }

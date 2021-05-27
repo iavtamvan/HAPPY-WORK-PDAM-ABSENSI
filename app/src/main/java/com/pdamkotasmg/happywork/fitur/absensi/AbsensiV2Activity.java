@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +21,7 @@ import com.pdamkotasmg.happywork.utils.Config;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
@@ -42,12 +45,29 @@ public class AbsensiV2Activity extends AppCompatActivity {
 
     private CircleImageView ivFotoFront;
     private EasyImage easyImage;
+    private ImageView ivHeaderBackArrow;
+    private TextView tvHeaderJudul;
+    private ImageView ivHeaderInfo;
+    private TextView tvName;
+    private TextView tvJabatan;
+    private TextView tvTanggal;
+    private TextView tvWaktu;
+    private TextView tvPersenFace;
+    private TextView tvVersiApps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_absensi_v2);
+        Objects.requireNonNull(getSupportActionBar()).hide();
         initView();
+
+        tvHeaderJudul.setText("Mengenali Wajah");
+        ivHeaderBackArrow.setOnClickListener(v -> {
+            finishAffinity();
+            startActivity(new Intent(AbsensiV2Activity.this, CheckLocationActivity.class));
+        });
+
         easyImage = new EasyImage.Builder(AbsensiV2Activity.this)
                 .setCopyImagesToPublicGalleryFolder(false)
                 .setFolderName("PDAM-KOTA-SMG")
@@ -57,6 +77,9 @@ public class AbsensiV2Activity extends AppCompatActivity {
         editor = sharedPreferences.edit();
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         Log.d(TAG, "token: " + access_token);
+        tvName.setText(sharedPreferences.getString(Config.SHARED_NAME, ""));
+        tvJabatan.setText(sharedPreferences.getString(Config.SHARED_JABATAN,""));
+
 
         ivFotoFront.setOnClickListener(v -> {
 //            dispatchTakePictureIntent();
@@ -83,7 +106,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
                     compressedImageFile = new Compressor(AbsensiV2Activity.this)
                             .setMaxHeight(640)
                             .setMaxWidth(480)
-                            .setQuality(40)
+                            .setQuality(70)
                             .setCompressFormat(Bitmap.CompressFormat.WEBP)
                             .setDestinationDirectoryPath(imageFiles[0].getFile().getParent())
                             .compressToFile(imageFiles[0].getFile(), "comp_" + imageFiles[0].getFile().getName());
@@ -143,5 +166,14 @@ public class AbsensiV2Activity extends AppCompatActivity {
 
     private void initView() {
         ivFotoFront = findViewById(R.id.iv_foto_front);
+        ivHeaderBackArrow = findViewById(R.id.iv_header_back_arrow);
+        tvHeaderJudul = findViewById(R.id.tv_header_judul);
+        ivHeaderInfo = findViewById(R.id.iv_header_info);
+        tvName = findViewById(R.id.tv_name);
+        tvJabatan = findViewById(R.id.tv_jabatan);
+        tvTanggal = findViewById(R.id.tv_tanggal);
+        tvWaktu = findViewById(R.id.tv_waktu);
+        tvPersenFace = findViewById(R.id.tv_persen_face);
+        tvVersiApps = findViewById(R.id.tv_versi_apps);
     }
 }
