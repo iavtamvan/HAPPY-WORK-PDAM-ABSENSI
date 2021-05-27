@@ -1,27 +1,45 @@
 package com.pdamkotasmg.happywork.fitur.absensi;
 
+import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.media.AudioAttributes;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.bumptech.glide.Glide;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
+import com.pdamkotasmg.happywork.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.happywork.utils.Config;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.Objects;
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
@@ -42,6 +60,11 @@ public class AbsensiV2Activity extends AppCompatActivity {
     private String access_token;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private String currentDate;
+    private String currentTime;
+
+    private MultipartBody.Part bodyPhoto;
+    private ProgressDialog loading;
 
     private CircleImageView ivFotoFront;
     private EasyImage easyImage;
@@ -54,7 +77,9 @@ public class AbsensiV2Activity extends AppCompatActivity {
     private TextView tvWaktu;
     private TextView tvPersenFace;
     private TextView tvVersiApps;
+    private Button btnKirimPresensi;
 
+    @SuppressLint({"SimpleDateFormat", "SetTextI18n", "CommitPrefEdits"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,10 +88,18 @@ public class AbsensiV2Activity extends AppCompatActivity {
         initView();
 
         tvHeaderJudul.setText("Mengenali Wajah");
+        ivFotoFront.post(() -> {
+            ivFotoFront.performClick();
+        });
+
         ivHeaderBackArrow.setOnClickListener(v -> {
             finishAffinity();
             startActivity(new Intent(AbsensiV2Activity.this, CheckLocationActivity.class));
         });
+
+        Date cDate = new Date();
+        currentDate = new SimpleDateFormat("EEEE, dd MMM yyyy").format(cDate);
+        currentTime = new SimpleDateFormat("HH:mm").format(cDate);
 
         easyImage = new EasyImage.Builder(AbsensiV2Activity.this)
                 .setCopyImagesToPublicGalleryFolder(false)
@@ -78,16 +111,22 @@ public class AbsensiV2Activity extends AppCompatActivity {
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         Log.d(TAG, "token: " + access_token);
         tvName.setText(sharedPreferences.getString(Config.SHARED_NAME, ""));
-        tvJabatan.setText(sharedPreferences.getString(Config.SHARED_JABATAN,""));
-
+        tvJabatan.setText(sharedPreferences.getString(Config.SHARED_JABATAN, ""));
+        tvTanggal.setText(currentDate);
+        tvWaktu.setText(currentTime);
 
         ivFotoFront.setOnClickListener(v -> {
 //            dispatchTakePictureIntent();
             easyImage.openCameraForImage(AbsensiV2Activity.this);
         });
+
+        btnKirimPresensi.setOnClickListener(v -> {
+            checkFace(); // (1)
+
+        });
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)  {
         super.onActivityResult(requestCode, resultCode, data);
         easyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
             @Override
@@ -107,7 +146,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
                             .setMaxHeight(640)
                             .setMaxWidth(480)
                             .setQuality(70)
-                            .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                            .setCompressFormat(Bitmap.CompressFormat.JPEG)
                             .setDestinationDirectoryPath(imageFiles[0].getFile().getParent())
                             .compressToFile(imageFiles[0].getFile(), "comp_" + imageFiles[0].getFile().getName());
                     Log.d(TAG, "compressed: " + compressedImageFile.getPath());
@@ -118,13 +157,6 @@ public class AbsensiV2Activity extends AppCompatActivity {
                     File file = new File(imageFiles[0].getFile().getPath());
                     boolean deleted = file.delete();
                     Log.d(TAG, "deletedFilesStatus: " + deleted);
-
-                    // TODO Check Face
-                    RequestBody requestFilePhoto = RequestBody.create(MediaType.parse("multipart/form-data"), compressedImageFile.getPath());
-                    MultipartBody.Part bodyPhoto = MultipartBody.Part.createFormData("photo", compressedImageFile.getName(), requestFilePhoto);
-                    Log.d(TAG, "bodyPhoto: " + bodyPhoto.body());
-                    Log.d(TAG, "imageFileCompress: " + compressedImageFile.getName());
-                    checkFace(bodyPhoto);
 
 
                 } catch (IOException e) {
@@ -140,19 +172,38 @@ public class AbsensiV2Activity extends AppCompatActivity {
         });
     }
 
-    public void checkFace(MultipartBody.Part bodyPhoto) {
+    public void checkFace() {
+        loading = new ProgressDialog(AbsensiV2Activity.this);
+        loading.setCancelable(false);
+        loading.setMessage("Mengirim...");
+        loading.show();
+        // TODO Check Face
+        File imageFile = new File(compressedImageFile.getAbsolutePath());
+        RequestBody requestFilePhoto = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+        bodyPhoto = MultipartBody.Part.createFormData("photo", imageFile.getName(), requestFilePhoto);
+        Log.d(TAG, "bodyPhoto: " + bodyPhoto.body());
+        Log.d(TAG, "imageFileCompress: " + imageFile.getName());
         ApiService apiService = ApiConfig.getApiService();
         apiService.checkFace(access_token, bodyPhoto)
                 .enqueue(new Callback<FaceDetectionRootModel>() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onResponse(Call<FaceDetectionRootModel> call, Response<FaceDetectionRootModel> response) {
                         Log.d(TAG, "onResponse: " + response.body());
                         if (response.isSuccessful()) {
                             assert response.body() != null;
                             Toast.makeText(AbsensiV2Activity.this, "Deteksi muka " + response.body().getData().getMatchPercent() + "%, MANTAP", Toast.LENGTH_SHORT).show();
+                            tvPersenFace.setText("Deteksi muka " + response.body().getData().getMatchPercent() + "%, MANTAP");
                             editor.putString(Config.SHARED_GET_PHOTO_SERVER_PHOTO_OFFLINE, response.body().getData().getPhoto());
                             editor.apply();
+                            showNotification(); // (2)
+                            loading.cancel();
                         } else {
+                            loading.cancel();
+                            Log.d(TAG, "onResponseerrorBody: " + response.raw());
+                            Log.d(TAG, "onResponsecode: " + response.code());
+                            Log.d(TAG, "onResponseheaders: " + response.headers());
+                            Log.d(TAG, "onResponseheaders: " + response.message());
                             Toast.makeText(AbsensiV2Activity.this, "Muka tidak ada", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -160,9 +211,64 @@ public class AbsensiV2Activity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<FaceDetectionRootModel> call, Throwable t) {
                         Toast.makeText(AbsensiV2Activity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
+                        Log.d(TAG, "onFailure: " + t.getMessage());
+                        Log.d(TAG, "onFailure: " + t.getCause());
+                        Log.d(TAG, "onFailure: " + Arrays.toString(t.getStackTrace()));
+                        loading.cancel();
                     }
                 });
     }
+
+    //text Notification
+    private void showNotification() {
+        int noificationId = new Random().nextInt(100);
+        Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/" + R.raw.notif);
+        Log.d(TAG, "showNotification: " + sound);
+        String channelId = "notification_channel_3";
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
+                0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(
+                getApplicationContext(), channelId
+        );
+        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+        builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        builder.setContentTitle("AKU SENANG .... "); // make suer change the channel for image
+        builder.setContentText("Selamat, kamu sudah melakukan presensi ya ...");
+        builder.setSound(sound);
+        //notification for image
+//        builder.setStyle(new NotificationCompat.BigPictureStyle().
+//                bigPicture(bitmap));
+        builder.setContentIntent(pendingIntent);
+        builder.setAutoCancel(true);
+        builder.setPriority(NotificationCompat.PRIORITY_MAX);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            if (notificationManager != null && notificationManager.
+                    getNotificationChannel(channelId) == null){
+                NotificationChannel notificationChannel = new NotificationChannel(
+                        channelId, "Notification channel 1",
+                        NotificationManager.IMPORTANCE_HIGH
+                );
+                AudioAttributes attributes = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .build();
+                notificationChannel.setDescription("Selamat, kamu sudah melakukan presensi ya ...");
+                notificationChannel.enableVibration(true);
+                notificationChannel.enableLights(true);
+                notificationChannel.setSound(sound, attributes); // This is IMPORTANT
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
+        Notification notification = builder.build();
+        if (notificationManager != null){
+            notificationManager.notify(noificationId, notification);
+        }
+    }
+
 
     private void initView() {
         ivFotoFront = findViewById(R.id.iv_foto_front);
@@ -175,5 +281,6 @@ public class AbsensiV2Activity extends AppCompatActivity {
         tvWaktu = findViewById(R.id.tv_waktu);
         tvPersenFace = findViewById(R.id.tv_persen_face);
         tvVersiApps = findViewById(R.id.tv_versi_apps);
+        btnKirimPresensi = findViewById(R.id.btn_kirim_presensi);
     }
 }

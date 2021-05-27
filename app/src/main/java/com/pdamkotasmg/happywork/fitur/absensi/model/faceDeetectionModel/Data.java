@@ -14,7 +14,7 @@ public class Data{
     private Boolean faceDetected;
 
     @SerializedName("match_percent")
-    private Integer matchPercent;
+    private String matchPercent;
 
     public void setIsMatch(Boolean isMatch){
         this.isMatch = isMatch;
@@ -40,11 +40,11 @@ public class Data{
         return faceDetected;
     }
 
-    public void setMatchPercent(Integer matchPercent){
+    public void setMatchPercent(String matchPercent){
         this.matchPercent = matchPercent;
     }
 
-    public Integer getMatchPercent(){
+    public String getMatchPercent(){
         return matchPercent;
     }
 }
