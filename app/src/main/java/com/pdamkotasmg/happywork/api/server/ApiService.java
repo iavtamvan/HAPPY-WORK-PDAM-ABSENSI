@@ -1,12 +1,14 @@
 package com.pdamkotasmg.happywork.api.server;
 
 import com.pdamkotasmg.happywork.fitur.absensi.model.checkLocationModel.CheckLocationRootModel;
+import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
 import com.pdamkotasmg.happywork.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.happywork.fitur.feeds.model.BeritaRootModel;
 import com.pdamkotasmg.happywork.fitur.perangkat.model.PerangkatRootModel;
 import com.pdamkotasmg.happywork.fitur.splash.model.androidVersion.AndroidVersionModel;
 import com.pdamkotasmg.happywork.fitur.splash.model.packageName.PackageNameRootModel;
 
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -14,7 +16,9 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface ApiService {
     //    // google
@@ -90,25 +94,18 @@ public interface ApiService {
 //
     @GET("portal-web/berita")
     Call<BeritaRootModel> getNews();
-//
+
+    //
 //    @Headers({ "Content-Type: application/json;charset=UTF-8"})
 //    @GET("pengaduan/mobile/aduanku")
 //    Call<PengaduanRootModel> getPengaduan(@Header("Authorization") String auth);
 //
-//    @Multipart
-//    @POST("pengaduan/mobile")
-//    Call<PengaduanRootModel> sendPengaduanFix(
-//            @Header("Authorization") String auth,
-//            @Part("nama_pengadu") RequestBody nama_pengadu,
-//            @Part("uraian") RequestBody uraian,
-//            @Part("telp_pengadu") RequestBody telp_pengadu,
-//            @Part("alamat_pengadu") RequestBody alamat_pengadu,
-//            @Part("latitude") RequestBody latitude,
-//            @Part("longitude") RequestBody longitude,
-//            @Part MultipartBody.Part filePartAduan,
-//            @Part MultipartBody.Part filePartPengadu,
-//            @Part("kategori_aduan") RequestBody kategori
-//    );
+    @Multipart
+    @POST("attendance/face-recognize")
+    Call<FaceDetectionRootModel> checkFace(
+            @Header("Authorization") String auth,
+            @Part MultipartBody.Part filePartPhoto
+    );
 //
 //    @Headers({ "Content-Type: application/json;charset=UTF-8"})
 //    @GET("pengaduan/mobile/daftar-kategori")

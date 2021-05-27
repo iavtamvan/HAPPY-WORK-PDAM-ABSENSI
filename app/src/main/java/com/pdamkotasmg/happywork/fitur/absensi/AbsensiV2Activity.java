@@ -1,10 +1,10 @@
 package com.pdamkotasmg.happywork.fitur.absensi;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,21 +12,35 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.pdamkotasmg.happywork.R;
+import com.pdamkotasmg.happywork.api.server.ApiConfig;
+import com.pdamkotasmg.happywork.api.server.ApiService;
+import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
+import com.pdamkotasmg.happywork.utils.Config;
 
 import java.io.File;
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 import pl.aprilapps.easyphotopicker.MediaFile;
 import pl.aprilapps.easyphotopicker.MediaSource;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AbsensiV2Activity extends AppCompatActivity {
     private static final String TAG = "debug";
     private File compressedImageFile;
+    private String access_token;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
-    private ImageView ivFotoFront;
+    private CircleImageView ivFotoFront;
     private EasyImage easyImage;
 
     @Override
@@ -35,24 +49,14 @@ public class AbsensiV2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_absensi_v2);
         initView();
         easyImage = new EasyImage.Builder(AbsensiV2Activity.this)
-
-// Chooser only
-// Will appear as a system chooser title, DEFAULT empty string
-//.setChooserTitle("Pick media")
-// Will tell chooser that it should show documents or gallery apps
-//.setChooserType(ChooserType.CAMERA_AND_DOCUMENTS)  you can use this or the one below
-//.setChooserType(ChooserType.CAMERA_AND_GALLERY)
-// saving EasyImage state (as for now: last camera file link)
-//                .setMemento(memento)
-
-// Setting to true will cause taken pictures to show up in the device gallery, DEFAULT false
                 .setCopyImagesToPublicGalleryFolder(false)
-// Sets the name for images stored if setCopyImagesToPublicGalleryFolder = true
                 .setFolderName("PDAM-KOTA-SMG")
-
-// Allow multiple picking
                 .allowMultiple(true)
                 .build();
+        sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+        Log.d(TAG, "token: " + access_token);
 
         ivFotoFront.setOnClickListener(v -> {
 //            dispatchTakePictureIntent();
@@ -72,8 +76,6 @@ public class AbsensiV2Activity extends AppCompatActivity {
                 Log.d(TAG, "onMediaFilesPickedAbsoluthPath: " + imageFiles[0].getFile().getAbsolutePath());
                 Log.d(TAG, "onMediaFilesPickedGetName: " + imageFiles[0].getFile().getName());
                 Log.d(TAG, "onMediaFilesPickedGetParent: " + imageFiles[0].getFile().getParent());
-                Toast.makeText(AbsensiV2Activity.this, "" + imageFiles.toString(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(AbsensiV2Activity.this, "" + source, Toast.LENGTH_SHORT).show();
                 Glide.with(AbsensiV2Activity.this).load(imageFiles[0].getFile()).override(512, 512).into(ivFotoFront);
 
                 // TODO Compress file/image
@@ -85,7 +87,9 @@ public class AbsensiV2Activity extends AppCompatActivity {
                             .setCompressFormat(Bitmap.CompressFormat.WEBP)
                             .setDestinationDirectoryPath(imageFiles[0].getFile().getParent())
                             .compressToFile(imageFiles[0].getFile(), "comp_" + imageFiles[0].getFile().getName());
-                    Log.d(TAG, "compressed: " + compressedImageFile);
+                    Log.d(TAG, "compressed: " + compressedImageFile.getPath());
+                    editor.putString(Config.SHARED_COMPRESED_PHOTO_OFFLINE, compressedImageFile.getPath()); // TODO saving OFFLINE PHOTO
+                    editor.apply();
 
                     // TODO delete image
                     File file = new File(imageFiles[0].getFile().getPath());
@@ -93,6 +97,11 @@ public class AbsensiV2Activity extends AppCompatActivity {
                     Log.d(TAG, "deletedFilesStatus: " + deleted);
 
                     // TODO Check Face
+                    RequestBody requestFilePhoto = RequestBody.create(MediaType.parse("multipart/form-data"), compressedImageFile.getPath());
+                    MultipartBody.Part bodyPhoto = MultipartBody.Part.createFormData("photo", compressedImageFile.getName(), requestFilePhoto);
+                    Log.d(TAG, "bodyPhoto: " + bodyPhoto.body());
+                    Log.d(TAG, "imageFileCompress: " + compressedImageFile.getName());
+                    checkFace(bodyPhoto);
 
 
                 } catch (IOException e) {
@@ -100,11 +109,36 @@ public class AbsensiV2Activity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onCanceled(@NonNull MediaSource source) {
                 //Not necessary to remove any files manually anymore
             }
         });
+    }
+
+    public void checkFace(MultipartBody.Part bodyPhoto) {
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.checkFace(access_token, bodyPhoto)
+                .enqueue(new Callback<FaceDetectionRootModel>() {
+                    @Override
+                    public void onResponse(Call<FaceDetectionRootModel> call, Response<FaceDetectionRootModel> response) {
+                        Log.d(TAG, "onResponse: " + response.body());
+                        if (response.isSuccessful()) {
+                            assert response.body() != null;
+                            Toast.makeText(AbsensiV2Activity.this, "Deteksi muka " + response.body().getData().getMatchPercent() + "%, MANTAP", Toast.LENGTH_SHORT).show();
+                            editor.putString(Config.SHARED_GET_PHOTO_SERVER_PHOTO_OFFLINE, response.body().getData().getPhoto());
+                            editor.apply();
+                        } else {
+                            Toast.makeText(AbsensiV2Activity.this, "Muka tidak ada", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<FaceDetectionRootModel> call, Throwable t) {
+                        Toast.makeText(AbsensiV2Activity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void initView() {

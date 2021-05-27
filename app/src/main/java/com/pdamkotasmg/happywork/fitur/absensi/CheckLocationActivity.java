@@ -39,6 +39,7 @@ public class CheckLocationActivity extends AppCompatActivity {
         initView();
 
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         location = new SimpleLocation(CheckLocationActivity.this);
         if (!location.hasLocationEnabled()) {
             SimpleLocation.openSettings(CheckLocationActivity.this);
@@ -47,6 +48,9 @@ public class CheckLocationActivity extends AppCompatActivity {
         longi = location.getLongitude();
 
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+        editor.putString(Config.SHARED_LATI_OFFLINE, String.valueOf(lati));
+        editor.putString(Config.SHARED_LONGITUDE_OFFLINE, String.valueOf(longi));
+        editor.apply();
 
         ApiService apiService = ApiConfig.getApiService();
         apiService.checkLocation(access_token, lati, longi)
