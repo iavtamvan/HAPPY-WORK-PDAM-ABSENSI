@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "583895094063",
+    "project_id": "pdam-kota-smg-android",
+    "storage_bucket": "pdam-kota-smg-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583895094063:android:c89d919ef597d7a0c107da",
+        "android_client_info": {
+          "package_name": "com.pdamkotasmg.happywork"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "583895094063-2lkprpamajk6bf30abnbsjd114uvbr15.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pdamkotasmg.happywork",
+            "certificate_hash": "54ca28d00de4fbd410ab390201f23d2cf55007ba"
+          }
+        },
+        {
+          "client_id": "583895094063-t50fll8ks6sm65u8s41dpb29rmj8e559.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCY2myUEIdlDOEaqr2DhAZpwCNTByptltE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "583895094063-t50fll8ks6sm65u8s41dpb29rmj8e559.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
