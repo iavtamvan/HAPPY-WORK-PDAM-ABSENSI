@@ -1,5 +1,6 @@
 package com.pdamkotasmg.happywork.api.server;
 
+import com.pdamkotasmg.happywork.fitur.absensi.model.absensiModel.AbsensiRootModel;
 import com.pdamkotasmg.happywork.fitur.absensi.model.checkLocationModel.CheckLocationRootModel;
 import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
 import com.pdamkotasmg.happywork.fitur.authentication.login.model.AkunRootModel;
@@ -84,9 +85,9 @@ public interface ApiService {
 //            @Body RegisterModel registerModel
 //    );
 //
-//    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-//    @GET("billing/tagihan/air/{nolangg}")
-//    Call<BillingTagihanRootModel> getBillingTagihan(@Path("nolangg") String nolangg, @Header("Authorization") String auth);
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("attendance/history/")
+    Call<AbsensiRootModel> getBillingTagihan(@Header("Authorization") String auth);
 //
 //    @Headers({ "Content-Type: application/json;charset=UTF-8"})
 //    @GET("auth-pelanggan/refresh-token")

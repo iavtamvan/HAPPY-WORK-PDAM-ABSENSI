@@ -89,8 +89,8 @@ public class CheckLocationActivity extends AppCompatActivity {
                             wv.getSettings().setUseWideViewPort(true);
                             wv.getSettings().setBuiltInZoomControls(true);
                             wv.getSettings().setPluginState(WebSettings.PluginState.ON);
-                            wv.getSettings().setAppCacheEnabled(false);
-                            wv.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+                            wv.getSettings().setAppCacheEnabled(true);
+                            wv.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
 //                            wv.getSettings().setPluginsEnabled(true);
 //                            wv.setWebViewClient(new HelloWebViewClient());
                             assert response.body() != null;

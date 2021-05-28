@@ -1,7 +1,25 @@
 package com.pdamkotasmg.happywork.utils;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.net.Uri;
+import android.os.Build;
+import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
+
+import com.pdamkotasmg.happywork.R;
+import com.pdamkotasmg.happywork.fitur.dashboard.DashboardActivity;
+
+import java.io.File;
+import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -144,6 +162,61 @@ public final class Config {
         editor.apply();
 
 //        context.startActivity(new Intent(context, WelcomeActivity.class));
+    }
+
+    public static void deleteFiles(String pathName, String log) {
+        // TODO delete image original
+        File file = new File(pathName);
+        boolean deleted = file.delete();
+        Log.d("debug", log + " Deleted : " + deleted);
+    }
+
+    public static void showNotification(Context context, String title, String content) {
+        int noificationId = new Random().nextInt(100);
+        Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.notif);
+        Log.d("debug", "showNotification: " + sound);
+        String channelId = "notification_channel_3";
+        NotificationManager notificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Intent intent = new Intent(context.getApplicationContext(), DashboardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context.getApplicationContext(),
+                0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(
+                context.getApplicationContext(), channelId
+        );
+        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+        builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        builder.setContentTitle(title); // make suer change the channel for image
+        builder.setContentText(content);
+        builder.setSound(sound);
+        //notification for image
+//        builder.setStyle(new NotificationCompat.BigPictureStyle().
+//                bigPicture(bitmap));
+        builder.setContentIntent(pendingIntent);
+        builder.setAutoCancel(true);
+        builder.setPriority(NotificationCompat.PRIORITY_MAX);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (notificationManager != null && notificationManager.
+                    getNotificationChannel(channelId) == null) {
+                NotificationChannel notificationChannel = new NotificationChannel(
+                        channelId, "Notification channel 1",
+                        NotificationManager.IMPORTANCE_HIGH
+                );
+                AudioAttributes attributes = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .build();
+                notificationChannel.setDescription(content);
+                notificationChannel.enableVibration(true);
+                notificationChannel.enableLights(true);
+                notificationChannel.setSound(sound, attributes); // This is IMPORTANT
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
+        Notification notification = builder.build();
+        if (notificationManager != null) {
+            notificationManager.notify(noificationId, notification);
+        }
     }
 
 

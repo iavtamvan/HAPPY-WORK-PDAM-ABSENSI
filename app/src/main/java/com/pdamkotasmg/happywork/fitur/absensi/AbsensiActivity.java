@@ -343,7 +343,7 @@ public class AbsensiActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Presensi hanya berlaku 1x, jadi tidak bisa keluar", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Absensi hanya berlaku 1x, jadi tidak bisa keluar", Toast.LENGTH_LONG).show();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
