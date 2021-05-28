@@ -1,8 +1,9 @@
 package com.pdamkotasmg.happywork.api.server;
 
-import com.pdamkotasmg.happywork.fitur.absensi.model.historyAbsensiModel.AbsensiRootModel;
 import com.pdamkotasmg.happywork.fitur.absensi.model.checkLocationModel.CheckLocationRootModel;
 import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
+import com.pdamkotasmg.happywork.fitur.absensi.model.historyAbsensiModel.AbsensiRootModel;
+import com.pdamkotasmg.happywork.fitur.absensi.model.saveAbsensiModel.SaveAbsensiRootModel;
 import com.pdamkotasmg.happywork.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.happywork.fitur.feeds.model.BeritaRootModel;
 import com.pdamkotasmg.happywork.fitur.perangkat.model.PerangkatRootModel;
@@ -67,14 +68,15 @@ public interface ApiService {
     Call<CheckLocationRootModel> checkLocation(@Header("Authorization") String auth,
                                                @Field("latitude") double latitude,
                                                @Field("longitude") double longitude);
+
     @FormUrlEncoded
-    @POST("attendance/record")
-    Call<CheckLocationRootModel> saveAbsensi(@Header("Authorization") String auth,
-                                               @Field("latitude") double latitude,
-                                               @Field("longitude") double longitude,
-                                               @Field("photo_path") String photo_path,
-                                               @Field("check_face") String check_face
-    );
+    @POST("attendance/check-location")
+    Call<SaveAbsensiRootModel> saveAbsensi(@Header("Authorization") String auth,
+                                           @Field("latitude") String latitude,
+                                           @Field("longitude") String longitude,
+                                           @Field("check_face") String check_face,
+                                           @Field("photo_path") String photo_path
+                                           );
 
     @GET("masterdata/forbid-app")
     Call<PackageNameRootModel> getPackageName();

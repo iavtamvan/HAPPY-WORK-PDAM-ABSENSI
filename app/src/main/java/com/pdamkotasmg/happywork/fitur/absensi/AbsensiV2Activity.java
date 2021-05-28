@@ -25,6 +25,7 @@ import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
+import com.pdamkotasmg.happywork.fitur.absensi.model.saveAbsensiModel.SaveAbsensiRootModel;
 import com.pdamkotasmg.happywork.utils.Config;
 
 import java.io.File;
@@ -61,9 +62,8 @@ public class AbsensiV2Activity extends AppCompatActivity {
     private Double lati, longi;
     private SimpleLocation location;
 
-    private String replaceTimeServer;
-    private String replaceTimeServerFinal;
     private String timeServer;
+    private String dateServer;
 
     private String photoPathOffline;
     private String latiOffline;
@@ -97,9 +97,9 @@ public class AbsensiV2Activity extends AppCompatActivity {
         initView();
 
         tvHeaderJudul.setText("Mengenali Wajah");
-//        ivFotoFront.post(() -> {
-//            ivFotoFront.performClick();
-//        });
+        ivFotoFront.post(() -> {
+            ivFotoFront.performClick();
+        });
 
         ivHeaderBackArrow.setOnClickListener(v -> {
             finishAffinity();
@@ -111,11 +111,12 @@ public class AbsensiV2Activity extends AppCompatActivity {
         currentTime = new SimpleDateFormat("HH:mm").format(cDate);
 
         Date currentTimeInMillis = SecureTimer.with(AbsensiV2Activity.this).getCurrentDate();
-        timeServer = String.valueOf(currentTimeInMillis);
-        replaceTimeServer = timeServer.replace(" GMT+07:00 ", "");
-        replaceTimeServerFinal = replaceTimeServer.replaceAll(" ", "");
-        Log.d("debug", "timeServer: " + replaceTimeServerFinal);
         Log.d("debug", "dateServer: " + currentTimeInMillis);
+        timeServer = String.valueOf(currentTimeInMillis);
+        timeServer = new SimpleDateFormat("HH:mm:ss").format(currentTimeInMillis);
+        Log.d("debug", "timeServer: " + timeServer);
+        dateServer = new SimpleDateFormat("yyyy-MM-dd").format(currentTimeInMillis);
+        Log.d("debug", "dateServerFix: " + dateServer);
 
         easyImage = new EasyImage.Builder(AbsensiV2Activity.this)
                 .setCopyImagesToPublicGalleryFolder(false)
@@ -140,9 +141,8 @@ public class AbsensiV2Activity extends AppCompatActivity {
         longi = location.getLongitude();
         editor.putString(Config.SHARED_LATI_OFFLINE, String.valueOf(lati));
         editor.putString(Config.SHARED_LONGITUDE_OFFLINE, String.valueOf(longi));
-        editor.putString(Config.SHARED_TANGGAL_OFFLINE, currentDate); // harus di ganti server
-        editor.putString(Config.SHARED_TIME_OFFLINE, replaceTimeServerFinal;
-
+        editor.putString(Config.SHARED_TANGGAL_OFFLINE, dateServer);
+        editor.putString(Config.SHARED_TIME_OFFLINE, timeServer);
         editor.apply();
 
         ivFotoFront.setOnClickListener(v -> {
@@ -155,7 +155,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
         });
     }
 
-    private void savingOffline(){
+    private void getSavingOffline(){
         photoPathOffline = sharedPreferences.getString(Config.SHARED_COMPRESED_PHOTO_OFFLINE, "");
         latiOffline = sharedPreferences.getString(Config.SHARED_LATI_OFFLINE, "");
         longitudeOffline = sharedPreferences.getString(Config.SHARED_LONGITUDE_OFFLINE, "");
@@ -166,8 +166,24 @@ public class AbsensiV2Activity extends AppCompatActivity {
     }
 
     private void saveAbsensi() {
+        getSavingOffline();
         ApiService apiService = ApiConfig.getApiService();
-        apiService.saveAbsensi(access_token, latiOffline, longitudeOffline, )
+        apiService.saveAbsensi(access_token, latiOffline, longitudeOffline, "0", get_photo_server_photoOffline)
+                .enqueue(new Callback<SaveAbsensiRootModel>() {
+                    @Override
+                    public void onResponse(Call<SaveAbsensiRootModel> call, Response<SaveAbsensiRootModel> response) {
+                        if (response.isSuccessful()){
+                            Log.d(TAG, "saveAbsensi: " + response.body().getData());
+                        } else {
+                            Toast.makeText(AbsensiV2Activity.this, "" + response.code(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SaveAbsensiRootModel> call, Throwable t) {
+                        Toast.makeText(AbsensiV2Activity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -259,6 +275,9 @@ public class AbsensiV2Activity extends AppCompatActivity {
                                 Config.deleteFiles(compressedImageFile.getAbsolutePath(), "ImageCompressed"); // (2)
                                 Config.showNotification(AbsensiV2Activity.this, "AKU SENANG ABSEN JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) "); // (3)
                             }
+                        } else {
+                            divMencariMuka.setVisibility(View.GONE);
+                            Toast.makeText(AbsensiV2Activity.this, "Fail : " + response.code(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
