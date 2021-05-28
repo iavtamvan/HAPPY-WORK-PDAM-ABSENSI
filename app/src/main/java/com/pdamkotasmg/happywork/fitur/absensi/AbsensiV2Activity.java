@@ -1,20 +1,11 @@
 package com.pdamkotasmg.happywork.fitur.absensi;
 
 import android.annotation.SuppressLint;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.media.AudioAttributes;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
@@ -34,7 +24,6 @@ import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
-import com.pdamkotasmg.happywork.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.happywork.utils.Config;
 
 import java.io.File;
@@ -43,7 +32,6 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
@@ -175,7 +163,6 @@ public class AbsensiV2Activity extends AppCompatActivity {
     }
 
     public void checkFace() {
-//        loading.show();
         // TODO Check Face
         divMencariMuka.setVisibility(View.VISIBLE);
         tvPersenFace.setVisibility(View.GONE);
@@ -232,56 +219,6 @@ public class AbsensiV2Activity extends AppCompatActivity {
                     }
                 });
     }
-
-    //text Notification
-    private void showNotification() {
-        int noificationId = new Random().nextInt(100);
-        Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/" + R.raw.notif);
-        Log.d(TAG, "showNotification: " + sound);
-        String channelId = "notification_channel_3";
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
-                0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(
-                getApplicationContext(), channelId
-        );
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
-        builder.setDefaults(NotificationCompat.DEFAULT_ALL);
-        builder.setContentTitle("AKU SENANG .... "); // make suer change the channel for image
-        builder.setContentText("Selamat, kamu sudah melakukan Absensi ya ...");
-        builder.setSound(sound);
-        //notification for image
-//        builder.setStyle(new NotificationCompat.BigPictureStyle().
-//                bigPicture(bitmap));
-        builder.setContentIntent(pendingIntent);
-        builder.setAutoCancel(true);
-        builder.setPriority(NotificationCompat.PRIORITY_MAX);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (notificationManager != null && notificationManager.
-                    getNotificationChannel(channelId) == null) {
-                NotificationChannel notificationChannel = new NotificationChannel(
-                        channelId, "Notification channel 1",
-                        NotificationManager.IMPORTANCE_HIGH
-                );
-                AudioAttributes attributes = new AudioAttributes.Builder()
-                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                        .build();
-                notificationChannel.setDescription("Selamat, kamu sudah melakukan Absensi ya ...");
-                notificationChannel.enableVibration(true);
-                notificationChannel.enableLights(true);
-                notificationChannel.setSound(sound, attributes); // This is IMPORTANT
-                notificationManager.createNotificationChannel(notificationChannel);
-            }
-        }
-        Notification notification = builder.build();
-        if (notificationManager != null) {
-            notificationManager.notify(noificationId, notification);
-        }
-    }
-
 
     private void initView() {
         ivFotoFront = findViewById(R.id.iv_foto_front);
