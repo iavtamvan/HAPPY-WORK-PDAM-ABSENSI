@@ -91,10 +91,13 @@ public final class Config {
     public static final String SHARED_APP_VERSION = "app_version";
 
     // TODO SharedPref Offline Saving
+    public static final String SHARED_COMPRESED_PHOTO_OFFLINE = "compressed_photo_offline";
     public static final String SHARED_LATI_OFFLINE = "latitude_offline";
     public static final String SHARED_LONGITUDE_OFFLINE = "longitude_offline";
-    public static final String SHARED_COMPRESED_PHOTO_OFFLINE = "compressed_photo_offline";
+    public static final String SHARED_TANGGAL_OFFLINE = "tanggal_offline";
+    public static final String SHARED_TIME_OFFLINE = "waktu_offline";
     public static final String SHARED_GET_PHOTO_SERVER_PHOTO_OFFLINE = "get_photo_server_offline";
+    public static final String SHARED_STATUS_TYPE = "status_type";
 
 
 

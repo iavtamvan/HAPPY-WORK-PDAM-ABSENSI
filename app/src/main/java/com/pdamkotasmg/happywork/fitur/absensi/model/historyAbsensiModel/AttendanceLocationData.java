@@ -1,4 +1,4 @@
-package com.pdamkotasmg.happywork.fitur.absensi.model.absensiModel;
+package com.pdamkotasmg.happywork.fitur.absensi.model.historyAbsensiModel;
 
 import com.google.gson.annotations.SerializedName;
 

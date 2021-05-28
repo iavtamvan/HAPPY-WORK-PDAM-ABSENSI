@@ -1,12 +1,11 @@
-package com.pdamkotasmg.happywork.fitur.absensi.model.historyAbsensiModel;
+package com.pdamkotasmg.happywork.fitur.absensi.model.saveAbsensiModel;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class AbsensiRootModel{
+public class SaveAbsensiRootModel{
 
     @SerializedName("data")
-    private List<DataItem> data;
+    private Data data;
 
     @SerializedName("message")
     private String message;
@@ -14,11 +13,11 @@ public class AbsensiRootModel{
     @SerializedName("status")
     private Integer status;
 
-    public void setData(List<DataItem> data){
+    public void setData(Data data){
         this.data = data;
     }
 
-    public List<DataItem> getData(){
+    public Data getData(){
         return data;
     }
 

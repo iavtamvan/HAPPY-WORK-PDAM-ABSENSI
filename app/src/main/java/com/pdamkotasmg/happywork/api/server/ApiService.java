@@ -1,6 +1,6 @@
 package com.pdamkotasmg.happywork.api.server;
 
-import com.pdamkotasmg.happywork.fitur.absensi.model.absensiModel.AbsensiRootModel;
+import com.pdamkotasmg.happywork.fitur.absensi.model.historyAbsensiModel.AbsensiRootModel;
 import com.pdamkotasmg.happywork.fitur.absensi.model.checkLocationModel.CheckLocationRootModel;
 import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
 import com.pdamkotasmg.happywork.fitur.authentication.login.model.AkunRootModel;
@@ -67,6 +67,14 @@ public interface ApiService {
     Call<CheckLocationRootModel> checkLocation(@Header("Authorization") String auth,
                                                @Field("latitude") double latitude,
                                                @Field("longitude") double longitude);
+    @FormUrlEncoded
+    @POST("attendance/record")
+    Call<CheckLocationRootModel> saveAbsensi(@Header("Authorization") String auth,
+                                               @Field("latitude") double latitude,
+                                               @Field("longitude") double longitude,
+                                               @Field("photo_path") String photo_path,
+                                               @Field("check_face") String check_face
+    );
 
     @GET("masterdata/forbid-app")
     Call<PackageNameRootModel> getPackageName();

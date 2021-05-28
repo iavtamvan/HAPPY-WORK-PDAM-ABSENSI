@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.krishna.securetimer.SecureTimer;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
@@ -35,6 +36,7 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
+import im.delight.android.location.SimpleLocation;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -56,6 +58,20 @@ public class AbsensiV2Activity extends AppCompatActivity {
     private String currentTime;
 
     private MultipartBody.Part bodyPhoto;
+    private Double lati, longi;
+    private SimpleLocation location;
+
+    private String replaceTimeServer;
+    private String replaceTimeServerFinal;
+    private String timeServer;
+
+    private String photoPathOffline;
+    private String latiOffline;
+    private String longitudeOffline;
+    private String tanggalOffline;
+    private String timeOffline;
+    private String get_photo_server_photoOffline;
+    private String statusTypeOffline;
 
     private CircleImageView ivFotoFront;
     private EasyImage easyImage;
@@ -81,9 +97,9 @@ public class AbsensiV2Activity extends AppCompatActivity {
         initView();
 
         tvHeaderJudul.setText("Mengenali Wajah");
-        ivFotoFront.post(() -> {
-            ivFotoFront.performClick();
-        });
+//        ivFotoFront.post(() -> {
+//            ivFotoFront.performClick();
+//        });
 
         ivHeaderBackArrow.setOnClickListener(v -> {
             finishAffinity();
@@ -94,11 +110,19 @@ public class AbsensiV2Activity extends AppCompatActivity {
         currentDate = new SimpleDateFormat("EEEE, dd MMM yyyy").format(cDate);
         currentTime = new SimpleDateFormat("HH:mm").format(cDate);
 
+        Date currentTimeInMillis = SecureTimer.with(AbsensiV2Activity.this).getCurrentDate();
+        timeServer = String.valueOf(currentTimeInMillis);
+        replaceTimeServer = timeServer.replace(" GMT+07:00 ", "");
+        replaceTimeServerFinal = replaceTimeServer.replaceAll(" ", "");
+        Log.d("debug", "timeServer: " + replaceTimeServerFinal);
+        Log.d("debug", "dateServer: " + currentTimeInMillis);
+
         easyImage = new EasyImage.Builder(AbsensiV2Activity.this)
                 .setCopyImagesToPublicGalleryFolder(false)
                 .setFolderName("PDAM-KOTA-SMG")
                 .allowMultiple(true)
                 .build();
+
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         editor = sharedPreferences.edit();
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
@@ -108,13 +132,42 @@ public class AbsensiV2Activity extends AppCompatActivity {
         tvTanggal.setText(currentDate);
         tvWaktu.setText(currentTime);
 
+        location = new SimpleLocation(AbsensiV2Activity.this);
+        if (!location.hasLocationEnabled()) {
+            SimpleLocation.openSettings(AbsensiV2Activity.this);
+        }
+        lati = location.getLatitude();
+        longi = location.getLongitude();
+        editor.putString(Config.SHARED_LATI_OFFLINE, String.valueOf(lati));
+        editor.putString(Config.SHARED_LONGITUDE_OFFLINE, String.valueOf(longi));
+        editor.putString(Config.SHARED_TANGGAL_OFFLINE, currentDate); // harus di ganti server
+        editor.putString(Config.SHARED_TIME_OFFLINE, replaceTimeServerFinal;
+
+        editor.apply();
+
         ivFotoFront.setOnClickListener(v -> {
             easyImage.openCameraForImage(AbsensiV2Activity.this);
         });
 
         btnKirimAbsensi.setOnClickListener(v -> {
             // TODO kirim server
+            saveAbsensi();
         });
+    }
+
+    private void savingOffline(){
+        photoPathOffline = sharedPreferences.getString(Config.SHARED_COMPRESED_PHOTO_OFFLINE, "");
+        latiOffline = sharedPreferences.getString(Config.SHARED_LATI_OFFLINE, "");
+        longitudeOffline = sharedPreferences.getString(Config.SHARED_LONGITUDE_OFFLINE, "");
+        tanggalOffline = sharedPreferences.getString(Config.SHARED_TANGGAL_OFFLINE, "");
+        timeOffline = sharedPreferences.getString(Config.SHARED_TIME_OFFLINE, "");
+        get_photo_server_photoOffline = sharedPreferences.getString(Config.SHARED_GET_PHOTO_SERVER_PHOTO_OFFLINE, "");
+        statusTypeOffline = sharedPreferences.getString(Config.SHARED_STATUS_TYPE, "offline");
+    }
+
+    private void saveAbsensi() {
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.saveAbsensi(access_token, latiOffline, longitudeOffline, )
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
