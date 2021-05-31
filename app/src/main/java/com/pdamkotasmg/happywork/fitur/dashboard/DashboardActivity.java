@@ -61,14 +61,12 @@ public class DashboardActivity extends AppCompatActivity {
         feedsController.getFeeds(getApplicationContext(), rv);
         divLainnyaExpanded.setVisibility(View.GONE);
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
-        divNamaLengkap.setText("Hai, " + sharedPreferences.getString(Config.SHARED_NAME,""));
+        divNamaLengkap.setText("Hai, " + sharedPreferences.getString(Config.SHARED_NAME, ""));
 
-        if (Connectivity.isConnected(DashboardActivity.this)){
+        if (Connectivity.isConnected(DashboardActivity.this)) {
             Log.d(TAG, "isConnect: Connected");
-            Log.d(TAG, "onCreate: " + Connectivity.isConnectionFast(DashboardActivity.this).getConnectionType());
         } else {
             Toast.makeText(this, "Kamu Offline", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "onCreate: " + Connectivity.isConnectionFast(DashboardActivity.this).getConnectionType());
         }
 
         divRekamWaktu.setOnClickListener(v -> {
@@ -83,11 +81,9 @@ public class DashboardActivity extends AppCompatActivity {
 
 //            Connectivity.isConnectedFast(DashboardActivity.this);
 
-            if (Connectivity.isConnected(DashboardActivity.this)){
+            if (Connectivity.isConnected(DashboardActivity.this)) {
                 Log.d(TAG, "isConnect: Connected");
-                Log.d(TAG, "onCreate: " + Connectivity.isConnectionFast(DashboardActivity.this).getConnectionType());
             } else {
-                Log.d(TAG, "onCreate: " + Connectivity.isConnectionFast(DashboardActivity.this).getConnectionType());
                 MaterialDialog mDialog = new MaterialDialog.Builder(DashboardActivity.this)
                         .setTitle("Kamu offline, lanjut absensi? Simpan Offline hanya tersedia titik tertentu")
                         .setCancelable(false)
