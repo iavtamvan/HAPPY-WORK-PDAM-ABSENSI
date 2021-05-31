@@ -399,14 +399,11 @@ public class SplashScreenActivity extends AppCompatActivity {
                         dialogInterface.dismiss();
                         getAplicationVersionFromServer();
                     })
-                    .setPositiveButton("Uninstall Aplikasi Absensi", new MaterialDialog.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            Toast.makeText(SplashScreenActivity.this, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(Intent.ACTION_DELETE);
-                            intent.setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
-                            startActivity(intent);
-                        }
+                    .setPositiveButton("Uninstall Aplikasi Absensi", (dialogInterface, which) -> {
+                        Toast.makeText(SplashScreenActivity.this, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Intent.ACTION_DELETE);
+                        intent.setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
+                        startActivity(intent);
                     })
                     .build();
 

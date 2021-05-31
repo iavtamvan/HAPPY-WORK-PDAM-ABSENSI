@@ -26,6 +26,7 @@ import com.pdamkotasmg.happywork.fitur.payslip.PayslipActivity;
 import com.pdamkotasmg.happywork.fitur.profil.ProfileActivity;
 import com.pdamkotasmg.happywork.utils.Config;
 import com.pdamkotasmg.happywork.utils.Connectivity;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -84,10 +85,23 @@ public class DashboardActivity extends AppCompatActivity {
 
             if (Connectivity.isConnected(DashboardActivity.this)){
                 Log.d(TAG, "isConnect: Connected");
-                Connectivity.isConnectionFast(DashboardActivity.this).getConnectionType();
+                Log.d(TAG, "onCreate: " + Connectivity.isConnectionFast(DashboardActivity.this).getConnectionType());
             } else {
-                Toast.makeText(this, "Kamu Offline", Toast.LENGTH_SHORT).show();
-                Connectivity.isConnectionFast(DashboardActivity.this).getConnectionType();
+                Log.d(TAG, "onCreate: " + Connectivity.isConnectionFast(DashboardActivity.this).getConnectionType());
+                MaterialDialog mDialog = new MaterialDialog.Builder(DashboardActivity.this)
+                        .setTitle("Kamu offline, lanjut absensi? Simpan Offline hanya tersedia titik tertentu")
+                        .setCancelable(false)
+                        .setNegativeButton("Tidak", (dialogInterface, which) -> {
+                            dialogInterface.dismiss();
+                        })
+                        .setPositiveButton("Lanjut", (dialogInterface, which) -> {
+                            startActivity(new Intent(getApplicationContext(), CheckLocationActivity.class));
+                        })
+                        .build();
+
+                // Show Dialog
+                mDialog.show();
+
             }
 
         });
