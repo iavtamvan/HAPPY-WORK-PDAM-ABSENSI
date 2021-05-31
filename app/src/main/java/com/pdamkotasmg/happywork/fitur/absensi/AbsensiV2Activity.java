@@ -182,10 +182,17 @@ public class AbsensiV2Activity extends AppCompatActivity {
                             Log.d(TAG, "saveAbsensi: " + response.body().getData());
                             animationView.setVisibility(View.GONE);
                             tvMencariMuka.setText("Selesai Mengirim");
+                            btnKirimAbsensi.setEnabled(false);
                             Config.showNotification(AbsensiV2Activity.this, "AKU SENANG ABSEN JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) "); // (3)
                             // TODO activity kehadiran (history)
                         } else {
-                            Toast.makeText(AbsensiV2Activity.this, "" + response.code(), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "onResponse: " + response.code());
+                            Log.d(TAG, "onResponse: " + response.headers());
+                            Log.d(TAG, "onResponse: " + response.raw());
+                            Log.d(TAG, "onResponse: " + response.message());
+                            animationView.setVisibility(View.GONE);
+                            tvMencariMuka.setText("Gagal Mengirim");
+                            Toast.makeText(AbsensiV2Activity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
                             Config.showNotification(AbsensiV2Activity.this, "" + response.code(), "Error, hubungi PTI ");
                         }
                     }

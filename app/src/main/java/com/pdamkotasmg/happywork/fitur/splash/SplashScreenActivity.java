@@ -334,12 +334,12 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Log.d(TAG, "Status Fack: Tidak ada fake gps");
                 SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
                 String telepon = sp.getString(Config.SHARED_NAME, "");
-                // TODO jika belum masuk ke LoginActivity
+                // TODO jika belum masuk ke welcome
                 if (telepon.equalsIgnoreCase("") || TextUtils.isEmpty(telepon)){
                     finishAffinity();
                     startActivity(new Intent(getApplicationContext(), WelcomeAuthActivity.class));
                 }
-                // TODO jika sudah nantinya akan masuk ke Home
+                // TODO jika sudah nantinya akan masuk ke dashboard
                 else {
                     finishAffinity();
                     startActivity(new Intent(getApplicationContext(), DashboardActivity.class));

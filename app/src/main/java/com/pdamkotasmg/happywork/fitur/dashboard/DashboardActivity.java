@@ -1,5 +1,6 @@
 package com.pdamkotasmg.happywork.fitur.dashboard;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.pdamkotasmg.happywork.fitur.kehadiran.view.KehadiranActivity;
 import com.pdamkotasmg.happywork.fitur.payslip.PayslipActivity;
 import com.pdamkotasmg.happywork.fitur.profil.ProfileActivity;
 import com.pdamkotasmg.happywork.utils.Config;
+import com.pdamkotasmg.happywork.utils.Connectivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -32,6 +34,7 @@ public class DashboardActivity extends AppCompatActivity {
     private FeedsController feedsController;
     private boolean statusExpandedTrue = false;
     private static final int RC_CAMERA_AND_LOCATION = 1;
+    private String typeConnection;
 
     private ImageView ivTutorialVideo;
     private TextView divNamaLengkap;
@@ -46,6 +49,7 @@ public class DashboardActivity extends AppCompatActivity {
     private LinearLayout divOvertime;
     private String TAG = "debug";
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,17 +62,34 @@ public class DashboardActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         divNamaLengkap.setText("Hai, " + sharedPreferences.getString(Config.SHARED_NAME,""));
 
+        if (Connectivity.isConnected(DashboardActivity.this)){
+            Log.d(TAG, "isConnect: Connected");
+            Log.d(TAG, "onCreate: " + Connectivity.isConnectionFast(DashboardActivity.this).getConnectionType());
+        } else {
+            Toast.makeText(this, "Kamu Offline", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onCreate: " + Connectivity.isConnectionFast(DashboardActivity.this).getConnectionType());
+        }
 
         divRekamWaktu.setOnClickListener(v -> {
-            boolean hasFingerprintSupport = FingerAuth.hasFingerprintSupport(this);
+//            boolean hasFingerprintSupport = FingerAuth.hasFingerprintSupport(this);
+//            if (hasFingerprintSupport) {
+//                Log.d(TAG, "fingerprint: enable");
+//                fingerPrintSHow();
+//            } else {
+//                Log.d(TAG, "fingerprint: disable");
+//                startActivity(new Intent(getApplicationContext(), CheckLocationActivity.class));
+//            }
 
-            if (hasFingerprintSupport) {
-                Log.d(TAG, "fingerprint: enable");
-                fingerPrintSHow();
+//            Connectivity.isConnectedFast(DashboardActivity.this);
+
+            if (Connectivity.isConnected(DashboardActivity.this)){
+                Log.d(TAG, "isConnect: Connected");
+                Connectivity.isConnectionFast(DashboardActivity.this).getConnectionType();
             } else {
-                Log.d(TAG, "fingerprint: disable");
-                startActivity(new Intent(getApplicationContext(), CheckLocationActivity.class));
+                Toast.makeText(this, "Kamu Offline", Toast.LENGTH_SHORT).show();
+                Connectivity.isConnectionFast(DashboardActivity.this).getConnectionType();
             }
+
         });
 
         divKehadiran.setOnClickListener(v -> {

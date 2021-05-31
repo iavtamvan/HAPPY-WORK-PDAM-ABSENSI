@@ -100,6 +100,8 @@ public final class Config {
     public static final String SHARED_STATUS_TYPE = "status_type";
 
 
+    public static final String SHARED_STATUS_TYPE_CONNECTION = "status_type_connection";
+    public static final String SHARED_STATUS_CONNECTION = "status_connection";
 
     public static final String SHARED_STATUS_APLIKASI = "status_aplikasi";
     public static final String SHARED_APLIKASI_VERSION = "aplikasi_version";
