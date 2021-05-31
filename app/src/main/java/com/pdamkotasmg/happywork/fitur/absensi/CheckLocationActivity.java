@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
@@ -52,8 +53,7 @@ public class CheckLocationActivity extends AppCompatActivity {
         if (!location.hasLocationEnabled()) {
             SimpleLocation.openSettings(CheckLocationActivity.this);
         }
-
-
+        divLanjut.setVisibility(View.GONE);
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         editor.putString(Config.SHARED_LATI_OFFLINE, String.valueOf(lati));
         editor.putString(Config.SHARED_LONGITUDE_OFFLINE, String.valueOf(longi));
@@ -62,10 +62,6 @@ public class CheckLocationActivity extends AppCompatActivity {
 
         divRefresh.setOnClickListener(v -> {
             checkLocation();
-        });
-
-        divLanjut.setOnClickListener(v -> {
-            startActivity(new Intent(CheckLocationActivity.this, AbsensiV2Activity.class));
         });
 
     }
@@ -96,6 +92,15 @@ public class CheckLocationActivity extends AppCompatActivity {
                             assert response.body() != null;
                             wv.loadUrl(response.body().getData().getMapUrl());
                             tvDistance.setText("Akurasi " + response.body().getData().getCheckResult().getDistanceM() + "Meters");
+                            if  (!response.body().getData().getCheckResult().isIsInRadius()){
+                                Toast.makeText(CheckLocationActivity.this, "Anda tidak dalam radius Absensi", Toast.LENGTH_SHORT).show();
+                                divLanjut.setVisibility(View.GONE);
+                            } else {
+                                divLanjut.setVisibility(View.VISIBLE);
+                                divLanjut.setOnClickListener(v -> {
+                                    startActivity(new Intent(CheckLocationActivity.this, AbsensiV2Activity.class));
+                                });
+                            }
                             loading.cancel();
                         }
                     }
