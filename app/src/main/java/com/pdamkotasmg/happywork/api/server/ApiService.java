@@ -70,10 +70,11 @@ public interface ApiService {
                                                @Field("longitude") double longitude);
 
     @FormUrlEncoded
-    @POST("attendance/check-location")
+    @POST("attendance/record")
     Call<SaveAbsensiRootModel> saveAbsensi(@Header("Authorization") String auth,
                                            @Field("latitude") String latitude,
                                            @Field("longitude") String longitude,
+                                           @Field("type") String type,
                                            @Field("check_face") String check_face,
                                            @Field("photo_path") String photo_path
                                            );

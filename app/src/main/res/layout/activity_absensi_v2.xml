@@ -84,7 +84,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="gone"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -99,6 +98,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_mencari_muka"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/poppins_medium"
@@ -117,11 +117,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/poppins_medium"
-                android:visibility="gone"
                 android:gravity="center"
                 android:text="percent"
                 android:textColor="@color/grey"
-                android:textSize="13dp" />
+                android:textSize="13dp"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_kirim_absensi"
@@ -129,8 +129,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:visibility="gone"
                 android:gravity="center"
+                android:enabled="false"
                 android:text="Simpan Absensi" />
 
             <TextView

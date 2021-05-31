@@ -87,6 +87,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
     private Button btnKirimAbsensi;
     private LinearLayout divMencariMuka;
     private LottieAnimationView animationView;
+    private TextView tvMencariMuka;
 
     @SuppressLint({"SimpleDateFormat", "SetTextI18n", "CommitPrefEdits"})
     @Override
@@ -97,6 +98,8 @@ public class AbsensiV2Activity extends AppCompatActivity {
         initView();
 
         tvHeaderJudul.setText("Mengenali Wajah");
+        animationView.setVisibility(View.GONE);
+        tvMencariMuka.setText("Ayo foto...");
         ivFotoFront.post(() -> {
             ivFotoFront.performClick();
         });
@@ -155,7 +158,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
         });
     }
 
-    private void getSavingOffline(){
+    private void getSavingOffline() {
         photoPathOffline = sharedPreferences.getString(Config.SHARED_COMPRESED_PHOTO_OFFLINE, "");
         latiOffline = sharedPreferences.getString(Config.SHARED_LATI_OFFLINE, "");
         longitudeOffline = sharedPreferences.getString(Config.SHARED_LONGITUDE_OFFLINE, "");
@@ -165,17 +168,25 @@ public class AbsensiV2Activity extends AppCompatActivity {
         statusTypeOffline = sharedPreferences.getString(Config.SHARED_STATUS_TYPE, "offline");
     }
 
+    @SuppressLint("SetTextI18n")
     private void saveAbsensi() {
+        animationView.setVisibility(View.VISIBLE);
+        tvMencariMuka.setText("Mengirim Absensi");
         getSavingOffline();
         ApiService apiService = ApiConfig.getApiService();
-        apiService.saveAbsensi(access_token, latiOffline, longitudeOffline, "0", get_photo_server_photoOffline)
+        apiService.saveAbsensi(access_token, latiOffline, longitudeOffline, "online", "0", get_photo_server_photoOffline)
                 .enqueue(new Callback<SaveAbsensiRootModel>() {
                     @Override
                     public void onResponse(Call<SaveAbsensiRootModel> call, Response<SaveAbsensiRootModel> response) {
-                        if (response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             Log.d(TAG, "saveAbsensi: " + response.body().getData());
+                            animationView.setVisibility(View.GONE);
+                            tvMencariMuka.setText("Selesai Mengirim");
+                            Config.showNotification(AbsensiV2Activity.this, "AKU SENANG ABSEN JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) "); // (3)
+                            // TODO activity kehadiran (history)
                         } else {
                             Toast.makeText(AbsensiV2Activity.this, "" + response.code(), Toast.LENGTH_SHORT).show();
+                            Config.showNotification(AbsensiV2Activity.this, "" + response.code(), "Error, hubungi PTI ");
                         }
                     }
 
@@ -231,9 +242,12 @@ public class AbsensiV2Activity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     public void checkFace() {
         // TODO Check Face
         divMencariMuka.setVisibility(View.VISIBLE);
+        animationView.setVisibility(View.VISIBLE);
+        tvMencariMuka.setText("Mencari Muka");
         tvPersenFace.setVisibility(View.GONE);
         File imageFile = new File(compressedImageFile.getAbsolutePath());
         RequestBody requestFilePhoto = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
@@ -264,16 +278,17 @@ public class AbsensiV2Activity extends AppCompatActivity {
                                 Config.showNotification(AbsensiV2Activity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TPP ???????"); // (3)
                             } else {
                                 Toast.makeText(AbsensiV2Activity.this, "Deteksi muka " + response.body().getData().getMatchPercent() + "%, MANTAP", Toast.LENGTH_SHORT).show();
-                                divMencariMuka.setVisibility(View.GONE);
+                                divMencariMuka.setVisibility(View.VISIBLE);
+                                animationView.setVisibility(View.GONE);
+                                tvMencariMuka.setText("Sukses Deteksi");
                                 tvPersenFace.setVisibility(View.VISIBLE);
-                                btnKirimAbsensi.setVisibility(View.VISIBLE);
+                                btnKirimAbsensi.setEnabled(true);
                                 tvPersenFace.setTextColor(Color.GRAY);
                                 tvPersenFace.setText("Deteksi muka " + response.body().getData().getMatchPercent() + "%, MANTAP");
                                 Log.d(TAG, "getPhoto Server : " + response.body().getData().getPhoto());
                                 editor.putString(Config.SHARED_GET_PHOTO_SERVER_PHOTO_OFFLINE, response.body().getData().getPhoto());
                                 editor.apply();
                                 Config.deleteFiles(compressedImageFile.getAbsolutePath(), "ImageCompressed"); // (2)
-                                Config.showNotification(AbsensiV2Activity.this, "AKU SENANG ABSEN JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) "); // (3)
                             }
                         } else {
                             divMencariMuka.setVisibility(View.GONE);
@@ -306,5 +321,6 @@ public class AbsensiV2Activity extends AppCompatActivity {
         btnKirimAbsensi = findViewById(R.id.btn_kirim_absensi);
         divMencariMuka = findViewById(R.id.div_mencari_muka);
         animationView = findViewById(R.id.animation_view);
+        tvMencariMuka = findViewById(R.id.tv_mencari_muka);
     }
 }
