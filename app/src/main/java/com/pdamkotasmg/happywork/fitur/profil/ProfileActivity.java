@@ -80,6 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvProfileSatker;
     private CardView cvKlikPerangkat;
     private CardView cvKlikKeluar;
+    private CardView cvKlikQrCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,7 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
         });
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         npp_profile = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
         name = sharedPreferences.getString(Config.SHARED_NAME, "");
@@ -163,6 +165,12 @@ public class ProfileActivity extends AppCompatActivity {
             mDialog.show();
         });
 
+        cvKlikQrCode.setOnClickListener(v -> {
+            editor.putString(Config.SHARED_STATUS_ABSENSI, "qr");
+            editor.apply();
+            startActivity(new Intent(ProfileActivity.this, QrCodeActivity.class));
+        });
+
     }
 
     private void initView() {
@@ -186,5 +194,6 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfileSatker = findViewById(R.id.tv_profile_satker);
         cvKlikPerangkat = findViewById(R.id.cv_klik_perangkat);
         cvKlikKeluar = findViewById(R.id.cv_klik_keluar);
+        cvKlikQrCode = findViewById(R.id.cv_klik_qrCode);
     }
 }

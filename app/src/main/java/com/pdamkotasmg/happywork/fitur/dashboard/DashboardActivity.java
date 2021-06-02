@@ -19,6 +19,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.marcoscg.fingerauth.FingerAuth;
 import com.marcoscg.fingerauth.FingerAuthDialog;
 import com.pdamkotasmg.happywork.R;
+import com.pdamkotasmg.happywork.fitur.absensi.AbsensiV2Activity;
 import com.pdamkotasmg.happywork.fitur.absensi.CheckLocationActivity;
 import com.pdamkotasmg.happywork.fitur.feeds.controller.FeedsController;
 import com.pdamkotasmg.happywork.fitur.kehadiran.view.KehadiranActivity;
@@ -83,6 +84,7 @@ public class DashboardActivity extends AppCompatActivity {
 
             if (Connectivity.isConnected(DashboardActivity.this)) {
                 Log.d(TAG, "isConnect: Connected");
+                startActivity(new Intent(getApplicationContext(), CheckLocationActivity.class));
             } else {
                 MaterialDialog mDialog = new MaterialDialog.Builder(DashboardActivity.this)
                         .setTitle("Kamu offline, lanjut absensi? Simpan Offline hanya tersedia titik tertentu")
@@ -91,7 +93,7 @@ public class DashboardActivity extends AppCompatActivity {
                             dialogInterface.dismiss();
                         })
                         .setPositiveButton("Lanjut", (dialogInterface, which) -> {
-                            startActivity(new Intent(getApplicationContext(), CheckLocationActivity.class));
+                            startActivity(new Intent(getApplicationContext(), AbsensiV2Activity.class));
                         })
                         .build();
 

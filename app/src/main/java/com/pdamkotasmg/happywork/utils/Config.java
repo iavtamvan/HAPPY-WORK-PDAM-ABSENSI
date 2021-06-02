@@ -36,7 +36,6 @@ public final class Config {
     public static final String ERROR_DATA_REGISTER = "Pastikan Data Anda Dengan Benar";
     public static final String ERROR_SESSION = "Sesi login anda telah habis";
 
-
     //data akun
     public static final String SHARED_PREF_NAME = "HAPPY-WORK";
 
@@ -98,6 +97,7 @@ public final class Config {
     public static final String SHARED_TIME_OFFLINE = "waktu_offline";
     public static final String SHARED_GET_PHOTO_SERVER_PHOTO_OFFLINE = "get_photo_server_offline";
     public static final String SHARED_STATUS_TYPE = "status_type";
+    public static final String SHARED_STATUS_ABSENSI = "status_absensi";
 
 
     public static final String SHARED_STATUS_TYPE_CONNECTION = "status_type_connection";
@@ -111,6 +111,8 @@ public final class Config {
     public static final String SHARED_ABSENSI_KELUAR = "shared_absensi_keluar";
 
     //bundle
+
+
     public static final String BUNDLE_LINK_NEWS = "link_news";
     public static final String BUNDLE_NOHP = "nohp";
     public static final String BUNDLE_NOLANGG = "nomor_langganan";

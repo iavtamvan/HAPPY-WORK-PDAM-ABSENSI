@@ -27,6 +27,7 @@ import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
 import com.pdamkotasmg.happywork.fitur.absensi.model.saveAbsensiModel.SaveAbsensiRootModel;
 import com.pdamkotasmg.happywork.utils.Config;
+import com.pdamkotasmg.happywork.utils.Connectivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,7 +72,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
     private String tanggalOffline;
     private String timeOffline;
     private String get_photo_server_photoOffline;
-    private String statusTypeOffline;
+    private String connectionType;
 
     private CircleImageView ivFotoFront;
     private EasyImage easyImage;
@@ -108,6 +109,14 @@ public class AbsensiV2Activity extends AppCompatActivity {
             finishAffinity();
             startActivity(new Intent(AbsensiV2Activity.this, CheckLocationActivity.class));
         });
+
+        if (Connectivity.isConnected(AbsensiV2Activity.this)) {
+            Log.d(TAG, "isConnect: Connected");
+            connectionType = "online";
+        } else {
+            connectionType = "offline";
+            sendOffline();
+        }
 
         Date cDate = new Date();
         currentDate = new SimpleDateFormat("EEEE, dd MMM yyyy").format(cDate);
@@ -158,6 +167,10 @@ public class AbsensiV2Activity extends AppCompatActivity {
         });
     }
 
+    private void sendOffline() {
+
+    }
+
     private void getSavingOffline() {
         photoPathOffline = sharedPreferences.getString(Config.SHARED_COMPRESED_PHOTO_OFFLINE, "");
         latiOffline = sharedPreferences.getString(Config.SHARED_LATI_OFFLINE, "");
@@ -165,7 +178,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
         tanggalOffline = sharedPreferences.getString(Config.SHARED_TANGGAL_OFFLINE, "");
         timeOffline = sharedPreferences.getString(Config.SHARED_TIME_OFFLINE, "");
         get_photo_server_photoOffline = sharedPreferences.getString(Config.SHARED_GET_PHOTO_SERVER_PHOTO_OFFLINE, "");
-        statusTypeOffline = sharedPreferences.getString(Config.SHARED_STATUS_TYPE, "offline");
+        connectionType = sharedPreferences.getString(Config.SHARED_STATUS_TYPE, "offline");
     }
 
     @SuppressLint("SetTextI18n")
