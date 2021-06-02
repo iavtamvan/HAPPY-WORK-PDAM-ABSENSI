@@ -111,6 +111,8 @@ public final class Config {
     public static final String SHARED_ABSENSI_KELUAR = "shared_absensi_keluar";
 
     //bundle
+    public static final String BUNDLE_STATUS_ABSENSI = "status_absensi";
+    public static final String BUNDLE_NPP = "npp";
 
 
     public static final String BUNDLE_LINK_NEWS = "link_news";
