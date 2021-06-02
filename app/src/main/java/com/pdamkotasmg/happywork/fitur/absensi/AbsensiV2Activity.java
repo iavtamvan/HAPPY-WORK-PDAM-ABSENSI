@@ -27,7 +27,6 @@ import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
 import com.pdamkotasmg.happywork.fitur.absensi.model.saveAbsensiModel.SaveAbsensiRootModel;
 import com.pdamkotasmg.happywork.utils.Config;
-import com.pdamkotasmg.happywork.utils.Connectivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,6 +73,9 @@ public class AbsensiV2Activity extends AppCompatActivity {
     private String get_photo_server_photoOffline;
     private String connectionType;
 
+    private String statusAbsensi;
+    private String npp;
+
     private CircleImageView ivFotoFront;
     private EasyImage easyImage;
     private ImageView ivHeaderBackArrow;
@@ -110,14 +112,6 @@ public class AbsensiV2Activity extends AppCompatActivity {
             startActivity(new Intent(AbsensiV2Activity.this, CheckLocationActivity.class));
         });
 
-        if (Connectivity.isConnected(AbsensiV2Activity.this)) {
-            Log.d(TAG, "isConnect: Connected");
-            connectionType = "online";
-        } else {
-            connectionType = "offline";
-            sendOffline();
-        }
-
         Date cDate = new Date();
         currentDate = new SimpleDateFormat("EEEE, dd MMM yyyy").format(cDate);
         currentTime = new SimpleDateFormat("HH:mm").format(cDate);
@@ -142,8 +136,10 @@ public class AbsensiV2Activity extends AppCompatActivity {
         Log.d(TAG, "token: " + access_token);
         tvName.setText(sharedPreferences.getString(Config.SHARED_NAME, ""));
         tvJabatan.setText(sharedPreferences.getString(Config.SHARED_JABATAN, ""));
-        tvTanggal.setText(currentDate);
-        tvWaktu.setText(currentTime);
+        tvTanggal.setText(currentDate); // TODO tanggal local
+        tvWaktu.setText(currentTime); // TODO time local
+        statusAbsensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
+        npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
 
         location = new SimpleLocation(AbsensiV2Activity.this);
         if (!location.hasLocationEnabled()) {
@@ -167,100 +163,6 @@ public class AbsensiV2Activity extends AppCompatActivity {
         });
     }
 
-    private void sendOffline() {
-
-    }
-
-    private void getSavingOffline() {
-        photoPathOffline = sharedPreferences.getString(Config.SHARED_COMPRESED_PHOTO_OFFLINE, "");
-        latiOffline = sharedPreferences.getString(Config.SHARED_LATI_OFFLINE, "");
-        longitudeOffline = sharedPreferences.getString(Config.SHARED_LONGITUDE_OFFLINE, "");
-        tanggalOffline = sharedPreferences.getString(Config.SHARED_TANGGAL_OFFLINE, "");
-        timeOffline = sharedPreferences.getString(Config.SHARED_TIME_OFFLINE, "");
-        get_photo_server_photoOffline = sharedPreferences.getString(Config.SHARED_GET_PHOTO_SERVER_PHOTO_OFFLINE, "");
-        connectionType = sharedPreferences.getString(Config.SHARED_STATUS_TYPE, "offline");
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void saveAbsensi() {
-        animationView.setVisibility(View.VISIBLE);
-        tvMencariMuka.setText("Mengirim Absensi");
-        getSavingOffline();
-        ApiService apiService = ApiConfig.getApiService();
-        apiService.saveAbsensi(access_token, latiOffline, longitudeOffline, "online", "0", get_photo_server_photoOffline)
-                .enqueue(new Callback<SaveAbsensiRootModel>() {
-                    @Override
-                    public void onResponse(Call<SaveAbsensiRootModel> call, Response<SaveAbsensiRootModel> response) {
-                        if (response.isSuccessful()) {
-                            Log.d(TAG, "saveAbsensi: " + response.body().getData());
-                            animationView.setVisibility(View.GONE);
-                            tvMencariMuka.setText("Selesai Mengirim");
-                            btnKirimAbsensi.setEnabled(false);
-                            Config.showNotification(AbsensiV2Activity.this, "AKU SENANG ABSEN JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) "); // (3)
-                            // TODO activity kehadiran (history)
-                        } else {
-                            Log.d(TAG, "onResponse: " + response.code());
-                            Log.d(TAG, "onResponse: " + response.headers());
-                            Log.d(TAG, "onResponse: " + response.raw());
-                            Log.d(TAG, "onResponse: " + response.message());
-                            animationView.setVisibility(View.GONE);
-                            tvMencariMuka.setText("Gagal Mengirim");
-                            Toast.makeText(AbsensiV2Activity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
-                            Config.showNotification(AbsensiV2Activity.this, "" + response.code(), "Error, hubungi PTI ");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<SaveAbsensiRootModel> call, Throwable t) {
-                        Toast.makeText(AbsensiV2Activity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        easyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
-            @Override
-            public void onMediaFilesPicked(MediaFile[] imageFiles, MediaSource source) {
-//                onPhotosReturned(imageFiles);
-
-                // TODO jepret foto
-                Log.d(TAG, "onMediaFilesPickedPath: " + imageFiles[0].getFile().getPath());
-                Log.d(TAG, "onMediaFilesPickedAbsoluthPath: " + imageFiles[0].getFile().getAbsolutePath());
-                Log.d(TAG, "onMediaFilesPickedGetName: " + imageFiles[0].getFile().getName());
-                Log.d(TAG, "onMediaFilesPickedGetParent: " + imageFiles[0].getFile().getParent());
-
-                // TODO Compress file/image
-                try {
-                    compressedImageFile = new Compressor(AbsensiV2Activity.this)
-                            .setMaxHeight(640)
-                            .setMaxWidth(480)
-                            .setQuality(70)
-                            .setCompressFormat(Bitmap.CompressFormat.WEBP)
-                            .setDestinationDirectoryPath(imageFiles[0].getFile().getParent())
-                            .compressToFile(imageFiles[0].getFile(), "comp_" + imageFiles[0].getFile().getName());
-                    Log.d(TAG, "compressed: " + compressedImageFile.getPath());
-                    Glide.with(AbsensiV2Activity.this).load(compressedImageFile.getPath()).override(512, 512).into(ivFotoFront);
-                    editor.putString(Config.SHARED_COMPRESED_PHOTO_OFFLINE, compressedImageFile.getPath()); // TODO saving OFFLINE PHOTO
-                    editor.apply();
-
-                    // TODO delete image
-                    Config.deleteFiles(imageFiles[0].getFile().getPath(), "ImageOriginal");
-
-                    checkFace(); // (1)
-
-                } catch (IOException e) {
-                    Log.d(TAG, "failureCOmpressed: " + e.getMessage());
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onCanceled(@NonNull MediaSource source) {
-                //Not necessary to remove any files manually anymore
-            }
-        });
-    }
 
     @SuppressLint("SetTextI18n")
     public void checkFace() {
@@ -323,6 +225,86 @@ public class AbsensiV2Activity extends AppCompatActivity {
                         Log.d(TAG, "onFailure: " + t.getMessage());
                         Log.d(TAG, "onFailure: " + t.getCause());
                         Log.d(TAG, "onFailure: " + Arrays.toString(t.getStackTrace()));
+                    }
+                });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        easyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+            @Override
+            public void onMediaFilesPicked(MediaFile[] imageFiles, MediaSource source) {
+//                onPhotosReturned(imageFiles);
+
+                // TODO jepret foto
+                Log.d(TAG, "onMediaFilesPickedPath: " + imageFiles[0].getFile().getPath());
+                Log.d(TAG, "onMediaFilesPickedAbsoluthPath: " + imageFiles[0].getFile().getAbsolutePath());
+                Log.d(TAG, "onMediaFilesPickedGetName: " + imageFiles[0].getFile().getName());
+                Log.d(TAG, "onMediaFilesPickedGetParent: " + imageFiles[0].getFile().getParent());
+
+                // TODO Compress file/image
+                try {
+                    compressedImageFile = new Compressor(AbsensiV2Activity.this)
+                            .setMaxHeight(640)
+                            .setMaxWidth(480)
+                            .setQuality(70)
+                            .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                            .setDestinationDirectoryPath(imageFiles[0].getFile().getParent())
+                            .compressToFile(imageFiles[0].getFile(), "comp_" + imageFiles[0].getFile().getName());
+                    Log.d(TAG, "compressed: " + compressedImageFile.getPath());
+                    Glide.with(AbsensiV2Activity.this).load(compressedImageFile.getPath()).override(512, 512).into(ivFotoFront);
+                    editor.putString(Config.SHARED_COMPRESED_PHOTO_OFFLINE, compressedImageFile.getPath()); // TODO saving OFFLINE PHOTO
+                    editor.apply();
+
+                    // TODO delete image
+                    Config.deleteFiles(imageFiles[0].getFile().getPath(), "ImageOriginal");
+
+                    checkFace(); // (1)
+
+                } catch (IOException e) {
+                    Log.d(TAG, "failureCOmpressed: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCanceled(@NonNull MediaSource source) {
+                //Not necessary to remove any files manually anymore
+            }
+        });
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void saveAbsensi() {
+        animationView.setVisibility(View.VISIBLE);
+        tvMencariMuka.setText("Mengirim Absensi");
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.saveAbsensi(access_token, latiOffline, longitudeOffline, "online", "0", get_photo_server_photoOffline)
+                .enqueue(new Callback<SaveAbsensiRootModel>() {
+                    @Override
+                    public void onResponse(Call<SaveAbsensiRootModel> call, Response<SaveAbsensiRootModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.d(TAG, "saveAbsensi: " + response.body().getData());
+                            animationView.setVisibility(View.GONE);
+                            tvMencariMuka.setText("Selesai Mengirim");
+                            btnKirimAbsensi.setEnabled(false);
+                            Config.showNotification(AbsensiV2Activity.this, "AKU SENANG ABSEN JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) "); // (3)
+                            // TODO activity kehadiran (history)
+                        } else {
+                            Log.d(TAG, "onResponse: " + response.code());
+                            Log.d(TAG, "onResponse: " + response.headers());
+                            Log.d(TAG, "onResponse: " + response.raw());
+                            Log.d(TAG, "onResponse: " + response.message());
+                            animationView.setVisibility(View.GONE);
+                            tvMencariMuka.setText("Gagal Mengirim");
+                            Toast.makeText(AbsensiV2Activity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
+                            Config.showNotification(AbsensiV2Activity.this, "" + response.code(), "Error, hubungi PTI ");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SaveAbsensiRootModel> call, Throwable t) {
+                        Toast.makeText(AbsensiV2Activity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
