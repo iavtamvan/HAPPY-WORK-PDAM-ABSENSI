@@ -1,5 +1,6 @@
 package com.pdamkotasmg.happywork.fitur.profil;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -8,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.pdamkotasmg.happywork.R;
+import com.pdamkotasmg.happywork.fitur.absensi.CheckLocationActivity;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 public class ScanQRCodeActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
@@ -20,7 +23,24 @@ public class ScanQRCodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scan_q_r_code);
         initView();
         mCodeScanner = new CodeScanner(this, scannerView);
-        mCodeScanner.setDecodeCallback(result -> runOnUiThread(() -> Toast.makeText(ScanQRCodeActivity.this, result.getText(), Toast.LENGTH_SHORT).show()));
+        mCodeScanner.setDecodeCallback(result -> runOnUiThread(() ->{
+            Toast.makeText(ScanQRCodeActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
+            MaterialDialog mDialog = new MaterialDialog.Builder(ScanQRCodeActivity.this)
+                    .setTitle("Yakin dengan npp " + result.getText() + " ?")
+                    .setCancelable(false)
+                    .setNegativeButton("Tidak, Ulangi!", (dialogInterface, which) -> {
+                        dialogInterface.dismiss();
+                        mCodeScanner.startPreview();
+                    })
+                    .setPositiveButton("Ya", (dialogInterface, which) -> {
+                        finishAffinity();
+                        startActivity(new Intent(ScanQRCodeActivity.this, CheckLocationActivity.class));
+                    })
+                    .build();
+
+            // Show Dialog
+            mDialog.show();
+        }));
         scannerView.post(() -> {
             scannerView.performClick();
         });
