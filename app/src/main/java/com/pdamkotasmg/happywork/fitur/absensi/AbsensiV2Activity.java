@@ -27,6 +27,7 @@ import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
 import com.pdamkotasmg.happywork.fitur.absensi.model.saveAbsensiModel.SaveAbsensiRootModel;
 import com.pdamkotasmg.happywork.utils.Config;
+import com.pdamkotasmg.happywork.utils.Connectivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,8 +56,8 @@ public class AbsensiV2Activity extends AppCompatActivity {
     private String access_token;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private String currentDate;
-    private String currentTime;
+    private String currentDateLocal;
+    private String currentTimeLocal;
 
     private MultipartBody.Part bodyPhoto;
     private Double lati, longi;
@@ -65,13 +66,8 @@ public class AbsensiV2Activity extends AppCompatActivity {
     private String timeServer;
     private String dateServer;
 
-    private String photoPathOffline;
-    private String latiOffline;
-    private String longitudeOffline;
-    private String tanggalOffline;
-    private String timeOffline;
-    private String get_photo_server_photoOffline;
     private String connectionType;
+    private String getPathPhotoFaceServer;
 
     private String statusAbsensi;
     private String npp;
@@ -99,7 +95,9 @@ public class AbsensiV2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_absensi_v2);
         Objects.requireNonNull(getSupportActionBar()).hide();
         initView();
-
+        // TODO 1 preview camera Done
+        // TODO 2 face Detection Done
+        // TODO 3 Save Absensi
         tvHeaderJudul.setText("Mengenali Wajah");
         animationView.setVisibility(View.GONE);
         tvMencariMuka.setText("Ayo foto...");
@@ -112,9 +110,14 @@ public class AbsensiV2Activity extends AppCompatActivity {
             startActivity(new Intent(AbsensiV2Activity.this, CheckLocationActivity.class));
         });
 
+        if (Connectivity.isConnected(AbsensiV2Activity.this)) {
+            Log.d(TAG, "isConnect: Connected");
+            connectionType = Connectivity.isConnectionFast(AbsensiV2Activity.this).getConnectionType();
+        }
+
         Date cDate = new Date();
-        currentDate = new SimpleDateFormat("EEEE, dd MMM yyyy").format(cDate);
-        currentTime = new SimpleDateFormat("HH:mm").format(cDate);
+        currentDateLocal = new SimpleDateFormat("EEEE, dd MMM yyyy").format(cDate);
+        currentTimeLocal = new SimpleDateFormat("HH:mm").format(cDate);
 
         Date currentTimeInMillis = SecureTimer.with(AbsensiV2Activity.this).getCurrentDate();
         Log.d("debug", "dateServer: " + currentTimeInMillis);
@@ -134,24 +137,28 @@ public class AbsensiV2Activity extends AppCompatActivity {
         editor = sharedPreferences.edit();
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         Log.d(TAG, "token: " + access_token);
+
         tvName.setText(sharedPreferences.getString(Config.SHARED_NAME, ""));
         tvJabatan.setText(sharedPreferences.getString(Config.SHARED_JABATAN, ""));
-        tvTanggal.setText(currentDate); // TODO tanggal local
-        tvWaktu.setText(currentTime); // TODO time local
-        statusAbsensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
-        npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+        tvTanggal.setText(currentDateLocal); // TODO tanggal local
+        tvWaktu.setText(currentTimeLocal); // TODO time local
 
+        statusAbsensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
+
+        if (statusAbsensi.equalsIgnoreCase("qrcode")) {
+            npp = sharedPreferences.getString(Config.SHARED_NPP_QR_CODE, "");
+        } else {
+            npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+        }
+
+        Log.d(TAG, "statusAbsensi: "  + statusAbsensi);
+        Log.d(TAG, "npp: "  + npp);
         location = new SimpleLocation(AbsensiV2Activity.this);
         if (!location.hasLocationEnabled()) {
             SimpleLocation.openSettings(AbsensiV2Activity.this);
         }
         lati = location.getLatitude();
         longi = location.getLongitude();
-        editor.putString(Config.SHARED_LATI_OFFLINE, String.valueOf(lati));
-        editor.putString(Config.SHARED_LONGITUDE_OFFLINE, String.valueOf(longi));
-        editor.putString(Config.SHARED_TANGGAL_OFFLINE, dateServer);
-        editor.putString(Config.SHARED_TIME_OFFLINE, timeServer);
-        editor.apply();
 
         ivFotoFront.setOnClickListener(v -> {
             easyImage.openCameraForImage(AbsensiV2Activity.this);
@@ -169,20 +176,27 @@ public class AbsensiV2Activity extends AppCompatActivity {
         // TODO Check Face
         divMencariMuka.setVisibility(View.VISIBLE);
         animationView.setVisibility(View.VISIBLE);
-        tvMencariMuka.setText("Mencari Muka");
+        tvMencariMuka.setText("Mencari Wajah");
         tvPersenFace.setVisibility(View.GONE);
+
+        RequestBody statusAbsensiBody = RequestBody.create(MediaType.parse("text/plain"), statusAbsensi);
+        RequestBody nppBody = RequestBody.create(MediaType.parse("text/plain"), npp);
+
         File imageFile = new File(compressedImageFile.getAbsolutePath());
         RequestBody requestFilePhoto = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
         bodyPhoto = MultipartBody.Part.createFormData("photo", imageFile.getName(), requestFilePhoto);
+
         Log.d(TAG, "bodyPhoto: " + bodyPhoto.body());
         Log.d(TAG, "imageFileCompress: " + imageFile.getName());
+        Log.d(TAG, "status: " + statusAbsensiBody.toString());
+        Log.d(TAG, "nppBody: " + nppBody.toString());
         ApiService apiService = ApiConfig.getApiService();
-        apiService.checkFace(access_token, bodyPhoto)
+        apiService.checkFace(access_token, statusAbsensiBody, nppBody, bodyPhoto)
                 .enqueue(new Callback<FaceDetectionRootModel>() {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onResponse(Call<FaceDetectionRootModel> call, Response<FaceDetectionRootModel> response) {
-                        Log.d(TAG, "onResponse: " + response.body());
+                        Log.d(TAG, "onResponseFaces: " + response.body());
                         if (response.isSuccessful()) {
                             assert response.body() != null;
                             boolean faceDetected = response.body().getData().isFaceDetected();
@@ -191,22 +205,23 @@ public class AbsensiV2Activity extends AppCompatActivity {
                                 Log.d(TAG, "onResponsecode: " + response.code());
                                 Log.d(TAG, "onResponseheaders: " + response.headers());
                                 Log.d(TAG, "onResponseheaders: " + response.message());
-                                Toast.makeText(AbsensiV2Activity.this, "Muka tidak ada", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AbsensiV2Activity.this, "Wajah tidak ada", Toast.LENGTH_SHORT).show();
                                 divMencariMuka.setVisibility(View.GONE);
                                 tvPersenFace.setVisibility(View.VISIBLE);
                                 tvPersenFace.setTextColor(Color.RED);
                                 tvPersenFace.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                                tvPersenFace.setText("Muka tidak ada, ULANGI.......");
-                                Config.showNotification(AbsensiV2Activity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TPP ???????"); // (3)
+                                tvPersenFace.setText("Wajah tidak ada, ULANGI.......");
+                                Config.showNotification(AbsensiV2Activity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TPP ???????");
                             } else {
-                                Toast.makeText(AbsensiV2Activity.this, "Deteksi muka " + response.body().getData().getMatchPercent() + "%, MANTAP", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AbsensiV2Activity.this, "Deteksi Wajah " + response.body().getData().getMatchPercent() + "%", Toast.LENGTH_SHORT).show();
                                 divMencariMuka.setVisibility(View.VISIBLE);
                                 animationView.setVisibility(View.GONE);
                                 tvMencariMuka.setText("Sukses Deteksi");
                                 tvPersenFace.setVisibility(View.VISIBLE);
                                 btnKirimAbsensi.setEnabled(true);
                                 tvPersenFace.setTextColor(Color.GRAY);
-                                tvPersenFace.setText("Deteksi muka " + response.body().getData().getMatchPercent() + "%, MANTAP");
+                                tvPersenFace.setText("Deteksi Wajah " + response.body().getData().getMatchPercent() + " %");
+                                getPathPhotoFaceServer = response.body().getData().getPhoto();
                                 Log.d(TAG, "getPhoto Server : " + response.body().getData().getPhoto());
                                 editor.putString(Config.SHARED_GET_PHOTO_SERVER_PHOTO_OFFLINE, response.body().getData().getPhoto());
                                 editor.apply();
@@ -214,7 +229,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
                             }
                         } else {
                             divMencariMuka.setVisibility(View.GONE);
-                            Toast.makeText(AbsensiV2Activity.this, "Fail : " + response.code(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AbsensiV2Activity.this, "Fail : " + response.message(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -279,7 +294,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
         animationView.setVisibility(View.VISIBLE);
         tvMencariMuka.setText("Mengirim Absensi");
         ApiService apiService = ApiConfig.getApiService();
-        apiService.saveAbsensi(access_token, latiOffline, longitudeOffline, "online", "0", get_photo_server_photoOffline)
+        apiService.saveAbsensi(access_token, lati, longi, statusAbsensi, npp, "0", getPathPhotoFaceServer, connectionType)
                 .enqueue(new Callback<SaveAbsensiRootModel>() {
                     @Override
                     public void onResponse(Call<SaveAbsensiRootModel> call, Response<SaveAbsensiRootModel> response) {

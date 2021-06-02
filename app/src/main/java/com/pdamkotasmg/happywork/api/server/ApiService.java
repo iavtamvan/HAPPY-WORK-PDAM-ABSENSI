@@ -11,6 +11,7 @@ import com.pdamkotasmg.happywork.fitur.splash.model.androidVersion.AndroidVersio
 import com.pdamkotasmg.happywork.fitur.splash.model.packageName.PackageNameRootModel;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -74,11 +75,13 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("attendance/record")
     Call<SaveAbsensiRootModel> saveAbsensi(@Header("Authorization") String auth,
-                                           @Field("latitude") String latitude,
-                                           @Field("longitude") String longitude,
-                                           @Field("type") String type,
+                                           @Field("latitude") double latitude,
+                                           @Field("longitude") double longitude,
+                                           @Field("type") String statusAbsensi,
+                                           @Field("npp") String npp,
                                            @Field("check_face") String check_face,
-                                           @Field("photo_path") String photo_path
+                                           @Field("photo_path") String photo_path,
+                                           @Field("connection_type") String connection_type
                                            );
 
     @GET("masterdata/forbid-app")
@@ -106,7 +109,7 @@ public interface ApiService {
 //    @GET("auth-pelanggan/refresh-token")
 //    Call<RefreshTokenRoot> refreshToken(@Header("Authorization") String auth);
 //
-    @GET("portal-web/berita")
+    @GET("kontol")
     Call<BeritaRootModel> getNews();
 
     //
@@ -118,6 +121,8 @@ public interface ApiService {
     @POST("attendance/face-recognize")
     Call<FaceDetectionRootModel> checkFace(
             @Header("Authorization") String auth,
+            @Part("type") RequestBody statusAbsensi,
+            @Part("npp") RequestBody npp,
             @Part MultipartBody.Part filePartPhoto
     );
 //

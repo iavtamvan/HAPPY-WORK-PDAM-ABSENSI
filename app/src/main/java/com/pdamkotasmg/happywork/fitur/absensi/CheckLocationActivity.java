@@ -59,7 +59,13 @@ public class CheckLocationActivity extends AppCompatActivity {
         divLanjut.setVisibility(View.GONE);
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         statusAbsensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
-        npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+
+        if (statusAbsensi.equalsIgnoreCase("qrcode")) {
+            npp = sharedPreferences.getString(Config.SHARED_NPP_QR_CODE, "");
+        } else {
+            npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+        }
+
         editor.putString(Config.SHARED_LATI_OFFLINE, String.valueOf(lati));
         editor.putString(Config.SHARED_LONGITUDE_OFFLINE, String.valueOf(longi));
         editor.apply();
@@ -96,8 +102,8 @@ public class CheckLocationActivity extends AppCompatActivity {
 //                            wv.setWebViewClient(new HelloWebViewClient());
                             assert response.body() != null;
                             wv.loadUrl(response.body().getData().getMapUrl());
-                            tvDistance.setText("Akurasi " + response.body().getData().getCheckResult().getDistanceM() + "Meters");
-                            if  (!response.body().getData().getCheckResult().isIsInRadius()){
+                            tvDistance.setText("Akurasi " + response.body().getData().getCheckResult().getDistanceM() + " Meter");
+                            if (!response.body().getData().getCheckResult().isIsInRadius()) {
                                 Toast.makeText(CheckLocationActivity.this, "Anda tidak dalam radius Absensi", Toast.LENGTH_SHORT).show();
                                 divLanjut.setVisibility(View.GONE);
                             } else {

@@ -51,22 +51,24 @@
         <activity android:name=".fitur.absensi.CheckLocationActivity" />
         <activity android:name=".fitur.perangkat.PerangkatActivity" />
         <activity android:name=".fitur.profil.ProfileActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".fitur.authentication.login.LoginActivity" />
         <activity android:name=".fitur.authentication.ReisterActivity" />
         <activity android:name=".fitur.authentication.WelcomeAuthActivity" />
         <activity
             android:name=".fitur.splash.SplashScreenActivity"
-            android:keepScreenOn="true" />
+            android:keepScreenOn="true" >
+        </activity>
         <activity android:name=".fitur.payslip.PayslipActivity" />
         <activity android:name=".fitur.kehadiran.view.KehadiranActivity" />
         <activity android:name=".fitur.absensi.AbsensiActivity" />
-        <activity android:name=".fitur.dashboard.DashboardActivity"></activity>
+        <activity android:name=".fitur.dashboard.DashboardActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".MainActivity" />
 
         <meta-data

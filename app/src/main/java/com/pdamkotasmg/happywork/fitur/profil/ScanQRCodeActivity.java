@@ -1,6 +1,7 @@
 package com.pdamkotasmg.happywork.fitur.profil;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -10,6 +11,7 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.fitur.absensi.CheckLocationActivity;
+import com.pdamkotasmg.happywork.utils.Config;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 public class ScanQRCodeActivity extends AppCompatActivity {
@@ -22,6 +24,8 @@ public class ScanQRCodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_q_r_code);
         initView();
+        SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         mCodeScanner = new CodeScanner(this, scannerView);
         mCodeScanner.setDecodeCallback(result -> runOnUiThread(() ->{
             Toast.makeText(ScanQRCodeActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
@@ -33,6 +37,8 @@ public class ScanQRCodeActivity extends AppCompatActivity {
                         mCodeScanner.startPreview();
                     })
                     .setPositiveButton("Ya", (dialogInterface, which) -> {
+                        editor.putString(Config.SHARED_NPP_QR_CODE, result.getText());
+                        editor.apply();
                         finishAffinity();
                         startActivity(new Intent(ScanQRCodeActivity.this, CheckLocationActivity.class));
                     })

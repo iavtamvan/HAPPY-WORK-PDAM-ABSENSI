@@ -62,6 +62,7 @@ public final class Config {
 
     public static final String SHARED_ACCESS_TOKEN = "access_token";
     public static final String SHARED_NPP_PROFILE = "npp_profile";
+    public static final String SHARED_NPP_QR_CODE = "npp_titip_absen";
     public static final String SHARED_NAME = "name";
     public static final String SHARED_AVATAR = "avatar";
     public static final String SHARED_ALAMAT = "alamat";

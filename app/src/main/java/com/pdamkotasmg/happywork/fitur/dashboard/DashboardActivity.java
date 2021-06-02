@@ -64,8 +64,6 @@ public class DashboardActivity extends AppCompatActivity {
         divLainnyaExpanded.setVisibility(View.GONE);
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(Config.SHARED_STATUS_ABSENSI, "online");
-        editor.apply();
         divNamaLengkap.setText("Hai, " + sharedPreferences.getString(Config.SHARED_NAME, ""));
 
         if (Connectivity.isConnected(DashboardActivity.this)) {
@@ -100,6 +98,8 @@ public class DashboardActivity extends AppCompatActivity {
 
             if (Connectivity.isConnected(DashboardActivity.this)) {
                 Log.d(TAG, "isConnect: Connected");
+                editor.putString(Config.SHARED_STATUS_ABSENSI, "online");
+                editor.apply();
                 startActivity(new Intent(getApplicationContext(), CheckLocationActivity.class));
             }
 
