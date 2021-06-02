@@ -26,6 +26,7 @@ import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
 import com.pdamkotasmg.happywork.fitur.absensi.model.saveAbsensiModel.SaveAbsensiRootModel;
+import com.pdamkotasmg.happywork.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.happywork.utils.Config;
 import com.pdamkotasmg.happywork.utils.Connectivity;
 
@@ -303,7 +304,9 @@ public class AbsensiV2Activity extends AppCompatActivity {
                             animationView.setVisibility(View.GONE);
                             tvMencariMuka.setText("Selesai Mengirim");
                             btnKirimAbsensi.setEnabled(false);
-                            Config.showNotification(AbsensiV2Activity.this, "AKU SENANG ABSEN JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) "); // (3)
+                            Config.showNotification(AbsensiV2Activity.this, "AKU SENANG ABSEN JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) ");
+                            finishAffinity();
+                            startActivity(new Intent(AbsensiV2Activity.this, DashboardActivity.class));
                             // TODO activity kehadiran (history)
                         } else {
                             Log.d(TAG, "onResponse: " + response.code());

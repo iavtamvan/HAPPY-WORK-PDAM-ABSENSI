@@ -2,15 +2,19 @@ package com.pdamkotasmg.happywork.fitur.profil;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.utils.Config;
 
@@ -20,6 +24,8 @@ import androidmads.library.qrgenearator.QRGEncoder;
 public class QrCodeActivity extends AppCompatActivity {
 
     private String npp;
+    private String nama;
+    private String jabatan;
 
     private static final String TAG = "debug";
     private ImageView ivHeaderBackArrow;
@@ -27,6 +33,11 @@ public class QrCodeActivity extends AppCompatActivity {
     private ImageView ivHeaderInfo;
     private ImageView ivQrCode;
     private Button btnScanQrcode;
+    private LinearLayout divHeaderName;
+    private TextView tvName;
+    private TextView tvJabatan;
+    private TextView tvNpp;
+    private LottieAnimationView animationView;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -35,10 +46,15 @@ public class QrCodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_qr_code);
         getSupportActionBar().hide();
         initView();
-
-
-        npp = getIntent().getStringExtra(Config.BUNDLE_NPP);
+        ivHeaderInfo.setVisibility(View.GONE);
+        SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        nama = sharedPreferences.getString(Config.SHARED_NAME, "");
+        npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+        jabatan = sharedPreferences.getString(Config.SHARED_JABATAN, "");
         tvHeaderJudul.setText("QR Code " + npp);
+        tvName.setText(nama);
+        tvJabatan.setText(jabatan);
+        tvNpp.setText(npp);
 // Initializing the QR Encoder with your value to be encoded, type you required and Dimension
         QRGEncoder qrgEncoder = new QRGEncoder(npp, null, QRGContents.Type.TEXT, 222);
         qrgEncoder.setColorBlack(Color.BLACK);
@@ -51,6 +67,10 @@ public class QrCodeActivity extends AppCompatActivity {
         btnScanQrcode.setOnClickListener(v -> {
             startActivity(new Intent(QrCodeActivity.this, ScanQRCodeActivity.class));
         });
+        ivHeaderBackArrow.setOnClickListener(v -> {
+            finishAffinity();
+            startActivity(new Intent(QrCodeActivity.this, ProfileActivity.class));
+        });
 
     }
 
@@ -60,5 +80,10 @@ public class QrCodeActivity extends AppCompatActivity {
         ivHeaderInfo = findViewById(R.id.iv_header_info);
         ivQrCode = findViewById(R.id.iv_qr_code);
         btnScanQrcode = findViewById(R.id.btn_scan_qrcode);
+        divHeaderName = findViewById(R.id.div_header_name);
+        tvName = findViewById(R.id.tv_name);
+        tvJabatan = findViewById(R.id.tv_jabatan);
+        tvNpp = findViewById(R.id.tv_npp);
+        animationView = findViewById(R.id.animation_view);
     }
 }
