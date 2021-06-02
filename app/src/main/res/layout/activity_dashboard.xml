@@ -38,11 +38,15 @@
                     android:textSize="13dp"
                     android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/iv_tutorial_video"
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lt_profil"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_video" />
+                    android:layout_gravity="center"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="lt_profile_intent.json"
+                    app:lottie_loop="true" />
+
             </LinearLayout>
 
             <TextView
@@ -179,9 +183,9 @@
         android:id="@+id/div_lainnya_expanded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"
         android:animateLayoutChanges="true"
         card_view:cardCornerRadius="10dp"
         card_view:cardElevation="8dp"
@@ -241,12 +245,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
-                    android:visibility="gone"
                     android:gravity="center"
                     android:text="PaySlip"
                     android:textColor="@color/white"
                     android:textSize="10dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -259,8 +263,8 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
-                    app:lottie_autoPlay="true"
                     android:visibility="gone"
+                    app:lottie_autoPlay="true"
                     app:lottie_fileName="lt_kehadiran.json"
                     app:lottie_loop="true"
                     app:lottie_speed="1" />
@@ -269,12 +273,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
-                    android:visibility="gone"
                     android:gravity="center"
                     android:text="Kehadiran"
                     android:textColor="@color/white"
                     android:textSize="10dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -296,13 +300,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:fontFamily="@font/poppins_medium"
                     android:gravity="center"
                     android:text="Lainya"
                     android:textColor="@color/white"
                     android:textSize="10dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>

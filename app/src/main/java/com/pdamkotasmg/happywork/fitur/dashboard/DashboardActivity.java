@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +31,7 @@ import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DashboardActivity extends AppCompatActivity {
+    private String TAG = "debug";
 
     private FeedsController feedsController;
     private boolean statusExpandedTrue = false;
@@ -39,7 +39,6 @@ public class DashboardActivity extends AppCompatActivity {
     private String typeConnection;
     private String statusAbsensi;
 
-    private ImageView ivTutorialVideo;
     private TextView divNamaLengkap;
     private LinearLayout divRekamWaktu;
     private LinearLayout divPayslip;
@@ -50,7 +49,7 @@ public class DashboardActivity extends AppCompatActivity {
     private RecyclerView rv;
     private CardView divLainnyaExpanded;
     private LinearLayout divOvertime;
-    private String TAG = "debug";
+    private LottieAnimationView ltProfil;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -123,6 +122,10 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         divNamaLengkap.setOnClickListener(v -> {
+
+        });
+
+        ltProfil.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
         });
     }
@@ -154,7 +157,6 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        ivTutorialVideo = findViewById(R.id.iv_tutorial_video);
         divNamaLengkap = findViewById(R.id.div_nama_lengkap);
         divRekamWaktu = findViewById(R.id.div_rekam_waktu);
         divPayslip = findViewById(R.id.div_payslip);
@@ -165,5 +167,6 @@ public class DashboardActivity extends AppCompatActivity {
         rv = findViewById(R.id.rv);
         divLainnyaExpanded = findViewById(R.id.div_lainnya_expanded);
         divOvertime = findViewById(R.id.div_overtime);
+        ltProfil = findViewById(R.id.lt_profil);
     }
 }

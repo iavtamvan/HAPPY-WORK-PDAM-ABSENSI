@@ -9,15 +9,20 @@
 
     <include layout="@layout/content_header" />
 
-    <ScrollView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="10dp">
 
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            app:cardCornerRadius="10dp">
+            android:layout_margin="4dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -26,7 +31,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -37,33 +42,84 @@
                         android:layout_margin="4dp"
                         android:src="@drawable/qrcode" />
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/btn_scan_qrcode"
+                    <LinearLayout
+                        android:id="@+id/div_header_name"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="bottom"
-                        android:layout_margin="8dp"
-                        android:fontFamily="@font/poppins_medium"
-                        android:text="Titip absensi :)"
-                        android:textSize="13dp"
-                        android:textStyle="bold" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/include_header">
 
+                        <TextView
+                            android:id="@+id/tv_profile_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:gravity="center"
+                            android:text="Nama Ini Ya"
+                            android:textColor="@color/black"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/tv_profile_jabatan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:gravity="center"
+                            android:text="Jabatan"
+                            android:textColor="@color/grey"
+                            android:textSize="11dp" />
+
+                        <TextView
+                            android:id="@+id/tv_profile_npp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:gravity="center"
+                            android:text="1234567"
+                            android:textColor="@color/grey"
+                            android:textSize="14dp" />
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/animation_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            app:lottie_autoPlay="true"
+                            app:lottie_fileName="lt_qrcode.json"
+                            app:lottie_loop="true" />
+
+                    </LinearLayout>
                 </LinearLayout>
 
 
             </LinearLayout>
+        </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_scan_qrcode"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Pindai QR Code"
+            android:textSize="13dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 
 </LinearLayout>
