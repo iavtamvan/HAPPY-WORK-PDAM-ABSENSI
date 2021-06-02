@@ -95,7 +95,7 @@ public class DashboardActivity extends AppCompatActivity {
 //            }
 
 //            Connectivity.isConnectedFast(DashboardActivity.this);
-
+            // TODO check location shift mboh
             if (Connectivity.isConnected(DashboardActivity.this)) {
                 Log.d(TAG, "isConnect: Connected");
                 editor.putString(Config.SHARED_STATUS_ABSENSI, "online");
