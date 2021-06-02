@@ -66,6 +66,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("attendance/check-location")
     Call<CheckLocationRootModel> checkLocation(@Header("Authorization") String auth,
+                                               @Field("type") String statusAbsensi,
+                                               @Field("npp") String npp,
                                                @Field("latitude") double latitude,
                                                @Field("longitude") double longitude);
 

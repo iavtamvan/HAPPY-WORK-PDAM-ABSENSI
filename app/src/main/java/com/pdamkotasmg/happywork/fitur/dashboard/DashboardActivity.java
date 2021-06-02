@@ -37,6 +37,7 @@ public class DashboardActivity extends AppCompatActivity {
     private boolean statusExpandedTrue = false;
     private static final int RC_CAMERA_AND_LOCATION = 1;
     private String typeConnection;
+    private String statusAbsensi;
 
     private ImageView ivTutorialVideo;
     private TextView divNamaLengkap;
@@ -62,12 +63,27 @@ public class DashboardActivity extends AppCompatActivity {
         feedsController.getFeeds(getApplicationContext(), rv);
         divLainnyaExpanded.setVisibility(View.GONE);
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Config.SHARED_STATUS_ABSENSI, "online");
+        editor.apply();
         divNamaLengkap.setText("Hai, " + sharedPreferences.getString(Config.SHARED_NAME, ""));
 
         if (Connectivity.isConnected(DashboardActivity.this)) {
             Log.d(TAG, "isConnect: Connected");
         } else {
-            Toast.makeText(this, "Kamu Offline", Toast.LENGTH_SHORT).show();
+            MaterialDialog mDialog = new MaterialDialog.Builder(DashboardActivity.this)
+                    .setTitle("Kamu offline, lanjut absensi?")
+                    .setCancelable(false)
+                    .setNegativeButton("Tidak", (dialogInterface, which) -> {
+                        dialogInterface.dismiss();
+                    })
+                    .setPositiveButton("Lanjut", (dialogInterface, which) -> {
+                        startActivity(new Intent(getApplicationContext(), AbsensiV2Activity.class));
+                    })
+                    .build();
+
+            // Show Dialog
+            mDialog.show();
         }
 
         divRekamWaktu.setOnClickListener(v -> {
@@ -85,21 +101,6 @@ public class DashboardActivity extends AppCompatActivity {
             if (Connectivity.isConnected(DashboardActivity.this)) {
                 Log.d(TAG, "isConnect: Connected");
                 startActivity(new Intent(getApplicationContext(), CheckLocationActivity.class));
-            } else {
-                MaterialDialog mDialog = new MaterialDialog.Builder(DashboardActivity.this)
-                        .setTitle("Kamu offline, lanjut absensi? Simpan Offline hanya tersedia titik tertentu")
-                        .setCancelable(false)
-                        .setNegativeButton("Tidak", (dialogInterface, which) -> {
-                            dialogInterface.dismiss();
-                        })
-                        .setPositiveButton("Lanjut", (dialogInterface, which) -> {
-                            startActivity(new Intent(getApplicationContext(), AbsensiV2Activity.class));
-                        })
-                        .build();
-
-                // Show Dialog
-                mDialog.show();
-
             }
 
         });

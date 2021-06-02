@@ -166,8 +166,9 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         cvKlikQrCode.setOnClickListener(v -> {
+            editor.putString(Config.SHARED_STATUS_ABSENSI, "qr");
+            editor.apply();
             Intent intent = new Intent(ProfileActivity.this, QrCodeActivity.class);
-            intent.putExtra(Config.BUNDLE_STATUS_ABSENSI, "qr");
             intent.putExtra(Config.BUNDLE_NPP, npp_profile);
             startActivity(intent);
         });

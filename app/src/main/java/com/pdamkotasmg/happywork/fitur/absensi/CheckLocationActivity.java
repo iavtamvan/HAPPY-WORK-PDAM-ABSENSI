@@ -33,6 +33,9 @@ public class CheckLocationActivity extends AppCompatActivity {
     private String access_token;
     private String token_type;
 
+    private String statusAbsensi;
+    private String npp;
+
     private ProgressDialog loading;
 
     private WebView wv;
@@ -55,6 +58,8 @@ public class CheckLocationActivity extends AppCompatActivity {
         }
         divLanjut.setVisibility(View.GONE);
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+        statusAbsensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
+        npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
         editor.putString(Config.SHARED_LATI_OFFLINE, String.valueOf(lati));
         editor.putString(Config.SHARED_LONGITUDE_OFFLINE, String.valueOf(longi));
         editor.apply();
@@ -74,7 +79,7 @@ public class CheckLocationActivity extends AppCompatActivity {
         lati = location.getLatitude();
         longi = location.getLongitude();
         ApiService apiService = ApiConfig.getApiService();
-        apiService.checkLocation(access_token, lati, longi)
+        apiService.checkLocation(access_token, statusAbsensi, npp, lati, longi)
                 .enqueue(new Callback<CheckLocationRootModel>() {
                     @SuppressLint({"SetJavaScriptEnabled", "SetTextI18n"})
                     @Override
