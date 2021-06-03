@@ -91,28 +91,39 @@ public class CheckLocationActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<CheckLocationRootModel> call, Response<CheckLocationRootModel> response) {
                         if (response.isSuccessful()) {
-                            wv.getSettings().setJavaScriptEnabled(true);
-                            wv.getSettings().setLoadWithOverviewMode(true);
-                            wv.getSettings().setUseWideViewPort(true);
-                            wv.getSettings().setBuiltInZoomControls(true);
-                            wv.getSettings().setPluginState(WebSettings.PluginState.ON);
-                            wv.getSettings().setAppCacheEnabled(true);
-                            wv.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-//                            wv.getSettings().setPluginsEnabled(true);
-//                            wv.setWebViewClient(new HelloWebViewClient());
-                            assert response.body() != null;
-                            wv.loadUrl(response.body().getData().getMapUrl());
-                            tvDistance.setText("Akurasi " + response.body().getData().getCheckResult().getDistanceM() + " Meter");
-                            if (!response.body().getData().getCheckResult().isIsInRadius()) {
-                                Toast.makeText(CheckLocationActivity.this, "Anda tidak dalam radius Absensi", Toast.LENGTH_SHORT).show();
-                                divLanjut.setVisibility(View.GONE);
+                            // deteksi lokasi absen false
+                            if (!response.body().getData().getAppliesShiftSetting().isLocationDetection()){
+                                startActivity(new Intent(CheckLocationActivity.this, AbsensiV2Activity.class));
                             } else {
-                                divLanjut.setVisibility(View.VISIBLE);
-                                divLanjut.setOnClickListener(v -> {
-                                    startActivity(new Intent(CheckLocationActivity.this, AbsensiV2Activity.class));
-                                });
+                                wv.getSettings().setJavaScriptEnabled(true);
+                                wv.getSettings().setLoadWithOverviewMode(true);
+                                wv.getSettings().setUseWideViewPort(true);
+                                wv.getSettings().setBuiltInZoomControls(true);
+                                wv.getSettings().setPluginState(WebSettings.PluginState.ON);
+                                wv.getSettings().setAppCacheEnabled(true);
+                                wv.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+                                assert response.body() != null;
+                                wv.loadUrl(response.body().getData().getMapUrl());
+                                tvDistance.setText("Akurasi " + response.body().getData().getCheckResult().getDistanceM() + " Meter \n" + response.body().getData().getAppliesLocationSetting().getCode() +
+                                        " - " + response.body().getData().getAppliesLocationSetting().getName());
+                                if (!response.body().getData().getCheckResult().isIsInRadius()) {
+                                    loading.cancel();
+                                    Toast.makeText(CheckLocationActivity.this, "Anda tidak dalam radius Absensi", Toast.LENGTH_SHORT).show();
+                                    divLanjut.setVisibility(View.GONE);
+                                } else {
+                                    loading.cancel();
+                                    divLanjut.setVisibility(View.VISIBLE);
+                                    divLanjut.setOnClickListener(v -> {
+                                        startActivity(new Intent(CheckLocationActivity.this, AbsensiV2Activity.class));
+                                    });
+                                }
+                                loading.cancel();
                             }
+
+
+                        } else {
                             loading.cancel();
+                            Toast.makeText(CheckLocationActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
                         }
                     }
 

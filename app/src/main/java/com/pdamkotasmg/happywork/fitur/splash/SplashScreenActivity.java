@@ -173,7 +173,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<AndroidVersionModel> call, Throwable t) {
-                Toast.makeText(SplashScreenActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                Toast.makeText(SplashScreenActivity.this, "ULANI, b " + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                finishAffinity();
             }
         });
     }

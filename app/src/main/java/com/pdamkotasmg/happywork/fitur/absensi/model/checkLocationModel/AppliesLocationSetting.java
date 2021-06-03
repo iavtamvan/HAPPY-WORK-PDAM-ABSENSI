@@ -14,13 +14,13 @@ public class AppliesLocationSetting{
     private Integer radiusM;
 
     @SerializedName("latitude")
-    private String latitude;
+    private Double latitude;
 
     @SerializedName("name")
     private String name;
 
     @SerializedName("longitude")
-    private String longitude;
+    private Double longitude;
 
     public void setCode(String code){
         this.code = code;
@@ -46,11 +46,11 @@ public class AppliesLocationSetting{
         return radiusM;
     }
 
-    public void setLatitude(String latitude){
+    public void setLatitude(Double latitude){
         this.latitude = latitude;
     }
 
-    public String getLatitude(){
+    public Double getLatitude(){
         return latitude;
     }
 
@@ -62,11 +62,11 @@ public class AppliesLocationSetting{
         return name;
     }
 
-    public void setLongitude(String longitude){
+    public void setLongitude(Double longitude){
         this.longitude = longitude;
     }
 
-    public String getLongitude(){
+    public Double getLongitude(){
         return longitude;
     }
 }
