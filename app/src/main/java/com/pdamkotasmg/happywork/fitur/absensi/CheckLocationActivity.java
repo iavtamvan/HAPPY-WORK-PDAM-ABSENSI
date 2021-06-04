@@ -100,8 +100,8 @@ public class CheckLocationActivity extends AppCompatActivity {
                                 wv.getSettings().setUseWideViewPort(true);
                                 wv.getSettings().setBuiltInZoomControls(true);
                                 wv.getSettings().setPluginState(WebSettings.PluginState.ON);
-                                wv.getSettings().setAppCacheEnabled(true);
-                                wv.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+//                                wv.getSettings().setAppCacheEnabled(true);
+//                                wv.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
                                 assert response.body() != null;
                                 wv.loadUrl(response.body().getData().getMapUrl());
                                 tvDistance.setText("Akurasi " + response.body().getData().getCheckResult().getDistanceM() + " Meter \n" + response.body().getData().getAppliesLocationSetting().getCode() +
