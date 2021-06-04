@@ -22,8 +22,8 @@ import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.absensi.AbsensiV2Activity;
 import com.pdamkotasmg.happywork.fitur.absensi.CheckLocationActivity;
+import com.pdamkotasmg.happywork.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.happywork.fitur.feeds.controller.FeedsController;
-import com.pdamkotasmg.happywork.fitur.kehadiran.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.happywork.fitur.kehadiran.view.KehadiranActivity;
 import com.pdamkotasmg.happywork.fitur.payslip.PayslipActivity;
 import com.pdamkotasmg.happywork.fitur.profil.ProfileActivity;
@@ -148,7 +148,7 @@ public class DashboardActivity extends AppCompatActivity {
         apiService.getShiftPegawai(accessToken).enqueue(new Callback<ShfitPegawaiRootModel>() {
             @Override
             public void onResponse(Call<ShfitPegawaiRootModel> call, Response<ShfitPegawaiRootModel> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     editor.putString(Config.SHARED_SHIFT_DAILY_CODE, response.body().getData().getShiftDailyCode());
                     editor.putString(Config.SHARED_START_TIME, response.body().getData().getStartTime());
                     editor.putString(Config.SHARED_END_TIME, response.body().getData().getEndTime());
@@ -158,6 +158,7 @@ public class DashboardActivity extends AppCompatActivity {
                     Toast.makeText(DashboardActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<ShfitPegawaiRootModel> call, Throwable t) {
                 Toast.makeText(DashboardActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();

@@ -1,19 +1,47 @@
 package com.pdamkotasmg.happywork.fitur.kehadiran.view;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.krishna.securetimer.SecureTimer;
 import com.pdamkotasmg.happywork.R;
+import com.pdamkotasmg.happywork.api.server.ApiConfig;
+import com.pdamkotasmg.happywork.api.server.ApiService;
+import com.pdamkotasmg.happywork.fitur.absensi.model.historyAbsensiModel.AbsensiRootModel;
 import com.pdamkotasmg.happywork.fitur.kehadiran.controller.KehadiranController;
+import com.pdamkotasmg.happywork.utils.Config;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class KehadiranActivity extends AppCompatActivity {
+
+    private String nama;
+    private String remark;
+    private String starTime;
+    private String endTime;
+    private String shiftDailyCode;
+
+    private String token;
+    private String formatDate;
+    private LocalDate dateFromMinus;
+    private LocalDate dateFrom;
+    private LocalDate dateEnd;
 
     private KehadiranController kehadiranController;
     private ImageView ivHeaderBackArrow;
@@ -25,18 +53,59 @@ public class KehadiranActivity extends AppCompatActivity {
     private TextView tvListKehadiranShift;
     private RecyclerView rvKehadiran;
 
-    @SuppressLint("SetTextI18n")
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kehadiran);
         getSupportActionBar().hide();
         initView();
-        tvHeaderJudul.setText("Rekam Kehadiran");
+        tvHeaderJudul.setText("Riwayat Rekam Kehadiran");
 
         kehadiranController = new KehadiranController();
         kehadiranController.getKehadiran(getApplicationContext(), rvKehadiran);
 
+        SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+
+        token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+
+        nama = sharedPreferences.getString(Config.SHARED_NAME, "");
+        remark = sharedPreferences.getString(Config.SHARED_REMARK, "");
+        starTime = sharedPreferences.getString(Config.SHARED_START_TIME, "");
+        endTime = sharedPreferences.getString(Config.SHARED_END_TIME, "");
+        shiftDailyCode = sharedPreferences.getString(Config.SHARED_SHIFT_DAILY_CODE, "");
+
+        Date currentTimeInMillis = SecureTimer.with(KehadiranActivity.this).getCurrentDate();
+        String dateServer = new SimpleDateFormat("EEEE, dd MMM yyyy").format(currentTimeInMillis);
+        tvListKehadiranNama.setText(nama);
+        tvDate.setText(dateServer);
+        tvListKehadiranShift.setText(remark + " - " + shiftDailyCode + " [" + starTime + " - " + endTime + "]");
+
+        formatDate = new SimpleDateFormat("yyyy-MM-dd").format(currentTimeInMillis);
+        dateFrom = LocalDate.parse(formatDate);
+        dateFromMinus = dateFrom.minusDays(1);
+        dateEnd = dateFrom.plusDays(1);
+        getHistoryAbsensi();
+
+    }
+
+    private void getHistoryAbsensi() {
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.getHistoryAbsensi(token, String.valueOf(dateFromMinus), String.valueOf(dateEnd))
+                .enqueue(new Callback<AbsensiRootModel>() {
+                    @Override
+                    public void onResponse(Call<AbsensiRootModel> call, Response<AbsensiRootModel> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(KehadiranActivity.this, "" + response.body().getData(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<AbsensiRootModel> call, Throwable t) {
+
+                    }
+                });
     }
 
     private void initView() {

@@ -5,8 +5,8 @@ import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDet
 import com.pdamkotasmg.happywork.fitur.absensi.model.historyAbsensiModel.AbsensiRootModel;
 import com.pdamkotasmg.happywork.fitur.absensi.model.saveAbsensiModel.SaveAbsensiRootModel;
 import com.pdamkotasmg.happywork.fitur.authentication.login.model.AkunRootModel;
+import com.pdamkotasmg.happywork.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.happywork.fitur.feeds.model.BeritaRootModel;
-import com.pdamkotasmg.happywork.fitur.kehadiran.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.happywork.fitur.perangkat.model.PerangkatRootModel;
 import com.pdamkotasmg.happywork.fitur.splash.model.androidVersion.AndroidVersionModel;
 import com.pdamkotasmg.happywork.fitur.splash.model.packageName.PackageNameRootModel;
@@ -23,6 +23,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 
 public interface ApiService {
     //    // google
@@ -108,7 +109,11 @@ public interface ApiService {
 //
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("attendance/history/")
-    Call<AbsensiRootModel> getBillingTagihan(@Header("Authorization") String auth);
+    Call<AbsensiRootModel> getHistoryAbsensi(
+            @Header("Authorization") String auth,
+            @Query("date_from") String dateFrom,
+            @Query("date_to") String dateTo
+            );
 //
 //    @Headers({ "Content-Type: application/json;charset=UTF-8"})
 //    @GET("auth-pelanggan/refresh-token")
