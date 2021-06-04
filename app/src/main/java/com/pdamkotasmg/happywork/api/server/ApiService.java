@@ -6,6 +6,7 @@ import com.pdamkotasmg.happywork.fitur.absensi.model.historyAbsensiModel.Absensi
 import com.pdamkotasmg.happywork.fitur.absensi.model.saveAbsensiModel.SaveAbsensiRootModel;
 import com.pdamkotasmg.happywork.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.happywork.fitur.feeds.model.BeritaRootModel;
+import com.pdamkotasmg.happywork.fitur.kehadiran.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.happywork.fitur.perangkat.model.PerangkatRootModel;
 import com.pdamkotasmg.happywork.fitur.splash.model.androidVersion.AndroidVersionModel;
 import com.pdamkotasmg.happywork.fitur.splash.model.packageName.PackageNameRootModel;
@@ -93,6 +94,10 @@ public interface ApiService {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("auth/active-session")
     Call<PerangkatRootModel> getHistoryAktifDevice(@Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("attendance/applies-shift")
+    Call<ShfitPegawaiRootModel> getShiftPegawai(@Header("Authorization") String auth);
 
 
     //

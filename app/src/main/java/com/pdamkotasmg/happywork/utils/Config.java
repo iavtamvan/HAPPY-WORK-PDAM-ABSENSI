@@ -90,6 +90,12 @@ public final class Config {
     public static final String SHARED_SUBSATKER_FORMATTED = "subsatker_formatted";
     public static final String SHARED_APP_VERSION = "app_version";
 
+    // shift daily
+    public static final String SHARED_REMARK = "remark";
+    public static final String SHARED_START_TIME = "start_time";
+    public static final String SHARED_END_TIME = "end_time";
+    public static final String SHARED_SHIFT_DAILY_CODE = "shift_daily_code";
+
     // TODO SharedPref Offline Saving
     public static final String SHARED_COMPRESED_PHOTO_OFFLINE = "compressed_photo_offline";
     public static final String SHARED_LATI_OFFLINE = "latitude_offline";

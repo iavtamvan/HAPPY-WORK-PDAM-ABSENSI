@@ -18,9 +18,12 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.marcoscg.fingerauth.FingerAuth;
 import com.marcoscg.fingerauth.FingerAuthDialog;
 import com.pdamkotasmg.happywork.R;
+import com.pdamkotasmg.happywork.api.server.ApiConfig;
+import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.absensi.AbsensiV2Activity;
 import com.pdamkotasmg.happywork.fitur.absensi.CheckLocationActivity;
 import com.pdamkotasmg.happywork.fitur.feeds.controller.FeedsController;
+import com.pdamkotasmg.happywork.fitur.kehadiran.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.happywork.fitur.kehadiran.view.KehadiranActivity;
 import com.pdamkotasmg.happywork.fitur.payslip.PayslipActivity;
 import com.pdamkotasmg.happywork.fitur.profil.ProfileActivity;
@@ -29,13 +32,19 @@ import com.pdamkotasmg.happywork.utils.Connectivity;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DashboardActivity extends AppCompatActivity {
     private String TAG = "debug";
 
     private FeedsController feedsController;
+    private SharedPreferences.Editor editor;
+
     private boolean statusExpandedTrue = false;
     private static final int RC_CAMERA_AND_LOCATION = 1;
+    private String accessToken;
     private String typeConnection;
     private String statusAbsensi;
 
@@ -61,9 +70,13 @@ public class DashboardActivity extends AppCompatActivity {
         feedsController = new FeedsController();
         feedsController.getFeeds(getApplicationContext(), rv);
         divLainnyaExpanded.setVisibility(View.GONE);
+
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor = sharedPreferences.edit();
         divNamaLengkap.setText("Hai, " + sharedPreferences.getString(Config.SHARED_NAME, ""));
+        accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+
+        getShiftPegawai();
 
         if (Connectivity.isConnected(DashboardActivity.this)) {
             Log.d(TAG, "isConnect: Connected");
@@ -94,7 +107,7 @@ public class DashboardActivity extends AppCompatActivity {
 //            }
 
 //            Connectivity.isConnectedFast(DashboardActivity.this);
-            // TODO check location shift location
+            // TODO check location shift location DONE
             if (Connectivity.isConnected(DashboardActivity.this)) {
                 Log.d(TAG, "isConnect: Connected");
                 editor.putString(Config.SHARED_STATUS_ABSENSI, "online");
@@ -127,6 +140,28 @@ public class DashboardActivity extends AppCompatActivity {
 
         ltProfil.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+        });
+    }
+
+    private void getShiftPegawai() {
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.getShiftPegawai(accessToken).enqueue(new Callback<ShfitPegawaiRootModel>() {
+            @Override
+            public void onResponse(Call<ShfitPegawaiRootModel> call, Response<ShfitPegawaiRootModel> response) {
+                if (response.isSuccessful()){
+                    editor.putString(Config.SHARED_SHIFT_DAILY_CODE, response.body().getData().getShiftDailyCode());
+                    editor.putString(Config.SHARED_START_TIME, response.body().getData().getStartTime());
+                    editor.putString(Config.SHARED_END_TIME, response.body().getData().getEndTime());
+                    editor.putString(Config.SHARED_REMARK, response.body().getData().getRemark());
+                    editor.apply();
+                } else {
+                    Toast.makeText(DashboardActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<ShfitPegawaiRootModel> call, Throwable t) {
+                Toast.makeText(DashboardActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

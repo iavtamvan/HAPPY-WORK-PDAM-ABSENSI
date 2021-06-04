@@ -1,5 +1,6 @@
 package com.pdamkotasmg.happywork.fitur.kehadiran.view;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class KehadiranActivity extends AppCompatActivity {
     private TextView tvListKehadiranShift;
     private RecyclerView rvKehadiran;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,7 @@ public class KehadiranActivity extends AppCompatActivity {
 
         kehadiranController = new KehadiranController();
         kehadiranController.getKehadiran(getApplicationContext(), rvKehadiran);
+
     }
 
     private void initView() {
