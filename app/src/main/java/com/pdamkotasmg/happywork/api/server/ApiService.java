@@ -112,7 +112,8 @@ public interface ApiService {
     Call<RiwayatKehadiranRootModel> getHistoryAbsensi(
             @Header("Authorization") String auth,
             @Query("date_from") String dateFrom,
-            @Query("date_to") String dateTo
+            @Query("date_to") String dateTo,
+            @Query("formatted") String formatted
             );
 //
 //    @Headers({ "Content-Type: application/json;charset=UTF-8"})

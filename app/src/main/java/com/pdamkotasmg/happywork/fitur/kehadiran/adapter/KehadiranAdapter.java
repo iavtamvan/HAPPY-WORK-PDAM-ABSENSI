@@ -49,16 +49,33 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
         Date currentTimeInMillis = SecureTimer.with(context).getCurrentDate();
         @SuppressLint("SimpleDateFormat") String formatDate = new SimpleDateFormat("yyyy-MM-dd").format(currentTimeInMillis);
         LocalDate dateFrom = LocalDate.parse(formatDate);
+        holder.tvListKehadiranDate.setText(dataItems.get(position).getRecordDate());
 
-        if (dataItems.get(position).getRecordDate().equals("2021-06-05")){
-            Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getPhoto()).into(holder.ciListKehadiranMasuk);
-            holder.tvListKehadiranDate.setText(dataItems.get(position).getRecordDate());
-            holder.tvListKehadiranMasuk.setText(dataItems.get(position).getRecordTime());
+        Log.d("debug", "Absensi In : " + dataItems.get(position).getIn());
+        Log.d("debug", String.valueOf("Absensi Out : " + dataItems.get(position).getOut() == null));
 
-            Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getPhoto()).into(holder.ciListKehadiranKeluar);
-            holder.tvListKehadiranDate.setText(dataItems.get(position).getRecordDate());
-            holder.tvListKehadiranKeluar.setText(dataItems.get(position).getRecordTime());
+        if (dataItems.get(position).getIn() != null) {
+            // masuk
+            Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getIn().getPhoto()).into(holder.ciListKehadiranMasuk);
+            holder.tvListKehadiranMasuk.setText(dataItems.get(position).getIn().getRecordTime());
         }
+        if (dataItems.get(position).getOut() != null) {
+            // keluar
+            Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getOut().getPhoto()).into(holder.ciListKehadiranKeluar);
+            holder.tvListKehadiranKeluar.setText(dataItems.get(position).getOut().getRecordTime());
+        }
+
+//        if (!dataItems.get(position).getIn().equals(null) && !dataItems.get(position).getOut().equals(null)) {
+//            Toast.makeText(context, "Null", Toast.LENGTH_SHORT).show();
+//        } else {
+//            // masuk
+//            Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getIn().getPhoto()).into(holder.ciListKehadiranMasuk);
+//            holder.tvListKehadiranMasuk.setText(dataItems.get(position).getIn().getRecordTime());
+//
+//            // keluar
+//            Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getOut().getPhoto()).into(holder.ciListKehadiranKeluar);
+//            holder.tvListKehadiranKeluar.setText(dataItems.get(position).getOut().getRecordTime());
+//        }
 
 //        if (dataItems.get(position).getIsShiftIn() == 1) { // masuk
 //
@@ -69,13 +86,7 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
 //            Log.d("debug", "Status absen: keluar");
 //            Log.d("debug", "Status absen Jam: " + dataItems.get(position).getRecordDate());
 //        }
-        Log.d("debug", "Log getID: " + dataItems.get(position).getId());
-        Log.d("debug", "Log getCoord: " + dataItems.get(position).getCoord());
-        Log.d("debug", "Log getIsShiftIn: " + dataItems.get(position).getIsShiftIn());
-        Log.d("debug", "Log getPhoto: " + dataItems.get(position).getPhoto());
-        Log.d("debug", "Log getRecordTime: " + dataItems.get(position).getRecordTime());
-        Log.d("debug", "Log getRemark: " + dataItems.get(position).getRemark());
-        Log.d("debug", "Log getRecordDate: " + dataItems.get(position).getRecordDate());
+
 //        Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getPhoto()).into(holder.ciListKehadiranKeluar);
 //        holder.tvListKehadiranDate.setText(dataItems.get(position).getTglPublish());
 

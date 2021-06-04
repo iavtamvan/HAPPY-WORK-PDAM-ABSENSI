@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -98,16 +99,24 @@ public class KehadiranActivity extends AppCompatActivity {
     private void getHistoryAbsensi() {
         ApiService apiService = ApiConfig.getApiService();
 //        apiService.getHistoryAbsensi(token, String.valueOf(dateFromMinus), String.valueOf(dateEnd))
-        apiService.getHistoryAbsensi(token, "2021-06-05", "2021-06-05")
+        apiService.getHistoryAbsensi(token, String.valueOf(dateFromMinus), String.valueOf(dateFrom), "1")
                 .enqueue(new Callback<RiwayatKehadiranRootModel>() {
                     @Override
                     public void onResponse(Call<RiwayatKehadiranRootModel> call, Response<RiwayatKehadiranRootModel> response) {
                         if (response.isSuccessful()) {
                             dataItems = response.body().getData();
-                            kehadiranAdapter = new KehadiranAdapter(KehadiranActivity.this, dataItems);
-                            rvKehadiran.setLayoutManager(new LinearLayoutManager(KehadiranActivity.this));
-                            rvKehadiran.setAdapter(kehadiranAdapter);
-                            kehadiranAdapter.notifyDataSetChanged();
+                            Log.d("debug", "dataItems: " + dataItems);
+                            if (dataItems.isEmpty()) {
+                                Toast.makeText(KehadiranActivity.this, "Data tidak ada", Toast.LENGTH_SHORT).show();
+                            } else {
+                                kehadiranAdapter = new KehadiranAdapter(KehadiranActivity.this, dataItems);
+                                rvKehadiran.setLayoutManager(new LinearLayoutManager(KehadiranActivity.this));
+                                rvKehadiran.setAdapter(kehadiranAdapter);
+                                kehadiranAdapter.notifyDataSetChanged();
+                            }
+                        }
+                        else {
+                            Toast.makeText(KehadiranActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
