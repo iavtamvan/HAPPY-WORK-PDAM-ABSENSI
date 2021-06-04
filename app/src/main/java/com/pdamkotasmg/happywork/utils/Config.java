@@ -29,7 +29,7 @@ public final class Config {
     //API KEY
     public static final String GOOGLE_API_KEY_CAPTCHA_SITE_KEY = "6Lf0J0kaAAAAAAiSo7blYknl2sipxzpGN8B8ubjz";
     public static final String GOOGLE_API_KEY_CAPTCHA_SECRET_KEY = "6Lf0J0kaAAAAAP1jT3WCu3pvVzJBOwAM9N8vK4mY";
-    public static final String BASE_URL_IMAGE = "https://app.pdamkotasmg.co.id:58080/pdam-pengaduan-api-laravel/public";
+    public static final String BASE_URL_IMAGE = "https://app.pdamkotasmg.co.id/api-gw-dev/portal-pegawai";
 
     public static final String ERROR_MSG = "Koneksi kamu lagi jelek";
     public static final String ERROR_PASSWORD = "Pastikan Kata Sandi Anda Sama";

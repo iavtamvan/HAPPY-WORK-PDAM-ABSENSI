@@ -2,11 +2,11 @@ package com.pdamkotasmg.happywork.api.server;
 
 import com.pdamkotasmg.happywork.fitur.absensi.model.checkLocationModel.CheckLocationRootModel;
 import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
-import com.pdamkotasmg.happywork.fitur.absensi.model.historyAbsensiModel.AbsensiRootModel;
 import com.pdamkotasmg.happywork.fitur.absensi.model.saveAbsensiModel.SaveAbsensiRootModel;
 import com.pdamkotasmg.happywork.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.happywork.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.happywork.fitur.feeds.model.BeritaRootModel;
+import com.pdamkotasmg.happywork.fitur.kehadiran.model.RiwayatKehadiranRootModel;
 import com.pdamkotasmg.happywork.fitur.perangkat.model.PerangkatRootModel;
 import com.pdamkotasmg.happywork.fitur.splash.model.androidVersion.AndroidVersionModel;
 import com.pdamkotasmg.happywork.fitur.splash.model.packageName.PackageNameRootModel;
@@ -109,7 +109,7 @@ public interface ApiService {
 //
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("attendance/history/")
-    Call<AbsensiRootModel> getHistoryAbsensi(
+    Call<RiwayatKehadiranRootModel> getHistoryAbsensi(
             @Header("Authorization") String auth,
             @Query("date_from") String dateFrom,
             @Query("date_to") String dateTo
