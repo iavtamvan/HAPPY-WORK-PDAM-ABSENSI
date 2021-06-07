@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,12 +31,12 @@ public class QrCodeActivity extends AppCompatActivity {
     private TextView tvHeaderJudul;
     private ImageView ivHeaderInfo;
     private ImageView ivQrCode;
-    private Button btnScanQrcode;
     private LinearLayout divHeaderName;
     private TextView tvName;
     private TextView tvJabatan;
     private TextView tvNpp;
     private LottieAnimationView animationView;
+    private ImageView ivScan;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -53,10 +52,9 @@ public class QrCodeActivity extends AppCompatActivity {
         jabatan = sharedPreferences.getString(Config.SHARED_JABATAN, "");
         tvHeaderJudul.setText("QR Code " + npp);
         tvName.setText(nama);
-        tvJabatan.setText(jabatan);
         tvNpp.setText(npp);
 // Initializing the QR Encoder with your value to be encoded, type you required and Dimension
-        QRGEncoder qrgEncoder = new QRGEncoder(npp, null, QRGContents.Type.TEXT, 222);
+        QRGEncoder qrgEncoder = new QRGEncoder(npp, null, QRGContents.Type.TEXT, 999);
         qrgEncoder.setColorBlack(Color.BLACK);
         qrgEncoder.setColorWhite(Color.WHITE);
         // Getting QR-Code as Bitmap
@@ -64,7 +62,7 @@ public class QrCodeActivity extends AppCompatActivity {
         // Setting Bitmap to ImageView
         ivQrCode.setImageBitmap(bitmap);
 
-        btnScanQrcode.setOnClickListener(v -> {
+        ivScan.setOnClickListener(v -> {
             startActivity(new Intent(QrCodeActivity.this, ScanQRCodeActivity.class));
         });
         ivHeaderBackArrow.setOnClickListener(v -> {
@@ -79,11 +77,10 @@ public class QrCodeActivity extends AppCompatActivity {
         tvHeaderJudul = findViewById(R.id.tv_header_judul);
         ivHeaderInfo = findViewById(R.id.iv_header_info);
         ivQrCode = findViewById(R.id.iv_qr_code);
-        btnScanQrcode = findViewById(R.id.btn_scan_qrcode);
         divHeaderName = findViewById(R.id.div_header_name);
         tvName = findViewById(R.id.tv_name);
-        tvJabatan = findViewById(R.id.tv_jabatan);
         tvNpp = findViewById(R.id.tv_npp);
         animationView = findViewById(R.id.animation_view);
+        ivScan = findViewById(R.id.iv_scan);
     }
 }

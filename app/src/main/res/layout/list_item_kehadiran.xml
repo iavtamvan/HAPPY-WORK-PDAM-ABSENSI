@@ -18,7 +18,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@drawable/rectangle_shapes_bg_grey"
+            android:background="@drawable/rectangle_shapes_bg_primary"
             android:orientation="vertical">
 
             <TextView
@@ -30,7 +30,7 @@
                 android:fontFamily="@font/poppins_medium"
                 android:gravity="left|center"
                 android:text="Mon, 5 Mar 2021"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="11dp" />
 
         </LinearLayout>
