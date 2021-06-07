@@ -1,6 +1,5 @@
 package com.pdamkotasmg.happywork.fitur.kehadiran.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
@@ -15,14 +14,11 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.krishna.securetimer.SecureTimer;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.fitur.kehadiran.model.DataItem;
 import com.pdamkotasmg.happywork.utils.Config;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -46,10 +42,15 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Date currentTimeInMillis = SecureTimer.with(context).getCurrentDate();
-        @SuppressLint("SimpleDateFormat") String formatDate = new SimpleDateFormat("yyyy-MM-dd").format(currentTimeInMillis);
-        LocalDate dateFrom = LocalDate.parse(formatDate);
-        holder.tvListKehadiranDate.setText(dataItems.get(position).getRecordDate());
+//        try {
+//            @SuppressLint("SimpleDateFormat") SimpleDateFormat fmt = new SimpleDateFormat("EEE, dd MMM yyyy");
+//            Date date = fmt.parse(dataItems.get(position).getRecordDate());
+//            holder.tvListKehadiranDate.setText(String.valueOf(date));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+        String dateServer = new SimpleDateFormat("EEE, dd MMM yyyy").format(dataItems.get(position).getRecordDate());
+        holder.tvListKehadiranDate.setText(dateServer);
 
         Log.d("debug", "Absensi In : " + dataItems.get(position).getIn());
         Log.d("debug", String.valueOf("Absensi Out : " + dataItems.get(position).getOut() == null));

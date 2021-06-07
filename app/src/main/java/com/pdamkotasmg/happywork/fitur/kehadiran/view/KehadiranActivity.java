@@ -84,14 +84,13 @@ public class KehadiranActivity extends AppCompatActivity {
         Date currentTimeInMillis = SecureTimer.with(KehadiranActivity.this).getCurrentDate();
         String dateServer = new SimpleDateFormat("EEEE, dd MMM yyyy").format(currentTimeInMillis);
         tvListKehadiranNama.setText(nama);
-//        tvDate.setText(dateServer);
+        tvDate.setText(dateServer);
         tvListKehadiranShift.setText(remark + " - " + shiftDailyCode + " [" + starTime + " - " + endTime + "]");
 
         formatDate = new SimpleDateFormat("yyyy-MM-dd").format(currentTimeInMillis);
         dateFrom = LocalDate.parse(formatDate);
-        dateFromMinus = dateFrom.minusDays(1);
+        dateFromMinus = dateFrom.minusDays(5);
         dateEnd = dateFrom.plusDays(1);
-        tvDate.setText(dateFromMinus + " - " + dateFrom);
         getHistoryAbsensi();
 
     }

@@ -4,10 +4,12 @@ import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class DataItem{
 
     @SerializedName("record_date")
-    private String recordDate;
+    private Date recordDate;
 
     @SerializedName("in")
     private In in = null;
@@ -18,11 +20,11 @@ public class DataItem{
     @SerializedName("out")
     private Out out = null;
 
-    public void setRecordDate(String recordDate){
+    public void setRecordDate(Date recordDate){
         this.recordDate = recordDate;
     }
 
-    public String getRecordDate(){
+    public Date getRecordDate(){
         return recordDate;
     }
 
