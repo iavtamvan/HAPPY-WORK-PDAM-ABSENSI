@@ -1,5 +1,6 @@
 package com.pdamkotasmg.happywork.fitur.profil;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -82,6 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
     private CardView cvKlikKeluar;
     private CardView cvKlikQrCode;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

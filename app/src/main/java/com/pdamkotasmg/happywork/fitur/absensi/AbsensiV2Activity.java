@@ -111,6 +111,8 @@ public class AbsensiV2Activity extends AppCompatActivity {
             startActivity(new Intent(AbsensiV2Activity.this, CheckLocationActivity.class));
         });
 
+        ivHeaderInfo.setVisibility(View.GONE);
+
         if (Connectivity.isConnected(AbsensiV2Activity.this)) {
             Log.d(TAG, "isConnect: Connected");
             connectionType = Connectivity.isConnectionFast(AbsensiV2Activity.this).getConnectionType();

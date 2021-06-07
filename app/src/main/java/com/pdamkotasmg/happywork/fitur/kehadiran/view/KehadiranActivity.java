@@ -96,7 +96,6 @@ public class KehadiranActivity extends AppCompatActivity {
 
     private void getHistoryAbsensi() {
         ApiService apiService = ApiConfig.getApiService();
-//        apiService.getHistoryAbsensi(token, String.valueOf(dateFromMinus), String.valueOf(dateEnd))
         apiService.getHistoryAbsensi(token, String.valueOf(dateFromMinus), String.valueOf(dateFrom), "1")
                 .enqueue(new Callback<RiwayatKehadiranRootModel>() {
                     @Override

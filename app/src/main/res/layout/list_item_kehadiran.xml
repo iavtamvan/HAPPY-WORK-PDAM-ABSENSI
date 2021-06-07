@@ -17,7 +17,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:background="@drawable/rectangle_shapes_bg_primary"
             android:orientation="vertical">
 
@@ -85,6 +85,17 @@
                         android:textColor="@color/teal_700"
                         android:textSize="14dp" />
 
+                    <TextView
+                        android:id="@+id/tv_list_kehadiran_masuk_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="left"
+                        android:text="Status"
+                        android:textColor="@color/red"
+                        android:textSize="10dp"
+                        android:visibility="gone" />
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -129,6 +140,18 @@
                         android:textColor="@color/primary"
                         android:textSize="14dp" />
 
+                    <TextView
+                        android:id="@+id/tv_list_kehadiran_keluar_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="left"
+                        android:text="Status"
+                        android:textColor="@color/red"
+                        android:textSize="10dp"
+                        android:visibility="gone" />
+
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -143,8 +166,8 @@
             android:text="LIHAT DETAIL"
             android:textColor="@color/white"
             android:textSize="12dp"
-            android:visibility="gone"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
     </LinearLayout>
 

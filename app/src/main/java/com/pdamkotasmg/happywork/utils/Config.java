@@ -33,9 +33,8 @@ public final class Config {
     public static final String APLICATION_NAME = "Happy Work";
 
     //API KEY
-    public static final String GOOGLE_API_KEY_CAPTCHA_SITE_KEY = "6Lf0J0kaAAAAAAiSo7blYknl2sipxzpGN8B8ubjz";
-    public static final String GOOGLE_API_KEY_CAPTCHA_SECRET_KEY = "6Lf0J0kaAAAAAP1jT3WCu3pvVzJBOwAM9N8vK4mY";
     public static final String BASE_URL_IMAGE = "https://app.pdamkotasmg.co.id/api-gw-dev/portal-pegawai";
+
     public static final String BASE_URL_NOTIF_FOTO_FAIL = "https://image.freepik.com/free-vector/people-with-sad-angry-emojis-illustration_53876-43293.jpg";
     public static final String BASE_URL_NOTIF_JIKA_TELAT = "https://image.freepik.com/free-vector/people-run-open-door-being-late-men-women-hurry-end-beginning-working-office-day-illustration_80590-9275.jpg";
     public static final String BASE_URL_NOTIF_JIKA_PULANG_AWAL = "https://image.freepik.com/free-vector/businessman-leaving-comfort-zone-flat-illustration_74855-16768.jpg";
