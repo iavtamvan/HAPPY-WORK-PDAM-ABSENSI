@@ -1,8 +1,8 @@
-package com.pdamkotasmg.happywork.fitur.absensi.model.saveAbsensiModel;
+package com.pdamkotasmg.happywork.fitur.presensi.model.checkLocationModel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SaveAbsensiRootModel{
+public class CheckLocationRootModel{
 
     @SerializedName("data")
     private Data data;

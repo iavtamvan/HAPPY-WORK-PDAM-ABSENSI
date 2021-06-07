@@ -17,6 +17,7 @@ import com.krishna.securetimer.SecureTimer;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
+import com.pdamkotasmg.happywork.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.happywork.fitur.kehadiran.adapter.KehadiranAdapter;
 import com.pdamkotasmg.happywork.fitur.kehadiran.model.DataItem;
 import com.pdamkotasmg.happywork.fitur.kehadiran.model.RiwayatKehadiranRootModel;
@@ -36,14 +37,14 @@ import retrofit2.Response;
 public class KehadiranActivity extends AppCompatActivity {
     private KehadiranAdapter kehadiranAdapter;
     private List<DataItem> dataItems;
-
+    private SharedPreferences.Editor editor;
     private String nama;
     private String remark;
     private String starTime;
     private String endTime;
     private String shiftDailyCode;
 
-    private String token;
+    private String accessToken;
     private String formatDate;
     private LocalDate dateFromMinus;
     private LocalDate dateFrom;
@@ -71,8 +72,9 @@ public class KehadiranActivity extends AppCompatActivity {
         dataItems = new ArrayList<>();
 
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
-        token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+        accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
 
         nama = sharedPreferences.getString(Config.SHARED_NAME, "");
         remark = sharedPreferences.getString(Config.SHARED_REMARK, "");
@@ -90,13 +92,13 @@ public class KehadiranActivity extends AppCompatActivity {
         dateFrom = LocalDate.parse(formatDate);
         dateFromMinus = dateFrom.minusDays(5);
         dateEnd = dateFrom.plusDays(1);
-        getHistoryAbsensi();
+        getShiftPegawai();
 
     }
 
-    private void getHistoryAbsensi() {
+    private void getHistoryPresensi() {
         ApiService apiService = ApiConfig.getApiService();
-        apiService.getHistoryAbsensi(token, String.valueOf(dateFromMinus), String.valueOf(dateFrom), "1")
+        apiService.getHistoryPresensi(accessToken, String.valueOf(dateFromMinus), String.valueOf(dateFrom), "1")
                 .enqueue(new Callback<RiwayatKehadiranRootModel>() {
                     @Override
                     public void onResponse(Call<RiwayatKehadiranRootModel> call, Response<RiwayatKehadiranRootModel> response) {
@@ -110,8 +112,7 @@ public class KehadiranActivity extends AppCompatActivity {
                                 rvKehadiran.setAdapter(kehadiranAdapter);
                                 kehadiranAdapter.notifyDataSetChanged();
                             }
-                        }
-                        else {
+                        } else {
                             Toast.makeText(KehadiranActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -121,6 +122,29 @@ public class KehadiranActivity extends AppCompatActivity {
                         Toast.makeText(KehadiranActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+    public void getShiftPegawai() {
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.getShiftPegawai(accessToken).enqueue(new Callback<ShfitPegawaiRootModel>() {
+            @Override
+            public void onResponse(Call<ShfitPegawaiRootModel> call, Response<ShfitPegawaiRootModel> response) {
+                if (response.isSuccessful()) {
+                    editor.putString(Config.SHARED_SHIFT_DAILY_CODE, response.body().getData().getShiftDailyCode());
+                    editor.putString(Config.SHARED_START_TIME, response.body().getData().getStartTime());
+                    editor.putString(Config.SHARED_END_TIME, response.body().getData().getEndTime());
+                    editor.putString(Config.SHARED_REMARK, response.body().getData().getRemark());
+                    editor.apply();
+                    getHistoryPresensi();
+                } else {
+                    Toast.makeText(KehadiranActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ShfitPegawaiRootModel> call, Throwable t) {
+                Toast.makeText(KehadiranActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initView() {

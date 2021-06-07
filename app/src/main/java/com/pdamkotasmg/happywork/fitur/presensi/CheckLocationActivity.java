@@ -1,4 +1,4 @@
-package com.pdamkotasmg.happywork.fitur.absensi;
+package com.pdamkotasmg.happywork.fitur.presensi;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
-import com.pdamkotasmg.happywork.fitur.absensi.model.checkLocationModel.CheckLocationRootModel;
+import com.pdamkotasmg.happywork.fitur.presensi.model.checkLocationModel.CheckLocationRootModel;
 import com.pdamkotasmg.happywork.utils.Config;
 
 import im.delight.android.location.SimpleLocation;
@@ -33,7 +33,7 @@ public class CheckLocationActivity extends AppCompatActivity {
     private String access_token;
     private String token_type;
 
-    private String statusAbsensi;
+    private String statusPresensi;
     private String npp;
 
     private ProgressDialog loading;
@@ -58,9 +58,9 @@ public class CheckLocationActivity extends AppCompatActivity {
         }
         divLanjut.setVisibility(View.GONE);
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
-        statusAbsensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
+        statusPresensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
 
-        if (statusAbsensi.equalsIgnoreCase("qrcode")) {
+        if (statusPresensi.equalsIgnoreCase("qrcode")) {
             npp = sharedPreferences.getString(Config.SHARED_NPP_QR_CODE, "");
         } else {
             npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
@@ -85,7 +85,7 @@ public class CheckLocationActivity extends AppCompatActivity {
         lati = location.getLatitude();
         longi = location.getLongitude();
         ApiService apiService = ApiConfig.getApiService();
-        apiService.checkLocation(access_token, statusAbsensi, npp, lati, longi)
+        apiService.checkLocation(access_token, statusPresensi, npp, lati, longi)
                 .enqueue(new Callback<CheckLocationRootModel>() {
                     @SuppressLint({"SetJavaScriptEnabled", "SetTextI18n"})
                     @Override
@@ -93,7 +93,7 @@ public class CheckLocationActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             // deteksi lokasi absen false
                             if (!response.body().getData().getAppliesShiftSetting().isLocationDetection()){
-                                startActivity(new Intent(CheckLocationActivity.this, AbsensiV2Activity.class));
+                                startActivity(new Intent(CheckLocationActivity.this, PresensiActivity.class));
                             } else {
                                 wv.getSettings().setJavaScriptEnabled(true);
                                 wv.getSettings().setLoadWithOverviewMode(true);
@@ -114,7 +114,7 @@ public class CheckLocationActivity extends AppCompatActivity {
                                     loading.cancel();
                                     divLanjut.setVisibility(View.VISIBLE);
                                     divLanjut.setOnClickListener(v -> {
-                                        startActivity(new Intent(CheckLocationActivity.this, AbsensiV2Activity.class));
+                                        startActivity(new Intent(CheckLocationActivity.this, PresensiActivity.class));
                                     });
                                 }
                                 loading.cancel();

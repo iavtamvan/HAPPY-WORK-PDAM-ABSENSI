@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.pdamkotasmg.happywork.R;
-import com.pdamkotasmg.happywork.fitur.absensi.CheckLocationActivity;
+import com.pdamkotasmg.happywork.fitur.presensi.CheckLocationActivity;
 import com.pdamkotasmg.happywork.utils.Config;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 

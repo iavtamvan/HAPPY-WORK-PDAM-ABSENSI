@@ -1,9 +1,10 @@
-package com.pdamkotasmg.happywork.fitur.absensi.model.historyAbsensiModel;
+package com.pdamkotasmg.happywork.fitur.presensi.model.historyPresensiModel;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class AbsensiRootModel{
+import java.util.List;
+
+public class PresensiRootModel{
 
     @SerializedName("data")
     private List<DataItem> data;

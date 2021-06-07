@@ -21,8 +21,8 @@ import com.marcoscg.fingerauth.FingerAuthDialog;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
-import com.pdamkotasmg.happywork.fitur.absensi.AbsensiV2Activity;
-import com.pdamkotasmg.happywork.fitur.absensi.CheckLocationActivity;
+import com.pdamkotasmg.happywork.fitur.presensi.PresensiActivity;
+import com.pdamkotasmg.happywork.fitur.presensi.CheckLocationActivity;
 import com.pdamkotasmg.happywork.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.happywork.fitur.feeds.controller.FeedsController;
 import com.pdamkotasmg.happywork.fitur.kehadiran.view.KehadiranActivity;
@@ -47,7 +47,7 @@ public class DashboardActivity extends AppCompatActivity {
     private static final int RC_CAMERA_AND_LOCATION = 1;
     private String accessToken;
     private String typeConnection;
-    private String statusAbsensi;
+    private String statusPresensi;
 
     private TextView divNamaLengkap;
     private LinearLayout divRekamWaktu;
@@ -93,7 +93,7 @@ public class DashboardActivity extends AppCompatActivity {
                         dialogInterface.dismiss();
                     })
                     .setPositiveButton("Lanjut", (dialogInterface, which) -> {
-                        startActivity(new Intent(getApplicationContext(), AbsensiV2Activity.class));
+                        startActivity(new Intent(getApplicationContext(), PresensiActivity.class));
                     })
                     .build();
 
@@ -148,7 +148,7 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-    private void getShiftPegawai() {
+    public void getShiftPegawai() {
         ApiService apiService = ApiConfig.getApiService();
         apiService.getShiftPegawai(accessToken).enqueue(new Callback<ShfitPegawaiRootModel>() {
             @Override

@@ -1,8 +1,8 @@
 package com.pdamkotasmg.happywork.api.server;
 
-import com.pdamkotasmg.happywork.fitur.absensi.model.checkLocationModel.CheckLocationRootModel;
-import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
-import com.pdamkotasmg.happywork.fitur.absensi.model.saveAbsensiModel.SaveAbsensiRootModel;
+import com.pdamkotasmg.happywork.fitur.presensi.model.checkLocationModel.CheckLocationRootModel;
+import com.pdamkotasmg.happywork.fitur.presensi.model.faceDeetectionModel.FaceDetectionRootModel;
+import com.pdamkotasmg.happywork.fitur.presensi.model.savePresensiModel.SavePresensiRootModel;
 import com.pdamkotasmg.happywork.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.happywork.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.happywork.fitur.feeds.model.BeritaRootModel;
@@ -69,17 +69,17 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("attendance/check-location")
     Call<CheckLocationRootModel> checkLocation(@Header("Authorization") String auth,
-                                               @Field("type") String statusAbsensi,
+                                               @Field("type") String statusPresensi,
                                                @Field("npp") String npp,
                                                @Field("latitude") double latitude,
                                                @Field("longitude") double longitude);
 
     @FormUrlEncoded
     @POST("attendance/record")
-    Call<SaveAbsensiRootModel> saveAbsensi(@Header("Authorization") String auth,
+    Call<SavePresensiRootModel> savePresensi(@Header("Authorization") String auth,
                                            @Field("latitude") double latitude,
                                            @Field("longitude") double longitude,
-                                           @Field("type") String statusAbsensi,
+                                           @Field("type") String statusPresensi,
                                            @Field("npp") String npp,
                                            @Field("check_face") String check_face,
                                            @Field("photo_path") String photo_path,
@@ -109,7 +109,7 @@ public interface ApiService {
 //
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("attendance/history/")
-    Call<RiwayatKehadiranRootModel> getHistoryAbsensi(
+    Call<RiwayatKehadiranRootModel> getHistoryPresensi(
             @Header("Authorization") String auth,
             @Query("date_from") String dateFrom,
             @Query("date_to") String dateTo,
@@ -132,7 +132,7 @@ public interface ApiService {
     @POST("attendance/face-recognize")
     Call<FaceDetectionRootModel> checkFace(
             @Header("Authorization") String auth,
-            @Part("type") RequestBody statusAbsensi,
+            @Part("type") RequestBody statusPresensi,
             @Part("npp") RequestBody npp,
             @Part MultipartBody.Part filePartPhoto
     );

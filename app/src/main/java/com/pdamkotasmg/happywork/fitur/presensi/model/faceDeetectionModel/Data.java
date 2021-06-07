@@ -1,4 +1,4 @@
-package com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel;
+package com.pdamkotasmg.happywork.fitur.presensi.model.faceDeetectionModel;
 
 import com.google.gson.annotations.SerializedName;
 

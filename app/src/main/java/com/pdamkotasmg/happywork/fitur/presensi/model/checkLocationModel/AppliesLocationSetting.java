@@ -1,4 +1,4 @@
-package com.pdamkotasmg.happywork.fitur.absensi.model.checkLocationModel;
+package com.pdamkotasmg.happywork.fitur.presensi.model.checkLocationModel;
 
 import com.google.gson.annotations.SerializedName;
 

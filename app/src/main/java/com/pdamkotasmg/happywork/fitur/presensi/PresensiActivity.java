@@ -1,4 +1,4 @@
-package com.pdamkotasmg.happywork.fitur.absensi;
+package com.pdamkotasmg.happywork.fitur.presensi;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -24,8 +24,8 @@ import com.krishna.securetimer.SecureTimer;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
-import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
-import com.pdamkotasmg.happywork.fitur.absensi.model.saveAbsensiModel.SaveAbsensiRootModel;
+import com.pdamkotasmg.happywork.fitur.presensi.model.faceDeetectionModel.FaceDetectionRootModel;
+import com.pdamkotasmg.happywork.fitur.presensi.model.savePresensiModel.SavePresensiRootModel;
 import com.pdamkotasmg.happywork.fitur.kehadiran.view.KehadiranActivity;
 import com.pdamkotasmg.happywork.utils.Config;
 import com.pdamkotasmg.happywork.utils.Connectivity;
@@ -51,7 +51,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AbsensiV2Activity extends AppCompatActivity {
+public class PresensiActivity extends AppCompatActivity {
     private static final String TAG = "debug";
     private File compressedImageFile;
     private String access_token;
@@ -70,7 +70,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
     private String connectionType;
     private String getPathPhotoFaceServer;
 
-    private String statusAbsensi;
+    private String statusPresensi;
     private String npp;
 
     private CircleImageView ivFotoFront;
@@ -84,7 +84,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
     private TextView tvWaktu;
     private TextView tvPersenFace;
     private TextView tvVersiApps;
-    private Button btnKirimAbsensi;
+    private Button btnKirimPresensi;
     private LinearLayout divMencariMuka;
     private LottieAnimationView animationView;
     private TextView tvMencariMuka;
@@ -108,21 +108,21 @@ public class AbsensiV2Activity extends AppCompatActivity {
 
         ivHeaderBackArrow.setOnClickListener(v -> {
             finishAffinity();
-            startActivity(new Intent(AbsensiV2Activity.this, CheckLocationActivity.class));
+            startActivity(new Intent(PresensiActivity.this, CheckLocationActivity.class));
         });
 
         ivHeaderInfo.setVisibility(View.GONE);
 
-        if (Connectivity.isConnected(AbsensiV2Activity.this)) {
+        if (Connectivity.isConnected(PresensiActivity.this)) {
             Log.d(TAG, "isConnect: Connected");
-            connectionType = Connectivity.isConnectionFast(AbsensiV2Activity.this).getConnectionType();
+            connectionType = Connectivity.isConnectionFast(PresensiActivity.this).getConnectionType();
         }
 
         Date cDate = new Date();
         currentDateLocal = new SimpleDateFormat("EEEE, dd MMM yyyy").format(cDate);
         currentTimeLocal = new SimpleDateFormat("HH:mm").format(cDate);
 
-        Date currentTimeInMillis = SecureTimer.with(AbsensiV2Activity.this).getCurrentDate();
+        Date currentTimeInMillis = SecureTimer.with(PresensiActivity.this).getCurrentDate();
         Log.d("debug", "dateServer: " + currentTimeInMillis);
         timeServer = String.valueOf(currentTimeInMillis);
         timeServer = new SimpleDateFormat("HH:mm:ss").format(currentTimeInMillis);
@@ -130,7 +130,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
         dateServer = new SimpleDateFormat("yyyy-MM-dd").format(currentTimeInMillis);
         Log.d("debug", "dateServerFix: " + dateServer);
 
-        easyImage = new EasyImage.Builder(AbsensiV2Activity.this)
+        easyImage = new EasyImage.Builder(PresensiActivity.this)
                 .setCopyImagesToPublicGalleryFolder(false)
                 .setFolderName("PDAM-KOTA-SMG")
                 .allowMultiple(true)
@@ -146,30 +146,30 @@ public class AbsensiV2Activity extends AppCompatActivity {
         tvTanggal.setText(currentDateLocal); // TODO tanggal local
         tvWaktu.setText(currentTimeLocal); // TODO time local
 
-        statusAbsensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
+        statusPresensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
 
-        if (statusAbsensi.equalsIgnoreCase("qrcode")) {
+        if (statusPresensi.equalsIgnoreCase("qrcode")) {
             npp = sharedPreferences.getString(Config.SHARED_NPP_QR_CODE, "");
         } else {
             npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
         }
 
-        Log.d(TAG, "statusAbsensi: "  + statusAbsensi);
+        Log.d(TAG, "statusPresensi: "  + statusPresensi);
         Log.d(TAG, "npp: "  + npp);
-        location = new SimpleLocation(AbsensiV2Activity.this);
+        location = new SimpleLocation(PresensiActivity.this);
         if (!location.hasLocationEnabled()) {
-            SimpleLocation.openSettings(AbsensiV2Activity.this);
+            SimpleLocation.openSettings(PresensiActivity.this);
         }
         lati = location.getLatitude();
         longi = location.getLongitude();
 
         ivFotoFront.setOnClickListener(v -> {
-            easyImage.openCameraForImage(AbsensiV2Activity.this);
+            easyImage.openCameraForImage(PresensiActivity.this);
         });
 
-        btnKirimAbsensi.setOnClickListener(v -> {
+        btnKirimPresensi.setOnClickListener(v -> {
             // TODO kirim server
-            saveAbsensi();
+            savePresensi();
         });
     }
 
@@ -182,7 +182,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
         tvMencariMuka.setText("Mencari Wajah");
         tvPersenFace.setVisibility(View.GONE);
 
-        RequestBody statusAbsensiBody = RequestBody.create(MediaType.parse("text/plain"), statusAbsensi);
+        RequestBody statusPresensiBody = RequestBody.create(MediaType.parse("text/plain"), statusPresensi);
         RequestBody nppBody = RequestBody.create(MediaType.parse("text/plain"), npp);
 
         File imageFile = new File(compressedImageFile.getAbsolutePath());
@@ -191,10 +191,10 @@ public class AbsensiV2Activity extends AppCompatActivity {
 
         Log.d(TAG, "bodyPhoto: " + bodyPhoto.body());
         Log.d(TAG, "imageFileCompress: " + imageFile.getName());
-        Log.d(TAG, "status: " + statusAbsensiBody.toString());
+        Log.d(TAG, "status: " + statusPresensiBody.toString());
         Log.d(TAG, "nppBody: " + nppBody.toString());
         ApiService apiService = ApiConfig.getApiService();
-        apiService.checkFace(access_token, statusAbsensiBody, nppBody, bodyPhoto)
+        apiService.checkFace(access_token, statusPresensiBody, nppBody, bodyPhoto)
                 .enqueue(new Callback<FaceDetectionRootModel>() {
                     @SuppressLint("SetTextI18n")
                     @Override
@@ -208,21 +208,21 @@ public class AbsensiV2Activity extends AppCompatActivity {
                                 Log.d(TAG, "onResponsecode: " + response.code());
                                 Log.d(TAG, "onResponseheaders: " + response.headers());
                                 Log.d(TAG, "onResponseheaders: " + response.message());
-                                Toast.makeText(AbsensiV2Activity.this, "Wajah tidak ada", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PresensiActivity.this, "Wajah tidak ada", Toast.LENGTH_SHORT).show();
                                 divMencariMuka.setVisibility(View.GONE);
                                 tvPersenFace.setVisibility(View.VISIBLE);
                                 tvPersenFace.setTextColor(Color.RED);
                                 tvPersenFace.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                                 tvPersenFace.setText("Wajah tidak ada, ULANGI.......");
-                                Config.showNotification(AbsensiV2Activity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TPP ???????",
+                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TPP ???????",
                                         Config.BASE_URL_NOTIF_FOTO_FAIL);
                             } else {
-                                Toast.makeText(AbsensiV2Activity.this, "Deteksi Wajah " + response.body().getData().getMatchPercent() + "%", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PresensiActivity.this, "Deteksi Wajah " + response.body().getData().getMatchPercent() + "%", Toast.LENGTH_SHORT).show();
                                 divMencariMuka.setVisibility(View.VISIBLE);
                                 animationView.setVisibility(View.GONE);
                                 tvMencariMuka.setText("Sukses Deteksi");
                                 tvPersenFace.setVisibility(View.VISIBLE);
-                                btnKirimAbsensi.setEnabled(true);
+                                btnKirimPresensi.setEnabled(true);
                                 tvPersenFace.setTextColor(Color.GRAY);
                                 tvPersenFace.setText("Deteksi Wajah " + response.body().getData().getMatchPercent() + " %");
                                 getPathPhotoFaceServer = response.body().getData().getPhoto();
@@ -233,13 +233,13 @@ public class AbsensiV2Activity extends AppCompatActivity {
                             }
                         } else {
                             divMencariMuka.setVisibility(View.GONE);
-                            Toast.makeText(AbsensiV2Activity.this, "Fail : " + response.message(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PresensiActivity.this, "Fail : " + response.message(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<FaceDetectionRootModel> call, Throwable t) {
-                        Toast.makeText(AbsensiV2Activity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PresensiActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
                         Log.d(TAG, "onFailure: " + t.getMessage());
                         Log.d(TAG, "onFailure: " + t.getCause());
@@ -263,7 +263,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
 
                 // TODO Compress file/image
                 try {
-                    compressedImageFile = new Compressor(AbsensiV2Activity.this)
+                    compressedImageFile = new Compressor(PresensiActivity.this)
                             .setMaxHeight(640)
                             .setMaxWidth(480)
                             .setQuality(70)
@@ -271,7 +271,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
                             .setDestinationDirectoryPath(imageFiles[0].getFile().getParent())
                             .compressToFile(imageFiles[0].getFile(), "comp_" + imageFiles[0].getFile().getName());
                     Log.d(TAG, "compressed: " + compressedImageFile.getPath());
-                    Glide.with(AbsensiV2Activity.this).load(compressedImageFile.getPath()).override(512, 512).into(ivFotoFront);
+                    Glide.with(PresensiActivity.this).load(compressedImageFile.getPath()).override(512, 512).into(ivFotoFront);
                     editor.putString(Config.SHARED_COMPRESED_PHOTO_OFFLINE, compressedImageFile.getPath()); // TODO saving OFFLINE PHOTO
                     editor.apply();
 
@@ -294,34 +294,34 @@ public class AbsensiV2Activity extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    private void saveAbsensi() {
+    private void savePresensi() {
         animationView.setVisibility(View.VISIBLE);
         tvMencariMuka.setText("Mengirim Presensi");
         ApiService apiService = ApiConfig.getApiService();
-        apiService.saveAbsensi(access_token, lati, longi, statusAbsensi, npp, "0", getPathPhotoFaceServer, connectionType)
-                .enqueue(new Callback<SaveAbsensiRootModel>() {
+        apiService.savePresensi(access_token, lati, longi, statusPresensi, npp, "0", getPathPhotoFaceServer, connectionType)
+                .enqueue(new Callback<SavePresensiRootModel>() {
                     @Override
-                    public void onResponse(Call<SaveAbsensiRootModel> call, Response<SaveAbsensiRootModel> response) {
+                    public void onResponse(Call<SavePresensiRootModel> call, Response<SavePresensiRootModel> response) {
                         if (response.isSuccessful()) {
-                            Log.d(TAG, "saveAbsensi: " + response.body().getData());
+                            Log.d(TAG, "savePresensi: " + response.body().getData());
                             animationView.setVisibility(View.GONE);
                             tvMencariMuka.setText("Selesai Mengirim");
-                            btnKirimAbsensi.setEnabled(false);
+                            btnKirimPresensi.setEnabled(false);
                             if (response.body().getData().isIsTelat()){ // jika telat TRUE
-                                Config.showNotification(AbsensiV2Activity.this, "AKU SEDIH KARENA....", "Telat absensi " + response.body().getData().getAttendanceDiffMinutes() + " menit , potong TPP deh :((",
+                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Telat absensi " + response.body().getData().getAttendanceDiffMinutes() + " menit , potong TPP deh :((",
                                         Config.BASE_URL_NOTIF_JIKA_TELAT);
                                 finishAffinity();
-                                startActivity(new Intent(AbsensiV2Activity.this, KehadiranActivity.class));
+                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
                             } else if (response.body().getData().isIsPulangAwal()){ // jika pulang awal TRUE
-                                Config.showNotification(AbsensiV2Activity.this, "AKU SEDIH KARENA....", "Pulang awal kerja, TPP ga aman, FIX :((",
+                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Pulang awal kerja, TPP ga aman, FIX :((",
                                         Config.BASE_URL_NOTIF_JIKA_PULANG_AWAL);
                                 finishAffinity();
-                                startActivity(new Intent(AbsensiV2Activity.this, KehadiranActivity.class));
+                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
                             } else { // jika tidak memenuhi kriteria keduanya FALSE
-                                Config.showNotification(AbsensiV2Activity.this, "AKU SENANG ABSEN JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) ", "" +
+                                Config.showNotification(PresensiActivity.this, "AKU SENANG ABSEN JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) ", "" +
                                         Config.BASE_URL_NOTIF_NORMAL);
                                 finishAffinity();
-                                startActivity(new Intent(AbsensiV2Activity.this, KehadiranActivity.class));
+                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
                             }
                             // TODO activity kehadiran (history) DONE
                         } else {
@@ -331,15 +331,15 @@ public class AbsensiV2Activity extends AppCompatActivity {
                             Log.d(TAG, "onResponse: " + response.message());
                             animationView.setVisibility(View.GONE);
                             tvMencariMuka.setText("Gagal Mengirim");
-                            Toast.makeText(AbsensiV2Activity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
-                            Config.showNotification(AbsensiV2Activity.this, "" + response.code(), "Error, hubungi PTI ", "" +
+                            Toast.makeText(PresensiActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
+                            Config.showNotification(PresensiActivity.this, "" + response.code(), "Error, hubungi PTI ", "" +
                                     Config.BASE_URL_NOTIF_ERROR);
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<SaveAbsensiRootModel> call, Throwable t) {
-                        Toast.makeText(AbsensiV2Activity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                    public void onFailure(Call<SavePresensiRootModel> call, Throwable t) {
+                        Toast.makeText(PresensiActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -355,7 +355,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
         tvWaktu = findViewById(R.id.tv_waktu);
         tvPersenFace = findViewById(R.id.tv_persen_face);
         tvVersiApps = findViewById(R.id.tv_versi_apps);
-        btnKirimAbsensi = findViewById(R.id.btn_kirim_absensi);
+        btnKirimPresensi = findViewById(R.id.btn_kirim_absensi);
         divMencariMuka = findViewById(R.id.div_mencari_muka);
         animationView = findViewById(R.id.animation_view);
         tvMencariMuka = findViewById(R.id.tv_mencari_muka);
