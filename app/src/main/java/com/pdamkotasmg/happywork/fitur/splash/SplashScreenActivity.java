@@ -18,6 +18,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.Formatter;
@@ -25,6 +26,7 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
@@ -106,6 +108,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         androidVersionDevice = BuildConfig.VERSION_NAME;
         Log.d(TAG, "onCreate: " + androidVersionDevice);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         Typeface typeface = ResourcesCompat.getFont(this, R.font.roboto);
 
         TextView appname = findViewById(R.id.appname);
@@ -380,10 +384,11 @@ public class SplashScreenActivity extends AppCompatActivity {
             return true;
         return false;
     }
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)
     private void methodRequiresTwoPermission() {
         String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                , Manifest.permission.CAMERA};
+                , Manifest.permission.CAMERA, Manifest.permission.USE_FINGERPRINT, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, };
         if (EasyPermissions.hasPermissions(this, perms)) {
             getAplicationVersionFromServer();
             // Already have permission, do the thing
