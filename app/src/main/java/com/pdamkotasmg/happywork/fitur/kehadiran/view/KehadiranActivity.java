@@ -77,16 +77,11 @@ public class KehadiranActivity extends AppCompatActivity {
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
 
         nama = sharedPreferences.getString(Config.SHARED_NAME, "");
-        remark = sharedPreferences.getString(Config.SHARED_REMARK, "");
-        starTime = sharedPreferences.getString(Config.SHARED_START_TIME, "");
-        endTime = sharedPreferences.getString(Config.SHARED_END_TIME, "");
-        shiftDailyCode = sharedPreferences.getString(Config.SHARED_SHIFT_DAILY_CODE, "");
 
         Date currentTimeInMillis = SecureTimer.with(KehadiranActivity.this).getCurrentDate();
         String dateServer = new SimpleDateFormat("EEEE, dd MMM yyyy").format(currentTimeInMillis);
         tvListKehadiranNama.setText(nama);
         tvDate.setText(dateServer);
-        tvListKehadiranShift.setText(remark + " - " + shiftDailyCode + " [" + starTime + " - " + endTime + "]");
 
         formatDate = new SimpleDateFormat("yyyy-MM-dd").format(currentTimeInMillis);
         dateFrom = LocalDate.parse(formatDate);
@@ -123,9 +118,11 @@ public class KehadiranActivity extends AppCompatActivity {
                     }
                 });
     }
+
     public void getShiftPegawai() {
         ApiService apiService = ApiConfig.getApiService();
         apiService.getShiftPegawai(accessToken).enqueue(new Callback<ShfitPegawaiRootModel>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<ShfitPegawaiRootModel> call, Response<ShfitPegawaiRootModel> response) {
                 if (response.isSuccessful()) {
@@ -134,6 +131,11 @@ public class KehadiranActivity extends AppCompatActivity {
                     editor.putString(Config.SHARED_END_TIME, response.body().getData().getEndTime());
                     editor.putString(Config.SHARED_REMARK, response.body().getData().getRemark());
                     editor.apply();
+                    remark = response.body().getData().getRemark();
+                    starTime = response.body().getData().getStartTime();
+                    endTime = response.body().getData().getEndTime();
+                    shiftDailyCode = response.body().getData().getShiftDailyCode();
+                    tvListKehadiranShift.setText(remark + " - " + shiftDailyCode + " [" + starTime + " - " + endTime + "]");
                     getHistoryPresensi();
                 } else {
                     Toast.makeText(KehadiranActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
