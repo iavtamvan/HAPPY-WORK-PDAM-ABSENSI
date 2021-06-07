@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -75,6 +76,10 @@ public class DashboardActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
         divNamaLengkap.setText("Hai, " + sharedPreferences.getString(Config.SHARED_NAME, ""));
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        Log.d(TAG, "policy: " + policy);
 
         getShiftPegawai();
 

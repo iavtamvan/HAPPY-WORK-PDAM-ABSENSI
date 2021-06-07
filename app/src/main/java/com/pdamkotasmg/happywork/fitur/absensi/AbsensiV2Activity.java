@@ -212,7 +212,8 @@ public class AbsensiV2Activity extends AppCompatActivity {
                                 tvPersenFace.setTextColor(Color.RED);
                                 tvPersenFace.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                                 tvPersenFace.setText("Wajah tidak ada, ULANGI.......");
-                                Config.showNotification(AbsensiV2Activity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TPP ???????");
+                                Config.showNotification(AbsensiV2Activity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TPP ???????",
+                                        Config.BASE_URL_NOTIF_FOTO_FAIL);
                             } else {
                                 Toast.makeText(AbsensiV2Activity.this, "Deteksi Wajah " + response.body().getData().getMatchPercent() + "%", Toast.LENGTH_SHORT).show();
                                 divMencariMuka.setVisibility(View.VISIBLE);
@@ -305,15 +306,18 @@ public class AbsensiV2Activity extends AppCompatActivity {
                             tvMencariMuka.setText("Selesai Mengirim");
                             btnKirimAbsensi.setEnabled(false);
                             if (response.body().getData().isIsTelat()){ // jika telat TRUE
-                                Config.showNotification(AbsensiV2Activity.this, "AKU SEDIH KARENA....", "Telat absensi, potong TPP deh :((");
+                                Config.showNotification(AbsensiV2Activity.this, "AKU SEDIH KARENA....", "Telat absensi " + response.body().getData().getAttendanceDiffMinutes() + " menit , potong TPP deh :((",
+                                        Config.BASE_URL_NOTIF_JIKA_TELAT);
                                 finishAffinity();
                                 startActivity(new Intent(AbsensiV2Activity.this, KehadiranActivity.class));
                             } else if (response.body().getData().isIsPulangAwal()){ // jika pulang awal TRUE
-                                Config.showNotification(AbsensiV2Activity.this, "AKU SEDIH KARENA....", "Pulang awal kerja, TPP ga aman, FIX :((");
+                                Config.showNotification(AbsensiV2Activity.this, "AKU SEDIH KARENA....", "Pulang awal kerja, TPP ga aman, FIX :((",
+                                        Config.BASE_URL_NOTIF_JIKA_PULANG_AWAL);
                                 finishAffinity();
                                 startActivity(new Intent(AbsensiV2Activity.this, KehadiranActivity.class));
                             } else { // jika tidak memenuhi kriteria keduanya FALSE
-                                Config.showNotification(AbsensiV2Activity.this, "AKU SENANG ABSEN JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) ");
+                                Config.showNotification(AbsensiV2Activity.this, "AKU SENANG ABSEN JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) ", "" +
+                                        Config.BASE_URL_NOTIF_NORMAL);
                                 finishAffinity();
                                 startActivity(new Intent(AbsensiV2Activity.this, KehadiranActivity.class));
                             }
@@ -326,7 +330,8 @@ public class AbsensiV2Activity extends AppCompatActivity {
                             animationView.setVisibility(View.GONE);
                             tvMencariMuka.setText("Gagal Mengirim");
                             Toast.makeText(AbsensiV2Activity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
-                            Config.showNotification(AbsensiV2Activity.this, "" + response.code(), "Error, hubungi PTI ");
+                            Config.showNotification(AbsensiV2Activity.this, "" + response.code(), "Error, hubungi PTI ", "" +
+                                    Config.BASE_URL_NOTIF_ERROR);
                         }
                     }
 

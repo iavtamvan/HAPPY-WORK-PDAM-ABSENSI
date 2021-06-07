@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -104,7 +103,6 @@ public class KehadiranActivity extends AppCompatActivity {
                     public void onResponse(Call<RiwayatKehadiranRootModel> call, Response<RiwayatKehadiranRootModel> response) {
                         if (response.isSuccessful()) {
                             dataItems = response.body().getData();
-                            Log.d("debug", "dataItems: " + dataItems);
                             if (dataItems.isEmpty()) {
                                 Toast.makeText(KehadiranActivity.this, "Data tidak ada", Toast.LENGTH_SHORT).show();
                             } else {

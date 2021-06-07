@@ -8,6 +8,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
@@ -19,6 +21,10 @@ import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.fitur.dashboard.DashboardActivity;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -30,6 +36,11 @@ public final class Config {
     public static final String GOOGLE_API_KEY_CAPTCHA_SITE_KEY = "6Lf0J0kaAAAAAAiSo7blYknl2sipxzpGN8B8ubjz";
     public static final String GOOGLE_API_KEY_CAPTCHA_SECRET_KEY = "6Lf0J0kaAAAAAP1jT3WCu3pvVzJBOwAM9N8vK4mY";
     public static final String BASE_URL_IMAGE = "https://app.pdamkotasmg.co.id/api-gw-dev/portal-pegawai";
+    public static final String BASE_URL_NOTIF_FOTO_FAIL = "https://image.freepik.com/free-vector/people-with-sad-angry-emojis-illustration_53876-43293.jpg";
+    public static final String BASE_URL_NOTIF_JIKA_TELAT = "https://image.freepik.com/free-vector/people-run-open-door-being-late-men-women-hurry-end-beginning-working-office-day-illustration_80590-9275.jpg";
+    public static final String BASE_URL_NOTIF_JIKA_PULANG_AWAL = "https://image.freepik.com/free-vector/businessman-leaving-comfort-zone-flat-illustration_74855-16768.jpg";
+    public static final String BASE_URL_NOTIF_NORMAL = "https://image.freepik.com/free-vector/people-jumping-trampoline_74855-4453.jpg";
+    public static final String BASE_URL_NOTIF_ERROR = "https://image.freepik.com/free-vector/oops-404-error-with-broken-robot-concept-illustration_114360-1932.jpg";
 
     public static final String ERROR_MSG = "Koneksi kamu lagi jelek";
     public static final String ERROR_PASSWORD = "Pastikan Kata Sandi Anda Sama";
@@ -187,7 +198,7 @@ public final class Config {
         Log.d("debug", log + " Deleted : " + deleted);
     }
 
-    public static void showNotification(Context context, String title, String content) {
+    public static void showNotification(Context context, String title, String content, String resourceBitmapLink) {
         int noificationId = new Random().nextInt(100);
         Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.notif);
         Log.d("debug", "showNotification: " + sound);
@@ -201,14 +212,39 @@ public final class Config {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(
                 context.getApplicationContext(), channelId
         );
+
+//        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceBitmap);
+        Bitmap bitmap = null;
+        try {
+            URL url = new URL(resourceBitmapLink);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            bitmap = BitmapFactory.decodeStream(input);
+        } catch (IOException e) {
+            // Log exception
+        }
+
+
         builder.setSmallIcon(R.drawable.ic_launcher_foreground);
-        builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        builder.setDefaults(NotificationCompat.PRIORITY_MAX);
         builder.setContentTitle(title); // make suer change the channel for image
         builder.setContentText(content);
         builder.setSound(sound);
+        builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
         //notification for image
-//        builder.setStyle(new NotificationCompat.BigPictureStyle().
-//                bigPicture(bitmap));
+//        Glide.with(context).asBitmap().load("https://www.google.es/images/srpr/logo11w.png").into(new CustomTarget<Bitmap>() {
+//            @Override
+//            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+//
+//            }
+//            @Override
+//            public void onLoadCleared(@Nullable Drawable placeholder) {
+//            }
+//        });
+        builder.setStyle(new NotificationCompat.BigPictureStyle().
+                bigPicture(bitmap));
         builder.setContentIntent(pendingIntent);
         builder.setAutoCancel(true);
         builder.setPriority(NotificationCompat.PRIORITY_MAX);
