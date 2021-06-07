@@ -98,7 +98,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
         initView();
         // TODO 1 preview camera Done
         // TODO 2 face Detection Done
-        // TODO 3 Save Absensi
+        // TODO 3 Save Presensi
         tvHeaderJudul.setText("Mengenali Wajah");
         animationView.setVisibility(View.GONE);
         tvMencariMuka.setText("Ayo foto...");
@@ -296,7 +296,7 @@ public class AbsensiV2Activity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void saveAbsensi() {
         animationView.setVisibility(View.VISIBLE);
-        tvMencariMuka.setText("Mengirim Absensi");
+        tvMencariMuka.setText("Mengirim Presensi");
         ApiService apiService = ApiConfig.getApiService();
         apiService.saveAbsensi(access_token, lati, longi, statusAbsensi, npp, "0", getPathPhotoFaceServer, connectionType)
                 .enqueue(new Callback<SaveAbsensiRootModel>() {
