@@ -4,11 +4,38 @@ import com.google.gson.annotations.SerializedName;
 
 public class Data{
 
+    @SerializedName("shift_remark")
+    private String shiftRemark;
+
+    @SerializedName("location_is_in_radius")
+    private Boolean locationIsInRadius;
+
+    @SerializedName("face_match")
+    private Boolean faceMatch;
+
+    @SerializedName("is_telat")
+    private Boolean isTelat;
+
+    @SerializedName("shift_can_offline")
+    private Boolean shiftCanOffline;
+
+    @SerializedName("location_distance_m")
+    private Double locationDistanceM;
+
+    @SerializedName("coord")
+    private String coord;
+
+    @SerializedName("attendance_status")
+    private String attendanceStatus;
+
+    @SerializedName("location_longitude")
+    private String locationLongitude;
+
     @SerializedName("check_face")
     private String checkFace;
 
-    @SerializedName("shift_remark")
-    private String shiftRemark;
+    @SerializedName("hwname")
+    private String hwname;
 
     @SerializedName("face_match_percent")
     private Integer faceMatchPercent;
@@ -16,8 +43,11 @@ public class Data{
     @SerializedName("record_date")
     private String recordDate;
 
-    @SerializedName("face_match")
-    private Boolean faceMatch;
+    @SerializedName("connection_type")
+    private String connectionType;
+
+    @SerializedName("location_latitude")
+    private String locationLatitude;
 
     @SerializedName("is_shift_in")
     private Boolean isShiftIn;
@@ -34,17 +64,95 @@ public class Data{
     @SerializedName("shift_time")
     private String shiftTime;
 
-    @SerializedName("coord")
-    private String coord;
+    @SerializedName("is_pulang_awal")
+    private Boolean isPulangAwal;
 
     @SerializedName("shift_code")
     private String shiftCode;
 
+    @SerializedName("name")
+    private String name;
+
+    @SerializedName("shift_location_detection")
+    private Boolean shiftLocationDetection;
+
     @SerializedName("record_time")
     private String recordTime;
 
-    @SerializedName("attendance_status")
-    private String attendanceStatus;
+    @SerializedName("attendance_diff_minutes")
+    private Integer attendanceDiffMinutes;
+
+    public void setShiftRemark(String shiftRemark){
+        this.shiftRemark = shiftRemark;
+    }
+
+    public String getShiftRemark(){
+        return shiftRemark;
+    }
+
+    public void setLocationIsInRadius(Boolean locationIsInRadius){
+        this.locationIsInRadius = locationIsInRadius;
+    }
+
+    public boolean isLocationIsInRadius(){
+        return locationIsInRadius;
+    }
+
+    public void setFaceMatch(Boolean faceMatch){
+        this.faceMatch = faceMatch;
+    }
+
+    public boolean isFaceMatch(){
+        return faceMatch;
+    }
+
+    public void setIsTelat(Boolean isTelat){
+        this.isTelat = isTelat;
+    }
+
+    public boolean isIsTelat(){
+        return isTelat;
+    }
+
+    public void setShiftCanOffline(Boolean shiftCanOffline){
+        this.shiftCanOffline = shiftCanOffline;
+    }
+
+    public boolean isShiftCanOffline(){
+        return shiftCanOffline;
+    }
+
+    public void setLocationDistanceM(Double locationDistanceM){
+        this.locationDistanceM = locationDistanceM;
+    }
+
+    public Double getLocationDistanceM(){
+        return locationDistanceM;
+    }
+
+    public void setCoord(String coord){
+        this.coord = coord;
+    }
+
+    public String getCoord(){
+        return coord;
+    }
+
+    public void setAttendanceStatus(String attendanceStatus){
+        this.attendanceStatus = attendanceStatus;
+    }
+
+    public String getAttendanceStatus(){
+        return attendanceStatus;
+    }
+
+    public void setLocationLongitude(String locationLongitude){
+        this.locationLongitude = locationLongitude;
+    }
+
+    public String getLocationLongitude(){
+        return locationLongitude;
+    }
 
     public void setCheckFace(String checkFace){
         this.checkFace = checkFace;
@@ -54,12 +162,12 @@ public class Data{
         return checkFace;
     }
 
-    public void setShiftRemark(String shiftRemark){
-        this.shiftRemark = shiftRemark;
+    public void setHwname(String hwname){
+        this.hwname = hwname;
     }
 
-    public String getShiftRemark(){
-        return shiftRemark;
+    public String getHwname(){
+        return hwname;
     }
 
     public void setFaceMatchPercent(Integer faceMatchPercent){
@@ -78,12 +186,20 @@ public class Data{
         return recordDate;
     }
 
-    public void setFaceMatch(Boolean faceMatch){
-        this.faceMatch = faceMatch;
+    public void setConnectionType(String connectionType){
+        this.connectionType = connectionType;
     }
 
-    public boolean isFaceMatch(){
-        return faceMatch;
+    public String getConnectionType(){
+        return connectionType;
+    }
+
+    public void setLocationLatitude(String locationLatitude){
+        this.locationLatitude = locationLatitude;
+    }
+
+    public String getLocationLatitude(){
+        return locationLatitude;
     }
 
     public void setIsShiftIn(Boolean isShiftIn){
@@ -126,12 +242,12 @@ public class Data{
         return shiftTime;
     }
 
-    public void setCoord(String coord){
-        this.coord = coord;
+    public void setIsPulangAwal(Boolean isPulangAwal){
+        this.isPulangAwal = isPulangAwal;
     }
 
-    public String getCoord(){
-        return coord;
+    public boolean isIsPulangAwal(){
+        return isPulangAwal;
     }
 
     public void setShiftCode(String shiftCode){
@@ -142,6 +258,22 @@ public class Data{
         return shiftCode;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public void setShiftLocationDetection(Boolean shiftLocationDetection){
+        this.shiftLocationDetection = shiftLocationDetection;
+    }
+
+    public boolean isShiftLocationDetection(){
+        return shiftLocationDetection;
+    }
+
     public void setRecordTime(String recordTime){
         this.recordTime = recordTime;
     }
@@ -150,11 +282,11 @@ public class Data{
         return recordTime;
     }
 
-    public void setAttendanceStatus(String attendanceStatus){
-        this.attendanceStatus = attendanceStatus;
+    public void setAttendanceDiffMinutes(Integer attendanceDiffMinutes){
+        this.attendanceDiffMinutes = attendanceDiffMinutes;
     }
 
-    public String getAttendanceStatus(){
-        return attendanceStatus;
+    public Integer getAttendanceDiffMinutes(){
+        return attendanceDiffMinutes;
     }
 }

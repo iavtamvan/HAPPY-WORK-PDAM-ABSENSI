@@ -26,7 +26,7 @@ import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.absensi.model.faceDeetectionModel.FaceDetectionRootModel;
 import com.pdamkotasmg.happywork.fitur.absensi.model.saveAbsensiModel.SaveAbsensiRootModel;
-import com.pdamkotasmg.happywork.fitur.dashboard.DashboardActivity;
+import com.pdamkotasmg.happywork.fitur.kehadiran.view.KehadiranActivity;
 import com.pdamkotasmg.happywork.utils.Config;
 import com.pdamkotasmg.happywork.utils.Connectivity;
 
@@ -304,10 +304,20 @@ public class AbsensiV2Activity extends AppCompatActivity {
                             animationView.setVisibility(View.GONE);
                             tvMencariMuka.setText("Selesai Mengirim");
                             btnKirimAbsensi.setEnabled(false);
-                            Config.showNotification(AbsensiV2Activity.this, "AKU SENANG ABSEN JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) ");
-                            finishAffinity();
-                            startActivity(new Intent(AbsensiV2Activity.this, DashboardActivity.class));
-                            // TODO activity kehadiran (history)
+                            if (response.body().getData().isIsTelat()){ // jika telat TRUE
+                                Config.showNotification(AbsensiV2Activity.this, "AKU SEDIH KARENA....", "Telat absensi, potong TPP deh :((");
+                                finishAffinity();
+                                startActivity(new Intent(AbsensiV2Activity.this, KehadiranActivity.class));
+                            } else if (response.body().getData().isIsPulangAwal()){ // jika pulang awal TRUE
+                                Config.showNotification(AbsensiV2Activity.this, "AKU SEDIH KARENA....", "Pulang awal kerja, TPP ga aman, FIX :((");
+                                finishAffinity();
+                                startActivity(new Intent(AbsensiV2Activity.this, KehadiranActivity.class));
+                            } else { // jika tidak memenuhi kriteria keduanya FALSE
+                                Config.showNotification(AbsensiV2Activity.this, "AKU SENANG ABSEN JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) ");
+                                finishAffinity();
+                                startActivity(new Intent(AbsensiV2Activity.this, KehadiranActivity.class));
+                            }
+                            // TODO activity kehadiran (history) DONE
                         } else {
                             Log.d(TAG, "onResponse: " + response.code());
                             Log.d(TAG, "onResponse: " + response.headers());

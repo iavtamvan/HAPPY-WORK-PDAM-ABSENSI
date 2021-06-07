@@ -11,7 +11,7 @@ public class SaveAbsensiRootModel{
     private String message;
 
     @SerializedName("status")
-    private String status;
+    private Integer status;
 
     public void setData(Data data){
         this.data = data;
@@ -29,11 +29,11 @@ public class SaveAbsensiRootModel{
         return message;
     }
 
-    public void setStatus(String status){
+    public void setStatus(Integer status){
         this.status = status;
     }
 
-    public String getStatus(){
+    public Integer getStatus(){
         return status;
     }
 }
