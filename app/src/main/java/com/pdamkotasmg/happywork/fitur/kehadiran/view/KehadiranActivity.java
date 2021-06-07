@@ -87,6 +87,8 @@ public class KehadiranActivity extends AppCompatActivity {
         dateFrom = LocalDate.parse(formatDate);
         dateFromMinus = dateFrom.minusDays(5);
         dateEnd = dateFrom.plusDays(1);
+        // TODO getShift pegawai DONE
+        // TODO getHistory presensi DONE
         getShiftPegawai();
 
     }
