@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.krishna.securetimer.SecureTimer;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
@@ -58,9 +61,11 @@ public class KehadiranActivity extends AppCompatActivity {
     private TextView tvDate;
     private TextView tvListKehadiranShift;
     private RecyclerView rvKehadiran;
+    private LinearLayout divAnimation;
+    private LottieAnimationView animationView;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
+    @SuppressLint({"SetTextI18n", "SimpleDateFormat", "CommitPrefEdits"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +73,7 @@ public class KehadiranActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         initView();
         tvHeaderJudul.setText("Riwayat Rekam Kehadiran");
+        ivHeaderInfo.setVisibility(View.GONE);
 
         dataItems = new ArrayList<>();
 
@@ -101,6 +107,8 @@ public class KehadiranActivity extends AppCompatActivity {
                     public void onResponse(Call<RiwayatKehadiranRootModel> call, Response<RiwayatKehadiranRootModel> response) {
                         if (response.isSuccessful()) {
                             dataItems = response.body().getData();
+                            divAnimation.setVisibility(View.GONE);
+                            rvKehadiran.setVisibility(View.VISIBLE);
                             if (dataItems.isEmpty()) {
                                 Toast.makeText(KehadiranActivity.this, "Data tidak ada", Toast.LENGTH_SHORT).show();
                             } else {
@@ -110,18 +118,22 @@ public class KehadiranActivity extends AppCompatActivity {
                                 kehadiranAdapter.notifyDataSetChanged();
                             }
                         } else {
+                            divAnimation.setVisibility(View.GONE);
                             Toast.makeText(KehadiranActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<RiwayatKehadiranRootModel> call, Throwable t) {
+                        divAnimation.setVisibility(View.GONE);
                         Toast.makeText(KehadiranActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     public void getShiftPegawai() {
+        rvKehadiran.setVisibility(View.GONE);
+        divAnimation.setVisibility(View.VISIBLE);
         ApiService apiService = ApiConfig.getApiService();
         apiService.getShiftPegawai(accessToken).enqueue(new Callback<ShfitPegawaiRootModel>() {
             @SuppressLint("SetTextI18n")
@@ -160,5 +172,7 @@ public class KehadiranActivity extends AppCompatActivity {
         tvDate = findViewById(R.id.tv_date);
         tvListKehadiranShift = findViewById(R.id.tv_list_kehadiran_shift);
         rvKehadiran = findViewById(R.id.rv_kehadiran);
+        divAnimation = findViewById(R.id.div_animation);
+        animationView = findViewById(R.id.animation_view);
     }
 }

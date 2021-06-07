@@ -97,10 +97,30 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/div_animation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:gravity="center">
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animation_view"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_gravity="center"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="lt_loading.json"
+                    app:lottie_loop="true" />
+
+            </LinearLayout>
+
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_kehadiran"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 tools:listitem="@layout/list_item_kehadiran" />
 
         </LinearLayout>
