@@ -33,6 +33,7 @@ import com.pdamkotasmg.happywork.fitur.presensi.PresensiActivity;
 import com.pdamkotasmg.happywork.fitur.profil.ProfileActivity;
 import com.pdamkotasmg.happywork.utils.Config;
 import com.pdamkotasmg.happywork.utils.Connectivity;
+import com.scottyab.rootbeer.RootBeer;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import java.math.BigInteger;
@@ -91,6 +92,16 @@ public class DashboardActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
         Log.d(TAG, "policy: " + policy);
         methodRequiresTwoPermission();
+
+        RootBeer rootBeer = new RootBeer(DashboardActivity.this);
+        if (rootBeer.isRooted()) {
+            //we found indication of root
+            Toast.makeText(this, "Rooted Detected" + rootBeer, Toast.LENGTH_SHORT).show();
+        } else {
+            //we didn't find indication of root
+            Toast.makeText(this, "Not Rooted", Toast.LENGTH_SHORT).show();
+        }
+
         getShiftPegawai();
 
         if (Connectivity.isConnected(DashboardActivity.this)) {

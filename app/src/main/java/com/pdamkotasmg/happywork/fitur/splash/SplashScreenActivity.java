@@ -254,6 +254,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         location = new SimpleLocation(SplashScreenActivity.this);
         if (!location.hasLocationEnabled()) {
             SimpleLocation.openSettings(SplashScreenActivity.this);
+            Toast.makeText(this, "Aktifkan GPS", Toast.LENGTH_SHORT).show();
         }
         lati = location.getLatitude();
         longi = location.getLongitude();
@@ -340,8 +341,23 @@ public class SplashScreenActivity extends AppCompatActivity {
         boolean finding = false;
         for (ApplicationInfo applicationInfo : packages) {
             try {
+//                PackageInfo packageInfo = pm.getPackageInfo(applicationInfo.packageName,
+//                        PackageManager.GET_PERMISSIONS);
+                // Get Permissions
+//                String[] requestedPermissions = packageInfo.requestedPermissions;
+//
+//                if (requestedPermissions != null) {
+//                    for (int i = 0; i < requestedPermissions.length; i++) {
+//                        if (requestedPermissions[i]
+//                                .equals("android.permission.ACCESS_MOCK_LOCATION")
+//                                && !applicationInfo.packageName.equals(context.getPackageName())) {
+//                            count++;
+//                            Log.d(TAG, "areThereMockPermissionApps: STOPPP MOCK ON");
+//                        }
+//                    }
+//                } else {
                 for (i = 0; i < stringslist.size(); i++) {
-                    packageInfo = pm.getPackageInfo(applicationInfo.packageName, PackageManager.GET_PERMISSIONS);
+                        packageInfo = pm.getPackageInfo(applicationInfo.packageName, PackageManager.GET_PERMISSIONS);
 //                    Log.d(TAG, "packages : " + packageInfo.packageName);
                     if (packageInfo.packageName.equalsIgnoreCase(stringslist.get(i))) {
                         Log.d(TAG, packageInfo.packageName + " : Fuck Moc: Sama");
@@ -352,6 +368,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                     }
                 }
                 if (finding) break;
+//                }
+
 
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
@@ -364,7 +382,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
                 String telepon = sp.getString(Config.SHARED_NAME, "");
                 // TODO jika belum masuk ke welcome
-                if (telepon.equalsIgnoreCase("") || TextUtils.isEmpty(telepon)){
+                if (telepon.equalsIgnoreCase("") || TextUtils.isEmpty(telepon)) {
                     finishAffinity();
                     startActivity(new Intent(getApplicationContext(), WelcomeAuthActivity.class));
                 }
@@ -408,11 +426,12 @@ public class SplashScreenActivity extends AppCompatActivity {
             return true;
         return false;
     }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)
     private void methodRequiresTwoPermission() {
         String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                , Manifest.permission.CAMERA, Manifest.permission.USE_FINGERPRINT, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, };
+                , Manifest.permission.CAMERA, Manifest.permission.USE_FINGERPRINT, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE,};
         if (EasyPermissions.hasPermissions(this, perms)) {
             getAplicationVersionFromServer();
             // Already have permission, do the thing
