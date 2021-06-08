@@ -124,11 +124,23 @@
                 android:visibility="gone" />
 
             <Button
-                android:id="@+id/btn_kirim_absensi"
+                android:id="@+id/btn_kirim_presensi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:enabled="false"
+                android:text="Simpan Presensi" />
+
+            <Button
+                android:id="@+id/btn_kirim_presensi_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/red"
+                android:textColor="@color/white"
                 android:gravity="center"
                 android:enabled="false"
                 android:text="Simpan Presensi" />

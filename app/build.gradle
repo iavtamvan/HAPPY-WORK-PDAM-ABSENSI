@@ -8,8 +8,8 @@ android {
         applicationId "com.pdamkotasmg.happywork"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 1 // update playstore
+        versionName "1.0.0" // ini diganti kalau mau update ke pegawai
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -125,6 +125,9 @@ dependencies {
 
     //scan QR
     implementation 'com.budiyev.android:code-scanner:2.1.0'
+
+    // root
+    implementation 'com.scottyab:rootbeer-lib:0.1.0'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

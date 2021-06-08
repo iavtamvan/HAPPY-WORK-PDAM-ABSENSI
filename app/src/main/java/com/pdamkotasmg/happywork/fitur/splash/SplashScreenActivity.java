@@ -98,6 +98,18 @@ public class SplashScreenActivity extends AppCompatActivity {
     private Double lati, longi;
     private SimpleLocation location;
 
+    // android token
+    private String androidToken1;
+    private String androidToken2;
+    private String androidToken3;
+    private String androidToken4;
+    private String androidToken5;
+    private String androidToken6;
+    private String androidToken7;
+    private String androidToken8;
+    private String androidToken9;
+    private String androidToken10;
+
     private List<String> stringslist;
     private List<String> packageString;
 
@@ -110,6 +122,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: " + androidVersionDevice);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
         Typeface typeface = ResourcesCompat.getFont(this, R.font.roboto);
 
         TextView appname = findViewById(R.id.appname);
@@ -140,12 +153,23 @@ public class SplashScreenActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     androidVersionDeviceServer = response.body().getData().getAndroidVersionLatest();
                     Log.d(TAG, "Android Version Latest : " + androidVersionDeviceServer);
+                    // TODO android Token
+                    androidToken1 = response.body().getData().getAndroidToken1();
+                    androidToken2 = response.body().getData().getAndroidToken2();
+                    androidToken3 = response.body().getData().getAndroidToken3();
+                    androidToken5 = response.body().getData().getAndroidToken5();
+                    SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(Config.SHARED_ANDROID_TOKEN_1, androidToken1);
+                    editor.putString(Config.SHARED_ANDROID_TOKEN_2, androidToken2);
+                    editor.putString(Config.SHARED_ANDROID_TOKEN_3, androidToken3);
+                    editor.putString(Config.SHARED_ANDROID_TOKEN_5, androidToken5);
+                    editor.apply();
                     if (!androidVersionDevice.equalsIgnoreCase(androidVersionDeviceServer)) {
                         Toast.makeText(SplashScreenActivity.this, "Perbarui aplikasi kamu", Toast.LENGTH_LONG).show();
                         Log.d(TAG, "Update Aplikasi : update aplikasi kamu");
                         MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
                                 .setTitle("Perbarui aplikas kamu")
-//                                .setMessage("Uninstall fake GPS kamu " + packageInfo.packageName + "\n\n Hubungi kepegawaian untuk aktivasi kembali...")
                                 .setAnimation("lt_update.json")
                                 .setCancelable(false)
                                 .setNegativeButton("Gak mau", new MaterialDialog.OnClickListener() {
@@ -312,7 +336,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         int count = 0;
 
         PackageManager pm = context.getPackageManager();
-        List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+        @SuppressLint("QueryPermissionsNeeded") List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
         boolean finding = false;
         for (ApplicationInfo applicationInfo : packages) {
             try {
@@ -397,6 +421,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             // Do not have permissions, request them now
             EasyPermissions.requestPermissions(this, getString(R.string.app_name),
                     RC_CAMERA_AND_LOCATION, perms);
+            getAplicationVersionFromServer();
 //            Toast.makeText(this, "Izinkan semua permisi yang diberikan", Toast.LENGTH_SHORT).show();
 //            MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
 //                    .setTitle("Izinkan semua permisi yang diberikan.")

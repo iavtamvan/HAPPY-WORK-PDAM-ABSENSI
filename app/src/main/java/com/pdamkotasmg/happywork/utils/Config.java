@@ -127,6 +127,20 @@ public final class Config {
     public static final String SHARED_ABSENSI_MASUK = "shared_absensi_masuk";
     public static final String SHARED_ABSENSI_KELUAR = "shared_absensi_keluar";
 
+    // md5 NPP
+    public static final String SHARED_ANDROID_TOKEN_1 = "android_token_1";
+    public static final String SHARED_ANDROID_TOKEN_2 = "android_token_2";
+    public static final String SHARED_ANDROID_TOKEN_3 = "android_token_3";
+    public static final String SHARED_ANDROID_TOKEN_4 = "android_token_4";
+    public static final String SHARED_ANDROID_TOKEN_5 = "android_token_5";
+    public static final String SHARED_ANDROID_TOKEN_6 = "android_token_6";
+    public static final String SHARED_ANDROID_TOKEN_7 = "android_token_7";
+    public static final String SHARED_ANDROID_TOKEN_8 = "android_token_8";
+    public static final String SHARED_ANDROID_TOKEN_9 = "android_token_9";
+    public static final String SHARED_ANDROID_TOKEN_10 = "android_token_1";
+    public static final String SHARED_ANDROID_TOKEN_11 = "android_token_1";
+    public static final String SHARED_ANDROID_TOKEN_12 = "android_token_1";
+
     //bundle
     public static final String BUNDLE_STATUS_ABSENSI = "status_absensi";
     public static final String BUNDLE_NPP = "npp";

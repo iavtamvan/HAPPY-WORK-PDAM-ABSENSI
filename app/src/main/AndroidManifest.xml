@@ -45,7 +45,8 @@
         <activity android:name=".fitur.profil.ScanQRCodeActivity"></activity>
         <activity android:name=".fitur.profil.QrCodeActivity">
         </activity>
-        <activity android:name=".fitur.presensi.PresensiActivity" />
+        <activity android:name=".fitur.presensi.PresensiActivity" >
+        </activity>
         <activity android:name=".fitur.presensi.CheckLocationActivity" />
         <activity android:name=".fitur.perangkat.PerangkatActivity" />
         <activity android:name=".fitur.profil.ProfileActivity">

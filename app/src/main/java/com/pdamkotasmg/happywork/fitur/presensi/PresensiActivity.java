@@ -24,14 +24,17 @@ import com.krishna.securetimer.SecureTimer;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
+import com.pdamkotasmg.happywork.fitur.kehadiran.view.KehadiranActivity;
 import com.pdamkotasmg.happywork.fitur.presensi.model.faceDeetectionModel.FaceDetectionRootModel;
 import com.pdamkotasmg.happywork.fitur.presensi.model.savePresensiModel.SavePresensiRootModel;
-import com.pdamkotasmg.happywork.fitur.kehadiran.view.KehadiranActivity;
 import com.pdamkotasmg.happywork.utils.Config;
 import com.pdamkotasmg.happywork.utils.Connectivity;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -57,8 +60,11 @@ public class PresensiActivity extends AppCompatActivity {
     private String access_token;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+
     private String currentDateLocal;
+    private String currentDateLocalSendServer;
     private String currentTimeLocal;
+    private String currentTimeLocalSendServer;
 
     private MultipartBody.Part bodyPhoto;
     private Double lati, longi;
@@ -72,6 +78,19 @@ public class PresensiActivity extends AppCompatActivity {
 
     private String statusPresensi;
     private String npp;
+
+    // android token
+    private String noToken;
+    private String androidToken1;
+    private String androidToken2;
+    private String androidToken3;
+    private String androidToken4;
+    private String androidToken5;
+    private String androidToken6;
+    private String androidToken7;
+    private String androidToken8;
+    private String androidToken9;
+    private String androidToken10;
 
     private CircleImageView ivFotoFront;
     private EasyImage easyImage;
@@ -88,6 +107,7 @@ public class PresensiActivity extends AppCompatActivity {
     private LinearLayout divMencariMuka;
     private LottieAnimationView animationView;
     private TextView tvMencariMuka;
+    private Button btnKirimPresensi2;
 
     @SuppressLint({"SimpleDateFormat", "SetTextI18n", "CommitPrefEdits"})
     @Override
@@ -139,6 +159,7 @@ public class PresensiActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         editor = sharedPreferences.edit();
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+        npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
         Log.d(TAG, "token: " + access_token);
 
         tvName.setText(sharedPreferences.getString(Config.SHARED_NAME, ""));
@@ -146,16 +167,58 @@ public class PresensiActivity extends AppCompatActivity {
         tvTanggal.setText(currentDateLocal); // TODO tanggal local
         tvWaktu.setText(currentTimeLocal); // TODO time local
 
-        statusPresensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
+        androidToken1 = sharedPreferences.getString(Config.SHARED_ANDROID_TOKEN_1, "");
+        androidToken2 = sharedPreferences.getString(Config.SHARED_ANDROID_TOKEN_2, "");
+        androidToken3 = sharedPreferences.getString(Config.SHARED_ANDROID_TOKEN_3, "");
+        androidToken5 = sharedPreferences.getString(Config.SHARED_ANDROID_TOKEN_5, "");
 
-        if (statusPresensi.equalsIgnoreCase("qrcode")) {
-            npp = sharedPreferences.getString(Config.SHARED_NPP_QR_CODE, "");
+        Log.d(TAG, "onCreateS: " + npp);
+        String md5Hash = md5(npp);
+        Log.d(TAG, "md5: " + md5Hash);
+        currentDateLocalSendServer = new SimpleDateFormat("yyyy-MM-dd").format(cDate);
+        currentTimeLocalSendServer = new SimpleDateFormat("HH:mm:ss").format(cDate);
+
+        if (androidToken1.equalsIgnoreCase(md5Hash)) {
+            noToken = androidToken1;
+            btnKirimPresensi.setEnabled(true);
+            btnKirimPresensi2.setEnabled(true);
+            btnKirimPresensi2.setText("Simpan Presensi Jadul");
+            Log.d(TAG, "npp Enkrip 1: " + npp + " ? " + noToken);
+        } else if (androidToken2.equalsIgnoreCase(md5Hash)) {
+            noToken = androidToken2;
+            btnKirimPresensi.setEnabled(true);
+            btnKirimPresensi2.setEnabled(true);
+            btnKirimPresensi2.setText("Simpan Presensi Jadul");
+            Log.d(TAG, "npp Enkrip 2: " + npp + " ? " + noToken);
+        } else if (androidToken3.equalsIgnoreCase(md5Hash)) {
+            noToken = androidToken3;
+            btnKirimPresensi.setEnabled(true);
+            btnKirimPresensi2.setEnabled(true);
+            btnKirimPresensi2.setText("Simpan Presensi Jadul");
+            Log.d(TAG, "npp Enkrip 3: " + npp + " ? " + noToken);
+        } else if (androidToken5.equalsIgnoreCase(md5Hash)) {
+            noToken = androidToken5;
+            btnKirimPresensi.setEnabled(true);
+            btnKirimPresensi2.setEnabled(true);
+            btnKirimPresensi2.setText("Simpan Presensi Jadul");
+            Log.d(TAG, "npp Enkrip 5: " + npp + " ? " + noToken);
         } else {
-            npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+            btnKirimPresensi2.setEnabled(false);
+            btnKirimPresensi2.setVisibility(View.GONE);
         }
 
-        Log.d(TAG, "statusPresensi: "  + statusPresensi);
-        Log.d(TAG, "npp: "  + npp);
+        statusPresensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
+
+//        if (statusPresensi.equalsIgnoreCase("qrcode")) {
+//            npp = sharedPreferences.getString(Config.SHARED_NPP_QR_CODE, "");
+//            Log.d(TAG, "npp qrcode: " + npp);
+//        } else if (statusPresensi.equalsIgnoreCase("online")) {
+//            npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+//            Log.d(TAG, "npp online: " + npp);
+//        }
+
+        Log.d(TAG, "statusPresensi: " + statusPresensi);
+        Log.d(TAG, "npp log: " + npp);
         location = new SimpleLocation(PresensiActivity.this);
         if (!location.hasLocationEnabled()) {
             SimpleLocation.openSettings(PresensiActivity.this);
@@ -169,10 +232,54 @@ public class PresensiActivity extends AppCompatActivity {
 
         btnKirimPresensi.setOnClickListener(v -> {
             // TODO kirim server
+            statusPresensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
+            if (statusPresensi.equalsIgnoreCase("qrcode")) {
+                npp = sharedPreferences.getString(Config.SHARED_NPP_QR_CODE, "");
+                Log.d(TAG, "npp normal qrcode: " + npp);
+                savePresensi();
+            } else if (statusPresensi.equalsIgnoreCase("online")) {
+                npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+                Log.d(TAG, "npp normal online: " + npp);
+                savePresensi();
+            }
+        });
+
+        btnKirimPresensi2.setOnClickListener(v -> {
+            npp = noToken;
+            currentDateLocalSendServer = new SimpleDateFormat("yyyy-MM-dd").format(cDate);
+            currentTimeLocalSendServer = new SimpleDateFormat("HH:mm:ss").format(cDate);
+            statusPresensi = "offline";
+            Log.d(TAG, "npp fake offline: " + npp + " date : " + currentDateLocalSendServer + " time " + currentTimeLocalSendServer);
             savePresensi();
         });
     }
 
+    public static String md5(String str) {
+        MessageDigest messageDigest = null;
+
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.reset();
+            messageDigest.update(str.getBytes("UTF-8"));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        byte[] byteArray = messageDigest.digest();
+        StringBuffer md5StrBuff = new StringBuffer();
+
+        for (int i = 0; i < byteArray.length; i++) {
+            if (Integer.toHexString(0xFF & byteArray[i]).length() == 1)
+                md5StrBuff.append("0").append(Integer.toHexString(0xFF & byteArray[i]));
+            else
+                md5StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
+        }
+
+        Log.d(TAG, "md5: " + md5StrBuff.toString());
+        return md5StrBuff.toString().toUpperCase();
+    }
 
     @SuppressLint("SetTextI18n")
     public void checkFace() {
@@ -298,7 +405,7 @@ public class PresensiActivity extends AppCompatActivity {
         animationView.setVisibility(View.VISIBLE);
         tvMencariMuka.setText("Mengirim Presensi");
         ApiService apiService = ApiConfig.getApiService();
-        apiService.savePresensi(access_token, lati, longi, statusPresensi, npp, "0", getPathPhotoFaceServer, connectionType)
+        apiService.savePresensi(access_token, lati, longi, statusPresensi, npp, "0", getPathPhotoFaceServer, connectionType, currentDateLocalSendServer, currentTimeLocalSendServer)
                 .enqueue(new Callback<SavePresensiRootModel>() {
                     @Override
                     public void onResponse(Call<SavePresensiRootModel> call, Response<SavePresensiRootModel> response) {
@@ -307,18 +414,18 @@ public class PresensiActivity extends AppCompatActivity {
                             animationView.setVisibility(View.GONE);
                             tvMencariMuka.setText("Selesai Mengirim");
                             btnKirimPresensi.setEnabled(false);
-                            if (response.body().getData().isIsTelat()){ // jika telat TRUE
+                            if (response.body().getData().isIsShiftIn()) { // jika shift in true
                                 Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Telat absensi " + response.body().getData().getAttendanceDiffMinutes() + " menit , potong TPP deh :((",
                                         Config.BASE_URL_NOTIF_JIKA_TELAT);
                                 finishAffinity();
                                 startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
-                            } else if (response.body().getData().isIsPulangAwal()){ // jika pulang awal TRUE
+                            } else if (response.body().getData().isIsPulangAwal()) { // jika pulang awal TRUE
                                 Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Pulang awal kerja, TPP ga aman, FIX :((",
                                         Config.BASE_URL_NOTIF_JIKA_PULANG_AWAL);
                                 finishAffinity();
                                 startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
                             } else { // jika tidak memenuhi kriteria keduanya FALSE
-                                Config.showNotification(PresensiActivity.this, "AKU SENANG ABSEN JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) ", "" +
+                                Config.showNotification(PresensiActivity.this, "AKU SENANG PRESENSI JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) ", "" +
                                         Config.BASE_URL_NOTIF_NORMAL);
                                 finishAffinity();
                                 startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
@@ -355,9 +462,10 @@ public class PresensiActivity extends AppCompatActivity {
         tvWaktu = findViewById(R.id.tv_waktu);
         tvPersenFace = findViewById(R.id.tv_persen_face);
         tvVersiApps = findViewById(R.id.tv_versi_apps);
-        btnKirimPresensi = findViewById(R.id.btn_kirim_absensi);
+        btnKirimPresensi = findViewById(R.id.btn_kirim_presensi);
         divMencariMuka = findViewById(R.id.div_mencari_muka);
         animationView = findViewById(R.id.animation_view);
         tvMencariMuka = findViewById(R.id.tv_mencari_muka);
+        btnKirimPresensi2 = findViewById(R.id.btn_kirim_presensi_2);
     }
 }

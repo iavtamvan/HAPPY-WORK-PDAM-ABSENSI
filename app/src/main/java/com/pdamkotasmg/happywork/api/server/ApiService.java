@@ -1,13 +1,13 @@
 package com.pdamkotasmg.happywork.api.server;
 
-import com.pdamkotasmg.happywork.fitur.presensi.model.checkLocationModel.CheckLocationRootModel;
-import com.pdamkotasmg.happywork.fitur.presensi.model.faceDeetectionModel.FaceDetectionRootModel;
-import com.pdamkotasmg.happywork.fitur.presensi.model.savePresensiModel.SavePresensiRootModel;
 import com.pdamkotasmg.happywork.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.happywork.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.happywork.fitur.feeds.model.BeritaRootModel;
 import com.pdamkotasmg.happywork.fitur.kehadiran.model.RiwayatKehadiranRootModel;
 import com.pdamkotasmg.happywork.fitur.perangkat.model.PerangkatRootModel;
+import com.pdamkotasmg.happywork.fitur.presensi.model.checkLocationModel.CheckLocationRootModel;
+import com.pdamkotasmg.happywork.fitur.presensi.model.faceDeetectionModel.FaceDetectionRootModel;
+import com.pdamkotasmg.happywork.fitur.presensi.model.savePresensiModel.SavePresensiRootModel;
 import com.pdamkotasmg.happywork.fitur.splash.model.androidVersion.AndroidVersionModel;
 import com.pdamkotasmg.happywork.fitur.splash.model.packageName.PackageNameRootModel;
 
@@ -83,7 +83,9 @@ public interface ApiService {
                                            @Field("npp") String npp,
                                            @Field("check_face") String check_face,
                                            @Field("photo_path") String photo_path,
-                                           @Field("connection_type") String connection_type
+                                           @Field("connection_type") String connection_type,
+                                           @Field("record_date") String record_date,
+                                           @Field("record_time") String record_time
                                            );
 
     @GET("masterdata/forbid-app")
