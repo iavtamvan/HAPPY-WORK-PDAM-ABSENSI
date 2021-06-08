@@ -90,7 +90,7 @@
                                 android:gravity="left"
                                 android:text="Shift: Shift Ho PSBB Staff 08:00-14:30 [14:30]"
                                 android:textColor="@color/grey"
-                                android:textSize="13dp" />
+                                android:textSize="12dp" />
 
                         </LinearLayout>
                     </LinearLayout>
