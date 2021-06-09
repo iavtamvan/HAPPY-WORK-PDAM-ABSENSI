@@ -65,6 +65,8 @@ public class CheckLocationActivity extends AppCompatActivity {
         } else {
             npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
         }
+        lati = location.getLatitude();
+        longi = location.getLongitude();
 
         editor.putString(Config.SHARED_LATI_OFFLINE, String.valueOf(lati));
         editor.putString(Config.SHARED_LONGITUDE_OFFLINE, String.valueOf(longi));

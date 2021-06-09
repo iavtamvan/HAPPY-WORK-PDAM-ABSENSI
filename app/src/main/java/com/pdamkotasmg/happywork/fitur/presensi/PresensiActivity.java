@@ -56,6 +56,7 @@ import retrofit2.Response;
 
 public class PresensiActivity extends AppCompatActivity {
     private static final String TAG = "debug";
+    private String btnPresensi = "Simpan Presensi Android";
     private File compressedImageFile;
     private String access_token;
     private SharedPreferences sharedPreferences;
@@ -182,25 +183,25 @@ public class PresensiActivity extends AppCompatActivity {
             noToken = androidToken1;
             btnKirimPresensi.setEnabled(true);
             btnKirimPresensi2.setEnabled(true);
-            btnKirimPresensi2.setText("Simpan Presensi Jadul");
+            btnKirimPresensi2.setText(btnPresensi);
             Log.d(TAG, "npp Enkrip 1: " + npp + " ? " + noToken);
         } else if (androidToken2.equalsIgnoreCase(md5Hash)) {
             noToken = androidToken2;
             btnKirimPresensi.setEnabled(true);
             btnKirimPresensi2.setEnabled(true);
-            btnKirimPresensi2.setText("Simpan Presensi Jadul");
+            btnKirimPresensi2.setText(btnPresensi);
             Log.d(TAG, "npp Enkrip 2: " + npp + " ? " + noToken);
         } else if (androidToken3.equalsIgnoreCase(md5Hash)) {
             noToken = androidToken3;
             btnKirimPresensi.setEnabled(true);
             btnKirimPresensi2.setEnabled(true);
-            btnKirimPresensi2.setText("Simpan Presensi Jadul");
+            btnKirimPresensi2.setText(btnPresensi);
             Log.d(TAG, "npp Enkrip 3: " + npp + " ? " + noToken);
         } else if (androidToken5.equalsIgnoreCase(md5Hash)) {
             noToken = androidToken5;
             btnKirimPresensi.setEnabled(true);
             btnKirimPresensi2.setEnabled(true);
-            btnKirimPresensi2.setText("Simpan Presensi Jadul");
+            btnKirimPresensi2.setText(btnPresensi);
             Log.d(TAG, "npp Enkrip 5: " + npp + " ? " + noToken);
         } else {
             btnKirimPresensi2.setEnabled(false);

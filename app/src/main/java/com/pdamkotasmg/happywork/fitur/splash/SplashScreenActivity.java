@@ -113,6 +113,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private List<String> stringslist;
     private List<String> packageString;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,7 +183,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 .setPositiveButton("Perbarui", new MaterialDialog.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int which) {
-                                        Toast.makeText(SplashScreenActivity.this, "Link Playstore", Toast.LENGTH_SHORT).show();
+                                        // TODO Link Playstore (belum)
+                                        Toast.makeText(SplashScreenActivity.this, "Link Playstore ?", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .build();
