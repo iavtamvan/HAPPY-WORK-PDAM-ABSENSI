@@ -124,7 +124,5 @@
                 tools:listitem="@layout/list_item_kehadiran" />
 
         </LinearLayout>
-
-
     </androidx.cardview.widget.CardView>
 </LinearLayout>

@@ -415,22 +415,35 @@ public class PresensiActivity extends AppCompatActivity {
                             animationView.setVisibility(View.GONE);
                             tvMencariMuka.setText("Selesai Mengirim");
                             btnKirimPresensi.setEnabled(false);
-                            if (response.body().getData().isIsShiftIn()) { // jika shift in true
+
+                            if (response.body().getData().isIsShiftIn() && response.body().getData().isIsTelat()) {
                                 Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Telat absensi " + response.body().getData().getAttendanceDiffMinutes() + " menit , potong TPP deh :((",
                                         Config.BASE_URL_NOTIF_JIKA_TELAT);
                                 finishAffinity();
                                 startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
-                            } else if (response.body().getData().isIsPulangAwal()) { // jika pulang awal TRUE
-                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Pulang awal kerja, TPP ga aman, FIX :((",
-                                        Config.BASE_URL_NOTIF_JIKA_PULANG_AWAL);
-                                finishAffinity();
-                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
-                            } else { // jika tidak memenuhi kriteria keduanya FALSE
+                            } else {
                                 Config.showNotification(PresensiActivity.this, "AKU SENANG PRESENSI JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) ", "" +
                                         Config.BASE_URL_NOTIF_NORMAL);
                                 finishAffinity();
                                 startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
                             }
+
+//                            if (!response.body().getData().isIsShiftIn() && response.body().getData().isIsTelat()) { // jika shift in true
+//                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Telat absensi " + response.body().getData().getAttendanceDiffMinutes() + " menit , potong TPP deh :((",
+//                                        Config.BASE_URL_NOTIF_JIKA_TELAT);
+//                                finishAffinity();
+//                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
+//                            } else if (response.body().getData().isIsPulangAwal()) { // jika pulang awal TRUE
+//                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Pulang awal kerja, TPP ga aman, FIX :((",
+//                                        Config.BASE_URL_NOTIF_JIKA_PULANG_AWAL);
+//                                finishAffinity();
+//                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
+//                            } else { // jika tidak memenuhi kriteria keduanya FALSE
+//                                Config.showNotification(PresensiActivity.this, "AKU SENANG PRESENSI JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) ", "" +
+//                                        Config.BASE_URL_NOTIF_NORMAL);
+//                                finishAffinity();
+//                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
+//                            }
                             // TODO activity kehadiran (history) DONE
                         } else {
                             Log.d(TAG, "onResponse: " + response.code());
