@@ -8,6 +8,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.pdamkotasmg.happywork.BuildConfig;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.fitur.authentication.login.controller.LoginController;
@@ -37,9 +38,12 @@ public class LoginActivity extends AppCompatActivity {
     private String appVersion;
     private LoginController loginController;
 
+    private String firebaseToken;
+
     private Button btnMasuk;
     private EditText edtNpp;
     private EditText edtPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,14 +93,30 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "knownName: " + knownName);
         Log.d(TAG, "lati: " + lati);
         Log.d(TAG, "longi: " + longi);
-
+        getTokenFirebase();
         loginController = new LoginController();
         btnMasuk.setOnClickListener(v -> {
             loginController.login(LoginActivity.this, edtNpp.getText().toString().trim(), edtPassword.getText().toString().trim(),
                     getHwid, getModel, getProduct, getDevice, getBuildBrand, getOsVersion, getSdkVersion, getBuildNumber, getBuildIncremental,
-                    getIpAdress, getNetworkUsing,getSSIDWifi, city, String.valueOf(lati), String.valueOf(longi), appVersion);
+                    getIpAdress, getNetworkUsing, getSSIDWifi, city, String.valueOf(lati), String.valueOf(longi), appVersion, firebaseToken);
 
         });
+    }
+
+    private void getTokenFirebase() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.d("debug", "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+
+                    // Get new FCM registration token
+                    firebaseToken = task.getResult();
+
+                    // Log and toast
+                    Log.d("debug", "getTokenFirebase: " + firebaseToken);
+                });
     }
 
     private void initView() {

@@ -99,6 +99,7 @@ public final class Config {
     public static final String SHARED_SATKER_FORMATTED = "satker_formatted";
     public static final String SHARED_SUBSATKER_FORMATTED = "subsatker_formatted";
     public static final String SHARED_APP_VERSION = "app_version";
+    public static final String SHARED_FCM_TOKEN = "app_version";
 
     // shift daily
     public static final String SHARED_REMARK = "remark";
@@ -140,6 +141,17 @@ public final class Config {
     public static final String SHARED_ANDROID_TOKEN_10 = "android_token_1";
     public static final String SHARED_ANDROID_TOKEN_11 = "android_token_1";
     public static final String SHARED_ANDROID_TOKEN_12 = "android_token_1";
+
+    //Firebase
+    // global topic to receive app wide push notifications
+    public static final String FIREBASE_NAME = "pdam-tirta-happy-work";
+    public static final String TOPIC_GLOBAL = "global";
+    // broadcast receiver intent filters
+    public static final String FIREBAE_REGISTRATION_COMPLETE = "registrationComplete";
+    public static final String FIREBASE_PUSH_NOTIFICATION = "pushNotification";
+    // id to handle the notification in the notification tray
+    public static final int FIREBASE_NOTIFICATION_ID = 100;
+    public static final int FIREBASE_NOTIFICATION_ID_BIG_IMAGE = 101;
 
     //bundle
     public static final String BUNDLE_STATUS_ABSENSI = "status_absensi";

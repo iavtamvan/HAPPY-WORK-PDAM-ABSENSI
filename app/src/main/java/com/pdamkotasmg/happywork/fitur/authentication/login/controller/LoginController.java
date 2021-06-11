@@ -74,11 +74,12 @@ public class LoginController {
             String location_city,
             String latitude,
             String longitude,
-            String appVersion
+            String appVersion,
+            String fcmToken
     ) {
         ApiService apiService = ApiConfig.getApiService();
         apiService.login(npp, password, hwid, model, product, device, build_brand, os_version, sdk_version, build_number, build_incremental, ip_address, connection_type, ssid, location_city, latitude, longitude
-                , appVersion).enqueue(new Callback<AkunRootModel>() {
+                , appVersion, fcmToken).enqueue(new Callback<AkunRootModel>() {
             @Override
             public void onResponse(Call<AkunRootModel> call, Response<AkunRootModel> response) {
                 if (response.isSuccessful()) {
@@ -155,6 +156,7 @@ public class LoginController {
                     editor.putString(Config.SHARED_SATKER_FORMATTED, satker_formatted);
                     editor.putString(Config.SHARED_SUBSATKER_FORMATTED, subsatker_formatted);
                     editor.putString(Config.SHARED_APP_VERSION, app_version);
+                    editor.putString(Config.SHARED_FCM_TOKEN, fcmToken);
 
                     editor.apply();
 

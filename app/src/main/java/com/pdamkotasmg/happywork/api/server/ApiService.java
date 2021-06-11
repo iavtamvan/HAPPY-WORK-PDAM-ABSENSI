@@ -57,7 +57,8 @@ public interface ApiService {
             @Field("location_city") String location_city,
             @Field("latitude") String latitude,
             @Field("longitude") String longitude,
-            @Field("app_version") String app_version
+            @Field("app_version") String app_version,
+            @Field("fcm_token") String fcm_token
     );
 
     @POST("auth/logout")
