@@ -1,5 +1,7 @@
 package com.pdamkotasmg.happywork.utils;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -8,24 +10,42 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
 import com.pdamkotasmg.happywork.R;
+import com.pdamkotasmg.happywork.api.server.ApiConfig;
+import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.dashboard.DashboardActivity;
+import com.pdamkotasmg.happywork.fitur.splash.model.packageName.Data;
+import com.pdamkotasmg.happywork.fitur.splash.model.packageName.DataItem;
+import com.pdamkotasmg.happywork.fitur.splash.model.packageName.PackageNameRootModel;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -176,6 +196,7 @@ public final class Config {
     public static final String BUNDLE_LONGITUDE = "longitude";
     public static final String BUNDLE_CREATED_AT = "created_at";
 
+
     public static final void changeNoHp(String noHpOriginal) {
         String subString0;
         String subStringNomorhp;
@@ -296,5 +317,104 @@ public final class Config {
         }
     }
 
+
+
+
+
+
+    private static final String TAG = "debug";
+    private static PackageInfo packageInfo;
+    private static Data dataItem;
+    private static List<DataItem> dataItemList;
+    private static List<String> stringslist = new ArrayList<>();
+
+    public static void getPackageNameFromServer(Context context) {
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.getPackageName().enqueue(new Callback<PackageNameRootModel>() {
+            @Override
+            public void onResponse(Call<PackageNameRootModel> call, Response<PackageNameRootModel> response) {
+                if (response.isSuccessful()) {
+                    dataItem = response.body().getData();
+                    dataItemList = dataItem.getData();
+                    for (int j = 0; j < dataItemList.size(); j++) {
+                        stringslist.add(dataItemList.get(j).getPackageName());
+                    }
+                    Log.d(TAG, "listPackage: " + stringslist);
+                    isMockSettingsON(context);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PackageNameRootModel> call, Throwable t) {
+                Toast.makeText(context, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public static boolean isMockSettingsON(Context context) {
+        // returns true if mock location enabled, false if not enabled.
+        if (Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION).equals("0")) {
+            areThereMockPermissionApps(context);
+            return false;
+        } else {
+            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+    }
+
+    public static boolean areThereMockPermissionApps(Context context) {
+        int count = 0;
+
+        PackageManager pm = context.getPackageManager();
+        @SuppressLint("QueryPermissionsNeeded") List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+        boolean finding = false;
+        for (ApplicationInfo applicationInfo : packages) {
+            try {
+                for (int i = 0; i < stringslist.size(); i++) {
+                    packageInfo = pm.getPackageInfo(applicationInfo.packageName, PackageManager.GET_PERMISSIONS);
+                    if (packageInfo.packageName.equalsIgnoreCase(stringslist.get(i))) {
+                        Log.d(TAG, packageInfo.packageName + " : Fuck Moc: Sama");
+                        finding = true;
+                        Toast.makeText(context, "Finding", Toast.LENGTH_SHORT).show();
+                        MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
+                                .setTitle("Haayyoooooooo kamu" + " ....?")
+                                .setMessage("Uninstall fake GPS kamu " + packageInfo.packageName + "\n\n Hubungi kepegawaian untuk aktivasi kembali...")
+                                .setAnimation("lt_bohong.json")
+                                .setCancelable(false)
+                                .setNegativeButton("Oke deh, jangan suka bohong ya", new MaterialDialog.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int which) {
+                                        dialogInterface.dismiss();
+                                        ((Activity) context).finishAffinity();
+                                    }
+                                })
+                                .setPositiveButton("Uninstall Aplikasi Presensi", new MaterialDialog.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int which) {
+                                        Toast.makeText(context, "Uninstall aplikasi Presensi beraksi...", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(Intent.ACTION_DELETE);
+                                        intent.setData(Uri.parse("package:" + context.getApplicationContext().getPackageName()));
+                                        context.startActivity(intent);
+                                    }
+                                })
+                                .build();
+
+                        // Show Dialog
+                        mDialog.show();
+                        break;
+                    } else {
+                        Log.d(TAG, packageInfo.packageName + " : Fuck Moc: Lanjut");
+                    }
+                }
+                if (finding) break;
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (count > 0)
+            return true;
+        return false;
+    }
 
 }

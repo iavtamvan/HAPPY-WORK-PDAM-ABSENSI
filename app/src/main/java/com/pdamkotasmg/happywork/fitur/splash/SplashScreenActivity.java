@@ -75,7 +75,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     private PackageInfo packageInfo;
     int i;
     private Data dataItem;
-    private com.pdamkotasmg.happywork.fitur.splash.model.androidVersion.Data dataAndroidVersion;
     private List<DataItem> dataItemList;
 
     //device info
@@ -352,21 +351,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         boolean finding = false;
         for (ApplicationInfo applicationInfo : packages) {
             try {
-//                PackageInfo packageInfo = pm.getPackageInfo(applicationInfo.packageName,
-//                        PackageManager.GET_PERMISSIONS);
-                // Get Permissions
-//                String[] requestedPermissions = packageInfo.requestedPermissions;
-//
-//                if (requestedPermissions != null) {
-//                    for (int i = 0; i < requestedPermissions.length; i++) {
-//                        if (requestedPermissions[i]
-//                                .equals("android.permission.ACCESS_MOCK_LOCATION")
-//                                && !applicationInfo.packageName.equals(context.getPackageName())) {
-//                            count++;
-//                            Log.d(TAG, "areThereMockPermissionApps: STOPPP MOCK ON");
-//                        }
-//                    }
-//                } else {
                 for (i = 0; i < stringslist.size(); i++) {
                     packageInfo = pm.getPackageInfo(applicationInfo.packageName, PackageManager.GET_PERMISSIONS);
 //                    Log.d(TAG, "packages : " + packageInfo.packageName);
@@ -440,7 +424,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)
-    private void methodRequiresTwoPermission() {
+    public void methodRequiresTwoPermission() {
         String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
                 , Manifest.permission.CAMERA, Manifest.permission.USE_FINGERPRINT, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE,};
         if (EasyPermissions.hasPermissions(this, perms)) {

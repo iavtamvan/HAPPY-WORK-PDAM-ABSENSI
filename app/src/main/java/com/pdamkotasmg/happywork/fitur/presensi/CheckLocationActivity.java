@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -51,6 +53,7 @@ public class CheckLocationActivity extends AppCompatActivity {
     private LinearLayout divRefresh;
     private LinearLayout divLanjut;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,9 +83,6 @@ public class CheckLocationActivity extends AppCompatActivity {
                 // Do it all with location
                 Log.d("My Current location", "Lat : " + location.getLatitude() + " Long : " + location.getLongitude());
                 // Display in Toast
-                Toast.makeText(CheckLocationActivity.this,
-                        "Lat : " + location.getLatitude() + " Long : " + location.getLongitude(),
-                        Toast.LENGTH_LONG).show();
                 lati = location.getLatitude();
                 longi = location.getLongitude();
                 Log.d(TAG, "lat: " + lati);
@@ -102,6 +102,7 @@ public class CheckLocationActivity extends AppCompatActivity {
     }
 
     private void checkLocation() {
+        Config.getPackageNameFromServer(CheckLocationActivity.this);
         loading = new ProgressDialog(CheckLocationActivity.this);
         loading.setCancelable(false);
         loading.setMessage("Mohon Tunggu...");
@@ -111,9 +112,6 @@ public class CheckLocationActivity extends AppCompatActivity {
         }
         mFusedLocation.getLastLocation().addOnSuccessListener(CheckLocationActivity.this, location -> {
             if (location != null) {
-                Toast.makeText(CheckLocationActivity.this, "Lat : " + location.getLatitude() + " Long : " + location.getLongitude(), Toast.LENGTH_LONG).show();
-                Log.d(TAG, "onSuccess: " + location.getLatitude());
-                Log.d(TAG, "onSuccess: " + location.getLongitude());
                 lati = location.getLatitude();
                 longi = location.getLongitude();
                 Log.d(TAG, "latCheck: " + lati);
