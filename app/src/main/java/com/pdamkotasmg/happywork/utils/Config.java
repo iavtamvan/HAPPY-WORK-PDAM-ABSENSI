@@ -317,6 +317,27 @@ public final class Config {
         }
     }
 
+    public static void dialogAlert(Context context, String tittle, String message, String negativeButton, String positiveButton){
+        MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
+                .setTitle(tittle)
+                .setMessage(message)
+                .setAnimation("lt_bohong.json")
+                .setCancelable(false)
+                .setNegativeButton(negativeButton, (dialogInterface, which) -> {
+                    dialogInterface.dismiss();
+                    ((Activity) context).finishAffinity();
+                })
+                .setPositiveButton(positiveButton, (dialogInterface, which) -> {
+                    Toast.makeText(context, "Uninstall aplikasi Presensi beraksi...", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Intent.ACTION_DELETE);
+                    intent.setData(Uri.parse("package:" + context.getApplicationContext().getPackageName()));
+                    context.startActivity(intent);
+                })
+                .build();
+
+        // Show Dialog
+        mDialog.show();
+    }
 
 
 
@@ -327,7 +348,6 @@ public final class Config {
     private static Data dataItem;
     private static List<DataItem> dataItemList;
     private static List<String> stringslist = new ArrayList<>();
-
     public static void getPackageNameFromServer(Context context) {
         ApiService apiService = ApiConfig.getApiService();
         apiService.getPackageName().enqueue(new Callback<PackageNameRootModel>() {
