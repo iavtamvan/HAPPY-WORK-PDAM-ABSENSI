@@ -28,11 +28,14 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.an.deviceinfo.device.model.Device;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.pdamkotasmg.happywork.BuildConfig;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
@@ -113,6 +116,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private List<String> stringslist;
     private List<String> packageString;
 
+    private FusedLocationProviderClient mFusedLocation;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -253,13 +257,18 @@ public class SplashScreenActivity extends AppCompatActivity {
         getHwid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         getSSIDWifi = connectionInfo.getSSID().replace("\"", "");
 
-        location = new SimpleLocation(SplashScreenActivity.this);
-        if (!location.hasLocationEnabled()) {
-            SimpleLocation.openSettings(SplashScreenActivity.this);
-            Toast.makeText(this, "Aktifkan GPS", Toast.LENGTH_SHORT).show();
+        mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
         }
-        lati = location.getLatitude();
-        longi = location.getLongitude();
+        mFusedLocation.getLastLocation().addOnSuccessListener(this, location -> {
+            if (location != null) {
+                Log.d(TAG, "onSuccess: " + location.getLatitude());
+                Log.d(TAG, "onSuccess: " + location.getLongitude());
+                lati = location.getLatitude();
+                longi = location.getLongitude();
+            }
+        });
         Geocoder geocoder;
         List<Address> addressList;
         geocoder = new Geocoder(SplashScreenActivity.this, Locale.getDefault());
@@ -359,7 +368,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 //                    }
 //                } else {
                 for (i = 0; i < stringslist.size(); i++) {
-                        packageInfo = pm.getPackageInfo(applicationInfo.packageName, PackageManager.GET_PERMISSIONS);
+                    packageInfo = pm.getPackageInfo(applicationInfo.packageName, PackageManager.GET_PERMISSIONS);
 //                    Log.d(TAG, "packages : " + packageInfo.packageName);
                     if (packageInfo.packageName.equalsIgnoreCase(stringslist.get(i))) {
                         Log.d(TAG, packageInfo.packageName + " : Fuck Moc: Sama");

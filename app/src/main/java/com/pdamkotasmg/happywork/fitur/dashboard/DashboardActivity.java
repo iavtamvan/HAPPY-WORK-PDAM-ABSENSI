@@ -71,6 +71,7 @@ public class DashboardActivity extends AppCompatActivity {
     private LinearLayout divOvertime;
     private LottieAnimationView ltProfil;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,6 +168,8 @@ public class DashboardActivity extends AppCompatActivity {
         ltProfil.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
         });
+
+
     }
 
     public void getShiftPegawai() {

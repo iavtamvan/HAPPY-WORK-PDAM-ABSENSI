@@ -1,10 +1,13 @@
 package com.pdamkotasmg.happywork.fitur.presensi;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -13,22 +16,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.presensi.model.checkLocationModel.CheckLocationRootModel;
 import com.pdamkotasmg.happywork.utils.Config;
 
-import im.delight.android.location.SimpleLocation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CheckLocationActivity extends AppCompatActivity {
+    private static final String TAG = "debug";
 
     private Double lati, longi;
-    private SimpleLocation location;
+
+    private FusedLocationProviderClient mFusedLocation;
 
     private String access_token;
     private String token_type;
@@ -52,10 +59,8 @@ public class CheckLocationActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        location = new SimpleLocation(CheckLocationActivity.this);
-        if (!location.hasLocationEnabled()) {
-            SimpleLocation.openSettings(CheckLocationActivity.this);
-        }
+
+
         divLanjut.setVisibility(View.GONE);
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         statusPresensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
@@ -65,13 +70,30 @@ public class CheckLocationActivity extends AppCompatActivity {
         } else {
             npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
         }
-        lati = location.getLatitude();
-        longi = location.getLongitude();
 
-        editor.putString(Config.SHARED_LATI_OFFLINE, String.valueOf(lati));
-        editor.putString(Config.SHARED_LONGITUDE_OFFLINE, String.valueOf(longi));
-        editor.apply();
-        checkLocation();
+        mFusedLocation = LocationServices.getFusedLocationProviderClient(CheckLocationActivity.this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mFusedLocation.getLastLocation().addOnSuccessListener(this, location -> {
+            if (location != null) {
+                // Do it all with location
+                Log.d("My Current location", "Lat : " + location.getLatitude() + " Long : " + location.getLongitude());
+                // Display in Toast
+                Toast.makeText(CheckLocationActivity.this,
+                        "Lat : " + location.getLatitude() + " Long : " + location.getLongitude(),
+                        Toast.LENGTH_LONG).show();
+                lati = location.getLatitude();
+                longi = location.getLongitude();
+                Log.d(TAG, "lat: " + lati);
+                Log.d(TAG, "long: " + longi);
+
+                editor.putString(Config.SHARED_LATI_OFFLINE, String.valueOf(lati));
+                editor.putString(Config.SHARED_LONGITUDE_OFFLINE, String.valueOf(longi));
+                editor.apply();
+                checkLocation();
+            }
+        });
 
         divRefresh.setOnClickListener(v -> {
             checkLocation();
@@ -84,57 +106,70 @@ public class CheckLocationActivity extends AppCompatActivity {
         loading.setCancelable(false);
         loading.setMessage("Mohon Tunggu...");
         loading.show();
-        lati = location.getLatitude();
-        longi = location.getLongitude();
-        ApiService apiService = ApiConfig.getApiService();
-        apiService.checkLocation(access_token, statusPresensi, npp, lati, longi)
-                .enqueue(new Callback<CheckLocationRootModel>() {
-                    @SuppressLint({"SetJavaScriptEnabled", "SetTextI18n"})
-                    @Override
-                    public void onResponse(Call<CheckLocationRootModel> call, Response<CheckLocationRootModel> response) {
-                        if (response.isSuccessful()) {
-                            // deteksi lokasi absen false
-                            if (!response.body().getData().getAppliesShiftSetting().isLocationDetection()){
-                                startActivity(new Intent(CheckLocationActivity.this, PresensiActivity.class));
-                            } else {
-                                wv.getSettings().setJavaScriptEnabled(true);
-                                wv.getSettings().setLoadWithOverviewMode(true);
-                                wv.getSettings().setUseWideViewPort(true);
-                                wv.getSettings().setBuiltInZoomControls(true);
-                                wv.getSettings().setPluginState(WebSettings.PluginState.ON);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mFusedLocation.getLastLocation().addOnSuccessListener(CheckLocationActivity.this, location -> {
+            if (location != null) {
+                Toast.makeText(CheckLocationActivity.this, "Lat : " + location.getLatitude() + " Long : " + location.getLongitude(), Toast.LENGTH_LONG).show();
+                Log.d(TAG, "onSuccess: " + location.getLatitude());
+                Log.d(TAG, "onSuccess: " + location.getLongitude());
+                lati = location.getLatitude();
+                longi = location.getLongitude();
+                Log.d(TAG, "latCheck: " + lati);
+                Log.d(TAG, "longCheck: " + longi);
+
+                ApiService apiService = ApiConfig.getApiService();
+                apiService.checkLocation(access_token, statusPresensi, npp, lati, longi)
+                        .enqueue(new Callback<CheckLocationRootModel>() {
+                            @SuppressLint({"SetJavaScriptEnabled", "SetTextI18n"})
+                            @Override
+                            public void onResponse(Call<CheckLocationRootModel> call, Response<CheckLocationRootModel> response) {
+                                if (response.isSuccessful()) {
+                                    // deteksi lokasi absen false
+                                    if (!response.body().getData().getAppliesShiftSetting().isLocationDetection()) {
+                                        startActivity(new Intent(CheckLocationActivity.this, PresensiActivity.class));
+                                    } else {
+                                        wv.getSettings().setJavaScriptEnabled(true);
+                                        wv.getSettings().setLoadWithOverviewMode(true);
+                                        wv.getSettings().setUseWideViewPort(true);
+                                        wv.getSettings().setBuiltInZoomControls(true);
+                                        wv.getSettings().setPluginState(WebSettings.PluginState.ON);
 //                                wv.getSettings().setAppCacheEnabled(true);
 //                                wv.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-                                assert response.body() != null;
-                                wv.loadUrl(response.body().getData().getMapUrl());
-                                tvDistance.setText("Akurasi " + response.body().getData().getCheckResult().getDistanceM() + " Meter \n" + response.body().getData().getAppliesLocationSetting().getCode() +
-                                        " - " + response.body().getData().getAppliesLocationSetting().getName());
-                                if (!response.body().getData().getCheckResult().isIsInRadius()) {
-                                    loading.cancel();
-                                    Toast.makeText(CheckLocationActivity.this, "Anda tidak dalam radius Presensi", Toast.LENGTH_SHORT).show();
-                                    divLanjut.setVisibility(View.GONE);
+                                        assert response.body() != null;
+                                        wv.loadUrl(response.body().getData().getMapUrl());
+                                        tvDistance.setText("Akurasi " + response.body().getData().getCheckResult().getDistanceM() + " Meter \n" + response.body().getData().getAppliesLocationSetting().getCode() +
+                                                " - " + response.body().getData().getAppliesLocationSetting().getName());
+                                        if (!response.body().getData().getCheckResult().isIsInRadius()) {
+                                            loading.cancel();
+                                            Toast.makeText(CheckLocationActivity.this, "Anda tidak dalam radius Presensi", Toast.LENGTH_SHORT).show();
+                                            divLanjut.setVisibility(View.GONE);
+                                        } else {
+                                            loading.cancel();
+                                            divLanjut.setVisibility(View.VISIBLE);
+                                            divLanjut.setOnClickListener(v -> {
+                                                startActivity(new Intent(CheckLocationActivity.this, PresensiActivity.class));
+                                            });
+                                        }
+                                        loading.cancel();
+                                    }
+
+
                                 } else {
                                     loading.cancel();
-                                    divLanjut.setVisibility(View.VISIBLE);
-                                    divLanjut.setOnClickListener(v -> {
-                                        startActivity(new Intent(CheckLocationActivity.this, PresensiActivity.class));
-                                    });
+                                    Toast.makeText(CheckLocationActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
                                 }
-                                loading.cancel();
                             }
 
-
-                        } else {
-                            loading.cancel();
-                            Toast.makeText(CheckLocationActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<CheckLocationRootModel> call, Throwable t) {
-                        loading.cancel();
-                        Toast.makeText(CheckLocationActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                            @Override
+                            public void onFailure(Call<CheckLocationRootModel> call, Throwable t) {
+                                loading.cancel();
+                                Toast.makeText(CheckLocationActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
     }
 
     private void initView() {
