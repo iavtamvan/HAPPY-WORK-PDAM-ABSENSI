@@ -42,7 +42,7 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
         return new ViewHolder(view);
     }
 
-    @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
+    @SuppressLint({"SetTextI18n", "SimpleDateFormat", "UseCompatLoadingForDrawables"})
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -78,6 +78,8 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
         if (dataItems.get(position).getIn().getRecordTime() == null) {
             holder.tvListKehadiranMasuk.setText("--:--");
             holder.tvListKehadiranMasukStatus.setText("");
+//            imagePopupMasuk.initiatePopup(context.getDrawable(R.drawable.ic_person));
+            imagePopupMasuk.initiatePopupWithGlide("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png");
         } else {
             if (dataItems.get(position).getIn().isIsTelat().equalsIgnoreCase("true") && dataItems.get(position).getIn().isIsShiftIn().equalsIgnoreCase("true")) {
                 holder.tvListKehadiranMasukStatus.setText("Terlambat");
@@ -86,6 +88,7 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
                 Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getIn().getPhoto()).into(holder.ciListKehadiranMasuk);
                 holder.tvListKehadiranMasuk.setText(dataItems.get(position).getIn().getRecordTime());
                 imagePopupMasuk.initiatePopupWithGlide(Config.BASE_URL_IMAGE + dataItems.get(position).getIn().getPhoto());
+
             }
         }
 
@@ -93,6 +96,8 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
         if (dataItems.get(position).getOut().getRecordTime() == null) {
             holder.tvListKehadiranKeluar.setText("--:--");
             holder.tvListKehadiranKeluarStatus.setText("");
+//            imagePopupKeluar.initiatePopup(context.getDrawable(R.drawable.ic_person));
+            imagePopupKeluar.initiatePopupWithGlide("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png");
         } else {
             if (dataItems.get(position).getOut().isIsTelat().equalsIgnoreCase("true") && dataItems.get(position).getOut().isIsShiftIn().equalsIgnoreCase("true")) {
                 holder.tvListKehadiranKeluarStatus.setText("Terlambat");
