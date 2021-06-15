@@ -53,8 +53,8 @@ dependencies {
     implementation 'com.daimajia.slider:library:1.1.5@aar'
 
     //onboarding image
-    implementation 'com.github.chyrta:AndroidOnboarder:0.7'
-    implementation 'com.ramotion.paperonboarding:paper-onboarding:1.1.3'
+//    implementation 'com.github.chyrta:AndroidOnboarder:0.7'
+//    implementation 'com.ramotion.paperonboarding:paper-onboarding:1.1.3'
 
     //bounce scroll
     implementation 'com.factor:bouncy:1.5'
@@ -100,6 +100,9 @@ dependencies {
 
     //circle image
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //image popup
+    implementation 'com.github.chathuralakmal:AndroidImagePopup:1.2.2'
 
     //getTimeGlobal
     implementation 'com.github.kk121:SecureTimer:v1.0'

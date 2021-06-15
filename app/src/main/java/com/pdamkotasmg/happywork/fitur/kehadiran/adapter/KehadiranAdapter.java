@@ -2,6 +2,7 @@ package com.pdamkotasmg.happywork.fitur.kehadiran.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.ceylonlabs.imageviewpopup.ImagePopup;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.fitur.kehadiran.model.DataItem;
 import com.pdamkotasmg.happywork.utils.Config;
@@ -53,9 +55,24 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
 //        }
         String dateServer = new SimpleDateFormat("EEE, dd MMM yyyy").format(dataItems.get(position).getRecordDate());
         holder.tvListKehadiranDate.setText(dateServer);
-
         Log.d("debug", "Presensi In : " + dataItems.get(position).getIn());
         Log.d("debug", String.valueOf("Presensi Out : " + dataItems.get(position).getOut() == null));
+
+        ImagePopup imagePopupMasuk = new ImagePopup(context);
+        imagePopupMasuk.setWindowHeight(800); // Optional
+        imagePopupMasuk.setWindowWidth(800); // Optional
+        imagePopupMasuk.setBackgroundColor(Color.TRANSPARENT);  // Optional
+        imagePopupMasuk.setFullScreen(false); // Optional
+        imagePopupMasuk.setHideCloseIcon(false);  // Optional
+        imagePopupMasuk.setImageOnClickClose(true);  // Optional
+
+        ImagePopup imagePopupKeluar = new ImagePopup(context);
+        imagePopupKeluar.setWindowHeight(800); // Optional
+        imagePopupKeluar.setWindowWidth(800); // Optional
+        imagePopupKeluar.setBackgroundColor(Color.TRANSPARENT);  // Optional
+        imagePopupKeluar.setFullScreen(false); // Optional
+        imagePopupKeluar.setHideCloseIcon(false);  // Optional
+        imagePopupKeluar.setImageOnClickClose(true);  // Optional
 
         // masuk
         if (dataItems.get(position).getIn().getRecordTime() == null) {
@@ -68,9 +85,9 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
                 holder.tvListKehadiranMasukStatus.setText("Tepat waktu");
                 Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getIn().getPhoto()).into(holder.ciListKehadiranMasuk);
                 holder.tvListKehadiranMasuk.setText(dataItems.get(position).getIn().getRecordTime());
+                imagePopupMasuk.initiatePopupWithGlide(Config.BASE_URL_IMAGE + dataItems.get(position).getIn().getPhoto());
             }
         }
-
 
         // keluar
         if (dataItems.get(position).getOut().getRecordTime() == null) {
@@ -83,8 +100,12 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
                 holder.tvListKehadiranKeluarStatus.setText("Tepat waktu");
                 Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getOut().getPhoto()).into(holder.ciListKehadiranKeluar);
                 holder.tvListKehadiranKeluar.setText(dataItems.get(position).getOut().getRecordTime());
+                imagePopupKeluar.initiatePopupWithGlide(Config.BASE_URL_IMAGE + dataItems.get(position).getOut().getPhoto());
             }
         }
+
+        holder.ciListKehadiranMasuk.setOnClickListener(v -> imagePopupMasuk.viewPopup());
+        holder.ciListKehadiranKeluar.setOnClickListener(v -> imagePopupKeluar.viewPopup());
 
 
 //        if (!dataItems.get(position).getIn().equals(null) && !dataItems.get(position).getOut().equals(null)) {
