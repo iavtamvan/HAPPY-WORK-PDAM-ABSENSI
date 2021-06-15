@@ -91,7 +91,7 @@ public class KehadiranActivity extends AppCompatActivity {
 
         formatDate = new SimpleDateFormat("yyyy-MM-dd").format(currentTimeInMillis);
         dateFrom = LocalDate.parse(formatDate);
-        dateFromMinus = dateFrom.minusDays(5);
+        dateFromMinus = dateFrom.minusDays(6);
         dateEnd = dateFrom.plusDays(1);
         // TODO getShift pegawai DONE
         // TODO getHistory presensi DONE
