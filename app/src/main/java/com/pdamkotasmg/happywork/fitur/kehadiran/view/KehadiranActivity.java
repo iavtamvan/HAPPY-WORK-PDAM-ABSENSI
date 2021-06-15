@@ -1,6 +1,7 @@
 package com.pdamkotasmg.happywork.fitur.kehadiran.view;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.krishna.securetimer.SecureTimer;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
+import com.pdamkotasmg.happywork.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.happywork.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.happywork.fitur.kehadiran.adapter.KehadiranAdapter;
 import com.pdamkotasmg.happywork.fitur.kehadiran.model.DataItem;
@@ -92,6 +94,8 @@ public class KehadiranActivity extends AppCompatActivity {
         } else {
             btnHome.setVisibility(View.GONE);
         }
+
+        btnHome.setOnClickListener(v -> startActivity(new Intent(KehadiranActivity.this, DashboardActivity.class)));
 
         Date currentTimeInMillis = SecureTimer.with(KehadiranActivity.this).getCurrentDate();
         String dateServer = new SimpleDateFormat("EEEE, dd MMM yyyy").format(currentTimeInMillis);
