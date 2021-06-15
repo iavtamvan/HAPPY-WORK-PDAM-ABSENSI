@@ -420,12 +420,18 @@ public class PresensiActivity extends AppCompatActivity {
                                 Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Telat absensi " + response.body().getData().getAttendanceDiffMinutes() + " menit , potong TPP deh :((",
                                         Config.BASE_URL_NOTIF_JIKA_TELAT);
                                 finishAffinity();
-                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
+//                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
+                                Intent intent = new Intent(PresensiActivity.this, KehadiranActivity.class);
+                                intent.putExtra(Config.BUNDLE_RIWAYAT_ABSENSI, "1");
+                                startActivity(intent);
                             } else {
                                 Config.showNotification(PresensiActivity.this, "AKU SENANG PRESENSI JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) ", "" +
                                         Config.BASE_URL_NOTIF_NORMAL);
                                 finishAffinity();
-                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
+//                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
+                                Intent intent = new Intent(PresensiActivity.this, KehadiranActivity.class);
+                                intent.putExtra(Config.BUNDLE_RIWAYAT_ABSENSI, "1");
+                                startActivity(intent);
                             }
 
 //                            if (!response.body().getData().isIsShiftIn() && response.body().getData().isIsTelat()) { // jika shift in true

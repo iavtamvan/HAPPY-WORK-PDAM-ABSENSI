@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ public class KehadiranActivity extends AppCompatActivity {
     private String starTime;
     private String endTime;
     private String shiftDailyCode;
+    private String riwayatAbsensiCode;
 
     private String accessToken;
     private String formatDate;
@@ -63,6 +65,7 @@ public class KehadiranActivity extends AppCompatActivity {
     private RecyclerView rvKehadiran;
     private LinearLayout divAnimation;
     private LottieAnimationView animationView;
+    private Button btnHome;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint({"SetTextI18n", "SimpleDateFormat", "CommitPrefEdits"})
@@ -81,8 +84,14 @@ public class KehadiranActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
 
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
-
         nama = sharedPreferences.getString(Config.SHARED_NAME, "");
+
+        riwayatAbsensiCode = getIntent().getStringExtra(Config.BUNDLE_RIWAYAT_ABSENSI);
+        if (riwayatAbsensiCode.equalsIgnoreCase("1")) {
+            btnHome.setVisibility(View.VISIBLE);
+        } else {
+            btnHome.setVisibility(View.GONE);
+        }
 
         Date currentTimeInMillis = SecureTimer.with(KehadiranActivity.this).getCurrentDate();
         String dateServer = new SimpleDateFormat("EEEE, dd MMM yyyy").format(currentTimeInMillis);
@@ -174,5 +183,6 @@ public class KehadiranActivity extends AppCompatActivity {
         rvKehadiran = findViewById(R.id.rv_kehadiran);
         divAnimation = findViewById(R.id.div_animation);
         animationView = findViewById(R.id.animation_view);
+        btnHome = findViewById(R.id.btnHome);
     }
 }

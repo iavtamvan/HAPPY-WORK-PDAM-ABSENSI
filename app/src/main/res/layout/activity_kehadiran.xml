@@ -100,9 +100,10 @@
                 android:id="@+id/div_animation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone">
+
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/animation_view"
                     android:layout_width="90dp"
@@ -119,8 +120,17 @@
                 android:id="@+id/rv_kehadiran"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:visibility="gone"
                 tools:listitem="@layout/list_item_kehadiran" />
+
+            <Button
+                android:id="@+id/btnHome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:backgroundTint="@color/md_material_blue_800"
+                android:text="Kembali ke home"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

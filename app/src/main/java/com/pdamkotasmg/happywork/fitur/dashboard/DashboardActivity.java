@@ -143,7 +143,10 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         divKehadiran.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), KehadiranActivity.class));
+            Intent intent = new Intent(DashboardActivity.this, KehadiranActivity.class);
+            intent.putExtra(Config.BUNDLE_RIWAYAT_ABSENSI, "0");
+            startActivity(intent);
+//            startActivity(new Intent(getApplicationContext(), KehadiranActivity.class));
         });
         divLainnya.setOnClickListener(v -> {
             if (!statusExpandedTrue) {
