@@ -1,7 +1,5 @@
 package com.pdamkotasmg.happywork.fitur.kehadiran.model;
 
-import android.util.Log;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -12,13 +10,13 @@ public class DataItem{
     private Date recordDate;
 
     @SerializedName("in")
-    private In in = null;
+    private In in;
 
     @SerializedName("npp")
     private String npp;
 
     @SerializedName("out")
-    private Out out = null;
+    private Out out;
 
     public void setRecordDate(Date recordDate){
         this.recordDate = recordDate;
@@ -30,7 +28,6 @@ public class DataItem{
 
     public void setIn(In in){
         this.in = in;
-        Log.d("debug", "setIn: " + in);
     }
 
     public In getIn(){
@@ -47,7 +44,6 @@ public class DataItem{
 
     public void setOut(Out out){
         this.out = out;
-        Log.d("debug", "seOt: " + out);
     }
 
     public Out getOut(){

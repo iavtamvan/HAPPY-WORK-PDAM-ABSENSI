@@ -93,8 +93,7 @@
                         android:gravity="left"
                         android:text="Status"
                         android:textColor="@color/red"
-                        android:textSize="10dp"
-                        android:visibility="gone" />
+                        android:textSize="10dp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -148,8 +147,7 @@
                         android:gravity="left"
                         android:text="Status"
                         android:textColor="@color/red"
-                        android:textSize="10dp"
-                        android:visibility="gone" />
+                        android:textSize="10dp"/>
 
 
                 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.pdamkotasmg.happywork.fitur.kehadiran.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
         return new ViewHolder(view);
     }
 
+    @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -55,16 +57,35 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
         Log.d("debug", "Presensi In : " + dataItems.get(position).getIn());
         Log.d("debug", String.valueOf("Presensi Out : " + dataItems.get(position).getOut() == null));
 
-        if (dataItems.get(position).getIn() != null) {
-            // masuk
-            Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getIn().getPhoto()).into(holder.ciListKehadiranMasuk);
-            holder.tvListKehadiranMasuk.setText(dataItems.get(position).getIn().getRecordTime());
+        // masuk
+        if (dataItems.get(position).getIn().getRecordTime() == null) {
+            holder.tvListKehadiranMasuk.setText("--:--");
+            holder.tvListKehadiranMasukStatus.setText("");
+        } else {
+            if (dataItems.get(position).getIn().isIsTelat().equalsIgnoreCase("true") && dataItems.get(position).getIn().isIsShiftIn().equalsIgnoreCase("true")) {
+                holder.tvListKehadiranMasukStatus.setText("Terlambat");
+            } else {
+                holder.tvListKehadiranMasukStatus.setText("Tepat waktu");
+                Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getIn().getPhoto()).into(holder.ciListKehadiranMasuk);
+                holder.tvListKehadiranMasuk.setText(dataItems.get(position).getIn().getRecordTime());
+            }
         }
-        if (dataItems.get(position).getOut() != null) {
-            // keluar
-            Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getOut().getPhoto()).into(holder.ciListKehadiranKeluar);
-            holder.tvListKehadiranKeluar.setText(dataItems.get(position).getOut().getRecordTime());
+
+
+        // keluar
+        if (dataItems.get(position).getOut().getRecordTime() == null) {
+            holder.tvListKehadiranKeluar.setText("--:--");
+            holder.tvListKehadiranKeluarStatus.setText("");
+        } else {
+            if (dataItems.get(position).getOut().isIsTelat().equalsIgnoreCase("true") && dataItems.get(position).getOut().isIsShiftIn().equalsIgnoreCase("true")) {
+                holder.tvListKehadiranKeluarStatus.setText("Terlambat");
+            } else {
+                holder.tvListKehadiranKeluarStatus.setText("Tepat waktu");
+                Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getOut().getPhoto()).into(holder.ciListKehadiranKeluar);
+                holder.tvListKehadiranKeluar.setText(dataItems.get(position).getOut().getRecordTime());
+            }
         }
+
 
 //        if (!dataItems.get(position).getIn().equals(null) && !dataItems.get(position).getOut().equals(null)) {
 //            Toast.makeText(context, "Null", Toast.LENGTH_SHORT).show();
@@ -105,6 +126,8 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
         private CircleImageView ciListKehadiranKeluar;
         private TextView tvListKehadiranKeluar;
         private TextView tvListKehadiranDate;
+        private TextView tvListKehadiranMasukStatus;
+        private TextView tvListKehadiranKeluarStatus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -114,6 +137,8 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
             ciListKehadiranKeluar = itemView.findViewById(R.id.ci_list_kehadiran_keluar);
             tvListKehadiranKeluar = itemView.findViewById(R.id.tv_list_kehadiran_keluar);
             tvListKehadiranDate = itemView.findViewById(R.id.tv_list_kehadiran_date);
+            tvListKehadiranMasukStatus = itemView.findViewById(R.id.tv_list_kehadiran_masuk_status);
+            tvListKehadiranKeluarStatus = itemView.findViewById(R.id.tv_list_kehadiran_keluar_status);
         }
     }
 }
