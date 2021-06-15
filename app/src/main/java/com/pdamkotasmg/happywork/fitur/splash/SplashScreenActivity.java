@@ -70,7 +70,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private String TAG = "debug";
     private String androidVersionDevice;
     private String androidVersionDeviceServer;
-    private static int SPLASH_TIME_OUT = 2000;
+    private static int SPLASH_TIME_OUT = 1000;
     private boolean flag = true;
     private PackageInfo packageInfo;
     int i;
