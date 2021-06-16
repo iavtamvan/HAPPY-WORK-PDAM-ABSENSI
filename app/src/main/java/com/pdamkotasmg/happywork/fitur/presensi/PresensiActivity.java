@@ -32,9 +32,6 @@ import com.pdamkotasmg.happywork.utils.Connectivity;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -174,7 +171,7 @@ public class PresensiActivity extends AppCompatActivity {
         androidToken5 = sharedPreferences.getString(Config.SHARED_ANDROID_TOKEN_5, "");
 
         Log.d(TAG, "onCreateS: " + npp);
-        String md5Hash = md5(npp);
+        String md5Hash = Config.md5(npp);
         Log.d(TAG, "md5: " + md5Hash);
         currentDateLocalSendServer = new SimpleDateFormat("yyyy-MM-dd").format(cDate);
         currentTimeLocalSendServer = new SimpleDateFormat("HH:mm:ss").format(cDate);
@@ -255,32 +252,6 @@ public class PresensiActivity extends AppCompatActivity {
         });
     }
 
-    public static String md5(String str) {
-        MessageDigest messageDigest = null;
-
-        try {
-            messageDigest = MessageDigest.getInstance("MD5");
-            messageDigest.reset();
-            messageDigest.update(str.getBytes("UTF-8"));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        byte[] byteArray = messageDigest.digest();
-        StringBuffer md5StrBuff = new StringBuffer();
-
-        for (int i = 0; i < byteArray.length; i++) {
-            if (Integer.toHexString(0xFF & byteArray[i]).length() == 1)
-                md5StrBuff.append("0").append(Integer.toHexString(0xFF & byteArray[i]));
-            else
-                md5StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
-        }
-
-        Log.d(TAG, "md5: " + md5StrBuff.toString());
-        return md5StrBuff.toString().toUpperCase();
-    }
 
     @SuppressLint("SetTextI18n")
     public void checkFace() {

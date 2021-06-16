@@ -37,8 +37,11 @@ import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -436,6 +439,33 @@ public final class Config {
         if (count > 0)
             return true;
         return false;
+    }
+
+    public static String md5(String str) {
+        MessageDigest messageDigest = null;
+
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.reset();
+            messageDigest.update(str.getBytes("UTF-8"));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        byte[] byteArray = messageDigest.digest();
+        StringBuffer md5StrBuff = new StringBuffer();
+
+        for (int i = 0; i < byteArray.length; i++) {
+            if (Integer.toHexString(0xFF & byteArray[i]).length() == 1)
+                md5StrBuff.append("0").append(Integer.toHexString(0xFF & byteArray[i]));
+            else
+                md5StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
+        }
+
+        Log.d(TAG, "md5: " + md5StrBuff.toString());
+        return md5StrBuff.toString().toUpperCase();
     }
 
 }
