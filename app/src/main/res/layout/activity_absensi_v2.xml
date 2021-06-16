@@ -13,11 +13,53 @@
         android:layout_alignParentBottom="true"
         tools:ignore="IncludeLayoutParam" />
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        app:cardBackgroundColor="@color/greenGojek"
+        app:cardCornerRadius="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_attedance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:gravity="center"
+                    android:text="Hadirlah lebih awal agar mendapat mentari 🙂"
+                    android:textColor="@color/white"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:orientation="vertical">
@@ -129,8 +171,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:gravity="center"
                 android:enabled="false"
+                android:gravity="center"
                 android:text="Simpan Presensi" />
 
             <Button
@@ -140,11 +182,11 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/red"
-                android:textColor="@color/white"
-                android:visibility="gone"
-                android:gravity="center"
                 android:enabled="false"
-                android:text="Simpan Presensi" />
+                android:gravity="center"
+                android:text="Simpan Presensi"
+                android:textColor="@color/white"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_versi_apps"

@@ -392,7 +392,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         } else {
             MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
-                    .setTitle("Haayyoooooooo kamu" + " ....?")
+                    .setTitle(Config.ERROR_FAKE_GPS_TITLE)
                     .setMessage("Uninstall fake GPS kamu " + packageInfo.packageName + "\n\n Hubungi kepegawaian untuk aktivasi kembali...")
                     .setAnimation("lt_bohong.json")
                     .setCancelable(false)

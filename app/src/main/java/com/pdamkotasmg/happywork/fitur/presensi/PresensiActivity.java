@@ -134,7 +134,6 @@ public class PresensiActivity extends AppCompatActivity {
             finishAffinity();
             startActivity(new Intent(PresensiActivity.this, CheckLocationActivity.class));
         });
-
         ivHeaderInfo.setVisibility(View.GONE);
 
         if (Connectivity.isConnected(PresensiActivity.this)) {
@@ -232,12 +231,11 @@ public class PresensiActivity extends AppCompatActivity {
 
         Log.d(TAG, "statusPresensi: " + statusPresensi);
         Log.d(TAG, "npp log: " + npp);
-        location = new SimpleLocation(PresensiActivity.this);
-        if (!location.hasLocationEnabled()) {
-            SimpleLocation.openSettings(PresensiActivity.this);
-        }
-        lati = location.getLatitude();
-        longi = location.getLongitude();
+
+        lati = Double.valueOf(sharedPreferences.getString(Config.SHARED_LATI, ""));
+        longi = Double.valueOf(sharedPreferences.getString(Config.SHARED_LONGITUDE, ""));
+        Log.d(TAG, "latShared: " + lati);
+        Log.d(TAG, "longShared: " + longi);
 
         ivFotoFront.setOnClickListener(v -> {
             easyImage.openCameraForImage(PresensiActivity.this);
@@ -246,15 +244,20 @@ public class PresensiActivity extends AppCompatActivity {
         btnKirimPresensi.setOnClickListener(v -> {
             // TODO kirim server
             statusPresensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
-            if (statusPresensi.equalsIgnoreCase("qrcode")) {
-                npp = sharedPreferences.getString(Config.SHARED_NPP_QR_CODE, "");
-                Log.d(TAG, "npp normal qrcode: " + npp);
-                savePresensi();
-            } else if (statusPresensi.equalsIgnoreCase("online")) {
-                npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
-                Log.d(TAG, "npp normal online: " + npp);
-                savePresensi();
+            if (getPathPhotoFaceServer == null){
+                Toast.makeText(this, "Lakukan cepret foto dahulu", Toast.LENGTH_SHORT).show();
+            } else {
+                if (statusPresensi.equalsIgnoreCase("qrcode")) {
+                    npp = sharedPreferences.getString(Config.SHARED_NPP_QR_CODE, "");
+                    Log.d(TAG, "npp normal qrcode: " + npp);
+                    savePresensi();
+                } else if (statusPresensi.equalsIgnoreCase("online")) {
+                    npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+                    Log.d(TAG, "npp normal online: " + npp);
+                    savePresensi();
+                }
             }
+
         });
 
         btnKirimPresensi2.setOnClickListener(v -> {

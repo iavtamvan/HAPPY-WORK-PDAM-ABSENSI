@@ -68,7 +68,9 @@ public final class Config {
     public static final String ERROR_MSG = "Koneksi kamu lagi jelek";
     public static final String ERROR_PASSWORD = "Pastikan Kata Sandi Anda Sama";
     public static final String ERROR_DATA_REGISTER = "Pastikan Data Anda Dengan Benar";
-    public static final String ERROR_SESSION = "Sesi login anda telah habis";
+    public static final String ERROR_SESSION = "Sesi login anda telah habis, Login Ulang";
+    public static final String ERROR_FAKE_GPS_TITLE = "Akun di NONAKTIFKAN \n Berbohong adalah suatu tindakan tidak terpuji \uD83D\uDE0A";
+
 
     //data akun
     public static final String SHARED_PREF_NAME = "HAPPY-WORK";
@@ -452,7 +454,7 @@ public final class Config {
                         finding = true;
                         Toast.makeText(context, "Finding", Toast.LENGTH_SHORT).show();
                         MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
-                                .setTitle("Haayyoooooooo kamu" + " ....?")
+                                .setTitle(ERROR_FAKE_GPS_TITLE)
                                 .setMessage("Uninstall fake GPS kamu " + packageInfo.packageName + "\n\n Hubungi kepegawaian untuk aktivasi kembali...")
                                 .setAnimation("lt_bohong.json")
                                 .setCancelable(false)
