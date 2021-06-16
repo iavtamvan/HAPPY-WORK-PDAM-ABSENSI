@@ -79,6 +79,10 @@ public class KehadiranActivity extends AppCompatActivity {
         initView();
         tvHeaderJudul.setText("Riwayat Rekam Kehadiran");
         ivHeaderInfo.setVisibility(View.GONE);
+        ivHeaderBackArrow.setOnClickListener(v -> {
+            finishAffinity();
+            startActivity(new Intent(KehadiranActivity.this, DashboardActivity.class));
+        });
 
         dataItems = new ArrayList<>();
 
