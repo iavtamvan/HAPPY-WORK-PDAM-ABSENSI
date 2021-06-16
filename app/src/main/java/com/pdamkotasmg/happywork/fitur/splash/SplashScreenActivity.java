@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
@@ -127,26 +128,33 @@ public class SplashScreenActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         androidVersionDevice = BuildConfig.VERSION_NAME;
         Log.d(TAG, "onCreate: " + androidVersionDevice);
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        methodRequiresTwoPermission();
+
         packageString = new ArrayList<>();
         stringslist = new ArrayList<>();
 
-        mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        } else {
-            Log.d(TAG, "mfusedGetLast: " + mFusedLocation.getLastLocation());
-            mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
-                Log.d(TAG, "mfusedLoc: " + location.getLongitude());
-                if (location != null) {
-                    Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
-                    Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
-                    lati = location.getLatitude();
-                    longi = location.getLongitude();
-                }
-            });
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            showGPSDisabledAlertToUser();
+        }else{
+            methodRequiresTwoPermission();
+            mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            } else {
+                Log.d(TAG, "mfusedGetLast: " + mFusedLocation.getLastLocation());
+                mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
+                    Log.d(TAG, "mfusedLoc: " + location.getLongitude());
+                    if (location != null) {
+                        Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
+                        Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
+                        lati = location.getLatitude();
+                        longi = location.getLongitude();
+                    }
+                });
+            }
         }
 
         Typeface typeface = ResourcesCompat.getFont(this, R.font.roboto);
@@ -168,6 +176,25 @@ public class SplashScreenActivity extends AppCompatActivity {
         // TODO 3 getDeviceInfo Done
         // TODO 4 MockLocation Matching DONE
 //
+    }
+
+    private void showGPSDisabledAlertToUser() {
+        MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
+                .setTitle("Pergi ke Pengaturan untuk meng-Aktifkan GPS kamu")
+                .setCancelable(false)
+                .setNegativeButton("Gak mau", (dialogInterface, which) -> {
+                    dialogInterface.dismiss();
+                    finishAffinity();
+                })
+                .setPositiveButton("Aktifkan", (dialogInterface, which) -> {
+                    finishAffinity();
+                    Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(callGPSSettingIntent);
+                })
+                .build();
+
+        // Show Dialog
+        mDialog.show();
     }
 
     private void getAplicationVersionFromServer() {
