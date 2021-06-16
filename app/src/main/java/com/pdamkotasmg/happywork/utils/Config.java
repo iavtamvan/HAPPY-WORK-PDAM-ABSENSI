@@ -291,6 +291,7 @@ public final class Config {
         editor.putString(SHARED_ANDROID_TOKEN_12, "");
         editor.apply();
 
+        ((Activity) context).finishAffinity();
         context.startActivity(new Intent(context, SplashScreenActivity.class));
     }
 
@@ -395,10 +396,6 @@ public final class Config {
         // Show Dialog
         mDialog.show();
     }
-
-
-
-
 
     private static final String TAG = "debug";
     private static PackageInfo packageInfo;

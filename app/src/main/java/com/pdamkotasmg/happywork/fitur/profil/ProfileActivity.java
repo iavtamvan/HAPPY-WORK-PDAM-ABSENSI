@@ -19,7 +19,6 @@ import com.pdamkotasmg.happywork.fitur.perangkat.PerangkatActivity;
 import com.pdamkotasmg.happywork.fitur.profil.controller.ProfileController;
 import com.pdamkotasmg.happywork.utils.Config;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
-import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -148,18 +147,9 @@ public class ProfileActivity extends AppCompatActivity {
                     .setMessage("Yakin mau keluar?")
                     .setAnimation("lt_logout.json")
                     .setCancelable(false)
-                    .setNegativeButton("Gak", new MaterialDialog.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            dialogInterface.dismiss();
-                        }
-                    })
-                    .setPositiveButton("Iya", new MaterialDialog.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            profileController.logout(ProfileActivity.this);
-                            finishAffinity();
-                        }
+                    .setNegativeButton("Gak", (dialogInterface, which) -> dialogInterface.dismiss())
+                    .setPositiveButton("Iya", (dialogInterface, which) -> {
+                        profileController.logout(ProfileActivity.this);
                     })
                     .build();
 

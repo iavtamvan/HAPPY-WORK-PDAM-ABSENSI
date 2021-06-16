@@ -23,6 +23,7 @@ public class ProfileController {
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()){
                             Toast.makeText(context, "" + response.message().toUpperCase() + " KELUAR", Toast.LENGTH_SHORT).show();
+                            Config.logout(context);
                         }
                     }
 

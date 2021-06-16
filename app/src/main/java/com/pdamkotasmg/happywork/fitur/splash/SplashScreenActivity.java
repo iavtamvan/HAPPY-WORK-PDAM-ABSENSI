@@ -34,6 +34,7 @@ import androidx.core.content.res.ResourcesCompat;
 import com.an.deviceinfo.device.model.Device;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.example.easywaylocation.EasyWayLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.pdamkotasmg.happywork.BuildConfig;
@@ -99,6 +100,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private String knownName;
     private Double lati, longi;
     private SimpleLocation location;
+    private EasyWayLocation easyWayLocation;
 
     // android token
     private String androidToken1;
@@ -116,6 +118,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private List<String> packageString;
 
     private FusedLocationProviderClient mFusedLocation;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +129,25 @@ public class SplashScreenActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: " + androidVersionDevice);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+        methodRequiresTwoPermission();
+        packageString = new ArrayList<>();
+        stringslist = new ArrayList<>();
+
+        mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        } else {
+            Log.d(TAG, "mfusedGetLast: " + mFusedLocation.getLastLocation());
+            mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
+                Log.d(TAG, "mfusedLoc: " + location.getLongitude());
+                if (location != null) {
+                    Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
+                    Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
+                    lati = location.getLatitude();
+                    longi = location.getLongitude();
+                }
+            });
+        }
 
         Typeface typeface = ResourcesCompat.getFont(this, R.font.roboto);
 
@@ -140,13 +162,12 @@ public class SplashScreenActivity extends AppCompatActivity {
                 .duration(3000)
                 .playOn(findViewById(R.id.appname));
 
-        packageString = new ArrayList<>();
-        stringslist = new ArrayList<>();
+
         // TODO 1 getAndroidVersion DONE
         // TODO 2 getPackageNameFromServer DONE
         // TODO 3 getDeviceInfo Done
         // TODO 4 MockLocation Matching DONE
-        methodRequiresTwoPermission();
+//
     }
 
     private void getAplicationVersionFromServer() {
@@ -256,18 +277,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         getHwid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         getSSIDWifi = connectionInfo.getSSID().replace("\"", "");
 
-        mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mFusedLocation.getLastLocation().addOnSuccessListener(this, location -> {
-            if (location != null) {
-                Log.d(TAG, "onSuccess: " + location.getLatitude());
-                Log.d(TAG, "onSuccess: " + location.getLongitude());
-                lati = location.getLatitude();
-                longi = location.getLongitude();
-            }
-        });
         Geocoder geocoder;
         List<Address> addressList;
         geocoder = new Geocoder(SplashScreenActivity.this, Locale.getDefault());
@@ -428,7 +437,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
                 , Manifest.permission.CAMERA, Manifest.permission.USE_FINGERPRINT, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE,};
         if (EasyPermissions.hasPermissions(this, perms)) {
-            getAplicationVersionFromServer();
             // Already have permission, do the thing
             // ...
         } else {
