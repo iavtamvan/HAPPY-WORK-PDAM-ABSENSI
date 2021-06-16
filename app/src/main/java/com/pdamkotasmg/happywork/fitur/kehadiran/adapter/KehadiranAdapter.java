@@ -83,6 +83,9 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
         } else {
             if (dataItems.get(position).getIn().isIsTelat().equalsIgnoreCase("true") && dataItems.get(position).getIn().isIsShiftIn().equalsIgnoreCase("true")) {
                 holder.tvListKehadiranMasukStatus.setText("Terlambat");
+                Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getIn().getPhoto()).into(holder.ciListKehadiranMasuk);
+                holder.tvListKehadiranMasuk.setText(dataItems.get(position).getIn().getRecordTime());
+                imagePopupMasuk.initiatePopupWithGlide(Config.BASE_URL_IMAGE + dataItems.get(position).getIn().getPhoto());
             } else {
                 holder.tvListKehadiranMasukStatus.setText("Tepat waktu");
                 Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getIn().getPhoto()).into(holder.ciListKehadiranMasuk);
@@ -101,6 +104,9 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
         } else {
             if (dataItems.get(position).getOut().isIsTelat().equalsIgnoreCase("true") && dataItems.get(position).getOut().isIsShiftIn().equalsIgnoreCase("true")) {
                 holder.tvListKehadiranKeluarStatus.setText("Terlambat");
+                Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getOut().getPhoto()).into(holder.ciListKehadiranKeluar);
+                holder.tvListKehadiranKeluar.setText(dataItems.get(position).getOut().getRecordTime());
+                imagePopupKeluar.initiatePopupWithGlide(Config.BASE_URL_IMAGE + dataItems.get(position).getOut().getPhoto());
             } else {
                 holder.tvListKehadiranKeluarStatus.setText("Tepat waktu");
                 Glide.with(context).load(Config.BASE_URL_IMAGE + dataItems.get(position).getOut().getPhoto()).into(holder.ciListKehadiranKeluar);

@@ -129,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
-                android:backgroundTint="@color/md_material_blue_800"
+                android:backgroundTint="@color/greenGojek"
                 android:text="Kembali ke home"/>
 
         </LinearLayout>
