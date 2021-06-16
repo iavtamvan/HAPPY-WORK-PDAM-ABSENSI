@@ -28,6 +28,7 @@ import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
 import com.pdamkotasmg.happywork.fitur.dashboard.DashboardActivity;
+import com.pdamkotasmg.happywork.fitur.splash.SplashScreenActivity;
 import com.pdamkotasmg.happywork.fitur.splash.model.packageName.Data;
 import com.pdamkotasmg.happywork.fitur.splash.model.packageName.DataItem;
 import com.pdamkotasmg.happywork.fitur.splash.model.packageName.PackageNameRootModel;
@@ -71,7 +72,6 @@ public final class Config {
 
     //data akun
     public static final String SHARED_PREF_NAME = "HAPPY-WORK";
-
     public static final String SHARED_GETMODEL = "getModel";
     public static final String SHARED_GETPRODUCT = "getProduct";
     public static final String SHARED_GETDEVICE = "getDevice";
@@ -92,7 +92,6 @@ public final class Config {
     public static final String SHARED_KNOWNNAME = "knownName";
     public static final String SHARED_LATI = "latitude";
     public static final String SHARED_LONGITUDE = "longitude";
-
     public static final String SHARED_ACCESS_TOKEN = "access_token";
     public static final String SHARED_NPP_PROFILE = "npp_profile";
     public static final String SHARED_NPP_QR_CODE = "npp_titip_absen";
@@ -123,14 +122,10 @@ public final class Config {
     public static final String SHARED_SUBSATKER_FORMATTED = "subsatker_formatted";
     public static final String SHARED_APP_VERSION = "app_version";
     public static final String SHARED_FCM_TOKEN = "app_version";
-
-    // shift daily
     public static final String SHARED_REMARK = "remark";
     public static final String SHARED_START_TIME = "start_time";
     public static final String SHARED_END_TIME = "end_time";
     public static final String SHARED_SHIFT_DAILY_CODE = "shift_daily_code";
-
-    // TODO SharedPref Offline Saving
     public static final String SHARED_COMPRESED_PHOTO_OFFLINE = "compressed_photo_offline";
     public static final String SHARED_LATI_OFFLINE = "latitude_offline";
     public static final String SHARED_LONGITUDE_OFFLINE = "longitude_offline";
@@ -139,19 +134,13 @@ public final class Config {
     public static final String SHARED_GET_PHOTO_SERVER_PHOTO_OFFLINE = "get_photo_server_offline";
     public static final String SHARED_STATUS_TYPE = "status_type";
     public static final String SHARED_STATUS_ABSENSI = "status_absensi";
-
-
     public static final String SHARED_STATUS_TYPE_CONNECTION = "status_type_connection";
     public static final String SHARED_STATUS_CONNECTION = "status_connection";
-
     public static final String SHARED_STATUS_APLIKASI = "status_aplikasi";
     public static final String SHARED_APLIKASI_VERSION = "aplikasi_version";
-
     public static final String SHARED_PATH_FOTO = "path_foto";
     public static final String SHARED_ABSENSI_MASUK = "shared_absensi_masuk";
     public static final String SHARED_ABSENSI_KELUAR = "shared_absensi_keluar";
-
-    // md5 NPP
     public static final String SHARED_ANDROID_TOKEN_1 = "android_token_1";
     public static final String SHARED_ANDROID_TOKEN_2 = "android_token_2";
     public static final String SHARED_ANDROID_TOKEN_3 = "android_token_3";
@@ -217,28 +206,90 @@ public final class Config {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-//        editor.putString(SHARED_ACCES_TOKEN, "");
-//        editor.putString(SHARED_PREF_DISM, "");
-//        editor.putString(SHARED_PREF_NO_ANGG, "");
-//        editor.putString(SHARED_PREF_NAMA, "");
-//        editor.putString(SHARED_PREF_A_AMAT, "");
-//        editor.putString(SHARED_PREF_TE_EPON, "");
-//        editor.putString(SHARED_PREF_EMAIL, "");
-//        editor.putString(SHARED_PREF_C_BANG, "");
-//        editor.putString(SHARED_PREF__ARIF, "");
-//        editor.putString(SHARED_PREF_KELU_AHAN, "");
-//        editor.putString(SHARED_PREF_KECA_ATAN, "");
-//        editor.putString(SHARED_PREF_S_ATUS, "");
-//        editor.putString(SHARED_PREF_STATU__KET, "");
-//        editor.putString(SHARED_PEMBAYARAN_BULAN, "");
-//        editor.putString(SHARED_PEMBAYARAN_TAGIHAN, "");
-//        editor.putString(SHARED_PEMBAYARAN_STATUS_REKENING, "");
-//        editor.putString(SHARED_STATUS_PELANGGAN_DASHBOARD, "");
-//        editor.putString("regId", "");
-
+        editor.putString(SHARED_GETMODEL, "");
+        editor.putString(SHARED_GETPRODUCT, "");
+        editor.putString(SHARED_GETDEVICE, "");
+        editor.putString(SHARED_GETBUILDBRAND, "");
+        editor.putString(SHARED_GETOSVERSION, "");
+        editor.putString(SHARED_GETSDKVERSION, "");
+        editor.putString(SHARED_GETBUILDNUMBER, "");
+        editor.putString(SHARED_GETBUILDINCREMENTAL, "");
+        editor.putString(SHARED_IPADRESS, "");
+        editor.putString(SHARED_CONNECTIONTYPE, "");
+        editor.putString(SHARED_HWID, "");
+        editor.putString(SHARED_SSID, "");
+        editor.putString(SHARED_ADDRESS_GPS, "");
+        editor.putString(SHARED_CITY, "");
+        editor.putString(SHARED_STATE, "");
+        editor.putString(SHARED_COUNTRY, "");
+        editor.putString(SHARED_POSTALCODE, "");
+        editor.putString(SHARED_KNOWNNAME, "");
+        editor.putString(SHARED_LATI, "");
+        editor.putString(SHARED_LONGITUDE, "");
+        editor.putString(SHARED_ACCESS_TOKEN, "");
+        editor.putString(SHARED_NPP_PROFILE, "");
+        editor.putString(SHARED_NPP_QR_CODE, "");
+        editor.putString(SHARED_NAME, "");
+        editor.putString(SHARED_AVATAR, "");
+        editor.putString(SHARED_ALAMAT, "");
+        editor.putString(SHARED_RT, "");
+        editor.putString(SHARED_RW, "");
+        editor.putString(SHARED_KELURAHAN, "");
+        editor.putString(SHARED_KECAMATAN, "");
+        editor.putString(SHARED_KOTA, "");
+        editor.putString(SHARED_JENIS_KEL, "");
+        editor.putString(SHARED_TMPT_LAHIR, "");
+        editor.putString(SHARED_TGL_LAHIR, "");
+        editor.putString(SHARED_TGL_MASUK, "");
+        editor.putString(SHARED_SATUS_PEG, "");
+        editor.putString(SHARED_AGAMA, "");
+        editor.putString(SHARED_NAMASUSI, "");
+        editor.putString(SHARED_PKTGOL, "");
+        editor.putString(SHARED_SUBSATKER, "");
+        editor.putString(SHARED_SATKER, "");
+        editor.putString(SHARED_JABATAN, "");
+        editor.putString(SHARED_KET, "");
+        editor.putString(SHARED_TLP, "");
+        editor.putString(SHARED_PEK, "");
+        editor.putString(SHARED_ST_DATA, "");
+        editor.putString(SHARED_SATKER_FORMATTED, "");
+        editor.putString(SHARED_SUBSATKER_FORMATTED, "");
+        editor.putString(SHARED_APP_VERSION, "");
+        editor.putString(SHARED_FCM_TOKEN, "");
+        editor.putString(SHARED_REMARK, "");
+        editor.putString(SHARED_START_TIME, "");
+        editor.putString(SHARED_END_TIME, "");
+        editor.putString(SHARED_SHIFT_DAILY_CODE, "");
+        editor.putString(SHARED_COMPRESED_PHOTO_OFFLINE, "");
+        editor.putString(SHARED_LATI_OFFLINE, "");
+        editor.putString(SHARED_LONGITUDE_OFFLINE, "");
+        editor.putString(SHARED_TANGGAL_OFFLINE, "");
+        editor.putString(SHARED_TIME_OFFLINE, "");
+        editor.putString(SHARED_GET_PHOTO_SERVER_PHOTO_OFFLINE, "");
+        editor.putString(SHARED_STATUS_TYPE, "");
+        editor.putString(SHARED_STATUS_ABSENSI, "");
+        editor.putString(SHARED_STATUS_TYPE_CONNECTION, "");
+        editor.putString(SHARED_STATUS_CONNECTION, "");
+        editor.putString(SHARED_STATUS_APLIKASI, "");
+        editor.putString(SHARED_APLIKASI_VERSION, "");
+        editor.putString(SHARED_PATH_FOTO, "");
+        editor.putString(SHARED_ABSENSI_MASUK, "");
+        editor.putString(SHARED_ABSENSI_KELUAR, "");
+        editor.putString(SHARED_ANDROID_TOKEN_1, "");
+        editor.putString(SHARED_ANDROID_TOKEN_2, "");
+        editor.putString(SHARED_ANDROID_TOKEN_3, "");
+        editor.putString(SHARED_ANDROID_TOKEN_4, "");
+        editor.putString(SHARED_ANDROID_TOKEN_5, "");
+        editor.putString(SHARED_ANDROID_TOKEN_6, "");
+        editor.putString(SHARED_ANDROID_TOKEN_7, "");
+        editor.putString(SHARED_ANDROID_TOKEN_8, "");
+        editor.putString(SHARED_ANDROID_TOKEN_9, "");
+        editor.putString(SHARED_ANDROID_TOKEN_10, "");
+        editor.putString(SHARED_ANDROID_TOKEN_11, "");
+        editor.putString(SHARED_ANDROID_TOKEN_12, "");
         editor.apply();
 
-//        context.startActivity(new Intent(context, WelcomeActivity.class));
+        context.startActivity(new Intent(context, SplashScreenActivity.class));
     }
 
     public static void deleteFiles(String pathName, String log) {
