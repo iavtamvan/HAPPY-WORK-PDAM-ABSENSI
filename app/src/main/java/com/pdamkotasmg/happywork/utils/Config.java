@@ -385,7 +385,7 @@ public final class Config {
                     dialogInterface.dismiss();
                     ((Activity) context).finishAffinity();
                 })
-                .setPositiveButton("Uninstall aplikasi Absensi beraksi", (dialogInterface, which) -> {
+                .setPositiveButton("UNINSTALL aplikasi", (dialogInterface, which) -> {
                     Toast.makeText(context, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Intent.ACTION_DELETE);
                     intent.setData(Uri.parse("package:" + context.getApplicationContext().getPackageName()));

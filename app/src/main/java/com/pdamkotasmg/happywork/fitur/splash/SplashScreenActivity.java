@@ -112,7 +112,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     private String androidToken10;
 
     private List<String> stringslist;
-    private List<String> packageString;
 
     private FusedLocationProviderClient mFusedLocation;
 
@@ -128,18 +127,19 @@ public class SplashScreenActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        packageString = new ArrayList<>();
         stringslist = new ArrayList<>();
 
+        // TODO harusnya unComent pada mode Production
         if (Settings.Secure.getInt(getApplicationContext().getContentResolver(),
                 Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0) {
             Toast.makeText(this, "Matikan mode debugging", Toast.LENGTH_SHORT).show();
             Config.dialogAlert(SplashScreenActivity.this, "Developer mode atau opsi developer ON", "Akun di BEKUKAN oleh sistem Android, hubungi kepegawaian", "OKE");
+            // TODO bekukan akun yang nakal.
         } else {
             LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 showGPSDisabledAlertToUser();
-            }else{
+            } else {
                 methodRequiresTwoPermission();
                 mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -158,9 +158,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 }
             }
         }
-
-
-
 
         Typeface typeface = ResourcesCompat.getFont(this, R.font.roboto);
 
@@ -476,24 +473,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             EasyPermissions.requestPermissions(this, getString(R.string.app_name),
                     RC_CAMERA_AND_LOCATION, perms);
             getAplicationVersionFromServer();
-//            Toast.makeText(this, "Izinkan semua permisi yang diberikan", Toast.LENGTH_SHORT).show();
-//            MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
-//                    .setTitle("Izinkan semua permisi yang diberikan.")
-//                    .setCancelable(false)
-//                    .setNegativeButton("Oke deh, Ulangi!", (dialogInterface, which) -> {
-//                        dialogInterface.dismiss();
-//                        getAplicationVersionFromServer();
-//                    })
-//                    .setPositiveButton("Uninstall Aplikasi Absensi", (dialogInterface, which) -> {
-//                        Toast.makeText(SplashScreenActivity.this, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(Intent.ACTION_DELETE);
-//                        intent.setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
-//                        startActivity(intent);
-//                    })
-//                    .build();
-//
-//            // Show Dialog
-//            mDialog.show();
         }
     }
 }
