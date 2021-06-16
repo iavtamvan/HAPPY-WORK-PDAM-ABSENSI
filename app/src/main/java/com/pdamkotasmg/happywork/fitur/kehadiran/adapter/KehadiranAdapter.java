@@ -55,8 +55,8 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
 //        }
         String dateServer = new SimpleDateFormat("EEE, dd MMM yyyy").format(dataItems.get(position).getRecordDate());
         holder.tvListKehadiranDate.setText(dateServer);
-        Log.d("debug", "Presensi In : " + dataItems.get(position).getIn());
-        Log.d("debug", String.valueOf("Presensi Out : " + dataItems.get(position).getOut() == null));
+        Log.d("debug", "Absensi In : " + dataItems.get(position).getIn());
+        Log.d("debug", String.valueOf("Absensi Out : " + dataItems.get(position).getOut() == null));
 
         ImagePopup imagePopupMasuk = new ImagePopup(context);
         imagePopupMasuk.setWindowHeight(800); // Optional

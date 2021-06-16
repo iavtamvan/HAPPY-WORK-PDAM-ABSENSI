@@ -35,7 +35,6 @@ import androidx.core.content.res.ResourcesCompat;
 import com.an.deviceinfo.device.model.Device;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.example.easywaylocation.EasyWayLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.pdamkotasmg.happywork.BuildConfig;
@@ -57,7 +56,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import im.delight.android.location.SimpleLocation;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
@@ -100,8 +98,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     private String postalCode;
     private String knownName;
     private Double lati, longi;
-    private SimpleLocation location;
-    private EasyWayLocation easyWayLocation;
 
     // android token
     private String androidToken1;
@@ -135,27 +131,36 @@ public class SplashScreenActivity extends AppCompatActivity {
         packageString = new ArrayList<>();
         stringslist = new ArrayList<>();
 
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            showGPSDisabledAlertToUser();
-        }else{
-            methodRequiresTwoPermission();
-            mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            } else {
-                mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
-                    if (location != null) {
-                        Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
-                        Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
-                        lati = location.getLatitude();
-                        longi = location.getLongitude();
-                    } else {
-                        Toast.makeText(this, "Buka kembali aplikasinya", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        if (Settings.Secure.getInt(getApplicationContext().getContentResolver(),
+                Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0) {
+            Toast.makeText(this, "Matikan mode debugging", Toast.LENGTH_SHORT).show();
+            Config.dialogAlert(SplashScreenActivity.this, "Developer mode atau opsi developer ON", "Akun di BEKUKAN oleh sistem Android, hubungi kepegawaian", "OKE");
+        } else {
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                showGPSDisabledAlertToUser();
+            }else{
+                methodRequiresTwoPermission();
+                mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                } else {
+                    mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
+                        if (location != null) {
+                            Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
+                            Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
+                            lati = location.getLatitude();
+                            longi = location.getLongitude();
+                        } else {
+                            Toast.makeText(this, "Buka kembali aplikasinya", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         }
+
+
+
 
         Typeface typeface = ResourcesCompat.getFont(this, R.font.roboto);
 
@@ -439,10 +444,10 @@ public class SplashScreenActivity extends AppCompatActivity {
                             finishAffinity();
                         }
                     })
-                    .setPositiveButton("Uninstall Aplikasi Presensi", new MaterialDialog.OnClickListener() {
+                    .setPositiveButton("Uninstall Aplikasi Absensi", new MaterialDialog.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int which) {
-                            Toast.makeText(context, "Uninstall aplikasi Presensi beraksi...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(Intent.ACTION_DELETE);
                             intent.setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
                             startActivity(intent);
@@ -479,8 +484,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 //                        dialogInterface.dismiss();
 //                        getAplicationVersionFromServer();
 //                    })
-//                    .setPositiveButton("Uninstall Aplikasi Presensi", (dialogInterface, which) -> {
-//                        Toast.makeText(SplashScreenActivity.this, "Uninstall aplikasi Presensi beraksi...", Toast.LENGTH_SHORT).show();
+//                    .setPositiveButton("Uninstall Aplikasi Absensi", (dialogInterface, which) -> {
+//                        Toast.makeText(SplashScreenActivity.this, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
 //                        Intent intent = new Intent(Intent.ACTION_DELETE);
 //                        intent.setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
 //                        startActivity(intent);

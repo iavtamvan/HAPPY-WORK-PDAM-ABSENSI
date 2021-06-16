@@ -98,7 +98,7 @@ public class DashboardActivity extends AppCompatActivity {
         if (rootBeer.isRooted()) {
             //we found indication of root
             Toast.makeText(this, "Rooted Detected" + rootBeer, Toast.LENGTH_SHORT).show();
-            Config.dialogAlert(DashboardActivity.this, "Rooted Deteksi", "Segera ganti HP", "Gakmau", "Uninstall Aplikasi Absensi");
+            Config.dialogAlert(DashboardActivity.this, "Rooted Deteksi", "Segera ganti HP, karena harus Flash Ulang android. Hubungi PTI", "Gakmau");
         }
 
         getShiftPegawai();

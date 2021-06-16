@@ -44,7 +44,6 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
-import im.delight.android.location.SimpleLocation;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -58,7 +57,7 @@ import retrofit2.Response;
 
 public class PresensiActivity extends AppCompatActivity {
     private static final String TAG = "debug";
-    private String btnPresensi = "Simpan Presensi Android";
+    private String btnPresensi = "Simpan Absensi Android";
     private File compressedImageFile;
     private String access_token;
     private SharedPreferences sharedPreferences;
@@ -72,7 +71,6 @@ public class PresensiActivity extends AppCompatActivity {
 
     private MultipartBody.Part bodyPhoto;
     private Double lati, longi;
-    private SimpleLocation location;
 
     private String timeServer;
     private String dateServer;
@@ -122,7 +120,7 @@ public class PresensiActivity extends AppCompatActivity {
         initView();
         // TODO 1 preview camera Done
         // TODO 2 face Detection Done
-        // TODO 3 Save Presensi
+        // TODO 3 Save Absensi
         tvHeaderJudul.setText("Mengenali Wajah");
         animationView.setVisibility(View.GONE);
         tvMencariMuka.setText("Ayo foto...");
@@ -404,7 +402,7 @@ public class PresensiActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void savePresensi() {
         animationView.setVisibility(View.VISIBLE);
-        tvMencariMuka.setText("Mengirim Presensi");
+        tvMencariMuka.setText("Mengirim Absensi");
         ApiService apiService = ApiConfig.getApiService();
         apiService.savePresensi(access_token, lati, longi, statusPresensi, npp, "0", getPathPhotoFaceServer, connectionType, currentDateLocalSendServer, currentTimeLocalSendServer)
                 .enqueue(new Callback<SavePresensiRootModel>() {

@@ -146,7 +146,7 @@ public class CheckLocationActivity extends AppCompatActivity {
                                                 " - " + response.body().getData().getAppliesLocationSetting().getName());
                                         if (!response.body().getData().getCheckResult().isIsInRadius()) {
                                             loading.cancel();
-                                            Toast.makeText(CheckLocationActivity.this, "Anda tidak dalam radius Presensi", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(CheckLocationActivity.this, "Anda tidak dalam radius Absensi", Toast.LENGTH_SHORT).show();
                                             divLanjut.setVisibility(View.GONE);
                                         } else {
                                             loading.cancel();

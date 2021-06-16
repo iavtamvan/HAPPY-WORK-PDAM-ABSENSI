@@ -79,11 +79,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-safetynet:17.0.0'
 
     //get lat long, address
-    implementation 'com.github.delight-im:Android-SimpleLocation:v1.1.0'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
-    implementation 'com.github.prabhat1707:EasyWayLocation:2.2'
-
-
 
     //mock location
 

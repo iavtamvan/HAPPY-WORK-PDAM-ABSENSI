@@ -375,7 +375,7 @@ public final class Config {
         }
     }
 
-    public static void dialogAlert(Context context, String tittle, String message, String negativeButton, String positiveButton){
+    public static void dialogAlert(Context context, String tittle, String message, String negativeButton){
         MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
                 .setTitle(tittle)
                 .setMessage(message)
@@ -385,8 +385,8 @@ public final class Config {
                     dialogInterface.dismiss();
                     ((Activity) context).finishAffinity();
                 })
-                .setPositiveButton(positiveButton, (dialogInterface, which) -> {
-                    Toast.makeText(context, "Uninstall aplikasi Presensi beraksi...", Toast.LENGTH_SHORT).show();
+                .setPositiveButton("Uninstall aplikasi Absensi beraksi", (dialogInterface, which) -> {
+                    Toast.makeText(context, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Intent.ACTION_DELETE);
                     intent.setData(Uri.parse("package:" + context.getApplicationContext().getPackageName()));
                     context.startActivity(intent);
@@ -462,10 +462,10 @@ public final class Config {
                                         ((Activity) context).finishAffinity();
                                     }
                                 })
-                                .setPositiveButton("Uninstall Aplikasi Presensi", new MaterialDialog.OnClickListener() {
+                                .setPositiveButton("Uninstall Aplikasi Absensi", new MaterialDialog.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int which) {
-                                        Toast.makeText(context, "Uninstall aplikasi Presensi beraksi...", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(Intent.ACTION_DELETE);
                                         intent.setData(Uri.parse("package:" + context.getApplicationContext().getPackageName()));
                                         context.startActivity(intent);
