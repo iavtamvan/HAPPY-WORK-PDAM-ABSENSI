@@ -192,24 +192,28 @@ public class PresensiActivity extends AppCompatActivity {
             btnKirimPresensi.setEnabled(true);
             btnKirimPresensi2.setEnabled(true);
             btnKirimPresensi2.setText(btnPresensi);
+            btnKirimPresensi2.setVisibility(View.VISIBLE);
             Log.d(TAG, "npp Enkrip 1: " + npp + " ? " + noToken);
         } else if (androidToken2.equalsIgnoreCase(md5Hash)) {
             noToken = androidToken2;
             btnKirimPresensi.setEnabled(true);
             btnKirimPresensi2.setEnabled(true);
             btnKirimPresensi2.setText(btnPresensi);
+            btnKirimPresensi2.setVisibility(View.VISIBLE);
             Log.d(TAG, "npp Enkrip 2: " + npp + " ? " + noToken);
         } else if (androidToken3.equalsIgnoreCase(md5Hash)) {
             noToken = androidToken3;
             btnKirimPresensi.setEnabled(true);
             btnKirimPresensi2.setEnabled(true);
             btnKirimPresensi2.setText(btnPresensi);
+            btnKirimPresensi2.setVisibility(View.VISIBLE);
             Log.d(TAG, "npp Enkrip 3: " + npp + " ? " + noToken);
         } else if (androidToken5.equalsIgnoreCase(md5Hash)) {
             noToken = androidToken5;
             btnKirimPresensi.setEnabled(true);
             btnKirimPresensi2.setEnabled(true);
             btnKirimPresensi2.setText(btnPresensi);
+            btnKirimPresensi2.setVisibility(View.VISIBLE);
             Log.d(TAG, "npp Enkrip 5: " + npp + " ? " + noToken);
         } else {
             btnKirimPresensi2.setEnabled(false);

@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-
     <androidx.cardview.widget.CardView
+        android:id="@+id/cv_container_lokasi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -25,6 +25,46 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                app:cardBackgroundColor="@color/greenGojek"
+                app:cardCornerRadius="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_health" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginRight="4dp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:gravity="center|left"
+                            android:text="Berpergianlah hanya kalau ada tugas 🙂"
+                            android:textColor="@color/white"
+                            android:textSize="12dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,7 +83,7 @@
                     android:layout_marginRight="4dp"
                     android:fontFamily="@font/poppins_medium"
                     android:gravity="center|left"
-                    android:text="Anda yakin lokasinya disini? :)"
+                    android:text="Lokasi saat ini, benarkah?"
                     android:textColor="@color/black"
                     android:textSize="15dp"
                     android:textStyle="bold" />
@@ -79,7 +119,7 @@
                         android:layout_marginRight="4dp"
                         android:fontFamily="@font/poppins_medium"
                         android:gravity="center"
-                        android:text="REFRESH"
+                        android:text="MUAT ULANG"
                         android:textColor="@color/primary"
                         android:textSize="15dp"
                         android:textStyle="bold" />

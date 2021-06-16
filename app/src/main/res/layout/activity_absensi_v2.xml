@@ -27,7 +27,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/logo_greatday"
+            android:src="@drawable/im_no_available"
             app:civ_border_color="#FFFF"
             app:civ_border_width="1dp" />
 
@@ -141,6 +141,7 @@
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/red"
                 android:textColor="@color/white"
+                android:visibility="gone"
                 android:gravity="center"
                 android:enabled="false"
                 android:text="Simpan Presensi" />

@@ -121,7 +121,7 @@ public final class Config {
     public static final String SHARED_SATKER_FORMATTED = "satker_formatted";
     public static final String SHARED_SUBSATKER_FORMATTED = "subsatker_formatted";
     public static final String SHARED_APP_VERSION = "app_version";
-    public static final String SHARED_FCM_TOKEN = "app_version";
+    public static final String SHARED_FCM_TOKEN = "fcm_token";
     public static final String SHARED_REMARK = "remark";
     public static final String SHARED_START_TIME = "start_time";
     public static final String SHARED_END_TIME = "end_time";
