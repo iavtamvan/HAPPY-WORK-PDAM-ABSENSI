@@ -1,8 +1,10 @@
 package com.pdamkotasmg.happywork.fitur.presensi;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -17,9 +19,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.krishna.securetimer.SecureTimer;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
@@ -58,6 +63,7 @@ public class PresensiActivity extends AppCompatActivity {
     private String access_token;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private FusedLocationProviderClient mFusedLocation;
 
     private String currentDateLocal;
     private String currentDateLocalSendServer;
@@ -134,6 +140,11 @@ public class PresensiActivity extends AppCompatActivity {
         if (Connectivity.isConnected(PresensiActivity.this)) {
             Log.d(TAG, "isConnect: Connected");
             connectionType = Connectivity.isConnectionFast(PresensiActivity.this).getConnectionType();
+        }
+
+        mFusedLocation = LocationServices.getFusedLocationProviderClient(PresensiActivity.this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
         }
 
         Date cDate = new Date();
@@ -243,6 +254,17 @@ public class PresensiActivity extends AppCompatActivity {
         });
 
         btnKirimPresensi2.setOnClickListener(v -> {
+            mFusedLocation.getLastLocation().addOnSuccessListener(this, location -> {
+                if (location != null) {
+                    // Do it all with location
+                    Log.d("My Current location", "Lat : " + location.getLatitude() + " Long : " + location.getLongitude());
+                    // Display in Toast
+                    lati = location.getLatitude();
+                    longi = location.getLongitude();
+                    Log.d(TAG, "lat: " + lati);
+                    Log.d(TAG, "long: " + longi);
+                }
+            });
             npp = noToken;
             currentDateLocalSendServer = new SimpleDateFormat("yyyy-MM-dd").format(cDate);
             currentTimeLocalSendServer = new SimpleDateFormat("HH:mm:ss").format(cDate);

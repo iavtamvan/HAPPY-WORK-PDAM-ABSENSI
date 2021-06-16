@@ -46,6 +46,7 @@ public class CheckLocationActivity extends AppCompatActivity {
     private String npp;
 
     private ProgressDialog loading;
+    private SharedPreferences.Editor editor;
 
     private WebView wv;
     private TextView tvResp;
@@ -61,7 +62,7 @@ public class CheckLocationActivity extends AppCompatActivity {
         initView();
 
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor = sharedPreferences.edit();
 
 
         divLanjut.setVisibility(View.GONE);
@@ -116,6 +117,9 @@ public class CheckLocationActivity extends AppCompatActivity {
                 longi = location.getLongitude();
                 Log.d(TAG, "latCheck: " + lati);
                 Log.d(TAG, "longCheck: " + longi);
+                editor.putString(Config.SHARED_LATI_OFFLINE, String.valueOf(lati));
+                editor.putString(Config.SHARED_LONGITUDE_OFFLINE, String.valueOf(longi));
+                editor.apply();
 
                 ApiService apiService = ApiConfig.getApiService();
                 apiService.checkLocation(access_token, statusPresensi, npp, lati, longi)
