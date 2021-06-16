@@ -144,14 +144,14 @@ public class SplashScreenActivity extends AppCompatActivity {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             } else {
-                Log.d(TAG, "mfusedGetLast: " + mFusedLocation.getLastLocation());
                 mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
-                    Log.d(TAG, "mfusedLoc: " + location.getLongitude());
                     if (location != null) {
                         Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
                         Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
                         lati = location.getLatitude();
                         longi = location.getLongitude();
+                    } else {
+                        Toast.makeText(this, "Buka kembali aplikasinya", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
