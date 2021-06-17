@@ -25,6 +25,7 @@ import com.google.android.gms.location.LocationServices;
 import com.pdamkotasmg.happywork.R;
 import com.pdamkotasmg.happywork.api.server.ApiConfig;
 import com.pdamkotasmg.happywork.api.server.ApiService;
+import com.pdamkotasmg.happywork.fitur.kehadiran.view.KehadiranActivity;
 import com.pdamkotasmg.happywork.fitur.presensi.model.checkLocationModel.CheckLocationRootModel;
 import com.pdamkotasmg.happywork.utils.Config;
 
@@ -132,6 +133,10 @@ public class CheckLocationActivity extends AppCompatActivity {
                                     // deteksi lokasi absen false
                                     if (!response.body().getData().getAppliesShiftSetting().isLocationDetection()) {
                                         startActivity(new Intent(CheckLocationActivity.this, PresensiActivity.class));
+                                    } else if (response.body().getData().getAppliesShiftSetting().getShiftDailyCode().equalsIgnoreCase("OFF")){
+                                        Toast.makeText(CheckLocationActivity.this, "Shift Off", Toast.LENGTH_SHORT).show();
+                                        finishAffinity();
+                                        startActivity(new Intent(CheckLocationActivity.this, KehadiranActivity.class));
                                     } else {
                                         wv.getSettings().setJavaScriptEnabled(true);
                                         wv.getSettings().setLoadWithOverviewMode(true);

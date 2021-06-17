@@ -49,7 +49,6 @@ import com.pdamkotasmg.happywork.fitur.splash.model.packageName.DataItem;
 import com.pdamkotasmg.happywork.fitur.splash.model.packageName.PackageNameRootModel;
 import com.pdamkotasmg.happywork.utils.Config;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
-import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -226,19 +225,13 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 .setTitle("Perbarui aplikas kamu")
                                 .setAnimation("lt_update.json")
                                 .setCancelable(false)
-                                .setNegativeButton("Gak mau", new MaterialDialog.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int which) {
-                                        dialogInterface.dismiss();
-                                        finishAffinity();
-                                    }
+                                .setNegativeButton("Gak mau", (dialogInterface, which) -> {
+                                    dialogInterface.dismiss();
+                                    finishAffinity();
                                 })
-                                .setPositiveButton("Perbarui", new MaterialDialog.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int which) {
-                                        // TODO Link Playstore (belum)
-                                        Toast.makeText(SplashScreenActivity.this, "Link Playstore ?", Toast.LENGTH_SHORT).show();
-                                    }
+                                .setPositiveButton("Perbarui", (dialogInterface, which) -> {
+                                    // TODO Link Playstore (belum)
+                                    Toast.makeText(SplashScreenActivity.this, "Link Playstore ?", Toast.LENGTH_SHORT).show();
                                 })
                                 .build();
 
@@ -434,21 +427,15 @@ public class SplashScreenActivity extends AppCompatActivity {
                     .setMessage("Uninstall fake GPS kamu " + packageInfo.packageName + "\n\n Hubungi kepegawaian untuk aktivasi kembali...")
                     .setAnimation("lt_bohong.json")
                     .setCancelable(false)
-                    .setNegativeButton("Oke deh, jangan suka bohong ya", new MaterialDialog.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            dialogInterface.dismiss();
-                            finishAffinity();
-                        }
+                    .setNegativeButton("Oke deh, jangan suka bohong ya", (dialogInterface, which) -> {
+                        dialogInterface.dismiss();
+                        finishAffinity();
                     })
-                    .setPositiveButton("Uninstall Aplikasi Absensi", new MaterialDialog.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            Toast.makeText(context, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(Intent.ACTION_DELETE);
-                            intent.setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
-                            startActivity(intent);
-                        }
+                    .setPositiveButton("Uninstall Aplikasi Absensi", (dialogInterface, which) -> {
+                        Toast.makeText(context, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Intent.ACTION_DELETE);
+                        intent.setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
+                        startActivity(intent);
                     })
                     .build();
 
