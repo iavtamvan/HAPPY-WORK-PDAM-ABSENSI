@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.gms.ads.AdView;
 import com.krishna.securetimer.SecureTimer;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
@@ -68,6 +69,7 @@ public class KehadiranActivity extends AppCompatActivity {
     private LinearLayout divAnimation;
     private LottieAnimationView animationView;
     private Button btnHome;
+    private AdView adView;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint({"SetTextI18n", "SimpleDateFormat", "CommitPrefEdits"})
@@ -85,6 +87,8 @@ public class KehadiranActivity extends AppCompatActivity {
         });
 
         dataItems = new ArrayList<>();
+
+        Config.ads(KehadiranActivity.this, adView);
 
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -192,5 +196,6 @@ public class KehadiranActivity extends AppCompatActivity {
         divAnimation = findViewById(R.id.div_animation);
         animationView = findViewById(R.id.animation_view);
         btnHome = findViewById(R.id.btnHome);
+        adView = findViewById(R.id.adView);
     }
 }

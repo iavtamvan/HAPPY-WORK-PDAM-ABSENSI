@@ -24,6 +24,10 @@ import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
@@ -516,6 +520,16 @@ public final class Config {
 
         Log.d(TAG, "md5: " + md5StrBuff.toString());
         return md5StrBuff.toString().toUpperCase();
+    }
+
+    public static void ads(Context context, AdView adView){
+        MobileAds.initialize(context, initializationStatus -> {
+        });
+        AdRequest adRequest = new AdRequest.Builder().build();
+        AdView adViews = new AdView(context);
+        adViews.setAdSize(AdSize.BANNER);
+        adViews.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+        adView.loadAd(adRequest);
     }
 
 }

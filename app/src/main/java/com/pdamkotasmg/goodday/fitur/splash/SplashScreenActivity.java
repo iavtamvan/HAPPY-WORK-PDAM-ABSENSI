@@ -35,6 +35,7 @@ import androidx.core.content.res.ResourcesCompat;
 import com.an.deviceinfo.device.model.Device;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.pdamkotasmg.goodday.BuildConfig;
@@ -113,6 +114,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private List<String> stringslist;
 
     private FusedLocationProviderClient mFusedLocation;
+    private AdView adView;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -120,6 +122,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         getSupportActionBar().hide();
+        initView();
         androidVersionDevice = BuildConfig.VERSION_NAME;
         Log.d(TAG, "onCreate: " + androidVersionDevice);
 
@@ -127,6 +130,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         stringslist = new ArrayList<>();
+        Config.ads(SplashScreenActivity.this, adView);
 
         // TODO harusnya unComent pada mode Production
 //        if (Settings.Secure.getInt(getApplicationContext().getContentResolver(),
@@ -189,7 +193,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 })
                 .setPositiveButton("Aktifkan", (dialogInterface, which) -> {
                     finishAffinity();
-                    Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    Intent callGPSSettingIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(callGPSSettingIntent);
                 })
                 .build();
@@ -461,5 +465,9 @@ public class SplashScreenActivity extends AppCompatActivity {
                     RC_CAMERA_AND_LOCATION, perms);
             getAplicationVersionFromServer();
         }
+    }
+
+    private void initView() {
+        adView = findViewById(R.id.adView);
     }
 }

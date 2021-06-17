@@ -138,6 +138,9 @@ dependencies {
     // root
     implementation 'com.scottyab:rootbeer-lib:0.1.0'
 
+    // ads
+    implementation 'com.google.android.gms:play-services-ads:20.2.0'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
