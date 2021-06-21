@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -96,10 +97,13 @@ public class LoginActivity extends AppCompatActivity {
         getTokenFirebase();
         loginController = new LoginController();
         btnMasuk.setOnClickListener(v -> {
-            loginController.login(LoginActivity.this, edtNpp.getText().toString().trim(), edtPassword.getText().toString().trim(),
-                    getHwid, getModel, getProduct, getDevice, getBuildBrand, getOsVersion, getSdkVersion, getBuildNumber, getBuildIncremental,
-                    getIpAdress, getNetworkUsing, getSSIDWifi, city, String.valueOf(lati), String.valueOf(longi), appVersion, firebaseToken);
-
+            if (edtNpp.getText().toString().isEmpty() || edtPassword.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Lengkapi akun anda terlebih dahulu", Toast.LENGTH_SHORT).show();
+            } else {
+                loginController.login(LoginActivity.this, edtNpp.getText().toString().trim(), edtPassword.getText().toString().trim(),
+                        getHwid, getModel, getProduct, getDevice, getBuildBrand, getOsVersion, getSdkVersion, getBuildNumber, getBuildIncremental,
+                        getIpAdress, getNetworkUsing, getSSIDWifi, city, String.valueOf(lati), String.valueOf(longi), appVersion, firebaseToken);
+            }
         });
     }
 

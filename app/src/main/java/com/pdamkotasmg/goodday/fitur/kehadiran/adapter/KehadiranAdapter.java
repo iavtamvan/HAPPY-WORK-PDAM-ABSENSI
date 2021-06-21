@@ -79,7 +79,7 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
             holder.tvListKehadiranMasuk.setText("--:--");
             holder.tvListKehadiranMasukStatus.setText("");
 //            imagePopupMasuk.initiatePopup(context.getDrawable(R.drawable.ic_person));
-            imagePopupMasuk.initiatePopupWithGlide("https://img.freepik.com/free-vector/people-doing-selfies_52683-4081.jpg?size=626&ext=jpg");
+            imagePopupMasuk.initiatePopupWithGlide("https://o.remove.bg/downloads/e3b682fa-c784-435b-8261-5e928cb61ea7/man-taking-selfie-photo-smartphone_176411-928-removebg-preview.png");
         } else {
             if (dataItems.get(position).getIn().isIsTelat().equalsIgnoreCase("true") && dataItems.get(position).getIn().isIsShiftIn().equalsIgnoreCase("true")) {
                 holder.tvListKehadiranMasukStatus.setText("Terlambat");
@@ -100,7 +100,7 @@ public class KehadiranAdapter extends RecyclerView.Adapter<KehadiranAdapter.View
             holder.tvListKehadiranKeluar.setText("--:--");
             holder.tvListKehadiranKeluarStatus.setText("");
 //            imagePopupKeluar.initiatePopup(context.getDrawable(R.drawable.ic_person));
-            imagePopupKeluar.initiatePopupWithGlide("https://img.freepik.com/free-vector/people-doing-selfies_52683-4081.jpg?size=626&ext=jpg");
+            imagePopupKeluar.initiatePopupWithGlide("https://o.remove.bg/downloads/e3b682fa-c784-435b-8261-5e928cb61ea7/man-taking-selfie-photo-smartphone_176411-928-removebg-preview.png");
         } else {
             if (dataItems.get(position).getOut().isIsTelat().equalsIgnoreCase("true") && dataItems.get(position).getOut().isIsShiftIn().equalsIgnoreCase("true")) {
                 holder.tvListKehadiranKeluarStatus.setText("Terlambat");

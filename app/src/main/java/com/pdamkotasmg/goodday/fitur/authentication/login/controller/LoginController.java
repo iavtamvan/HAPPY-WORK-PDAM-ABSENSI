@@ -1,5 +1,6 @@
 package com.pdamkotasmg.goodday.fitur.authentication.login.controller;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -55,6 +56,8 @@ public class LoginController {
     private String subsatker_formatted;
     private String app_version;
 
+    private ProgressDialog loading;
+
     public void login(
             Context context,
             String npp,
@@ -77,6 +80,10 @@ public class LoginController {
             String appVersion,
             String fcmToken
     ) {
+        loading = new ProgressDialog(context);
+        loading.setCancelable(false);
+        loading.setMessage("Mohon tunggu ....");
+        loading.show();
         ApiService apiService = ApiConfig.getApiService();
         apiService.login(npp, password, hwid, model, product, device, build_brand, os_version, sdk_version, build_number, build_incremental, ip_address, connection_type, ssid, location_city, latitude, longitude
                 , appVersion, fcmToken).enqueue(new Callback<AkunRootModel>() {
@@ -92,8 +99,11 @@ public class LoginController {
                     name = dataLogin.getUser().getName();
                     avatar = dataLogin.getUser().getAvatar();
 
+                    loading.cancel();
+
                     if (dataLogin.getUser().getRlPegawai() == null){
                         Log.d("debug ", "RL Pegawai: Kosong");
+                        loading.cancel();
                     } else {
                         alamat = dataLogin.getUser().getRlPegawai().getAlamat();
                         rt = dataLogin.getUser().getRlPegawai().getRt();
@@ -164,6 +174,7 @@ public class LoginController {
                     ((LoginActivity) context).finishAffinity();
                     context.startActivity(new Intent(context, DashboardActivity.class));
                 } else {
+                    loading.cancel();
                     Log.d("debug login res server", "errorBody: " + response.errorBody());
                     Log.d("debug login res server", "contentLength: " + response.errorBody().contentLength());
                     Log.d("debug login res server", "code: " + response.code());
@@ -174,6 +185,7 @@ public class LoginController {
 
             @Override
             public void onFailure(Call<AkunRootModel> call, Throwable t) {
+                loading.cancel();
                 Toast.makeText(context, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
             }
         });

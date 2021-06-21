@@ -31,6 +31,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
+import com.pdamkotasmg.goodday.fitur.authentication.login.LoginActivity;
 import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.splash.SplashScreenActivity;
 import com.pdamkotasmg.goodday.fitur.splash.model.packageName.Data;
@@ -411,8 +412,7 @@ public final class Config {
                     dialogInterface.dismiss();
                 })
                 .setPositiveButton("Sudah", (dialogInterface, which) -> {
-                    ((SplashScreenActivity) context).getAplicationVersionFromServer();
-//                    context.startActivity(new Intent(context, SplashScreenActivity.class));
+                    context.startActivity(new Intent(context, LoginActivity.class));
                 })
                 .build();
 
