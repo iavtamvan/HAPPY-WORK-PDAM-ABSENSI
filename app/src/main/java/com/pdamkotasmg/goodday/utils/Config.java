@@ -147,6 +147,7 @@ public final class Config {
     public static final String SHARED_PATH_FOTO = "path_foto";
     public static final String SHARED_ABSENSI_MASUK = "shared_absensi_masuk";
     public static final String SHARED_ABSENSI_KELUAR = "shared_absensi_keluar";
+    public static final String SHARED_FLAG_SPLASH = "flag_splash";
     public static final String SHARED_ANDROID_TOKEN_1 = "android_token_1";
     public static final String SHARED_ANDROID_TOKEN_2 = "android_token_2";
     public static final String SHARED_ANDROID_TOKEN_3 = "android_token_3";
@@ -394,6 +395,43 @@ public final class Config {
                     Intent intent = new Intent(Intent.ACTION_DELETE);
                     intent.setData(Uri.parse("package:" + context.getApplicationContext().getPackageName()));
                     context.startActivity(intent);
+                })
+                .build();
+
+        // Show Dialog
+        mDialog.show();
+    }
+
+    public static void dialogAlertIntro(Context context, String tittle, String message, String negativeButton){
+        MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
+                .setTitle(tittle)
+                .setMessage(message)
+                .setCancelable(false)
+                .setNegativeButton(negativeButton, (dialogInterface, which) -> {
+                    dialogInterface.dismiss();
+                })
+                .setPositiveButton("Sudah", (dialogInterface, which) -> {
+                    ((SplashScreenActivity) context).getAplicationVersionFromServer();
+//                    context.startActivity(new Intent(context, SplashScreenActivity.class));
+                })
+                .build();
+
+        // Show Dialog
+        mDialog.show();
+    }
+    public static void dialogAlertSplash(Context context, String tittle, String message, String negativeButton){
+        MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
+                .setTitle(tittle)
+                .setMessage(message)
+                .setCancelable(false)
+                .setNegativeButton(negativeButton, (dialogInterface, which) -> {
+                    dialogInterface.dismiss();
+                    ((SplashScreenActivity) context).finishAffinity();
+                })
+                .setPositiveButton("Buka Kembali", (dialogInterface, which) -> {
+                    ((SplashScreenActivity) context).finishAffinity();
+                    context.startActivity(new Intent(context, SplashScreenActivity.class));
+//                    context.startActivity(new Intent(context, SplashScreenActivity.class));
                 })
                 .build();
 

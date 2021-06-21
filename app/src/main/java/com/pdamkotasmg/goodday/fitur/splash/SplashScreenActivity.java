@@ -42,7 +42,6 @@ import com.pdamkotasmg.goodday.BuildConfig;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
-import com.pdamkotasmg.goodday.fitur.authentication.WelcomeAuthActivity;
 import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.splash.model.androidVersion.AndroidVersionModel;
 import com.pdamkotasmg.goodday.fitur.splash.model.packageName.Data;
@@ -77,6 +76,9 @@ public class SplashScreenActivity extends AppCompatActivity {
     private Data dataItem;
     private List<DataItem> dataItemList;
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     //device info
     private Device device;
     private String getModel;
@@ -98,6 +100,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     private String postalCode;
     private String knownName;
     private Double lati, longi;
+
+    private String flagSplash;
 
     // android token
     private String androidToken1;
@@ -129,38 +133,54 @@ public class SplashScreenActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+        sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        flagSplash = sharedPreferences.getString(Config.SHARED_FLAG_SPLASH, "");
+        if (flagSplash.equalsIgnoreCase("")){
+            Config.dialogAlertSplash(SplashScreenActivity.this, "Buka kembali aplikasinya", "Apabila tidak di izinkan mengakibatkan error pada aplikasi", "Tidak");
+            methodRequiresTwoPermission();
+        } else {
+            editor.putString(Config.SHARED_FLAG_SPLASH, "1");
+            editor.apply();
+            Log.d(TAG, "Masuk Apps good day");
+            // TODO harusnya unComent pada mode Production
+//            if (Settings.Secure.getInt(getApplicationContext().getContentResolver(),
+//                    Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0) {
+//                Toast.makeText(this, "Matikan mode debugging", Toast.LENGTH_SHORT).show();
+//                Config.dialogAlert(SplashScreenActivity.this, "Developer mode atau opsi developer ON", "Akun di BEKUKAN oleh sistem Android, hubungi kepegawaian", "OKE");
+//                // TODO bekukan akun yang nakal.
+//            } else {
+
+                LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    showGPSDisabledAlertToUser();
+                } else {
+                    mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    } else {
+                        mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
+                            if (location != null) {
+                                Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
+                                Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
+                                lati = location.getLatitude();
+                                longi = location.getLongitude();
+                                getAplicationVersionFromServer();
+                            } else {
+                                Toast.makeText(this, "Buka kembali aplikasinya", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+//            }
+        }
+
         stringslist = new ArrayList<>();
         Config.ads(SplashScreenActivity.this, adView);
 
-        // TODO harusnya unComent pada mode Production
-//        if (Settings.Secure.getInt(getApplicationContext().getContentResolver(),
-//                Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0) {
-//            Toast.makeText(this, "Matikan mode debugging", Toast.LENGTH_SHORT).show();
-//            Config.dialogAlert(SplashScreenActivity.this, "Developer mode atau opsi developer ON", "Akun di BEKUKAN oleh sistem Android, hubungi kepegawaian", "OKE");
-//            // TODO bekukan akun yang nakal.
-//        } else {
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            showGPSDisabledAlertToUser();
-        } else {
-            methodRequiresTwoPermission();
-            mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            } else {
-                mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
-                    if (location != null) {
-                        Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
-                        Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
-                        lati = location.getLatitude();
-                        longi = location.getLongitude();
-                    } else {
-                        Toast.makeText(this, "Buka kembali aplikasinya", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }
-//        }
+
 
         Typeface typeface = ResourcesCompat.getFont(this, R.font.roboto);
 
@@ -202,7 +222,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         mDialog.show();
     }
 
-    private void getAplicationVersionFromServer() {
+    public void getAplicationVersionFromServer() {
         ApiService apiService = ApiConfig.getApiService();
         apiService.getAndroidVersion().enqueue(new Callback<AndroidVersionModel>() {
             @Override
@@ -306,18 +326,23 @@ public class SplashScreenActivity extends AppCompatActivity {
         Geocoder geocoder;
         List<Address> addressList;
         geocoder = new Geocoder(SplashScreenActivity.this, Locale.getDefault());
-        try {
-            addressList = geocoder.getFromLocation(lati, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            address_gps = addressList.get(0).getAddressLine(0); // If any additional address_gps line present than only, check with max available address_gps lines by getMaxAddressLineIndex()
-            city = addressList.get(0).getLocality();
-            state = addressList.get(0).getAdminArea();
-            country = addressList.get(0).getCountryName();
-            postalCode = addressList.get(0).getPostalCode();
-            knownName = addressList.get(0).getFeatureName(); // Only if available else return NULL
-            Log.d("TAG", "loc: " + address_gps + " ");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        if (lati.equals(null) || longi.equals(null)) {
+//            Toast.makeText(this, "Buka kembali aplikasi absensi", Toast.LENGTH_SHORT).show();
+//            finishAffinity();
+//        } else {
+            try {
+                addressList = geocoder.getFromLocation(lati, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                address_gps = addressList.get(0).getAddressLine(0); // If any additional address_gps line present than only, check with max available address_gps lines by getMaxAddressLineIndex()
+                city = addressList.get(0).getLocality();
+                state = addressList.get(0).getAdminArea();
+                country = addressList.get(0).getCountryName();
+                postalCode = addressList.get(0).getPostalCode();
+                knownName = addressList.get(0).getFeatureName(); // Only if available else return NULL
+                Log.d("TAG", "loc: " + address_gps + " ");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//        }
 
 //        Log.d(TAG, "getModel: " + getModel);
 //        Log.d(TAG, "getProduct: " + getProduct);
@@ -414,7 +439,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 // TODO jika belum masuk ke welcome
                 if (telepon.equalsIgnoreCase("") || TextUtils.isEmpty(telepon)) {
                     finishAffinity();
-                    startActivity(new Intent(getApplicationContext(), WelcomeAuthActivity.class));
+                    startActivity(new Intent(getApplicationContext(), IntroActivity.class));
                 }
                 // TODO jika sudah nantinya akan masuk ke dashboard
                 else {
@@ -453,17 +478,30 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)
-    public void methodRequiresTwoPermission() {
-        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                , Manifest.permission.CAMERA, Manifest.permission.USE_FINGERPRINT, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE,};
-        if (EasyPermissions.hasPermissions(this, perms)) {
+    private void methodRequiresTwoPermission() {
+        editor.putString(Config.SHARED_FLAG_SPLASH, "1");
+        editor.apply();
+        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION
+                , Manifest.permission.INTERNET
+                , Manifest.permission.ACCESS_WIFI_STATE
+                , Manifest.permission.ACCESS_NETWORK_STATE
+                , Manifest.permission.ACCESS_FINE_LOCATION
+                , Manifest.permission.ACCESS_COARSE_LOCATION
+                , Manifest.permission.CAMERA
+                , Manifest.permission.WRITE_SECURE_SETTINGS
+                , Manifest.permission.REQUEST_DELETE_PACKAGES
+                , Manifest.permission.QUERY_ALL_PACKAGES
+                , Manifest.permission.WRITE_EXTERNAL_STORAGE
+                , Manifest.permission.READ_EXTERNAL_STORAGE
+                , Manifest.permission.USE_FINGERPRINT};
+        if (EasyPermissions.hasPermissions(SplashScreenActivity.this, perms)) {
             // Already have permission, do the thing
-            // ...
+            Log.d(TAG, "methodRequiresTwoPermission: Sukses");
+            getAplicationVersionFromServer();
         } else {
             // Do not have permissions, request them now
             EasyPermissions.requestPermissions(this, getString(R.string.app_name),
                     RC_CAMERA_AND_LOCATION, perms);
-            getAplicationVersionFromServer();
         }
     }
 
