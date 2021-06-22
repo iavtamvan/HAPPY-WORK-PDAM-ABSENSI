@@ -149,6 +149,7 @@ public final class Config {
     public static final String SHARED_ABSENSI_MASUK = "shared_absensi_masuk";
     public static final String SHARED_ABSENSI_KELUAR = "shared_absensi_keluar";
     public static final String SHARED_FLAG_SPLASH = "flag_splash";
+    public static final String SHARED_URL_LOGO = "url_logo";
     public static final String SHARED_ANDROID_TOKEN_1 = "android_token_1";
     public static final String SHARED_ANDROID_TOKEN_2 = "android_token_2";
     public static final String SHARED_ANDROID_TOKEN_3 = "android_token_3";

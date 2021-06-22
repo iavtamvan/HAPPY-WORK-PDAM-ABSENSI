@@ -24,6 +24,7 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.an.deviceinfo.device.model.Device;
+import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.ads.AdView;
@@ -115,10 +117,13 @@ public class SplashScreenActivity extends AppCompatActivity {
     private String androidToken9;
     private String androidToken10;
 
+    private String urlLogo;
+
     private List<String> stringslist;
 
     private FusedLocationProviderClient mFusedLocation;
     private AdView adView;
+    private ImageView logo;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -137,7 +142,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
 
         flagSplash = sharedPreferences.getString(Config.SHARED_FLAG_SPLASH, "");
-        if (flagSplash.equalsIgnoreCase("")){
+        if (flagSplash.equalsIgnoreCase("")) {
             Config.dialogAlertSplash(SplashScreenActivity.this, "Buka kembali aplikasinya", "Apabila tidak di izinkan mengakibatkan error pada aplikasi", "Tidak");
             methodRequiresTwoPermission();
         } else {
@@ -152,34 +157,34 @@ public class SplashScreenActivity extends AppCompatActivity {
 //                // TODO bekukan akun yang nakal.
 //            } else {
 
-                LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    showGPSDisabledAlertToUser();
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                showGPSDisabledAlertToUser();
+            } else {
+                mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
                 } else {
-                    mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        return;
-                    } else {
-                        mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
-                            if (location != null) {
-                                Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
-                                Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
-                                lati = location.getLatitude();
-                                longi = location.getLongitude();
-                                getAplicationVersionFromServer();
-                            } else {
-                                Toast.makeText(this, "Buka kembali aplikasinya", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                    mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
+                        if (location != null) {
+                            Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
+                            Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
+                            lati = location.getLatitude();
+                            longi = location.getLongitude();
+                            getAplicationVersionFromServer();
+                        } else {
+                            getAplicationVersionFromServer();
+                            Toast.makeText(this, "Buka kembali aplikasinya", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
+            }
 
 //            }
         }
 
         stringslist = new ArrayList<>();
         Config.ads(SplashScreenActivity.this, adView);
-
 
 
         Typeface typeface = ResourcesCompat.getFont(this, R.font.roboto);
@@ -235,13 +240,16 @@ public class SplashScreenActivity extends AppCompatActivity {
                     androidToken2 = response.body().getData().getAndroidToken2();
                     androidToken3 = response.body().getData().getAndroidToken3();
                     androidToken5 = response.body().getData().getAndroidToken5();
+                    urlLogo = response.body().getData().getAndroidLogoUrl();
                     SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(Config.SHARED_ANDROID_TOKEN_1, androidToken1);
                     editor.putString(Config.SHARED_ANDROID_TOKEN_2, androidToken2);
                     editor.putString(Config.SHARED_ANDROID_TOKEN_3, androidToken3);
                     editor.putString(Config.SHARED_ANDROID_TOKEN_5, androidToken5);
+                    editor.putString(Config.SHARED_URL_LOGO, urlLogo);
                     editor.apply();
+                    Glide.with(SplashScreenActivity.this).load(urlLogo).override(512, 512).into(logo);
                     if (!androidVersionDevice.equalsIgnoreCase(androidVersionDeviceServer)) {
                         Toast.makeText(SplashScreenActivity.this, "Perbarui aplikasi kamu", Toast.LENGTH_LONG).show();
                         Log.d(TAG, "Update Aplikasi : update aplikasi kamu");
@@ -324,12 +332,12 @@ public class SplashScreenActivity extends AppCompatActivity {
         getSSIDWifi = connectionInfo.getSSID().replace("\"", "");
 
         Geocoder geocoder;
-        List<Address> addressList;
+        List<Address> addressList = null;
         geocoder = new Geocoder(SplashScreenActivity.this, Locale.getDefault());
-//        if (lati.equals(null) || longi.equals(null)) {
-//            Toast.makeText(this, "Buka kembali aplikasi absensi", Toast.LENGTH_SHORT).show();
+        if (addressList == null) {
+            Toast.makeText(this, "Buka kembali aplikasi absensi", Toast.LENGTH_SHORT).show();
 //            finishAffinity();
-//        } else {
+        } else {
             try {
                 addressList = geocoder.getFromLocation(lati, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
                 address_gps = addressList.get(0).getAddressLine(0); // If any additional address_gps line present than only, check with max available address_gps lines by getMaxAddressLineIndex()
@@ -342,7 +350,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//        }
+        }
 
 //        Log.d(TAG, "getModel: " + getModel);
 //        Log.d(TAG, "getProduct: " + getProduct);
@@ -507,5 +515,6 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void initView() {
         adView = findViewById(R.id.adView);
+        logo = findViewById(R.id.logo);
     }
 }

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.krishna.securetimer.SecureTimer;
+import com.pdamkotasmg.goodday.BuildConfig;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
@@ -124,6 +126,7 @@ public class PresensiActivity extends AppCompatActivity {
         tvHeaderJudul.setText("Mengenali Wajah");
         animationView.setVisibility(View.GONE);
         tvMencariMuka.setText("Ayo foto...");
+        tvVersiApps.setText("versi " + BuildConfig.VERSION_NAME);
         ivFotoFront.post(() -> {
             ivFotoFront.performClick();
         });
@@ -236,6 +239,8 @@ public class PresensiActivity extends AppCompatActivity {
         Log.d(TAG, "longShared: " + longi);
 
         ivFotoFront.setOnClickListener(v -> {
+            Camera.CameraInfo info = new Camera.CameraInfo();
+
             easyImage.openCameraForImage(PresensiActivity.this);
         });
 
@@ -319,7 +324,7 @@ public class PresensiActivity extends AppCompatActivity {
                                 tvPersenFace.setVisibility(View.VISIBLE);
                                 tvPersenFace.setTextColor(Color.RED);
                                 tvPersenFace.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                                tvPersenFace.setText("Wajah tidak ada, ULANGI.......");
+                                tvPersenFace.setText("Wajah tidak ada, ulangi dengan menekan foto diatas");
                                 Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TPP ???????",
                                         Config.BASE_URL_NOTIF_FOTO_FAIL);
                             } else {

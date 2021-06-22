@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.bumptech.glide.Glide;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.perangkat.PerangkatActivity;
@@ -59,6 +60,8 @@ public class ProfileActivity extends AppCompatActivity {
     private String st_data;
     private String satker_formatted;
     private String subsatker_formatted;
+
+    private String urlLogo;
 
     private ImageView imageView2;
     private ImageView ivHeaderBackArrow;
@@ -125,6 +128,7 @@ public class ProfileActivity extends AppCompatActivity {
         st_data = sharedPreferences.getString(Config.SHARED_ST_DATA, "");
         satker_formatted = sharedPreferences.getString(Config.SHARED_SATKER_FORMATTED, "");
         subsatker_formatted = sharedPreferences.getString(Config.SHARED_SUBSATKER_FORMATTED, "");
+        urlLogo = sharedPreferences.getString(Config.SHARED_URL_LOGO, "");
 
         tvProfileName.setText(name);
         tvProfileJabatan.setText(jabatan);
@@ -137,6 +141,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfileGolongan.setText(pktgol);
         tvProfileSubSatker.setText(subsatker);
         tvProfileSatker.setText(satker);
+        Glide.with(ProfileActivity.this).load(urlLogo).into(ciProfileImage);
 
         cvKlikPerangkat.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), PerangkatActivity.class));

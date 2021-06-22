@@ -103,7 +103,10 @@ public class KehadiranActivity extends AppCompatActivity {
             btnHome.setVisibility(View.GONE);
         }
 
-        btnHome.setOnClickListener(v -> startActivity(new Intent(KehadiranActivity.this, DashboardActivity.class)));
+        btnHome.setOnClickListener(v -> {
+            finishAffinity();
+            startActivity(new Intent(KehadiranActivity.this, DashboardActivity.class));
+        });
 
         Date currentTimeInMillis = SecureTimer.with(KehadiranActivity.this).getCurrentDate();
         String dateServer = new SimpleDateFormat("EEEE, dd MMM yyyy").format(currentTimeInMillis);
