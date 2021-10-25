@@ -174,7 +174,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                             getAplicationVersionFromServer();
                         } else {
                             getAplicationVersionFromServer();
-                            Toast.makeText(this, "Buka kembali aplikasinya", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Lokasi tidak ditemukan", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -331,26 +331,29 @@ public class SplashScreenActivity extends AppCompatActivity {
         getHwid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         getSSIDWifi = connectionInfo.getSSID().replace("\"", "");
 
+        Log.d(TAG, "onSuccessgetLatitude || gettingDataDeviceInfo : " + lati);
+        Log.d(TAG, "onSuccessgetLongitude || gettingDataDeviceInfo : " + longi);
+
         Geocoder geocoder;
         List<Address> addressList = null;
         geocoder = new Geocoder(SplashScreenActivity.this, Locale.getDefault());
-        if (addressList == null) {
-            Toast.makeText(this, "Buka kembali aplikasi absensi", Toast.LENGTH_SHORT).show();
-//            finishAffinity();
-        } else {
             try {
                 addressList = geocoder.getFromLocation(lati, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-                address_gps = addressList.get(0).getAddressLine(0); // If any additional address_gps line present than only, check with max available address_gps lines by getMaxAddressLineIndex()
-                city = addressList.get(0).getLocality();
-                state = addressList.get(0).getAdminArea();
-                country = addressList.get(0).getCountryName();
-                postalCode = addressList.get(0).getPostalCode();
-                knownName = addressList.get(0).getFeatureName(); // Only if available else return NULL
-                Log.d("TAG", "loc: " + address_gps + " ");
+                if (addressList == null) {
+                    Toast.makeText(this, "Lokasi tidak ditemukan", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "loc: " + address_gps + " ");
+                } else {
+                    address_gps = addressList.get(0).getAddressLine(0); // If any additional address_gps line present than only, check with max available address_gps lines by getMaxAddressLineIndex()
+                    city = addressList.get(0).getLocality();
+                    state = addressList.get(0).getAdminArea();
+                    country = addressList.get(0).getCountryName();
+                    postalCode = addressList.get(0).getPostalCode();
+                    knownName = addressList.get(0).getFeatureName(); // Only if available else return NULL
+                    Log.d(TAG, "loc: " + address_gps + " ");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
 
 //        Log.d(TAG, "getModel: " + getModel);
 //        Log.d(TAG, "getProduct: " + getProduct);
