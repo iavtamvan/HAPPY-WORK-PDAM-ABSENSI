@@ -192,43 +192,43 @@ public class PresensiActivity extends AppCompatActivity {
             btnKirimPresensi.setEnabled(true);
             btnKirimPresensi2.setEnabled(true);
             btnKirimPresensi2.setText(btnPresensi);
-            btnKirimPresensi2.setVisibility(View.VISIBLE);
+            btnKirimPresensi2.setVisibility(View.GONE); // Harusnya Visible
             Log.d(TAG, "npp Enkrip 1: " + npp + " ? " + noToken);
         } else if (androidToken2.equalsIgnoreCase(md5Hash)) {
             noToken = androidToken2;
             btnKirimPresensi.setEnabled(true);
             btnKirimPresensi2.setEnabled(true);
             btnKirimPresensi2.setText(btnPresensi);
-            btnKirimPresensi2.setVisibility(View.VISIBLE);
+            btnKirimPresensi2.setVisibility(View.GONE); // Harusnya Visible
             Log.d(TAG, "npp Enkrip 2: " + npp + " ? " + noToken);
         } else if (androidToken3.equalsIgnoreCase(md5Hash)) {
             noToken = androidToken3;
             btnKirimPresensi.setEnabled(true);
             btnKirimPresensi2.setEnabled(true);
             btnKirimPresensi2.setText(btnPresensi);
-            btnKirimPresensi2.setVisibility(View.VISIBLE);
+            btnKirimPresensi2.setVisibility(View.GONE); // Harusnya Visible
             Log.d(TAG, "npp Enkrip 3: " + npp + " ? " + noToken);
         } else if (androidToken5.equalsIgnoreCase(md5Hash)) {
             noToken = androidToken5;
             btnKirimPresensi.setEnabled(true);
             btnKirimPresensi2.setEnabled(true);
             btnKirimPresensi2.setText(btnPresensi);
-            btnKirimPresensi2.setVisibility(View.VISIBLE);
+            btnKirimPresensi2.setVisibility(View.GONE); // Harusnya Visible
             Log.d(TAG, "npp Enkrip 5: " + npp + " ? " + noToken);
         } else {
             btnKirimPresensi2.setEnabled(false);
             btnKirimPresensi2.setVisibility(View.GONE);
         }
 
+        // TODO status presensi Online / QRCode / Offline
         statusPresensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
-
-//        if (statusPresensi.equalsIgnoreCase("qrcode")) {
-//            npp = sharedPreferences.getString(Config.SHARED_NPP_QR_CODE, "");
-//            Log.d(TAG, "npp qrcode: " + npp);
-//        } else if (statusPresensi.equalsIgnoreCase("online")) {
-//            npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
-//            Log.d(TAG, "npp online: " + npp);
-//        }
+        if (statusPresensi.equalsIgnoreCase("qrcode")) {
+            npp = sharedPreferences.getString(Config.SHARED_NPP_QR_CODE, "");
+            Log.d(TAG, "npp qrcode: " + npp);
+        } else if (statusPresensi.equalsIgnoreCase("online")) {
+            npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+            Log.d(TAG, "npp online: " + npp);
+        }
 
         Log.d(TAG, "statusPresensi: " + statusPresensi);
         Log.d(TAG, "npp log: " + npp);
@@ -325,7 +325,9 @@ public class PresensiActivity extends AppCompatActivity {
                                 tvPersenFace.setTextColor(Color.RED);
                                 tvPersenFace.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                                 tvPersenFace.setText("Wajah tidak ada, ulangi dengan menekan foto diatas");
-                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TPP ???????",
+                                btnKirimPresensi.setVisibility(View.GONE);
+                                btnKirimPresensi2.setVisibility(View.GONE);
+                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TKK ???????",
                                         Config.BASE_URL_NOTIF_FOTO_FAIL);
                             } else {
                                 Toast.makeText(PresensiActivity.this, "Deteksi Wajah " + response.body().getData().getMatchPercent() + "%", Toast.LENGTH_SHORT).show();
@@ -420,7 +422,7 @@ public class PresensiActivity extends AppCompatActivity {
                             btnKirimPresensi.setEnabled(false);
 
                             if (response.body().getData().isIsShiftIn() && response.body().getData().isIsTelat()) {
-                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Telat absensi " + response.body().getData().getAttendanceDiffMinutes() + " menit , potong TPP deh :((",
+                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Telat absensi " + response.body().getData().getAttendanceDiffMinutes() + " menit , potong TKK deh :((",
                                         Config.BASE_URL_NOTIF_JIKA_TELAT);
                                 finishAffinity();
 //                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
@@ -428,7 +430,7 @@ public class PresensiActivity extends AppCompatActivity {
                                 intent.putExtra(Config.BUNDLE_RIWAYAT_ABSENSI, "1");
                                 startActivity(intent);
                             } else {
-                                Config.showNotification(PresensiActivity.this, "AKU SENANG PRESENSI JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) ", "" +
+                                Config.showNotification(PresensiActivity.this, "AKU SENANG PRESENSI JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TKK nya hehehe :) ", "" +
                                         Config.BASE_URL_NOTIF_NORMAL);
                                 finishAffinity();
 //                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
@@ -438,17 +440,17 @@ public class PresensiActivity extends AppCompatActivity {
                             }
 
 //                            if (!response.body().getData().isIsShiftIn() && response.body().getData().isIsTelat()) { // jika shift in true
-//                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Telat absensi " + response.body().getData().getAttendanceDiffMinutes() + " menit , potong TPP deh :((",
+//                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Telat absensi " + response.body().getData().getAttendanceDiffMinutes() + " menit , potong TKK deh :((",
 //                                        Config.BASE_URL_NOTIF_JIKA_TELAT);
 //                                finishAffinity();
 //                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
 //                            } else if (response.body().getData().isIsPulangAwal()) { // jika pulang awal TRUE
-//                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Pulang awal kerja, TPP ga aman, FIX :((",
+//                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Pulang awal kerja, TKK ga aman, FIX :((",
 //                                        Config.BASE_URL_NOTIF_JIKA_PULANG_AWAL);
 //                                finishAffinity();
 //                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
 //                            } else { // jika tidak memenuhi kriteria keduanya FALSE
-//                                Config.showNotification(PresensiActivity.this, "AKU SENANG PRESENSI JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TPP nya hehehe :) ", "" +
+//                                Config.showNotification(PresensiActivity.this, "AKU SENANG PRESENSI JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TKK nya hehehe :) ", "" +
 //                                        Config.BASE_URL_NOTIF_NORMAL);
 //                                finishAffinity();
 //                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
