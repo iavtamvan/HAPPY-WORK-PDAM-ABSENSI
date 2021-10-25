@@ -46,7 +46,7 @@
                         android:background="@color/white"
                         android:enabled="false"
                         android:fontFamily="@font/poppins_medium"
-                        android:hint="Nama Perusahaan"  
+                        android:hint="Nama Perusahaan"
                         android:text="PDAM Kota Semarang" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,8 +61,8 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="6908321002"
-                        android:hint="NPP" />
+                        android:hint="NPP"
+                        android:text="690831010" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -77,9 +77,9 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="21002"
                         android:hint="Password"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        android:text="aurora" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button

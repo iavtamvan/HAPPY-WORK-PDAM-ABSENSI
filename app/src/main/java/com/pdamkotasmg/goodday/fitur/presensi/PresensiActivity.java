@@ -122,7 +122,7 @@ public class PresensiActivity extends AppCompatActivity {
         initView();
         // TODO 1 preview camera Done
         // TODO 2 face Detection Done
-        // TODO 3 Save Absensi
+        // TODO 3 Save Absensi done
         tvHeaderJudul.setText("Mengenali Wajah");
         animationView.setVisibility(View.GONE);
         tvMencariMuka.setText("Ayo foto...");
@@ -247,7 +247,7 @@ public class PresensiActivity extends AppCompatActivity {
         btnKirimPresensi.setOnClickListener(v -> {
             // TODO kirim server
             statusPresensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
-            if (getPathPhotoFaceServer == null){
+            if (getPathPhotoFaceServer == null) {
                 Toast.makeText(this, "Lakukan cepret foto dahulu", Toast.LENGTH_SHORT).show();
             } else {
                 if (statusPresensi.equalsIgnoreCase("qrcode")) {

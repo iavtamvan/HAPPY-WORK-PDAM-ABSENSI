@@ -1,5 +1,7 @@
 package com.pdamkotasmg.goodday.utils;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
@@ -55,8 +57,6 @@ import java.util.Random;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public final class Config {
     public static final String APLICATION_NAME = "Happy Work";
@@ -303,7 +303,7 @@ public final class Config {
     }
 
     public static void deleteFiles(String pathName, String log) {
-        // TODO delete image original
+        // v TODO delete image original
         File file = new File(pathName);
         boolean deleted = file.delete();
         Log.d("debug", log + " Deleted : " + deleted);
