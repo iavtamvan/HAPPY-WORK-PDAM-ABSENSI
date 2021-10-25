@@ -171,8 +171,6 @@ public class PresensiActivity extends AppCompatActivity {
         npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
         Log.d(TAG, "token: " + access_token);
 
-        tvName.setText(sharedPreferences.getString(Config.SHARED_NAME, ""));
-        tvJabatan.setText(sharedPreferences.getString(Config.SHARED_JABATAN, ""));
         tvTanggal.setText(currentDateLocal); // TODO tanggal local
         tvWaktu.setText(currentTimeLocal); // TODO time local
 
@@ -224,9 +222,13 @@ public class PresensiActivity extends AppCompatActivity {
         statusPresensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
         if (statusPresensi.equalsIgnoreCase("qrcode")) {
             npp = sharedPreferences.getString(Config.SHARED_NPP_QR_CODE, "");
+            tvName.setText(getIntent().getStringExtra(Config.BUNDLE_NAME));
+            tvJabatan.setText(getIntent().getStringExtra(Config.BUNDLE_JABATAN));
             Log.d(TAG, "npp qrcode: " + npp);
         } else if (statusPresensi.equalsIgnoreCase("online")) {
             npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+            tvName.setText(sharedPreferences.getString(Config.SHARED_NAME, ""));
+            tvJabatan.setText(sharedPreferences.getString(Config.SHARED_JABATAN, ""));
             Log.d(TAG, "npp online: " + npp);
         }
 

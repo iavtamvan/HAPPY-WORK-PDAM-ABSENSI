@@ -177,6 +177,8 @@ public final class Config {
     //bundle
     public static final String BUNDLE_STATUS_ABSENSI = "status_absensi";
     public static final String BUNDLE_NPP = "npp";
+    public static final String BUNDLE_NAME = "name";
+    public static final String BUNDLE_JABATAN = "jabatan";
     public static final String BUNDLE_RIWAYAT_ABSENSI = "riwayat_absensi";
 
 

@@ -25,6 +25,17 @@ public class Data{
     @SerializedName("npp")
     private String npp;
 
+    @SerializedName("jabatan")
+    private String jabatan;
+
+    public String getJabatan() {
+        return jabatan;
+    }
+
+    public void setJabatan(String jabatan) {
+        this.jabatan = jabatan;
+    }
+
     public void setHwname(String hwname){
         this.hwname = hwname;
     }

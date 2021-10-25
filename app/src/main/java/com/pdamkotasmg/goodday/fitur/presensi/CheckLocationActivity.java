@@ -47,6 +47,7 @@ public class CheckLocationActivity extends AppCompatActivity {
     private String npp;
 
     private ProgressDialog loading;
+    private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
     private WebView wv;
@@ -63,9 +64,8 @@ public class CheckLocationActivity extends AppCompatActivity {
         initView();
         getSupportActionBar().hide();
 
-        SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         editor = sharedPreferences.edit();
-
 
         divLanjut.setVisibility(View.GONE);
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
@@ -133,7 +133,7 @@ public class CheckLocationActivity extends AppCompatActivity {
                                     // deteksi lokasi absen false
                                     if (!response.body().getData().getAppliesShiftSetting().isLocationDetection()) {
                                         startActivity(new Intent(CheckLocationActivity.this, PresensiActivity.class));
-                                    } else if (response.body().getData().getAppliesShiftSetting().getShiftDailyCode().equalsIgnoreCase("OFF")){
+                                    } else if (response.body().getData().getAppliesShiftSetting().getShiftDailyCode().equalsIgnoreCase("OFF")) {
                                         Toast.makeText(CheckLocationActivity.this, "Shift Off", Toast.LENGTH_SHORT).show();
                                         finishAffinity();
                                         startActivity(new Intent(CheckLocationActivity.this, KehadiranActivity.class));
@@ -157,7 +157,17 @@ public class CheckLocationActivity extends AppCompatActivity {
                                             loading.cancel();
                                             divLanjut.setVisibility(View.VISIBLE);
                                             divLanjut.setOnClickListener(v -> {
-                                                startActivity(new Intent(CheckLocationActivity.this, PresensiActivity.class));
+                                                if (statusPresensi.equalsIgnoreCase("qrcode")) {
+                                                    npp = sharedPreferences.getString(Config.SHARED_NPP_QR_CODE, "");
+                                                    Intent intent = new Intent(CheckLocationActivity.this, PresensiActivity.class);
+//                                                intent.putExtra(Config.BUNDLE_NPP, response.body().getData().getNpp());
+                                                    intent.putExtra(Config.BUNDLE_NAME, response.body().getData().getName());
+                                                    intent.putExtra(Config.BUNDLE_JABATAN, response.body().getData().getJabatan());
+                                                    startActivity(intent);
+                                                } else {
+                                                    npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+                                                    startActivity(new Intent(CheckLocationActivity.this, PresensiActivity.class));
+                                                }
                                             });
                                         }
                                         loading.cancel();
