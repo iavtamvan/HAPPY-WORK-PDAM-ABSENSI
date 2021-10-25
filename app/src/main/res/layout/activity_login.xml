@@ -61,8 +61,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:fontFamily="@font/poppins_medium"
-                        android:hint="NPP"
-                        android:text="690831010" />
+                        android:hint="NPP"  />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -78,8 +77,7 @@
                         android:background="@color/white"
                         android:fontFamily="@font/poppins_medium"
                         android:hint="Password"
-                        android:inputType="textPassword"
-                        android:text="aurora" />
+                        android:inputType="textPassword"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button

@@ -286,6 +286,7 @@ public final class Config {
         editor.putString(SHARED_PATH_FOTO, "");
         editor.putString(SHARED_ABSENSI_MASUK, "");
         editor.putString(SHARED_ABSENSI_KELUAR, "");
+        editor.putString(SHARED_FLAG_SPLASH, "");
         editor.putString(SHARED_ANDROID_TOKEN_1, "");
         editor.putString(SHARED_ANDROID_TOKEN_2, "");
         editor.putString(SHARED_ANDROID_TOKEN_3, "");

@@ -142,6 +142,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
 
         flagSplash = sharedPreferences.getString(Config.SHARED_FLAG_SPLASH, "");
+        Log.d(TAG, "flagSplash: " + flagSplash);
         if (flagSplash.equalsIgnoreCase("")) {
             Config.dialogAlertSplash(SplashScreenActivity.this, "Buka kembali aplikasinya", "Apabila tidak di izinkan mengakibatkan error pada aplikasi", "Tidak");
             methodRequiresTwoPermission();
