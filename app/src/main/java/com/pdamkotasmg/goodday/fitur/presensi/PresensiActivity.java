@@ -337,6 +337,7 @@ public class PresensiActivity extends AppCompatActivity {
                                 animationView.setVisibility(View.GONE);
                                 tvMencariMuka.setText("Sukses Deteksi");
                                 tvPersenFace.setVisibility(View.VISIBLE);
+                                btnKirimPresensi.setVisibility(View.VISIBLE);
                                 btnKirimPresensi.setEnabled(true);
                                 tvPersenFace.setTextColor(Color.GRAY);
                                 tvPersenFace.setText("Deteksi Wajah " + response.body().getData().getMatchPercent() + " %");

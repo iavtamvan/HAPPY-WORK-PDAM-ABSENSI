@@ -104,9 +104,9 @@ public class KehadiranActivity extends AppCompatActivity {
         }
 
         btnHome.setOnClickListener(v -> {
-//            finishAffinity();
-            Config.interestialIntent(KehadiranActivity.this, DashboardActivity.class);
-//            startActivity(new Intent(KehadiranActivity.this, DashboardActivity.class));
+            finishAffinity();
+//            Config.interestialIntent(KehadiranActivity.this, DashboardActivity.class);
+            startActivity(new Intent(KehadiranActivity.this, DashboardActivity.class));
         });
 
         Date currentTimeInMillis = SecureTimer.with(KehadiranActivity.this).getCurrentDate();
