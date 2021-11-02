@@ -335,9 +335,12 @@ public class SplashScreenActivity extends AppCompatActivity {
         Log.d(TAG, "onSuccessgetLatitude || gettingDataDeviceInfo : " + lati);
         Log.d(TAG, "onSuccessgetLongitude || gettingDataDeviceInfo : " + longi);
 
-        Geocoder geocoder;
-        List<Address> addressList = null;
-        geocoder = new Geocoder(SplashScreenActivity.this, Locale.getDefault());
+        if (lati == 0.0 || longi == 0.0) {
+            Toast.makeText(SplashScreenActivity.this, "Alamat tidak ditemukan, input manual!", Toast.LENGTH_SHORT).show();
+        } else {
+            Geocoder geocoder;
+            List<Address> addressList = null;
+            geocoder = new Geocoder(SplashScreenActivity.this, Locale.getDefault());
             try {
                 addressList = geocoder.getFromLocation(lati, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
                 if (addressList == null) {
@@ -355,6 +358,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
 
 //        Log.d(TAG, "getModel: " + getModel);
 //        Log.d(TAG, "getProduct: " + getProduct);
