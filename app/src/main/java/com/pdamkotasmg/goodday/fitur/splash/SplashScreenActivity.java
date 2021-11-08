@@ -263,8 +263,13 @@ public class SplashScreenActivity extends AppCompatActivity {
                                     finishAffinity();
                                 })
                                 .setPositiveButton("Perbarui", (dialogInterface, which) -> {
-                                    // TODO Link Playstore (belum)
-                                    Toast.makeText(SplashScreenActivity.this, "Link Playstore ?", Toast.LENGTH_SHORT).show();
+                                    // TODO Link Playstore (done)
+                                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                    }
                                 })
                                 .build();
 
