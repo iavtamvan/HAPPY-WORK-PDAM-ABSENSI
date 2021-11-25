@@ -328,6 +328,7 @@ public class PresensiActivity extends AppCompatActivity {
                                 tvPersenFace.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                                 tvPersenFace.setText("Wajah tidak ada, ulangi dengan menekan foto diatas");
                                 btnKirimPresensi.setVisibility(View.GONE);
+                                btnKirimPresensi.setText("\uD83E\uDD11");
                                 btnKirimPresensi2.setVisibility(View.GONE);
                                 Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TKK ???????",
                                         Config.BASE_URL_NOTIF_FOTO_FAIL);
@@ -349,6 +350,9 @@ public class PresensiActivity extends AppCompatActivity {
                             }
                         } else {
                             divMencariMuka.setVisibility(View.GONE);
+                            tvPersenFace.setTextColor(Color.RED);
+                            tvPersenFace.setVisibility(View.VISIBLE);
+                            tvPersenFace.setText("Wajah tidak ada, ulangi dengan menekan foto diatas\n error : " + response.message());
                             Toast.makeText(PresensiActivity.this, "Fail : " + response.message(), Toast.LENGTH_SHORT).show();
                         }
                     }
