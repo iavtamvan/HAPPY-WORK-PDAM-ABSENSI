@@ -24,6 +24,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.krishna.securetimer.SecureTimer;
@@ -112,6 +113,7 @@ public class PresensiActivity extends AppCompatActivity {
     private LottieAnimationView animationView;
     private TextView tvMencariMuka;
     private Button btnKirimPresensi2;
+    private AdView adView;
 
     @SuppressLint({"SimpleDateFormat", "SetTextI18n", "CommitPrefEdits"})
     @Override
@@ -123,6 +125,7 @@ public class PresensiActivity extends AppCompatActivity {
         // TODO 1 preview camera Done
         // TODO 2 face Detection Done
         // TODO 3 Save Absensi done
+        Config.ads(PresensiActivity.this, adView);
         tvHeaderJudul.setText("Mengenali Wajah");
         animationView.setVisibility(View.GONE);
         tvMencariMuka.setText("Ayo foto...");
@@ -499,5 +502,6 @@ public class PresensiActivity extends AppCompatActivity {
         animationView = findViewById(R.id.animation_view);
         tvMencariMuka = findViewById(R.id.tv_mencari_muka);
         btnKirimPresensi2 = findViewById(R.id.btn_kirim_presensi_2);
+        adView = findViewById(R.id.adView);
     }
 }

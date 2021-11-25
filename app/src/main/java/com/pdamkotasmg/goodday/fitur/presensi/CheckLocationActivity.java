@@ -20,6 +20,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.pdamkotasmg.goodday.R;
@@ -55,6 +56,7 @@ public class CheckLocationActivity extends AppCompatActivity {
     private TextView tvDistance;
     private LinearLayout divRefresh;
     private LinearLayout divLanjut;
+    private AdView adView;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -70,6 +72,8 @@ public class CheckLocationActivity extends AppCompatActivity {
         divLanjut.setVisibility(View.GONE);
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         statusPresensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
+
+        Config.ads(CheckLocationActivity.this, adView);
 
         if (statusPresensi.equalsIgnoreCase("qrcode")) {
             npp = sharedPreferences.getString(Config.SHARED_NPP_QR_CODE, "");
@@ -196,5 +200,6 @@ public class CheckLocationActivity extends AppCompatActivity {
         tvDistance = findViewById(R.id.tv_distance);
         divRefresh = findViewById(R.id.div_refresh);
         divLanjut = findViewById(R.id.div_lanjut);
+        adView = findViewById(R.id.adView);
     }
 }
