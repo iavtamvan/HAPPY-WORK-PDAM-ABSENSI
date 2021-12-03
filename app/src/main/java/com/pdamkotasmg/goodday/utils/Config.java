@@ -449,6 +449,7 @@ public final class Config {
         mDialog.show();
     }
 
+    // mock v1 from Online Packages
     private static final String TAG = "debug";
     private static PackageInfo packageInfo;
     private static Data dataItem;
@@ -542,6 +543,82 @@ public final class Config {
             return true;
         return false;
     }
+
+
+    // mock v2 from lis MOCK
+    public static String[] requestedPermissions;
+    public static boolean isMockSettingsONV2(Context context) {
+        // returns true if mock location enabled, false if not enabled.
+        if (Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION).equals("0")) {
+//            areThereMockPermissionApps(context);
+            mockV2(context);
+            return false;
+        } else {
+            Toast.makeText(context, "Mock Location Terdeteksi", Toast.LENGTH_SHORT).show();
+            mockV2(context);
+            return true;
+        }
+    }
+
+    public static boolean mockV2(Context context) {
+        int count = 0;
+        boolean finding = false;
+
+        PackageManager pm = context.getPackageManager();
+        List<ApplicationInfo> packages =
+                pm.getInstalledApplications(PackageManager.GET_META_DATA);
+
+        for (ApplicationInfo applicationInfo : packages) {
+            try {
+                packageInfo = pm.getPackageInfo(applicationInfo.packageName,
+                        PackageManager.GET_PERMISSIONS);
+
+                // Get Permissions
+                requestedPermissions = packageInfo.requestedPermissions;
+
+                if (requestedPermissions != null) {
+                    for (int i = 0; i < requestedPermissions.length; i++) {
+                        if (requestedPermissions[i]
+                                .equals("android.permission.ACCESS_MOCK_LOCATION")
+                                && !applicationInfo.packageName.equals(context.getPackageName())) {
+                            count++;
+                            Log.d("debug_mock", "mockV2: " + packageInfo.packageName);
+
+                            // TODO kirim update ceklis apps nakal
+                            MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
+                                    .setTitle(Config.ERROR_FAKE_GPS_TITLE)
+                                    .setMessage("Uninstall fake GPS kamu  Total apps fake : " + requestedPermissions.length +"x install \n Hubungi kepegawaian untuk aktivasi kembali...")
+                                    .setAnimation("lt_bohong.json")
+                                    .setCancelable(false)
+                                    .setNegativeButton("Oke deh, jangan suka bohong ya", (dialogInterface, which) -> {
+                                        dialogInterface.dismiss();
+                                        ((Activity) context).finishAffinity();
+                                    })
+                                    .setPositiveButton("Uninstall Aplikasi Absensi", (dialogInterface, which) -> {
+                                        Toast.makeText(context, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(Intent.ACTION_DELETE);
+                                        intent.setData(Uri.parse("package:" + context.getApplicationContext().getPackageName()));
+                                        context.startActivity(intent);
+                                    })
+                                    .build();
+
+                            // Show Dialog
+                            mDialog.show();
+                            break;
+                        }
+                    }
+
+//                    if (finding) break;
+                }
+            } catch (PackageManager.NameNotFoundException e) {
+                Log.e("Got exception ", e.getMessage());
+            }
+        }
+        if (count > 0)
+            return true;
+        return false;
+    }
+
 
     public static String md5(String str) {
         MessageDigest messageDigest = null;

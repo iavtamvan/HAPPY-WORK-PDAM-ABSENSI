@@ -317,6 +317,7 @@ public class PresensiActivity extends AppCompatActivity {
                     public void onResponse(Call<FaceDetectionRootModel> call, Response<FaceDetectionRootModel> response) {
                         Log.d(TAG, "onResponseFaces: " + response.body());
                         if (response.isSuccessful()) {
+                            Config.isMockSettingsONV2(PresensiActivity.this);
                             assert response.body() != null;
                             boolean faceDetected = response.body().getData().isFaceDetected();
                             if (!faceDetected) {
@@ -352,6 +353,7 @@ public class PresensiActivity extends AppCompatActivity {
                                 Config.deleteFiles(compressedImageFile.getAbsolutePath(), "ImageCompressed"); // (2)
                             }
                         } else {
+                            Config.isMockSettingsONV2(PresensiActivity.this);
                             divMencariMuka.setVisibility(View.GONE);
                             tvPersenFace.setTextColor(Color.RED);
                             tvPersenFace.setVisibility(View.VISIBLE);

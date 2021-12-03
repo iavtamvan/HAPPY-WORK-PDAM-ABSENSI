@@ -279,9 +279,9 @@ public class SplashScreenActivity extends AppCompatActivity {
                     } else {
                         Log.d(TAG, "Update Aplikasi : Updated");
 //                        getPackageNameFromServer();
-                        new Handler().postDelayed(() -> {
-                            gettingDataDeviceInfo();
-                        }, 2000);
+                        gettingDataDeviceInfo();
+//                        new Handler().postDelayed(() -> {
+//                        }, 2000);
                     }
                 }
             }

@@ -109,7 +109,7 @@ public class CheckLocationActivity extends AppCompatActivity {
     }
 
     private void checkLocation() {
-        Config.getPackageNameFromServer(CheckLocationActivity.this);
+        Config.isMockSettingsONV2(CheckLocationActivity.this);
         loading = new ProgressDialog(CheckLocationActivity.this);
         loading.setCancelable(false);
         loading.setMessage("Mohon Tunggu...");
