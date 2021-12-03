@@ -74,6 +74,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private static int SPLASH_TIME_OUT = 1000;
     private boolean flag = true;
     private PackageInfo packageInfo;
+    private String[] requestedPermissions;
     int i;
     private Data dataItem;
     private List<DataItem> dataItemList;
@@ -277,7 +278,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         mDialog.show();
                     } else {
                         Log.d(TAG, "Update Aplikasi : Updated");
-                        getPackageNameFromServer();
+//                        getPackageNameFromServer();
                         new Handler().postDelayed(() -> {
                             gettingDataDeviceInfo();
                         }, 2000);
@@ -416,12 +417,96 @@ public class SplashScreenActivity extends AppCompatActivity {
     public boolean isMockSettingsON(Context context) {
         // returns true if mock location enabled, false if not enabled.
         if (Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION).equals("0")) {
-            areThereMockPermissionApps(context);
+//            areThereMockPermissionApps(context);
+            mockV2(SplashScreenActivity.this);
             return false;
         } else {
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Mock Location Terdeteksi", Toast.LENGTH_SHORT).show();
+            mockV2(SplashScreenActivity.this);
             return true;
         }
+    }
+
+    public boolean mockV2(Context context) {
+        int count = 0;
+        boolean finding = false;
+
+        PackageManager pm = context.getPackageManager();
+        List<ApplicationInfo> packages =
+                pm.getInstalledApplications(PackageManager.GET_META_DATA);
+
+        for (ApplicationInfo applicationInfo : packages) {
+            try {
+                packageInfo = pm.getPackageInfo(applicationInfo.packageName,
+                        PackageManager.GET_PERMISSIONS);
+
+                // Get Permissions
+                requestedPermissions = packageInfo.requestedPermissions;
+
+                if (requestedPermissions != null) {
+                    for (int i = 0; i < requestedPermissions.length; i++) {
+                        if (requestedPermissions[i]
+                                .equals("android.permission.ACCESS_MOCK_LOCATION")
+                                && !applicationInfo.packageName.equals(context.getPackageName())) {
+                            count++;
+                            Log.d("debug_mock", "mockV2: " + packageInfo.packageName);
+                            finding = true;
+                            break;
+                        }
+                    }
+
+//                    if (finding) break;
+                }
+            } catch (PackageManager.NameNotFoundException e) {
+                Log.e("Got exception ", e.getMessage());
+            }
+        }
+
+        if (!finding) {
+            new Handler().postDelayed(() -> {
+                // TODO intent ke WelcomeActivity.class
+                Log.d(TAG, "Status Fack: Tidak ada fake gps");
+                SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+                String telepon = sp.getString(Config.SHARED_NAME, "");
+                // TODO jika belum masuk ke welcome
+                if (telepon.equalsIgnoreCase("") || TextUtils.isEmpty(telepon)) {
+                    finishAffinity();
+                    startActivity(new Intent(getApplicationContext(), IntroActivity.class));
+                }
+                // TODO jika sudah nantinya akan masuk ke dashboard
+                else {
+                    finishAffinity();
+                    startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                    Log.d(TAG, "run: " + telepon);
+                }
+
+            }, SPLASH_TIME_OUT);
+
+        } else {
+            // TODO kirim update ceklis apps nakal
+            MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
+                    .setTitle(Config.ERROR_FAKE_GPS_TITLE)
+                    .setMessage("Uninstall fake GPS kamu  Total apps fake : " + requestedPermissions.length +"x install \n Hubungi kepegawaian untuk aktivasi kembali...")
+                    .setAnimation("lt_bohong.json")
+                    .setCancelable(false)
+                    .setNegativeButton("Oke deh, jangan suka bohong ya", (dialogInterface, which) -> {
+                        dialogInterface.dismiss();
+                        finishAffinity();
+                    })
+                    .setPositiveButton("Uninstall Aplikasi Absensi", (dialogInterface, which) -> {
+                        Toast.makeText(context, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Intent.ACTION_DELETE);
+                        intent.setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
+                        startActivity(intent);
+                    })
+                    .build();
+
+            // Show Dialog
+            mDialog.show();
+        }
+        if (count > 0)
+            return true;
+        return false;
     }
 
     public boolean areThereMockPermissionApps(Context context) {
