@@ -38,7 +38,7 @@ public interface ApiService {
 //    );
 //
     @FormUrlEncoded
-    @POST("auth/login")
+    @POST("portal-pegawai/api/auth/login")
     Call<AkunRootModel> login(
             @Field("npp") String npp,
             @Field("password") String password,
@@ -61,14 +61,14 @@ public interface ApiService {
             @Field("fcm_token") String fcm_token
     );
 
-    @POST("auth/logout")
+    @POST("portal-pegawai/api/auth/logout")
     Call<ResponseBody> logout(@Header("Authorization") String auth);
 
-    @POST("auth/delete-all-session")
+    @POST("portal-pegawai/api/auth/delete-all-session")
     Call<ResponseBody> deleteAllSession(@Header("Authorization") String auth);
 
     @FormUrlEncoded
-    @POST("attendance/check-location")
+    @POST("portal-pegawai/api/attendance/check-location")
     Call<CheckLocationRootModel> checkLocation(@Header("Authorization") String auth,
                                                @Field("type") String statusPresensi,
                                                @Field("npp") String npp,
@@ -76,7 +76,7 @@ public interface ApiService {
                                                @Field("longitude") double longitude);
 
     @FormUrlEncoded
-    @POST("attendance/record")
+    @POST("portal-pegawai/api/attendance/record")
     Call<SavePresensiRootModel> savePresensi(@Header("Authorization") String auth,
                                            @Field("latitude") double latitude,
                                            @Field("longitude") double longitude,
@@ -89,18 +89,18 @@ public interface ApiService {
                                            @Field("record_time") String record_time
                                            );
 
-    @GET("masterdata/forbid-app")
+    @GET("portal-pegawai/api/masterdata/forbid-app")
     Call<PackageNameRootModel> getPackageName();
 
-    @GET("masterdata/config/all")
+    @GET("portal-pegawai/api/masterdata/config/all")
     Call<AndroidVersionModel> getAndroidVersion();
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @GET("auth/active-session")
+    @GET("portal-pegawai/api/auth/active-session")
     Call<PerangkatRootModel> getHistoryAktifDevice(@Header("Authorization") String auth);
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @GET("attendance/applies-shift")
+    @GET("portal-pegawai/api/attendance/applies-shift")
     Call<ShfitPegawaiRootModel> getShiftPegawai(@Header("Authorization") String auth);
 
 
@@ -111,7 +111,7 @@ public interface ApiService {
 //    );
 //
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @GET("attendance/history/")
+    @GET("portal-pegawai/api/attendance/history/")
     Call<RiwayatKehadiranRootModel> getHistoryPresensi(
             @Header("Authorization") String auth,
             @Query("date_from") String dateFrom,
@@ -132,7 +132,7 @@ public interface ApiService {
 //    Call<PengaduanRootModel> getPengaduan(@Header("Authorization") String auth);
 //
     @Multipart
-    @POST("attendance/face-recognize")
+    @POST("portal-pegawai/api/attendance/face-recognize")
     Call<FaceDetectionRootModel> checkFace(
             @Header("Authorization") String auth,
             @Part("type") RequestBody statusPresensi,

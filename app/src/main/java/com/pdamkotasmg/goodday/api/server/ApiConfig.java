@@ -16,7 +16,7 @@ public class ApiConfig {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://app.pdamkotasmg.co.id/api-gw-dev/portal-pegawai/api/")
+                .baseUrl("https://app.pdamkotasmg.co.id/api-gw-dev/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
