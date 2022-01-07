@@ -2,6 +2,7 @@ package com.pdamkotasmg.goodday.api.server;
 
 import com.pdamkotasmg.goodday.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.goodday.fitur.dashboard.model.ShfitPegawaiRootModel;
+import com.pdamkotasmg.goodday.fitur.dashboard.model.permissionName.PermissionRootModel;
 import com.pdamkotasmg.goodday.fitur.feeds.model.BeritaRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.model.RiwayatKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.perangkat.model.PerangkatRootModel;
@@ -60,6 +61,9 @@ public interface ApiService {
             @Field("app_version") String app_version,
             @Field("fcm_token") String fcm_token
     );
+
+    @GET("portal-pegawai/api/auth/permission-names")
+    Call<PermissionRootModel> getPermissionNames(@Header("Authorization") String auth);
 
     @POST("portal-pegawai/api/auth/logout")
     Call<ResponseBody> logout(@Header("Authorization") String auth);

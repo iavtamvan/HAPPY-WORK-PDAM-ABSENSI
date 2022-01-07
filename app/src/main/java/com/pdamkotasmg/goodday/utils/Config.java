@@ -82,6 +82,7 @@ public final class Config {
     public static final String ERROR_SESSION = "Sesi login anda telah habis, Login Ulang";
     public static final String ERROR_FAKE_GPS_TITLE = "Akun di NONAKTIFKAN \n Berbohong adalah suatu tindakan tidak terpuji \uD83D\uDE0A";
 
+    public static final String SHARED_PERMISION_APPS = "permision_apps";
 
     //data akun
     public static final String SHARED_PREF_NAME = "HAPPY-WORK";
@@ -650,13 +651,16 @@ public final class Config {
     public static InterstitialAd mInterstitialAd;
     public final static String adsInterestialDev = "ca-app-pub-3940256099942544/1033173712";
     public final static String adsInterestialProd = "ca-app-pub-6810772781589252/7755469730";
+
+    public final static String adsBanner = "ca-app-pub-3940256099942544/6300978111";
+//    public final static String adsBanner = "ca-app-pub-6810772781589252/4208134634";
     public static void ads(Context context, AdView adView){
         MobileAds.initialize(context, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
         AdView adViews = new AdView(context);
         adViews.setAdSize(AdSize.BANNER);
-        adViews.setAdUnitId("ca-app-pub-6810772781589252/4208134634");
+        adViews.setAdUnitId(adsBanner);
         adView.loadAd(adRequest);
     }
 

@@ -19,12 +19,14 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.gson.Gson;
 import com.marcoscg.fingerauth.FingerAuth;
 import com.marcoscg.fingerauth.FingerAuthDialog;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.dashboard.model.ShfitPegawaiRootModel;
+import com.pdamkotasmg.goodday.fitur.dashboard.model.permissionName.PermissionRootModel;
 import com.pdamkotasmg.goodday.fitur.feeds.controller.FeedsController;
 import com.pdamkotasmg.goodday.fitur.kehadiran.view.KehadiranActivity;
 import com.pdamkotasmg.goodday.fitur.payslip.PayslipActivity;
@@ -39,6 +41,7 @@ import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -51,6 +54,7 @@ public class DashboardActivity extends AppCompatActivity {
     private String TAG = "debug";
 
     private FeedsController feedsController;
+    private SharedPreferences sharedPreferences;;
     private SharedPreferences.Editor editor;
 
     private boolean statusExpandedTrue = false;
@@ -83,7 +87,7 @@ public class DashboardActivity extends AppCompatActivity {
         feedsController.getFeeds(getApplicationContext(), rv);
         divLainnyaExpanded.setVisibility(View.GONE);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         editor = sharedPreferences.edit();
         divNamaLengkap.setText("Hai, " + sharedPreferences.getString(Config.SHARED_NAME, ""));
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
@@ -94,6 +98,7 @@ public class DashboardActivity extends AppCompatActivity {
         Log.d(TAG, "policy: " + policy);
         methodRequiresTwoPermission();
 
+        // TODO Check Rooted
         RootBeer rootBeer = new RootBeer(DashboardActivity.this);
         if (rootBeer.isRooted()) {
             //we found indication of root
@@ -101,6 +106,8 @@ public class DashboardActivity extends AppCompatActivity {
             Config.dialogAlert(DashboardActivity.this, "Rooted Deteksi", "Segera ganti HP, karena harus Flash Ulang android. Hubungi PTI", "Gakmau");
         }
 
+        // TODO getPermissionName
+        getPermissionName();
         getShiftPegawai();
 
         if (Connectivity.isConnected(DashboardActivity.this)) {
@@ -171,6 +178,43 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void getPermissionName() {
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.getPermissionNames(accessToken).enqueue(new Callback<PermissionRootModel>() {
+            @Override
+            public void onResponse(Call<PermissionRootModel> call, Response<PermissionRootModel> response) {
+                if (response.isSuccessful()){
+                    // TODO IF Aman
+                    List<String> list = response.body().getData().getPermissions();
+
+                    // TODO save permission to SharedPref Array
+                    Gson gson = new Gson();
+                    String json = gson.toJson(list);
+                    editor.putString(Config.SHARED_PERMISION_APPS, json);
+                    editor.commit();
+
+                    String sets = sharedPreferences.getString(Config.SHARED_PERMISION_APPS, null);
+                    Log.d(TAG, "====== Start Permission Dashboard Good Day ====== ");
+                    Log.d(TAG, "array :: " + sets);
+                    Log.d(TAG, "====== End Permission Dashboard Good Day ====== ");
+
+                    if (!list.contains("portal-pegawai.attendance.user.record")){
+                        divRekamWaktu.setVisibility(View.GONE);
+                    }
+
+                } else {
+                    // TODO GONE Fitur
+                    Config.dialogAlert(DashboardActivity.this, "Masalah Permission", "Permission ditolak, hubungi PTI/Kepegawaian", "Oke");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PermissionRootModel> call, Throwable t) {
+
+            }
+        });
     }
 
     public void getShiftPegawai() {
