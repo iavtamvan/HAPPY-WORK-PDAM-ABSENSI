@@ -116,7 +116,7 @@ public class KehadiranActivity extends AppCompatActivity {
 
         formatDate = new SimpleDateFormat("yyyy-MM-dd").format(currentTimeInMillis);
         dateFrom = LocalDate.parse(formatDate);
-        dateFromMinus = dateFrom.minusDays(6);
+        dateFromMinus = dateFrom.minusDays(2);
         dateEnd = dateFrom.plusDays(1);
         // TODO getShift pegawai DONE
         // TODO getHistory presensi DONE
@@ -126,7 +126,7 @@ public class KehadiranActivity extends AppCompatActivity {
 
     private void getHistoryPresensi() {
         ApiService apiService = ApiConfig.getApiService();
-        apiService.getHistoryPresensi(accessToken, String.valueOf(dateFromMinus), String.valueOf(dateFrom), "1")
+        apiService.getHistoryPresensi(accessToken, String.valueOf(dateFromMinus), String.valueOf(dateFrom), "1") // tanggal dari, dan tanggal selesai
                 .enqueue(new Callback<RiwayatKehadiranRootModel>() {
                     @Override
                     public void onResponse(Call<RiwayatKehadiranRootModel> call, Response<RiwayatKehadiranRootModel> response) {
