@@ -26,10 +26,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="11dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginBottom="12dp">
+                android:layout_marginRight="11dp"
+                android:layout_marginBottom="11dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="5dp"
-                            android:layout_marginRight="10dp"
+                            android:layout_marginRight="11dp"
                             android:gravity="center"
                             android:orientation="vertical">
 
@@ -69,7 +69,7 @@
                                 android:gravity="left"
                                 android:text="--------"
                                 android:textColor="@color/black"
-                                android:textSize="12dp" />
+                                android:textSize="11dp" />
 
                             <TextView
                                 android:id="@+id/tv_date"
@@ -80,7 +80,7 @@
                                 android:gravity="left"
                                 android:text="--,---,----"
                                 android:textColor="@color/grey"
-                                android:textSize="10dp" />
+                                android:textSize="11dp" />
 
                             <TextView
                                 android:id="@+id/tv_list_kehadiran_shift"
@@ -89,7 +89,7 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:gravity="left"
                                 android:textColor="@color/grey"
-                                android:textSize="12dp" />
+                                android:textSize="11dp" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -172,7 +172,7 @@
                             android:gravity="center"
                             android:text="Daftar Kehadiran"
                             android:textColor="@color/grey"
-                            android:textSize="12dp" />
+                            android:textSize="11dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -214,7 +214,7 @@
                             android:gravity="center"
                             android:text="Koreksi Kehadiran"
                             android:textColor="@color/grey"
-                            android:textSize="12dp" />
+                            android:textSize="11dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -256,7 +256,7 @@
                             android:gravity="center"
                             android:text="Cuti"
                             android:textColor="@color/grey"
-                            android:textSize="12dp" />
+                            android:textSize="11dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -298,7 +298,7 @@
                             android:gravity="center"
                             android:text="Lembur"
                             android:textColor="@color/grey"
-                            android:textSize="12dp" />
+                            android:textSize="11dp" />
                     </LinearLayout>
 
 
@@ -348,7 +348,7 @@
                             android:gravity="center"
                             android:text="Perjalanan Dinas"
                             android:textColor="@color/grey"
-                            android:textSize="12dp" />
+                            android:textSize="11dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -391,7 +391,7 @@
                             android:gravity="center"
                             android:text="Attedance Correction"
                             android:textColor="@color/grey"
-                            android:textSize="12dp"
+                            android:textSize="11dp"
                             android:visibility="gone" />
                     </LinearLayout>
 
@@ -435,7 +435,7 @@
                             android:gravity="center"
                             android:text="Leave"
                             android:textColor="@color/grey"
-                            android:textSize="12dp"
+                            android:textSize="11dp"
                             android:visibility="gone" />
                     </LinearLayout>
 
@@ -479,7 +479,7 @@
                             android:gravity="center"
                             android:text="Overtime"
                             android:textColor="@color/grey"
-                            android:textSize="12dp"
+                            android:textSize="11dp"
                             android:visibility="gone" />
                     </LinearLayout>
 
@@ -507,7 +507,7 @@
                 android:id="@+id/btnHome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
+                android:layout_margin="11dp"
                 android:backgroundTint="@color/greenGojek"
                 android:text="Kembali ke home" />
 
