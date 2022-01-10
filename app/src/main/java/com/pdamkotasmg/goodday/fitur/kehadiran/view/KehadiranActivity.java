@@ -70,6 +70,11 @@ public class KehadiranActivity extends AppCompatActivity {
     private LottieAnimationView animationView;
     private Button btnHome;
     private AdView adView;
+    private LinearLayout divDaftarKehadiran;
+    private LinearLayout divKoreksiKehadiran;
+    private LinearLayout divCuti;
+    private LinearLayout divLembur;
+    private LinearLayout divPerjalananDinas;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint({"SetTextI18n", "SimpleDateFormat", "CommitPrefEdits"})
@@ -86,13 +91,10 @@ public class KehadiranActivity extends AppCompatActivity {
             startActivity(new Intent(KehadiranActivity.this, DashboardActivity.class));
         });
 
-        dataItems = new ArrayList<>();
-
         Config.ads(KehadiranActivity.this, adView);
 
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         editor = sharedPreferences.edit();
-
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         nama = sharedPreferences.getString(Config.SHARED_NAME, "");
 
@@ -122,6 +124,10 @@ public class KehadiranActivity extends AppCompatActivity {
         // TODO getHistory presensi DONE
         getShiftPegawai();
 
+        divDaftarKehadiran.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), DaftarKehadiranActivity.class));
+        });
+
     }
 
     private void getHistoryPresensi() {
@@ -131,6 +137,7 @@ public class KehadiranActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<RiwayatKehadiranRootModel> call, Response<RiwayatKehadiranRootModel> response) {
                         if (response.isSuccessful()) {
+                            dataItems = new ArrayList<>();
                             dataItems = response.body().getData();
                             divAnimation.setVisibility(View.GONE);
                             rvKehadiran.setVisibility(View.VISIBLE);
@@ -201,5 +208,10 @@ public class KehadiranActivity extends AppCompatActivity {
         animationView = findViewById(R.id.animation_view);
         btnHome = findViewById(R.id.btnHome);
         adView = findViewById(R.id.adView);
+        divDaftarKehadiran = findViewById(R.id.div_daftar_kehadiran);
+        divKoreksiKehadiran = findViewById(R.id.div_koreksi_kehadiran);
+        divCuti = findViewById(R.id.div_cuti);
+        divLembur = findViewById(R.id.div_lembur);
+        divPerjalananDinas = findViewById(R.id.div_perjalanan_dinas);
     }
 }
