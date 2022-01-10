@@ -78,6 +78,8 @@ public class DaftarKehadiranActivity extends AppCompatActivity {
 
         getHistoryPresensi();
 
+        tvHeaderJudul.setText("Daftar Kehadiran");
+        ivHeaderInfo.setVisibility(View.GONE);
         ivHeaderBackArrow.setOnClickListener(v -> {
             DaftarKehadiranActivity.this.finish();
         });
