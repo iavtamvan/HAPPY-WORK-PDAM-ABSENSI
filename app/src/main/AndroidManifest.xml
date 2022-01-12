@@ -58,7 +58,7 @@
             android:name=".fitur.kehadiran.view.CutiActivity"
             android:exported="true" />
         <activity
-            android:name=".fitur.kehadiran.view.KoreksiKehadiranActivity"
+            android:name=".fitur.kehadiran.koreksiKehadiran.KoreksiKehadiranActivity"
             android:exported="true" />
         <activity
             android:name=".fitur.kehadiran.view.DaftarKehadiranActivity"

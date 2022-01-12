@@ -1,4 +1,4 @@
-package com.pdamkotasmg.goodday.fitur.kehadiran.adapter;
+package com.pdamkotasmg.goodday.fitur.kehadiran.home.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.ceylonlabs.imageviewpopup.ImagePopup;
 import com.pdamkotasmg.goodday.R;
-import com.pdamkotasmg.goodday.fitur.kehadiran.model.DataItem;
+import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.DataItem;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.text.SimpleDateFormat;

@@ -4,7 +4,8 @@ import com.pdamkotasmg.goodday.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.goodday.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.goodday.fitur.dashboard.model.permissionName.PermissionRootModel;
 import com.pdamkotasmg.goodday.fitur.feeds.model.BeritaRootModel;
-import com.pdamkotasmg.goodday.fitur.kehadiran.model.RiwayatKehadiranRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.riwayatKoreksiKehadiran.RiwayatKoreksiKehadiranRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.RiwayatKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.perangkat.model.PerangkatRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.checkLocationModel.CheckLocationRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.faceDeetectionModel.FaceDetectionRootModel;
@@ -120,6 +121,14 @@ public interface ApiService {
             @Header("Authorization") String auth,
             @Query("date_from") String dateFrom,
             @Query("date_to") String dateTo,
+            @Query("formatted") String formatted
+            );
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("portal-pegawai/api/employee-request/my-request-history")
+    Call<RiwayatKoreksiKehadiranRootModel> getHistoryKoreksiKehadiran(
+            @Header("Authorization") String auth,
+            @Query("request_type_code") String request_type_code,
             @Query("formatted") String formatted
             );
 //

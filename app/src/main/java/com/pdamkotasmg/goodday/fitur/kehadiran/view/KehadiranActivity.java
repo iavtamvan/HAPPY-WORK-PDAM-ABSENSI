@@ -25,9 +25,10 @@ import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.dashboard.model.ShfitPegawaiRootModel;
-import com.pdamkotasmg.goodday.fitur.kehadiran.adapter.KehadiranAdapter;
-import com.pdamkotasmg.goodday.fitur.kehadiran.model.DataItem;
-import com.pdamkotasmg.goodday.fitur.kehadiran.model.RiwayatKehadiranRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.home.adapter.KehadiranAdapter;
+import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.DataItem;
+import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.RiwayatKehadiranRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.KoreksiKehadiranActivity;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.text.SimpleDateFormat;
@@ -87,8 +88,7 @@ public class KehadiranActivity extends AppCompatActivity {
         tvHeaderJudul.setText("Riwayat Rekam Kehadiran");
         ivHeaderInfo.setVisibility(View.GONE);
         ivHeaderBackArrow.setOnClickListener(v -> {
-            finishAffinity();
-            startActivity(new Intent(KehadiranActivity.this, DashboardActivity.class));
+            KehadiranActivity.this.finish();
         });
 
         Config.ads(KehadiranActivity.this, adView);
@@ -126,6 +126,10 @@ public class KehadiranActivity extends AppCompatActivity {
 
         divDaftarKehadiran.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), DaftarKehadiranActivity.class));
+        });
+
+        divKoreksiKehadiran.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), KoreksiKehadiranActivity.class));
         });
 
     }

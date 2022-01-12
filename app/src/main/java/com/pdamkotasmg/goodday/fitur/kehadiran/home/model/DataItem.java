@@ -1,4 +1,4 @@
-package com.pdamkotasmg.goodday.fitur.kehadiran.model;
+package com.pdamkotasmg.goodday.fitur.kehadiran.home.model;
 
 import com.google.gson.annotations.SerializedName;
 
