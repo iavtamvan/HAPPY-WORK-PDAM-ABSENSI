@@ -1,7 +1,8 @@
 package com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class KoreksiKeharidanRootModel{
 
@@ -19,6 +20,14 @@ public class KoreksiKeharidanRootModel{
 
     @SerializedName("start_date")
     private String startDate;
+
+    public KoreksiKeharidanRootModel(String endDate, String requestedForNpp, String requestTypeCode, List<DetailsItem> details, String startDate) {
+        this.endDate = endDate;
+        this.requestedForNpp = requestedForNpp;
+        this.requestTypeCode = requestTypeCode;
+        this.details = details;
+        this.startDate = startDate;
+    }
 
     public void setEndDate(String endDate){
         this.endDate = endDate;

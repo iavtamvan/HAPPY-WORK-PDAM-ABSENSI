@@ -3,29 +3,24 @@ package com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.ads.AdView;
+import com.google.gson.Gson;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
-import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.KoreksiKehadiranAdapter;
-import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.riwayatKoreksiKehadiran.DataItem;
-import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.riwayatKoreksiKehadiran.RiwayatKoreksiKehadiranRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.DetailsItem;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.KoreksiKeharidanRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,20 +29,18 @@ import retrofit2.Response;
 public class KoreksiKehadiranActivity extends AppCompatActivity {
     private final String TAG = "debug";
 
-    private List<DataItem> dataItems;
-    private KoreksiKehadiranAdapter koreksiKehadiranAdapter;
-
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
     private String accesToken;
+    private ArrayList<DetailsItem> listDetails = new ArrayList<>();
 
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
     private ImageView ivHeaderInfo;
-    private LinearLayout divAnimation;
-    private LottieAnimationView animationView;
-    private RecyclerView rvKoreksiKehadiran;
+    private EditText edtRequestFor;
+    private EditText edtStartDate;
+    private EditText edtEndDate;
     private AdView adView;
     private Button btnNewRequest;
 
@@ -55,69 +48,70 @@ public class KoreksiKehadiranActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_koreksi_kehadiran);
-        initView();
         getSupportActionBar().hide();
+        initView();
 
-        Config.ads(KoreksiKehadiranActivity.this, adView);
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accesToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         Log.d(TAG, "token: " + accesToken);
 
-        tvHeaderJudul.setText("Koreksi Kehadiran");
-        ivHeaderInfo.setVisibility(View.GONE);
-        ivHeaderBackArrow.setOnClickListener(v -> {
-            KoreksiKehadiranActivity.this.finish();
+
+        edtRequestFor.setOnClickListener(v -> {
+
         });
 
-        btnNewRequest.setOnClickListener(v -> {
-            // Todo new Request
+        edtStartDate.setOnClickListener(v -> {
+
+        });
+        edtEndDate.setOnClickListener(v -> {
+
         });
 
-        getHistoryKoreksiKehadiran();
-
+//        postJsonKoreksiKehadiran();
     }
 
-    private void getHistoryKoreksiKehadiran() {
-        divAnimation.setVisibility(View.VISIBLE);
+    private void postJsonKoreksiKehadiran() {
+        DetailsItem detailsItem = new DetailsItem();
+        detailsItem.setReason("AKu coba aja");
+        detailsItem.setRecordDateBefore("2021-12-28");
+        detailsItem.setActualTimeInAfter("07:23:00");
+        detailsItem.setActualTimeOutAfter("15:23:00");
+
+        listDetails.add(detailsItem);
+
+        Gson gson = new Gson();
+        String arrayListDetails = gson.toJson(listDetails);
+        Log.d(TAG, "ArayList: " + listDetails);
+        Log.d(TAG, "Gson: " + arrayListDetails);
+
         ApiService apiService = ApiConfig.getApiService();
-        apiService.getHistoryKoreksiKehadiran(accesToken,"RAC", "1")
-                .enqueue(new Callback<RiwayatKoreksiKehadiranRootModel>() {
+//        apiService.postJson(listDetails)
+        apiService.postJson(accesToken, new KoreksiKeharidanRootModel("2021-12-28", "6908319016", "RAC", listDetails, "2021-12-28"))
+                .enqueue(new Callback<KoreksiKeharidanRootModel>() {
                     @Override
-                    public void onResponse(Call<RiwayatKoreksiKehadiranRootModel> call, Response<RiwayatKoreksiKehadiranRootModel> response) {
-                        Log.d(TAG, "onResponse: " + response.body().getData());
-                        divAnimation.setVisibility(View.GONE);
-                        if (!response.isSuccessful()){
-                            Toast.makeText(KoreksiKehadiranActivity.this, "" + response.body(), Toast.LENGTH_SHORT).show();
+                    public void onResponse(Call<KoreksiKeharidanRootModel> call, Response<KoreksiKeharidanRootModel> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(KoreksiKehadiranActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
                         } else {
-                            dataItems = new ArrayList<>();
-                            dataItems = response.body().getData().getData();
-                            if (dataItems.isEmpty()) {
-                                Toast.makeText(KoreksiKehadiranActivity.this, "Data tidak ada", Toast.LENGTH_SHORT).show();
-                            } else {
-                                koreksiKehadiranAdapter = new KoreksiKehadiranAdapter(KoreksiKehadiranActivity.this, dataItems);
-                                rvKoreksiKehadiran.setLayoutManager(new LinearLayoutManager(KoreksiKehadiranActivity.this));
-                                rvKoreksiKehadiran.setAdapter(koreksiKehadiranAdapter);
-                                koreksiKehadiranAdapter.notifyDataSetChanged();
-                            }
+                            Toast.makeText(KoreksiKehadiranActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
                         }
-
-
                     }
+
                     @Override
-                    public void onFailure(Call<RiwayatKoreksiKehadiranRootModel> call, Throwable t) {
-                        divAnimation.setVisibility(View.GONE);
-                        Toast.makeText(KoreksiKehadiranActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                    public void onFailure(Call<KoreksiKeharidanRootModel> call, Throwable t) {
+                        Toast.makeText(KoreksiKehadiranActivity.this, "" + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
     }
 
     private void initView() {
         ivHeaderBackArrow = findViewById(R.id.iv_header_back_arrow);
         tvHeaderJudul = findViewById(R.id.tv_header_judul);
         ivHeaderInfo = findViewById(R.id.iv_header_info);
-        divAnimation = findViewById(R.id.div_animation);
-        animationView = findViewById(R.id.animation_view);
-        rvKoreksiKehadiran = findViewById(R.id.rv_koreksi_kehadiran);
+        edtRequestFor = findViewById(R.id.edt_request_for);
+        edtStartDate = findViewById(R.id.edt_start_date);
+        edtEndDate = findViewById(R.id.edt_end_date);
         adView = findViewById(R.id.adView);
         btnNewRequest = findViewById(R.id.btn_new_request);
     }

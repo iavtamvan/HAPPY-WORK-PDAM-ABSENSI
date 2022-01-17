@@ -28,7 +28,7 @@ import com.pdamkotasmg.goodday.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.adapter.KehadiranAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.DataItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.RiwayatKehadiranRootModel;
-import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.KoreksiKehadiranActivity;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.RiwayatKoreksiKehadiranActivity;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.text.SimpleDateFormat;
@@ -129,7 +129,7 @@ public class KehadiranActivity extends AppCompatActivity {
         });
 
         divKoreksiKehadiran.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), KoreksiKehadiranActivity.class));
+            startActivity(new Intent(getApplicationContext(), RiwayatKoreksiKehadiranActivity.class));
         });
 
     }

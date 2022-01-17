@@ -4,8 +4,9 @@ import com.pdamkotasmg.goodday.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.goodday.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.goodday.fitur.dashboard.model.permissionName.PermissionRootModel;
 import com.pdamkotasmg.goodday.fitur.feeds.model.BeritaRootModel;
-import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.riwayatKoreksiKehadiran.RiwayatKoreksiKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.RiwayatKehadiranRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.KoreksiKeharidanRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.riwayatKoreksiKehadiran.RiwayatKoreksiKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.perangkat.model.PerangkatRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.checkLocationModel.CheckLocationRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.faceDeetectionModel.FaceDetectionRootModel;
@@ -17,6 +18,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -83,16 +85,16 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("portal-pegawai/api/attendance/record")
     Call<SavePresensiRootModel> savePresensi(@Header("Authorization") String auth,
-                                           @Field("latitude") double latitude,
-                                           @Field("longitude") double longitude,
-                                           @Field("type") String statusPresensi,
-                                           @Field("npp") String npp,
-                                           @Field("check_face") String check_face,
-                                           @Field("photo_path") String photo_path,
-                                           @Field("connection_type") String connection_type,
-                                           @Field("record_date") String record_date,
-                                           @Field("record_time") String record_time
-                                           );
+                                             @Field("latitude") double latitude,
+                                             @Field("longitude") double longitude,
+                                             @Field("type") String statusPresensi,
+                                             @Field("npp") String npp,
+                                             @Field("check_face") String check_face,
+                                             @Field("photo_path") String photo_path,
+                                             @Field("connection_type") String connection_type,
+                                             @Field("record_date") String record_date,
+                                             @Field("record_time") String record_time
+    );
 
     @GET("portal-pegawai/api/masterdata/forbid-app")
     Call<PackageNameRootModel> getPackageName();
@@ -115,23 +117,24 @@ public interface ApiService {
 //            @Body RegisterModel registerModel
 //    );
 //
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("portal-pegawai/api/attendance/history/")
     Call<RiwayatKehadiranRootModel> getHistoryPresensi(
             @Header("Authorization") String auth,
             @Query("date_from") String dateFrom,
             @Query("date_to") String dateTo,
             @Query("formatted") String formatted
-            );
+    );
 
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("portal-pegawai/api/employee-request/my-request-history")
     Call<RiwayatKoreksiKehadiranRootModel> getHistoryKoreksiKehadiran(
             @Header("Authorization") String auth,
             @Query("request_type_code") String request_type_code,
             @Query("formatted") String formatted
-            );
-//
+    );
+
+    //
 //    @Headers({ "Content-Type: application/json;charset=UTF-8"})
 //    @GET("auth-pelanggan/refresh-token")
 //    Call<RefreshTokenRoot> refreshToken(@Header("Authorization") String auth);
@@ -152,6 +155,22 @@ public interface ApiService {
             @Part("npp") RequestBody npp,
             @Part MultipartBody.Part filePartPhoto
     );
+
+    @Multipart
+    @POST("portal-pegawai/api/employee-request/send-request")
+    Call<FaceDetectionRootModel> postRequestKoreksiKehadiran(
+            @Header("Authorization") String auth,
+            @Part("request_type_code") RequestBody request_type_code,
+            @Part("start_date") RequestBody start_date,
+            @Part("end_date") RequestBody end_date,
+            @Part("requeste`d_for_npp") RequestBody requested_for_npp,
+            @Part("details") RequestBody details
+    );
+
+    @POST("portal-pegawai/api/employee-request/send-request")
+    Call<KoreksiKeharidanRootModel> postJson(
+            @Header("Authorization") String auth,
+            @Body KoreksiKeharidanRootModel body);
 //
 //    @Headers({ "Content-Type: application/json;charset=UTF-8"})
 //    @GET("pengaduan/mobile/daftar-kategori")
