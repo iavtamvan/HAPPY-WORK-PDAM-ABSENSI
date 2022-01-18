@@ -19,21 +19,29 @@ import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.DetailsItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.KoreksiKeharidanRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class KoreksiKehadiranActivity extends AppCompatActivity {
+public class KoreksiKehadiranActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private final String TAG = "debug";
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
     private String accesToken;
+    private String name;
+    private String npp;
     private ArrayList<DetailsItem> listDetails = new ArrayList<>();
+
+    private String flag;
+    private String startDate;
+    private String endDate;
 
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
@@ -53,18 +61,45 @@ public class KoreksiKehadiranActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accesToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+        name = sharedPreferences.getString(Config.SHARED_NAME, "");
+        npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
         Log.d(TAG, "token: " + accesToken);
 
-
+        edtRequestFor.setText(name + " (" + npp + ")");
         edtRequestFor.setOnClickListener(v -> {
 
         });
 
         edtStartDate.setOnClickListener(v -> {
-
+            flag = "startDate";
+            Calendar now = Calendar.getInstance();
+            DatePickerDialog dpd = DatePickerDialog.newInstance(
+                    KoreksiKehadiranActivity.this,
+                    now.get(Calendar.YEAR), // Initial year selection
+                    now.get(Calendar.MONTH), // Initial month selection
+                    now.get(Calendar.DAY_OF_MONTH) // Inital day selection
+            );
+            dpd.setVersion(DatePickerDialog.Version.VERSION_2);
+            dpd.setThemeDark(true);
+            dpd.show(getSupportFragmentManager(), "Datepickerdialog");
         });
+        
         edtEndDate.setOnClickListener(v -> {
+            flag = "endDate";
+            Calendar now = Calendar.getInstance();
+            DatePickerDialog dpd = DatePickerDialog.newInstance(
+                    KoreksiKehadiranActivity.this,
+                    now.get(Calendar.YEAR), // Initial year selection
+                    now.get(Calendar.MONTH), // Initial month selection
+                    now.get(Calendar.DAY_OF_MONTH) // Inital day selection
+            );
+            dpd.setVersion(DatePickerDialog.Version.VERSION_2);
+            dpd.setThemeDark(true);
+            dpd.show(getSupportFragmentManager(), "Datepickerdialog");
+        });
 
+        btnNewRequest.setOnClickListener(v -> {
+            postJsonKoreksiKehadiran();
         });
 
 //        postJsonKoreksiKehadiran();
@@ -115,4 +150,19 @@ public class KoreksiKehadiranActivity extends AppCompatActivity {
         adView = findViewById(R.id.adView);
         btnNewRequest = findViewById(R.id.btn_new_request);
     }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        if (flag.equals("startDate")) {
+//            String date = "You picked the following date: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+            String date = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+            startDate = date;
+            edtStartDate.setText(startDate);
+        } else {
+            String date = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+            endDate = date;
+            edtEndDate.setText(endDate);
+        }
+    }
+
 }
