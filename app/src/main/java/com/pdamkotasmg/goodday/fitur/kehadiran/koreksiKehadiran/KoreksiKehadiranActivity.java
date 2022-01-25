@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdView;
-import com.google.gson.Gson;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
@@ -123,28 +122,11 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         });
 
         btnNewRequest.setOnClickListener(v -> {
-//            postJsonKoreksiKehadiran();
             detailsItemArray = detailsKehadiranAdapter.detailsItemArray;
             Log.d(TAG, "detailsItemArray : " + detailsItemArray.size());
             postJsonKoreksiKehadiran();
 
-//            try {
-//                JSONArray jsonArray = new JSONArray(resultDetails);
-//                strArr = new String[jsonArray.length()];
-//
-//                for (int i = 0; i < jsonArray.length(); i++) {
-//                    strArr[i] = jsonArray.getString(i);
-//                }
-//                Log.d(TAG, "jsonArray :  " + Arrays.toString(strArr));
-////                System.out.println(Arrays.toString(strArr));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-
         });
-
-//        postJsonKoreksiKehadiran();
-//        getHistoryPresensi();
     }
 
     private void getHistoryPresensi() {
@@ -186,19 +168,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
     }
 
     private void postJsonKoreksiKehadiran() {
-
-//        listDetails.add(detailsItem);
-//        detailsItemArray.add(resultDetails);
-
-        Gson gson = new Gson();
-        String arrayListDetails = gson.toJson(resultDetails);
-//        Log.d(TAG, "ArayList: " + listDetails);
-//        Log.d(TAG, "Gson: " + arrayListDetails);
-
-
-
         ApiService apiService = ApiConfig.getApiService();
-//        apiService.postJson(listDetails)
         apiService.postJson(accesToken, new KoreksiKeharidanRootModel(edtEndDate.getText().toString().trim(), npp, "RAC", detailsItemArray, edtStartDate.getText().toString().trim()))
                 .enqueue(new Callback<KoreksiKeharidanRootModel>() {
                     @Override
