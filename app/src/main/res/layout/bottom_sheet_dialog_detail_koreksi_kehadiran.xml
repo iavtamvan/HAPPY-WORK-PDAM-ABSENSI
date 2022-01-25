@@ -163,6 +163,7 @@
                             android:layout_marginBottom="8dp"
                             android:background="@color/white"
                             android:drawableEnd="@drawable/clock_24"
+                            android:focusable="false"
                             android:fontFamily="@font/poppins_medium"
                             android:hint="Waktu Mulai"
                             android:inputType="datetime" />
@@ -181,8 +182,8 @@
                             android:layout_marginBottom="8dp"
                             android:background="@color/white"
                             android:drawableEnd="@drawable/clock_24"
+                            android:focusable="false"
                             android:fontFamily="@font/poppins_medium"
-                            android:text="16:00:32"
                             android:hint="Waktu Selesai"
                             android:inputType="time" />
                     </com.google.android.material.textfield.TextInputLayout>
