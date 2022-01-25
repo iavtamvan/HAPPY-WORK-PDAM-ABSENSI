@@ -17,13 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
-import com.krishna.securetimer.SecureTimer;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
-import com.pdamkotasmg.goodday.fitur.kehadiran.home.adapter.KehadiranAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.DataItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.RiwayatKehadiranRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.DetailsKehadiranAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.DetailsItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.KoreksiKeharidanRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
@@ -49,15 +48,14 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
     private String accesToken;
     private String name;
     private String npp;
-    private ArrayList<DetailsItem> listDetails = new ArrayList<>();
-    private KehadiranAdapter kehadiranAdapter;
+    private List<DetailsItem> detailsItemArray = new ArrayList<DetailsItem>();
+    private DetailsKehadiranAdapter detailsKehadiranAdapter;
     private List<DataItem> dataItems;
+    private String resultDetails;
 
     private String flag;
     private String startDate;
     private String endDate;
-    private SimpleDateFormat formatDate;
-    private Date currentTimeInMillis;
 
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
@@ -72,6 +70,9 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
     private EditText edtReason;
     private EditText edtStartTime;
     private EditText edtEndTime;
+    private TextView tvListKoreksiKehadiranDetailsText;
+
+    String[] strArr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +87,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
         Log.d(TAG, "token: " + accesToken);
 
-        currentTimeInMillis = SecureTimer.with(KoreksiKehadiranActivity.this).getCurrentDate();
-
+        resultDetails = sharedPreferences.getString(Config.SHARED_SAVE_ARRAY_DETAILS_KOREKSI_KEHADIRAN, "");
 
         edtRequestFor.setText(name + " (" + npp + ")");
         edtRequestFor.setOnClickListener(v -> {
@@ -123,10 +123,28 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         });
 
         btnNewRequest.setOnClickListener(v -> {
+//            postJsonKoreksiKehadiran();
+            detailsItemArray = detailsKehadiranAdapter.detailsItemArray;
+            Log.d(TAG, "detailsItemArray : " + detailsItemArray.size());
             postJsonKoreksiKehadiran();
+
+//            try {
+//                JSONArray jsonArray = new JSONArray(resultDetails);
+//                strArr = new String[jsonArray.length()];
+//
+//                for (int i = 0; i < jsonArray.length(); i++) {
+//                    strArr[i] = jsonArray.getString(i);
+//                }
+//                Log.d(TAG, "jsonArray :  " + Arrays.toString(strArr));
+////                System.out.println(Arrays.toString(strArr));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+
         });
 
 //        postJsonKoreksiKehadiran();
+//        getHistoryPresensi();
     }
 
     private void getHistoryPresensi() {
@@ -144,16 +162,18 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
                             dataItems = response.body().getData();
                             rvDetailsAttedance.setVisibility(View.VISIBLE);
                             if (dataItems.isEmpty()) {
-                                Toast.makeText(KoreksiKehadiranActivity.this, "Data tidak ada", Toast.LENGTH_SHORT).show();
+                                tvListKoreksiKehadiranDetailsText.setText("Data tidak ada");
+                                rvDetailsAttedance.setVisibility(View.GONE);
                             } else {
-                                kehadiranAdapter = new KehadiranAdapter(KoreksiKehadiranActivity.this, dataItems);
+                                tvListKoreksiKehadiranDetailsText.setText("Detail");
+                                detailsKehadiranAdapter = new DetailsKehadiranAdapter(KoreksiKehadiranActivity.this, dataItems);
                                 rvDetailsAttedance.setLayoutManager(new LinearLayoutManager(KoreksiKehadiranActivity.this));
-                                rvDetailsAttedance.setAdapter(kehadiranAdapter);
-                                kehadiranAdapter.notifyDataSetChanged();
+                                rvDetailsAttedance.setAdapter(detailsKehadiranAdapter);
+                                detailsKehadiranAdapter.notifyDataSetChanged();
                             }
                         } else {
                             progressDialog.cancel();
-                            Toast.makeText(KoreksiKehadiranActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
+                            tvListKoreksiKehadiranDetailsText.setText(response.message());
                         }
                     }
 
@@ -166,22 +186,20 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
     }
 
     private void postJsonKoreksiKehadiran() {
-        DetailsItem detailsItem = new DetailsItem();
-        detailsItem.setReason("AKu coba aja");
-        detailsItem.setRecordDateBefore("2021-12-28");
-        detailsItem.setActualTimeInAfter("07:23:00");
-        detailsItem.setActualTimeOutAfter("15:23:00");
 
-        listDetails.add(detailsItem);
+//        listDetails.add(detailsItem);
+//        detailsItemArray.add(resultDetails);
 
         Gson gson = new Gson();
-        String arrayListDetails = gson.toJson(listDetails);
-        Log.d(TAG, "ArayList: " + listDetails);
-        Log.d(TAG, "Gson: " + arrayListDetails);
+        String arrayListDetails = gson.toJson(resultDetails);
+//        Log.d(TAG, "ArayList: " + listDetails);
+//        Log.d(TAG, "Gson: " + arrayListDetails);
+
+
 
         ApiService apiService = ApiConfig.getApiService();
 //        apiService.postJson(listDetails)
-        apiService.postJson(accesToken, new KoreksiKeharidanRootModel("2021-12-28", "6908319016", "RAC", listDetails, "2021-12-28"))
+        apiService.postJson(accesToken, new KoreksiKeharidanRootModel(edtEndDate.getText().toString().trim(), npp, "RAC", detailsItemArray, edtStartDate.getText().toString().trim()))
                 .enqueue(new Callback<KoreksiKeharidanRootModel>() {
                     @Override
                     public void onResponse(Call<KoreksiKeharidanRootModel> call, Response<KoreksiKeharidanRootModel> response) {
@@ -214,6 +232,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         edtReason = findViewById(R.id.edt_reason);
         edtStartTime = findViewById(R.id.edt_start_time);
         edtEndTime = findViewById(R.id.edt_end_time);
+        tvListKoreksiKehadiranDetailsText = findViewById(R.id.tv_list_koreksi_kehadiran_details_text);
     }
 
     @Override
@@ -239,6 +258,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
                 Date dates = fmt.parse(endDate);
                 String dateFinal = new SimpleDateFormat("yyyy-MM-dd").format(dates);
                 edtEndDate.setText(dateFinal);
+                tvListKoreksiKehadiranDetailsText.setVisibility(View.VISIBLE);
                 getHistoryPresensi();
             } catch (ParseException e) {
                 e.printStackTrace();

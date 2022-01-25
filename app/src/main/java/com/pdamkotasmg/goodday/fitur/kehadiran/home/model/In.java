@@ -19,6 +19,40 @@ public class In{
     @SerializedName("is_telat")
     private String isTelat;
 
+    @SerializedName("shift_code")
+    private String shiftCode;
+
+    @SerializedName("shift_remark")
+    private String shiftRemark;
+
+    public String getIsPulangAwal() {
+        return isPulangAwal;
+    }
+
+    public String getIsShiftIn() {
+        return isShiftIn;
+    }
+
+    public String getIsTelat() {
+        return isTelat;
+    }
+
+    public String getShiftCode() {
+        return shiftCode;
+    }
+
+    public void setShiftCode(String shiftCode) {
+        this.shiftCode = shiftCode;
+    }
+
+    public String getShiftRemark() {
+        return shiftRemark;
+    }
+
+    public void setShiftRemark(String shiftRemark) {
+        this.shiftRemark = shiftRemark;
+    }
+
     public void setIsPulangAwal(String isPulangAwal){
         this.isPulangAwal = isPulangAwal;
     }
