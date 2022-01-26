@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="12dp"
         android:orientation="vertical">
@@ -17,7 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_list_koreksi_kehadiran_reason"
@@ -56,6 +57,16 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_list_koreksi_kehadiran_request_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="left"
+                        android:text="RAC-202112-000023"
+                        android:textColor="@color/red"
+                        android:textSize="12dp" />
+
+                    <TextView
                         android:id="@+id/tv_list_koreksi_kehadiran_request_at"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -85,15 +96,6 @@
                         android:textColor="@color/black"
                         android:textSize="12dp" />
 
-                    <TextView
-                        android:id="@+id/tv_list_koreksi_kehadiran_request_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
-                        android:gravity="left"
-                        android:text="RAC-202112-000023"
-                        android:textColor="@color/red"
-                        android:textSize="12dp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -131,7 +133,7 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginTop="10dp"
-            android:background="@color/grey"/>
+            android:background="@color/grey" />
     </LinearLayout>
 
 </LinearLayout>

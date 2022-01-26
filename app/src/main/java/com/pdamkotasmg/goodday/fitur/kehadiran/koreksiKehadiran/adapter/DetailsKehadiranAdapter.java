@@ -82,7 +82,7 @@ public class DetailsKehadiranAdapter extends RecyclerView.Adapter<DetailsKehadir
 //        for (int i = 0; i < dataItems.size(); i++) {
         detailsItems.setReason("-");
         detailsItems.setRecordDateBefore(dateServerPostman);
-//        detailsItems.setActualTimeInAfter(dataItems.get(position).getIn().getRecordTime());
+        detailsItems.setActualTimeInAfter(dataItems.get(position).getIn().getRecordTime());
 //        detailsItems.setActualTimeOutAfter(dataItems.get(position).getOut().getRecordTime());
         detailsItemArray.add(detailsItems);
 //            break;

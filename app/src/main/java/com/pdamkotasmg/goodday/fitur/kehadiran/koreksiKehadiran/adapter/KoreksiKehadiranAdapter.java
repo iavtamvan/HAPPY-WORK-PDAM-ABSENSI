@@ -3,7 +3,6 @@ package com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,16 +40,24 @@ public class KoreksiKehadiranAdapter extends RecyclerView.Adapter<KoreksiKehadir
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        for (int i = 0; i < dataItems.get(position).getRequestDetails().size(); i++) {
-            reason = dataItems.get(position).getRequestDetails().get(i).getReason();
-            Log.d("debug", "onBindViewHolder: " + reason);
-        }
-        holder.tvListKoreksiKehadiranReason.setText(reason);
-        holder.tvListKoreksiKehadiranRequestAt.setText("Untuk: " + dataItems.get(position).getRequestedAt());
+//        for (int i = 0; i < dataItems.get(position).getRequestDetails().size(); i++) {
+//            reason = dataItems.get(position).getRequestDetails().get(i).getReason();
+//            Log.d("debug", "onBindViewHolder: " + reason);
+//        }
+//        holder.tvListKoreksiKehadiranReason.setText(reason);
+        holder.tvListKoreksiKehadiranRequestAt.setText("Tanggal: " + dataItems.get(position).getRequestedAt());
         holder.tvListKoreksiKehadiranRequestBy.setText("Permintaan dari: " + dataItems.get(position).getRequestedByName());
         holder.tvListKoreksiKehadiranRequestFor.setText("Permintaan untuk: " + dataItems.get(position).getRequestedForName());
         holder.tvListKoreksiKehadiranRequestNumber.setText(dataItems.get(position).getRequestNumber());
         holder.tvListKoreksiKehadiranRequestStatus.setText(dataItems.get(position).getRequestStatus());
+        if (holder.tvListKoreksiKehadiranRequestStatus.getText().toString().equalsIgnoreCase("Waiting")){
+            holder.tvListKoreksiKehadiranRequestStatus.setTextColor(context.getResources().getColor(R.color.yellowPortal));
+        } else if (holder.tvListKoreksiKehadiranRequestStatus.getText().toString().equalsIgnoreCase("Approved")){
+            holder.tvListKoreksiKehadiranRequestStatus.setTextColor(context.getResources().getColor(R.color.greenPortal));
+        } else {
+            holder.tvListKoreksiKehadiranRequestStatus.setTextColor(context.getResources().getColor(R.color.redPortal));
+        }
+
     }
 
     @Override

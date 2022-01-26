@@ -418,6 +418,37 @@ public final class Config {
         mDialog.show();
     }
 
+    public static void dialogAlertSukses(Context context, String tittle, String message, String positiveButton, Class toActivity){
+        MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
+                .setTitle(tittle)
+                .setMessage(message)
+//                .setAnimation("lt_bohong.json")
+                .setCancelable(false)
+                .setPositiveButton(positiveButton, (dialogInterface, which) -> {
+                    dialogInterface.dismiss();
+                    ((Activity) context).finish();
+                    context.startActivity(new Intent(context, toActivity));
+                })
+                .build();
+
+        // Show Dialog
+        mDialog.show();
+    }
+    public static void dialogAlertGagal(Context context, String tittle, String message, String positiveButton, Class toActivity){
+        MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
+                .setTitle(tittle)
+                .setMessage(message)
+//                .setAnimation("lt_bohong.json")
+                .setCancelable(false)
+                .setPositiveButton(positiveButton, (dialogInterface, which) -> {
+                    dialogInterface.dismiss();
+                })
+                .build();
+
+        // Show Dialog
+        mDialog.show();
+    }
+
     public static void dialogAlertIntro(Context context, String tittle, String message, String negativeButton){
         MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
                 .setTitle(tittle)

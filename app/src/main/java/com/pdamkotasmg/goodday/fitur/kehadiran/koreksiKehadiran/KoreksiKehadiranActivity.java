@@ -80,6 +80,14 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         getSupportActionBar().hide();
         initView();
 
+        tvHeaderJudul.setText("Detail Koreksi Kehadiran");
+        ivHeaderInfo.setOnClickListener(v -> {
+            KoreksiKehadiranActivity.this.finish();
+        });
+        ivHeaderInfo.setOnClickListener(v -> {
+            Config.dialogAlert(KoreksiKehadiranActivity.this, "Info", "Isi koreksi kehadirand dengan benar dan jujur", "Ok");
+        });
+
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accesToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         name = sharedPreferences.getString(Config.SHARED_NAME, "");
@@ -174,9 +182,9 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
                     @Override
                     public void onResponse(Call<KoreksiKeharidanRootModel> call, Response<KoreksiKeharidanRootModel> response) {
                         if (response.isSuccessful()) {
-                            Toast.makeText(KoreksiKehadiranActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
+                            Config.dialogAlertSukses(KoreksiKehadiranActivity.this, "Koreksi Kehadiran", "Berhasil disimpan" + response.message(), "Ok", RiwayatKoreksiKehadiranActivity.class);
                         } else {
-                            Toast.makeText(KoreksiKehadiranActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
+                            Config.dialogAlertGagal(KoreksiKehadiranActivity.this, "Koreksi Kehadiran", "Gagal disimpan" + response.message(), "Ok", RiwayatKoreksiKehadiranActivity.class);
                         }
                     }
 
