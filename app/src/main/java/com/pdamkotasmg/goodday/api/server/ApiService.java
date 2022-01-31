@@ -5,6 +5,7 @@ import com.pdamkotasmg.goodday.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.goodday.fitur.dashboard.model.permissionName.PermissionRootModel;
 import com.pdamkotasmg.goodday.fitur.feeds.model.BeritaRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.RiwayatKehadiranRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.GetMyStaffRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.KoreksiKeharidanRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.riwayatKoreksiKehadiran.RiwayatKoreksiKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.perangkat.model.PerangkatRootModel;
@@ -171,6 +172,14 @@ public interface ApiService {
     Call<KoreksiKeharidanRootModel> postJson(
             @Header("Authorization") String auth,
             @Body KoreksiKeharidanRootModel body);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("portal-pegawai/api/auth/my-staff")
+    Call<GetMyStaffRootModel> getMyStaff(
+            @Header("Authorization") String auth
+    );
+
+
 //
 //    @Headers({ "Content-Type: application/json;charset=UTF-8"})
 //    @GET("pengaduan/mobile/daftar-kategori")

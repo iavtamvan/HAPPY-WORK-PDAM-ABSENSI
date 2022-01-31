@@ -1,5 +1,6 @@
 package com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,12 +17,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.DataItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.RiwayatKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.DetailsKehadiranAdapter;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.GetMyStaffOrSupervisiorAdapter;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.GetMyStaffRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.DetailsItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.KoreksiKeharidanRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
@@ -40,13 +44,17 @@ import retrofit2.Response;
 
 public class KoreksiKehadiranActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private final String TAG = "debug";
+    private GetMyStaffOrSupervisiorAdapter getMyStaffOrSupervisiorAdapter;
+    private List<com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.DataItem> dataItemsGetMyStaffOrSupervisior;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
+    public TextView tvTutupDialog;
+
     private String accesToken;
     private String name;
-    private String npp;
+    public String npp;
     private List<DetailsItem> detailsItemArray = new ArrayList<DetailsItem>();
     private DetailsKehadiranAdapter detailsKehadiranAdapter;
     private List<DataItem> dataItems;
@@ -59,7 +67,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
     private ImageView ivHeaderInfo;
-    private EditText edtRequestFor;
+    public EditText edtRequestFor;
     private EditText edtStartDate;
     private EditText edtEndDate;
     private AdView adView;
@@ -98,7 +106,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
 
         edtRequestFor.setText(name + " (" + npp + ")");
         edtRequestFor.setOnClickListener(v -> {
-
+            getMyStaff();
         });
 
         edtStartDate.setOnClickListener(v -> {
@@ -135,6 +143,53 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
             postJsonKoreksiKehadiran();
 
         });
+    }
+
+    private void getMyStaff() {
+        ProgressDialog progressDialog = new ProgressDialog(KoreksiKehadiranActivity.this);
+        progressDialog.setMessage("Mengambil data...");
+        progressDialog.show();
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.getMyStaff(accesToken)
+                .enqueue(new Callback<GetMyStaffRootModel>() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onResponse(Call<GetMyStaffRootModel> call, Response<GetMyStaffRootModel> response) {
+                        if (response.isSuccessful()) {
+                            progressDialog.cancel();
+                            Log.d(TAG, "getMyStaff: " + response.body());
+                            dataItemsGetMyStaffOrSupervisior = new ArrayList<>();
+                            dataItemsGetMyStaffOrSupervisior = response.body().getData();
+                            getMyStaffOrSupervisiorAdapter = new GetMyStaffOrSupervisiorAdapter(KoreksiKehadiranActivity.this, dataItemsGetMyStaffOrSupervisior);
+
+                            final BottomSheetDialog bottomSheetDialogStaffOfSupervisior = new BottomSheetDialog(KoreksiKehadiranActivity.this);
+                            bottomSheetDialogStaffOfSupervisior.setContentView(R.layout.bottom_sheet_dialog_get_staff_or_supervisior);
+
+                            RecyclerView rvGetStafOrSupervisior = bottomSheetDialogStaffOfSupervisior.findViewById(R.id.rv_get_staff_or_supervisior);
+                            tvTutupDialog = bottomSheetDialogStaffOfSupervisior.findViewById(R.id.tv_tutup_dialog);
+                            rvGetStafOrSupervisior.setLayoutManager(new LinearLayoutManager(KoreksiKehadiranActivity.this));
+                            rvGetStafOrSupervisior.setAdapter(getMyStaffOrSupervisiorAdapter);
+                            getMyStaffOrSupervisiorAdapter.notifyDataSetChanged();
+
+                            tvTutupDialog.setOnClickListener(v -> {
+                                bottomSheetDialogStaffOfSupervisior.cancel();
+                            });
+
+                            bottomSheetDialogStaffOfSupervisior.show();
+
+
+                        } else {
+                            progressDialog.cancel();
+                            Toast.makeText(KoreksiKehadiranActivity.this, "" + response.body(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<GetMyStaffRootModel> call, Throwable t) {
+                        progressDialog.cancel();
+                        Toast.makeText(KoreksiKehadiranActivity.this, "" + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void getHistoryPresensi() {
@@ -176,6 +231,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
     }
 
     private void postJsonKoreksiKehadiran() {
+        Log.d(TAG, "NPP Updated : " + npp);
         ApiService apiService = ApiConfig.getApiService();
         apiService.postJson(accesToken, new KoreksiKeharidanRootModel(edtEndDate.getText().toString().trim(), npp, "RAC", detailsItemArray, edtStartDate.getText().toString().trim()))
                 .enqueue(new Callback<KoreksiKeharidanRootModel>() {
