@@ -232,20 +232,26 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
 
     private void postJsonKoreksiKehadiran() {
         Log.d(TAG, "NPP Updated : " + npp);
+        ProgressDialog progressDialog = new ProgressDialog(KoreksiKehadiranActivity.this);
+        progressDialog.setMessage("Mohon tunggu ...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         ApiService apiService = ApiConfig.getApiService();
         apiService.postJson(accesToken, new KoreksiKeharidanRootModel(edtEndDate.getText().toString().trim(), npp, "RAC", detailsItemArray, edtStartDate.getText().toString().trim()))
                 .enqueue(new Callback<KoreksiKeharidanRootModel>() {
                     @Override
                     public void onResponse(Call<KoreksiKeharidanRootModel> call, Response<KoreksiKeharidanRootModel> response) {
+                        progressDialog.cancel();
                         if (response.isSuccessful()) {
-                            Config.dialogAlertSukses(KoreksiKehadiranActivity.this, "Koreksi Kehadiran", "Berhasil disimpan" + response.message(), "Ok", RiwayatKoreksiKehadiranActivity.class);
+                            Config.dialogAlertSukses(KoreksiKehadiranActivity.this, "Koreksi Kehadiran", "Berhasil disimpa! " + response.message(), "Ok", RiwayatKoreksiKehadiranActivity.class);
                         } else {
-                            Config.dialogAlertGagal(KoreksiKehadiranActivity.this, "Koreksi Kehadiran", "Gagal disimpan" + response.message(), "Ok", RiwayatKoreksiKehadiranActivity.class);
+                            Config.dialogAlertGagal(KoreksiKehadiranActivity.this, "Koreksi Kehadiran", "Gagal disimpan! " + response.message(), "Ok", RiwayatKoreksiKehadiranActivity.class);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<KoreksiKeharidanRootModel> call, Throwable t) {
+                        progressDialog.cancel();
                         Toast.makeText(KoreksiKehadiranActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
