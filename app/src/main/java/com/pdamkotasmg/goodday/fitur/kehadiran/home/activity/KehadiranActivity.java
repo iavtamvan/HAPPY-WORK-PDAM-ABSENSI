@@ -1,4 +1,4 @@
-package com.pdamkotasmg.goodday.fitur.kehadiran.view;
+package com.pdamkotasmg.goodday.fitur.kehadiran.home.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -25,10 +25,11 @@ import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.dashboard.model.ShfitPegawaiRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.daftarKehadiran.DaftarKehadiranActivity;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.adapter.KehadiranAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.DataItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.RiwayatKehadiranRootModel;
-import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.RiwayatKoreksiKehadiranActivity;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.RiwayatKoreksiKehadiranActivity;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.text.SimpleDateFormat;

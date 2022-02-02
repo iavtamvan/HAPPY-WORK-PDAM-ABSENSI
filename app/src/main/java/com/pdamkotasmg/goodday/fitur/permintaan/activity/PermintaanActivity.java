@@ -1,4 +1,4 @@
-package com.pdamkotasmg.goodday.fitur.permintaan;
+package com.pdamkotasmg.goodday.fitur.permintaan.activity;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;

@@ -1,4 +1,4 @@
-package com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran;
+package com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;

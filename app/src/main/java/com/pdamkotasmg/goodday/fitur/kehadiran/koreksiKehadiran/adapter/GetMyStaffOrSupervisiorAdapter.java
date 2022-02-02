@@ -16,7 +16,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pdamkotasmg.goodday.R;
-import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.KoreksiKehadiranActivity;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.KoreksiKehadiranActivity;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.DataItem;
 
 import java.util.List;

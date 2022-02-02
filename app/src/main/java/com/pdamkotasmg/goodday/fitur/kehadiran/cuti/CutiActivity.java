@@ -1,4 +1,4 @@
-package com.pdamkotasmg.goodday.fitur.kehadiran.view;
+package com.pdamkotasmg.goodday.fitur.kehadiran.cuti;
 
 import android.os.Bundle;
 

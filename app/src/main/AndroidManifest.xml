@@ -49,26 +49,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyWork">
         <activity
-            android:name=".fitur.permintaan.PermintaanActivity"
+            android:name=".fitur.permintaan.activity.PermintaanActivity"
             android:exported="false" />
         <activity
-            android:name=".fitur.kehadiran.koreksiKehadiran.KoreksiKehadiranActivity"
+            android:name=".fitur.kehadiran.koreksiKehadiran.activity.KoreksiKehadiranActivity"
             android:exported="true" />
         <activity
-            android:name=".fitur.kehadiran.view.PerjalananDinasActivity"
+            android:name=".fitur.kehadiran.perjalananDinas.PerjalananDinasActivity"
             android:exported="true" />
         <activity
-            android:name=".fitur.kehadiran.view.LemburActivity"
+            android:name=".fitur.kehadiran.lembur.LemburActivity"
             android:exported="true" />
         <activity
-            android:name=".fitur.kehadiran.view.CutiActivity"
+            android:name=".fitur.kehadiran.cuti.CutiActivity"
             android:exported="true" />
         <activity
-            android:name=".fitur.kehadiran.koreksiKehadiran.RiwayatKoreksiKehadiranActivity"
+            android:name=".fitur.kehadiran.koreksiKehadiran.activity.RiwayatKoreksiKehadiranActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".fitur.kehadiran.view.DaftarKehadiranActivity"
+            android:name=".fitur.kehadiran.daftarKehadiran.DaftarKehadiranActivity"
             android:exported="true" />
         <activity android:name=".fitur.splash.IntroActivity" />
         <activity
@@ -84,7 +84,7 @@
         <activity android:name=".fitur.authentication.ReisterActivity" />
         <activity android:name=".fitur.authentication.WelcomeAuthActivity" />
         <activity android:name=".fitur.payslip.PayslipActivity" />
-        <activity android:name=".fitur.kehadiran.view.KehadiranActivity" />
+        <activity android:name=".fitur.kehadiran.home.activity.KehadiranActivity" />
         <activity android:name=".fitur.dashboard.DashboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

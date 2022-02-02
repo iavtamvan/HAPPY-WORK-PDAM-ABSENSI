@@ -426,7 +426,7 @@ public final class Config {
                 .setCancelable(false)
                 .setPositiveButton(positiveButton, (dialogInterface, which) -> {
                     dialogInterface.dismiss();
-                    ((Activity) context).finish();
+                    ((Activity) context).finishAffinity();
                     context.startActivity(new Intent(context, toActivity));
                 })
                 .build();

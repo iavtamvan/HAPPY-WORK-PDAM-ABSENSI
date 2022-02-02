@@ -1,4 +1,4 @@
-package com.pdamkotasmg.goodday.fitur.kehadiran.view;
+package com.pdamkotasmg.goodday.fitur.kehadiran.daftarKehadiran;
 
 import android.content.SharedPreferences;
 import android.os.Build;
