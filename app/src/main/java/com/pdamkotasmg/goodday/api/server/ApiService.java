@@ -9,6 +9,7 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.Ge
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.KoreksiKeharidanRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.riwayatKoreksiKehadiran.RiwayatKoreksiKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.perangkat.model.PerangkatRootModel;
+import com.pdamkotasmg.goodday.fitur.permintaan.model.PermintaanRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.checkLocationModel.CheckLocationRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.faceDeetectionModel.FaceDetectionRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.savePresensiModel.SavePresensiRootModel;
@@ -177,6 +178,14 @@ public interface ApiService {
     @GET("portal-pegawai/api/auth/my-staff")
     Call<GetMyStaffRootModel> getMyStaff(
             @Header("Authorization") String auth
+    );
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("portal-pegawai/api/employee-request/my-request-history")
+    Call<PermintaanRootModel> getRequestHistoryAll(
+            @Header("Authorization") String auth,
+            @Query("request_type_code") String request_type_code,
+            @Query("formatted") String formatted
     );
 
 

@@ -187,7 +187,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
                     @Override
                     public void onFailure(Call<GetMyStaffRootModel> call, Throwable t) {
                         progressDialog.cancel();
-                        Toast.makeText(KoreksiKehadiranActivity.this, "" + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(KoreksiKehadiranActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -246,7 +246,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
 
                     @Override
                     public void onFailure(Call<KoreksiKeharidanRootModel> call, Throwable t) {
-                        Toast.makeText(KoreksiKehadiranActivity.this, "" + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(KoreksiKehadiranActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
 

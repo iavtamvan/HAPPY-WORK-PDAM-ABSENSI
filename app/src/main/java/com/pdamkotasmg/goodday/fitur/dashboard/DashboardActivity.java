@@ -30,6 +30,7 @@ import com.pdamkotasmg.goodday.fitur.dashboard.model.permissionName.PermissionRo
 import com.pdamkotasmg.goodday.fitur.feeds.controller.FeedsController;
 import com.pdamkotasmg.goodday.fitur.kehadiran.view.KehadiranActivity;
 import com.pdamkotasmg.goodday.fitur.payslip.PayslipActivity;
+import com.pdamkotasmg.goodday.fitur.permintaan.PermintaanActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.CheckLocationActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.PresensiActivity;
 import com.pdamkotasmg.goodday.fitur.profil.ProfileActivity;
@@ -54,7 +55,8 @@ public class DashboardActivity extends AppCompatActivity {
     private String TAG = "debug";
 
     private FeedsController feedsController;
-    private SharedPreferences sharedPreferences;;
+    private SharedPreferences sharedPreferences;
+    ;
     private SharedPreferences.Editor editor;
 
     private boolean statusExpandedTrue = false;
@@ -74,6 +76,7 @@ public class DashboardActivity extends AppCompatActivity {
     private CardView divLainnyaExpanded;
     private LinearLayout divOvertime;
     private LottieAnimationView ltProfil;
+    private LinearLayout divRequest;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("SetTextI18n")
@@ -173,6 +176,10 @@ public class DashboardActivity extends AppCompatActivity {
 
         });
 
+        divRequest.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), PermintaanActivity.class));
+        });
+
         ltProfil.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
         });
@@ -185,7 +192,7 @@ public class DashboardActivity extends AppCompatActivity {
         apiService.getPermissionNames(accessToken).enqueue(new Callback<PermissionRootModel>() {
             @Override
             public void onResponse(Call<PermissionRootModel> call, Response<PermissionRootModel> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     // TODO IF Aman
                     List<String> list = response.body().getData().getPermissions();
 
@@ -200,7 +207,7 @@ public class DashboardActivity extends AppCompatActivity {
                     Log.d(TAG, "array :: " + sets);
                     Log.d(TAG, "====== End Permission Dashboard Good Day ====== ");
 
-                    if (!list.contains("portal-pegawai.attendance.user.record")){
+                    if (!list.contains("portal-pegawai.attendance.user.record")) {
                         divRekamWaktu.setVisibility(View.GONE);
                     }
 
@@ -310,5 +317,6 @@ public class DashboardActivity extends AppCompatActivity {
         divLainnyaExpanded = findViewById(R.id.div_lainnya_expanded);
         divOvertime = findViewById(R.id.div_overtime);
         ltProfil = findViewById(R.id.lt_profil);
+        divRequest = findViewById(R.id.div_request);
     }
 }

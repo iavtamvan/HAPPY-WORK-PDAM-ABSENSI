@@ -226,6 +226,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/div_request"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -235,9 +236,8 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:visibility="gone"
                     app:lottie_autoPlay="true"
-                    app:lottie_fileName="lt_payslip.json"
+                    app:lottie_fileName="lt_request.json"
                     app:lottie_loop="true"
                     app:lottie_speed="1" />
 
@@ -246,11 +246,10 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
                     android:gravity="center"
-                    android:text="PaySlip"
-                    android:textColor="@color/white"
+                    android:text="Permintaan"
+                    android:textColor="@color/black"
                     android:textSize="10dp"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout

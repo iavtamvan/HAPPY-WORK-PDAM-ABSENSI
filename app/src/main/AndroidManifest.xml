@@ -49,8 +49,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyWork">
         <activity
+            android:name=".fitur.permintaan.PermintaanActivity"
+            android:exported="false" />
+        <activity
             android:name=".fitur.kehadiran.koreksiKehadiran.KoreksiKehadiranActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".fitur.kehadiran.view.PerjalananDinasActivity"
             android:exported="true" />
@@ -63,11 +66,6 @@
         <activity
             android:name=".fitur.kehadiran.koreksiKehadiran.RiwayatKoreksiKehadiranActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".fitur.kehadiran.view.DaftarKehadiranActivity"
@@ -75,7 +73,7 @@
         <activity android:name=".fitur.splash.IntroActivity" />
         <activity
             android:name=".fitur.splash.SplashScreenActivity"
-            android:keepScreenOn="true"></activity>
+            android:keepScreenOn="true" />
         <activity android:name=".fitur.profil.ScanQRCodeActivity" />
         <activity android:name=".fitur.profil.QrCodeActivity" />
         <activity android:name=".fitur.presensi.PresensiActivity" />
@@ -87,7 +85,13 @@
         <activity android:name=".fitur.authentication.WelcomeAuthActivity" />
         <activity android:name=".fitur.payslip.PayslipActivity" />
         <activity android:name=".fitur.kehadiran.view.KehadiranActivity" />
-        <activity android:name=".fitur.dashboard.DashboardActivity" />
+        <activity android:name=".fitur.dashboard.DashboardActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".MainActivity" />
 
         <meta-data

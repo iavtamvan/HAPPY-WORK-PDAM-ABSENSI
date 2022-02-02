@@ -4,14 +4,22 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.382051282051282" />
+        <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/drawable/rectangle_shapes.xml" value="0.102" />
+        <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/drawable/rectangle_shapes_bg_blue.xml" value="0.102" />
+        <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/drawable/rectangle_shapes_bg_grey.xml" value="0.102" />
+        <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/drawable/rectangle_shapes_bg_primary.xml" value="0.102" />
+        <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/drawable/rectangle_shapes_green.xml" value="0.102" />
+        <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/drawable/rectangle_shapes_red.xml" value="0.102" />
+        <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/drawable/rectangle_shapes_yellow.xml" value="0.1745" />
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/activity_absensi_v2.xml" value="0.1762917933130699" />
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/activity_attedance_list.xml" value="0.22554347826086957" />
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/activity_check_location.xml" value="0.22" />
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/activity_daftar_kehadiran.xml" value="0.22894736842105262" />
-        <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/activity_dashboard.xml" value="0.1757852077001013" />
+        <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/activity_dashboard.xml" value="0.22" />
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/activity_kehadiran.xml" value="0.2" />
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/activity_koreksi_kehadiran.xml" value="0.2" />
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/activity_login.xml" value="0.18085106382978725" />
+        <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/activity_permintaan.xml" value="0.22894736842105262" />
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/activity_riwayat_koreksi_kehadiran.xml" value="0.14" />
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/activity_splash_screen.xml" value="0.18085106382978725" />
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/bottom_sheet_dialog_detail_koreksi_kehadiran.xml" value="0.22" />
@@ -20,6 +28,7 @@
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/list_item_get_staff_or_supervisior.xml" value="0.21" />
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/list_item_koreksi_kehadiran.xml" value="0.25" />
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/list_item_koreksi_kehadiran_details.xml" value="0.22" />
+        <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/layout/list_item_request.xml" value="0.21" />
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.382051282051282" />
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/mipmap-anydpi-v26/ic_launcher_foreground.xml" value="0.225" />
         <entry key="..\:/Users/PDAM SEMARANG/AndroidStudioProjects/pdam/HAPPY-WORK-PDAM-ABSENSI/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.225" />
