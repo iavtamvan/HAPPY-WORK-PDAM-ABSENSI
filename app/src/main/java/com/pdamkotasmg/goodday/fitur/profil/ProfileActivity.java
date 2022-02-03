@@ -1,14 +1,19 @@
 package com.pdamkotasmg.goodday.fitur.profil;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -16,6 +21,8 @@ import androidx.cardview.widget.CardView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.pdamkotasmg.goodday.R;
+import com.pdamkotasmg.goodday.api.server.ApiConfig;
+import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.perangkat.PerangkatActivity;
 import com.pdamkotasmg.goodday.fitur.profil.controller.ProfileController;
@@ -23,9 +30,14 @@ import com.pdamkotasmg.goodday.utils.Config;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    private final String TAG = "debug";
     private ProfileController profileController;
 
     //token
@@ -184,7 +196,56 @@ public class ProfileActivity extends AppCompatActivity {
             });
 
             divGantiPassword.setOnClickListener(v1 -> {
+                final BottomSheetDialog bottomSheetDialogProfileGantiPassword = new BottomSheetDialog(ProfileActivity.this);
+                bottomSheetDialogProfileGantiPassword.setContentView(R.layout.bottom_sheet_dialog_ganti_password);
 
+                TextView tvTutupDialogs = bottomSheetDialogProfileGantiPassword.findViewById(R.id.tv_tutup_dialog);
+                EditText edtPasswordBaru = bottomSheetDialogProfileGantiPassword.findViewById(R.id.edt_password_baru);
+                EditText edtPasswordBaruKonfirmasi = bottomSheetDialogProfileGantiPassword.findViewById(R.id.edt_password_baru_konfirmasi);
+                Button btnKirim = bottomSheetDialogProfileGantiPassword.findViewById(R.id.btn_kirim);
+
+                tvTutupDialogs.setOnClickListener(v2 -> {
+                    bottomSheetDialogProfileGantiPassword.cancel();
+                });
+
+                btnKirim.setOnClickListener(v2 -> {
+                    if (!edtPasswordBaru.getText().toString().trim().equals(edtPasswordBaruKonfirmasi.getText().toString().trim())) {
+                        Toast.makeText(ProfileActivity.this, "Password tidak sama", Toast.LENGTH_SHORT).show();
+                    } else {
+                        ProgressDialog progressDialog = new ProgressDialog(ProfileActivity.this);
+                        progressDialog.setMessage("Mohon Tunggu...");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+                        ApiService apiService = ApiConfig.getApiService();
+                        apiService.updatePassword(access_token, edtPasswordBaru.getText().toString().trim(), edtPasswordBaruKonfirmasi.getText().toString().trim())
+                                .enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        progressDialog.cancel();
+                                        if (response.isSuccessful()) {
+                                            String dataRes = response.message();
+                                            Log.d(TAG, "dataRes: " + dataRes);
+                                            if (dataRes.equalsIgnoreCase("OK")) {
+                                                bottomSheetDialogProfileGantiPassword.cancel();
+                                                Toast.makeText(ProfileActivity.this, "Sukses ganti password", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(ProfileActivity.this, "Gagal ganti password", Toast.LENGTH_SHORT).show();
+                                            }
+                                        } else {
+                                            Toast.makeText(ProfileActivity.this, "Error " + response.message(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                        progressDialog.cancel();
+                                        Toast.makeText(ProfileActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+
+                });
+                bottomSheetDialogProfileGantiPassword.show();
             });
 
             bottomSheetDialogProfile.show();

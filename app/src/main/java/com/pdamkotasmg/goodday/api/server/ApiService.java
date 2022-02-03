@@ -73,6 +73,13 @@ public interface ApiService {
     @POST("portal-pegawai/api/auth/logout")
     Call<ResponseBody> logout(@Header("Authorization") String auth);
 
+    @FormUrlEncoded
+    @POST("portal-pegawai/api/auth/update-profile")
+    Call<ResponseBody> updatePassword(
+            @Header("Authorization") String auth,
+            @Field("password") String password,
+            @Field("password_confirmation") String password_confirmation);
+
     @POST("portal-pegawai/api/auth/delete-all-session")
     Call<ResponseBody> deleteAllSession(@Header("Authorization") String auth);
 
