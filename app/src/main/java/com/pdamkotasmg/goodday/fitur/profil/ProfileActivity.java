@@ -23,7 +23,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
-import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.perangkat.PerangkatActivity;
 import com.pdamkotasmg.goodday.fitur.profil.controller.ProfileController;
 import com.pdamkotasmg.goodday.utils.Config;
@@ -107,8 +106,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvHeaderJudul.setText("Profil");
         ivHeaderInfo.setVisibility(View.GONE);
         ivHeaderBackArrow.setOnClickListener(v -> {
-            finishAffinity();
-            startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+            ProfileActivity.this.finish();
         });
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
