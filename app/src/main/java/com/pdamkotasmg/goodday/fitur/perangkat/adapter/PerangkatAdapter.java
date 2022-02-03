@@ -36,7 +36,7 @@ public class PerangkatAdapter extends RecyclerView.Adapter<PerangkatAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvListPerangkatVersionAplication.setText(Config.APLICATION_NAME + " v." + dataItems.get(position).getAppVersion());
-        holder.tvListPerangkatNameNamaHp.setText(dataItems.get(position).getBuildBrand().toUpperCase() + " , Android (" + dataItems.get(position).getOsVersion().toUpperCase() + ")");
+        holder.tvListPerangkatNameNamaHp.setText(dataItems.get(position).getBuildBrand() + " , Android (" + dataItems.get(position).getOsVersion() + ")");
         holder.tvListPerangkatIpCity.setText(dataItems.get(position).getIpAddress() + " - " + dataItems.get(position).getLocationCity());
         holder.tvListPerangkatStatusTgl.setText(dataItems.get(position).getCreatedAt());
     }

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.perangkat.PerangkatActivity;
@@ -81,9 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvProfileGolongan;
     private TextView tvProfileSubSatker;
     private TextView tvProfileSatker;
-    private CardView cvKlikPerangkat;
-    private CardView cvKlikKeluar;
-    private CardView cvKlikQrCode;
+    private CardView cvKlikPengaturan;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -143,31 +142,54 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfileSatker.setText(satker);
         Glide.with(ProfileActivity.this).load(urlLogo).into(ciProfileImage);
 
-        cvKlikPerangkat.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), PerangkatActivity.class));
-        });
+        cvKlikPengaturan.setOnClickListener(v -> {
+            final BottomSheetDialog bottomSheetDialogProfile = new BottomSheetDialog(ProfileActivity.this);
+            bottomSheetDialogProfile.setContentView(R.layout.bottom_sheet_dialog_pengaturan);
 
-        cvKlikKeluar.setOnClickListener(v -> {
-            MaterialDialog mDialog = new MaterialDialog.Builder(ProfileActivity.this)
-                    .setMessage("Yakin mau keluar?")
-                    .setAnimation("lt_logout.json")
-                    .setCancelable(false)
-                    .setNegativeButton("Gak", (dialogInterface, which) -> dialogInterface.dismiss())
-                    .setPositiveButton("Iya", (dialogInterface, which) -> {
-                        profileController.logout(ProfileActivity.this);
-                    })
-                    .build();
+            TextView tvTutupDialog = bottomSheetDialogProfile.findViewById(R.id.tv_tutup_dialog);
+            LinearLayout divPerangkatTerhubung = bottomSheetDialogProfile.findViewById(R.id.div_perangkat_terhubung);
+            LinearLayout divGantiPassword = bottomSheetDialogProfile.findViewById(R.id.div_ganti_password);
+            LinearLayout divLogout = bottomSheetDialogProfile.findViewById(R.id.div_logout);
+            LinearLayout divQrCode = bottomSheetDialogProfile.findViewById(R.id.div_qr_code);
 
-            // Show Dialog
-            mDialog.show();
-        });
+            tvTutupDialog.setOnClickListener(v1 -> {
+                bottomSheetDialogProfile.cancel();
+            });
 
-        cvKlikQrCode.setOnClickListener(v -> {
-            editor.putString(Config.SHARED_STATUS_ABSENSI, "qrcode");
-            editor.apply();
-            Intent intent = new Intent(ProfileActivity.this, QrCodeActivity.class);
-            intent.putExtra(Config.BUNDLE_NPP, npp_profile);
-            startActivity(intent);
+            divPerangkatTerhubung.setOnClickListener(v1 -> {
+                startActivity(new Intent(getApplicationContext(), PerangkatActivity.class));
+            });
+
+            divLogout.setOnClickListener(v1 -> {
+                MaterialDialog mDialog = new MaterialDialog.Builder(ProfileActivity.this)
+                        .setMessage("Yakin mau keluar?")
+                        .setAnimation("lt_logout.json")
+                        .setCancelable(false)
+                        .setNegativeButton("Gak", (dialogInterface, which) -> dialogInterface.dismiss())
+                        .setPositiveButton("Iya", (dialogInterface, which) -> {
+                            profileController.logout(ProfileActivity.this);
+                        })
+                        .build();
+
+                // Show Dialog
+                mDialog.show();
+            });
+
+            divQrCode.setOnClickListener(v1 -> {
+                editor.putString(Config.SHARED_STATUS_ABSENSI, "qrcode");
+                editor.apply();
+                Intent intent = new Intent(ProfileActivity.this, QrCodeActivity.class);
+                intent.putExtra(Config.BUNDLE_NPP, npp_profile);
+                startActivity(intent);
+            });
+
+            divGantiPassword.setOnClickListener(v1 -> {
+
+            });
+
+            bottomSheetDialogProfile.show();
+
+
         });
 
     }
@@ -191,8 +213,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfileGolongan = findViewById(R.id.tv_profile_golongan);
         tvProfileSubSatker = findViewById(R.id.tv_profile_sub_satker);
         tvProfileSatker = findViewById(R.id.tv_profile_satker);
-        cvKlikPerangkat = findViewById(R.id.cv_klik_perangkat);
-        cvKlikKeluar = findViewById(R.id.cv_klik_keluar);
-        cvKlikQrCode = findViewById(R.id.cv_klik_qrCode);
+        cvKlikPengaturan = findViewById(R.id.cv_klik_pengaturan);
+
     }
 }
