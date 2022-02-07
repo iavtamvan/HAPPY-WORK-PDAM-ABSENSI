@@ -101,7 +101,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         tools:itemCount="38"
-                        tools:listitem="@layout/list_item_koreksi_kehadiran_details" />
+                        tools:listitem="@layout/list_item_koreksi_kehadiran_edit_details" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

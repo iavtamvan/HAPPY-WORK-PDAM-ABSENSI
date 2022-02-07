@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fitur.kehadiran.koreksiKehadiran.activity.DetailKoreksiKehadiranActivity">
+
+    <include layout="@layout/content_header" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="-20dp"
+        app:cardCornerRadius="26dp"
+        app:cardElevation="16dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_medium"
+                                android:gravity="left"
+                                android:text="Permintaan dari"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_detail_request_dari"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_medium"
+                                android:gravity="left"
+                                android:text="Ade Fajr ariav"
+                                android:textColor="@color/grey"
+                                android:textSize="13dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_medium"
+                                android:gravity="left"
+                                android:text="Permintaan untuk"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_detail_request_untuk"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_medium"
+                                android:gravity="left"
+                                android:text="Untuk: 7 Jan 2022"
+                                android:textColor="@color/grey"
+                                android:textSize="13dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_medium"
+                                        android:gravity="left"
+                                        android:text="Mulai tanggal"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_detail_mulai_tanggal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_medium"
+                                        android:gravity="left"
+                                        android:text="7 Jan 2022"
+                                        android:textColor="@color/grey"
+                                        android:textSize="13dp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_medium"
+                                        android:gravity="left"
+                                        android:text="Permintaan untuk"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_detail_selesai_tanggal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_medium"
+                                        android:gravity="left"
+                                        android:text="7 Jan 2022"
+                                        android:textColor="@color/grey"
+                                        android:textSize="13dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@color/grey" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:gravity="left"
+                            android:text="Detail"
+                            android:textColor="@color/black"
+                            android:textSize="12dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@color/grey" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_detail_koreksi_kehadiran"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:itemCount="2"
+                                tools:listitem="@layout/list_item_koreksi_kehadiran_details"/>
+
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@color/grey" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:gravity="left"
+                            android:text="Mengetahui"
+                            android:textColor="@color/black"
+                            android:textSize="12dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@color/grey" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:listitem="@layout/list_item_koreksi_kehadiran_persetujuan"
+                            tools:itemCount="3"
+                            android:id="@+id/rv_detail_mengetahui"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/btn_new_request"
+                            android:layout_width="wrap_content"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/primary"
+                            android:text="Cancel" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </ScrollView>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

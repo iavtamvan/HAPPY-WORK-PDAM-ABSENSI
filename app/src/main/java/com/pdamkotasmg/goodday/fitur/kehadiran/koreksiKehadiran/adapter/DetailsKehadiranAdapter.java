@@ -48,7 +48,7 @@ public class DetailsKehadiranAdapter extends RecyclerView.Adapter<DetailsKehadir
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.list_item_koreksi_kehadiran_details, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.list_item_koreksi_kehadiran_edit_details, parent, false);
         return new ViewHolder(view);
     }
 
