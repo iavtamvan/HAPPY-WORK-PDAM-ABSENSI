@@ -32,7 +32,6 @@ import com.pdamkotasmg.goodday.BuildConfig;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
-import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.activity.KehadiranActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.model.faceDeetectionModel.FaceDetectionRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.savePresensiModel.SavePresensiRootModel;
@@ -51,7 +50,6 @@ import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 import pl.aprilapps.easyphotopicker.MediaFile;
 import pl.aprilapps.easyphotopicker.MediaSource;
@@ -377,7 +375,12 @@ public class PresensiActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        easyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+        easyImage.handleActivityResult(requestCode, resultCode, data, PresensiActivity.this, new EasyImage.Callbacks() {
+            @Override
+            public void onImagePickerError(@NonNull Throwable throwable, @NonNull MediaSource mediaSource) {
+                Toast.makeText(PresensiActivity.this, "" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
             @Override
             public void onMediaFilesPicked(MediaFile[] imageFiles, MediaSource source) {
 //                onPhotosReturned(imageFiles);
