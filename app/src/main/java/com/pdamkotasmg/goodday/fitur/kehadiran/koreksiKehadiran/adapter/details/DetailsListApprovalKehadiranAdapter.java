@@ -45,9 +45,17 @@ public class DetailsListApprovalKehadiranAdapter extends RecyclerView.Adapter<De
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvDetailsApprovalName.setText(dataItems.get(position).getApproverName() + " (" + dataItems.get(position).getApproverNpp() + ")");
         holder.tvDetailsApprovalPosition.setText(dataItems.get(position).getApproverPosition());
-        holder.tvDetailsApprovalStatus.setText(dataItems.get(position).getApprovalStatus());
         holder.tvDetailsApprovalNote.setText(dataItems.get(position).getApproverNote());
         holder.tvDetailsApprovalDateTime.setText(dataItems.get(position).getApprovalDatetime());
+        holder.tvDetailsApprovalStatus.setText(dataItems.get(position).getApprovalStatus());
+
+        if (dataItems.get(position).getApprovalStatus().equalsIgnoreCase("Waiting")) {
+            holder.tvDetailsApprovalStatus.setTextColor(context.getResources().getColor(R.color.yellowPortal));
+        } else if (dataItems.get(position).getApprovalStatus().equalsIgnoreCase("Approved")) {
+            holder.tvDetailsApprovalStatus.setTextColor(context.getResources().getColor(R.color.greenPortal));
+        } else {
+            holder.tvDetailsApprovalStatus.setTextColor(context.getResources().getColor(R.color.redPortal));
+        }
 
     }
 

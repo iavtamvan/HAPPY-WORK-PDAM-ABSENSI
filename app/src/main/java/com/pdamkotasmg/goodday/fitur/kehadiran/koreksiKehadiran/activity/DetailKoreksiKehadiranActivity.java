@@ -79,7 +79,16 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
                             dataList = response.body().getData();
 
                             tvDetailsTanggalReq.setText(dataList.getRequestedAt());
+
                             tvDetailsStatus.setText(dataList.getRequestStatus());
+                            if (dataList.getRequestStatus().equalsIgnoreCase("Waiting")) {
+                                tvDetailsStatus.setTextColor(getResources().getColor(R.color.yellowPortal));
+                            } else if (dataList.getRequestStatus().equalsIgnoreCase("Approved")) {
+                                tvDetailsStatus.setTextColor(getResources().getColor(R.color.greenPortal));
+                            } else {
+                                tvDetailsStatus.setTextColor(getResources().getColor(R.color.redPortal));
+                            }
+
                             tvDetailRequestDari.setText(dataList.getRequestedByName());
                             tvDetailRequestUntuk.setText(dataList.getRequestedForName());
                             tvDetailMulaiTanggal.setText(dataList.getRequestStartDate());
