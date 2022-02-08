@@ -1,46 +1,35 @@
 package com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.pdamkotasmg.goodday.R;
-import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.DataItem;
-import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.DetailsItem;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKoreksiKehadiran.Data;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class DetailsKehadiranAdapter extends RecyclerView.Adapter<DetailsKehadiranAdapter.ViewHolder> {
     Context context;
-    private List<DataItem> dataItems;
-    private DetailsKehadiranAdapter detailsKehadiranAdapter;
-
-    public List<DetailsItem> detailsItemArray = new ArrayList<>();
-    private DetailsItem detailsItems;
+    private List<Data> dataItems;
+    private DetailsKehadiranAdapter editDetailsKehadiranAdapter;
     private String dateServer;
     private String dateServerPostman;
 
+
     private final String TAG = "debug";
 
-    public DetailsKehadiranAdapter(Context context, List<DataItem> dataItems) {
+    public DetailsKehadiranAdapter(Context context, List<Data> dataItems) {
         this.context = context;
         this.dataItems = dataItems;
     }
@@ -48,7 +37,7 @@ public class DetailsKehadiranAdapter extends RecyclerView.Adapter<DetailsKehadir
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.list_item_koreksi_kehadiran_edit_details, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.list_item_koreksi_kehadiran_details, parent, false);
         return new ViewHolder(view);
     }
 
@@ -56,44 +45,23 @@ public class DetailsKehadiranAdapter extends RecyclerView.Adapter<DetailsKehadir
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        dateServer = new SimpleDateFormat("EEE, dd MMM yyyy").format(dataItems.get(position).getRequestedAt());
+//        dateServerPostman = new SimpleDateFormat("yyyy-MM-dd").format(dataItems.get(position).getRecordDate());
 
-        dateServer = new SimpleDateFormat("EEE, dd MMM yyyy").format(dataItems.get(position).getRecordDate());
-        dateServerPostman = new SimpleDateFormat("yyyy-MM-dd").format(dataItems.get(position).getRecordDate());
+        holder.tvDetailsTanggal.setText(dateServer);
+        holder.tvDetailsStatus.setText(dataItems.get(position).getRequestStatus());
 
-        holder.tvListKoreksiKehadiranDetailsDate.setText(dateServer);
+        // Before
+        holder.tvDetailsShiftDanWaktuInWaktuOutBefore.setText(dataItems.get(position).getRequestDetails().get(position).getRecordDateBefore());
+        holder.tvDetailsTimeInBefore.setText(dataItems.get(position).getRequestDetails().get(position).getTimeInBefore());
+        holder.tvDetailsTimeOutBefore.setText(dataItems.get(position).getRequestDetails().get(position).getTimeOutBefore());
 
-        holder.tvListKoreksiKehadiranDetailsShift.setText(dataItems.get(position).getIn().getShiftRemark());
+        // After
+        holder.tvDetailsShiftDanWaktuInWaktuOutAfter.setText(dataItems.get(position).getRequestDetails().get(position).getRecordDateAfter());
+        holder.tvDetailsTimeInAter.setText(dataItems.get(position).getRequestDetails().get(position).getTimeInAfter());
+        holder.tvDetailsTimeOutAfter.setText(dataItems.get(position).getRequestDetails().get(position).getTimeOutAfter());
 
-        // masuk
-        if (dataItems.get(position).getIn().getRecordTime() == null) {
-            holder.tvListKoreksiKehadiranDetailsStartTime.setText("--:-- | ");
-        } else {
-            holder.tvListKoreksiKehadiranDetailsStartTime.setText(dataItems.get(position).getIn().getRecordTime() + " | ");
-        }
-
-        // keluar
-        if (dataItems.get(position).getOut().getRecordTime() == null) {
-            holder.tvListKoreksiKehadiranDetailsEndTime.setText("--:--");
-        } else {
-            holder.tvListKoreksiKehadiranDetailsEndTime.setText(dataItems.get(position).getOut().getRecordTime());
-        }
-
-        detailsItems = new DetailsItem();
-//        for (int i = 0; i < dataItems.size(); i++) {
-        detailsItems.setReason("-");
-        detailsItems.setRecordDateBefore(dateServerPostman);
-        detailsItems.setActualTimeInAfter(dataItems.get(position).getIn().getRecordTime());
-//        detailsItems.setActualTimeOutAfter(dataItems.get(position).getOut().getRecordTime());
-        detailsItemArray.add(detailsItems);
-//            break;
-//        }
-
-        holder.cvKlik.setOnClickListener(v -> {
-            Log.d(TAG, "Klik : " + position);
-            Log.d(TAG, "detailsItemArray: " + detailsItemArray);
-            Log.d(TAG, "detailsItemArraySize: " + detailsItemArray.size());
-            showBottomSheetDialog(holder, position);
-        });
+        holder.tvDetailsReason.setText(dataItems.get(position).getRequestDetails().get(position).getReason());
 
     }
 
@@ -102,166 +70,30 @@ public class DetailsKehadiranAdapter extends RecyclerView.Adapter<DetailsKehadir
         return dataItems.size();
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private LinearLayout cvKlik;
-        private TextView tvListKoreksiKehadiranDetailsDate;
-        private TextView tvListKoreksiKehadiranDetailsStartTime;
-        private TextView tvListKoreksiKehadiranDetailsEndTime;
-        private TextView tvListKoreksiKehadiranDetailsShift;
-        private TextView tvListKoreksiKehadiranDetailsStatusUpdate;
+        private CardView cvKlik;
+        private TextView tvDetailsTanggal;
+        private TextView tvDetailsShiftDanWaktuInWaktuOutBefore;
+        private TextView tvDetailsTimeInBefore;
+        private TextView tvDetailsTimeOutBefore;
+        private TextView tvDetailsShiftDanWaktuInWaktuOutAfter;
+        private TextView tvDetailsTimeInAter;
+        private TextView tvDetailsTimeOutAfter;
+        private TextView tvDetailsReason;
+        private TextView tvDetailsStatus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cvKlik = itemView.findViewById(R.id.cv_klik);
-            tvListKoreksiKehadiranDetailsDate = itemView.findViewById(R.id.tv_list_koreksi_kehadiran_details_date);
-            tvListKoreksiKehadiranDetailsStartTime = itemView.findViewById(R.id.tv_list_koreksi_kehadiran_details_start_time);
-            tvListKoreksiKehadiranDetailsEndTime = itemView.findViewById(R.id.tv_list_koreksi_kehadiran_details_end_time);
-            tvListKoreksiKehadiranDetailsShift = itemView.findViewById(R.id.tv_list_koreksi_kehadiran_details_shift);
-            tvListKoreksiKehadiranDetailsStatusUpdate = itemView.findViewById(R.id.tv_list_koreksi_kehadiran_details_status_update);
+            tvDetailsTanggal = itemView.findViewById(R.id.tv_details_tanggal);
+            tvDetailsShiftDanWaktuInWaktuOutBefore = itemView.findViewById(R.id.tv_details_shift_dan_waktuIn_waktuOut_before);
+            tvDetailsTimeInBefore = itemView.findViewById(R.id.tv_details_time_in_before);
+            tvDetailsTimeOutBefore = itemView.findViewById(R.id.tv_details_time_out_before);
+            tvDetailsShiftDanWaktuInWaktuOutAfter = itemView.findViewById(R.id.tv_details_shift_dan_waktuIn_waktuOut_after);
+            tvDetailsTimeInAter = itemView.findViewById(R.id.tv_details_time_in_ater);
+            tvDetailsTimeOutAfter = itemView.findViewById(R.id.tv_details_time_out_after);
+            tvDetailsReason = itemView.findViewById(R.id.tv_details_reason);
+            tvDetailsStatus = itemView.findViewById(R.id.tv_details_status);
         }
-    }
-
-
-    private EditText edtBottomDialogKoreksiKehadiranDate;
-    private EditText edtBottomDialogKoreksiKehadiranShift;
-    private EditText edtBottomDialogKoreksiKehadiranReason;
-    private EditText edtBottomDialogKoreksiKehadiranBeforeStartTime;
-    private EditText edtBottomDialogKoreksiKehadiranBeforeEndTime;
-    private EditText edtBottomDialogKoreksiKehadiranAfterStartTime;
-    private EditText edtBottomDialogKoreksiKehadiranAfterEndTime;
-    private Button btnUpdateDataArrayLocal;
-
-    @SuppressLint({"NotifyDataSetChanged", "ResourceAsColor"})
-    private void showBottomSheetDialog(@NonNull ViewHolder holder, int position) {
-        final BottomSheetDialog bottomSheetDialogParrentSb = new BottomSheetDialog(context);
-        bottomSheetDialogParrentSb.setContentView(R.layout.bottom_sheet_dialog_detail_koreksi_kehadiran);
-        edtBottomDialogKoreksiKehadiranDate = bottomSheetDialogParrentSb.findViewById(R.id.edt_bottom_dialog_koreksi_kehadiran_date);
-        edtBottomDialogKoreksiKehadiranShift = bottomSheetDialogParrentSb.findViewById(R.id.edt_bottom_dialog_koreksi_kehadiran_shift);
-        edtBottomDialogKoreksiKehadiranReason = bottomSheetDialogParrentSb.findViewById(R.id.edt_bottom_dialog_koreksi_kehadiran_reason);
-        edtBottomDialogKoreksiKehadiranBeforeStartTime = bottomSheetDialogParrentSb.findViewById(R.id.edt_bottom_dialog_koreksi_kehadiran_before_start_time);
-        edtBottomDialogKoreksiKehadiranBeforeEndTime = bottomSheetDialogParrentSb.findViewById(R.id.edt_bottom_dialog_koreksi_kehadiran_before_end_time);
-        edtBottomDialogKoreksiKehadiranAfterStartTime = bottomSheetDialogParrentSb.findViewById(R.id.edt_bottom_dialog_koreksi_kehadiran_after_start_time);
-        edtBottomDialogKoreksiKehadiranAfterEndTime = bottomSheetDialogParrentSb.findViewById(R.id.edt_bottom_dialog_koreksi_kehadiran_after_end_time);
-        btnUpdateDataArrayLocal = bottomSheetDialogParrentSb.findViewById(R.id.btn_update_data_array_local);
-
-        Log.d(TAG, "Date data item : " + dataItems.get(position).getRecordDate());
-        Log.d(TAG, "Date detailsItemArray : " + detailsItemArray.get(position).getRecordDateBefore());
-
-        String dateServerBottomDialog = new SimpleDateFormat("EEE, dd MMM yyyy").format(dataItems.get(position).getRecordDate());
-        edtBottomDialogKoreksiKehadiranDate.setText(dateServerBottomDialog);
-
-        edtBottomDialogKoreksiKehadiranShift.setText(dataItems.get(position).getIn().getShiftRemark());
-
-        edtBottomDialogKoreksiKehadiranReason.setText(detailsItemArray.get(position).getReason());
-
-        edtBottomDialogKoreksiKehadiranBeforeStartTime.setText(dataItems.get(position).getIn().getRecordTime());
-//        edtBottomDialogKoreksiKehadiranBeforeStartTime.setText(dataItems.get(position).getIn().getRecordTime());
-        edtBottomDialogKoreksiKehadiranBeforeEndTime.setText(dataItems.get(position).getOut().getRecordTime());
-
-
-        // TODO Dari model DetailsItemArray
-        edtBottomDialogKoreksiKehadiranAfterStartTime.setText(detailsItemArray.get(position).getActualTimeInAfter());
-        edtBottomDialogKoreksiKehadiranAfterEndTime.setText(detailsItemArray.get(position).getActualTimeOutAfter());
-
-        edtBottomDialogKoreksiKehadiranAfterStartTime.setOnClickListener(v -> {
-            // Get Current Time
-            final Calendar c = Calendar.getInstance();
-            final int[] mHour = {c.get(Calendar.HOUR_OF_DAY)};
-            final int[] mMinute = {c.get(Calendar.MINUTE)};
-            final int[] mSecond = {c.get(Calendar.SECOND)};
-
-            // Launch Time Picker Dialog
-            TimePickerDialog timePickerDialog = new TimePickerDialog(context,
-                    (view, hourOfDay, minute) -> {
-
-                        mHour[0] = hourOfDay;
-                        mMinute[0] = minute;
-
-                        edtBottomDialogKoreksiKehadiranAfterStartTime.setText(String.format("%02d:%02d", hourOfDay, minute) + ":00");
-                    }, mHour[0], mMinute[0], true);
-            timePickerDialog.show();
-        });
-
-        edtBottomDialogKoreksiKehadiranAfterEndTime.setOnClickListener(v -> {
-            // Get Current Time
-            final Calendar c = Calendar.getInstance();
-            final int[] mHour = {c.get(Calendar.HOUR_OF_DAY)};
-            final int[] mMinute = {c.get(Calendar.MINUTE)};
-            final int[] mSecond = {c.get(Calendar.SECOND)};
-
-            // Launch Time Picker Dialog
-            TimePickerDialog timePickerDialog = new TimePickerDialog(context,
-                    (view, hourOfDay, minute) -> {
-
-                        mHour[0] = hourOfDay;
-                        mMinute[0] = minute;
-
-                        edtBottomDialogKoreksiKehadiranAfterEndTime.setText(String.format("%02d:%02d", hourOfDay, minute) + ":00");
-                    }, mHour[0], mMinute[0], true);
-            timePickerDialog.show();
-
-        });
-
-        Log.d(TAG, "================= START SEBELUM ======================");
-        Log.d(TAG, "Sebelum Edit getReason : " + detailsItemArray.get(position).getReason());
-        Log.d(TAG, "Sebelum Edit getRecordDateBefore : " + detailsItemArray.get(position).getRecordDateBefore());
-        Log.d(TAG, "Sebelum Edit getActualTimeInAfter : " + detailsItemArray.get(position).getActualTimeInAfter());
-        Log.d(TAG, "Sebelum Edit getActualTimeOutAfter : " + detailsItemArray.get(position).getActualTimeOutAfter());
-        Log.d(TAG, "================= END SEBELUM ================");
-//        dateServerPostman = new SimpleDateFormat("yyyy-MM-dd").format(dataItems.get(position).getRecordDate());
-
-        btnUpdateDataArrayLocal.setOnClickListener(v -> {
-            if (edtBottomDialogKoreksiKehadiranReason.getText().toString().isEmpty() || edtBottomDialogKoreksiKehadiranAfterStartTime.getText().toString().isEmpty()
-                    || edtBottomDialogKoreksiKehadiranAfterEndTime.getText().toString().isEmpty()) {
-                Toast.makeText(context, "Lengkapi form terlebih dahulu", Toast.LENGTH_SHORT).show();
-            } else {
-                // todo update data array
-
-                // TODO isi detail
-//            Log.d(TAG, "showBottomSheetDialogPosition: " + position);
-//            Log.d(TAG, "showBottomSheetDialogData: " + dataItems.get(position));
-//            Log.d(TAG, "=======================================");
-//            Log.d(TAG, "showBottomSheetDialogDatagetgetRecordTimegetIn: " + dataItems.get(position).getIn().getRecordTime());
-//            Log.d(TAG, "showBottomSheetDialogDatagetgetRecordTimegetOut: " + dataItems.get(position).getOut().getRecordTime());
-//            Log.d(TAG, "=======================================");
-//            Log.d(TAG, "showBottomSheetDialogDatagetgetRecordTimeIn: " + edtBottomDialogKoreksiKehadiranAfterStartTime.getText().toString().trim());
-//            Log.d(TAG, "showBottomSheetDialogDatagetgetRecordTimeOut: " + edtBottomDialogKoreksiKehadiranAfterEndTime.getText().toString().trim());
-
-//                dataItems.get(position).getIn().setRecordTime(edtBottomDialogKoreksiKehadiranAfterStartTime.getText().toString().trim());
-//                dataItems.get(position).getOut().setRecordTime(edtBottomDialogKoreksiKehadiranAfterEndTime.getText().toString().trim());
-                Log.d(TAG, "Date data item : " + dataItems.get(position).getRecordDate());
-//                Log.d(TAG, "dateServerPostman: " + dateServerPostman);
-                detailsKehadiranAdapter = new DetailsKehadiranAdapter(context, dataItems);
-
-                // TODO mempersiapkan yang akan dikirim ke server
-                detailsItemArray.get(position).setReason(edtBottomDialogKoreksiKehadiranReason.getText().toString().trim());
-//                detailsItemArray.get(position).setRecordDateBefore(dateServerPostman);
-                detailsItemArray.get(position).setActualTimeInAfter(edtBottomDialogKoreksiKehadiranAfterStartTime.getText().toString().trim());
-                detailsItemArray.get(position).setActualTimeOutAfter(edtBottomDialogKoreksiKehadiranAfterEndTime.getText().toString().trim());
-
-                holder.tvListKoreksiKehadiranDetailsStartTime.setText(detailsItemArray.get(position).getActualTimeInAfter() + " | ");
-                holder.tvListKoreksiKehadiranDetailsEndTime.setText(detailsItemArray.get(position).getActualTimeOutAfter());
-                holder.tvListKoreksiKehadiranDetailsStatusUpdate.setText("updated");
-                holder.tvListKoreksiKehadiranDetailsStatusUpdate.setTextColor(context.getResources().getColor(R.color.primary));
-
-                Log.d(TAG, "================= START SETELAH ======================");
-                Log.d(TAG, "SUKSES Setelah Edit getReason : " + detailsItemArray.get(position).getReason());
-                Log.d(TAG, "SUKSES Setelah Edit getRecordDateBefore : " + detailsItemArray.get(position).getRecordDateBefore());
-                Log.d(TAG, "SUKSES Setelah Edit getActualTimeInAfter : " + detailsItemArray.get(position).getActualTimeInAfter());
-                Log.d(TAG, "SUKSES Setelah Edit getActualTimeOutAfter : " + detailsItemArray.get(position).getActualTimeOutAfter());
-                Log.d(TAG, "================= END SETELAH ======================");
-
-                Log.d(TAG, "RecordDate Position: " + position + " > " + detailsItemArray.get(position).getRecordDateBefore());
-                Log.d(TAG, "Reason Position: " + position + " > " + detailsItemArray.get(position).getReason());
-
-                Log.d(TAG, "detailsItemArray : " + detailsItemArray.get(position).getRecordDateBefore());
-                detailsKehadiranAdapter.notifyDataSetChanged();
-                bottomSheetDialogParrentSb.hide();
-            }
-
-        });
-
-        bottomSheetDialogParrentSb.show();
     }
 }

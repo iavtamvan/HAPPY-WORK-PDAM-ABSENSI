@@ -34,7 +34,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_list_koreksi_kehadiran_details_date"
+                        android:id="@+id/tv_details_tanggal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
@@ -67,6 +67,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tv_details_shift_dan_waktuIn_waktuOut_before"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
@@ -99,6 +100,7 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/tv_details_time_in_before"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_medium"
@@ -126,6 +128,7 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/tv_details_time_out_before"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_medium"
@@ -161,6 +164,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tv_details_shift_dan_waktuIn_waktuOut_after"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
@@ -193,6 +197,7 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/tv_details_time_in_ater"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_medium"
@@ -220,6 +225,7 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/tv_details_time_out_after"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_medium"
@@ -248,6 +254,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tv_details_reason"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
@@ -279,7 +286,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_list_koreksi_kehadiran_details_status_update"
+                        android:id="@+id/tv_details_status"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"

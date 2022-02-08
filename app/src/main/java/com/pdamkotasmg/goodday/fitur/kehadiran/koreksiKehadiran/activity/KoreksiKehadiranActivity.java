@@ -23,7 +23,7 @@ import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.DataItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.RiwayatKehadiranRootModel;
-import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.DetailsKehadiranAdapter;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.EditDetailsKehadiranAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.GetMyStaffOrSupervisiorAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.GetMyStaffRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.DetailsItem;
@@ -56,7 +56,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
     private String name;
     public String npp;
     private List<DetailsItem> detailsItemArray = new ArrayList<DetailsItem>();
-    private DetailsKehadiranAdapter detailsKehadiranAdapter;
+    private EditDetailsKehadiranAdapter editDetailsKehadiranAdapter;
     private List<DataItem> dataItems;
     private String resultDetails;
 
@@ -138,7 +138,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         });
 
         btnNewRequest.setOnClickListener(v -> {
-            detailsItemArray = detailsKehadiranAdapter.detailsItemArray;
+            detailsItemArray = editDetailsKehadiranAdapter.detailsItemArray;
             Log.d(TAG, "detailsItemArray : " + detailsItemArray.size());
             postJsonKoreksiKehadiran();
 
@@ -211,10 +211,10 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
                                 rvDetailsAttedance.setVisibility(View.GONE);
                             } else {
                                 tvListKoreksiKehadiranDetailsText.setText("Detail");
-                                detailsKehadiranAdapter = new DetailsKehadiranAdapter(KoreksiKehadiranActivity.this, dataItems);
+                                editDetailsKehadiranAdapter = new EditDetailsKehadiranAdapter(KoreksiKehadiranActivity.this, dataItems);
                                 rvDetailsAttedance.setLayoutManager(new LinearLayoutManager(KoreksiKehadiranActivity.this));
-                                rvDetailsAttedance.setAdapter(detailsKehadiranAdapter);
-                                detailsKehadiranAdapter.notifyDataSetChanged();
+                                rvDetailsAttedance.setAdapter(editDetailsKehadiranAdapter);
+                                editDetailsKehadiranAdapter.notifyDataSetChanged();
                             }
                         } else {
                             progressDialog.cancel();

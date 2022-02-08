@@ -58,6 +58,10 @@ public class KoreksiKehadiranAdapter extends RecyclerView.Adapter<KoreksiKehadir
             holder.tvListKoreksiKehadiranRequestStatus.setTextColor(context.getResources().getColor(R.color.redPortal));
         }
 
+        holder.cvKlik.setOnClickListener(v -> {
+
+        });
+
     }
 
     @Override

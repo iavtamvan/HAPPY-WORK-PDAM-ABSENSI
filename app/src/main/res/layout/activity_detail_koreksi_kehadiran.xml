@@ -242,7 +242,7 @@
                             android:layout_height="60dp"
                             android:layout_gravity="center"
                             android:backgroundTint="@color/primary"
-                            android:text="Cancel" />
+                            android:text="Batalkan" />
                     </LinearLayout>
 
                 </LinearLayout>
