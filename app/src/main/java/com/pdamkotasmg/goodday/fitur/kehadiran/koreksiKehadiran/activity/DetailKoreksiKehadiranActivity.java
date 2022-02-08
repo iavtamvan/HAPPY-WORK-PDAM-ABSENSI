@@ -56,6 +56,16 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         initView();
 
+        ivHeaderInfo.setOnClickListener(v -> {
+            Toast.makeText(DetailKoreksiKehadiranActivity.this, "Info", Toast.LENGTH_SHORT).show();
+        });
+
+        ivHeaderBackArrow.setOnClickListener(v -> {
+            DetailKoreksiKehadiranActivity.this.finish();
+        });
+
+        tvHeaderJudul.setText("Details Koreksi Kehadiran");
+
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
 
