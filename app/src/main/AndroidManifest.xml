@@ -50,7 +50,13 @@
         android:theme="@style/Theme.HappyWork">
         <activity
             android:name=".fitur.kehadiran.koreksiKehadiran.activity.DetailKoreksiKehadiranActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".fitur.permintaan.activity.PermintaanActivity"
             android:exported="false" />
@@ -76,11 +82,6 @@
         <activity
             android:name=".fitur.splash.SplashScreenActivity"
             android:keepScreenOn="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".fitur.profil.ScanQRCodeActivity" />
         <activity android:name=".fitur.profil.QrCodeActivity" />

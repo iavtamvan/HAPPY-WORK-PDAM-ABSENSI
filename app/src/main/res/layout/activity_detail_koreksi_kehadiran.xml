@@ -182,6 +182,39 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
                             android:background="@color/grey" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_details_tanggal_req"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/poppins_medium"
+                                android:gravity="left|center"
+                                android:text="7 Jan 2022"
+                                android:textColor="@color/primary"
+                                android:textSize="13dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_details_status"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/poppins_medium"
+                                android:gravity="right"
+                                android:text="Status"
+                                android:textColor="@color/black"
+                                android:textSize="13dp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -192,7 +225,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 tools:itemCount="2"
-                                tools:listitem="@layout/list_item_koreksi_kehadiran_details"/>
+                                tools:listitem="@layout/list_item_koreksi_kehadiran_details" />
 
                         </LinearLayout>
 
@@ -222,11 +255,11 @@
                             android:background="@color/grey" />
 
                         <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_detail_mengetahui"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            tools:listitem="@layout/list_item_koreksi_kehadiran_persetujuan"
                             tools:itemCount="3"
-                            android:id="@+id/rv_detail_mengetahui"/>
+                            tools:listitem="@layout/list_item_koreksi_kehadiran_persetujuan" />
 
                     </LinearLayout>
 

@@ -14,21 +14,20 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pdamkotasmg.goodday.R;
-import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKoreksiKehadiran.Data;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKoreksiKehadiran.ListOfApprovalsItem;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DetailsListApprovalKehadiranAdapter extends RecyclerView.Adapter<DetailsListApprovalKehadiranAdapter.ViewHolder> {
     Context context;
-    private List<Data> dataItems;
+    private List<ListOfApprovalsItem> dataItems;
     private String dateServer;
 
     private final String TAG = "debug";
 
-    public DetailsListApprovalKehadiranAdapter(Context context, List<Data> dataItems) {
+    public DetailsListApprovalKehadiranAdapter(Context context, List<ListOfApprovalsItem> dataItems) {
         this.context = context;
         this.dataItems = dataItems;
     }
@@ -44,13 +43,11 @@ public class DetailsListApprovalKehadiranAdapter extends RecyclerView.Adapter<De
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        dateServer = new SimpleDateFormat("EEE, dd MMM yyyy").format(dataItems.get(position).getRequestedAt());
-
-        holder.tvDetailsApprovalName.setText(dataItems.get(position).getListOfApprovals().get(position).getApproverName() + " (" + dataItems.get(position).getListOfApprovals().get(position).getApproverNpp() + ")");
-        holder.tvDetailsApprovalPosition.setText(dataItems.get(position).getListOfApprovals().get(position).getApproverPosition());
-        holder.tvDetailsApprovalStatus.setText(dataItems.get(position).getListOfApprovals().get(position).getApprovalStatus());
-        holder.tvDetailsApprovalNote.setText(dataItems.get(position).getListOfApprovals().get(position).getApproverNote());
-        holder.tvDetailsApprovalDateTime.setText(dataItems.get(position).getListOfApprovals().get(position).getApprovalDatetime());
+        holder.tvDetailsApprovalName.setText(dataItems.get(position).getApproverName() + " (" + dataItems.get(position).getApproverNpp() + ")");
+        holder.tvDetailsApprovalPosition.setText(dataItems.get(position).getApproverPosition());
+        holder.tvDetailsApprovalStatus.setText(dataItems.get(position).getApprovalStatus());
+        holder.tvDetailsApprovalNote.setText(dataItems.get(position).getApproverNote());
+        holder.tvDetailsApprovalDateTime.setText(dataItems.get(position).getApprovalDatetime());
 
     }
 
