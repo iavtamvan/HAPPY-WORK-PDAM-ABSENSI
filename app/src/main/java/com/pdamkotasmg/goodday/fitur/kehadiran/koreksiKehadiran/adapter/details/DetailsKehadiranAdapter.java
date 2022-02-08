@@ -1,4 +1,4 @@
-package com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter;
+package com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.details;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -22,10 +22,7 @@ import java.util.List;
 public class DetailsKehadiranAdapter extends RecyclerView.Adapter<DetailsKehadiranAdapter.ViewHolder> {
     Context context;
     private List<Data> dataItems;
-    private DetailsKehadiranAdapter editDetailsKehadiranAdapter;
     private String dateServer;
-    private String dateServerPostman;
-
 
     private final String TAG = "debug";
 
@@ -46,7 +43,6 @@ public class DetailsKehadiranAdapter extends RecyclerView.Adapter<DetailsKehadir
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         dateServer = new SimpleDateFormat("EEE, dd MMM yyyy").format(dataItems.get(position).getRequestedAt());
-//        dateServerPostman = new SimpleDateFormat("yyyy-MM-dd").format(dataItems.get(position).getRecordDate());
 
         holder.tvDetailsTanggal.setText(dateServer);
         holder.tvDetailsStatus.setText(dataItems.get(position).getRequestStatus());

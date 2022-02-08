@@ -1,4 +1,4 @@
-package com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter;
+package com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.form;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
