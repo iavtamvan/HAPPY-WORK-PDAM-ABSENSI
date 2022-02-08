@@ -188,6 +188,7 @@ public class PresensiActivity extends AppCompatActivity {
         currentDateLocalSendServer = new SimpleDateFormat("yyyy-MM-dd").format(cDate);
         currentTimeLocalSendServer = new SimpleDateFormat("HH:mm:ss").format(cDate);
 
+        btnKirimPresensi2.setVisibility(View.GONE);
         if (androidToken1.equalsIgnoreCase(md5Hash)) {
             noToken = androidToken1;
             btnKirimPresensi.setEnabled(true);

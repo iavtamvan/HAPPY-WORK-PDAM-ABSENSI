@@ -32,6 +32,8 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private String accessToken;
 
+    private String numberReq;
+
     private Data dataList;
     private DetailsKehadiranAdapter detailsKehadiranAdapter;
     private DetailsListApprovalKehadiranAdapter detailsListApprovalKehadiranAdapter;
@@ -48,6 +50,7 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
     private Button btnNewRequest;
     private TextView tvDetailsTanggalReq;
     private TextView tvDetailsStatus;
+    private TextView tvDetailRequestNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,8 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
 
+        numberReq = getIntent().getStringExtra(Config.BUNDLE_NUMBER_REQUEST);
+
         getDetailsKoreksiKehadiran();
 
     }
@@ -79,7 +84,7 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
         progressDialog.setMessage("Mohon tunggu...");
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService();
-        apiService.getRequestByNumber(accessToken, "RAC", "RAC-202202-000001", "1")
+        apiService.getRequestByNumber(accessToken, "RAC", numberReq, "1")
                 .enqueue(new Callback<DetailKoreksiKehadiranRootModel>() {
                     @Override
                     public void onResponse(Call<DetailKoreksiKehadiranRootModel> call, Response<DetailKoreksiKehadiranRootModel> response) {
@@ -88,8 +93,9 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
                             dataList = new Data();
                             dataList = response.body().getData();
 
-                            tvDetailsTanggalReq.setText(dataList.getRequestedAt());
+                            tvDetailRequestNumber.setText(dataList.getRequestNumber());
 
+                            tvDetailsTanggalReq.setText(dataList.getRequestedAt());
                             tvDetailsStatus.setText(dataList.getRequestStatus());
                             if (dataList.getRequestStatus().equalsIgnoreCase("Waiting")) {
                                 tvDetailsStatus.setTextColor(getResources().getColor(R.color.yellowPortal));
@@ -139,5 +145,6 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
         btnNewRequest = findViewById(R.id.btn_new_request);
         tvDetailsTanggalReq = findViewById(R.id.tv_details_tanggal_req);
         tvDetailsStatus = findViewById(R.id.tv_details_status);
+        tvDetailRequestNumber = findViewById(R.id.tv_detail_request_number);
     }
 }

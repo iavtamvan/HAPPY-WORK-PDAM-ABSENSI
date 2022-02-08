@@ -2,6 +2,7 @@ package com.pdamkotasmg.goodday.fitur.permintaan.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pdamkotasmg.goodday.R;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.DetailKoreksiKehadiranActivity;
 import com.pdamkotasmg.goodday.fitur.permintaan.model.DataItem;
+import com.pdamkotasmg.goodday.utils.Config;
 
 import java.util.List;
 
@@ -59,6 +62,14 @@ public class PermintaanAdapter extends RecyclerView.Adapter<PermintaanAdapter.Vi
         holder.tvListItemRequestSatker.setText(dataItems.get(position).getRequestedForBagian());
         holder.tvListItemRequestNumber.setText(dataItems.get(position).getRequestNumber());
         holder.tvListItemRequestFrom.setText(dataItems.get(position).getRequestedAt());
+
+        holder.cvKlik.setOnClickListener(v -> {
+            if (dataItems.get(position).getRequestTypeCode().equalsIgnoreCase("RAC")){
+                Intent intent = new Intent(context, DetailKoreksiKehadiranActivity.class);
+                intent.putExtra(Config.BUNDLE_NUMBER_REQUEST, dataItems.get(position).getRequestNumber());
+                context.startActivity(intent);
+            }
+        });
 
     }
 

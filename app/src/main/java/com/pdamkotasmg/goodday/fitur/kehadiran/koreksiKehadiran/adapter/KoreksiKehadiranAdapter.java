@@ -2,6 +2,7 @@ package com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,9 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pdamkotasmg.goodday.R;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.DetailKoreksiKehadiranActivity;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.riwayatKoreksiKehadiran.DataItem;
+import com.pdamkotasmg.goodday.utils.Config;
 
 import java.util.List;
 
@@ -59,7 +62,9 @@ public class KoreksiKehadiranAdapter extends RecyclerView.Adapter<KoreksiKehadir
         }
 
         holder.cvKlik.setOnClickListener(v -> {
-
+            Intent intent = new Intent(context, DetailKoreksiKehadiranActivity.class);
+            intent.putExtra(Config.BUNDLE_NUMBER_REQUEST, dataItems.get(position).getRequestNumber());
+            context.startActivity(intent);
         });
 
     }

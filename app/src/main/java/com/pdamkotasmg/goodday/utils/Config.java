@@ -191,25 +191,8 @@ public final class Config {
     public static final String BUNDLE_NAME = "name";
     public static final String BUNDLE_JABATAN = "jabatan";
     public static final String BUNDLE_RIWAYAT_ABSENSI = "riwayat_absensi";
+    public static final String BUNDLE_NUMBER_REQUEST = "number_request";
 
-
-    public static final String BUNDLE_LINK_NEWS = "link_news";
-    public static final String BUNDLE_NOHP = "nohp";
-    public static final String BUNDLE_NOLANGG = "nomor_langganan";
-
-    public static final String BUNDLE_NO_PENGADUAN_UUID = "no_pengaduan_uuid";
-    public static final String BUNDLE_NO_PENGADUAN_ANDRO = "no_pengaduan_andro";
-    public static final String BUNDLE_FOTO_ADUAN = "foto_aduan";
-    public static final String BUNDLE_FOTO_PENGADU = "foto_pengadu";
-    public static final String BUNDLE_NAMA_PENGADU = "nama_pengadu";
-    public static final String BUNDLE_TELP_PENGADU = "telp_pengadu";
-    public static final String BUNDLE_ALAMAT_PENGADU = "alamat_pengadu";
-    public static final String BUNDLE_URAIAN = "uraian";
-    public static final String BUNDLE_STATUS = "status";
-    public static final String BUNDLE_ALASAN_DITOLAK = "alasan_ditolak";
-    public static final String BUNDLE_LATITUDE = "latitude";
-    public static final String BUNDLE_LONGITUDE = "longitude";
-    public static final String BUNDLE_CREATED_AT = "created_at";
 
 
     public static final void changeNoHp(String noHpOriginal) {
