@@ -66,8 +66,7 @@ public class QrCodeActivity extends AppCompatActivity {
             startActivity(new Intent(QrCodeActivity.this, ScanQRCodeActivity.class));
         });
         ivHeaderBackArrow.setOnClickListener(v -> {
-            finishAffinity();
-            startActivity(new Intent(QrCodeActivity.this, ProfileActivity.class));
+            QrCodeActivity.this.finish();
         });
 
     }

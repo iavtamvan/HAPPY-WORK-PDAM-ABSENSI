@@ -1,7 +1,6 @@
 package com.pdamkotasmg.goodday.fitur.perangkat;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pdamkotasmg.goodday.BuildConfig;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.fitur.perangkat.controller.PerangkatController;
-import com.pdamkotasmg.goodday.fitur.profil.ProfileActivity;
 import com.pdamkotasmg.goodday.utils.Config;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
@@ -47,8 +45,7 @@ public class PerangkatActivity extends AppCompatActivity {
         perangkatController = new PerangkatController();
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         ivHeaderBackArrow.setOnClickListener(v -> {
-            finishAffinity();
-            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+            PerangkatActivity.this.finish();
         });
         ivHeaderInfo.setVisibility(View.GONE);
         tvDeleteAllSession.setOnClickListener(v -> {

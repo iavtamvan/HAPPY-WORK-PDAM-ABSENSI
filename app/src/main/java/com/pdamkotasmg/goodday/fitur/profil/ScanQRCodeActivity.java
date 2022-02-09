@@ -36,7 +36,9 @@ public class ScanQRCodeActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        ivHeaderBackArrow.setVisibility(View.GONE);
+        ivHeaderBackArrow.setOnClickListener(v -> {
+            ScanQRCodeActivity.this.finish();
+        });
         tvHeaderJudul.setText("Scan QR Code");
         ivHeaderInfo.setVisibility(View.GONE);
 
