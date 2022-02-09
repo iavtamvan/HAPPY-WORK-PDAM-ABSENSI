@@ -62,7 +62,11 @@ public class EditDetailsKehadiranAdapter extends RecyclerView.Adapter<EditDetail
 
         holder.tvListKoreksiKehadiranDetailsDate.setText(dateServer);
 
-        holder.tvListKoreksiKehadiranDetailsShift.setText(dataItems.get(position).getIn().getShiftRemark());
+        if (dataItems.get(position).getIn().getShiftRemark() == null) {
+            holder.tvListKoreksiKehadiranDetailsShift.setText("OFF");
+        } else {
+            holder.tvListKoreksiKehadiranDetailsShift.setText(dataItems.get(position).getIn().getShiftRemark());
+        }
 
         // masuk
         if (dataItems.get(position).getIn().getRecordTime() == null) {
