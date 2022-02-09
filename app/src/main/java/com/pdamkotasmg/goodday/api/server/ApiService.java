@@ -205,6 +205,14 @@ public interface ApiService {
             @Query("formatted") String formatted
     );
 
+    @POST("portal-pegawai/api/employee-request/edit-request")
+    Call<ResponseBody> getRequestEdit(
+            @Header("Authorization") String auth,
+            @Query("request_type_code") String request_type_code,
+            @Query("request_number") String request_number,
+            @Query("request_status_code") String request_status_code
+    );
+
 
 //
 //    @Headers({ "Content-Type: application/json;charset=UTF-8"})

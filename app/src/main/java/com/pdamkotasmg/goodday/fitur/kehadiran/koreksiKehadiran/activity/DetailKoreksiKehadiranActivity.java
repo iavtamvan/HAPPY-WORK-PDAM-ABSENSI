@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,8 +37,9 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private String accessToken;
-
     private String numberReq;
+
+    private ProgressDialog progressDialog;
 
     private Data dataList;
     private DetailsKehadiranAdapter detailsKehadiranAdapter;
@@ -78,14 +81,47 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
 
         numberReq = getIntent().getStringExtra(Config.BUNDLE_NUMBER_REQUEST);
 
+        progressDialog = new ProgressDialog(DetailKoreksiKehadiranActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Mohon tunggu...");
         getDetailsKoreksiKehadiran();
+
+        btnCancel.setOnClickListener(v -> {
+            reqCancel();
+        });
 
     }
 
+    private void reqCancel() {
+        progressDialog.show();
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.getRequestEdit(accessToken, "RAC", numberReq, "CANCELLED")
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        progressDialog.cancel();
+                        if (response.isSuccessful()) {
+                            String header = response.message();
+                            Log.d(TAG, "onResponse: " + header);
+                            Toast.makeText(DetailKoreksiKehadiranActivity.this, "Pembatalan berhasil", Toast.LENGTH_SHORT).show();
+                            getDetailsKoreksiKehadiran();
+                        } else {
+                            Toast.makeText(DetailKoreksiKehadiranActivity.this, "Pembatalan gagal", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "Error Else message: " + response.message());
+                            Log.d(TAG, "Error Else body: " + response.body());
+                            Log.d(TAG, "Error Else errorBody: " + response.errorBody());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        progressDialog.cancel();
+                        Toast.makeText(DetailKoreksiKehadiranActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     private void getDetailsKoreksiKehadiran() {
-        ProgressDialog progressDialog = new ProgressDialog(DetailKoreksiKehadiranActivity.this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Mohon tunggu...");
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService();
         apiService.getRequestByNumber(accessToken, "RAC", numberReq, "1")
@@ -106,11 +142,11 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
                                 Date dateRequestAt = dateNtime.parse(dataList.getRequestedAt());
                                 Date dateRequestStartDate = date.parse(dataList.getRequestStartDate());
                                 Date dateRequestEndDate = date.parse(dataList.getRequestEndDate());
-                                
+
                                 String dateRequestAtFix = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss").format(dateRequestAt);
                                 String dateRequestStartDateFix = new SimpleDateFormat("EEE, dd MMM yyyy").format(dateRequestStartDate);
                                 String dateRequestEndDateFix = new SimpleDateFormat("EEE, dd MMM yyyy").format(dateRequestEndDate);
-                                
+
                                 tvDetailsTanggalReq.setText(dateRequestAtFix);
                                 tvDetailMulaiTanggal.setText(dateRequestStartDateFix);
                                 tvDetailSelesaiTanggal.setText(dateRequestEndDateFix);
@@ -118,18 +154,23 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
+                            String status = dataList.getRequestStatus();
                             tvDetailsStatus.setText(dataList.getRequestStatus());
-                            if (dataList.getRequestStatus().equalsIgnoreCase("Waiting")) {
+                            if (status.equalsIgnoreCase("Waiting")) {
                                 tvDetailsStatus.setTextColor(getResources().getColor(R.color.yellowPortal));
-                            } else if (dataList.getRequestStatus().equalsIgnoreCase("Approved")) {
+                            } else if (status.equalsIgnoreCase("Approved")) {
                                 tvDetailsStatus.setTextColor(getResources().getColor(R.color.greenPortal));
+                            } else if (status.equalsIgnoreCase("Cancelled")) {
+                                btnCancel.setVisibility(View.GONE);
+                                tvDetailsStatus.setTextColor(getResources().getColor(R.color.redPortal));
                             } else {
+                                btnCancel.setVisibility(View.GONE);
                                 tvDetailsStatus.setTextColor(getResources().getColor(R.color.redPortal));
                             }
 
                             tvDetailRequestDari.setText(dataList.getRequestedByName());
                             tvDetailRequestUntuk.setText(dataList.getRequestedForName());
-                         
+
 
                             Log.d(TAG, "datList: " + dataList.getRequestedByName());
                             detailsKehadiranAdapter = new DetailsKehadiranAdapter(DetailKoreksiKehadiranActivity.this, dataList.getRequestDetails());

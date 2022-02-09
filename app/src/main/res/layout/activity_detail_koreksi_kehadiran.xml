@@ -240,7 +240,6 @@
 
                         </LinearLayout>
 
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -249,39 +248,43 @@
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_detail_koreksi_kehadiran"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                tools:itemCount="3"
+                                tools:listitem="@layout/list_item_koreksi_kehadiran_details" />
 
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="12dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@color/grey" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:gravity="left"
+                                android:text="Mengetahui"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@color/grey" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_detail_mengetahui"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:itemCount="2"
+                                tools:listitem="@layout/list_item_koreksi_kehadiran_persetujuan" />
                         </LinearLayout>
 
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/grey" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:fontFamily="@font/poppins_medium"
-                            android:gravity="left"
-                            android:text="Mengetahui"
-                            android:textColor="@color/black"
-                            android:textSize="12dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/grey" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_detail_mengetahui"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
 
                     </LinearLayout>
 
