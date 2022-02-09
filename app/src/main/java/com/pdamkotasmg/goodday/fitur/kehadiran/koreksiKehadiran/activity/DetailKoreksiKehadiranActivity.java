@@ -22,6 +22,10 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKore
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKoreksiKehadiran.DetailKoreksiKehadiranRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,7 +51,7 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
     private TextView tvDetailSelesaiTanggal;
     private RecyclerView rvDetailKoreksiKehadiran;
     private RecyclerView rvDetailMengetahui;
-    private Button btnNewRequest;
+    private Button btnCancel;
     private TextView tvDetailsTanggalReq;
     private TextView tvDetailsStatus;
     private TextView tvDetailRequestNumber;
@@ -95,7 +99,25 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
 
                             tvDetailRequestNumber.setText(dataList.getRequestNumber());
 
-                            tvDetailsTanggalReq.setText(dataList.getRequestedAt());
+                            // TODO convert Tanggal dari server
+                            SimpleDateFormat dateNtime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                            SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+                            try {
+                                Date dateRequestAt = dateNtime.parse(dataList.getRequestedAt());
+                                Date dateRequestStartDate = date.parse(dataList.getRequestStartDate());
+                                Date dateRequestEndDate = date.parse(dataList.getRequestEndDate());
+                                
+                                String dateRequestAtFix = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss").format(dateRequestAt);
+                                String dateRequestStartDateFix = new SimpleDateFormat("EEE, dd MMM yyyy").format(dateRequestStartDate);
+                                String dateRequestEndDateFix = new SimpleDateFormat("EEE, dd MMM yyyy").format(dateRequestEndDate);
+                                
+                                tvDetailsTanggalReq.setText(dateRequestAtFix);
+                                tvDetailMulaiTanggal.setText(dateRequestStartDateFix);
+                                tvDetailSelesaiTanggal.setText(dateRequestEndDateFix);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
                             tvDetailsStatus.setText(dataList.getRequestStatus());
                             if (dataList.getRequestStatus().equalsIgnoreCase("Waiting")) {
                                 tvDetailsStatus.setTextColor(getResources().getColor(R.color.yellowPortal));
@@ -107,8 +129,7 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
 
                             tvDetailRequestDari.setText(dataList.getRequestedByName());
                             tvDetailRequestUntuk.setText(dataList.getRequestedForName());
-                            tvDetailMulaiTanggal.setText(dataList.getRequestStartDate());
-                            tvDetailSelesaiTanggal.setText(dataList.getRequestEndDate());
+                         
 
                             Log.d(TAG, "datList: " + dataList.getRequestedByName());
                             detailsKehadiranAdapter = new DetailsKehadiranAdapter(DetailKoreksiKehadiranActivity.this, dataList.getRequestDetails());
@@ -142,7 +163,7 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
         tvDetailSelesaiTanggal = findViewById(R.id.tv_detail_selesai_tanggal);
         rvDetailKoreksiKehadiran = findViewById(R.id.rv_detail_koreksi_kehadiran);
         rvDetailMengetahui = findViewById(R.id.rv_detail_mengetahui);
-        btnNewRequest = findViewById(R.id.btn_new_request);
+        btnCancel = findViewById(R.id.btn_cancel);
         tvDetailsTanggalReq = findViewById(R.id.tv_details_tanggal_req);
         tvDetailsStatus = findViewById(R.id.tv_details_status);
         tvDetailRequestNumber = findViewById(R.id.tv_detail_request_number);

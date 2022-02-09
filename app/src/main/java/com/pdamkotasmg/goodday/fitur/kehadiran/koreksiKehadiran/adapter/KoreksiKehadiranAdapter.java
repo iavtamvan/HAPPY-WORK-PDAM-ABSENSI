@@ -19,6 +19,9 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.DetailK
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.riwayatKoreksiKehadiran.DataItem;
 import com.pdamkotasmg.goodday.utils.Config;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class KoreksiKehadiranAdapter extends RecyclerView.Adapter<KoreksiKehadiranAdapter.ViewHolder> {
@@ -48,7 +51,19 @@ public class KoreksiKehadiranAdapter extends RecyclerView.Adapter<KoreksiKehadir
 //            Log.d("debug", "onBindViewHolder: " + reason);
 //        }
 //        holder.tvListKoreksiKehadiranReason.setText(reason);
-        holder.tvListKoreksiKehadiranRequestAt.setText("Tanggal: " + dataItems.get(position).getRequestedAt());
+
+        // TODO convert Tanggal dari server
+        SimpleDateFormat dateNtime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        try {
+            Date dateRequestAt = dateNtime.parse(dataItems.get(position).getRequestedAt());
+
+            String dateRequestAtFix = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss").format(dateRequestAt);
+            holder.tvListKoreksiKehadiranRequestAt.setText("Tanggal: " + dateRequestAtFix);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         holder.tvListKoreksiKehadiranRequestBy.setText("Permintaan dari: " + dataItems.get(position).getRequestedByName());
         holder.tvListKoreksiKehadiranRequestFor.setText("Permintaan untuk: " + dataItems.get(position).getRequestedForName());
         holder.tvListKoreksiKehadiranRequestNumber.setText(dataItems.get(position).getRequestNumber());

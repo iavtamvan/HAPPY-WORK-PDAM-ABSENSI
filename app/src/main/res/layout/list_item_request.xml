@@ -63,7 +63,7 @@
                                 android:gravity="left|center_vertical"
                                 android:paddingLeft="10dp"
                                 android:paddingRight="10dp"
-                                android:text="Disetujui"
+                                android:text="Approved"
                                 android:textColor="@color/greenPortal"
                                 android:textSize="12dp" />
 
@@ -91,7 +91,7 @@
                                 android:gravity="left|center_vertical"
                                 android:paddingLeft="10dp"
                                 android:paddingRight="10dp"
-                                android:text="Ditolak"
+                                android:text="Rejected"
                                 android:textColor="@color/redPortal"
                                 android:textSize="12dp" />
 
@@ -119,7 +119,7 @@
                                 android:gravity="left|center_vertical"
                                 android:paddingLeft="10dp"
                                 android:paddingRight="10dp"
-                                android:text="Menunggu"
+                                android:text="Waiting"
                                 android:textColor="@color/yellowPortal"
                                 android:textSize="12dp" />
 

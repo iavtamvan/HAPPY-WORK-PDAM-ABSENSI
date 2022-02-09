@@ -249,9 +249,7 @@
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_detail_koreksi_kehadiran"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                tools:itemCount="2"
-                                tools:listitem="@layout/list_item_koreksi_kehadiran_details" />
+                                android:layout_height="wrap_content" />
 
                         </LinearLayout>
 
@@ -283,9 +281,7 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_detail_mengetahui"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            tools:itemCount="3"
-                            tools:listitem="@layout/list_item_koreksi_kehadiran_persetujuan" />
+                            android:layout_height="match_parent" />
 
                     </LinearLayout>
 
@@ -296,7 +292,7 @@
                         android:orientation="vertical">
 
                         <Button
-                            android:id="@+id/btn_new_request"
+                            android:id="@+id/btn_cancel"
                             android:layout_width="wrap_content"
                             android:layout_height="60dp"
                             android:layout_gravity="center"

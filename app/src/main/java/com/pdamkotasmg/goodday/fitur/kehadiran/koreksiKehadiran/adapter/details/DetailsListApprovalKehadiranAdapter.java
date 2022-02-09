@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKoreksiKehadiran.ListOfApprovalsItem;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -46,7 +49,23 @@ public class DetailsListApprovalKehadiranAdapter extends RecyclerView.Adapter<De
         holder.tvDetailsApprovalName.setText(dataItems.get(position).getApproverName() + " (" + dataItems.get(position).getApproverNpp() + ")");
         holder.tvDetailsApprovalPosition.setText(dataItems.get(position).getApproverPosition());
         holder.tvDetailsApprovalNote.setText(dataItems.get(position).getApproverNote());
-        holder.tvDetailsApprovalDateTime.setText(dataItems.get(position).getApprovalDatetime());
+
+        // TODO convert Tanggal dari server
+        if (dataItems.get(position).getApprovalDatetime() != null){
+            SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            try {
+                Date getApprovalDatetime = date.parse(dataItems.get(position).getApprovalDatetime());
+
+                String dateApprovalDatetime = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss").format(getApprovalDatetime);
+
+                holder.tvDetailsApprovalDateTime.setText(dateApprovalDatetime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+//        holder.tvDetailsApprovalDateTime.setText(dataItems.get(position).getApprovalDatetime());
         holder.tvDetailsApprovalStatus.setText(dataItems.get(position).getApprovalStatus());
 
         if (dataItems.get(position).getApprovalStatus().equalsIgnoreCase("Waiting")) {

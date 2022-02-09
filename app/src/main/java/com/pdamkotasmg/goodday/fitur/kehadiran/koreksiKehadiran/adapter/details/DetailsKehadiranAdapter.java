@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKoreksiKehadiran.RequestDetailsItem;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class DetailsKehadiranAdapter extends RecyclerView.Adapter<DetailsKehadiranAdapter.ViewHolder> {
@@ -47,13 +50,29 @@ public class DetailsKehadiranAdapter extends RecyclerView.Adapter<DetailsKehadir
 //        holder.tvDetailsTanggal.setText(dateServer);
 //        holder.tvDetailsStatus.setText(dataItems.get(position).getRequestStatus());
 
+        // TODO convert Tanggal dari server
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date getRecordDateBefore = date.parse(dataItems.get(position).getRecordDateBefore());
+            Date getRecordDateAfter = date.parse(dataItems.get(position).getRecordDateAfter());
+
+            String dateRecordDateBeforeFix = new SimpleDateFormat("EEE, dd MMM yyyy").format(getRecordDateBefore);
+            String dateRecordDateAfterFix = new SimpleDateFormat("EEE, dd MMM yyyy").format(getRecordDateAfter);
+
+            holder.tvDetailsShiftDanWaktuInWaktuOutBefore.setText(dateRecordDateBeforeFix);
+            holder.tvDetailsShiftDanWaktuInWaktuOutAfter.setText(dateRecordDateAfterFix);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         // Before
-        holder.tvDetailsShiftDanWaktuInWaktuOutBefore.setText(dataItems.get(position).getRecordDateBefore());
+//        holder.tvDetailsShiftDanWaktuInWaktuOutBefore.setText(dataItems.get(position).getRecordDateBefore());
         holder.tvDetailsTimeInBefore.setText(dataItems.get(position).getTimeInBefore());
         holder.tvDetailsTimeOutBefore.setText(dataItems.get(position).getTimeOutBefore());
 
         // After
-        holder.tvDetailsShiftDanWaktuInWaktuOutAfter.setText(dataItems.get(position).getRecordDateAfter());
+//        holder.tvDetailsShiftDanWaktuInWaktuOutAfter.setText(dataItems.get(position).getRecordDateAfter());
         holder.tvDetailsTimeInAter.setText(dataItems.get(position).getTimeInAfter());
         holder.tvDetailsTimeOutAfter.setText(dataItems.get(position).getTimeOutAfter());
 

@@ -43,7 +43,7 @@
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/ci_list_feeds_profile_image"
                             android:layout_width="40dp"
-                            android:layout_height="50dp"
+                            android:layout_height="60dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
                             android:src="@drawable/ic_person" />
@@ -97,8 +97,7 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:layout_marginLeft="3dp"
                                 android:orientation="vertical">
 
                                 <TextView
