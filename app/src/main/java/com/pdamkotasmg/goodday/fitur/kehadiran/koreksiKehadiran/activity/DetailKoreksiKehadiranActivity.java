@@ -159,6 +159,7 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
                             if (status.equalsIgnoreCase("Waiting")) {
                                 tvDetailsStatus.setTextColor(getResources().getColor(R.color.yellowPortal));
                             } else if (status.equalsIgnoreCase("Approved")) {
+                                btnCancel.setVisibility(View.GONE);
                                 tvDetailsStatus.setTextColor(getResources().getColor(R.color.greenPortal));
                             } else if (status.equalsIgnoreCase("Cancelled")) {
                                 btnCancel.setVisibility(View.GONE);
