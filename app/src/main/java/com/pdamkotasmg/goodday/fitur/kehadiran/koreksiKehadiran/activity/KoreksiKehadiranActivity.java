@@ -280,11 +280,14 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         if (flag.equals("startDate")) {
 //            String date = "You picked the following date: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
             String date = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-            startDate = date;
+            Log.d(TAG, "onDateSet: " + date);
+//            startDate = date;
             try {
-                SimpleDateFormat fmt = new SimpleDateFormat("yyyy-mm-dd");
-                Date dates = fmt.parse(startDate);
+                SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+                Date dates = fmt.parse(date);
+                Log.d(TAG, "dates : " + dates);
                 String dateFinal = new SimpleDateFormat("yyyy-MM-dd").format(dates);
+                Log.d(TAG, "dateFinal : " + dateFinal);
                 edtStartDate.setText(dateFinal);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -294,7 +297,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
             String date = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
             endDate = date;
             try {
-                SimpleDateFormat fmt = new SimpleDateFormat("yyyy-mm-dd");
+                SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
                 Date dates = fmt.parse(endDate);
                 String dateFinal = new SimpleDateFormat("yyyy-MM-dd").format(dates);
                 edtEndDate.setText(dateFinal);

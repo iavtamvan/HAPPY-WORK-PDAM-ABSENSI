@@ -153,7 +153,11 @@ public class EditDetailsKehadiranAdapter extends RecyclerView.Adapter<EditDetail
 
         edtBottomDialogKoreksiKehadiranShift.setText(dataItems.get(position).getIn().getShiftRemark());
 
-        edtBottomDialogKoreksiKehadiranReason.setText(detailsItemArray.get(position).getReason());
+        if (detailsItemArray.get(position).getReason().equalsIgnoreCase("-")) {
+            edtBottomDialogKoreksiKehadiranReason.setText("");
+        } else {
+            edtBottomDialogKoreksiKehadiranReason.setText(detailsItemArray.get(position).getReason());
+        }
 
         edtBottomDialogKoreksiKehadiranBeforeStartTime.setText(dataItems.get(position).getIn().getRecordTime());
 //        edtBottomDialogKoreksiKehadiranBeforeStartTime.setText(dataItems.get(position).getIn().getRecordTime());

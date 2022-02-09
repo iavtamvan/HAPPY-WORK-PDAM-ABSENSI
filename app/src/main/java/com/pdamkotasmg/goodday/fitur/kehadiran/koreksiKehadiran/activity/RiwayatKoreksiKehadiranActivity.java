@@ -113,6 +113,12 @@ public class RiwayatKoreksiKehadiranActivity extends AppCompatActivity {
                 });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getHistoryKoreksiKehadiran();
+    }
+
     private void initView() {
         ivHeaderBackArrow = findViewById(R.id.iv_header_back_arrow);
         tvHeaderJudul = findViewById(R.id.tv_header_judul);
