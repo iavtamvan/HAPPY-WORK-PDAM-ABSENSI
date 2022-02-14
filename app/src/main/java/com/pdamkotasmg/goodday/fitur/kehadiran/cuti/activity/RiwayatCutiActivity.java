@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -22,6 +23,7 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.riwayatCuti.DataItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.riwayatCuti.RiwayatCutiRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -54,7 +56,7 @@ public class RiwayatCutiActivity extends AppCompatActivity {
         initView();
 
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
-        accessToken = sharedPreferences.getString(Config.SHARED_PREF_NAME, "");
+        accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
 
         getRiwayatCuti();
 
@@ -72,7 +74,12 @@ public class RiwayatCutiActivity extends AppCompatActivity {
                     public void onResponse(Call<RiwayatCutiRootModel> call, Response<RiwayatCutiRootModel> response) {
                         progressDialog.cancel();
                         if (response.isSuccessful()) {
-
+                            dataItems = new ArrayList<>();
+                            dataItems = response.body().getData().getData();
+                            riwayatCutiAdapter = new RiwayatCutiAdapter(RiwayatCutiActivity.this, dataItems);
+                            rvCuti.setLayoutManager(new LinearLayoutManager(RiwayatCutiActivity.this));
+                            rvCuti.setAdapter(riwayatCutiAdapter);
+                            riwayatCutiAdapter.notifyDataSetChanged();
                         }
                     }
 

@@ -152,37 +152,37 @@ public class SplashScreenActivity extends AppCompatActivity {
             editor.apply();
             Log.d(TAG, "Masuk Apps good day");
             // TODO harusnya unComent pada mode Production
-            if (Settings.Secure.getInt(getApplicationContext().getContentResolver(),
-                    Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0) {
-                Toast.makeText(this, "Matikan mode debugging", Toast.LENGTH_SHORT).show();
-                Config.dialogAlert(SplashScreenActivity.this, "Developer mode atau opsi developer ON", "Akun di BEKUKAN oleh sistem Android, hubungi kepegawaian", "OKE");
-                // TODO bekukan akun yang nakal.
+//            if (Settings.Secure.getInt(getApplicationContext().getContentResolver(),
+//                    Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0) {
+//                Toast.makeText(this, "Matikan mode debugging", Toast.LENGTH_SHORT).show();
+//                Config.dialogAlert(SplashScreenActivity.this, "Developer mode atau opsi developer ON", "Akun di BEKUKAN oleh sistem Android, hubungi kepegawaian", "OKE");
+//                // TODO bekukan akun yang nakal.
+//            } else {
+
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                showGPSDisabledAlertToUser();
             } else {
-
-                LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    showGPSDisabledAlertToUser();
+                mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
                 } else {
-                    mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        return;
-                    } else {
-                        mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
-                            if (location != null) {
-                                Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
-                                Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
-                                lati = location.getLatitude();
-                                longi = location.getLongitude();
-                                getAplicationVersionFromServer();
-                            } else {
-                                getAplicationVersionFromServer();
-                                Toast.makeText(this, "Lokasi tidak ditemukan", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                    mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
+                        if (location != null) {
+                            Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
+                            Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
+                            lati = location.getLatitude();
+                            longi = location.getLongitude();
+                            getAplicationVersionFromServer();
+                        } else {
+                            getAplicationVersionFromServer();
+                            Toast.makeText(this, "Lokasi tidak ditemukan", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
-
             }
+
+//            }
         }
 
         stringslist = new ArrayList<>();

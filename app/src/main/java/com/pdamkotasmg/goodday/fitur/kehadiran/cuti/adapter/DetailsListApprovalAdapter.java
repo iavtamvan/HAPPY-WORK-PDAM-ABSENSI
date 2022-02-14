@@ -14,7 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pdamkotasmg.goodday.R;
-import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.riwayatCuti.ListOfApprovalsItem;
+import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.detailCuti.ListOfApprovalsItem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,7 +30,7 @@ public class DetailsListApprovalAdapter extends RecyclerView.Adapter<DetailsList
 
     private final String TAG = "debug";
 
-    public DetailsListApprovalAdapter(Context context, List<ListOfApprovalsItem> dataItems) {
+    public  DetailsListApprovalAdapter(Context context, List<ListOfApprovalsItem> dataItems) {
         this.context = context;
         this.dataItems = dataItems;
     }
@@ -47,7 +47,7 @@ public class DetailsListApprovalAdapter extends RecyclerView.Adapter<DetailsList
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvDetailsApprovalName.setText(dataItems.get(position).getApproverName() + " (" + dataItems.get(position).getApproverNpp() + ")");
-//        holder.tvDetailsApprovalPosition.setText(dataItems.get(position).getApproverPosition());
+        holder.tvDetailsApprovalPosition.setText(dataItems.get(position).getApproverPosition());
         holder.tvDetailsApprovalNote.setText(dataItems.get(position).getApproverNote());
 
         // TODO convert Tanggal dari server

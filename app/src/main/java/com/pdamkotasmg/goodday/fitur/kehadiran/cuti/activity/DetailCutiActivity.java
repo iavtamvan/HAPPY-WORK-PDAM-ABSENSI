@@ -9,19 +9,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.adapter.DetailsListApprovalAdapter;
-import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.riwayatCuti.Data;
-import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.riwayatCuti.ListOfApprovalsItem;
-import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.riwayatCuti.RiwayatCutiRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.detailCuti.Data;
+import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.detailCuti.DetailCutiRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,9 +55,20 @@ public class DetailCutiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_cuti);
         initView();
+        getSupportActionBar().hide();
 
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+
+        ivHeaderBackArrow.setOnClickListener(v -> {
+            DetailCutiActivity.this.finish();
+        });
+
+        tvHeaderJudul.setText("Detail Cuti");
+
+        ivHeaderInfo.setOnClickListener(v -> {
+            Toast.makeText(DetailCutiActivity.this, "Detail cuti", Toast.LENGTH_SHORT).show();
+        });
 
         getDetail();
     }
@@ -72,27 +80,31 @@ public class DetailCutiActivity extends AppCompatActivity {
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService();
         apiService.getRequestHistoryCutiByNumber(accessToken, "RLV", "RLV-202202-000001", "1")
-                .enqueue(new Callback<RiwayatCutiRootModel>() {
+                .enqueue(new Callback<DetailCutiRootModel>() {
                     @Override
-                    public void onResponse(Call<RiwayatCutiRootModel> call, Response<RiwayatCutiRootModel> response) {
+                    public void onResponse(Call<DetailCutiRootModel> call, Response<DetailCutiRootModel> response) {
                         progressDialog.cancel();
                         if (response.isSuccessful()) {
                             data = new Data();
                             data = response.body().getData();
 
+                            tvDetailRequestNumber.setText(data.getRequestNumber());
+                            tvDetailRequestDari.setText(data.getRequestedByName());
+                            tvDetailRequestUntuk.setText(data.getRequestedForName());
+                            tvDetailMulaiTanggal.setText(data.getRequestedAt());
+                            tvDetailTipe.setText(data.getRequestType());
+                            tvDetailAlasan.setText(data.getRemark());
 
-                            for (int i = 0; i < data.getData().size(); i++) {
-                                List<ListOfApprovalsItem> dataList = new ArrayList<>();
-                                dataList = data.getData().get(i).getListOfApprovals();
-                                detailsListApprovalAdapter = new DetailsListApprovalAdapter(DetailCutiActivity.this, dataList);
-                            }
 
-
+                            detailsListApprovalAdapter = new DetailsListApprovalAdapter(DetailCutiActivity.this, data.getListOfApprovals());
+                            rvDetailMengetahui.setLayoutManager(new LinearLayoutManager(DetailCutiActivity.this));
+                            rvDetailMengetahui.setAdapter(detailsListApprovalAdapter);
+                            detailsListApprovalAdapter.notifyDataSetChanged();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<RiwayatCutiRootModel> call, Throwable t) {
+                    public void onFailure(Call<DetailCutiRootModel> call, Throwable t) {
                         progressDialog.cancel();
                         Toast.makeText(DetailCutiActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
