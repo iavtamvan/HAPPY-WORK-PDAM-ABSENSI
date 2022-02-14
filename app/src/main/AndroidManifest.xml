@@ -51,13 +51,8 @@
         android:theme="@style/Theme.HappyWork"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".fitur.kehadiran.cuti.activity.DetailCutiActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".fitur.kehadiran.cuti.activity.DetailCutiActivity"
+            android:exported="false" />
         <activity
             android:name=".fitur.kehadiran.cuti.activity.RiwayatCutiActivity"
             android:exported="false" />
@@ -102,6 +97,11 @@
         <activity android:name=".fitur.payslip.PayslipActivity" />
         <activity android:name=".fitur.kehadiran.home.activity.KehadiranActivity" />
         <activity android:name=".fitur.dashboard.DashboardActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
 

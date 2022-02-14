@@ -29,6 +29,7 @@ public class DetailCutiActivity extends AppCompatActivity {
     private final String TAG = "debug";
 
     private String accessToken;
+    private String numberReq;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -60,6 +61,8 @@ public class DetailCutiActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
 
+        numberReq = getIntent().getStringExtra(Config.BUNDLE_NUMBER_REQUEST);
+
         ivHeaderBackArrow.setOnClickListener(v -> {
             DetailCutiActivity.this.finish();
         });
@@ -70,6 +73,8 @@ public class DetailCutiActivity extends AppCompatActivity {
             Toast.makeText(DetailCutiActivity.this, "Detail cuti", Toast.LENGTH_SHORT).show();
         });
 
+
+
         getDetail();
     }
 
@@ -79,7 +84,7 @@ public class DetailCutiActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService();
-        apiService.getRequestHistoryCutiByNumber(accessToken, "RLV", "RLV-202202-000001", "1")
+        apiService.getRequestHistoryCutiByNumber(accessToken, "RLV", numberReq, "1")
                 .enqueue(new Callback<DetailCutiRootModel>() {
                     @Override
                     public void onResponse(Call<DetailCutiRootModel> call, Response<DetailCutiRootModel> response) {
