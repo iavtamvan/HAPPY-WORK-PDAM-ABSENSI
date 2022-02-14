@@ -94,18 +94,16 @@ public class DetailCutiActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         progressDialog.cancel();
-                        if (response.isSuccessful()){
-                            if (response.isSuccessful()) {
-                                String header = response.message();
-                                Log.d(TAG, "onResponse: " + header);
-                                Toast.makeText(DetailCutiActivity.this, "Pembatalan berhasil", Toast.LENGTH_SHORT).show();
-                                getDetail();
-                            } else {
-                                Toast.makeText(DetailCutiActivity.this, "Pembatalan gagal", Toast.LENGTH_SHORT).show();
-                                Log.d(TAG, "Error Else message: " + response.message());
-                                Log.d(TAG, "Error Else body: " + response.body());
-                                Log.d(TAG, "Error Else errorBody: " + response.errorBody());
-                            }
+                        if (response.isSuccessful()) {
+                            String header = response.message();
+                            Log.d(TAG, "onResponse: " + header);
+                            Toast.makeText(DetailCutiActivity.this, "Pembatalan berhasil", Toast.LENGTH_SHORT).show();
+                            getDetail();
+                        } else {
+                            Toast.makeText(DetailCutiActivity.this, "Pembatalan gagal", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "Error Else message: " + response.message());
+                            Log.d(TAG, "Error Else body: " + response.body());
+                            Log.d(TAG, "Error Else errorBody: " + response.errorBody());
                         }
                     }
 
