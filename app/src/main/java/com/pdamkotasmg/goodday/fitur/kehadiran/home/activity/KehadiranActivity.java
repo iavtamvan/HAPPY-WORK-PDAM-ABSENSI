@@ -25,6 +25,7 @@ import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.dashboard.model.ShfitPegawaiRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.activity.RiwayatCutiActivity;
 import com.pdamkotasmg.goodday.fitur.kehadiran.daftarKehadiran.DaftarKehadiranActivity;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.adapter.KehadiranAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.DataItem;
@@ -131,6 +132,10 @@ public class KehadiranActivity extends AppCompatActivity {
 
         divKoreksiKehadiran.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), RiwayatKoreksiKehadiranActivity.class));
+        });
+
+        divCuti.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), RiwayatCutiActivity.class));
         });
 
     }

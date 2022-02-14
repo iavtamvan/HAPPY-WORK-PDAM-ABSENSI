@@ -24,13 +24,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class KoreksiKehadiranAdapter extends RecyclerView.Adapter<KoreksiKehadiranAdapter.ViewHolder> {
+public class RiwayatKoreksiKehadiranAdapter extends RecyclerView.Adapter<RiwayatKoreksiKehadiranAdapter.ViewHolder> {
     Context context;
     private List<DataItem> dataItems;
 
     private String reason;
 
-    public KoreksiKehadiranAdapter(Context context, List<DataItem> dataItems) {
+    public RiwayatKoreksiKehadiranAdapter(Context context, List<DataItem> dataItems) {
         this.context = context;
         this.dataItems = dataItems;
     }
@@ -38,7 +38,7 @@ public class KoreksiKehadiranAdapter extends RecyclerView.Adapter<KoreksiKehadir
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.list_item_koreksi_kehadiran, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.list_item_riwayat_rac_rlv_rot_rod, parent, false);
         return new ViewHolder(view);
     }
 
@@ -91,7 +91,6 @@ public class KoreksiKehadiranAdapter extends RecyclerView.Adapter<KoreksiKehadir
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout cvKlik;
-        private TextView tvListKoreksiKehadiranReason;
         private TextView tvListKoreksiKehadiranRequestAt;
         private TextView tvListKoreksiKehadiranRequestFor;
         private TextView tvListKoreksiKehadiranRequestBy;
@@ -101,12 +100,11 @@ public class KoreksiKehadiranAdapter extends RecyclerView.Adapter<KoreksiKehadir
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cvKlik = itemView.findViewById(R.id.cv_klik);
-            tvListKoreksiKehadiranReason = itemView.findViewById(R.id.tv_list_koreksi_kehadiran_reason);
-            tvListKoreksiKehadiranRequestAt = itemView.findViewById(R.id.tv_list_koreksi_kehadiran_request_at);
-            tvListKoreksiKehadiranRequestFor = itemView.findViewById(R.id.tv_list_koreksi_kehadiran_request_for);
-            tvListKoreksiKehadiranRequestBy = itemView.findViewById(R.id.tv_list_koreksi_kehadiran_request_by);
-            tvListKoreksiKehadiranRequestNumber = itemView.findViewById(R.id.tv_list_koreksi_kehadiran_request_number);
-            tvListKoreksiKehadiranRequestStatus = itemView.findViewById(R.id.tv_list_koreksi_kehadiran_request_status);
+            tvListKoreksiKehadiranRequestAt = itemView.findViewById(R.id.tv_list_request_at);
+            tvListKoreksiKehadiranRequestFor = itemView.findViewById(R.id.tv_list_request_for);
+            tvListKoreksiKehadiranRequestBy = itemView.findViewById(R.id.tv_list_request_by);
+            tvListKoreksiKehadiranRequestNumber = itemView.findViewById(R.id.tv_list_request_number);
+            tvListKoreksiKehadiranRequestStatus = itemView.findViewById(R.id.tv_list_request_status);
         }
     }
 }

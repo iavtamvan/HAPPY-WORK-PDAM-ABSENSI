@@ -20,7 +20,7 @@ import com.google.android.gms.ads.AdView;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
-import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.KoreksiKehadiranAdapter;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.RiwayatKoreksiKehadiranAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.riwayatKoreksiKehadiran.DataItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.riwayatKoreksiKehadiran.RiwayatKoreksiKehadiranRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
@@ -36,7 +36,7 @@ public class RiwayatKoreksiKehadiranActivity extends AppCompatActivity {
     private final String TAG = "debug";
 
     private List<DataItem> dataItems;
-    private KoreksiKehadiranAdapter koreksiKehadiranAdapter;
+    private RiwayatKoreksiKehadiranAdapter riwayatKoreksiKehadiranAdapter;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -96,10 +96,10 @@ public class RiwayatKoreksiKehadiranActivity extends AppCompatActivity {
                             if (dataItems.isEmpty()) {
                                 Toast.makeText(RiwayatKoreksiKehadiranActivity.this, "Data tidak ada", Toast.LENGTH_SHORT).show();
                             } else {
-                                koreksiKehadiranAdapter = new KoreksiKehadiranAdapter(RiwayatKoreksiKehadiranActivity.this, dataItems);
+                                riwayatKoreksiKehadiranAdapter = new RiwayatKoreksiKehadiranAdapter(RiwayatKoreksiKehadiranActivity.this, dataItems);
                                 rvKoreksiKehadiran.setLayoutManager(new LinearLayoutManager(RiwayatKoreksiKehadiranActivity.this));
-                                rvKoreksiKehadiran.setAdapter(koreksiKehadiranAdapter);
-                                koreksiKehadiranAdapter.notifyDataSetChanged();
+                                rvKoreksiKehadiran.setAdapter(riwayatKoreksiKehadiranAdapter);
+                                riwayatKoreksiKehadiranAdapter.notifyDataSetChanged();
                             }
                         }
 

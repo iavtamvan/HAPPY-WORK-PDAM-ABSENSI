@@ -4,6 +4,7 @@ import com.pdamkotasmg.goodday.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.goodday.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.goodday.fitur.dashboard.model.permissionName.PermissionRootModel;
 import com.pdamkotasmg.goodday.fitur.feeds.model.BeritaRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.riwayatCuti.RiwayatCutiRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.RiwayatKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKoreksiKehadiran.DetailKoreksiKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.GetMyStaffRootModel;
@@ -199,6 +200,15 @@ public interface ApiService {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("portal-pegawai/api/employee-request/by-employee-request-number")
     Call<DetailKoreksiKehadiranRootModel> getRequestByNumber(
+            @Header("Authorization") String auth,
+            @Query("request_type_code") String request_type_code,
+            @Query("request_number") String request_number,
+            @Query("formatted") String formatted
+    );
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("portal-pegawai/api/employee-request/by-employee-request-number")
+    Call<RiwayatCutiRootModel> getRequestHistoryCuti(
             @Header("Authorization") String auth,
             @Query("request_type_code") String request_type_code,
             @Query("request_number") String request_number,

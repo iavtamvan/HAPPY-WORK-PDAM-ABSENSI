@@ -23,14 +23,14 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class DetailsListApprovalKehadiranAdapter extends RecyclerView.Adapter<DetailsListApprovalKehadiranAdapter.ViewHolder> {
+public class DetailsListApprovalAdapter extends RecyclerView.Adapter<DetailsListApprovalAdapter.ViewHolder> {
     Context context;
     private List<ListOfApprovalsItem> dataItems;
     private String dateServer;
 
     private final String TAG = "debug";
 
-    public DetailsListApprovalKehadiranAdapter(Context context, List<ListOfApprovalsItem> dataItems) {
+    public DetailsListApprovalAdapter(Context context, List<ListOfApprovalsItem> dataItems) {
         this.context = context;
         this.dataItems = dataItems;
     }

@@ -268,7 +268,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         adView = findViewById(R.id.adView);
         btnNewRequest = findViewById(R.id.btn_new_request);
         rvDetailsAttedance = findViewById(R.id.rv_details_attedance);
-        tvListKoreksiKehadiranRequestAt = findViewById(R.id.tv_list_koreksi_kehadiran_request_at);
+        tvListKoreksiKehadiranRequestAt = findViewById(R.id.tv_list_request_at);
         edtReason = findViewById(R.id.edt_reason);
         edtStartTime = findViewById(R.id.edt_start_time);
         edtEndTime = findViewById(R.id.edt_end_time);

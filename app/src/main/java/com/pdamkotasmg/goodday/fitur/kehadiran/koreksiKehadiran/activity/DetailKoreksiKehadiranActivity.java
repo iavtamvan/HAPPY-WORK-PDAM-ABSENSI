@@ -18,7 +18,7 @@ import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.details.DetailsKehadiranAdapter;
-import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.details.DetailsListApprovalKehadiranAdapter;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.details.DetailsListApprovalAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKoreksiKehadiran.Data;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKoreksiKehadiran.DetailKoreksiKehadiranRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
@@ -43,7 +43,7 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
 
     private Data dataList;
     private DetailsKehadiranAdapter detailsKehadiranAdapter;
-    private DetailsListApprovalKehadiranAdapter detailsListApprovalKehadiranAdapter;
+    private DetailsListApprovalAdapter detailsListApprovalAdapter;
 
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
@@ -180,10 +180,10 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
                             rvDetailKoreksiKehadiran.setAdapter(detailsKehadiranAdapter);
                             detailsKehadiranAdapter.notifyDataSetChanged();
 
-                            detailsListApprovalKehadiranAdapter = new DetailsListApprovalKehadiranAdapter(DetailKoreksiKehadiranActivity.this, dataList.getListOfApprovals());
+                            detailsListApprovalAdapter = new DetailsListApprovalAdapter(DetailKoreksiKehadiranActivity.this, dataList.getListOfApprovals());
                             rvDetailMengetahui.setLayoutManager(new LinearLayoutManager(DetailKoreksiKehadiranActivity.this));
-                            rvDetailMengetahui.setAdapter(detailsListApprovalKehadiranAdapter);
-                            detailsListApprovalKehadiranAdapter.notifyDataSetChanged();
+                            rvDetailMengetahui.setAdapter(detailsListApprovalAdapter);
+                            detailsListApprovalAdapter.notifyDataSetChanged();
                         }
                     }
 
