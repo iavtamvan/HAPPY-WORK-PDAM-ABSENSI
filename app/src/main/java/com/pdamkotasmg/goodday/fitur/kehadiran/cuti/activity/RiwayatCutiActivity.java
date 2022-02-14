@@ -1,10 +1,13 @@
 package com.pdamkotasmg.goodday.fitur.kehadiran.cuti.activity;
 
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,8 +15,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.ads.AdView;
 import com.pdamkotasmg.goodday.R;
+import com.pdamkotasmg.goodday.api.server.ApiConfig;
+import com.pdamkotasmg.goodday.api.server.ApiService;
+import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.adapter.RiwayatCutiAdapter;
+import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.riwayatCuti.DataItem;
+import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.riwayatCuti.RiwayatCutiRootModel;
+import com.pdamkotasmg.goodday.utils.Config;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RiwayatCutiActivity extends AppCompatActivity {
+
+    private final String TAG = "debug";
+    private RiwayatCutiAdapter riwayatCutiAdapter;
+    private List<DataItem> dataItems;
+
+    private SharedPreferences sharedPreferences;
+
+    private String accessToken;
 
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
@@ -30,8 +53,36 @@ public class RiwayatCutiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_riwayat_cuti);
         initView();
 
+        sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        accessToken = sharedPreferences.getString(Config.SHARED_PREF_NAME, "");
 
+        getRiwayatCuti();
 
+    }
+
+    private void getRiwayatCuti() {
+        ProgressDialog progressDialog = new ProgressDialog(RiwayatCutiActivity.this);
+        progressDialog.setMessage("Mohon tunggu...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.getRequestHistoryCuti(accessToken, "RLV", "1")
+                .enqueue(new Callback<RiwayatCutiRootModel>() {
+                    @Override
+                    public void onResponse(Call<RiwayatCutiRootModel> call, Response<RiwayatCutiRootModel> response) {
+                        progressDialog.cancel();
+                        if (response.isSuccessful()) {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<RiwayatCutiRootModel> call, Throwable t) {
+                        progressDialog.cancel();
+                        Toast.makeText(RiwayatCutiActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+
+                    }
+                });
     }
 
     private void initView() {

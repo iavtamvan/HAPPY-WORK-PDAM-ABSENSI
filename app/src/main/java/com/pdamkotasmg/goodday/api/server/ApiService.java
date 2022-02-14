@@ -208,10 +208,18 @@ public interface ApiService {
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("portal-pegawai/api/employee-request/by-employee-request-number")
-    Call<RiwayatCutiRootModel> getRequestHistoryCuti(
+    Call<RiwayatCutiRootModel> getRequestHistoryCutiByNumber(
             @Header("Authorization") String auth,
             @Query("request_type_code") String request_type_code,
             @Query("request_number") String request_number,
+            @Query("formatted") String formatted
+    );
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("portal-pegawai/api/employee-request/my-request-history")
+    Call<RiwayatCutiRootModel> getRequestHistoryCuti(
+            @Header("Authorization") String auth,
+            @Query("request_type_code") String request_type_code,
             @Query("formatted") String formatted
     );
 

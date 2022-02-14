@@ -71,7 +71,7 @@ public class DetailCutiActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService();
-        apiService.getRequestHistoryCuti(accessToken, "RLV", "RLV-202202-000001", "1")
+        apiService.getRequestHistoryCutiByNumber(accessToken, "RLV", "RLV-202202-000001", "1")
                 .enqueue(new Callback<RiwayatCutiRootModel>() {
                     @Override
                     public void onResponse(Call<RiwayatCutiRootModel> call, Response<RiwayatCutiRootModel> response) {
