@@ -58,11 +58,8 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
     private List<DetailsItem> detailsItemArray = new ArrayList<DetailsItem>();
     private EditDetailsKehadiranAdapter editDetailsKehadiranAdapter;
     private List<DataItem> dataItems;
-    private String resultDetails;
 
     private String flag;
-    private String startDate;
-    private String endDate;
 
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
@@ -101,8 +98,6 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         name = sharedPreferences.getString(Config.SHARED_NAME, "");
         npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
         Log.d(TAG, "token: " + accesToken);
-
-        resultDetails = sharedPreferences.getString(Config.SHARED_SAVE_ARRAY_DETAILS_KOREKSI_KEHADIRAN, "");
 
         edtRequestFor.setText(name + " (" + npp + ")");
         edtRequestFor.setOnClickListener(v -> {
@@ -295,10 +290,9 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
 
         } else {
             String date = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-            endDate = date;
             try {
                 SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
-                Date dates = fmt.parse(endDate);
+                Date dates = fmt.parse(date);
                 String dateFinal = new SimpleDateFormat("yyyy-MM-dd").format(dates);
                 edtEndDate.setText(dateFinal);
                 tvListKoreksiKehadiranDetailsText.setVisibility(View.VISIBLE);

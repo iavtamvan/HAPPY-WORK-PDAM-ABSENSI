@@ -1,6 +1,7 @@
 package com.pdamkotasmg.goodday.fitur.kehadiran.cuti.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import com.google.android.gms.ads.AdView;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
+import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.CutiActivity;
 import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.adapter.RiwayatCutiAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.riwayatCuti.DataItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.riwayatCuti.RiwayatCutiRootModel;
@@ -69,6 +71,9 @@ public class RiwayatCutiActivity extends AppCompatActivity {
             Toast.makeText(RiwayatCutiActivity.this, "Riwayat cuti", Toast.LENGTH_SHORT).show();
         });
 
+        btnNewRequest.setOnClickListener(v -> {
+            startActivity(new Intent(RiwayatCutiActivity.this, CutiActivity.class));
+        });
         getRiwayatCuti();
 
     }
