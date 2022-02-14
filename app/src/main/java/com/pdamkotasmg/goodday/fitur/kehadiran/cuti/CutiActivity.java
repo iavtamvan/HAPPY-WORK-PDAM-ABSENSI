@@ -17,9 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
+import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.tipeCuti.DataItem;
+import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.tipeCuti.TipeCutiRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.form.GetMyStaffOrSupervisiorAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.GetMyStaffRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
@@ -50,11 +53,16 @@ public class CutiActivity extends AppCompatActivity implements DatePickerDialog.
     private String name;
     public String npp;
 
+    private ArrayList<String> arrayTipeCuti = new ArrayList<>();
+    private ArrayList<String> arrayTipeCutiId = new ArrayList<String>();
+    private String tipeCutiID;
+    private String tipeCutiString;
+    private List<DataItem> tipeCutiItems = new ArrayList<>();
+
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
     private ImageView ivHeaderInfo;
     private EditText edtRequestFor;
-    private EditText edtType;
     private LinearLayout divInfoRemaining;
     private TextView tvValidityDateEnd;
     private TextView tvRemaining;
@@ -62,6 +70,7 @@ public class CutiActivity extends AppCompatActivity implements DatePickerDialog.
     private EditText edtEndDate;
     private EditText edtRemark;
     private Button btnNewRequest;
+    private MaterialSpinner spnAsal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +84,7 @@ public class CutiActivity extends AppCompatActivity implements DatePickerDialog.
         name = sharedPreferences.getString(Config.SHARED_NAME, "");
         npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
         Log.d(TAG, "token: " + accesToken);
+        getTipeCuti();
 
         edtRequestFor.setText(name + " (" + npp + ")");
         edtRequestFor.setOnClickListener(v -> {
@@ -109,6 +119,38 @@ public class CutiActivity extends AppCompatActivity implements DatePickerDialog.
             dpd.show(getSupportFragmentManager(), "Datepickerdialog");
         });
 
+    }
+
+    private void getTipeCuti() {
+        ProgressDialog progressDialog = new ProgressDialog(CutiActivity.this);
+        progressDialog.setMessage("Mengambil data...");
+        progressDialog.show();
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.getTipeCuti(accesToken, "1")
+                .enqueue(new Callback<TipeCutiRootModel>() {
+                    @Override
+                    public void onResponse(Call<TipeCutiRootModel> call, Response<TipeCutiRootModel> response) {
+                        progressDialog.cancel();
+                        if (response.isSuccessful()) {
+                            tipeCutiItems = response.body().getData();
+                            for (int i = 0; i < tipeCutiItems.size(); i++) {
+                                String kode = String.valueOf(tipeCutiItems.get(i).getId());
+                                String ket = tipeCutiItems.get(i).getRequestLeaveTypeName();
+                                arrayTipeCutiId.add(kode);
+                                arrayTipeCuti.add(ket);
+                            }
+                            spnAsal.setItems(arrayTipeCuti);
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<TipeCutiRootModel> call, Throwable t) {
+                        progressDialog.cancel();
+                        Toast.makeText(CutiActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+
+                    }
+                });
     }
 
     private void getMyStaff() {
@@ -163,7 +205,6 @@ public class CutiActivity extends AppCompatActivity implements DatePickerDialog.
         tvHeaderJudul = findViewById(R.id.tv_header_judul);
         ivHeaderInfo = findViewById(R.id.iv_header_info);
         edtRequestFor = findViewById(R.id.edt_request_for);
-        edtType = findViewById(R.id.edt_type);
         divInfoRemaining = findViewById(R.id.div_info_remaining);
         tvValidityDateEnd = findViewById(R.id.tv_validity_date_end);
         tvRemaining = findViewById(R.id.tv_remaining);
@@ -171,6 +212,7 @@ public class CutiActivity extends AppCompatActivity implements DatePickerDialog.
         edtEndDate = findViewById(R.id.edt_end_date);
         edtRemark = findViewById(R.id.edt_remark);
         btnNewRequest = findViewById(R.id.btn_new_request);
+        spnAsal = findViewById(R.id.spn_asal);
     }
 
     @Override

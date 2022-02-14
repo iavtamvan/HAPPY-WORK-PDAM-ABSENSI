@@ -6,6 +6,7 @@ import com.pdamkotasmg.goodday.fitur.dashboard.model.permissionName.PermissionRo
 import com.pdamkotasmg.goodday.fitur.feeds.model.BeritaRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.detailCuti.DetailCutiRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.riwayatCuti.RiwayatCutiRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.tipeCuti.TipeCutiRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.RiwayatKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKoreksiKehadiran.DetailKoreksiKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.GetMyStaffRootModel;
@@ -232,6 +233,12 @@ public interface ApiService {
             @Query("request_status_code") String request_status_code
     );
 
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("portal-pegawai/api/masterdata/request-leave-type/all")
+    Call<TipeCutiRootModel> getTipeCuti(
+            @Header("Authorization") String auth,
+            @Query("formatted") String formatted
+    );
 
 //
 //    @Headers({ "Content-Type: application/json;charset=UTF-8"})
