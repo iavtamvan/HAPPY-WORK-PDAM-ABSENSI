@@ -3,6 +3,8 @@ package com.pdamkotasmg.goodday.fitur.kehadiran.cuti.activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.detailCuti.Data;
 import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.detailCuti.DetailCutiRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,9 +76,45 @@ public class DetailCutiActivity extends AppCompatActivity {
             Toast.makeText(DetailCutiActivity.this, "Detail cuti", Toast.LENGTH_SHORT).show();
         });
 
-
+        btnCancel.setOnClickListener(v -> {
+            postCancel();
+        });
 
         getDetail();
+    }
+
+    private void postCancel() {
+        ProgressDialog progressDialog = new ProgressDialog(DetailCutiActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Mohon tunggu...");
+        progressDialog.show();
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.getRequestEdit(accessToken, "RLV", numberReq, "CANCELLED")
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        progressDialog.cancel();
+                        if (response.isSuccessful()){
+                            if (response.isSuccessful()) {
+                                String header = response.message();
+                                Log.d(TAG, "onResponse: " + header);
+                                Toast.makeText(DetailCutiActivity.this, "Pembatalan berhasil", Toast.LENGTH_SHORT).show();
+                                getDetail();
+                            } else {
+                                Toast.makeText(DetailCutiActivity.this, "Pembatalan gagal", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "Error Else message: " + response.message());
+                                Log.d(TAG, "Error Else body: " + response.body());
+                                Log.d(TAG, "Error Else errorBody: " + response.errorBody());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        progressDialog.cancel();
+                        Toast.makeText(DetailCutiActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void getDetail() {
@@ -100,6 +139,16 @@ public class DetailCutiActivity extends AppCompatActivity {
                             tvDetailTipe.setText(data.getRequestType());
                             tvDetailAlasan.setText(data.getRemark());
 
+                            String status = data.getRequestStatus();
+                            if (status.equalsIgnoreCase("Rejected")) {
+                                btnCancel.setVisibility(View.GONE);
+                            } else if (status.equalsIgnoreCase("Approved")) {
+                                btnCancel.setVisibility(View.GONE);
+                            } else if (status.equalsIgnoreCase("Cancelled")) {
+                                btnCancel.setVisibility(View.GONE);
+                            } else {
+                                btnCancel.setVisibility(View.GONE);
+                            }
 
                             detailsListApprovalAdapter = new DetailsListApprovalAdapter(DetailCutiActivity.this, data.getListOfApprovals());
                             rvDetailMengetahui.setLayoutManager(new LinearLayoutManager(DetailCutiActivity.this));

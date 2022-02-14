@@ -54,9 +54,20 @@ public class RiwayatCutiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_riwayat_cuti);
         initView();
+        getSupportActionBar().hide();
 
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+
+        ivHeaderBackArrow.setOnClickListener(v -> {
+            RiwayatCutiActivity.this.finish();
+        });
+
+        tvHeaderJudul.setText("Riwayat Cuti");
+
+        ivHeaderInfo.setOnClickListener(v -> {
+            Toast.makeText(RiwayatCutiActivity.this, "Riwayat cuti", Toast.LENGTH_SHORT).show();
+        });
 
         getRiwayatCuti();
 

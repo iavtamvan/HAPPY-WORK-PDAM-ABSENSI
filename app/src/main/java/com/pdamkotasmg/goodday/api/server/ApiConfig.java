@@ -18,6 +18,7 @@ public class ApiConfig {
         Retrofit retrofit = new Retrofit.Builder()
 //                .baseUrl("https://app.pdamkotasmg.co.id/api-gw-dev/")
                 .baseUrl("https://tirta.pdamkotasmg.co.id/api-gw-dev/")
+//                .baseUrl("https://pdam-lb.herokuapp.com/api-gw-dev/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
