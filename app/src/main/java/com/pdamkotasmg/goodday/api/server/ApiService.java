@@ -240,9 +240,16 @@ public interface ApiService {
             @Query("formatted") String formatted
     );
 
-//
-//    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-//    @GET("pengaduan/mobile/daftar-kategori")
-//    Call<KategoriRootModel> getKategori(@Header("Authorization") String auth);
+    @FormUrlEncoded
+    @POST("portal-pegawai/api/employee-request/send-request")
+    Call<ResponseBody> postCuti(
+            @Header("Authorization") String auth,
+            @Field("request_type_code") String request_type_code,
+            @Field("requested_for_npp") String requested_for_npp,
+            @Field("request_leave_type_id") String request_leave_type_id,
+            @Field("start_date") String start_date,
+            @Field("end_date") String end_date,
+            @Field("remark") String remark
+    );
 
 }

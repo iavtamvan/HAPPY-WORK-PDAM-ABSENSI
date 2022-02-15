@@ -46,7 +46,7 @@ public class DetailsListApprovalAdapter extends RecyclerView.Adapter<DetailsList
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvDetailsApprovalName.setText(dataItems.get(position).getApproverName() + " (" + dataItems.get(position).getApproverNpp() + ")");
+        holder.tvDetailsApprovalName.setText(dataItems.get(position).getApproverName());
         holder.tvDetailsApprovalPosition.setText(dataItems.get(position).getApproverPosition());
         holder.tvDetailsApprovalNote.setText(dataItems.get(position).getApproverNote());
 

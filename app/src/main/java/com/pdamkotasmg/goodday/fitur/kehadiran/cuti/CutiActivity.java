@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
+import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.activity.RiwayatCutiActivity;
 import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.tipeCuti.DataItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.tipeCuti.TipeCutiRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.form.GetMyStaffOrSupervisiorAdapter;
@@ -35,6 +37,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,15 +51,23 @@ public class CutiActivity extends AppCompatActivity implements DatePickerDialog.
     public TextView tvTutupDialog;
 
     private SharedPreferences sharedPreferences;
+    private ProgressDialog progressDialog;
     private String flag;
     private String accesToken;
     private String name;
     public String npp;
 
+    private String startDate;
+    private String endDate;
+
     private ArrayList<String> arrayTipeCuti = new ArrayList<>();
     private ArrayList<String> arrayTipeCutiId = new ArrayList<String>();
+    private ArrayList<String> arrayBalanceCuti = new ArrayList<String>();
+    private ArrayList<String> arrayDateEndCuti = new ArrayList<String>();
     private String tipeCutiID;
     private String tipeCutiString;
+    private String ballanceCutiString;
+    private String dateEndCutiString;
     private List<DataItem> tipeCutiItems = new ArrayList<>();
 
     private ImageView ivHeaderBackArrow;
@@ -84,6 +95,10 @@ public class CutiActivity extends AppCompatActivity implements DatePickerDialog.
         name = sharedPreferences.getString(Config.SHARED_NAME, "");
         npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
         Log.d(TAG, "token: " + accesToken);
+
+        progressDialog = new ProgressDialog(CutiActivity.this);
+        progressDialog.setMessage("Mengambil data...");
+
         getTipeCuti();
 
         edtRequestFor.setText(name + " (" + npp + ")");
@@ -119,11 +134,49 @@ public class CutiActivity extends AppCompatActivity implements DatePickerDialog.
             dpd.show(getSupportFragmentManager(), "Datepickerdialog");
         });
 
+        spnAsal.setOnItemSelectedListener((view, position, id, item) -> {
+            tipeCutiID = arrayTipeCutiId.get(position);
+            tipeCutiString = arrayTipeCuti.get(position);
+            ballanceCutiString = arrayBalanceCuti.get(position);
+            dateEndCutiString = arrayDateEndCuti.get(position);
+
+            divInfoRemaining.setVisibility(View.VISIBLE);
+
+            tvValidityDateEnd.setText(dateEndCutiString);
+            tvRemaining.setText(ballanceCutiString);
+            Log.d(TAG, "String : " + tipeCutiString + " id " + tipeCutiID);
+        });
+
+        btnNewRequest.setOnClickListener(v -> {
+            progressDialog.show();
+            ApiService apiService = ApiConfig.getApiService();
+            apiService.postCuti(accesToken, "RLV", npp, tipeCutiID,
+                    edtStartDate.getText().toString().trim(),
+                    edtEndDate.getText().toString().trim(),
+                    edtRemark.getText().toString().trim())
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            progressDialog.cancel();
+                            if (response.isSuccessful()) {
+                                Config.dialogAlertSukses(CutiActivity.this, "Pengajuan Cuti ", "Berhasil disimpan! " + response.message(), "Ok", RiwayatCutiActivity.class);
+                            } else {
+                                Config.dialogAlertGagal(CutiActivity.this, "Pengajuan Cuti", "Gagal disimpan! " + response.message(), "Ok");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            progressDialog.cancel();
+                            Toast.makeText(CutiActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+        });
+
     }
 
     private void getTipeCuti() {
-        ProgressDialog progressDialog = new ProgressDialog(CutiActivity.this);
-        progressDialog.setMessage("Mengambil data...");
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService();
         apiService.getTipeCuti(accesToken, "1")
@@ -136,8 +189,12 @@ public class CutiActivity extends AppCompatActivity implements DatePickerDialog.
                             for (int i = 0; i < tipeCutiItems.size(); i++) {
                                 String kode = String.valueOf(tipeCutiItems.get(i).getId());
                                 String ket = tipeCutiItems.get(i).getRequestLeaveTypeName();
+                                String ballance = tipeCutiItems.get(i).getBalance();
+                                String dateEnd = tipeCutiItems.get(i).getValidityDatetimeEnd();
                                 arrayTipeCutiId.add(kode);
                                 arrayTipeCuti.add(ket);
+                                arrayBalanceCuti.add(ballance);
+                                arrayDateEndCuti.add(dateEnd);
                             }
                             spnAsal.setItems(arrayTipeCuti);
 
@@ -154,8 +211,6 @@ public class CutiActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     private void getMyStaff() {
-        ProgressDialog progressDialog = new ProgressDialog(CutiActivity.this);
-        progressDialog.setMessage("Mengambil data...");
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService();
         apiService.getMyStaff(accesToken)

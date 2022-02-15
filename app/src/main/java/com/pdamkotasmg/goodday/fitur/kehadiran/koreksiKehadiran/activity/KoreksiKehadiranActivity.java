@@ -238,9 +238,9 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
                     public void onResponse(Call<KoreksiKeharidanRootModel> call, Response<KoreksiKeharidanRootModel> response) {
                         progressDialog.cancel();
                         if (response.isSuccessful()) {
-                            Config.dialogAlertSukses(KoreksiKehadiranActivity.this, "Koreksi Kehadiran", "Berhasil disimpa! " + response.message(), "Ok", RiwayatKoreksiKehadiranActivity.class);
+                            Config.dialogAlertSukses(KoreksiKehadiranActivity.this, "Koreksi Kehadiran", "Berhasil disimpan! " + response.message(), "Ok", RiwayatKoreksiKehadiranActivity.class);
                         } else {
-                            Config.dialogAlertGagal(KoreksiKehadiranActivity.this, "Koreksi Kehadiran", "Gagal disimpan! " + response.message(), "Ok", RiwayatKoreksiKehadiranActivity.class);
+                            Config.dialogAlertGagal(KoreksiKehadiranActivity.this, "Koreksi Kehadiran", "Gagal disimpan! " + response.message(), "Ok");
                         }
                     }
 

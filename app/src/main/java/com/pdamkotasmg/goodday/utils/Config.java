@@ -409,15 +409,15 @@ public final class Config {
                 .setCancelable(false)
                 .setPositiveButton(positiveButton, (dialogInterface, which) -> {
                     dialogInterface.dismiss();
-                    ((Activity) context).finishAffinity();
-                    context.startActivity(new Intent(context, toActivity));
+                    ((Activity) context).finish();
+//                    context.startActivity(new Intent(context, toActivity));
                 })
                 .build();
 
         // Show Dialog
         mDialog.show();
     }
-    public static void dialogAlertGagal(Context context, String tittle, String message, String positiveButton, Class toActivity){
+    public static void dialogAlertGagal(Context context, String tittle, String message, String positiveButton){
         MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
                 .setTitle(tittle)
                 .setMessage(message)

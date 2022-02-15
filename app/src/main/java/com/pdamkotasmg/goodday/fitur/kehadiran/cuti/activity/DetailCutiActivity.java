@@ -145,7 +145,7 @@ public class DetailCutiActivity extends AppCompatActivity {
                             } else if (status.equalsIgnoreCase("Cancelled")) {
                                 btnCancel.setVisibility(View.GONE);
                             } else {
-                                btnCancel.setVisibility(View.GONE);
+                                btnCancel.setVisibility(View.VISIBLE);
                             }
 
                             detailsListApprovalAdapter = new DetailsListApprovalAdapter(DetailCutiActivity.this, data.getListOfApprovals());

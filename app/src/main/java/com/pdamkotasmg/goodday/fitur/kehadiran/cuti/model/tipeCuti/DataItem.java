@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName;
 public class DataItem{
 
     @SerializedName("balance")
-    private Integer balance;
+    private String balance;
 
     @SerializedName("validity_datetime_start")
     private String validityDatetimeStart;
 
     @SerializedName("id")
-    private Integer id;
+    private String id;
 
     @SerializedName("request_leave_type_code")
     private String requestLeaveTypeCode;
@@ -22,11 +22,11 @@ public class DataItem{
     @SerializedName("request_leave_type_name")
     private String requestLeaveTypeName;
 
-    public void setBalance(Integer balance){
+    public void setBalance(String balance){
         this.balance = balance;
     }
 
-    public Integer getBalance(){
+    public String getBalance(){
         return balance;
     }
 
@@ -38,11 +38,11 @@ public class DataItem{
         return validityDatetimeStart;
     }
 
-    public void setId(Integer id){
+    public void setId(String id){
         this.id = id;
     }
 
-    public Integer getId(){
+    public String getId(){
         return id;
     }
 

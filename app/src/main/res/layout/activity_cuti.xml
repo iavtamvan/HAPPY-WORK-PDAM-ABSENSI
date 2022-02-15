@@ -73,7 +73,7 @@
                         android:id="@+id/div_info_remaining"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/rectangle_shapes"
+                        android:background="@drawable/rectangle_shapes_line_lancip_red"
                         android:orientation="horizontal"
                         android:visibility="gone">
 
