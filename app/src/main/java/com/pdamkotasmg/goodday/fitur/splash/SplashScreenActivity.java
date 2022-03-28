@@ -414,6 +414,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     }
 
+    // TODO Mulai cek Fake GPS
     public boolean isMockSettingsON(Context context) {
         // returns true if mock location enabled, false if not enabled.
         if (Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION).equals("0")) {
@@ -509,78 +510,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         return false;
     }
 
-    public boolean areThereMockPermissionApps(Context context) {
-        int count = 0;
-
-        PackageManager pm = context.getPackageManager();
-        @SuppressLint("QueryPermissionsNeeded") List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
-        boolean finding = false;
-        for (ApplicationInfo applicationInfo : packages) {
-            try {
-                for (i = 0; i < stringslist.size(); i++) {
-                    packageInfo = pm.getPackageInfo(applicationInfo.packageName, PackageManager.GET_PERMISSIONS);
-//                    Log.d(TAG, "packages : " + packageInfo.packageName);
-                    if (packageInfo.packageName.equalsIgnoreCase(stringslist.get(i))) {
-                        Log.d(TAG, packageInfo.packageName + " : Fuck Moc: Sama");
-                        finding = true;
-                        break;
-                    } else {
-//                        Log.d(TAG, packageInfo.packageName + " : Fuck Moc: Lanjut");
-                    }
-                }
-                if (finding) break;
-//                }
-
-
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-        if (!finding) {
-            new Handler().postDelayed(() -> {
-                // TODO intent ke WelcomeActivity.class
-                Log.d(TAG, "Status Fack: Tidak ada fake gps");
-                SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
-                String telepon = sp.getString(Config.SHARED_NAME, "");
-                // TODO jika belum masuk ke welcome
-                if (telepon.equalsIgnoreCase("") || TextUtils.isEmpty(telepon)) {
-                    finishAffinity();
-                    startActivity(new Intent(getApplicationContext(), IntroActivity.class));
-                }
-                // TODO jika sudah nantinya akan masuk ke dashboard
-                else {
-                    finishAffinity();
-                    startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
-                    Log.d("nohp", "run: " + telepon);
-                }
-
-            }, SPLASH_TIME_OUT);
-
-        } else {
-            MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
-                    .setTitle(Config.ERROR_FAKE_GPS_TITLE)
-                    .setMessage("Uninstall fake GPS kamu " + packageInfo.packageName + "\n\n Hubungi kepegawaian untuk aktivasi kembali...")
-                    .setAnimation("lt_bohong.json")
-                    .setCancelable(false)
-                    .setNegativeButton("Oke deh, jangan suka bohong ya", (dialogInterface, which) -> {
-                        dialogInterface.dismiss();
-                        finishAffinity();
-                    })
-                    .setPositiveButton("Uninstall Aplikasi Absensi", (dialogInterface, which) -> {
-                        Toast.makeText(context, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Intent.ACTION_DELETE);
-                        intent.setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
-                        startActivity(intent);
-                    })
-                    .build();
-
-            // Show Dialog
-            mDialog.show();
-        }
-        if (count > 0)
-            return true;
-        return false;
-    }
+    // TODO Selesai cek Fake GPS
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)

@@ -70,10 +70,6 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
     private AdView adView;
     private Button btnNewRequest;
     private RecyclerView rvDetailsAttedance;
-    private TextView tvListKoreksiKehadiranRequestAt;
-    private EditText edtReason;
-    private EditText edtStartTime;
-    private EditText edtEndTime;
     private TextView tvListKoreksiKehadiranDetailsText;
 
     String[] strArr;
@@ -263,10 +259,6 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         adView = findViewById(R.id.adView);
         btnNewRequest = findViewById(R.id.btn_new_request);
         rvDetailsAttedance = findViewById(R.id.rv_details_attedance);
-        tvListKoreksiKehadiranRequestAt = findViewById(R.id.tv_list_request_at);
-        edtReason = findViewById(R.id.edt_reason);
-        edtStartTime = findViewById(R.id.edt_start_time);
-        edtEndTime = findViewById(R.id.edt_end_time);
         tvListKoreksiKehadiranDetailsText = findViewById(R.id.tv_list_koreksi_kehadiran_details_text);
     }
 

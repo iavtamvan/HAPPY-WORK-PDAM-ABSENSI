@@ -31,6 +31,7 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.home.adapter.KehadiranAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.DataItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.RiwayatKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.RiwayatKoreksiKehadiranActivity;
+import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.activity.PerjalananDinasActivity;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.text.SimpleDateFormat;
@@ -104,6 +105,7 @@ public class KehadiranActivity extends AppCompatActivity {
         if (riwayatAbsensiCode.equalsIgnoreCase("1")) {
             btnHome.setVisibility(View.VISIBLE);
         } else {
+            ivHeaderBackArrow.setVisibility(View.GONE);
             btnHome.setVisibility(View.GONE);
         }
 
@@ -138,6 +140,9 @@ public class KehadiranActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), RiwayatCutiActivity.class));
         });
 
+        divPerjalananDinas.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), PerjalananDinasActivity.class));
+        });
     }
 
     private void getHistoryPresensi() {
