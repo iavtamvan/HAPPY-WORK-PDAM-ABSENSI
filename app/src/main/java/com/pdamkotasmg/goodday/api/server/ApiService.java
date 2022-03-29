@@ -12,6 +12,7 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKore
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.GetMyStaffRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.KoreksiKeharidanRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.riwayatKoreksiKehadiran.RiwayatKoreksiKehadiranRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.detailPerjalananDinas.DetailPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.postPerjalanDinas.PostPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.riwayatPerjalananDinas.RiwayatPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.perangkat.model.PerangkatRootModel;
@@ -203,7 +204,7 @@ public interface ApiService {
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("portal-pegawai/api/employee-request/by-employee-request-number")
-    Call<DetailKoreksiKehadiranRootModel> getRequestByNumber(
+    Call<DetailKoreksiKehadiranRootModel> getRequestByNumberKoreksiKehadiran(
             @Header("Authorization") String auth,
             @Query("request_type_code") String request_type_code,
             @Query("request_number") String request_number,
@@ -267,4 +268,12 @@ public interface ApiService {
             @Query("formatted") String formatted
     );
 
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("portal-pegawai/api/employee-request/by-employee-request-number")
+    Call<DetailPerjalananDinasRootModel> getRequestByNumberPerjalananDinas(
+            @Header("Authorization") String auth,
+            @Query("request_type_code") String request_type_code,
+            @Query("request_number") String request_number,
+            @Query("formatted") String formatted
+    );
 }

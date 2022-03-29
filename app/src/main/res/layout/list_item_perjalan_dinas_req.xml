@@ -29,7 +29,7 @@
                 android:layout_marginRight="10dp"
                 android:fontFamily="@font/poppins_medium"
                 android:gravity="left|center"
-                android:text="Destinasi"
+                android:text="Detail"
                 android:textColor="@color/white"
                 android:textSize="14dp" />
 

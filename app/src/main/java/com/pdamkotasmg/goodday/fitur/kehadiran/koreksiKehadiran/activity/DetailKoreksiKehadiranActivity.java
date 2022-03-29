@@ -124,7 +124,7 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
     private void getDetailsKoreksiKehadiran() {
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService();
-        apiService.getRequestByNumber(accessToken, "RAC", numberReq, "1")
+        apiService.getRequestByNumberKoreksiKehadiran(accessToken, "RAC", numberReq, "1")
                 .enqueue(new Callback<DetailKoreksiKehadiranRootModel>() {
                     @Override
                     public void onResponse(Call<DetailKoreksiKehadiranRootModel> call, Response<DetailKoreksiKehadiranRootModel> response) {
