@@ -12,6 +12,7 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKore
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.GetMyStaffRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.KoreksiKeharidanRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.riwayatKoreksiKehadiran.RiwayatKoreksiKehadiranRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.lembur.model.overtimeType.OvertimeTypeRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.detailPerjalananDinas.DetailPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.postPerjalanDinas.PostPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.riwayatPerjalananDinas.RiwayatPerjalananDinasRootModel;
@@ -276,4 +277,8 @@ public interface ApiService {
             @Query("request_number") String request_number,
             @Query("formatted") String formatted
     );
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("portal-pegawai/api/masterdata/request-overtime-type/all")
+    Call<OvertimeTypeRootModel> getTipeOvertime(@Header("Authorization") String auth);
 }

@@ -24,7 +24,7 @@ import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.DataItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.GetMyStaffRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.lembur.adapter.GetMyStaffOrSupervisiorAdapter;
-import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.activity.PerjalananDinasActivity;
+import com.pdamkotasmg.goodday.fitur.kehadiran.lembur.model.overtimeType.OvertimeTypeRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -53,6 +53,17 @@ public class LemburActivity extends AppCompatActivity implements DatePickerDialo
 
     private ProgressDialog progressDialog;
     private String flag;
+
+    private List<com.pdamkotasmg.goodday.fitur.kehadiran.lembur.model.overtimeType.DataItem> dataItemsOvertimeType;
+    private ArrayList<String> arrayTipeOvertimeKode = new ArrayList<String>();
+    private ArrayList<String> arrayTipeOvertimeName = new ArrayList<>();
+    private ArrayList<String> arrayTipeOvertimeKodeType = new ArrayList<>();
+    private ArrayList<String> arrayBalanceCuti = new ArrayList<String>();
+    private ArrayList<String> arrayDateEndCuti = new ArrayList<String>();
+    private String tipeOvertimeKode;
+    private String tipeOvertimeName;
+    private String tipeOvertimeKodeType;
+    private String dateEndCutiString;
 
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
@@ -123,8 +134,41 @@ public class LemburActivity extends AppCompatActivity implements DatePickerDialo
             dpd.show(getSupportFragmentManager(), "Datepickerdialog");
         });
 
+        getOvertimeType();
+
     }
 
+    private void getOvertimeType() {
+        progressDialog.setMessage("Mengambil data...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.getTipeOvertime(accesToken).enqueue(new Callback<OvertimeTypeRootModel>() {
+            @Override
+            public void onResponse(Call<OvertimeTypeRootModel> call, Response<OvertimeTypeRootModel> response) {
+                progressDialog.cancel();
+                if (response.isSuccessful()) {
+                    dataItemsOvertimeType = response.body().getData();
+                    for (int i = 0; i < dataItemsOvertimeType.size(); i++) {
+                        String kode = String.valueOf(dataItemsOvertimeType.get(i).getId());
+                        String name = dataItemsOvertimeType.get(i).getRequestOvertimeTypeName();
+                        String kodeType = dataItemsOvertimeType.get(i).getRequestOvertimeTypeCode();
+                        arrayTipeOvertimeKode.add(kode);
+                        arrayTipeOvertimeName.add(name);
+                        arrayTipeOvertimeKodeType.add(kodeType);
+                    }
+                    spnOvertimeType.setItems(arrayTipeOvertimeName);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OvertimeTypeRootModel> call, Throwable t) {
+                progressDialog.cancel();
+                Toast.makeText(LemburActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     private void getMyStaff() {
         progressDialog.setMessage("Mengambil data...");

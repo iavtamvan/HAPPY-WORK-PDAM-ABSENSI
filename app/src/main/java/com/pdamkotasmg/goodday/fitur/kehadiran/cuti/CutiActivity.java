@@ -186,6 +186,7 @@ public class CutiActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     private void getTipeCuti() {
+        progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService();
         apiService.getTipeCuti(accesToken, "1")
