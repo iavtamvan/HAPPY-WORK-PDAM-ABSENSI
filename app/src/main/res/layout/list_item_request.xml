@@ -98,6 +98,34 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/div_request_cancel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rectangle_shapes_black"
+                            android:orientation="horizontal"
+                            android:padding="2dp"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:src="@drawable/cancel_req" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/poppins_medium"
+                                android:gravity="left|center_vertical"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:text="Cancelled"
+                                android:textColor="@color/redPortal"
+                                android:textSize="12dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:id="@+id/div_request_waiting"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

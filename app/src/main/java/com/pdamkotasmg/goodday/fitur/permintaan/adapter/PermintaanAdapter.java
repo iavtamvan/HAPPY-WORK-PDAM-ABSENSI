@@ -43,16 +43,24 @@ public class PermintaanAdapter extends RecyclerView.Adapter<PermintaanAdapter.Vi
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (dataItems.get(position).getRequestStatusCode().equalsIgnoreCase("REJECTED")){
+        if (dataItems.get(position).getRequestStatusCode().equalsIgnoreCase("REJECTED")) {
             holder.divRequestDitolak.setVisibility(View.VISIBLE);
             holder.divRequestWaiting.setVisibility(View.GONE);
             holder.divRequestDisetujui.setVisibility(View.GONE);
-        } else if (dataItems.get(position).getRequestStatusCode().equalsIgnoreCase("WAITING")){
+            holder.divRequestCancel.setVisibility(View.GONE);
+        } else if (dataItems.get(position).getRequestStatusCode().equalsIgnoreCase("WAITING")) {
             holder.divRequestWaiting.setVisibility(View.VISIBLE);
             holder.divRequestDisetujui.setVisibility(View.GONE);
             holder.divRequestDitolak.setVisibility(View.GONE);
-        } else {
+            holder.divRequestCancel.setVisibility(View.GONE);
+        } else if (dataItems.get(position).getRequestStatusCode().equalsIgnoreCase("APPROVED")){
             holder.divRequestDisetujui.setVisibility(View.VISIBLE);
+            holder.divRequestWaiting.setVisibility(View.GONE);
+            holder.divRequestDitolak.setVisibility(View.GONE);
+            holder.divRequestCancel.setVisibility(View.GONE);
+        } else {
+            holder.divRequestCancel.setVisibility(View.VISIBLE);
+            holder.divRequestDisetujui.setVisibility(View.GONE);
             holder.divRequestWaiting.setVisibility(View.GONE);
             holder.divRequestDitolak.setVisibility(View.GONE);
         }
@@ -65,12 +73,12 @@ public class PermintaanAdapter extends RecyclerView.Adapter<PermintaanAdapter.Vi
         holder.tvListItemRequestFrom.setText(dataItems.get(position).getRequestedAt());
 
         holder.cvKlik.setOnClickListener(v -> {
-            if (dataItems.get(position).getRequestTypeCode().equalsIgnoreCase("RAC")){
+            if (dataItems.get(position).getRequestTypeCode().equalsIgnoreCase("RAC")) {
                 Intent intent = new Intent(context, DetailKoreksiKehadiranActivity.class);
                 intent.putExtra(Config.BUNDLE_NUMBER_REQUEST, dataItems.get(position).getRequestNumber());
                 context.startActivity(intent);
             }
-            if (dataItems.get(position).getRequestTypeCode().equalsIgnoreCase("RLV")){
+            if (dataItems.get(position).getRequestTypeCode().equalsIgnoreCase("RLV")) {
                 Intent intent = new Intent(context, DetailCutiActivity.class);
                 intent.putExtra(Config.BUNDLE_NUMBER_REQUEST, dataItems.get(position).getRequestNumber());
                 context.startActivity(intent);
@@ -89,6 +97,7 @@ public class PermintaanAdapter extends RecyclerView.Adapter<PermintaanAdapter.Vi
         private LinearLayout divRequestDisetujui;
         private LinearLayout divRequestDitolak;
         private LinearLayout divRequestWaiting;
+        private LinearLayout divRequestCancel;
         private TextView tvListItemRequestTypeName;
         private TextView tvListItemRequestForName;
         private TextView tvListItemRequestJabatan;
@@ -102,6 +111,7 @@ public class PermintaanAdapter extends RecyclerView.Adapter<PermintaanAdapter.Vi
             divRequestDisetujui = itemView.findViewById(R.id.div_request_disetujui);
             divRequestDitolak = itemView.findViewById(R.id.div_request_ditolak);
             divRequestWaiting = itemView.findViewById(R.id.div_request_waiting);
+            divRequestCancel = itemView.findViewById(R.id.div_request_cancel);
             tvListItemRequestTypeName = itemView.findViewById(R.id.tv_list_item_request_type_name);
             tvListItemRequestForName = itemView.findViewById(R.id.tv_list_item_request_for_name);
             tvListItemRequestJabatan = itemView.findViewById(R.id.tv_list_item_request_jabatan);
