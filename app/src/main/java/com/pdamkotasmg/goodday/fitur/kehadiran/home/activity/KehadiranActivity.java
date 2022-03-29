@@ -31,7 +31,7 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.home.adapter.KehadiranAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.DataItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.RiwayatKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.RiwayatKoreksiKehadiranActivity;
-import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.activity.PerjalananDinasActivity;
+import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.activity.RiwayatPerjalananDinasActivity;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.text.SimpleDateFormat;
@@ -140,7 +140,7 @@ public class KehadiranActivity extends AppCompatActivity {
         });
 
         divPerjalananDinas.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), PerjalananDinasActivity.class));
+            startActivity(new Intent(getApplicationContext(), RiwayatPerjalananDinasActivity.class));
         });
     }
 

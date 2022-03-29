@@ -15,8 +15,8 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pdamkotasmg.goodday.R;
-import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.DetailKoreksiKehadiranActivity;
-import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.riwayatKoreksiKehadiran.DataItem;
+import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.activity.DetailPerjalananDinasActivity;
+import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.riwayatPerjalananDinas.DataItem;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.text.ParseException;
@@ -77,7 +77,7 @@ public class RiwayatPerjalananDinasAdapter extends RecyclerView.Adapter<RiwayatP
         }
 
         holder.cvKlik.setOnClickListener(v -> {
-            Intent intent = new Intent(context, DetailKoreksiKehadiranActivity.class);
+            Intent intent = new Intent(context, DetailPerjalananDinasActivity.class);
             intent.putExtra(Config.BUNDLE_NUMBER_REQUEST, dataItems.get(position).getRequestNumber());
             context.startActivity(intent);
         });
