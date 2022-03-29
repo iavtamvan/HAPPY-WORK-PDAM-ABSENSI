@@ -105,7 +105,6 @@ public class KehadiranActivity extends AppCompatActivity {
         if (riwayatAbsensiCode.equalsIgnoreCase("1")) {
             btnHome.setVisibility(View.VISIBLE);
         } else {
-            ivHeaderBackArrow.setVisibility(View.GONE);
             btnHome.setVisibility(View.GONE);
         }
 

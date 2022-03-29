@@ -13,6 +13,7 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.Ge
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.postKoreksiKehadiran.KoreksiKeharidanRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.riwayatKoreksiKehadiran.RiwayatKoreksiKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.postPerjalanDinas.PostPerjalananDinasRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.riwayatPerjalananDinas.RiwayatPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.perangkat.model.PerangkatRootModel;
 import com.pdamkotasmg.goodday.fitur.permintaan.model.PermintaanRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.checkLocationModel.CheckLocationRootModel;
@@ -257,5 +258,13 @@ public interface ApiService {
     Call<PostPerjalananDinasRootModel> postJsonPerjalananDinas(
             @Header("Authorization") String auth,
             @Body PostPerjalananDinasRootModel body);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("portal-pegawai/api/employee-request/my-request-history")
+    Call<RiwayatPerjalananDinasRootModel> getRequestHistoryPerjalananDinas(
+            @Header("Authorization") String auth,
+            @Query("request_type_code") String request_type_code,
+            @Query("formatted") String formatted
+    );
 
 }
