@@ -121,4 +121,5 @@ public class RiwayatPerjalananDinasActivity extends AppCompatActivity {
         adView = findViewById(R.id.adView);
         btnNewRequest = findViewById(R.id.btn_new_request);
     }
+
 }
