@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.activity.DetailCutiActivity;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.DetailKoreksiKehadiranActivity;
+import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.activity.DetailPerjalananDinasActivity;
 import com.pdamkotasmg.goodday.fitur.permintaan.model.DataItem;
 import com.pdamkotasmg.goodday.utils.Config;
 
@@ -53,7 +54,7 @@ public class PermintaanAdapter extends RecyclerView.Adapter<PermintaanAdapter.Vi
             holder.divRequestDisetujui.setVisibility(View.GONE);
             holder.divRequestDitolak.setVisibility(View.GONE);
             holder.divRequestCancel.setVisibility(View.GONE);
-        } else if (dataItems.get(position).getRequestStatusCode().equalsIgnoreCase("APPROVED")){
+        } else if (dataItems.get(position).getRequestStatusCode().equalsIgnoreCase("APPROVED")) {
             holder.divRequestDisetujui.setVisibility(View.VISIBLE);
             holder.divRequestWaiting.setVisibility(View.GONE);
             holder.divRequestDitolak.setVisibility(View.GONE);
@@ -80,6 +81,11 @@ public class PermintaanAdapter extends RecyclerView.Adapter<PermintaanAdapter.Vi
             }
             if (dataItems.get(position).getRequestTypeCode().equalsIgnoreCase("RLV")) {
                 Intent intent = new Intent(context, DetailCutiActivity.class);
+                intent.putExtra(Config.BUNDLE_NUMBER_REQUEST, dataItems.get(position).getRequestNumber());
+                context.startActivity(intent);
+            }
+            if (dataItems.get(position).getRequestTypeCode().equalsIgnoreCase("ROD")) {
+                Intent intent = new Intent(context, DetailPerjalananDinasActivity.class);
                 intent.putExtra(Config.BUNDLE_NUMBER_REQUEST, dataItems.get(position).getRequestNumber());
                 context.startActivity(intent);
             }
