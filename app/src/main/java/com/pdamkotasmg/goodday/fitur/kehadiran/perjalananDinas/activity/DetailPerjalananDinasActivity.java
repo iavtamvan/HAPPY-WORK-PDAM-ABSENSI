@@ -3,6 +3,7 @@ package com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,11 +26,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailPerjalananDinasActivity extends AppCompatActivity {
+    private final String TAG = "debug";
 
     private SharedPreferences sharedPreferences;
     private String accessToken;
@@ -90,7 +93,32 @@ public class DetailPerjalananDinasActivity extends AppCompatActivity {
     }
 
     private void reqCancel() {
+        progressDialog.show();
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.getRequestEdit(accessToken, "RAC", numberReq, "CANCELLED")
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        progressDialog.cancel();
+                        if (response.isSuccessful()) {
+                            String header = response.message();
+                            Log.d(TAG, "onResponse: " + header);
+                            Toast.makeText(DetailPerjalananDinasActivity.this, "Pembatalan berhasil", Toast.LENGTH_SHORT).show();
+                            getDetailsPerjalananDinas();
+                        } else {
+                            Toast.makeText(DetailPerjalananDinasActivity.this, "Pembatalan gagal", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "Error Else message: " + response.message());
+                            Log.d(TAG, "Error Else body: " + response.body());
+                            Log.d(TAG, "Error Else errorBody: " + response.errorBody());
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        progressDialog.cancel();
+                        Toast.makeText(DetailPerjalananDinasActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void getDetailsPerjalananDinas() {
