@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -252,7 +251,6 @@ public class PerjalananDinasActivity extends AppCompatActivity implements DatePi
                 Date dates = fmt.parse(date);
                 String dateFinal = new SimpleDateFormat("yyyy-MM-dd").format(dates);
                 edtPerjalananDinasEnd.setText(dateFinal);
-                tvListKoreksiKehadiranDetailsText.setVisibility(View.VISIBLE);
             } catch (ParseException e) {
                 e.printStackTrace();
             }

@@ -66,7 +66,19 @@ public class PermintaanAdapter extends RecyclerView.Adapter<PermintaanAdapter.Vi
             holder.divRequestDitolak.setVisibility(View.GONE);
         }
 
-        holder.tvListItemRequestTypeName.setText(dataItems.get(position).getRequestTypeName());
+        String getReqTypeName = dataItems.get(position).getRequestTypeName();
+        if (getReqTypeName.equalsIgnoreCase("Attendance Correction")) {
+            getReqTypeName = "Koreksi Kehadiran";
+        } else if (getReqTypeName.equalsIgnoreCase("On Duty")) {
+            getReqTypeName = "Perjalanan Dinas";
+        } else if (getReqTypeName.equalsIgnoreCase("Leave")) {
+            getReqTypeName = "Cuti";
+        }
+//        else if (getReqTypeName.equalsIgnoreCase("Overtime")) {
+//            getReqTypeName = "Koreksi Kehadiran";
+//        }
+
+        holder.tvListItemRequestTypeName.setText(getReqTypeName);
         holder.tvListItemRequestForName.setText(dataItems.get(position).getRequestedForName());
         holder.tvListItemRequestJabatan.setText(dataItems.get(position).getRequestedForJabatan());
         holder.tvListItemRequestSatker.setText(dataItems.get(position).getRequestedForBagian());

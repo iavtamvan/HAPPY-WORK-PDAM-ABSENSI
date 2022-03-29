@@ -56,6 +56,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -63,8 +64,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_medium"
                             android:gravity="left"
-                            android:text="Tipe Cuti"
-                            android:textColor="@color/black"
+                            android:text="Tipe Bertugas"
+                            android:textColor="@color/grey"
                             android:textSize="13dp" />
 
                         <TextView
