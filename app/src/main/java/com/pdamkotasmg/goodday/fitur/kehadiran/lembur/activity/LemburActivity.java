@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,8 +22,10 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
+import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.RiwayatKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.DataItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.myStaff.GetMyStaffRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.lembur.adapter.EditDetailsLemburAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.lembur.adapter.GetMyStaffOrSupervisiorAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.lembur.model.overtimeType.OvertimeTypeRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
@@ -64,6 +67,9 @@ public class LemburActivity extends AppCompatActivity implements DatePickerDialo
     private String tipeOvertimeName;
     private String tipeOvertimeKodeType;
     private String dateEndCutiString;
+
+    private List<com.pdamkotasmg.goodday.fitur.kehadiran.home.model.DataItem> dataItems;
+    private EditDetailsLemburAdapter editDetailsKehadiranAdapter;
 
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
@@ -136,6 +142,44 @@ public class LemburActivity extends AppCompatActivity implements DatePickerDialo
 
         getOvertimeType();
 
+    }
+
+    private void getHistoryPresensi() {
+        ProgressDialog progressDialog = new ProgressDialog(LemburActivity.this);
+        progressDialog.setMessage("Mohon tunggu...");
+        progressDialog.show();
+        ApiService apiService = ApiConfig.getApiService();
+        apiService.getHistoryPresensi(accesToken, edtStartDate.getText().toString().trim(), edtEndDate.getText().toString().trim(), "1") // tanggal dari, dan tanggal selesai
+                .enqueue(new Callback<RiwayatKehadiranRootModel>() {
+                    @Override
+                    public void onResponse(Call<RiwayatKehadiranRootModel> call, Response<RiwayatKehadiranRootModel> response) {
+                        if (response.isSuccessful()) {
+                            progressDialog.cancel();
+                            dataItems = new ArrayList<>();
+                            dataItems = response.body().getData();
+                            rvDetailsOvertime.setVisibility(View.VISIBLE);
+                            if (dataItems.isEmpty()) {
+//                                tvListKoreksiKehadiranDetailsText.setText("Data tidak ada");
+                                rvDetailsOvertime.setVisibility(View.GONE);
+                            } else {
+//                                tvListKoreksiKehadiranDetailsText.setText("Detail");
+                                editDetailsKehadiranAdapter = new EditDetailsLemburAdapter(LemburActivity.this, dataItems);
+                                rvDetailsOvertime.setLayoutManager(new LinearLayoutManager(LemburActivity.this));
+                                rvDetailsOvertime.setAdapter(editDetailsKehadiranAdapter);
+                                editDetailsKehadiranAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            progressDialog.cancel();
+//                            tvListKoreksiKehadiranDetailsText.setText(response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<RiwayatKehadiranRootModel> call, Throwable t) {
+                        progressDialog.cancel();
+                        Toast.makeText(LemburActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void getOvertimeType() {
@@ -257,6 +301,7 @@ public class LemburActivity extends AppCompatActivity implements DatePickerDialo
                 Date dates = fmt.parse(date);
                 String dateFinal = new SimpleDateFormat("yyyy-MM-dd").format(dates);
                 edtEndDate.setText(dateFinal);
+                getHistoryPresensi();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
