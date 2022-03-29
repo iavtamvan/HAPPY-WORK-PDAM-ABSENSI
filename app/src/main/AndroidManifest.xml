@@ -51,6 +51,12 @@
         android:theme="@style/Theme.HappyWork"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".fitur.kehadiran.lembur.activity.DetailLemburActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fitur.kehadiran.lembur.activity.RiwayatLemburActivity"
+            android:exported="false" />
+        <activity
             android:name=".fitur.kehadiran.perjalananDinas.activity.DetailPerjalananDinasActivity"
             android:exported="false" />
         <activity
@@ -75,7 +81,7 @@
             android:name=".fitur.kehadiran.perjalananDinas.activity.PerjalananDinasActivity"
             android:exported="true" />
         <activity
-            android:name=".fitur.kehadiran.lembur.LemburActivity"
+            android:name=".fitur.kehadiran.lembur.activity.LemburActivity"
             android:exported="true" />
         <activity
             android:name=".fitur.kehadiran.cuti.CutiActivity"

@@ -31,6 +31,7 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.home.adapter.KehadiranAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.DataItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.model.RiwayatKehadiranRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.RiwayatKoreksiKehadiranActivity;
+import com.pdamkotasmg.goodday.fitur.kehadiran.lembur.activity.LemburActivity;
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.activity.RiwayatPerjalananDinasActivity;
 import com.pdamkotasmg.goodday.utils.Config;
 
@@ -141,6 +142,10 @@ public class KehadiranActivity extends AppCompatActivity {
 
         divPerjalananDinas.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), RiwayatPerjalananDinasActivity.class));
+        });
+
+        divLembur.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), LemburActivity.class));
         });
     }
 
