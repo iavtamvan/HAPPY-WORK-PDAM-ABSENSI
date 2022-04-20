@@ -440,17 +440,23 @@ public class SplashScreenActivity extends AppCompatActivity {
             try {
                 packageInfo = pm.getPackageInfo(applicationInfo.packageName,
                         PackageManager.GET_PERMISSIONS);
-
+                Log.d(TAG, "Package info : " + packageInfo);
                 // Get Permissions
                 requestedPermissions = packageInfo.requestedPermissions;
+//                Log.d(TAG, "reqPermission: " + requestedPermissions);
 
                 if (requestedPermissions != null) {
                     for (int i = 0; i < requestedPermissions.length; i++) {
-                        if (requestedPermissions[i]
-                                .equals("android.permission.ACCESS_MOCK_LOCATION")
-                                && !applicationInfo.packageName.equals(context.getPackageName())) {
+//                        if (requestedPermissions[i].equals("android.permission.ACCESS_MOCK_LOCATION") && !applicationInfo.packageName.equals(context.getPackageName())) {
+//                            count++;
+//                            Log.d(TAG, "mockV2: " + packageInfo.packageName);
+//                            finding = true;
+//                            break;
+//                        }
+                        if (packageInfo.packageName.equalsIgnoreCase("fake") || packageInfo.packageName.equalsIgnoreCase("mock")
+                                || packageInfo.packageName.equalsIgnoreCase("fakegps")){
                             count++;
-                            Log.d("debug_mock", "mockV2: " + packageInfo.packageName);
+                            Log.d(TAG, "mockV2: " + packageInfo.packageName);
                             finding = true;
                             break;
                         }
@@ -468,9 +474,9 @@ public class SplashScreenActivity extends AppCompatActivity {
                 // TODO intent ke WelcomeActivity.class
                 Log.d(TAG, "Status Fack: Tidak ada fake gps");
                 SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
-                String telepon = sp.getString(Config.SHARED_NAME, "");
+                String name = sp.getString(Config.SHARED_NAME, "");
                 // TODO jika belum masuk ke welcome
-                if (telepon.equalsIgnoreCase("") || TextUtils.isEmpty(telepon)) {
+                if (name.equalsIgnoreCase("") || TextUtils.isEmpty(name)) {
                     finishAffinity();
                     startActivity(new Intent(getApplicationContext(), IntroActivity.class));
                 }
@@ -478,7 +484,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 else {
                     finishAffinity();
                     startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
-                    Log.d(TAG, "run: " + telepon);
+                    Log.d(TAG, "run: " + name);
                 }
 
             }, SPLASH_TIME_OUT);

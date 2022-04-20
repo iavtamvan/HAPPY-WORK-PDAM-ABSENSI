@@ -280,5 +280,7 @@ public interface ApiService {
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("portal-pegawai/api/masterdata/request-overtime-type/all")
-    Call<OvertimeTypeRootModel> getTipeOvertime(@Header("Authorization") String auth);
+    Call<OvertimeTypeRootModel> getTipeOvertime(
+            @Header("Authorization") String auth,
+            @Query("formatted") String formatted);
 }

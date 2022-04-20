@@ -187,7 +187,7 @@ public class LemburActivity extends AppCompatActivity implements DatePickerDialo
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService();
-        apiService.getTipeOvertime(accesToken).enqueue(new Callback<OvertimeTypeRootModel>() {
+        apiService.getTipeOvertime(accesToken, "1").enqueue(new Callback<OvertimeTypeRootModel>() {
             @Override
             public void onResponse(Call<OvertimeTypeRootModel> call, Response<OvertimeTypeRootModel> response) {
                 progressDialog.cancel();
