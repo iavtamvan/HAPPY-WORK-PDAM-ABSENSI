@@ -454,7 +454,12 @@ public class SplashScreenActivity extends AppCompatActivity {
 //                            break;
 //                        }
                         if (packageInfo.packageName.equalsIgnoreCase("fake") || packageInfo.packageName.equalsIgnoreCase("mock")
-                                || packageInfo.packageName.equalsIgnoreCase("fakegps")){
+                                || packageInfo.packageName.equalsIgnoreCase("fakegps")
+                                || packageInfo.packageName.equalsIgnoreCase("gpsemulator")
+                                || packageInfo.packageName.equalsIgnoreCase("fakegpslocationprofessional")
+                                || packageInfo.packageName.equalsIgnoreCase("fakegps_route")
+                                || packageInfo.packageName.contains("fakegps_route")
+                        ){
                             count++;
                             Log.d(TAG, "mockV2: " + packageInfo.packageName);
                             finding = true;

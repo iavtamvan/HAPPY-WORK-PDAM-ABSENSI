@@ -597,9 +597,14 @@ public final class Config {
 
                 if (requestedPermissions != null) {
                     for (int i = 0; i < requestedPermissions.length; i++) {
-                        if (requestedPermissions[i]
-                                .equals("android.permission.ACCESS_MOCK_LOCATION")
-                                && !applicationInfo.packageName.equals(context.getPackageName())) {
+//                        if (requestedPermissions[i].equals("android.permission.ACCESS_MOCK_LOCATION") && !applicationInfo.packageName.equals(context.getPackageName())) {
+                        if (packageInfo.packageName.equalsIgnoreCase("fake") || packageInfo.packageName.equalsIgnoreCase("mock")
+                                || packageInfo.packageName.equalsIgnoreCase("fakegps")
+                                || packageInfo.packageName.equalsIgnoreCase("gpsemulator")
+                                || packageInfo.packageName.equalsIgnoreCase("fakegpslocationprofessional")
+                                || packageInfo.packageName.equalsIgnoreCase("fakegps_route")
+                                || packageInfo.packageName.contains("fakegps_route")
+                        ){
                             count++;
                             Log.d("debug_mock", "mockV2: " + packageInfo.packageName);
 
