@@ -305,6 +305,22 @@ public class DashboardActivity extends AppCompatActivity {
         return password;
     }
 
+    @Override
+    public void onBackPressed() {
+        MaterialDialog mDialog = new MaterialDialog.Builder(DashboardActivity.this)
+                .setTitle("Keluar dari aplikasi?")
+                .setCancelable(false)
+                .setNegativeButton("Tidak", (dialogInterface, which) -> {
+                    dialogInterface.dismiss();
+                })
+                .setPositiveButton("Ya", (dialogInterface, which) -> {
+                    finishAffinity();
+                })
+                .build();
+
+        mDialog.show();
+    }
+
     private void initView() {
         divNamaLengkap = findViewById(R.id.div_nama_lengkap);
         divRekamWaktu = findViewById(R.id.div_rekam_waktu);

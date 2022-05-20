@@ -105,6 +105,10 @@ public class KehadiranActivity extends AppCompatActivity {
         riwayatAbsensiCode = getIntent().getStringExtra(Config.BUNDLE_RIWAYAT_ABSENSI);
         if (riwayatAbsensiCode.equalsIgnoreCase("1")) {
             btnHome.setVisibility(View.VISIBLE);
+            ivHeaderBackArrow.setOnClickListener(v -> {
+                finish();
+                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+            });
         } else {
             btnHome.setVisibility(View.GONE);
         }
@@ -212,6 +216,12 @@ public class KehadiranActivity extends AppCompatActivity {
                 Toast.makeText(KehadiranActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        KehadiranActivity.this.finish();
     }
 
     private void initView() {

@@ -81,6 +81,7 @@ public final class Config {
     public static final String ERROR_DATA_REGISTER = "Pastikan Data Anda Dengan Benar";
     public static final String ERROR_SESSION = "Sesi login anda telah habis, Login Ulang";
     public static final String ERROR_FAKE_GPS_TITLE = "Akun di NONAKTIFKAN \n Berbohong adalah suatu tindakan tidak terpuji \uD83D\uDE0A";
+    public static final String ERROR_ANDROID = "Not Supported Android 12 x004423 javLang:unsupportedOsVersion";
 
     public static final String SHARED_PERMISION_APPS = "permision_apps";
 
@@ -598,8 +599,10 @@ public final class Config {
                 if (requestedPermissions != null) {
                     for (int i = 0; i < requestedPermissions.length; i++) {
 //                        if (requestedPermissions[i].equals("android.permission.ACCESS_MOCK_LOCATION") && !applicationInfo.packageName.equals(context.getPackageName())) {
-                        if (packageInfo.packageName.equalsIgnoreCase("fake") || packageInfo.packageName.equalsIgnoreCase("mock")
-                                || packageInfo.packageName.equalsIgnoreCase("fakegps")
+                        if (packageInfo.packageName.contains("fake")
+                                || packageInfo.packageName.equalsIgnoreCase("fake")
+                                || packageInfo.packageName.contains("mock")
+                                || packageInfo.packageName.contains("fakegps")
                                 || packageInfo.packageName.equalsIgnoreCase("gpsemulator")
                                 || packageInfo.packageName.equalsIgnoreCase("fakegpslocationprofessional")
                                 || packageInfo.packageName.equalsIgnoreCase("fakegps_route")

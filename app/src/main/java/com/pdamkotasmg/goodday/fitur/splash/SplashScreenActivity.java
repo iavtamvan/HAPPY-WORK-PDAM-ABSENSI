@@ -338,6 +338,13 @@ public class SplashScreenActivity extends AppCompatActivity {
         getHwid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         getSSIDWifi = connectionInfo.getSSID().replace("\"", "");
 
+        Log.d(TAG, "SDKInteger: " + getSdkVersion);
+
+        if (Integer.parseInt(getSdkVersion) > 30){
+            finishAffinity();
+            Toast.makeText(this, Config.ERROR_ANDROID + " " + getSdkVersion, Toast.LENGTH_LONG).show();
+        }
+
         Log.d(TAG, "onSuccessgetLatitude || gettingDataDeviceInfo : " + lati);
         Log.d(TAG, "onSuccessgetLongitude || gettingDataDeviceInfo : " + longi);
 
@@ -453,8 +460,11 @@ public class SplashScreenActivity extends AppCompatActivity {
 //                            finding = true;
 //                            break;
 //                        }
-                        if (packageInfo.packageName.equalsIgnoreCase("fake") || packageInfo.packageName.equalsIgnoreCase("mock")
-                                || packageInfo.packageName.equalsIgnoreCase("fakegps")
+                        if (
+                                packageInfo.packageName.contains("fake")
+                                || packageInfo.packageName.equalsIgnoreCase("fake")
+                                || packageInfo.packageName.contains("mock")
+                                || packageInfo.packageName.contains("fakegps")
                                 || packageInfo.packageName.equalsIgnoreCase("gpsemulator")
                                 || packageInfo.packageName.equalsIgnoreCase("fakegpslocationprofessional")
                                 || packageInfo.packageName.equalsIgnoreCase("fakegps_route")

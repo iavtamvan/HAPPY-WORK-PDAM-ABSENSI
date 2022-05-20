@@ -58,6 +58,7 @@ public class CheckLocationActivity extends AppCompatActivity {
     private LinearLayout divLanjut;
     private AdView adView;
 
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +162,7 @@ public class CheckLocationActivity extends AppCompatActivity {
                                             loading.cancel();
                                             divLanjut.setVisibility(View.VISIBLE);
                                             divLanjut.setOnClickListener(v -> {
+//                                                finish();
                                                 if (statusPresensi.equalsIgnoreCase("qrcode")) {
                                                     npp = sharedPreferences.getString(Config.SHARED_NPP_QR_CODE, "");
                                                     Intent intent = new Intent(CheckLocationActivity.this, PresensiActivity.class);
