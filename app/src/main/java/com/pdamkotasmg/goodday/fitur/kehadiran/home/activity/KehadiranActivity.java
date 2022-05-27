@@ -114,7 +114,7 @@ public class KehadiranActivity extends AppCompatActivity {
         }
 
         btnHome.setOnClickListener(v -> {
-            finishAffinity();
+            finish();
 //            Config.interestialIntent(KehadiranActivity.this, DashboardActivity.class);
             startActivity(new Intent(KehadiranActivity.this, DashboardActivity.class));
         });

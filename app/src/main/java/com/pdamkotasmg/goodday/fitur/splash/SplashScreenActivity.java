@@ -340,6 +340,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         Log.d(TAG, "SDKInteger: " + getSdkVersion);
 
+        // TODO check Android WAJIBBBBBBBBBBBBBBBBBBBBB
         if (Integer.parseInt(getSdkVersion) > 30){
             finishAffinity();
             Toast.makeText(this, Config.ERROR_ANDROID + " " + getSdkVersion, Toast.LENGTH_LONG).show();

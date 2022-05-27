@@ -66,6 +66,8 @@ public class PresensiActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private FusedLocationProviderClient mFusedLocation;
 
+    private Date cDate;
+
     private String currentDateLocal;
     private String currentDateLocalSendServer;
     private String currentTimeLocal;
@@ -150,9 +152,15 @@ public class PresensiActivity extends AppCompatActivity {
             return;
         }
 
-        Date cDate = new Date();
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//            LocalDate cDate = LocalDate.now(); // Added 1.8
+////            currentDateLocal = new SimpleDateFormat("EEEE, dd MMM yyyy").format(cDate);
+//            currentTimeLocal = new SimpleDateFormat("HH:mm").format(cDate);
+//        } else {
+        cDate = new Date();
         currentDateLocal = new SimpleDateFormat("EEEE, dd MMM yyyy").format(cDate);
         currentTimeLocal = new SimpleDateFormat("HH:mm").format(cDate);
+//        }
 
         Date currentTimeInMillis = SecureTimer.with(PresensiActivity.this).getCurrentDate();
         Log.d("debug", "dateServer: " + currentTimeInMillis);
@@ -335,8 +343,7 @@ public class PresensiActivity extends AppCompatActivity {
                                 btnKirimPresensi.setVisibility(View.GONE);
                                 btnKirimPresensi.setText("\uD83E\uDD11");
                                 btnKirimPresensi2.setVisibility(View.GONE);
-                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TKK ???????",
-                                        Config.BASE_URL_NOTIF_FOTO_FAIL);
+                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TKK ???????");
                             } else {
                                 Toast.makeText(PresensiActivity.this, "Deteksi Wajah " + response.body().getData().getMatchPercent() + "%", Toast.LENGTH_SHORT).show();
                                 divMencariMuka.setVisibility(View.VISIBLE);
@@ -395,9 +402,9 @@ public class PresensiActivity extends AppCompatActivity {
                 // TODO Compress file/image
                 try {
                     compressedImageFile = new Compressor(PresensiActivity.this)
-                            .setMaxHeight(640)
-                            .setMaxWidth(480)
-                            .setQuality(70)
+                            .setMaxHeight(512)
+                            .setMaxWidth(512)
+                            .setQuality(80)
                             .setCompressFormat(Bitmap.CompressFormat.WEBP)
                             .setDestinationDirectoryPath(imageFiles[0].getFile().getParent())
                             .compressToFile(imageFiles[0].getFile(), "comp_" + imageFiles[0].getFile().getName());
@@ -439,23 +446,30 @@ public class PresensiActivity extends AppCompatActivity {
                             tvMencariMuka.setText("Selesai Mengirim");
                             btnKirimPresensi.setEnabled(false);
 
-                            if (response.body().getData().isIsShiftIn() && response.body().getData().isIsTelat()) {
-                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Telat absensi " + response.body().getData().getAttendanceDiffMinutes() + " menit , potong TKK deh :((",
-                                        Config.BASE_URL_NOTIF_JIKA_TELAT);
-                                finish();
+                            Config.showNotification(PresensiActivity.this, "Horeeeeeeeeeee", "Presensi tersimpan dengan baik!");
+                            finish();
 //                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
-                                Intent intent = new Intent(PresensiActivity.this, KehadiranActivity.class);
-                                intent.putExtra(Config.BUNDLE_RIWAYAT_ABSENSI, "1");
-                                startActivity(intent);
-                            } else {
-                                Config.showNotification(PresensiActivity.this, "AKU SENANG PRESENSI JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TKK nya hehehe :) ", "" +
-                                        Config.BASE_URL_NOTIF_NORMAL);
-                                finish();
-//                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
-                                Intent intent = new Intent(PresensiActivity.this, KehadiranActivity.class);
-                                intent.putExtra(Config.BUNDLE_RIWAYAT_ABSENSI, "1");
-                                startActivity(intent);
-                            }
+                            Intent intent = new Intent(PresensiActivity.this, KehadiranActivity.class);
+                            intent.putExtra(Config.BUNDLE_RIWAYAT_ABSENSI, "1");
+                            startActivity(intent);
+
+//                            if (response.body().getData().isIsShiftIn() && response.body().getData().isIsTelat()) {
+//                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Telat absensi " + response.body().getData().getAttendanceDiffMinutes() + " menit , potong TKK deh :((",
+//                                        Config.BASE_URL_NOTIF_JIKA_TELAT);
+//                                finish();
+////                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
+//                                Intent intent = new Intent(PresensiActivity.this, KehadiranActivity.class);
+//                                intent.putExtra(Config.BUNDLE_RIWAYAT_ABSENSI, "1");
+//                                startActivity(intent);
+//                            } else {
+//                                Config.showNotification(PresensiActivity.this, "AKU SENANG PRESENSI JAM ...." + tvWaktu.getText().toString().trim(), "Yee, gak dipotong TKK nya hehehe :) ", "" +
+//                                        Config.BASE_URL_NOTIF_NORMAL);
+//                                finish();
+////                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
+//                                Intent intent = new Intent(PresensiActivity.this, KehadiranActivity.class);
+//                                intent.putExtra(Config.BUNDLE_RIWAYAT_ABSENSI, "1");
+//                                startActivity(intent);
+//                            }
 
 //                            if (!response.body().getData().isIsShiftIn() && response.body().getData().isIsTelat()) { // jika shift in true
 //                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Telat absensi " + response.body().getData().getAttendanceDiffMinutes() + " menit , potong TKK deh :((",
@@ -482,8 +496,7 @@ public class PresensiActivity extends AppCompatActivity {
                             animationView.setVisibility(View.GONE);
                             tvMencariMuka.setText("Gagal Mengirim");
                             Toast.makeText(PresensiActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
-                            Config.showNotification(PresensiActivity.this, "" + response.code(), "Error, hubungi PTI ", "" +
-                                    Config.BASE_URL_NOTIF_ERROR);
+                            Config.showNotification(PresensiActivity.this, "" + response.code(), "Error, hubungi PTI ");
                         }
                     }
 

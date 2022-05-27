@@ -15,8 +15,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
@@ -49,11 +47,7 @@ import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -307,7 +301,7 @@ public final class Config {
         Log.d("debug", log + " Deleted : " + deleted);
     }
 
-    public static void showNotification(Context context, String title, String content, String resourceBitmapLink) {
+    public static void showNotification(Context context, String title, String content) {
         int noificationId = new Random().nextInt(100);
         Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.notif);
         Log.d("debug", "showNotification: " + sound);
@@ -323,17 +317,18 @@ public final class Config {
         );
 
 //        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceBitmap);
-        Bitmap bitmap = null;
-        try {
-            URL url = new URL(resourceBitmapLink);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            bitmap = BitmapFactory.decodeStream(input);
-        } catch (IOException e) {
-            // Log exception
-        }
+
+//        Bitmap bitmap = null;
+//        try {
+//            URL url = new URL(resourceBitmapLink);
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//            connection.setDoInput(true);
+//            connection.connect();
+//            InputStream input = connection.getInputStream();
+//            bitmap = BitmapFactory.decodeStream(input);
+//        } catch (IOException e) {
+//            // Log exception
+//        }
 
 
         builder.setSmallIcon(R.drawable.ic_launcher_foreground);
@@ -352,8 +347,8 @@ public final class Config {
 //            public void onLoadCleared(@Nullable Drawable placeholder) {
 //            }
 //        });
-        builder.setStyle(new NotificationCompat.BigPictureStyle().
-                bigPicture(bitmap));
+
+//        builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap));
         builder.setContentIntent(pendingIntent);
         builder.setAutoCancel(true);
         builder.setPriority(NotificationCompat.PRIORITY_MAX);
