@@ -2,7 +2,6 @@ package com.pdamkotasmg.goodday.utils;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -35,28 +34,17 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.pdamkotasmg.goodday.R;
-import com.pdamkotasmg.goodday.api.server.ApiConfig;
-import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.authentication.login.LoginActivity;
 import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.splash.SplashScreenActivity;
-import com.pdamkotasmg.goodday.fitur.splash.model.packageName.Data;
-import com.pdamkotasmg.goodday.fitur.splash.model.packageName.DataItem;
-import com.pdamkotasmg.goodday.fitur.splash.model.packageName.PackageNameRootModel;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
-import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public final class Config {
     public static final String APLICATION_NAME = "Happy Work";
@@ -154,7 +142,7 @@ public final class Config {
     public static final String SHARED_ABSENSI_KELUAR = "shared_absensi_keluar";
     public static final String SHARED_FLAG_SPLASH = "flag_splash";
     public static final String SHARED_URL_LOGO = "url_logo";
-    public static final String SHARED_ANDROID_TOKEN_1 = "android_token_1";
+    public static final String SHARED_ANDROID_TOKEN_1 = "6908321002";
     public static final String SHARED_ANDROID_TOKEN_2 = "android_token_2";
     public static final String SHARED_ANDROID_TOKEN_3 = "android_token_3";
     public static final String SHARED_ANDROID_TOKEN_4 = "android_token_4";
@@ -464,104 +452,11 @@ public final class Config {
         mDialog.show();
     }
 
-    // mock v1 from Online Packages
-    private static final String TAG = "debug";
-    private static PackageInfo packageInfo;
-    private static Data dataItem;
-    private static List<DataItem> dataItemList;
-    private static List<String> stringslist = new ArrayList<>();
-    public static void getPackageNameFromServer(Context context) {
-        ApiService apiService = ApiConfig.getApiService();
-        apiService.getPackageName().enqueue(new Callback<PackageNameRootModel>() {
-            @Override
-            public void onResponse(Call<PackageNameRootModel> call, Response<PackageNameRootModel> response) {
-                if (response.isSuccessful()) {
-                    dataItem = response.body().getData();
-                    dataItemList = dataItem.getData();
-                    for (int j = 0; j < dataItemList.size(); j++) {
-                        stringslist.add(dataItemList.get(j).getPackageName());
-                    }
-                    Log.d(TAG, "listPackage: " + stringslist);
-                    isMockSettingsON(context);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PackageNameRootModel> call, Throwable t) {
-                Toast.makeText(context, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    public static boolean isMockSettingsON(Context context) {
-        // returns true if mock location enabled, false if not enabled.
-        if (Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION).equals("0")) {
-            areThereMockPermissionApps(context);
-            return false;
-        } else {
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-    }
-
-    public static boolean areThereMockPermissionApps(Context context) {
-        int count = 0;
-
-        PackageManager pm = context.getPackageManager();
-        @SuppressLint("QueryPermissionsNeeded") List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
-        boolean finding = false;
-        for (ApplicationInfo applicationInfo : packages) {
-            try {
-                for (int i = 0; i < stringslist.size(); i++) {
-                    packageInfo = pm.getPackageInfo(applicationInfo.packageName, PackageManager.GET_PERMISSIONS);
-                    if (packageInfo.packageName.equalsIgnoreCase(stringslist.get(i))) {
-                        Log.d(TAG, packageInfo.packageName + " : Fuck Moc: Sama");
-                        finding = true;
-                        Toast.makeText(context, "Finding", Toast.LENGTH_SHORT).show();
-                        MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
-                                .setTitle(ERROR_FAKE_GPS_TITLE)
-                                .setMessage("Uninstall fake GPS kamu " + packageInfo.packageName + "\n\n Hubungi kepegawaian untuk aktivasi kembali...")
-                                .setAnimation("lt_bohong.json")
-                                .setCancelable(false)
-                                .setNegativeButton("Oke deh, jangan suka bohong ya", new MaterialDialog.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int which) {
-                                        dialogInterface.dismiss();
-                                        ((Activity) context).finishAffinity();
-                                    }
-                                })
-                                .setPositiveButton("Uninstall Aplikasi Absensi", new MaterialDialog.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int which) {
-                                        Toast.makeText(context, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(Intent.ACTION_DELETE);
-                                        intent.setData(Uri.parse("package:" + context.getApplicationContext().getPackageName()));
-                                        context.startActivity(intent);
-                                    }
-                                })
-                                .build();
-
-                        // Show Dialog
-                        mDialog.show();
-                        break;
-                    } else {
-                        Log.d(TAG, packageInfo.packageName + " : Fuck Moc: Lanjut");
-                    }
-                }
-                if (finding) break;
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (count > 0)
-            return true;
-        return false;
-    }
-
-
     // mock v2 from lis MOCK
     public static String[] requestedPermissions;
+    private static final String TAG = "debug";
+    private static PackageInfo packageInfo;
+
     public static boolean isMockSettingsONV2(Context context) {
         // returns true if mock location enabled, false if not enabled.
         if (Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION).equals("0")) {

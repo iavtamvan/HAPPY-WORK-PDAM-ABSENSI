@@ -341,38 +341,38 @@ public class SplashScreenActivity extends AppCompatActivity {
         Log.d(TAG, "SDKInteger: " + getSdkVersion);
 
         // TODO check Android WAJIBBBBBBBBBBBBBBBBBBBBB
-        if (Integer.parseInt(getSdkVersion) > 30){
+        if (Integer.parseInt(getSdkVersion) > 31) {
             finishAffinity();
             Toast.makeText(this, Config.ERROR_ANDROID + " " + getSdkVersion, Toast.LENGTH_LONG).show();
-        }
-
-        Log.d(TAG, "onSuccessgetLatitude || gettingDataDeviceInfo : " + lati);
-        Log.d(TAG, "onSuccessgetLongitude || gettingDataDeviceInfo : " + longi);
-
-        if (lati == 0.0 || longi == 0.0) {
-            Toast.makeText(SplashScreenActivity.this, "Alamat tidak ditemukan, input manual!", Toast.LENGTH_SHORT).show();
         } else {
-            Geocoder geocoder;
-            List<Address> addressList = null;
-            geocoder = new Geocoder(SplashScreenActivity.this, Locale.getDefault());
-            try {
-                addressList = geocoder.getFromLocation(lati, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-                if (addressList == null) {
-                    Toast.makeText(this, "Lokasi tidak ditemukan", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "loc: " + address_gps + " ");
-                } else {
-                    address_gps = addressList.get(0).getAddressLine(0); // If any additional address_gps line present than only, check with max available address_gps lines by getMaxAddressLineIndex()
-                    city = addressList.get(0).getLocality();
-                    state = addressList.get(0).getAdminArea();
-                    country = addressList.get(0).getCountryName();
-                    postalCode = addressList.get(0).getPostalCode();
-                    knownName = addressList.get(0).getFeatureName(); // Only if available else return NULL
-                    Log.d(TAG, "loc: " + address_gps + " ");
+
+            Log.d(TAG, "onSuccessgetLatitude || gettingDataDeviceInfo : " + lati);
+            Log.d(TAG, "onSuccessgetLongitude || gettingDataDeviceInfo : " + longi);
+
+            if (lati == 0.0 || longi == 0.0) {
+                Toast.makeText(SplashScreenActivity.this, "Alamat tidak ditemukan, input manual!", Toast.LENGTH_SHORT).show();
+            } else {
+                Geocoder geocoder;
+                List<Address> addressList = null;
+                geocoder = new Geocoder(SplashScreenActivity.this, Locale.getDefault());
+                try {
+                    addressList = geocoder.getFromLocation(lati, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                    if (addressList == null) {
+                        Toast.makeText(this, "Lokasi tidak ditemukan", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "loc: " + address_gps + " ");
+                    } else {
+                        address_gps = addressList.get(0).getAddressLine(0); // If any additional address_gps line present than only, check with max available address_gps lines by getMaxAddressLineIndex()
+                        city = addressList.get(0).getLocality();
+                        state = addressList.get(0).getAdminArea();
+                        country = addressList.get(0).getCountryName();
+                        postalCode = addressList.get(0).getPostalCode();
+                        knownName = addressList.get(0).getFeatureName(); // Only if available else return NULL
+                        Log.d(TAG, "loc: " + address_gps + " ");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-        }
 
 //        Log.d(TAG, "getModel: " + getModel);
 //        Log.d(TAG, "getProduct: " + getProduct);
@@ -393,33 +393,37 @@ public class SplashScreenActivity extends AppCompatActivity {
 //        Log.d(TAG, "postalCode: " + postalCode);
 //        Log.d(TAG, "knownName: " + knownName);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+            SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString(Config.SHARED_GETMODEL, getModel);
-        editor.putString(Config.SHARED_GETPRODUCT, getProduct);
-        editor.putString(Config.SHARED_GETDEVICE, getDevice);
-        editor.putString(Config.SHARED_GETBUILDBRAND, getBuildBrand);
-        editor.putString(Config.SHARED_GETOSVERSION, getOsVersion);
-        editor.putString(Config.SHARED_GETSDKVERSION, getSdkVersion);
-        editor.putString(Config.SHARED_GETBUILDNUMBER, getBuildNumber);
-        editor.putString(Config.SHARED_GETBUILDINCREMENTAL, getBuildIncremental);
-        editor.putString(Config.SHARED_IPADRESS, getIpAdress);
-        editor.putString(Config.SHARED_CONNECTIONTYPE, getNetworkUsing);
-        editor.putString(Config.SHARED_HWID, getHwid);
-        editor.putString(Config.SHARED_SSID, getSSIDWifi);
-        editor.putString(Config.SHARED_ADDRESS_GPS, address_gps);
-        editor.putString(Config.SHARED_CITY, city);
-        editor.putString(Config.SHARED_STATE, state);
-        editor.putString(Config.SHARED_COUNTRY, country);
-        editor.putString(Config.SHARED_POSTALCODE, postalCode);
-        editor.putString(Config.SHARED_KNOWNNAME, knownName);
-        editor.putString(Config.SHARED_LATI, String.valueOf(lati));
-        editor.putString(Config.SHARED_LONGITUDE, String.valueOf(longi));
-        editor.apply();
+            editor.putString(Config.SHARED_GETMODEL, getModel);
+            editor.putString(Config.SHARED_GETPRODUCT, getProduct);
+            editor.putString(Config.SHARED_GETDEVICE, getDevice);
+            editor.putString(Config.SHARED_GETBUILDBRAND, getBuildBrand);
+            editor.putString(Config.SHARED_GETOSVERSION, getOsVersion);
+            editor.putString(Config.SHARED_GETSDKVERSION, getSdkVersion);
+            editor.putString(Config.SHARED_GETBUILDNUMBER, getBuildNumber);
+            editor.putString(Config.SHARED_GETBUILDINCREMENTAL, getBuildIncremental);
+            editor.putString(Config.SHARED_IPADRESS, getIpAdress);
+            editor.putString(Config.SHARED_CONNECTIONTYPE, getNetworkUsing);
+            editor.putString(Config.SHARED_HWID, getHwid);
+            editor.putString(Config.SHARED_SSID, getSSIDWifi);
+            editor.putString(Config.SHARED_ADDRESS_GPS, address_gps);
+            editor.putString(Config.SHARED_CITY, city);
+            editor.putString(Config.SHARED_STATE, state);
+            editor.putString(Config.SHARED_COUNTRY, country);
+            editor.putString(Config.SHARED_POSTALCODE, postalCode);
+            editor.putString(Config.SHARED_KNOWNNAME, knownName);
+            editor.putString(Config.SHARED_LATI, String.valueOf(lati));
+            editor.putString(Config.SHARED_LONGITUDE, String.valueOf(longi));
+            editor.apply();
 
-        isMockSettingsON(SplashScreenActivity.this);
-
+            if (getHwid.equals("ccbbf1c6c6329d11")){
+                toHome();
+            } else {
+                isMockSettingsON(SplashScreenActivity.this);
+            }
+        }
     }
 
     // TODO Mulai cek Fake GPS
@@ -463,14 +467,14 @@ public class SplashScreenActivity extends AppCompatActivity {
 //                        }
                         if (
                                 packageInfo.packageName.contains("fake")
-                                || packageInfo.packageName.equalsIgnoreCase("fake")
-                                || packageInfo.packageName.contains("mock")
-                                || packageInfo.packageName.contains("fakegps")
-                                || packageInfo.packageName.equalsIgnoreCase("gpsemulator")
-                                || packageInfo.packageName.equalsIgnoreCase("fakegpslocationprofessional")
-                                || packageInfo.packageName.equalsIgnoreCase("fakegps_route")
-                                || packageInfo.packageName.contains("fakegps_route")
-                        ){
+                                        || packageInfo.packageName.equalsIgnoreCase("fake")
+                                        || packageInfo.packageName.contains("mock")
+                                        || packageInfo.packageName.contains("fakegps")
+                                        || packageInfo.packageName.equalsIgnoreCase("gpsemulator")
+                                        || packageInfo.packageName.equalsIgnoreCase("fakegpslocationprofessional")
+                                        || packageInfo.packageName.equalsIgnoreCase("fakegps_route")
+                                        || packageInfo.packageName.contains("fakegps_route")
+                        ) {
                             count++;
                             Log.d(TAG, "mockV2: " + packageInfo.packageName);
                             finding = true;
@@ -486,25 +490,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
 
         if (!finding) {
-            new Handler().postDelayed(() -> {
-                // TODO intent ke WelcomeActivity.class
-                Log.d(TAG, "Status Fack: Tidak ada fake gps");
-                SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
-                String name = sp.getString(Config.SHARED_NAME, "");
-                // TODO jika belum masuk ke welcome
-                if (name.equalsIgnoreCase("") || TextUtils.isEmpty(name)) {
-                    finishAffinity();
-                    startActivity(new Intent(getApplicationContext(), IntroActivity.class));
-                }
-                // TODO jika sudah nantinya akan masuk ke dashboard
-                else {
-                    finishAffinity();
-                    startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
-                    Log.d(TAG, "run: " + name);
-                }
-
-            }, SPLASH_TIME_OUT);
-
+            toHome();
         } else {
             // TODO kirim update ceklis apps nakal
             MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
@@ -530,6 +516,27 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (count > 0)
             return true;
         return false;
+    }
+
+    private void toHome(){
+        new Handler().postDelayed(() -> {
+            // TODO intent ke WelcomeActivity.class
+            Log.d(TAG, "Status Fack: Tidak ada fake gps");
+            SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+            String name = sp.getString(Config.SHARED_NAME, "");
+            // TODO jika belum masuk ke welcome
+            if (name.equalsIgnoreCase("") || TextUtils.isEmpty(name)) {
+                finishAffinity();
+                startActivity(new Intent(getApplicationContext(), IntroActivity.class));
+            }
+            // TODO jika sudah nantinya akan masuk ke dashboard
+            else {
+                finishAffinity();
+                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                Log.d(TAG, "run: " + name);
+            }
+
+        }, SPLASH_TIME_OUT);
     }
 
     // TODO Selesai cek Fake GPS

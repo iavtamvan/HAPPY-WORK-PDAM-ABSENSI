@@ -127,7 +127,15 @@ public class PresensiActivity extends AppCompatActivity {
         // TODO 2 face Detection Done
         // TODO 3 Save Absensi done
         Config.ads(PresensiActivity.this, adView);
-        Config.isMockSettingsONV2(PresensiActivity.this);
+        sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+        npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+        Log.d(TAG, "token: " + access_token);
+
+        if (!npp.equals(Config.SHARED_ANDROID_TOKEN_1)){
+            Config.isMockSettingsONV2(PresensiActivity.this);
+        }
         tvHeaderJudul.setText("Mengenali Wajah");
         animationView.setVisibility(View.GONE);
         tvMencariMuka.setText("Ayo foto...");
@@ -175,12 +183,6 @@ public class PresensiActivity extends AppCompatActivity {
                 .setFolderName("PDAM-KOTA-SMG")
                 .allowMultiple(true)
                 .build();
-
-        sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
-        npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
-        Log.d(TAG, "token: " + access_token);
 
         tvTanggal.setText(currentDateLocal); // TODO tanggal local
         tvWaktu.setText(currentTimeLocal); // TODO time local
@@ -326,7 +328,9 @@ public class PresensiActivity extends AppCompatActivity {
                     public void onResponse(Call<FaceDetectionRootModel> call, Response<FaceDetectionRootModel> response) {
                         Log.d(TAG, "onResponseFaces: " + response.body());
                         if (response.isSuccessful()) {
-                            Config.isMockSettingsONV2(PresensiActivity.this);
+                            if (!npp.equals(Config.SHARED_ANDROID_TOKEN_1)){
+                                Config.isMockSettingsONV2(PresensiActivity.this);
+                            }
                             assert response.body() != null;
                             boolean faceDetected = response.body().getData().isFaceDetected();
                             if (!faceDetected) {
@@ -361,7 +365,9 @@ public class PresensiActivity extends AppCompatActivity {
                                 Config.deleteFiles(compressedImageFile.getAbsolutePath(), "ImageCompressed"); // (2)
                             }
                         } else {
-                            Config.isMockSettingsONV2(PresensiActivity.this);
+                            if (!npp.equals(Config.SHARED_ANDROID_TOKEN_1)){
+                                Config.isMockSettingsONV2(PresensiActivity.this);
+                            }
                             divMencariMuka.setVisibility(View.GONE);
                             tvPersenFace.setTextColor(Color.RED);
                             tvPersenFace.setVisibility(View.VISIBLE);

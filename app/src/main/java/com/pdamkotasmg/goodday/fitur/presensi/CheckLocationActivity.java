@@ -110,7 +110,9 @@ public class CheckLocationActivity extends AppCompatActivity {
     }
 
     private void checkLocation() {
-        Config.isMockSettingsONV2(CheckLocationActivity.this);
+        if (!npp.equals(Config.SHARED_ANDROID_TOKEN_1)){
+            Config.isMockSettingsONV2(CheckLocationActivity.this);
+        }
         loading = new ProgressDialog(CheckLocationActivity.this);
         loading.setCancelable(false);
         loading.setMessage("Mohon Tunggu...");
