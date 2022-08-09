@@ -320,7 +320,7 @@ public class PresensiActivity extends AppCompatActivity {
         Log.d(TAG, "imageFileCompress: " + imageFile.getName());
         Log.d(TAG, "status: " + statusPresensiBody.toString());
         Log.d(TAG, "nppBody: " + nppBody.toString());
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.checkFace(access_token, statusPresensiBody, nppBody, bodyPhoto)
                 .enqueue(new Callback<FaceDetectionRootModel>() {
                     @SuppressLint("SetTextI18n")
@@ -441,8 +441,9 @@ public class PresensiActivity extends AppCompatActivity {
     private void savePresensi() {
         animationView.setVisibility(View.VISIBLE);
         tvMencariMuka.setText("Mengirim Absensi");
-        ApiService apiService = ApiConfig.getApiService();
-        apiService.savePresensi(access_token, lati, longi, statusPresensi, npp, "0", getPathPhotoFaceServer, connectionType, currentDateLocalSendServer, currentTimeLocalSendServer)
+        ApiService apiService = ApiConfig.getApiService(this);
+        apiService.savePresensi(access_token, lati, longi, statusPresensi, npp, "0", getPathPhotoFaceServer, connectionType,
+                currentDateLocalSendServer, currentTimeLocalSendServer, "0")
                 .enqueue(new Callback<SavePresensiRootModel>() {
                     @Override
                     public void onResponse(Call<SavePresensiRootModel> call, Response<SavePresensiRootModel> response) {

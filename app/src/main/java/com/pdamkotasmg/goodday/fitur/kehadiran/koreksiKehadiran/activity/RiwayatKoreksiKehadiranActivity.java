@@ -81,7 +81,7 @@ public class RiwayatKoreksiKehadiranActivity extends AppCompatActivity {
 
     private void getHistoryKoreksiKehadiran() {
         divAnimation.setVisibility(View.VISIBLE);
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getHistoryKoreksiKehadiran(accesToken,"RAC", "1")
                 .enqueue(new Callback<RiwayatKoreksiKehadiranRootModel>() {
                     @Override

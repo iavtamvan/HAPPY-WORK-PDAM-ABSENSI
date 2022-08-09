@@ -74,7 +74,7 @@ public class RiwayatPerjalananDinasActivity extends AppCompatActivity {
 
     private void getRiwayatPerjalananDinas() {
         divAnimation.setVisibility(View.VISIBLE);
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getRequestHistoryPerjalananDinas(accesToken, "ROD", "1")
                 .enqueue(new Callback<RiwayatPerjalananDinasRootModel>() {
                     @Override

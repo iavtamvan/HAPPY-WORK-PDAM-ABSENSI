@@ -88,7 +88,7 @@ public class DetailCutiActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Mohon tunggu...");
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getRequestEdit(accessToken, "RLV", numberReq, "CANCELLED")
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -120,7 +120,7 @@ public class DetailCutiActivity extends AppCompatActivity {
         progressDialog.setMessage("Mohon tunggu...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getRequestHistoryCutiByNumber(accessToken, "RLV", numberReq, "1")
                 .enqueue(new Callback<DetailCutiRootModel>() {
                     @Override

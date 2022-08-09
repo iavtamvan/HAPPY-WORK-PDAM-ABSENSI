@@ -26,7 +26,7 @@ public class FeedsController {
 
     public void getFeeds(Context context, RecyclerView rv) {
         dataItems = new ArrayList<>();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(context);
         apiService.getNews().enqueue(new Callback<BeritaRootModel>() {
             @Override
             public void onResponse(Call<BeritaRootModel> call, Response<BeritaRootModel> response) {

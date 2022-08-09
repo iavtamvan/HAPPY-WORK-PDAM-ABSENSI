@@ -16,7 +16,7 @@ import retrofit2.Response;
 public class ProfileController {
     public void logout(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(context);
         apiService.logout(sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN,""))
                 .enqueue(new Callback<ResponseBody>() {
                     @Override

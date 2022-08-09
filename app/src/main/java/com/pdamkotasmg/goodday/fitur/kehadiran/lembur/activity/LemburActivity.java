@@ -148,7 +148,7 @@ public class LemburActivity extends AppCompatActivity implements DatePickerDialo
         ProgressDialog progressDialog = new ProgressDialog(LemburActivity.this);
         progressDialog.setMessage("Mohon tunggu...");
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getHistoryPresensi(accesToken, edtStartDate.getText().toString().trim(), edtEndDate.getText().toString().trim(), "1") // tanggal dari, dan tanggal selesai
                 .enqueue(new Callback<RiwayatKehadiranRootModel>() {
                     @Override
@@ -186,7 +186,7 @@ public class LemburActivity extends AppCompatActivity implements DatePickerDialo
         progressDialog.setMessage("Mengambil data...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getTipeOvertime(accesToken, "1").enqueue(new Callback<OvertimeTypeRootModel>() {
             @Override
             public void onResponse(Call<OvertimeTypeRootModel> call, Response<OvertimeTypeRootModel> response) {
@@ -217,7 +217,7 @@ public class LemburActivity extends AppCompatActivity implements DatePickerDialo
     private void getMyStaff() {
         progressDialog.setMessage("Mengambil data...");
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getMyStaff(accesToken)
                 .enqueue(new Callback<GetMyStaffRootModel>() {
                     @SuppressLint("NotifyDataSetChanged")

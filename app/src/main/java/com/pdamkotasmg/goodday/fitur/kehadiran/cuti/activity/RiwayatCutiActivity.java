@@ -83,7 +83,7 @@ public class RiwayatCutiActivity extends AppCompatActivity {
         progressDialog.setMessage("Mohon tunggu...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getRequestHistoryCuti(accessToken, "RLV", "1")
                 .enqueue(new Callback<RiwayatCutiRootModel>() {
                     @Override

@@ -68,7 +68,7 @@ public class PermintaanActivity extends AppCompatActivity {
         progressDialog.setMessage("Mohon tunggu ...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getRequestHistoryAll(accesToken, "ALL", "1")
                 .enqueue(new Callback<PermintaanRootModel>() {
                     @Override

@@ -188,7 +188,7 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void getPermissionName() {
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getPermissionNames(accessToken).enqueue(new Callback<PermissionRootModel>() {
             @Override
             public void onResponse(Call<PermissionRootModel> call, Response<PermissionRootModel> response) {
@@ -225,7 +225,7 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void getShiftPegawai() {
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getShiftPegawai(accessToken).enqueue(new Callback<ShfitPegawaiRootModel>() {
             @Override
             public void onResponse(Call<ShfitPegawaiRootModel> call, Response<ShfitPegawaiRootModel> response) {

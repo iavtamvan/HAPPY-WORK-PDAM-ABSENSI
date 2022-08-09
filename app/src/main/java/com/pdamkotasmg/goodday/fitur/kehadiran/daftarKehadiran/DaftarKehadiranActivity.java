@@ -88,7 +88,7 @@ public class DaftarKehadiranActivity extends AppCompatActivity {
 
     private void getHistoryPresensi() {
         divAnimation.setVisibility(View.VISIBLE);
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getHistoryPresensi(accessToken, String.valueOf(dateFromMinus), String.valueOf(dateFrom), "1") // tanggal dari, dan tanggal selesai
                 .enqueue(new Callback<RiwayatKehadiranRootModel>() {
                     @Override

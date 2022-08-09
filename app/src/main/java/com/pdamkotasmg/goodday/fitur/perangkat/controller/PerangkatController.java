@@ -35,7 +35,7 @@ public class PerangkatController {
         SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         dataItem = new ArrayList<>();
         Log.d(TAG, "tokenActive: " + sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, ""));
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(context);
         apiService.getHistoryAktifDevice(sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "")).enqueue(new Callback<PerangkatRootModel>() {
             @Override
             public void onResponse(Call<PerangkatRootModel> call, Response<PerangkatRootModel> response) {
@@ -62,7 +62,7 @@ public class PerangkatController {
 
     public void deleteAllSession(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(context);
         apiService.deleteAllSession(sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "")).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

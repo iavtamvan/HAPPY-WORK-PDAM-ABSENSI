@@ -214,7 +214,7 @@ public class ProfileActivity extends AppCompatActivity {
                         progressDialog.setMessage("Mohon Tunggu...");
                         progressDialog.setCancelable(false);
                         progressDialog.show();
-                        ApiService apiService = ApiConfig.getApiService();
+                        ApiService apiService = ApiConfig.getApiService(this);
                         apiService.updatePassword(access_token, edtPasswordBaru.getText().toString().trim(), edtPasswordBaruKonfirmasi.getText().toString().trim())
                                 .enqueue(new Callback<ResponseBody>() {
                                     @Override

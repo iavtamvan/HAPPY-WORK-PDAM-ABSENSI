@@ -154,7 +154,7 @@ public class KehadiranActivity extends AppCompatActivity {
     }
 
     private void getHistoryPresensi() {
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getHistoryPresensi(accessToken, String.valueOf(dateFromMinus), String.valueOf(dateFrom), "1") // tanggal dari, dan tanggal selesai
                 .enqueue(new Callback<RiwayatKehadiranRootModel>() {
                     @Override
@@ -189,7 +189,7 @@ public class KehadiranActivity extends AppCompatActivity {
     public void getShiftPegawai() {
         rvKehadiran.setVisibility(View.GONE);
         divAnimation.setVisibility(View.VISIBLE);
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getShiftPegawai(accessToken).enqueue(new Callback<ShfitPegawaiRootModel>() {
             @SuppressLint("SetTextI18n")
             @Override

@@ -94,7 +94,7 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
 
     private void reqCancel() {
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getRequestEdit(accessToken, "RAC", numberReq, "CANCELLED")
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -123,7 +123,7 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
 
     private void getDetailsKoreksiKehadiran() {
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getRequestByNumberKoreksiKehadiran(accessToken, "RAC", numberReq, "1")
                 .enqueue(new Callback<DetailKoreksiKehadiranRootModel>() {
                     @Override

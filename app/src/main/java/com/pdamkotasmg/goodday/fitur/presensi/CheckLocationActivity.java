@@ -134,7 +134,7 @@ public class CheckLocationActivity extends AppCompatActivity {
                 editor.putString(Config.SHARED_LONGITUDE_OFFLINE, String.valueOf(longi));
                 editor.apply();
 
-                ApiService apiService = ApiConfig.getApiService();
+                ApiService apiService = ApiConfig.getApiService(this);
                 apiService.checkLocation(access_token, statusPresensi, npp, lati, longi)
                         .enqueue(new Callback<CheckLocationRootModel>() {
                             @SuppressLint({"SetJavaScriptEnabled", "SetTextI18n"})

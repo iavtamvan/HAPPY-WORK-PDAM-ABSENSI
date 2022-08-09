@@ -230,7 +230,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     public void getAplicationVersionFromServer() {
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getAndroidVersion().enqueue(new Callback<AndroidVersionModel>() {
             @Override
             public void onResponse(Call<AndroidVersionModel> call, Response<AndroidVersionModel> response) {
@@ -295,7 +295,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void getPackageNameFromServer() {
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getPackageName().enqueue(new Callback<PackageNameRootModel>() {
             @Override
             public void onResponse(Call<PackageNameRootModel> call, Response<PackageNameRootModel> response) {

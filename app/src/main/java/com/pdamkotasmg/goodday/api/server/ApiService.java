@@ -110,7 +110,8 @@ public interface ApiService {
                                              @Field("photo_path") String photo_path,
                                              @Field("connection_type") String connection_type,
                                              @Field("record_date") String record_date,
-                                             @Field("record_time") String record_time
+                                             @Field("record_time") String record_time,
+                                             @Field("check_location") String check_location
     );
 
     @GET("portal-pegawai/api/masterdata/forbid-app")

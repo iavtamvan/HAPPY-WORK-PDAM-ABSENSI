@@ -94,7 +94,7 @@ public class DetailPerjalananDinasActivity extends AppCompatActivity {
 
     private void reqCancel() {
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getRequestEdit(accessToken, "ROD", numberReq, "CANCELLED")
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -123,7 +123,7 @@ public class DetailPerjalananDinasActivity extends AppCompatActivity {
 
     private void getDetailsPerjalananDinas() {
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getRequestByNumberPerjalananDinas(accessToken, "ROD", numberReq, "1")
                 .enqueue(new Callback<DetailPerjalananDinasRootModel>() {
                     @Override

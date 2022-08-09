@@ -84,7 +84,7 @@ public class LoginController {
         loading.setCancelable(false);
         loading.setMessage("Mohon tunggu ....");
         loading.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(context);
         apiService.login(npp, password, hwid, model, product, device, build_brand, os_version, sdk_version, build_number, build_incremental, ip_address, connection_type, ssid, location_city, latitude, longitude
                 , appVersion, fcmToken).enqueue(new Callback<AkunRootModel>() {
             @Override

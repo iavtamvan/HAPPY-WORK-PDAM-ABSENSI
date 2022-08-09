@@ -1,5 +1,10 @@
 package com.pdamkotasmg.goodday.api.server;
 
+import android.content.Context;
+
+import com.chuckerteam.chucker.api.ChuckerCollector;
+import com.chuckerteam.chucker.api.ChuckerInterceptor;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -7,12 +12,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiConfig {
 
-    public static ApiService getApiService(){
+    public static ApiService getApiService(Context context) {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
+        ChuckerCollector chuckerCollector = new ChuckerCollector(context, true);
+        ChuckerInterceptor chuckerInterceptor = new ChuckerInterceptor(context, chuckerCollector);
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(httpLoggingInterceptor)
+                .addInterceptor(chuckerInterceptor)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()

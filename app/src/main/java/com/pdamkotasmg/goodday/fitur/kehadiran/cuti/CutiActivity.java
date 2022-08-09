@@ -158,7 +158,7 @@ public class CutiActivity extends AppCompatActivity implements DatePickerDialog.
 
         btnNewRequest.setOnClickListener(v -> {
             progressDialog.show();
-            ApiService apiService = ApiConfig.getApiService();
+            ApiService apiService = ApiConfig.getApiService(this);
             apiService.postCuti(accesToken, "RLV", npp, tipeCutiID,
                     edtStartDate.getText().toString().trim(),
                     edtEndDate.getText().toString().trim(),
@@ -188,7 +188,7 @@ public class CutiActivity extends AppCompatActivity implements DatePickerDialog.
     private void getTipeCuti() {
         progressDialog.setCancelable(false);
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getTipeCuti(accesToken, "1")
                 .enqueue(new Callback<TipeCutiRootModel>() {
                     @Override
@@ -222,7 +222,7 @@ public class CutiActivity extends AppCompatActivity implements DatePickerDialog.
 
     private void getMyStaff() {
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getMyStaff(accesToken)
                 .enqueue(new Callback<GetMyStaffRootModel>() {
                     @SuppressLint("NotifyDataSetChanged")

@@ -143,7 +143,7 @@ public class PerjalananDinasActivity extends AppCompatActivity implements DatePi
     private void postPerjalananDinas() {
         progressDialog.setMessage("Mengambil data...");
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.postJsonPerjalananDinas(accesToken, new PostPerjalananDinasRootModel(npp, "ROD", "1", edtRemark.getText().toString(),
                 myList))
                 .enqueue(new Callback<PostPerjalananDinasRootModel>() {
@@ -168,7 +168,7 @@ public class PerjalananDinasActivity extends AppCompatActivity implements DatePi
     private void getMyStaff() {
         progressDialog.setMessage("Mengambil data...");
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getMyStaff(accesToken)
                 .enqueue(new Callback<GetMyStaffRootModel>() {
                     @SuppressLint("NotifyDataSetChanged")

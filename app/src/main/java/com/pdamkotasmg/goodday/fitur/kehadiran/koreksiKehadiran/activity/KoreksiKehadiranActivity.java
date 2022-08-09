@@ -140,7 +140,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         ProgressDialog progressDialog = new ProgressDialog(KoreksiKehadiranActivity.this);
         progressDialog.setMessage("Mengambil data...");
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getMyStaff(accesToken)
                 .enqueue(new Callback<GetMyStaffRootModel>() {
                     @SuppressLint("NotifyDataSetChanged")
@@ -187,7 +187,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         ProgressDialog progressDialog = new ProgressDialog(KoreksiKehadiranActivity.this);
         progressDialog.setMessage("Mohon tunggu...");
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.getHistoryPresensi(accesToken, edtStartDate.getText().toString().trim(), edtEndDate.getText().toString().trim(), "1") // tanggal dari, dan tanggal selesai
                 .enqueue(new Callback<RiwayatKehadiranRootModel>() {
                     @Override
@@ -227,7 +227,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         progressDialog.setMessage("Mohon tunggu ...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService();
+        ApiService apiService = ApiConfig.getApiService(this);
         apiService.postJson(accesToken, new KoreksiKeharidanRootModel(edtEndDate.getText().toString().trim(), npp, "RAC", detailsItemArray, edtStartDate.getText().toString().trim()))
                 .enqueue(new Callback<KoreksiKeharidanRootModel>() {
                     @Override
