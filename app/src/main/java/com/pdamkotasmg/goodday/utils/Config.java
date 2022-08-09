@@ -89,6 +89,8 @@ public final class Config {
     public static final String SHARED_KNOWNNAME = "knownName";
     public static final String SHARED_LATI = "latitude";
     public static final String SHARED_LONGITUDE = "longitude";
+    public static final String SHARED_LATI_CHECK_LOCATION = "lati_check_location";
+    public static final String SHARED_LONGITUDE_CHECK_LOCATION = "longitude_check_location";
     public static final String SHARED_ACCESS_TOKEN = "access_token";
     public static final String SHARED_NPP_PROFILE = "npp_profile";
     public static final String SHARED_NPP_QR_CODE = "npp_titip_absen";
@@ -143,7 +145,7 @@ public final class Config {
     public static final String SHARED_FLAG_SPLASH = "flag_splash";
     public static final String SHARED_URL_LOGO = "url_logo";
     public static final String SHARED_ANDROID_TOKEN_1 = "6908321002";
-    public static final String SHARED_ANDROID_TOKEN_2 = "android_token_2";
+    public static final String SHARED_ANDROID_TOKEN_2 = "6908321001";
     public static final String SHARED_ANDROID_TOKEN_3 = "android_token_3";
     public static final String SHARED_ANDROID_TOKEN_4 = "android_token_4";
     public static final String SHARED_ANDROID_TOKEN_5 = "android_token_5";

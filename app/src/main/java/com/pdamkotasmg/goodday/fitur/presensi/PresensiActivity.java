@@ -249,10 +249,10 @@ public class PresensiActivity extends AppCompatActivity {
         Log.d(TAG, "statusPresensi: " + statusPresensi);
         Log.d(TAG, "npp log: " + npp);
 
-        lati = Double.valueOf(sharedPreferences.getString(Config.SHARED_LATI, ""));
-        longi = Double.valueOf(sharedPreferences.getString(Config.SHARED_LONGITUDE, ""));
-        Log.d(TAG, "latShared: " + lati);
-        Log.d(TAG, "longShared: " + longi);
+        lati = Double.valueOf(sharedPreferences.getString(Config.SHARED_LATI_CHECK_LOCATION, ""));
+        longi = Double.valueOf(sharedPreferences.getString(Config.SHARED_LONGITUDE_CHECK_LOCATION, ""));
+        Log.d(TAG, "latSharedPresensi: " + lati);
+        Log.d(TAG, "longSharedPresensi: " + longi);
 
         ivFotoFront.setOnClickListener(v -> {
             Camera.CameraInfo info = new Camera.CameraInfo();
@@ -280,17 +280,17 @@ public class PresensiActivity extends AppCompatActivity {
         });
 
         btnKirimPresensi2.setOnClickListener(v -> {
-            mFusedLocation.getLastLocation().addOnSuccessListener(this, location -> {
-                if (location != null) {
-                    // Do it all with location
-                    Log.d("My Current location", "Lat : " + location.getLatitude() + " Long : " + location.getLongitude());
-                    // Display in Toast
-                    lati = location.getLatitude();
-                    longi = location.getLongitude();
-                    Log.d(TAG, "lat: " + lati);
-                    Log.d(TAG, "long: " + longi);
-                }
-            });
+//            mFusedLocation.getLastLocation().addOnSuccessListener(this, location -> {
+//                if (location != null) {
+//                    // Do it all with location
+//                    Log.d("My Current location", "Lat : " + location.getLatitude() + " Long : " + location.getLongitude());
+//                    // Display in Toast
+//                    lati = location.getLatitude();
+//                    longi = location.getLongitude();
+//                    Log.d(TAG, "lat: " + lati);
+//                    Log.d(TAG, "long: " + longi);
+//                }
+//            });
             npp = noToken;
             currentDateLocalSendServer = new SimpleDateFormat("yyyy-MM-dd").format(cDate);
             currentTimeLocalSendServer = new SimpleDateFormat("HH:mm:ss").format(cDate);

@@ -418,7 +418,9 @@ public class SplashScreenActivity extends AppCompatActivity {
             editor.putString(Config.SHARED_LONGITUDE, String.valueOf(longi));
             editor.apply();
 
-            if (getHwid.equals("ccbbf1c6c6329d11")){
+            Log.d(TAG, "getHwid: " + getHwid);
+
+            if (getHwid.equals("ccbbf1c6c6329d11") || getHwid.equals("8b903c7b6694e672")){
                 toHome();
             } else {
                 isMockSettingsON(SplashScreenActivity.this);

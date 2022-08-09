@@ -93,8 +93,8 @@ public class CheckLocationActivity extends AppCompatActivity {
                 // Display in Toast
                 lati = location.getLatitude();
                 longi = location.getLongitude();
-                Log.d(TAG, "lat: " + lati);
-                Log.d(TAG, "long: " + longi);
+                Log.d(TAG, "latNewCheck: " + lati);
+                Log.d(TAG, "longNewCheck: " + longi);
 
                 editor.putString(Config.SHARED_LATI_OFFLINE, String.valueOf(lati));
                 editor.putString(Config.SHARED_LONGITUDE_OFFLINE, String.valueOf(longi));
@@ -110,7 +110,7 @@ public class CheckLocationActivity extends AppCompatActivity {
     }
 
     private void checkLocation() {
-        if (!npp.equals(Config.SHARED_ANDROID_TOKEN_1)){
+        if (!npp.equals(Config.SHARED_ANDROID_TOKEN_1) && !npp.equals(Config.SHARED_ANDROID_TOKEN_2) ){
             Config.isMockSettingsONV2(CheckLocationActivity.this);
         }
         loading = new ProgressDialog(CheckLocationActivity.this);
@@ -124,8 +124,12 @@ public class CheckLocationActivity extends AppCompatActivity {
             if (location != null) {
                 lati = location.getLatitude();
                 longi = location.getLongitude();
-                Log.d(TAG, "latCheck: " + lati);
-                Log.d(TAG, "longCheck: " + longi);
+                Log.d(TAG, "latChecklOCATION: " + lati);
+                Log.d(TAG, "longChecklOCATION: " + longi);
+
+                editor.putString(Config.SHARED_LATI_CHECK_LOCATION, String.valueOf(lati));
+                editor.putString(Config.SHARED_LONGITUDE_CHECK_LOCATION, String.valueOf(longi));
+
                 editor.putString(Config.SHARED_LATI_OFFLINE, String.valueOf(lati));
                 editor.putString(Config.SHARED_LONGITUDE_OFFLINE, String.valueOf(longi));
                 editor.apply();
@@ -140,7 +144,7 @@ public class CheckLocationActivity extends AppCompatActivity {
                                     // deteksi lokasi absen false
                                     if (!response.body().getData().getAppliesShiftSetting().isLocationDetection()) {
                                         startActivity(new Intent(CheckLocationActivity.this, PresensiActivity.class));
-                                    } else if (response.body().getData().getAppliesShiftSetting().getShiftDailyCode().equalsIgnoreCase("OFF")) {
+                                    } else if (response.body().getData().getAppliesShiftSetting().getShiftDailyCode().contains("OFF")) {
                                         Toast.makeText(CheckLocationActivity.this, "Shift Off", Toast.LENGTH_SHORT).show();
                                         finishAffinity();
                                         startActivity(new Intent(CheckLocationActivity.this, KehadiranActivity.class));
