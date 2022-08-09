@@ -22,6 +22,17 @@ public class AppliesShiftSetting{
     @SerializedName("location_detection")
     private Boolean locationDetection;
 
+    @SerializedName("shift_group_code")
+    private Boolean shift_group_code;
+
+    public Boolean getShift_group_code() {
+        return shift_group_code;
+    }
+
+    public void setShift_group_code(Boolean shift_group_code) {
+        this.shift_group_code = shift_group_code;
+    }
+
     public void setShiftDailyCode(String shiftDailyCode){
         this.shiftDailyCode = shiftDailyCode;
     }

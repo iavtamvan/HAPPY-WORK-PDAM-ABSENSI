@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        app:cardBackgroundColor="@color/greenGojek"
+        app:cardBackgroundColor="@color/redPortal"
         app:cardCornerRadius="4dp">
 
         <LinearLayout
@@ -36,7 +36,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_attedance" />
+                    android:src="@drawable/info_white" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -45,9 +45,9 @@
                     android:layout_marginRight="4dp"
                     android:fontFamily="@font/poppins_medium"
                     android:gravity="center"
-                    android:text="Hadirlah lebih awal agar mendapat mentari 🙂"
+                    android:text="Pastikan wajah terlihat dengan jelas 🙂"
                     android:textColor="@color/white"
-                    android:textSize="12dp"
+                    android:textSize="13dp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
