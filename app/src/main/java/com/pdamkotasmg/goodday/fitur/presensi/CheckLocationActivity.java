@@ -158,7 +158,8 @@ public class CheckLocationActivity extends AppCompatActivity {
 //                                wv.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
                                         assert response.body() != null;
                                         wv.loadUrl(response.body().getData().getMapUrl());
-                                        tvDistance.setText("Akurasi " + response.body().getData().getCheckResult().getDistanceM() + " Meter \n" + response.body().getData().getAppliesShiftSetting().getShift_group_code() +
+                                        Log.d(TAG, "logAnu: " + response.body().getData().getAppliesShiftSetting().getShift_group_code());
+                                        tvDistance.setText("Akurasi " + response.body().getData().getCheckResult().getDistanceM() + " Meter \n" + response.body().getData().getAppliesShiftSetting().getRemark() +
                                                 " - " + response.body().getData().getAppliesLocationSetting().getName());
                                         if (!response.body().getData().getCheckResult().isIsInRadius()) {
                                             loading.cancel();

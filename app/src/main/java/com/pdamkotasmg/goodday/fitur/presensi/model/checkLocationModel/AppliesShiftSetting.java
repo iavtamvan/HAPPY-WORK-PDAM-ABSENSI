@@ -23,13 +23,13 @@ public class AppliesShiftSetting{
     private Boolean locationDetection;
 
     @SerializedName("shift_group_code")
-    private Boolean shift_group_code;
+    private String shift_group_code;
 
-    public Boolean getShift_group_code() {
+    public String getShift_group_code() {
         return shift_group_code;
     }
 
-    public void setShift_group_code(Boolean shift_group_code) {
+    public void setShift_group_code(String shift_group_code) {
         this.shift_group_code = shift_group_code;
     }
 

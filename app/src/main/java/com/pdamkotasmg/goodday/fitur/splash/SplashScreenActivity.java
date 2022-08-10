@@ -152,21 +152,25 @@ public class SplashScreenActivity extends AppCompatActivity {
             editor.apply();
             Log.d(TAG, "Masuk Apps good day");
             // TODO harusnya unComent pada mode Production
-            if (Settings.Secure.getInt(getApplicationContext().getContentResolver(),
-                    Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0) {
-                Toast.makeText(this, "Matikan mode debugging", Toast.LENGTH_SHORT).show();
-                Config.dialogAlert(SplashScreenActivity.this, "Developer mode atau opsi developer ON", "Akun di BEKUKAN oleh sistem Android, hubungi kepegawaian", "OKE");
-                // TODO bekukan akun yang nakal.
-            } else {
+//            if (Settings.Secure.getInt(getApplicationContext().getContentResolver(),
+//                    Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0) {
+//                Toast.makeText(this, "Matikan mode debugging", Toast.LENGTH_SHORT).show();
+//                Config.dialogAlert(SplashScreenActivity.this, "Developer mode atau opsi developer ON", "Akun di BEKUKAN oleh sistem Android, hubungi kepegawaian", "OKE");
+//                // TODO bekukan akun yang nakal.
+//            } else {
 
             LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 showGPSDisabledAlertToUser();
+                Log.d(TAG, "onCreate: masuk If locaton");
             } else {
+                Log.d(TAG, "onCreate: masuk else locaton");
                 mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "onCreate: masuk activity compact");
                     return;
                 } else {
+                    Log.d(TAG, "onCreate: masuk else activity compact");
                     mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
                         if (location != null) {
                             Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
@@ -182,7 +186,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 }
             }
 
-            }
+//            }
         }
 
         stringslist = new ArrayList<>();
@@ -341,7 +345,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         Log.d(TAG, "SDKInteger: " + getSdkVersion);
 
         // TODO check Android WAJIBBBBBBBBBBBBBBBBBBBBB 30
-        if (Integer.parseInt(getSdkVersion) > 30) {
+        if (Integer.parseInt(getSdkVersion) > 31) {
             finishAffinity();
             Toast.makeText(this, Config.ERROR_ANDROID + " " + getSdkVersion, Toast.LENGTH_LONG).show();
         } else {
