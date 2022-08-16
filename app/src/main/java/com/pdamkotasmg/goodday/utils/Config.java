@@ -386,6 +386,28 @@ public final class Config {
         // Show Dialog
         mDialog.show();
     }
+    public static void dialogAlertPermission(Context context, String tittle, String message, String negativeButton){
+        MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
+                .setTitle(tittle)
+                .setMessage(message)
+                .setAnimation("lt_bohong.json")
+                .setCancelable(false)
+                .setNegativeButton(negativeButton, (dialogInterface, which) -> {
+                    dialogInterface.dismiss();
+                    ((Activity) context).finishAffinity();
+                    context.startActivity(new Intent(context, LoginActivity.class));
+                })
+                .setPositiveButton("UNINSTALL aplikasi", (dialogInterface, which) -> {
+                    Toast.makeText(context, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Intent.ACTION_DELETE);
+                    intent.setData(Uri.parse("package:" + context.getApplicationContext().getPackageName()));
+                    context.startActivity(intent);
+                })
+                .build();
+
+        // Show Dialog
+        mDialog.show();
+    }
 
     public static void dialogAlertSukses(Context context, String tittle, String message, String positiveButton, Class toActivity){
         MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)

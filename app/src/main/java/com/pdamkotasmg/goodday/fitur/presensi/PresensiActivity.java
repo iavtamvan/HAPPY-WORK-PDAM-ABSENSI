@@ -34,6 +34,7 @@ import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.activity.KehadiranActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.model.faceDeetectionModel.FaceDetectionRootModel;
+import com.pdamkotasmg.goodday.fitur.presensi.model.fotoFirstModel.FotoFirstRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.savePresensiModel.SavePresensiRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 import com.pdamkotasmg.goodday.utils.Connectivity;
@@ -85,6 +86,8 @@ public class PresensiActivity extends AppCompatActivity {
     private String statusPresensi;
     private String npp;
 
+    private String imageFirstPopUp;
+
     // android token
     private String noToken;
     private String androidToken1;
@@ -115,6 +118,7 @@ public class PresensiActivity extends AppCompatActivity {
     private TextView tvMencariMuka;
     private Button btnKirimPresensi2;
     private AdView adView;
+    private CircleImageView ivFotoFirst;
 
     @SuppressLint({"SimpleDateFormat", "SetTextI18n", "CommitPrefEdits"})
     @Override
@@ -133,9 +137,10 @@ public class PresensiActivity extends AppCompatActivity {
         npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
         Log.d(TAG, "token: " + access_token);
 
-        if (!npp.equals(Config.SHARED_ANDROID_TOKEN_1)){
+        if (!npp.equals(Config.SHARED_ANDROID_TOKEN_1)) {
             Config.isMockSettingsONV2(PresensiActivity.this);
         }
+
         tvHeaderJudul.setText("Mengenali Wajah");
         animationView.setVisibility(View.GONE);
         tvMencariMuka.setText("Ayo foto...");
@@ -143,6 +148,8 @@ public class PresensiActivity extends AppCompatActivity {
         ivFotoFront.post(() -> {
             ivFotoFront.performClick();
         });
+
+        getFotoFirst();
 
         ivHeaderBackArrow.setOnClickListener(v -> {
             finishAffinity();
@@ -298,12 +305,39 @@ public class PresensiActivity extends AppCompatActivity {
             Log.d(TAG, "npp fake offline: " + npp + " date : " + currentDateLocalSendServer + " time " + currentTimeLocalSendServer);
             savePresensi();
         });
+
+        ivFotoFirst.setOnClickListener(v -> {
+            Toast.makeText(this, "Hai, ini foto pertamamu", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void getFotoFirst() {
+        ApiService apiService = ApiConfig.getApiService(PresensiActivity.this);
+        apiService.getFotoFirst(access_token).enqueue(new Callback<FotoFirstRootModel>() {
+            @Override
+            public void onResponse(Call<FotoFirstRootModel> call, Response<FotoFirstRootModel> response) {
+                if (response.isSuccessful()) {
+                    Glide.with(PresensiActivity.this).load(Config.BASE_URL_IMAGE + response.body().getData().getPhoto()).error(R.drawable.im_no_available)
+                            .into(ivFotoFirst);
+                    imageFirstPopUp = Config.BASE_URL_IMAGE + response.body().getData().getPhoto();
+
+                } else {
+                    Toast.makeText(PresensiActivity.this, "Tidak ada foto pertama", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FotoFirstRootModel> call, Throwable t) {
+                Toast.makeText(PresensiActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
     @SuppressLint("SetTextI18n")
     public void checkFace() {
         // TODO Check Face
+//        getFotoFirst();
         divMencariMuka.setVisibility(View.VISIBLE);
         animationView.setVisibility(View.VISIBLE);
         tvMencariMuka.setText("Mencari Wajah");
@@ -328,7 +362,7 @@ public class PresensiActivity extends AppCompatActivity {
                     public void onResponse(Call<FaceDetectionRootModel> call, Response<FaceDetectionRootModel> response) {
                         Log.d(TAG, "onResponseFaces: " + response.body());
                         if (response.isSuccessful()) {
-                            if (!npp.equals(Config.SHARED_ANDROID_TOKEN_1)){
+                            if (!npp.equals(Config.SHARED_ANDROID_TOKEN_1)) {
                                 Config.isMockSettingsONV2(PresensiActivity.this);
                             }
                             assert response.body() != null;
@@ -365,7 +399,7 @@ public class PresensiActivity extends AppCompatActivity {
                                 Config.deleteFiles(compressedImageFile.getAbsolutePath(), "ImageCompressed"); // (2)
                             }
                         } else {
-                            if (!npp.equals(Config.SHARED_ANDROID_TOKEN_1)){
+                            if (!npp.equals(Config.SHARED_ANDROID_TOKEN_1)) {
                                 Config.isMockSettingsONV2(PresensiActivity.this);
                             }
                             divMencariMuka.setVisibility(View.GONE);
@@ -531,5 +565,6 @@ public class PresensiActivity extends AppCompatActivity {
         tvMencariMuka = findViewById(R.id.tv_mencari_muka);
         btnKirimPresensi2 = findViewById(R.id.btn_kirim_presensi_2);
         adView = findViewById(R.id.adView);
+        ivFotoFirst = findViewById(R.id.iv_foto_first);
     }
 }

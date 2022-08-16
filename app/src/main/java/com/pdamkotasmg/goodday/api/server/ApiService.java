@@ -20,6 +20,7 @@ import com.pdamkotasmg.goodday.fitur.perangkat.model.PerangkatRootModel;
 import com.pdamkotasmg.goodday.fitur.permintaan.model.PermintaanRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.checkLocationModel.CheckLocationRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.faceDeetectionModel.FaceDetectionRootModel;
+import com.pdamkotasmg.goodday.fitur.presensi.model.fotoFirstModel.FotoFirstRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.savePresensiModel.SavePresensiRootModel;
 import com.pdamkotasmg.goodday.fitur.splash.model.androidVersion.AndroidVersionModel;
 import com.pdamkotasmg.goodday.fitur.splash.model.packageName.PackageNameRootModel;
@@ -284,4 +285,9 @@ public interface ApiService {
     Call<OvertimeTypeRootModel> getTipeOvertime(
             @Header("Authorization") String auth,
             @Query("formatted") String formatted);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("portal-pegawai/api/attendance/first-face")
+    Call<FotoFirstRootModel> getFotoFirst(
+            @Header("Authorization") String auth);
 }

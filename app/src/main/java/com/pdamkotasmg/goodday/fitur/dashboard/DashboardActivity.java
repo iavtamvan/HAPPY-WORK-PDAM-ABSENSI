@@ -213,7 +213,7 @@ public class DashboardActivity extends AppCompatActivity {
 
                 } else {
                     // TODO GONE Fitur
-                    Config.dialogAlert(DashboardActivity.this, "Masalah Permission", "Permission ditolak, hubungi PTI/Kepegawaian", "Oke");
+                    Config.dialogAlertPermission(DashboardActivity.this, "Masalah Permission", "Permission ditolak, silahkan Login Kembali", "Oke");
                 }
             }
 
