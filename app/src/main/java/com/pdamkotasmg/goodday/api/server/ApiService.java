@@ -22,8 +22,7 @@ import com.pdamkotasmg.goodday.fitur.presensi.model.checkLocationModel.CheckLoca
 import com.pdamkotasmg.goodday.fitur.presensi.model.faceDeetectionModel.FaceDetectionRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.fotoFirstModel.FotoFirstRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.savePresensiModel.SavePresensiRootModel;
-import com.pdamkotasmg.goodday.fitur.splash.model.androidVersion.AndroidVersionModel;
-import com.pdamkotasmg.goodday.fitur.splash.model.packageName.PackageNameRootModel;
+import com.pdamkotasmg.goodday.fitur.splash.model.updateAplikasi.UdpateAplikasiRootModel;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -114,12 +113,6 @@ public interface ApiService {
                                              @Field("record_time") String record_time,
                                              @Field("check_location") String check_location
     );
-
-    @GET("portal-pegawai/api/masterdata/forbid-app")
-    Call<PackageNameRootModel> getPackageName();
-
-    @GET("portal-pegawai/api/masterdata/config/all")
-    Call<AndroidVersionModel> getAndroidVersion();
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("portal-pegawai/api/auth/active-session")
@@ -290,4 +283,8 @@ public interface ApiService {
     @GET("portal-pegawai/api/attendance/first-face")
     Call<FotoFirstRootModel> getFotoFirst(
             @Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("pekerjaan-teknik/api/auth/warning/good-day")
+    Call<UdpateAplikasiRootModel> getUpdateAplikasi();
 }

@@ -45,10 +45,7 @@ import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
-import com.pdamkotasmg.goodday.fitur.splash.model.androidVersion.AndroidVersionModel;
-import com.pdamkotasmg.goodday.fitur.splash.model.packageName.Data;
-import com.pdamkotasmg.goodday.fitur.splash.model.packageName.DataItem;
-import com.pdamkotasmg.goodday.fitur.splash.model.packageName.PackageNameRootModel;
+import com.pdamkotasmg.goodday.fitur.splash.model.updateAplikasi.UdpateAplikasiRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
@@ -75,9 +72,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     private boolean flag = true;
     private PackageInfo packageInfo;
     private String[] requestedPermissions;
-    int i;
-    private Data dataItem;
-    private List<DataItem> dataItemList;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -177,9 +171,9 @@ public class SplashScreenActivity extends AppCompatActivity {
                             Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
                             lati = location.getLatitude();
                             longi = location.getLongitude();
-                            getAplicationVersionFromServer();
+                            gettingUpdateAplikasi();
                         } else {
-                            getAplicationVersionFromServer();
+                            gettingUpdateAplikasi();
                             Toast.makeText(this, "Lokasi tidak ditemukan", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -233,42 +227,35 @@ public class SplashScreenActivity extends AppCompatActivity {
         mDialog.show();
     }
 
-    public void getAplicationVersionFromServer() {
+    private void gettingUpdateAplikasi() {
         ApiService apiService = ApiConfig.getApiService(this);
-        apiService.getAndroidVersion().enqueue(new Callback<AndroidVersionModel>() {
+        apiService.getUpdateAplikasi().enqueue(new Callback<UdpateAplikasiRootModel>() {
             @Override
-            public void onResponse(Call<AndroidVersionModel> call, Response<AndroidVersionModel> response) {
+            public void onResponse(Call<UdpateAplikasiRootModel> call, Response<UdpateAplikasiRootModel> response) {
                 if (response.isSuccessful()) {
-                    androidVersionDeviceServer = response.body().getData().getAndroidVersionLatest();
-                    Log.d(TAG, "Android Version Latest : " + androidVersionDeviceServer);
-                    // TODO android Token
-                    androidToken1 = response.body().getData().getAndroidToken1();
-                    androidToken2 = response.body().getData().getAndroidToken2();
-                    androidToken3 = response.body().getData().getAndroidToken3();
-                    androidToken5 = response.body().getData().getAndroidToken5();
-                    urlLogo = response.body().getData().getAndroidLogoUrl();
-                    SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(Config.SHARED_ANDROID_TOKEN_1, androidToken1);
-                    editor.putString(Config.SHARED_ANDROID_TOKEN_2, androidToken2);
-                    editor.putString(Config.SHARED_ANDROID_TOKEN_3, androidToken3);
-                    editor.putString(Config.SHARED_ANDROID_TOKEN_5, androidToken5);
-                    editor.putString(Config.SHARED_URL_LOGO, urlLogo);
+                    String nameDashboard = response.body().getData().get(0).getNameDashboard();
+                    String logoApps = response.body().getData().get(0).getLogoApps();
+                    String headerProfil = response.body().getData().get(0).getHeaderProfil();
+                    String updateApk = response.body().getData().get(0).getUpdateApk();
+                    String hello = response.body().getData().get(0).getHello();
+                    String imageHeader = response.body().getData().get(0).getImageHeader();
+
+                    editor.putString(Config.SHARED_URL_LOGO, logoApps);
+                    editor.putString(Config.SHARED_HEADER_PROFIL, headerProfil);
+                    editor.putString(Config.SHARED_NAME_DASHBOARD, nameDashboard);
+                    editor.putString(Config.SHARED_HELLO, hello);
+                    editor.putString(Config.SHARED_IMAGE_HEADER, imageHeader);
                     editor.apply();
-                    Glide.with(SplashScreenActivity.this).load(urlLogo).override(512, 512).into(logo);
-                    if (!androidVersionDevice.equalsIgnoreCase(androidVersionDeviceServer)) {
-                        Toast.makeText(SplashScreenActivity.this, "Perbarui aplikasi kamu", Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "Update Aplikasi : update aplikasi kamu");
+
+                    Log.d(TAG, "updateApk: " + updateApk);
+                    Glide.with(SplashScreenActivity.this).load(logoApps).override(512, 512).into(logo);
+                    if (!updateApk.equals(BuildConfig.VERSION_NAME)) {
                         MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
-                                .setTitle("Perbarui aplikas kamu")
-                                .setAnimation("lt_update.json")
+                                .setTitle("Aplikasi harus di update ke versi " + updateApk + ", \nsekarang memakai aplikasi versi " + BuildConfig.VERSION_NAME)
+                                .setMessage(response.body().getData().get(0).getMessageUpdate().toString().replace("[", "").replace("]", "").replace(",", "\n"))
                                 .setCancelable(false)
-                                .setNegativeButton("Gak mau", (dialogInterface, which) -> {
-                                    dialogInterface.dismiss();
-                                    finishAffinity();
-                                })
-                                .setPositiveButton("Perbarui", (dialogInterface, which) -> {
-                                    // TODO Link Playstore (done)
+                                .setPositiveButton("Update Sekarang", (dialogInterface, which) -> {
+//                            dialogInterface.dismiss();
                                     final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                                     try {
                                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
@@ -278,44 +265,17 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 })
                                 .build();
 
-                        // Show Dialog
                         mDialog.show();
                     } else {
-                        Log.d(TAG, "Update Aplikasi : Updated");
-//                        getPackageNameFromServer();
                         gettingDataDeviceInfo();
-//                        new Handler().postDelayed(() -> {
-//                        }, 2000);
                     }
+
                 }
             }
 
             @Override
-            public void onFailure(Call<AndroidVersionModel> call, Throwable t) {
-                Toast.makeText(SplashScreenActivity.this, "ULANI, b " + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
-                finishAffinity();
-            }
-        });
-    }
+            public void onFailure(Call<UdpateAplikasiRootModel> call, Throwable t) {
 
-    private void getPackageNameFromServer() {
-        ApiService apiService = ApiConfig.getApiService(this);
-        apiService.getPackageName().enqueue(new Callback<PackageNameRootModel>() {
-            @Override
-            public void onResponse(Call<PackageNameRootModel> call, Response<PackageNameRootModel> response) {
-                if (response.isSuccessful()) {
-                    dataItem = response.body().getData();
-                    dataItemList = dataItem.getData();
-                    for (int j = 0; j < dataItemList.size(); j++) {
-                        stringslist.add(dataItemList.get(j).getPackageName());
-                    }
-                    Log.d(TAG, "listPackage: " + stringslist);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PackageNameRootModel> call, Throwable t) {
-                Toast.makeText(SplashScreenActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -424,7 +384,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             Log.d(TAG, "getHwid: " + getHwid);
 
-            if (getHwid.equals("ccbbf1c6c6329d11") || getHwid.equals("8b903c7b6694e672")){
+            if (getHwid.equals("ccbbf1c6c6329d11") || getHwid.equals("8b903c7b6694e672")) {
                 toHome();
             } else {
                 isMockSettingsON(SplashScreenActivity.this);
@@ -524,7 +484,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         return false;
     }
 
-    private void toHome(){
+    private void toHome() {
         new Handler().postDelayed(() -> {
             // TODO intent ke WelcomeActivity.class
             Log.d(TAG, "Status Fack: Tidak ada fake gps");
@@ -568,7 +528,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (EasyPermissions.hasPermissions(SplashScreenActivity.this, perms)) {
             // Already have permission, do the thing
             Log.d(TAG, "methodRequiresTwoPermission: Sukses");
-            getAplicationVersionFromServer();
+            gettingUpdateAplikasi();
         } else {
             // Do not have permissions, request them now
             EasyPermissions.requestPermissions(this, getString(R.string.app_name),

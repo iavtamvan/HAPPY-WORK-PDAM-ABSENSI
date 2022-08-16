@@ -74,6 +74,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String subsatker_formatted;
 
     private String urlLogo;
+    private String headerProfil;
 
     private ImageView imageView2;
     private ImageView ivHeaderBackArrow;
@@ -138,6 +139,7 @@ public class ProfileActivity extends AppCompatActivity {
         satker_formatted = sharedPreferences.getString(Config.SHARED_SATKER_FORMATTED, "");
         subsatker_formatted = sharedPreferences.getString(Config.SHARED_SUBSATKER_FORMATTED, "");
         urlLogo = sharedPreferences.getString(Config.SHARED_URL_LOGO, "");
+        headerProfil = sharedPreferences.getString(Config.SHARED_HEADER_PROFIL, "");
 
         tvProfileName.setText(name);
         tvProfileJabatan.setText(jabatan);
@@ -150,7 +152,8 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfileGolongan.setText(pktgol);
         tvProfileSubSatker.setText(subsatker);
         tvProfileSatker.setText(satker);
-        Glide.with(ProfileActivity.this).load(urlLogo).into(ciProfileImage);
+        Glide.with(ProfileActivity.this).load(urlLogo).error(R.drawable.im_no_available).into(ciProfileImage);
+        Glide.with(ProfileActivity.this).load(headerProfil).error(R.drawable.im_no_available).into(imageView2);
 
         cvKlikPengaturan.setOnClickListener(v -> {
             final BottomSheetDialog bottomSheetDialogProfile = new BottomSheetDialog(ProfileActivity.this);

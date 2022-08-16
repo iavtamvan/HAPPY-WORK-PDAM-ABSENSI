@@ -58,7 +58,7 @@ public final class Config {
     public static final String BASE_URL_NOTIF_NORMAL = "https://image.freepik.com/free-vector/people-jumping-trampoline_74855-4453.jpg";
     public static final String BASE_URL_NOTIF_ERROR = "https://image.freepik.com/free-vector/oops-404-error-with-broken-robot-concept-illustration_114360-1932.jpg";
 
-    public static final String ERROR_MSG = "Koneksi kamu lagi jelek";
+    public static final String ERROR_MSG = "Periksa Koneksi";
     public static final String ERROR_PASSWORD = "Pastikan Kata Sandi Anda Sama";
     public static final String ERROR_DATA_REGISTER = "Pastikan Data Anda Dengan Benar";
     public static final String ERROR_SESSION = "Sesi login anda telah habis, Login Ulang";
@@ -143,7 +143,6 @@ public final class Config {
     public static final String SHARED_ABSENSI_MASUK = "shared_absensi_masuk";
     public static final String SHARED_ABSENSI_KELUAR = "shared_absensi_keluar";
     public static final String SHARED_FLAG_SPLASH = "flag_splash";
-    public static final String SHARED_URL_LOGO = "url_logo";
     public static final String SHARED_ANDROID_TOKEN_1 = "6908321002";
     public static final String SHARED_ANDROID_TOKEN_2 = "6908321001";
     public static final String SHARED_ANDROID_TOKEN_3 = "android_token_3";
@@ -157,7 +156,11 @@ public final class Config {
     public static final String SHARED_ANDROID_TOKEN_11 = "android_token_1";
     public static final String SHARED_ANDROID_TOKEN_12 = "android_token_1";
 
-    public static final String SHARED_SAVE_ARRAY_DETAILS_KOREKSI_KEHADIRAN = "save_array_details_koreksi_kehadiran";
+    public static final String SHARED_URL_LOGO = "url_logo";
+    public static final String SHARED_HEADER_PROFIL = "shared_header_profil";
+    public static final String SHARED_NAME_DASHBOARD = "shared_name_dashboard";
+    public static final String SHARED_HELLO = "shared_hello";
+    public static final String SHARED_IMAGE_HEADER = "shared_image_header";
 
     //Firebase
     // global topic to receive app wide push notifications

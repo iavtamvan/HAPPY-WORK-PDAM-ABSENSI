@@ -62,6 +62,8 @@ public class DashboardActivity extends AppCompatActivity {
     private boolean statusExpandedTrue = false;
     private static final int RC_CAMERA_AND_LOCATION = 1;
     private String accessToken;
+    private String hello;
+    private String nameDashboard;
     private String typeConnection;
     private String statusPresensi;
 
@@ -77,6 +79,7 @@ public class DashboardActivity extends AppCompatActivity {
     private LinearLayout divOvertime;
     private LottieAnimationView ltProfil;
     private LinearLayout divRequest;
+    private TextView tvNameDashboard;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("SetTextI18n")
@@ -93,8 +96,12 @@ public class DashboardActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        divNamaLengkap.setText("Hai, " + sharedPreferences.getString(Config.SHARED_NAME, ""));
+        hello = sharedPreferences.getString(Config.SHARED_HELLO, "");
+        nameDashboard = sharedPreferences.getString(Config.SHARED_NAME_DASHBOARD, "");
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+
+        divNamaLengkap.setText(hello + sharedPreferences.getString(Config.SHARED_NAME, ""));
+        tvNameDashboard.setText(nameDashboard);
 
         StrictMode.ThreadPolicy
                 policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -334,5 +341,6 @@ public class DashboardActivity extends AppCompatActivity {
         divOvertime = findViewById(R.id.div_overtime);
         ltProfil = findViewById(R.id.lt_profil);
         divRequest = findViewById(R.id.div_request);
+        tvNameDashboard = findViewById(R.id.tv_name_dashboard);
     }
 }
