@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -36,7 +37,6 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.activity.RiwayatP
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +47,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class KehadiranActivity extends AppCompatActivity {
+    private String TAG = "debug";
+
     private KehadiranAdapter kehadiranAdapter;
     private List<DataItem> dataItems;
     private SharedPreferences.Editor editor;
@@ -58,10 +60,7 @@ public class KehadiranActivity extends AppCompatActivity {
     private String riwayatAbsensiCode;
 
     private String accessToken;
-    private String formatDate;
-    private LocalDate dateFromMinus;
-    private LocalDate dateFrom;
-    private LocalDate dateEnd;
+    private String dateTo;
 
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
@@ -124,10 +123,8 @@ public class KehadiranActivity extends AppCompatActivity {
         tvListKehadiranNama.setText(nama);
         tvDate.setText(dateServer);
 
-        formatDate = new SimpleDateFormat("yyyy-MM-dd").format(currentTimeInMillis);
-        dateFrom = LocalDate.parse(formatDate);
-        dateFromMinus = dateFrom.minusDays(2);
-        dateEnd = dateFrom.plusDays(1);
+        dateTo = new SimpleDateFormat("yyyy-MM-dd").format(currentTimeInMillis);
+        Log.e(TAG, "dateTo: " + dateTo);
         // TODO getShift pegawai DONE
         // TODO getHistory presensi DONE
         getShiftPegawai();
@@ -155,7 +152,7 @@ public class KehadiranActivity extends AppCompatActivity {
 
     private void getHistoryPresensi() {
         ApiService apiService = ApiConfig.getApiService(this);
-        apiService.getHistoryPresensi(accessToken, String.valueOf(dateFromMinus), String.valueOf(dateFrom), "1") // tanggal dari, dan tanggal selesai
+        apiService.getHistoryPresensi(accessToken, "", dateTo, "1", "1") // tanggal dari, dan tanggal selesai
                 .enqueue(new Callback<RiwayatKehadiranRootModel>() {
                     @Override
                     public void onResponse(Call<RiwayatKehadiranRootModel> call, Response<RiwayatKehadiranRootModel> response) {

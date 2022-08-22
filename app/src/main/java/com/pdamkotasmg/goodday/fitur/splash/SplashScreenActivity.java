@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
@@ -25,13 +24,11 @@ import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.res.ResourcesCompat;
 
 import com.an.deviceinfo.device.model.Device;
 import com.bumptech.glide.Glide;
@@ -187,10 +184,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         Config.ads(SplashScreenActivity.this, adView);
 
 
-        Typeface typeface = ResourcesCompat.getFont(this, R.font.roboto);
+//        Typeface typeface = ResourcesCompat.getFont(this, R.font.roboto);
 
-        TextView appname = findViewById(R.id.appname);
-        appname.setTypeface(typeface);
+//        TextView appname = findViewById(R.id.appname);
+//        appname.setTypeface(typeface);
 
         YoYo.with(Techniques.Bounce)
                 .duration(2000)

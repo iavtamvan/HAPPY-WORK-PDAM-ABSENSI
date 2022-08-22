@@ -72,9 +72,6 @@ public class DaftarKehadiranActivity extends AppCompatActivity {
 
         Date currentTimeInMillis = SecureTimer.with(DaftarKehadiranActivity.this).getCurrentDate();
         formatDate = new SimpleDateFormat("yyyy-MM-dd").format(currentTimeInMillis);
-        dateFrom = LocalDate.parse(formatDate);
-        dateFromMinus = dateFrom.minusDays(7);
-        dateEnd = dateFrom.plusDays(1);
 
         getHistoryPresensi();
 
@@ -89,7 +86,7 @@ public class DaftarKehadiranActivity extends AppCompatActivity {
     private void getHistoryPresensi() {
         divAnimation.setVisibility(View.VISIBLE);
         ApiService apiService = ApiConfig.getApiService(this);
-        apiService.getHistoryPresensi(accessToken, String.valueOf(dateFromMinus), String.valueOf(dateFrom), "1") // tanggal dari, dan tanggal selesai
+        apiService.getHistoryPresensi(accessToken, "",formatDate,"7", "1") // tanggal dari, dan tanggal selesai
                 .enqueue(new Callback<RiwayatKehadiranRootModel>() {
                     @Override
                     public void onResponse(Call<RiwayatKehadiranRootModel> call, Response<RiwayatKehadiranRootModel> response) {

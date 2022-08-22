@@ -133,8 +133,9 @@ public interface ApiService {
     @GET("portal-pegawai/api/attendance/history/")
     Call<RiwayatKehadiranRootModel> getHistoryPresensi(
             @Header("Authorization") String auth,
-            @Query("date_from") String dateFrom,
+            @Query("date_from") String date_from,
             @Query("date_to") String dateTo,
+            @Query("sub_days") String sub_days,
             @Query("formatted") String formatted
     );
 

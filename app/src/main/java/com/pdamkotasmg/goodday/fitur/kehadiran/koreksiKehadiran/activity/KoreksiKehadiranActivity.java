@@ -82,11 +82,11 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         initView();
 
         tvHeaderJudul.setText("Detail Koreksi Kehadiran");
-        ivHeaderInfo.setOnClickListener(v -> {
+        ivHeaderBackArrow.setOnClickListener(v -> {
             KoreksiKehadiranActivity.this.finish();
         });
         ivHeaderInfo.setOnClickListener(v -> {
-            Config.dialogAlert(KoreksiKehadiranActivity.this, "Info", "Isi koreksi kehadirand dengan benar dan jujur", "Ok");
+//            Config.dialogAlert(KoreksiKehadiranActivity.this, "Info", "Isi koreksi kehadirand dengan benar dan jujur", "Ok");
         });
 
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
@@ -188,7 +188,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         progressDialog.setMessage("Mohon tunggu...");
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(this);
-        apiService.getHistoryPresensi(accesToken, edtStartDate.getText().toString().trim(), edtEndDate.getText().toString().trim(), "1") // tanggal dari, dan tanggal selesai
+        apiService.getHistoryPresensi(accesToken, edtStartDate.getText().toString().trim(), edtEndDate.getText().toString().trim(), "0", "1") // tanggal dari, dan tanggal selesai
                 .enqueue(new Callback<RiwayatKehadiranRootModel>() {
                     @Override
                     public void onResponse(Call<RiwayatKehadiranRootModel> call, Response<RiwayatKehadiranRootModel> response) {
