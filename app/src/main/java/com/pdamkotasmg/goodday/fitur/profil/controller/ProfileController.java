@@ -1,5 +1,6 @@
 package com.pdamkotasmg.goodday.fitur.profil.controller;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Toast;
@@ -15,12 +16,17 @@ import retrofit2.Response;
 
 public class ProfileController {
     public void logout(Context context){
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Logout procces...");
+        progressDialog.show();
         SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         ApiService apiService = ApiConfig.getApiService(context);
         apiService.logout(sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN,""))
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        progressDialog.cancel();
                         if (response.isSuccessful()){
                             Toast.makeText(context, "" + response.message().toUpperCase() + " KELUAR", Toast.LENGTH_SHORT).show();
                             Config.logout(context);
@@ -29,6 +35,7 @@ public class ProfileController {
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        progressDialog.cancel();
                         Toast.makeText(context, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });

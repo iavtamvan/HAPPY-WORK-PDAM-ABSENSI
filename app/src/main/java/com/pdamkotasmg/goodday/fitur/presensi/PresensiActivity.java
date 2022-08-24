@@ -271,6 +271,7 @@ public class PresensiActivity extends AppCompatActivity {
             // TODO kirim server
             statusPresensi = sharedPreferences.getString(Config.SHARED_STATUS_ABSENSI, "");
             if (getPathPhotoFaceServer == null) {
+                btnKirimPresensi.setEnabled(false);
                 Toast.makeText(this, "Lakukan cepret foto dahulu", Toast.LENGTH_SHORT).show();
             } else {
                 if (statusPresensi.equalsIgnoreCase("qrcode")) {
@@ -405,7 +406,8 @@ public class PresensiActivity extends AppCompatActivity {
                             divMencariMuka.setVisibility(View.GONE);
                             tvPersenFace.setTextColor(Color.RED);
                             tvPersenFace.setVisibility(View.VISIBLE);
-                            tvPersenFace.setText("Wajah tidak ada, ulangi dengan menekan foto diatas\n error : " + response.message());
+                            btnKirimPresensi.setEnabled(false);
+                            tvPersenFace.setText("Tidak terdeteksi, ulangi dengan menekan foto diatas\n error : " + response.message());
                             Toast.makeText(PresensiActivity.this, "Fail : " + response.message(), Toast.LENGTH_SHORT).show();
                         }
                     }
