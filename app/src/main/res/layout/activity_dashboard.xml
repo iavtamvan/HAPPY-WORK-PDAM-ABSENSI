@@ -314,6 +314,48 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_info_warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"
+        android:animateLayoutChanges="true"
+        android:backgroundTint="@color/orangeLightGreatDay"
+        android:visibility="gone"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardElevation="8dp"
+        card_view:cardPreventCornerOverlap="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/orangeLightGreatDay"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_info_orange" />
+
+            <TextView
+                android:id="@+id/tv_info_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Foto pertama tidak bisa di ubah, pastikan wajah terlihat jelas agar sistem bisa mengenali foto selanjutnya"
+                android:textColor="@color/orangeGreatDay"
+                android:textSize="11dp" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
 
     <!--    atasan mulai-->
     <androidx.cardview.widget.CardView

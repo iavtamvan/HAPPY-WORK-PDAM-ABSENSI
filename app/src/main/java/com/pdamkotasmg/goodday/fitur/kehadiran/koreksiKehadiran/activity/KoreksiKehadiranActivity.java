@@ -132,7 +132,6 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
             detailsItemArray = editDetailsKehadiranAdapter.detailsItemArray;
             Log.d(TAG, "detailsItemArray : " + detailsItemArray.size());
             postJsonKoreksiKehadiran();
-
         });
     }
 

@@ -64,8 +64,7 @@ public class DashboardActivity extends AppCompatActivity {
     private String accessToken;
     private String hello;
     private String nameDashboard;
-    private String typeConnection;
-    private String statusPresensi;
+    private String messageInfo;
 
     private TextView divNamaLengkap;
     private LinearLayout divRekamWaktu;
@@ -80,6 +79,8 @@ public class DashboardActivity extends AppCompatActivity {
     private LottieAnimationView ltProfil;
     private LinearLayout divRequest;
     private TextView tvNameDashboard;
+    private TextView tvInfoWarning;
+    private CardView cvInfoWarning;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("SetTextI18n")
@@ -99,9 +100,15 @@ public class DashboardActivity extends AppCompatActivity {
         hello = sharedPreferences.getString(Config.SHARED_HELLO, "");
         nameDashboard = sharedPreferences.getString(Config.SHARED_NAME_DASHBOARD, "");
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+        messageInfo = sharedPreferences.getString(Config.SHARED_MESSAGE_INFO, "");
 
         divNamaLengkap.setText(hello + sharedPreferences.getString(Config.SHARED_NAME, ""));
         tvNameDashboard.setText(nameDashboard);
+
+        if (!messageInfo.isEmpty()) {
+            cvInfoWarning.setVisibility(View.VISIBLE);
+            tvInfoWarning.setText(messageInfo);
+        }
 
         StrictMode.ThreadPolicy
                 policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -119,7 +126,6 @@ public class DashboardActivity extends AppCompatActivity {
 
         // TODO getPermissionName
         getPermissionName();
-        getShiftPegawai();
 
         if (Connectivity.isConnected(DashboardActivity.this)) {
             Log.d(TAG, "isConnect: Connected");
@@ -213,6 +219,8 @@ public class DashboardActivity extends AppCompatActivity {
                     Log.d(TAG, "====== Start Permission Dashboard Good Day ====== ");
                     Log.d(TAG, "array :: " + sets);
                     Log.d(TAG, "====== End Permission Dashboard Good Day ====== ");
+
+                    getShiftPegawai();
 
                     if (!list.contains("portal-pegawai.attendance.user.record")) {
                         divRekamWaktu.setVisibility(View.GONE);
@@ -342,5 +350,7 @@ public class DashboardActivity extends AppCompatActivity {
         ltProfil = findViewById(R.id.lt_profil);
         divRequest = findViewById(R.id.div_request);
         tvNameDashboard = findViewById(R.id.tv_name_dashboard);
+        tvInfoWarning = findViewById(R.id.tv_info_warning);
+        cvInfoWarning = findViewById(R.id.cv_info_warning);
     }
 }

@@ -11,8 +11,8 @@ android {
         applicationId "com.pdamkotasmg.happywork"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 14 // update playstore
-        versionName "1.0.1" // ini diganti
+        versionCode 15 // update playstore
+        versionName "1.0.2" // ini diganti
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

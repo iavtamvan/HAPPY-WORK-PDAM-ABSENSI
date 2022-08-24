@@ -236,12 +236,14 @@ public class SplashScreenActivity extends AppCompatActivity {
                     String updateApk = response.body().getData().get(0).getUpdateApk();
                     String hello = response.body().getData().get(0).getHello();
                     String imageHeader = response.body().getData().get(0).getImageHeader();
+                    String messageInfo = String.valueOf(response.body().getData().get(0).getInfo()).replace("[", "").replace("]", "").replace(",", "\n");
 
                     editor.putString(Config.SHARED_URL_LOGO, logoApps);
                     editor.putString(Config.SHARED_HEADER_PROFIL, headerProfil);
                     editor.putString(Config.SHARED_NAME_DASHBOARD, nameDashboard);
                     editor.putString(Config.SHARED_HELLO, hello);
                     editor.putString(Config.SHARED_IMAGE_HEADER, imageHeader);
+                    editor.putString(Config.SHARED_MESSAGE_INFO, messageInfo);
                     editor.apply();
 
                     Log.d(TAG, "updateApk: " + updateApk);
@@ -302,7 +304,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         Log.d(TAG, "SDKInteger: " + getSdkVersion);
 
         // TODO check Android WAJIBBBBBBBBBBBBBBBBBBBBB 30
-        if (Integer.parseInt(getSdkVersion) > 31) {
+        if (Integer.parseInt(getSdkVersion) > 32) {
             finishAffinity();
             Toast.makeText(this, Config.ERROR_ANDROID + " " + getSdkVersion, Toast.LENGTH_LONG).show();
         } else {

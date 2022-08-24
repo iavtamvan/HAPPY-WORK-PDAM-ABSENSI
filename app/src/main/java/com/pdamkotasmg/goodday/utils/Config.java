@@ -161,6 +161,7 @@ public final class Config {
     public static final String SHARED_NAME_DASHBOARD = "shared_name_dashboard";
     public static final String SHARED_HELLO = "shared_hello";
     public static final String SHARED_IMAGE_HEADER = "shared_image_header";
+    public static final String SHARED_MESSAGE_INFO = "shared_message_info";
 
     //Firebase
     // global topic to receive app wide push notifications
