@@ -228,7 +228,7 @@ public class DashboardActivity extends AppCompatActivity {
 
                 } else {
                     // TODO GONE Fitur
-                    Config.dialogAlertPermission(DashboardActivity.this, "Masalah Permission", "Permission ditolak, silahkan Login Kembali", "Oke");
+                    Config.dialogAlertPermission(DashboardActivity.this, "Masalah Permission", "Permission ditolak, silahkan Login Kembali", "Login");
                 }
             }
 

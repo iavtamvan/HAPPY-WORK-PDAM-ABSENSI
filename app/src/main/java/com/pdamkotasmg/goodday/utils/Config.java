@@ -401,11 +401,9 @@ public final class Config {
                     ((Activity) context).finishAffinity();
                     context.startActivity(new Intent(context, LoginActivity.class));
                 })
-                .setPositiveButton("UNINSTALL aplikasi", (dialogInterface, which) -> {
-                    Toast.makeText(context, "Uninstall aplikasi Absensi beraksi...", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Intent.ACTION_DELETE);
-                    intent.setData(Uri.parse("package:" + context.getApplicationContext().getPackageName()));
-                    context.startActivity(intent);
+                .setPositiveButton("Hubungi PTI", (dialogInterface, which) -> {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send/?phone=6283838191709&text=Halo%20iav..%20ada%20masalah%20permission.%20Isi%20NPP%20:"));
+                    context.startActivity(browserIntent);
                 })
                 .build();
 
