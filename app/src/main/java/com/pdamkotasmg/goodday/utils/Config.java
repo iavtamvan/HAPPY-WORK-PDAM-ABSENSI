@@ -730,6 +730,7 @@ public final class Config {
         editor.putString(Config.SHARED_PAGE_CHEAT, page);
         editor.putString(Config.SHARED_COUNT_CHEAT, countCheat);
         editor.apply();
+
     }
 
     public static void sendCheat(Context context, String authToken, String typeCheat, String page, String countCheat){
