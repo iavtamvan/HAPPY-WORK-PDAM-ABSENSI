@@ -288,4 +288,13 @@ public interface ApiService {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("pekerjaan-teknik/api/auth/warning/good-day")
     Call<UdpateAplikasiRootModel> getUpdateAplikasi();
+
+    @FormUrlEncoded
+    @POST("portal-pegawai/api/log/action")
+    Call<ResponseBody> postActionCheatLog(
+            @Header("Authorization") String auth,
+            @Field("action") String action,
+            @Field("page") String page,
+            @Field("count") String count
+    );
 }

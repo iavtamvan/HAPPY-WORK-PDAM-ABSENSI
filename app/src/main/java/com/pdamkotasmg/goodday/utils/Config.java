@@ -34,6 +34,8 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.pdamkotasmg.goodday.R;
+import com.pdamkotasmg.goodday.api.server.ApiConfig;
+import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.authentication.login.LoginActivity;
 import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.splash.SplashScreenActivity;
@@ -45,6 +47,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Random;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public final class Config {
     public static final String APLICATION_NAME = "Happy Work";
@@ -162,6 +169,10 @@ public final class Config {
     public static final String SHARED_HELLO = "shared_hello";
     public static final String SHARED_IMAGE_HEADER = "shared_image_header";
     public static final String SHARED_MESSAGE_INFO = "shared_message_info";
+
+    public static final String SHARED_ACTION_CHEAT = "shared_action_cheat";
+    public static final String SHARED_PAGE_CHEAT = "shared_page_cheat";
+    public static final String SHARED_COUNT_CHEAT = "shared_count_cheat";
 
     //Firebase
     // global topic to receive app wide push notifications
@@ -708,6 +719,34 @@ public final class Config {
                 // Handle the error
                 Log.d(TAG, loadAdError.getMessage());
                 mInterstitialAd = null;
+            }
+        });
+    }
+
+    public static void saveSharedCheat(Context context, String cheat, String page, String countCheat) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Config.SHARED_ACTION_CHEAT, cheat);
+        editor.putString(Config.SHARED_PAGE_CHEAT, page);
+        editor.putString(Config.SHARED_COUNT_CHEAT, countCheat);
+        editor.apply();
+    }
+
+    public static void sendCheat(Context context, String authToken, String typeCheat, String page, String countCheat){
+        ApiService apiService = ApiConfig.getApiService(context);
+        apiService.postActionCheatLog(authToken, typeCheat, page, countCheat).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()){
+                    Toast.makeText(context, "Berhasil mengirim Cheat", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Gagal mengirim Cheat", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

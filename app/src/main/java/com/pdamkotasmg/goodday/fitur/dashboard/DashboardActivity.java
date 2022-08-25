@@ -56,7 +56,6 @@ public class DashboardActivity extends AppCompatActivity {
 
     private FeedsController feedsController;
     private SharedPreferences sharedPreferences;
-    ;
     private SharedPreferences.Editor editor;
 
     private boolean statusExpandedTrue = false;
@@ -65,6 +64,10 @@ public class DashboardActivity extends AppCompatActivity {
     private String hello;
     private String nameDashboard;
     private String messageInfo;
+
+    private String typeCheat;
+    private String pageCheat;
+    private String countCheat;
 
     private TextView divNamaLengkap;
     private LinearLayout divRekamWaktu;
@@ -101,6 +104,9 @@ public class DashboardActivity extends AppCompatActivity {
         nameDashboard = sharedPreferences.getString(Config.SHARED_NAME_DASHBOARD, "");
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         messageInfo = sharedPreferences.getString(Config.SHARED_MESSAGE_INFO, "");
+        typeCheat = sharedPreferences.getString(Config.SHARED_ACTION_CHEAT, "");
+        pageCheat = sharedPreferences.getString(Config.SHARED_PAGE_CHEAT, "");
+        countCheat = sharedPreferences.getString(Config.SHARED_COUNT_CHEAT, "");
 
         divNamaLengkap.setText(hello + sharedPreferences.getString(Config.SHARED_NAME, ""));
         tvNameDashboard.setText(nameDashboard);
@@ -116,12 +122,19 @@ public class DashboardActivity extends AppCompatActivity {
         Log.d(TAG, "policy: " + policy);
         methodRequiresTwoPermission();
 
+        if (!typeCheat.isEmpty()) {
+            editor.putString(Config.SHARED_ACTION_CHEAT, "");
+            editor.apply();
+            Config.sendCheat(DashboardActivity.this, accessToken, typeCheat, pageCheat, countCheat);
+        }
+
         // TODO Check Rooted
         RootBeer rootBeer = new RootBeer(DashboardActivity.this);
         if (rootBeer.isRooted()) {
             //we found indication of root
             Toast.makeText(this, "Rooted Detected" + rootBeer, Toast.LENGTH_SHORT).show();
-            Config.dialogAlert(DashboardActivity.this, "Rooted Deteksi", "Segera ganti HP, karena harus Flash Ulang android. Hubungi PTI", "Gakmau");
+            Config.sendCheat(DashboardActivity.this, accessToken, "root", "Dashboard Good Day", "");
+            Config.dialogAlert(DashboardActivity.this, "Rooted Deteksi", "Segera ganti HP atau flash ulang. Hubungi PTI", "Tidak");
         }
 
         // TODO getPermissionName
@@ -158,10 +171,14 @@ public class DashboardActivity extends AppCompatActivity {
 //            Connectivity.isConnectedFast(DashboardActivity.this);
             // TODO check location shift location DONE
             if (Connectivity.isConnected(DashboardActivity.this)) {
-                Log.d(TAG, "isConnect: Connected");
-                editor.putString(Config.SHARED_STATUS_ABSENSI, "online");
-                editor.apply();
-                startActivity(new Intent(getApplicationContext(), CheckLocationActivity.class));
+                if (!pageCheat.isEmpty()) {
+                    Toast.makeText(this, "Anda melakukan kecurangan pada aplikasi, konfirmasi jujur ke atasan anda kemudian Hubungi PTI", Toast.LENGTH_LONG).show();
+                } else {
+                    Log.d(TAG, "isConnect: Connected");
+                    editor.putString(Config.SHARED_STATUS_ABSENSI, "online");
+                    editor.apply();
+                    startActivity(new Intent(getApplicationContext(), CheckLocationActivity.class));
+                }
             }
 
         });

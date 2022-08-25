@@ -65,6 +65,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private String TAG = "debug";
     private String androidVersionDevice;
     private String androidVersionDeviceServer;
+    private String typeCheat;
     private static int SPLASH_TIME_OUT = 1000;
     private boolean flag = true;
     private PackageInfo packageInfo;
@@ -145,6 +146,8 @@ public class SplashScreenActivity extends AppCompatActivity {
             // TODO harusnya unComent pada mode Production
 //            if (Settings.Secure.getInt(getApplicationContext().getContentResolver(),
 //                    Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0) {
+//                typeCheat = "Dev-Mode";
+//            Config.cheat(SplashScreenActivity.this, typeCheat);
 //                Toast.makeText(this, "Matikan mode debugging", Toast.LENGTH_SHORT).show();
 //                Config.dialogAlert(SplashScreenActivity.this, "Developer mode atau opsi developer ON", "Akun di BEKUKAN oleh sistem Android, hubungi kepegawaian", "OKE");
 //                // TODO bekukan akun yang nakal.
@@ -457,6 +460,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (!finding) {
             toHome();
         } else {
+            typeCheat = "fake-gps";
+            Config.saveSharedCheat(SplashScreenActivity.this, typeCheat, "Tampilan Awal", String.valueOf(requestedPermissions.length));
             // TODO kirim update ceklis apps nakal
             MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
                     .setTitle(Config.ERROR_FAKE_GPS_TITLE)
