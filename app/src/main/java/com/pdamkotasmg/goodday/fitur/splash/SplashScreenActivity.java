@@ -329,7 +329,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     } else {
                         address_gps = addressList.get(0).getAddressLine(0); // If any additional address_gps line present than only, check with max available address_gps lines by getMaxAddressLineIndex()
                         city = addressList.get(0).getLocality();
-                        state = addressList.get(0).getAdminArea();
+//                        state = addressList.get(0).getAdminArea();
                         country = addressList.get(0).getCountryName();
                         postalCode = addressList.get(0).getPostalCode();
                         knownName = addressList.get(0).getFeatureName(); // Only if available else return NULL
@@ -376,7 +376,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             editor.putString(Config.SHARED_SSID, getSSIDWifi);
             editor.putString(Config.SHARED_ADDRESS_GPS, address_gps);
             editor.putString(Config.SHARED_CITY, city);
-            editor.putString(Config.SHARED_STATE, state);
+//            editor.putString(Config.SHARED_STATE, state);
             editor.putString(Config.SHARED_COUNTRY, country);
             editor.putString(Config.SHARED_POSTALCODE, postalCode);
             editor.putString(Config.SHARED_KNOWNNAME, knownName);
@@ -438,6 +438,16 @@ public class SplashScreenActivity extends AppCompatActivity {
                                         || packageInfo.packageName.equalsIgnoreCase("fake")
                                         || packageInfo.packageName.contains("mock")
                                         || packageInfo.packageName.contains("fakegps")
+                                        || packageInfo.packageName.contains("fake.location")
+                                        || packageInfo.packageName.contains("fake.gps")
+                                        || packageInfo.packageName.contains("gpsemulator")
+                                        || packageInfo.packageName.contains("locationchanger")
+                                        || packageInfo.packageName.contains("mocklocations")
+                                        || packageInfo.packageName.contains("gpsfake")
+                                        || packageInfo.packageName.contains("fakelivelocation")
+                                        || packageInfo.packageName.contains("fakelocation")
+                                        || packageInfo.packageName.contains("virtualphonenavigation")
+                                        || packageInfo.packageName.contains("fakegpslocationprofessional")
                                         || packageInfo.packageName.equalsIgnoreCase("gpsemulator")
                                         || packageInfo.packageName.equalsIgnoreCase("fakegpslocationprofessional")
                                         || packageInfo.packageName.equalsIgnoreCase("fakegps_route")
