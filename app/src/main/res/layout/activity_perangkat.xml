@@ -23,7 +23,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_medium"
+                android:fontFamily="@font/poppins"
+
                 android:text="Perangkat Sekarang"
                 android:textColor="@color/primary"
                 android:textSize="13dp" />
@@ -44,7 +45,7 @@
                         android:id="@+id/tv_version_aplication"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+                        android:fontFamily="@font/poppins"
                         android:text="Telegram Android 7.5.1"
                         android:textColor="@color/black"
                         android:textSize="13dp"
@@ -54,7 +55,8 @@
                         android:id="@+id/tv_name_nama_hp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+                        android:fontFamily="@font/poppins"
+
                         android:text="Samsung A71, Android (29)"
                         android:textColor="@color/black"
                         android:textSize="11dp" />
@@ -63,7 +65,8 @@
                         android:id="@+id/tv_ip_city"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+                        android:fontFamily="@font/poppins"
+
                         android:text="192.122.3.44 - Semarang"
                         android:textColor="@color/grey"
                         android:textSize="11dp" />
@@ -79,7 +82,8 @@
                         android:id="@+id/tv_status_online"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+                        android:fontFamily="@font/poppins"
+
                         android:text="Online"
                         android:textColor="@color/primary"
                         android:textSize="11dp" />
@@ -91,16 +95,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:fontFamily="@font/poppins_medium"
+                android:fontFamily="@font/poppins"
+
                 android:text="Riwayat Perangkat Tersambung"
                 android:textColor="@color/primary"
                 android:textSize="13dp" />
+
             <TextView
                 android:id="@+id/tv_delete_all_session"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/poppins_medium"
+                android:fontFamily="@font/poppins"
+
                 android:text="Hapus semua sesi"
                 android:textColor="@color/red"
                 android:textSize="11dp" />
@@ -109,8 +116,8 @@
                 android:id="@+id/rv_perangkat_tersambung"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/list_item_riwayat_perangkat"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="4dp"
+                tools:listitem="@layout/list_item_riwayat_perangkat" />
 
         </LinearLayout>
     </LinearLayout>

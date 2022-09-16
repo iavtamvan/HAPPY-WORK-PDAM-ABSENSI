@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         getSSIDWifi = sharedPreferences.getString(Config.SHARED_SSID, "");
         address_gps = sharedPreferences.getString(Config.SHARED_ADDRESS_GPS, "");
         city = sharedPreferences.getString(Config.SHARED_CITY, "");
-        state = sharedPreferences.getString(Config.SHARED_STATE, "");
+//        state = sharedPreferences.getString(Config.SHARED_STATE, "");
         country = sharedPreferences.getString(Config.SHARED_COUNTRY, "");
         postalCode = sharedPreferences.getString(Config.SHARED_POSTALCODE, "");
         knownName = sharedPreferences.getString(Config.SHARED_KNOWNNAME, "");

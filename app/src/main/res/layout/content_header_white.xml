@@ -23,10 +23,11 @@
                 android:src="@drawable/left_arrow_white" />
 
             <TextView
+            android:fontFamily="@font/poppins"
                 android:id="@+id/tv_header_judul"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fontFamily="@font/poppins_medium"
+
                 android:gravity="left|center"
                 android:paddingLeft="10dp"
                 android:text="Judul"

@@ -62,10 +62,11 @@
                                 android:orientation="vertical">
 
                                 <TextView
+            android:fontFamily="@font/poppins"
                                     android:id="@+id/tv_details_approval_name"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_medium"
+
                                     android:gravity="left"
                                     android:text="Nama"
                                     android:textColor="@color/black"
@@ -73,20 +74,22 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+            android:fontFamily="@font/poppins"
                                     android:id="@+id/tv_details_approval_position"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_medium"
+
                                     android:gravity="left"
                                     android:text="Jabatan"
                                     android:textColor="@color/black"
                                     android:textSize="10dp" />
 
                                 <TextView
+            android:fontFamily="@font/poppins"
                                     android:id="@+id/tv_details_approval_note"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_medium"
+
                                     android:gravity="left"
                                     android:text="Alasan menolak"
                                     android:textColor="@color/grey"
@@ -101,20 +104,22 @@
                                 android:orientation="vertical">
 
                                 <TextView
+            android:fontFamily="@font/poppins"
                                     android:id="@+id/tv_details_approval_status"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_medium"
+
                                     android:gravity="right"
                                     android:text="Approved"
                                     android:textColor="@color/black"
                                     android:textSize="12dp" />
 
                                 <TextView
+            android:fontFamily="@font/poppins"
                                     android:id="@+id/tv_details_approval_date_time"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_medium"
+
                                     android:gravity="right"
                                     android:text="15-Feb-2021"
                                     android:textColor="@color/grey"

@@ -90,7 +90,7 @@ public class IntroActivity extends AppCompatActivity {
         dotsLayout.removeAllViews();
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new ImageView(this);
-            int width_height = 25;
+            int width_height = 20;
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(width_height, width_height));
             params.setMargins(10, 10, 10, 10);
             dots[i].setLayoutParams(params);

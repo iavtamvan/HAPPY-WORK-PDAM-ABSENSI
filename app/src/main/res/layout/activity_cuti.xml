@@ -49,14 +49,15 @@
                             android:layout_height="wrap_content"
                             android:background="@color/white"
                             android:focusable="false"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:hint="Permintaan untuk" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left"
                         android:text="Tipe Cuti"
                         android:textColor="@color/black"
@@ -85,19 +86,21 @@
                             android:orientation="vertical">
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="Masa berlaku sampai"
                                 android:textColor="@color/black"
                                 android:textSize="12dp" />
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_validity_date_end"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="Staff"
                                 android:textColor="@color/primary"
@@ -113,19 +116,21 @@
                             android:orientation="vertical">
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="right"
                                 android:text="Sisa"
                                 android:textColor="@color/black"
                                 android:textSize="12dp" />
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_remaining"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="right"
                                 android:text="40"
                                 android:textColor="@color/primary"
@@ -146,7 +151,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/white"
                             android:focusable="false"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:hint="Dari tanggal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -161,7 +166,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/white"
                             android:focusable="false"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:hint="Selesai tanggal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -175,7 +180,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:hint="Alasan" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>

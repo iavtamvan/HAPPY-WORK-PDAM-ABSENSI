@@ -62,31 +62,34 @@
                             android:orientation="vertical">
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_list_kehadiran_nama"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="--------"
                                 android:textColor="@color/black"
                                 android:textSize="11dp" />
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_date"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="--,---,----"
                                 android:textColor="@color/grey"
                                 android:textSize="11dp" />
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_list_kehadiran_shift"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:textColor="@color/grey"
                                 android:textSize="11dp" />
@@ -166,10 +169,11 @@
                         </androidx.cardview.widget.CardView>
 
                         <TextView
+            android:fontFamily="@font/poppins"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:gravity="center"
                             android:text="Daftar Kehadiran"
                             android:textColor="@color/grey"
@@ -209,10 +213,11 @@
                         </androidx.cardview.widget.CardView>
 
                         <TextView
+            android:fontFamily="@font/poppins"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:gravity="center"
                             android:text="Koreksi Kehadiran"
                             android:textColor="@color/grey"
@@ -252,10 +257,11 @@
                         </androidx.cardview.widget.CardView>
 
                         <TextView
+            android:fontFamily="@font/poppins"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:gravity="center"
                             android:text="Cuti"
                             android:textColor="@color/grey"
@@ -295,10 +301,11 @@
                         </androidx.cardview.widget.CardView>
 
                         <TextView
+            android:fontFamily="@font/poppins"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:gravity="center"
                             android:text="Lembur"
                             android:textColor="@color/grey"
@@ -346,10 +353,11 @@
                         </androidx.cardview.widget.CardView>
 
                         <TextView
+            android:fontFamily="@font/poppins"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:gravity="center"
                             android:text="Perjalanan Dinas"
                             android:textColor="@color/grey"
@@ -389,10 +397,11 @@
                         </androidx.cardview.widget.CardView>
 
                         <TextView
+            android:fontFamily="@font/poppins"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:gravity="center"
                             android:text="Attedance Correction"
                             android:textColor="@color/grey"
@@ -433,10 +442,11 @@
                         </androidx.cardview.widget.CardView>
 
                         <TextView
+            android:fontFamily="@font/poppins"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:gravity="center"
                             android:text="Leave"
                             android:textColor="@color/grey"
@@ -477,10 +487,11 @@
                         </androidx.cardview.widget.CardView>
 
                         <TextView
+            android:fontFamily="@font/poppins"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:gravity="center"
                             android:text="Overtime"
                             android:textColor="@color/grey"

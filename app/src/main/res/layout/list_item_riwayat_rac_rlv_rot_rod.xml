@@ -36,40 +36,44 @@
                     android:orientation="vertical">
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_request_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left"
                         android:text="RAC-202112-000023"
                         android:textColor="@color/red"
                         android:textSize="12dp" />
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_request_at"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left"
                         android:text="Untuk: 7 Jan 2022"
                         android:textColor="@color/black"
                         android:textSize="12dp" />
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_request_by"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left"
                         android:text="Permintaan dari: Examples"
                         android:textColor="@color/black"
                         android:textSize="12dp" />
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_request_for"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left"
                         android:text="Permintaan untuk: Examples"
                         android:textColor="@color/black"
@@ -93,10 +97,11 @@
                     android:orientation="vertical">
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_request_status"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left"
                         android:text="Status"
                         android:textColor="@color/grey"

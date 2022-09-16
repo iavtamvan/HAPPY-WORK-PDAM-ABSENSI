@@ -28,11 +28,12 @@
                 android:orientation="horizontal">
 
                 <TextView
+            android:fontFamily="@font/poppins"
                     android:id="@+id/tv_name_dashboard"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:fontFamily="@font/poppins_medium"
+
                     android:gravity="left|center"
                     android:text="---"
                     android:textColor="@color/white"
@@ -51,10 +52,11 @@
             </LinearLayout>
 
             <TextView
+            android:fontFamily="@font/poppins"
                 android:id="@+id/div_nama_lengkap"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_medium"
+
                 android:gravity="left|center"
                 android:text="Hai, Ade Fajr Ariav, S.Kom"
                 android:textColor="@color/white"
@@ -84,9 +86,10 @@
                         app:lottie_speed="1" />
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="center"
                         android:text="Rekam Waktu"
                         android:textColor="@color/white"
@@ -111,9 +114,10 @@
                         app:lottie_speed="1" />
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="center"
                         android:text="PaySlip"
                         android:textColor="@color/white"
@@ -138,9 +142,10 @@
                         app:lottie_speed="1" />
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="center"
                         android:text="Kehadiran"
                         android:textColor="@color/white"
@@ -166,9 +171,10 @@
                         app:lottie_speed="1" />
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="center"
                         android:text="Lainya"
                         android:textColor="@color/white"
@@ -216,9 +222,10 @@
                     app:lottie_speed="1" />
 
                 <TextView
+            android:fontFamily="@font/poppins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
+
                     android:gravity="center"
                     android:text="Lembur"
                     android:textColor="@color/black"
@@ -243,9 +250,10 @@
                     app:lottie_speed="1" />
 
                 <TextView
+            android:fontFamily="@font/poppins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
+
                     android:gravity="center"
                     android:text="Permintaan"
                     android:textColor="@color/black"
@@ -270,9 +278,10 @@
                     app:lottie_speed="1" />
 
                 <TextView
+            android:fontFamily="@font/poppins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
+
                     android:gravity="center"
                     android:text="Kehadiran"
                     android:textColor="@color/white"
@@ -298,9 +307,10 @@
                     app:lottie_speed="1" />
 
                 <TextView
+            android:fontFamily="@font/poppins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
+
                     android:gravity="center"
                     android:text="Lainya"
                     android:textColor="@color/white"
@@ -344,11 +354,12 @@
                 android:src="@drawable/ic_info_orange" />
 
             <TextView
+            android:fontFamily="@font/poppins"
                 android:id="@+id/tv_info_warning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
-                android:fontFamily="@font/poppins_medium"
+
                 android:text="Foto pertama tidak bisa di ubah, pastikan wajah terlihat jelas agar sistem bisa mengenali foto selanjutnya"
                 android:textColor="@color/orangeGreatDay"
                 android:textSize="11dp" />
@@ -386,9 +397,10 @@
                 android:orientation="vertical">
 
                 <TextView
+            android:fontFamily="@font/poppins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
+
                     android:gravity="left"
                     android:text="Atasan kamu"
                     android:textColor="@color/black"
@@ -413,9 +425,10 @@
                 android:orientation="vertical">
 
                 <TextView
+            android:fontFamily="@font/poppins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
+
                     android:gravity="left"
                     android:text="Berita hot yang perlu kamu tau"
                     android:textColor="@color/black"

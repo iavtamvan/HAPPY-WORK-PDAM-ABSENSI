@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_klik"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="4dp"
         android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp">
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
             android:layout_marginLeft="18dp"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="18dp"
             android:layout_marginBottom="8dp"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,42 +31,43 @@
                     android:id="@+id/ci_list_feeds_profile_image"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_person"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"/>
+                    android:layout_marginBottom="8dp"
+                    android:src="@drawable/ic_person" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
                         android:id="@+id/tv_list_get_staff_or_supervisior_npp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+                        android:fontFamily="@font/poppins"
                         android:gravity="left"
                         android:text="690xxxxx"
                         android:textColor="@color/primary"
                         android:textSize="12dp" />
 
                     <TextView
-                        android:layout_width="match_parent"
                         android:id="@+id/tv_list_get_staff_or_supervisior_nama"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+                        android:fontFamily="@font/poppins"
                         android:gravity="left"
                         android:text="Nama"
                         android:textColor="@color/black"
                         android:textSize="10dp" />
+
                     <TextView
                         android:id="@+id/tv_list_get_staff_or_supervisior_jabatan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+                        android:fontFamily="@font/poppins"
                         android:gravity="left"
                         android:text="Staff"
                         android:textColor="@color/grey"

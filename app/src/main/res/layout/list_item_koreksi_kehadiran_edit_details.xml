@@ -36,10 +36,11 @@
                     android:orientation="vertical">
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_koreksi_kehadiran_details_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left|center"
                         android:text="7 Jan 2022"
                         android:textColor="@color/primary"
@@ -52,20 +53,22 @@
                         android:orientation="horizontal">
 
                         <TextView
+            android:fontFamily="@font/poppins"
                             android:id="@+id/tv_list_koreksi_kehadiran_details_start_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:gravity="left"
                             android:text="07:24 | "
                             android:textColor="@color/black"
                             android:textSize="12dp" />
 
                         <TextView
+            android:fontFamily="@font/poppins"
                             android:id="@+id/tv_list_koreksi_kehadiran_details_end_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:gravity="left"
                             android:text="15:30"
                             android:textColor="@color/black"
@@ -91,20 +94,22 @@
                     android:orientation="vertical">
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_koreksi_kehadiran_details_shift"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="right"
                         android:text="SH_HO_NORMAL"
                         android:textColor="@color/grey"
                         android:textSize="12dp" />
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_koreksi_kehadiran_details_status_update"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="right"
                         android:text="No Change"
                         android:textColor="@color/grey"

@@ -38,19 +38,21 @@
                     android:src="@drawable/qrcode" />
 
                 <TextView
+            android:fontFamily="@font/poppins"
                     android:id="@+id/tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
+
                     android:text="Nama Ini Ya"
                     android:textColor="@color/black"
                     android:textSize="14dp" />
 
                 <TextView
+            android:fontFamily="@font/poppins"
                     android:id="@+id/tv_npp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
+
                     android:text="1234567"
                     android:textColor="@color/black"
                     android:textSize="14dp" />
@@ -69,19 +71,21 @@
         android:orientation="vertical">
 
         <TextView
+            android:fontFamily="@font/poppins"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
+
             android:gravity="center"
             android:text="Minta tolong temenmu untuk absen jika HP mu bermsalah"
             android:textColor="@color/grey"
             android:textSize="13dp" />
 
         <TextView
+            android:fontFamily="@font/poppins"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/poppins_medium"
+
             android:text="Ayo lakukan absen"
             android:textColor="@color/black"
             android:textSize="20dp" />

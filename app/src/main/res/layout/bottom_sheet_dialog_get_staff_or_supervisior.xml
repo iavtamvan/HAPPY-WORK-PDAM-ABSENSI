@@ -19,10 +19,11 @@
             android:background="@color/grey" />
 
         <TextView
+            android:fontFamily="@font/poppins"
             android:id="@+id/tv_tutup_dialog"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:fontFamily="@font/poppins_medium"
+
             android:textColor="@color/redPortal"
             android:gravity="center"
             android:text="Tutup" />

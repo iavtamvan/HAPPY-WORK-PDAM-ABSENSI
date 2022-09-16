@@ -51,11 +51,12 @@
                             android:src="@drawable/ic_health" />
 
                         <TextView
+            android:fontFamily="@font/poppins"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="4dp"
                             android:layout_marginRight="4dp"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:gravity="center|left"
                             android:text="Cek lokasi, Muat Ulang apabila belum sesuai! Apabila belum sesuai buka aplikasi Google Maps 🙂"
                             android:textColor="@color/white"
@@ -93,11 +94,12 @@
                     android:src="@drawable/ic_maps" />
 
                 <TextView
+            android:fontFamily="@font/poppins"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="4dp"
-                    android:fontFamily="@font/poppins_medium"
+
                     android:gravity="center|left"
                     android:text="Lokasi saat ini, benarkah?"
                     android:textColor="@color/black"
@@ -106,10 +108,11 @@
             </LinearLayout>
 
             <TextView
+            android:fontFamily="@font/poppins"
                 android:id="@+id/tv_distance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_medium"
+
                 android:gravity="center"
                 android:text="Jarak 300 Meters"
                 android:textColor="@color/grey"
@@ -129,11 +132,12 @@
                     android:background="@drawable/rectangle_shapes">
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="center"
                         android:text="MUAT ULANG"
                         android:textColor="@color/primary"
@@ -150,11 +154,12 @@
                     android:background="@drawable/rectangle_shapes_bg_blue">
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="center"
                         android:text="LANJUT"
                         android:textColor="@color/white"
@@ -170,6 +175,7 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
+            android:fontFamily="@font/poppins"
         android:id="@+id/tv_resp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

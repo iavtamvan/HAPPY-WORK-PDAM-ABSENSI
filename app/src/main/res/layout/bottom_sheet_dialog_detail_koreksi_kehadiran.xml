@@ -34,7 +34,7 @@
                     android:layout_marginBottom="8dp"
                     android:background="@color/white"
                     android:enabled="false"
-                    android:fontFamily="@font/poppins_medium"
+
                     android:hint="Tanggal" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,7 +50,7 @@
                     android:layout_marginBottom="8dp"
                     android:background="@color/white"
                     android:enabled="false"
-                    android:fontFamily="@font/poppins_medium"
+
                     android:hint="Shift" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,7 +66,7 @@
                     android:layout_marginBottom="8dp"
                     android:background="@color/white"
                     android:drawableEnd="@drawable/reason"
-                    android:fontFamily="@font/poppins_medium"
+
                     android:hint="Alasan" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,9 +77,10 @@
                 android:orientation="vertical">
 
                 <TextView
+            android:fontFamily="@font/poppins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
+
                     android:gravity="left|center"
                     android:text="Sebelumnya"
                     android:textColor="@color/black"
@@ -104,7 +105,7 @@
                             android:layout_marginBottom="8dp"
                             android:background="@color/white"
                             android:enabled="false"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:hint="Waktu Mulai" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -121,7 +122,7 @@
                             android:layout_marginBottom="8dp"
                             android:background="@color/white"
                             android:enabled="false"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:hint="Waktu Selesai" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -136,9 +137,10 @@
                 android:orientation="vertical">
 
                 <TextView
+            android:fontFamily="@font/poppins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
+
                     android:gravity="left|center"
                     android:text="Sesudah"
                     android:textColor="@color/black"
@@ -164,7 +166,7 @@
                             android:background="@color/white"
                             android:drawableEnd="@drawable/clock_24"
                             android:focusable="false"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:hint="Waktu Mulai"
                             android:inputType="datetime" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -183,7 +185,7 @@
                             android:background="@color/white"
                             android:drawableEnd="@drawable/clock_24"
                             android:focusable="false"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:hint="Waktu Selesai"
                             android:inputType="time" />
                     </com.google.android.material.textfield.TextInputLayout>

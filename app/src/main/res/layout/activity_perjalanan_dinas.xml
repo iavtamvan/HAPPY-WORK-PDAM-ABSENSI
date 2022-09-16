@@ -49,7 +49,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/white"
                             android:focusable="false"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:hint="Permintaan untuk" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,19 +60,21 @@
                         android:orientation="vertical">
 
                         <TextView
+            android:fontFamily="@font/poppins"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:gravity="left"
                             android:text="Tipe Bertugas"
                             android:textColor="@color/grey"
                             android:textSize="13dp" />
 
                         <TextView
+            android:fontFamily="@font/poppins"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:gravity="left"
                             android:text="Perjalanan Dinas"
                             android:textColor="@color/black"
@@ -91,16 +93,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:hint="Alasan" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_koreksi_kehadiran_details_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:text="Detail"
                         android:textColor="@color/black"
                         android:textSize="15dp"
@@ -123,11 +126,12 @@
                             android:orientation="vertical">
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left|center"
                                 android:text="Detail"
                                 android:textColor="@color/white"
@@ -158,19 +162,21 @@
                                     android:visibility="gone">
 
                                     <TextView
+            android:fontFamily="@font/poppins"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppins_medium"
+
                                         android:gravity="left"
                                         android:text="Tipe"
                                         android:textColor="@color/black"
                                         android:textSize="14dp" />
 
                                     <TextView
+            android:fontFamily="@font/poppins"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="4dp"
-                                        android:fontFamily="@font/poppins_medium"
+
                                         android:gravity="left"
                                         android:text="Perjalanan Dinas"
                                         android:textColor="@color/grey"
@@ -199,7 +205,7 @@
                                             android:background="@color/white"
                                             android:drawableEnd="@drawable/date_24"
                                             android:focusable="false"
-                                            android:fontFamily="@font/poppins_medium"
+
                                             android:hint="Tanggal Mulai"
                                             android:inputType="datetime" />
                                     </com.google.android.material.textfield.TextInputLayout>
@@ -218,7 +224,7 @@
                                             android:background="@color/white"
                                             android:drawableEnd="@drawable/date_24"
                                             android:focusable="false"
-                                            android:fontFamily="@font/poppins_medium"
+
                                             android:hint="Tanggal Selesai"
                                             android:inputType="time" />
                                     </com.google.android.material.textfield.TextInputLayout>
@@ -231,7 +237,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:background="@color/primary"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:text="LIHAT DETAIL"
                             android:textColor="@color/white"
                             android:textSize="12dp"

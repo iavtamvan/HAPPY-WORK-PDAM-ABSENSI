@@ -22,12 +22,13 @@
             android:orientation="vertical">
 
             <TextView
+            android:fontFamily="@font/poppins"
                 android:id="@+id/tv_list_kehadiran_date"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:fontFamily="@font/poppins_medium"
+
                 android:gravity="left|center"
                 android:text="Mon, 5 Mar 2021"
                 android:textColor="@color/white"
@@ -67,29 +68,32 @@
                     android:orientation="vertical">
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left"
                         android:text="Masuk"
                         android:textColor="@color/grey"
                         android:textSize="10dp" />
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_kehadiran_masuk"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left"
                         android:text="--:--"
                         android:textColor="@color/teal_700"
                         android:textSize="14dp" />
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_kehadiran_masuk_status"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left"
                         android:text="Status"
                         android:textColor="@color/red"
@@ -122,29 +126,32 @@
                     android:orientation="vertical">
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left"
                         android:text="Keluar"
                         android:textColor="@color/grey"
                         android:textSize="10dp" />
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_kehadiran_keluar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left"
                         android:text="--:--"
                         android:textColor="@color/primary"
                         android:textSize="14dp" />
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_kehadiran_keluar_status"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left"
                         android:text="Status"
                         android:textColor="@color/red"
@@ -162,7 +169,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@color/primary"
-            android:fontFamily="@font/poppins_medium"
+
             android:text="LIHAT DETAIL"
             android:textColor="@color/white"
             android:textSize="12dp"

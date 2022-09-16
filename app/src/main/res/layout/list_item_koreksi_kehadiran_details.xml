@@ -46,9 +46,10 @@
                             android:orientation="vertical">
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="Sebelum"
                                 android:textColor="@color/black"
@@ -56,10 +57,11 @@
                                 android:textStyle="bold" />
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_details_shift_dan_waktuIn_waktuOut_before"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="SH_HO [07:00 - 09:00]"
                                 android:textColor="@color/black"
@@ -79,9 +81,10 @@
                                 android:orientation="vertical">
 
                                 <TextView
+            android:fontFamily="@font/poppins"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_medium"
+
                                     android:gravity="left"
                                     android:text="Waktu mulai"
                                     android:textColor="@color/grey"
@@ -89,10 +92,11 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+            android:fontFamily="@font/poppins"
                                     android:id="@+id/tv_details_time_in_before"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_medium"
+
                                     android:gravity="left"
                                     android:text="07:00 | 20 Sep"
                                     android:textColor="@color/grey"
@@ -107,9 +111,10 @@
                                 android:orientation="vertical">
 
                                 <TextView
+            android:fontFamily="@font/poppins"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_medium"
+
                                     android:gravity="left"
                                     android:text="Waktu mulai"
                                     android:textColor="@color/grey"
@@ -117,10 +122,11 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+            android:fontFamily="@font/poppins"
                                     android:id="@+id/tv_details_time_out_before"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_medium"
+
                                     android:gravity="left"
                                     android:text="07:00 | 20 Sep"
                                     android:textColor="@color/grey"
@@ -143,9 +149,10 @@
                             android:orientation="vertical">
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="Sesudah"
                                 android:textColor="@color/black"
@@ -153,10 +160,11 @@
                                 android:textStyle="bold" />
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_details_shift_dan_waktuIn_waktuOut_after"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="SH_HO [07:00 - 09:00]"
                                 android:textColor="@color/black"
@@ -176,9 +184,10 @@
                                 android:orientation="vertical">
 
                                 <TextView
+            android:fontFamily="@font/poppins"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_medium"
+
                                     android:gravity="left"
                                     android:text="Waktu mulai"
                                     android:textColor="@color/grey"
@@ -186,10 +195,11 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+            android:fontFamily="@font/poppins"
                                     android:id="@+id/tv_details_time_in_ater"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_medium"
+
                                     android:gravity="left"
                                     android:text="07:00 | 20 Sep"
                                     android:textColor="@color/grey"
@@ -204,9 +214,10 @@
                                 android:orientation="vertical">
 
                                 <TextView
+            android:fontFamily="@font/poppins"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_medium"
+
                                     android:gravity="left"
                                     android:text="Waktu mulai"
                                     android:textColor="@color/grey"
@@ -214,10 +225,11 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+            android:fontFamily="@font/poppins"
                                     android:id="@+id/tv_details_time_out_after"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_medium"
+
                                     android:gravity="left"
                                     android:text="07:00 | 20 Sep"
                                     android:textColor="@color/grey"
@@ -233,9 +245,10 @@
                             android:orientation="vertical">
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="Alasan"
                                 android:textColor="@color/black"
@@ -243,10 +256,11 @@
                                 android:textStyle="bold" />
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_details_reason"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="Lupa absen pulang"
                                 android:textColor="@color/black"

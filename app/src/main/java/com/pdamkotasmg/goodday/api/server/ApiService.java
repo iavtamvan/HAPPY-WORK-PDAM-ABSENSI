@@ -152,7 +152,7 @@ public interface ApiService {
 //    @GET("auth-pelanggan/refresh-token")
 //    Call<RefreshTokenRoot> refreshToken(@Header("Authorization") String auth);
 //
-    @GET("kontol")
+    @GET("PTI-GA-PUNYA-HP")
     Call<BeritaRootModel> getNews();
 
     //

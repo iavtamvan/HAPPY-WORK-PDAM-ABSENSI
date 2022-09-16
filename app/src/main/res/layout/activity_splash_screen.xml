@@ -28,13 +28,13 @@
             android:layout_centerVertical="true" />
 
         <TextView
+            android:fontFamily="@font/poppins"
             android:id="@+id/appname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/logo"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/poppins_medium"
             android:text="Validasi data ...."
             android:textColor="@color/black"
             android:textSize="14sp" />

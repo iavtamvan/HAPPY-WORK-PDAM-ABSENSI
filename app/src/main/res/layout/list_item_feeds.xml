@@ -46,29 +46,32 @@
                     android:orientation="vertical">
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:id="@+id/tv_list_feeds_judul_berita"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left"
                         android:text="Judul Berita"
                         android:textColor="@color/primary"
                         android:textSize="12dp" />
 
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:id="@+id/tv_list_feeds_nama_penerbit"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left"
                         android:text="Nama Penerbit"
                         android:textColor="@color/black"
                         android:textSize="10dp" />
                     <TextView
+            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_feeds_tanggal_berita"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
+
                         android:gravity="left"
                         android:text="Type 15-Feb-2021"
                         android:textColor="@color/grey"
@@ -78,10 +81,11 @@
             </LinearLayout>
 
             <TextView
+            android:fontFamily="@font/poppins"
                 android:id="@+id/tv_list_feeds_isi_berita"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_medium"
+
                 android:gravity="left"
                 android:text="the payment is succesufulliy the payment is succesufulliy succesufulliy succesufulliy succesufulliy succesufulliy succesufulliy"
                 android:textColor="@color/black"

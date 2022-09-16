@@ -49,19 +49,21 @@
                             android:orientation="vertical">
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="No"
                                 android:textColor="@color/black"
                                 android:textSize="12dp" />
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_detail_request_number"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="----"
                                 android:textColor="@color/redPortal"
@@ -75,19 +77,21 @@
                             android:orientation="vertical">
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="Permintaan dari"
                                 android:textColor="@color/black"
                                 android:textSize="12dp" />
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_detail_request_dari"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="--"
                                 android:textColor="@color/grey"
@@ -101,19 +105,21 @@
                             android:orientation="vertical">
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="Permintaan untuk"
                                 android:textColor="@color/black"
                                 android:textSize="12dp" />
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_detail_request_untuk"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="--"
                                 android:textColor="@color/grey"
@@ -138,19 +144,21 @@
                                     android:orientation="vertical">
 
                                     <TextView
+            android:fontFamily="@font/poppins"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppins_medium"
+
                                         android:gravity="left"
                                         android:text="Mulai tanggal"
                                         android:textColor="@color/black"
                                         android:textSize="12dp" />
 
                                     <TextView
+            android:fontFamily="@font/poppins"
                                         android:id="@+id/tv_detail_mulai_tanggal"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppins_medium"
+
                                         android:gravity="left"
                                         android:text="--"
                                         android:textColor="@color/grey"
@@ -164,19 +172,21 @@
                                     android:orientation="vertical">
 
                                     <TextView
+            android:fontFamily="@font/poppins"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppins_medium"
+
                                         android:gravity="left"
                                         android:text="Permintaan untuk"
                                         android:textColor="@color/black"
                                         android:textSize="12dp" />
 
                                     <TextView
+            android:fontFamily="@font/poppins"
                                         android:id="@+id/tv_detail_selesai_tanggal"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppins_medium"
+
                                         android:gravity="left"
                                         android:text="--"
                                         android:textColor="@color/grey"
@@ -193,10 +203,11 @@
                             android:background="@color/grey" />
 
                         <TextView
+            android:fontFamily="@font/poppins"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:fontFamily="@font/poppins_medium"
+
                             android:gravity="left"
                             android:text="Detail"
                             android:textColor="@color/black"
@@ -215,11 +226,12 @@
                             android:orientation="horizontal">
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_details_tanggal_req"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left|center"
                                 android:text="--"
                                 android:textColor="@color/primary"
@@ -227,11 +239,12 @@
                                 android:textStyle="bold" />
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_details_status"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="right"
                                 android:text="--"
                                 android:textColor="@color/black"
@@ -261,10 +274,11 @@
                                 android:background="@color/grey" />
 
                             <TextView
+            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:fontFamily="@font/poppins_medium"
+
                                 android:gravity="left"
                                 android:text="Mengetahui"
                                 android:textColor="@color/black"
