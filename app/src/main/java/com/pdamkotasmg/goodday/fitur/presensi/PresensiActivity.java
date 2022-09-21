@@ -119,6 +119,7 @@ public class PresensiActivity extends AppCompatActivity {
     private Button btnKirimPresensi2;
     private AdView adView;
     private CircleImageView ivFotoFirst;
+    private LinearLayout divPercent;
 
     @SuppressLint({"SimpleDateFormat", "SetTextI18n", "CommitPrefEdits"})
     @Override
@@ -381,6 +382,7 @@ public class PresensiActivity extends AppCompatActivity {
                                 Log.d(TAG, "onResponseheaders: " + response.message());
                                 Toast.makeText(PresensiActivity.this, "Wajah tidak ada", Toast.LENGTH_SHORT).show();
                                 divMencariMuka.setVisibility(View.GONE);
+                                divPercent.setVisibility(View.VISIBLE);
                                 tvPersenFace.setVisibility(View.VISIBLE);
                                 tvPersenFace.setTextColor(Color.RED);
                                 tvPersenFace.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
@@ -395,11 +397,12 @@ public class PresensiActivity extends AppCompatActivity {
                                 divMencariMuka.setVisibility(View.VISIBLE);
                                 animationView.setVisibility(View.GONE);
                                 tvMencariMuka.setText("Sukses Deteksi");
-                                tvPersenFace.setVisibility(View.VISIBLE);
                                 btnKirimPresensi.setVisibility(View.VISIBLE);
                                 btnKirimPresensi.setEnabled(true);
-                                tvPersenFace.setTextColor(Color.GREEN);
-                                tvPersenFace.setText("Deteksi Wajah " + response.body().getData().getMatchPercent() + " % [Match]");
+                                divPercent.setVisibility(View.VISIBLE);
+                                tvPersenFace.setVisibility(View.VISIBLE);
+                                tvPersenFace.setTextColor(Color.BLACK);
+                                tvPersenFace.setText(response.body().getData().getMatchPercent() + "%\n[Match]");
                                 getPathPhotoFaceServer = response.body().getData().getPhoto();
                                 Log.d(TAG, "getPhoto Server : " + getPathPhotoFaceServer);
                                 editor.putString(Config.SHARED_GET_PHOTO_SERVER_PHOTO_OFFLINE, response.body().getData().getPhoto());
@@ -411,6 +414,7 @@ public class PresensiActivity extends AppCompatActivity {
                                 Config.isMockSettingsONV2(PresensiActivity.this);
                             }
                             divMencariMuka.setVisibility(View.GONE);
+                            divPercent.setVisibility(View.VISIBLE);
                             tvPersenFace.setTextColor(Color.RED);
                             tvPersenFace.setVisibility(View.VISIBLE);
                             btnKirimPresensi.setEnabled(false);
@@ -576,5 +580,6 @@ public class PresensiActivity extends AppCompatActivity {
         btnKirimPresensi2 = findViewById(R.id.btn_kirim_presensi_2);
         adView = findViewById(R.id.adView);
         ivFotoFirst = findViewById(R.id.iv_foto_first);
+        divPercent = findViewById(R.id.div_percent);
     }
 }
