@@ -136,6 +136,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         flagSplash = sharedPreferences.getString(Config.SHARED_FLAG_SPLASH, "");
         Log.d(TAG, "flagSplash: " + flagSplash);
+        methodRequiresTwoPermission();
         if (flagSplash.equalsIgnoreCase("")) {
             Config.dialogAlertSplash(SplashScreenActivity.this, "Buka kembali aplikasinya", "Apabila tidak di izinkan mengakibatkan error pada aplikasi", "Tidak");
             methodRequiresTwoPermission();
@@ -149,7 +150,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 //                typeCheat = "Dev-Mode";
 //            Config.cheat(SplashScreenActivity.this, typeCheat);
 //                Toast.makeText(this, "Matikan mode debugging", Toast.LENGTH_SHORT).show();
-//                Config.dialogAlert(SplashScreenActivity.this, "Developer mode atau opsi developer ON", "Akun di BEKUKAN oleh sistem Android, hubungi kepegawaian", "OKE");
+//                Config.dialogAlert(SplashScreenActivity.this, "Developer mode atau opsi developer ON", "Akun di BEKUKAN oleh sistem Android, hubungi kepegawaian dan PTI", "OKE");
 //                // TODO bekukan akun yang nakal.
 //            } else {
 
@@ -205,7 +206,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         // TODO 2 getPackageNameFromServer DONE
         // TODO 3 getDeviceInfo Done
         // TODO 4 MockLocation Matching DONE
-//
     }
 
     private void showGPSDisabledAlertToUser() {

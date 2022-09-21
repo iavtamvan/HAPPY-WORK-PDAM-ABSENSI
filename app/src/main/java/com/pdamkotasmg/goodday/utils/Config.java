@@ -2,6 +2,7 @@ package com.pdamkotasmg.goodday.utils;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -22,6 +23,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.google.android.gms.ads.AdError;
@@ -49,6 +51,8 @@ import java.util.List;
 import java.util.Random;
 
 import okhttp3.ResponseBody;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -750,6 +754,37 @@ public final class Config {
                 Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private static final int RC_CAMERA_AND_LOCATION = 1;
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)
+    public static void methodRequiresTwoPermission(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Config.SHARED_FLAG_SPLASH, "1");
+        editor.apply();
+        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION
+                , Manifest.permission.INTERNET
+                , Manifest.permission.ACCESS_WIFI_STATE
+                , Manifest.permission.ACCESS_NETWORK_STATE
+                , Manifest.permission.ACCESS_FINE_LOCATION
+                , Manifest.permission.ACCESS_COARSE_LOCATION
+                , Manifest.permission.CAMERA
+                , Manifest.permission.WRITE_SECURE_SETTINGS
+                , Manifest.permission.REQUEST_DELETE_PACKAGES
+                , Manifest.permission.QUERY_ALL_PACKAGES
+                , Manifest.permission.WRITE_EXTERNAL_STORAGE
+                , Manifest.permission.READ_EXTERNAL_STORAGE
+                , Manifest.permission.USE_FINGERPRINT};
+        if (EasyPermissions.hasPermissions(context, perms)) {
+            // Already have permission, do the thing
+            Log.d(TAG, "methodRequiresTwoPermission: Sukses");
+        } else {
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions((Activity) context, context.getString(R.string.app_name) ,
+                    RC_CAMERA_AND_LOCATION, perms);
+        }
     }
 
 }

@@ -3,6 +3,7 @@ package com.pdamkotasmg.goodday.fitur.splash;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +13,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.fitur.authentication.login.LoginActivity;
+import com.pdamkotasmg.goodday.utils.Config;
 
 public class IntroActivity extends AppCompatActivity {
 
@@ -39,11 +42,12 @@ public class IntroActivity extends AppCompatActivity {
             "GoodDaY akan terus dikembangkan dengan tingkat kompleksitas yang tinggi"
     };
     private int[] about_images_array = {
-            R.drawable.developer, R.drawable.fakegps,
+            R.drawable.dev_mode, R.drawable.fake_gps,
             R.drawable.facedetection1, R.drawable.tecno1,
             R.drawable.history, R.drawable.utility
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +63,7 @@ public class IntroActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void initComponent() {
         ViewPager viewPager = findViewById(R.id.view_pager);
         btnGotIt = findViewById(R.id.btn_got_it);
@@ -69,6 +74,8 @@ public class IntroActivity extends AppCompatActivity {
         MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
+
+        Config.methodRequiresTwoPermission(IntroActivity.this);
 
         btnGotIt.setVisibility(View.GONE);
         btnGotIt.setOnClickListener(v -> {
