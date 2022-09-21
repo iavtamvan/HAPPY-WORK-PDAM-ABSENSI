@@ -318,9 +318,15 @@ public class PresensiActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<FotoFirstRootModel> call, Response<FotoFirstRootModel> response) {
                 if (response.isSuccessful()) {
-                    Glide.with(PresensiActivity.this).load(Config.BASE_URL_IMAGE + response.body().getData().getPhoto()).error(R.drawable.im_no_available)
-                            .into(ivFotoFirst);
-                    imageFirstPopUp = Config.BASE_URL_IMAGE + response.body().getData().getPhoto();
+                    String photo = response.body().getData().getPhoto();
+                    if (photo == null || photo.isEmpty()) {
+                        Glide.with(PresensiActivity.this).load(R.drawable.im_no_available).error(R.drawable.im_no_available)
+                                .into(ivFotoFirst);
+                    } else {
+                        Glide.with(PresensiActivity.this).load(Config.BASE_URL_IMAGE + response.body().getData().getPhoto()).error(R.drawable.im_no_available)
+                                .into(ivFotoFirst);
+                        imageFirstPopUp = Config.BASE_URL_IMAGE + response.body().getData().getPhoto();
+                    }
 
                 } else {
                     Toast.makeText(PresensiActivity.this, "Tidak ada foto pertama", Toast.LENGTH_SHORT).show();
@@ -382,6 +388,7 @@ public class PresensiActivity extends AppCompatActivity {
                                 btnKirimPresensi.setVisibility(View.GONE);
                                 btnKirimPresensi.setText("\uD83E\uDD11");
                                 btnKirimPresensi2.setVisibility(View.GONE);
+                                Config.deleteFiles(compressedImageFile.getAbsolutePath(), "ImageCompressed"); // (2)
                                 Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TKK ???????");
                             } else {
                                 Toast.makeText(PresensiActivity.this, "Deteksi Wajah " + response.body().getData().getMatchPercent() + "%", Toast.LENGTH_SHORT).show();
@@ -394,7 +401,7 @@ public class PresensiActivity extends AppCompatActivity {
                                 tvPersenFace.setTextColor(Color.GREEN);
                                 tvPersenFace.setText("Deteksi Wajah " + response.body().getData().getMatchPercent() + " % [Match]");
                                 getPathPhotoFaceServer = response.body().getData().getPhoto();
-                                Log.d(TAG, "getPhoto Server : " + response.body().getData().getPhoto());
+                                Log.d(TAG, "getPhoto Server : " + getPathPhotoFaceServer);
                                 editor.putString(Config.SHARED_GET_PHOTO_SERVER_PHOTO_OFFLINE, response.body().getData().getPhoto());
                                 editor.apply();
                                 Config.deleteFiles(compressedImageFile.getAbsolutePath(), "ImageCompressed"); // (2)
@@ -450,16 +457,17 @@ public class PresensiActivity extends AppCompatActivity {
                             .setCompressFormat(Bitmap.CompressFormat.WEBP)
                             .setDestinationDirectoryPath(imageFiles[0].getFile().getParent())
                             .compressToFile(imageFiles[0].getFile(), "comp_" + imageFiles[0].getFile().getName());
+
                     Log.d(TAG, "compressed: " + compressedImageFile.getPath());
                     Glide.with(PresensiActivity.this).load(compressedImageFile.getPath()).override(512, 512).into(ivFotoFront);
                     editor.putString(Config.SHARED_COMPRESED_PHOTO_OFFLINE, compressedImageFile.getPath()); // TODO saving OFFLINE PHOTO
                     editor.apply();
 
-                    // TODO delete image
-                    Config.deleteFiles(imageFiles[0].getFile().getPath(), "ImageOriginal");
 
                     checkFace(); // (1)
 
+                    // TODO delete image original
+                    Config.deleteFiles(imageFiles[0].getFile().getPath(), "ImageOriginal");
                 } catch (IOException e) {
                     Log.d(TAG, "failureCOmpressed: " + e.getMessage());
                     e.printStackTrace();
@@ -479,7 +487,7 @@ public class PresensiActivity extends AppCompatActivity {
         tvMencariMuka.setText("Mengirim Absensi");
         ApiService apiService = ApiConfig.getApiService(this);
         apiService.savePresensi(access_token, lati, longi, statusPresensi, npp, "0", getPathPhotoFaceServer, connectionType,
-                currentDateLocalSendServer, currentTimeLocalSendServer, "0")
+                        currentDateLocalSendServer, currentTimeLocalSendServer, "0")
                 .enqueue(new Callback<SavePresensiRootModel>() {
                     @Override
                     public void onResponse(Call<SavePresensiRootModel> call, Response<SavePresensiRootModel> response) {

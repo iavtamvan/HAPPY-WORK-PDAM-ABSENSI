@@ -297,6 +297,12 @@ public final class Config {
         editor.putString(SHARED_ANDROID_TOKEN_10, "");
         editor.putString(SHARED_ANDROID_TOKEN_11, "");
         editor.putString(SHARED_ANDROID_TOKEN_12, "");
+        editor.putString(SHARED_URL_LOGO, "");
+        editor.putString(SHARED_HEADER_PROFIL, "");
+        editor.putString(SHARED_NAME_DASHBOARD, "");
+        editor.putString(SHARED_HELLO, "");
+        editor.putString(SHARED_IMAGE_HEADER, "");
+        editor.putString(SHARED_MESSAGE_INFO, "");
         editor.apply();
 
         ((Activity) context).finishAffinity();
