@@ -95,6 +95,9 @@
         <activity android:name=".fitur.splash.IntroActivity" />
         <activity
             android:name=".fitur.splash.SplashScreenActivity"
+            android:keepScreenOn="true"></activity>
+        <activity
+            android:name=".Main2"
             android:keepScreenOn="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
