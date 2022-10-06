@@ -9,19 +9,16 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.gson.Gson;
-import com.marcoscg.fingerauth.FingerAuth;
-import com.marcoscg.fingerauth.FingerAuthDialog;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
@@ -39,9 +36,7 @@ import com.pdamkotasmg.goodday.utils.Connectivity;
 import com.scottyab.rootbeer.RootBeer;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -64,52 +59,71 @@ public class DashboardActivity extends AppCompatActivity {
     private String hello;
     private String nameDashboard;
     private String messageInfo;
+    private String satker;
 
     private String typeCheat;
     private String pageCheat;
     private String countCheat;
-
-    private TextView divNamaLengkap;
-    private LinearLayout divRekamWaktu;
-    private LinearLayout divPayslip;
-    private LinearLayout divKehadiran;
-    private LinearLayout divLainnya;
-    private LottieAnimationView lavThumbUp;
-    private CircleImageView ciProfileImage;
-    private RecyclerView rv;
-    private CardView divLainnyaExpanded;
-    private LinearLayout divOvertime;
-    private LottieAnimationView ltProfil;
-    private LinearLayout divRequest;
+    private TextView tvGood;
     private TextView tvNameDashboard;
-    private TextView tvInfoWarning;
+    private TextView tvSatker;
+    private CoordinatorLayout divRekamWaktu;
+    private LottieAnimationView ltPulsator;
+    private TextView scrollingtext;
     private CardView cvInfoWarning;
+    private TextView tvInfoWarning;
+    private CardView divPayslip;
+    private CardView divKehadiran;
+    private CardView divRequest;
+    private CardView divOther;
+    private CircleImageView divProfil;
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_dashboard_v2);
         getSupportActionBar().hide();
         initView();
+
 //        Config.isMockSettingsONV2(DashboardActivity.this);
         feedsController = new FeedsController();
-        feedsController.getFeeds(getApplicationContext(), rv);
-        divLainnyaExpanded.setVisibility(View.GONE);
+//        feedsController.getFeeds(getApplicationContext(), rv);
+//        divLainnyaExpanded.setVisibility(View.GONE);
+
+        Calendar c = Calendar.getInstance();
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+
+        if (timeOfDay >= 0 && timeOfDay < 11) {
+            tvGood.setText("Good Morning \uD83C\uDF04");
+            Config.showNotification(DashboardActivity.this, "Pekerjaan Sudah Siap", "Semangat kerja !!!");
+        } else if (timeOfDay >= 11 && timeOfDay < 15) {
+            tvGood.setText("Good Afternoon \uD83C\uDF1E");
+        } else if (timeOfDay >= 15 && timeOfDay < 18) {
+            Config.showNotification(DashboardActivity.this, "Saatnya Istirahat Sejenak", "Kalau lembur, jangan lupa klik LEMBUR YA!");
+            tvGood.setText("Good Evening \uD83C\uDF25");
+        } else if (timeOfDay >= 18 && timeOfDay < 24) {
+            Config.showNotification(DashboardActivity.this, "Saatnya Tidur", "Kalau lembur, jangan lupa klik LEMBUR YA!");
+            tvGood.setText("Good Night \uD83D\uDECC \uD83D\uDCA4");
+        }
 
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         editor = sharedPreferences.edit();
         hello = sharedPreferences.getString(Config.SHARED_HELLO, "");
         nameDashboard = sharedPreferences.getString(Config.SHARED_NAME_DASHBOARD, "");
+        satker = sharedPreferences.getString(Config.SHARED_SATKER, "") + " - " + sharedPreferences.getString(Config.SHARED_SUBSATKER_FORMATTED, "") ;
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         messageInfo = sharedPreferences.getString(Config.SHARED_MESSAGE_INFO, "");
         typeCheat = sharedPreferences.getString(Config.SHARED_ACTION_CHEAT, "");
         pageCheat = sharedPreferences.getString(Config.SHARED_PAGE_CHEAT, "");
         countCheat = sharedPreferences.getString(Config.SHARED_COUNT_CHEAT, "");
 
-        divNamaLengkap.setText(hello + sharedPreferences.getString(Config.SHARED_NAME, ""));
-        tvNameDashboard.setText(nameDashboard);
+        scrollingtext.setText(hello + sharedPreferences.getString(Config.SHARED_NAME, ""));
+        scrollingtext.setSelected(true);
+        tvNameDashboard.setText(sharedPreferences.getString(Config.SHARED_NAME, ""));
+        tvSatker.setText(satker);
 
         if (!messageInfo.isEmpty()) {
             cvInfoWarning.setVisibility(View.VISIBLE);
@@ -188,33 +202,21 @@ public class DashboardActivity extends AppCompatActivity {
             intent.putExtra(Config.BUNDLE_RIWAYAT_ABSENSI, "0");
             startActivity(intent);
         });
-        divLainnya.setOnClickListener(v -> {
-            if (!statusExpandedTrue) {
-                divLainnyaExpanded.setVisibility(View.VISIBLE);
-                statusExpandedTrue = true;
-            } else {
-                divLainnyaExpanded.setVisibility(View.GONE);
-                statusExpandedTrue = false;
-            }
+        divOther.setOnClickListener(v -> {
+
         });
 
         divPayslip.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), PayslipActivity.class));
         });
 
-        divNamaLengkap.setOnClickListener(v -> {
-
-        });
-
         divRequest.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), PermintaanActivity.class));
         });
 
-        ltProfil.setOnClickListener(v -> {
+        divProfil.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
         });
-
-
     }
 
     private void getPermissionName() {
@@ -279,32 +281,6 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-    private void fingerPrintSHow() {
-        new FingerAuthDialog(this)
-                .setTitle("Fingerprint")
-                .setCancelable(true)
-                .setMaxFailedCount(3) // Number of attemps, default 3
-                .setNegativeButton("Batal", (dialogInterface, i) -> dialogInterface.dismiss())
-                .setOnFingerAuthListener(new FingerAuth.OnFingerAuthListener() {
-                    @Override
-                    public void onSuccess() {
-                        startActivity(new Intent(getApplicationContext(), CheckLocationActivity.class));
-                        Toast.makeText(DashboardActivity.this, "onSuccess ", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        Toast.makeText(DashboardActivity.this, "Coba lagi", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError() {
-                        Toast.makeText(DashboardActivity.this, "Tidak ada yang sama", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .show();
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)
     private void methodRequiresTwoPermission() {
@@ -320,22 +296,6 @@ public class DashboardActivity extends AppCompatActivity {
         }
     }
 
-    public static String convertPassMd5(String pass) {
-        String password = null;
-        MessageDigest mdEnc;
-        try {
-            mdEnc = MessageDigest.getInstance("MD5");
-            mdEnc.update(pass.getBytes(), 0, pass.length());
-            pass = new BigInteger(1, mdEnc.digest()).toString(16);
-            while (pass.length() < 32) {
-                pass = "0" + pass;
-            }
-            password = pass;
-        } catch (NoSuchAlgorithmException e1) {
-            e1.printStackTrace();
-        }
-        return password;
-    }
 
     @Override
     public void onBackPressed() {
@@ -354,20 +314,18 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        divNamaLengkap = findViewById(R.id.div_nama_lengkap);
+        tvGood = findViewById(R.id.tv_good);
+        tvNameDashboard = findViewById(R.id.tv_name_dashboard);
+        tvSatker = findViewById(R.id.tv_satker);
         divRekamWaktu = findViewById(R.id.div_rekam_waktu);
+        ltPulsator = findViewById(R.id.lt_pulsator);
+        scrollingtext = findViewById(R.id.scrollingtext);
+        cvInfoWarning = findViewById(R.id.cv_info_warning);
+        tvInfoWarning = findViewById(R.id.tv_info_warning);
         divPayslip = findViewById(R.id.div_payslip);
         divKehadiran = findViewById(R.id.div_kehadiran);
-        divLainnya = findViewById(R.id.div_lainnya);
-        lavThumbUp = findViewById(R.id.lav_thumbUp);
-        ciProfileImage = findViewById(R.id.ci_profile_image);
-        rv = findViewById(R.id.rv);
-        divLainnyaExpanded = findViewById(R.id.div_lainnya_expanded);
-        divOvertime = findViewById(R.id.div_overtime);
-        ltProfil = findViewById(R.id.lt_profil);
         divRequest = findViewById(R.id.div_request);
-        tvNameDashboard = findViewById(R.id.tv_name_dashboard);
-        tvInfoWarning = findViewById(R.id.tv_info_warning);
-        cvInfoWarning = findViewById(R.id.cv_info_warning);
+        divOther = findViewById(R.id.div_other);
+        divProfil = findViewById(R.id.div_profil);
     }
 }
