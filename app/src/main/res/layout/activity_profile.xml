@@ -78,25 +78,26 @@
                     android:orientation="vertical">
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="Nama"
                         android:textColor="@color/black"
                         android:textSize="11dp" />
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_profile_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="-"
                         android:textColor="@color/black"
                         android:textSize="14dp" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -106,19 +107,19 @@
                     android:orientation="vertical">
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="Jabatan"
                         android:textColor="@color/black"
                         android:textSize="11dp" />
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_profile_jabatan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="-"
                         android:textColor="@color/black"
@@ -135,19 +136,19 @@
                     android:orientation="vertical">
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="NPP"
                         android:textColor="@color/black"
                         android:textSize="11dp" />
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_profile_npp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="-"
                         android:textColor="@color/black"
@@ -164,19 +165,19 @@
                     android:orientation="vertical">
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="Alamat"
                         android:textColor="@color/black"
                         android:textSize="11dp" />
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_prfile_alamat_rt_rw_kelurahan_kecamatan_kota"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="-"
                         android:textColor="@color/black"
@@ -193,19 +194,19 @@
                     android:orientation="vertical">
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="Jenis Kelamin"
                         android:textColor="@color/black"
                         android:textSize="11dp" />
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_profile_gender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="-"
                         android:textColor="@color/black"
@@ -222,19 +223,19 @@
                     android:orientation="vertical">
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="Tempat dan Tanggal Lahir"
                         android:textColor="@color/black"
                         android:textSize="11dp" />
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_profile_ttl"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="-"
                         android:textColor="@color/black"
@@ -251,19 +252,19 @@
                     android:orientation="vertical">
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="Status Pegawai"
                         android:textColor="@color/black"
                         android:textSize="11dp" />
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_profile_status_pegawai"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="-"
                         android:textColor="@color/black"
@@ -280,19 +281,19 @@
                     android:orientation="vertical">
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="Agama"
                         android:textColor="@color/black"
                         android:textSize="11dp" />
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_profile_religion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="-"
                         android:textColor="@color/black"
@@ -309,19 +310,19 @@
                     android:orientation="vertical">
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="Golongan"
                         android:textColor="@color/black"
                         android:textSize="11dp" />
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_profile_golongan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="-"
                         android:textColor="@color/black"
@@ -338,48 +339,49 @@
                     android:orientation="vertical">
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
-                        android:text="Sub Satker"
-                        android:textColor="@color/black"
-                        android:textSize="11dp" />
-
-                    <TextView
-            android:fontFamily="@font/poppins"
-                        android:id="@+id/tv_profile_sub_satker"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:text="-"
-                        android:textColor="@color/black"
-                        android:textSize="14dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:orientation="vertical">
-
-                    <TextView
-            android:fontFamily="@font/poppins"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="Satker"
                         android:textColor="@color/black"
                         android:textSize="11dp" />
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_profile_satker"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
+
+                        android:text="-"
+                        android:textColor="@color/black"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
+
+                        android:text="Sub Satker"
+                        android:textColor="@color/black"
+                        android:textSize="11dp" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_sub_satker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:text="-"
                         android:textColor="@color/black"
@@ -407,10 +409,10 @@
                         android:background="@color/primary">
 
                         <TextView
-            android:fontFamily="@font/poppins"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="12dp"
+                            android:fontFamily="@font/poppins"
 
                             android:text="PENGATURAN"
                             android:textColor="@color/white" />

@@ -386,7 +386,7 @@ public class PresensiActivity extends AppCompatActivity {
                                 tvPersenFace.setVisibility(View.VISIBLE);
                                 tvPersenFace.setTextColor(Color.RED);
                                 tvPersenFace.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                                tvPersenFace.setText("Wajah tidak ada, ulangi dengan menekan foto diatas");
+                                tvPersenFace.setText("Wajah tidak ada, ulangi dengan menekan foto disamping kiri");
                                 btnKirimPresensi.setVisibility(View.GONE);
                                 btnKirimPresensi.setText("\uD83E\uDD11");
                                 btnKirimPresensi2.setVisibility(View.GONE);
@@ -418,7 +418,7 @@ public class PresensiActivity extends AppCompatActivity {
                             tvPersenFace.setTextColor(Color.RED);
                             tvPersenFace.setVisibility(View.VISIBLE);
                             btnKirimPresensi.setEnabled(false);
-                            tvPersenFace.setText("Tidak terdeteksi, ulangi dengan menekan foto diatas\n error : " + response.message());
+                            tvPersenFace.setText("Tidak terdeteksi, ulangi dengan menekan foto disamping kiri\n error : " + response.message());
                             Toast.makeText(PresensiActivity.this, "Fail : " + response.message(), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -455,15 +455,15 @@ public class PresensiActivity extends AppCompatActivity {
                 // TODO Compress file/image
                 try {
                     compressedImageFile = new Compressor(PresensiActivity.this)
-                            .setMaxHeight(512)
-                            .setMaxWidth(512)
-                            .setQuality(80)
+                            .setMaxHeight(128)
+                            .setMaxWidth(128)
+                            .setQuality(60)
                             .setCompressFormat(Bitmap.CompressFormat.WEBP)
                             .setDestinationDirectoryPath(imageFiles[0].getFile().getParent())
                             .compressToFile(imageFiles[0].getFile(), "comp_" + imageFiles[0].getFile().getName());
 
                     Log.d(TAG, "compressed: " + compressedImageFile.getPath());
-                    Glide.with(PresensiActivity.this).load(compressedImageFile.getPath()).override(512, 512).into(ivFotoFront);
+                    Glide.with(PresensiActivity.this).load(compressedImageFile.getPath()).override(128, 128).into(ivFotoFront);
                     editor.putString(Config.SHARED_COMPRESED_PHOTO_OFFLINE, compressedImageFile.getPath()); // TODO saving OFFLINE PHOTO
                     editor.apply();
 
@@ -560,6 +560,18 @@ public class PresensiActivity extends AppCompatActivity {
                         Toast.makeText(PresensiActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPausePresensi: started");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResumePresensi: started");
     }
 
     private void initView() {

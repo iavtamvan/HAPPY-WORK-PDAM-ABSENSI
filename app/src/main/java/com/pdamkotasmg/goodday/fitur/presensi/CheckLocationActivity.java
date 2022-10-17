@@ -203,6 +203,18 @@ public class CheckLocationActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPauseCheckLoc: started");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResumeCheckLoc: started");
+    }
+
     private void initView() {
         wv = findViewById(R.id.wv);
         tvResp = findViewById(R.id.tv_resp);
