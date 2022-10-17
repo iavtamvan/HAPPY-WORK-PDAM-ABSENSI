@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.pdamkotasmg.goodday"
     android:versionCode="1"
     android:versionName="1.0">
     <!-- <queries> -->
@@ -95,7 +94,8 @@
         <activity android:name=".fitur.splash.IntroActivity" />
         <activity
             android:name=".fitur.splash.SplashScreenActivity"
-            android:keepScreenOn="true">
+            android:keepScreenOn="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -134,7 +134,8 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".utils.firebase.MyFirebaseInstanceIDService">
+        <service android:name=".utils.firebase.MyFirebaseInstanceIDService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

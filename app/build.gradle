@@ -4,13 +4,13 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 32
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.pdamkotasmg.happywork"
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdkVersion 22
+        targetSdkVersion 32
         versionCode 15 // update playstore
         versionName "1.0.2" // ini diganti
 
@@ -27,6 +27,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    namespace 'com.pdamkotasmg.goodday'
 }
 
 dependencies {
@@ -37,10 +38,10 @@ dependencies {
     testImplementation 'junit:junit:4.+'
 
     // library recycler view
-    implementation 'com.android.support:recyclerview-v7:30.0.0'
+    implementation 'com.android.support:recyclerview-v7:32.0.0'
 
     // library card view
-    implementation 'com.android.support:cardview-v7:30.0.0'
+    implementation 'com.android.support:cardview-v7:32.0.0'
 
     // retrofit, gson
     implementation 'com.google.code.gson:gson:2.8.6'
@@ -152,6 +153,9 @@ dependencies {
     //chucker
     implementation 'com.github.chuckerteam.chucker:library:3.5.2'
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    // runtime ktx
+    implementation 'androidx.work:work-runtime-ktx:2.7.0'
+
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }

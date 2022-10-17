@@ -31,6 +31,7 @@ import com.pdamkotasmg.goodday.fitur.permintaan.activity.PermintaanActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.CheckLocationActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.PresensiActivity;
 import com.pdamkotasmg.goodday.fitur.profil.ProfileActivity;
+import com.pdamkotasmg.goodday.fitur.profil.controller.ProfileController;
 import com.pdamkotasmg.goodday.utils.Config;
 import com.pdamkotasmg.goodday.utils.Connectivity;
 import com.scottyab.rootbeer.RootBeer;
@@ -50,6 +51,7 @@ public class DashboardActivity extends AppCompatActivity {
     private String TAG = "debug";
 
     private FeedsController feedsController;
+    private ProfileController profileController;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -77,6 +79,7 @@ public class DashboardActivity extends AppCompatActivity {
     private CardView divRequest;
     private CardView divOther;
     private CircleImageView divProfil;
+    private CircleImageView ivLogout;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -90,6 +93,7 @@ public class DashboardActivity extends AppCompatActivity {
 
 //        Config.isMockSettingsONV2(DashboardActivity.this);
         feedsController = new FeedsController();
+        profileController = new ProfileController();
 //        feedsController.getFeeds(getApplicationContext(), rv);
 //        divLainnyaExpanded.setVisibility(View.GONE);
 
@@ -113,14 +117,14 @@ public class DashboardActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
         hello = sharedPreferences.getString(Config.SHARED_HELLO, "");
         nameDashboard = sharedPreferences.getString(Config.SHARED_NAME_DASHBOARD, "");
-        satker = sharedPreferences.getString(Config.SHARED_SATKER, "") + " - " + sharedPreferences.getString(Config.SHARED_SUBSATKER_FORMATTED, "") ;
+        satker = sharedPreferences.getString(Config.SHARED_SATKER, "") + " - " + sharedPreferences.getString(Config.SHARED_SUBSATKER_FORMATTED, "");
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         messageInfo = sharedPreferences.getString(Config.SHARED_MESSAGE_INFO, "");
         typeCheat = sharedPreferences.getString(Config.SHARED_ACTION_CHEAT, "");
         pageCheat = sharedPreferences.getString(Config.SHARED_PAGE_CHEAT, "");
         countCheat = sharedPreferences.getString(Config.SHARED_COUNT_CHEAT, "");
 
-        scrollingtext.setText(hello + sharedPreferences.getString(Config.SHARED_NAME, ""));
+        scrollingtext.setText(hello);
         scrollingtext.setSelected(true);
         tvNameDashboard.setText(sharedPreferences.getString(Config.SHARED_NAME, ""));
         tvSatker.setText(satker);
@@ -216,6 +220,21 @@ public class DashboardActivity extends AppCompatActivity {
 
         divProfil.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+        });
+
+        ivLogout.setOnClickListener(v -> {
+            MaterialDialog mDialog = new MaterialDialog.Builder(DashboardActivity.this)
+                    .setMessage("Yakin mau keluar?")
+                    .setAnimation("lt_logout.json")
+                    .setCancelable(true)
+                    .setNegativeButton("Gak", (dialogInterface, which) -> dialogInterface.dismiss())
+                    .setPositiveButton("Iya", (dialogInterface, which) -> {
+                        profileController.logout(DashboardActivity.this);
+                    })
+                    .build();
+
+            // Show Dialog
+            mDialog.show();
         });
     }
 
@@ -327,5 +346,6 @@ public class DashboardActivity extends AppCompatActivity {
         divRequest = findViewById(R.id.div_request);
         divOther = findViewById(R.id.div_other);
         divProfil = findViewById(R.id.div_profil);
+        ivLogout = findViewById(R.id.iv_logout);
     }
 }

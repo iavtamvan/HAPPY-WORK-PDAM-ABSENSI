@@ -34,9 +34,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginTop="60dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginRight="10dp"
                         android:orientation="vertical">
 
                         <!--                        top photo n more-->
@@ -62,6 +62,7 @@
                                     android:layout_weight="1" />
 
                                 <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/iv_logout"
                                     android:layout_width="50dp"
                                     android:layout_height="40dp"
                                     android:src="@drawable/logout" />
@@ -96,19 +97,19 @@
                                 android:fontFamily="@font/poppins"
                                 android:text="Iav Tamvan 👋"
                                 android:textColor="@color/white"
-                                android:textSize="25dp"
+                                android:textSize="18dp"
                                 android:textStyle="bold" />
 
                             <TextView
                                 android:id="@+id/tv_satker"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:layout_marginBottom="4dp"
                                 android:fontFamily="@font/poppins"
                                 android:text="Pengembangan Program - Su Bid. PTI"
                                 android:textColor="@color/grey_great_day"
-                                android:layout_marginTop="4dp"
-                                android:layout_marginBottom="4dp"
-                                android:textSize="12dp"
+                                android:textSize="11dp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -135,12 +136,12 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                android:layout_marginBottom="10dp">
+                                android:layout_marginBottom="4dp">
 
                                 <com.airbnb.lottie.LottieAnimationView
                                     android:id="@+id/lt_pulsator"
                                     android:layout_width="150dp"
-                                    android:layout_height="150dp"
+                                    android:layout_height="130dp"
                                     android:layout_gravity="center"
                                     app:lottie_autoPlay="true"
                                     app:lottie_fileName="lt_pulsator.json"
@@ -153,7 +154,7 @@
                                     android:gravity="center"
                                     android:text="Presensi\nSekarang"
                                     android:textColor="@color/white"
-                                    android:textSize="13dp"
+                                    android:textSize="12dp"
                                     android:textStyle="bold"
                                     app:layout_anchor="@+id/lt_pulsator"
                                     app:layout_anchorGravity="center" />
@@ -199,7 +200,7 @@
                         android:marqueeRepeatLimit="marquee_forever"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-                        android:text="Pejuang Rupiah syalalalalalala"
+                        android:text="PDAM Kota SMG"
                         android:textColor="@color/black"
                         android:textSize="15dp" />
 
@@ -232,11 +233,11 @@
                                 android:src="@drawable/ic_info_orange" />
 
                             <TextView
-                                android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_info_warning"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="2dp"
+                                android:fontFamily="@font/poppins"
                                 android:text="Foto pertama tidak bisa di ubah, pastikan wajah terlihat jelas agar sistem bisa mengenali foto selanjutnya"
                                 android:textColor="@color/orangeGreatDay"
                                 android:textSize="11dp" />
@@ -264,7 +265,7 @@
                             android:id="@+id/div_payslip"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
+                            android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:backgroundTint="@color/dash_v2_blueLightBanget"
                             app:cardCornerRadius="10dp">
@@ -306,7 +307,7 @@
                             android:id="@+id/div_kehadiran"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
+                            android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:backgroundTint="@color/dash_v2_yellowLight"
                             app:cardCornerRadius="10dp">
@@ -356,7 +357,7 @@
                             android:id="@+id/div_request"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
+                            android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:backgroundTint="@color/dash_v2_blueLightLumayan"
                             app:cardCornerRadius="10dp">
@@ -399,7 +400,7 @@
                             android:id="@+id/div_other"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
+                            android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:backgroundTint="@color/orangeLightGreatDay"
                             app:cardCornerRadius="10dp">

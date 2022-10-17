@@ -250,7 +250,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                     editor.apply();
 
                     Log.d(TAG, "updateApk: " + updateApk);
-                    Glide.with(SplashScreenActivity.this).load(logoApps).override(512, 512).into(logo);
+                    Log.d(TAG, "imageLogo: " + logoApps);
+                    Glide.with(SplashScreenActivity.this).load("https://i.ibb.co/qJDW4Kn/logo.png").override(512, 512).into(logo);
                     if (!updateApk.equals(BuildConfig.VERSION_NAME)) {
                         MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
                                 .setTitle("Aplikasi harus di update ke versi " + updateApk + ", \nsekarang memakai aplikasi versi " + BuildConfig.VERSION_NAME)
