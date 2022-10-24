@@ -120,6 +120,7 @@ public class DashboardActivity extends AppCompatActivity {
         satker = sharedPreferences.getString(Config.SHARED_SATKER, "") + " - " + sharedPreferences.getString(Config.SHARED_SUBSATKER_FORMATTED, "");
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         messageInfo = sharedPreferences.getString(Config.SHARED_MESSAGE_INFO, "");
+
         typeCheat = sharedPreferences.getString(Config.SHARED_ACTION_CHEAT, "");
         pageCheat = sharedPreferences.getString(Config.SHARED_PAGE_CHEAT, "");
         countCheat = sharedPreferences.getString(Config.SHARED_COUNT_CHEAT, "");
@@ -141,9 +142,10 @@ public class DashboardActivity extends AppCompatActivity {
         methodRequiresTwoPermission();
 
         if (!typeCheat.isEmpty()) {
+            Config.sendCheat(DashboardActivity.this, accessToken, typeCheat, pageCheat, countCheat);
             editor.putString(Config.SHARED_ACTION_CHEAT, "");
             editor.apply();
-            Config.sendCheat(DashboardActivity.this, accessToken, typeCheat, pageCheat, countCheat);
+            Toast.makeText(this, "Sending Cheats ...", Toast.LENGTH_SHORT).show();
         }
 
         // TODO Check Rooted

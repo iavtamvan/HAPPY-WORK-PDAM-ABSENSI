@@ -145,43 +145,43 @@ public class SplashScreenActivity extends AppCompatActivity {
             editor.apply();
             Log.d(TAG, "Masuk Apps good day");
             // TODO harusnya unComent pada mode Production
-//            if (Settings.Secure.getInt(getApplicationContext().getContentResolver(),
-//                    Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0) {
-//                typeCheat = "Dev-Mode";
-//            Config.cheat(SplashScreenActivity.this, typeCheat);
-//                Toast.makeText(this, "Matikan mode debugging", Toast.LENGTH_SHORT).show();
-//                Config.dialogAlert(SplashScreenActivity.this, "Developer mode atau opsi developer ON", "Akun di BEKUKAN oleh sistem Android, hubungi kepegawaian dan PTI", "OKE");
-//                // TODO bekukan akun yang nakal.
-//            } else {
-
-            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                showGPSDisabledAlertToUser();
-                Log.d(TAG, "onCreate: masuk If locaton");
+            if (Settings.Secure.getInt(getApplicationContext().getContentResolver(),
+                    Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0) {
+                typeCheat = "Dev-Mode";
+                Config.saveSharedCheat(SplashScreenActivity.this, typeCheat, "Tampilan Awal", "1");
+                Toast.makeText(this, "Matikan mode debugging", Toast.LENGTH_SHORT).show();
+                Config.dialogAlert(SplashScreenActivity.this, "Developer mode atau opsi developer ON", "Akun di BEKUKAN oleh sistem Android, hubungi kepegawaian dan PTI", "OKE");
+                // TODO bekukan akun yang nakal.
             } else {
-                Log.d(TAG, "onCreate: masuk else locaton");
-                mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    Log.d(TAG, "onCreate: masuk activity compact");
-                    return;
-                } else {
-                    Log.d(TAG, "onCreate: masuk else activity compact");
-                    mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
-                        if (location != null) {
-                            Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
-                            Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
-                            lati = location.getLatitude();
-                            longi = location.getLongitude();
-                            gettingUpdateAplikasi();
-                        } else {
-                            gettingUpdateAplikasi();
-                            Toast.makeText(this, "Lokasi tidak ditemukan", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }
 
-//            }
+                LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    showGPSDisabledAlertToUser();
+                    Log.d(TAG, "onCreate: masuk If locaton");
+                } else {
+                    Log.d(TAG, "onCreate: masuk else locaton");
+                    mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        Log.d(TAG, "onCreate: masuk activity compact");
+                        return;
+                    } else {
+                        Log.d(TAG, "onCreate: masuk else activity compact");
+                        mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
+                            if (location != null) {
+                                Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
+                                Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
+                                lati = location.getLatitude();
+                                longi = location.getLongitude();
+                                gettingUpdateAplikasi();
+                            } else {
+                                gettingUpdateAplikasi();
+                                Toast.makeText(this, "Lokasi tidak ditemukan", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+            }
         }
 
         stringslist = new ArrayList<>();
@@ -251,7 +251,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                     Log.d(TAG, "updateApk: " + updateApk);
                     Log.d(TAG, "imageLogo: " + logoApps);
-                    Glide.with(SplashScreenActivity.this).load("https://i.ibb.co/qJDW4Kn/logo.png").override(512, 512).into(logo);
+                    Glide.with(SplashScreenActivity.this).load(logoApps).override(512, 512).into(logo);
                     if (!updateApk.equals(BuildConfig.VERSION_NAME)) {
                         MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
                                 .setTitle("Aplikasi harus di update ke versi " + updateApk + ", \nsekarang memakai aplikasi versi " + BuildConfig.VERSION_NAME)
@@ -308,7 +308,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         Log.d(TAG, "SDKInteger: " + getSdkVersion);
 
         // TODO check Android WAJIBBBBBBBBBBBBBBBBBBBBB 30
-        if (Integer.parseInt(getSdkVersion) > 32) {
+        if (Integer.parseInt(getSdkVersion) > 30) {
             finishAffinity();
             Toast.makeText(this, Config.ERROR_ANDROID + " " + getSdkVersion, Toast.LENGTH_LONG).show();
         } else {
