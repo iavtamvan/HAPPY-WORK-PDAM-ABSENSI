@@ -126,7 +126,7 @@
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/im_no_available"
+                                android:src="@drawable/photocamerafront"
                                 app:civ_border_color="#FFFF"
                                 app:civ_border_width="1dp" />
 
@@ -136,7 +136,7 @@
                                 android:layout_marginTop="8dp"
                                 android:fontFamily="@font/poppins"
                                 android:gravity="center"
-                                android:text="Rekam Foto"
+                                android:text="Tekan Camera"
                                 android:textColor="@color/black"
                                 android:textSize="12dp" />
 
@@ -389,7 +389,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-6810772781589252/4208134634"></com.google.android.gms.ads.AdView>
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"></com.google.android.gms.ads.AdView>
 
 
     <!--    </LinearLayout>-->

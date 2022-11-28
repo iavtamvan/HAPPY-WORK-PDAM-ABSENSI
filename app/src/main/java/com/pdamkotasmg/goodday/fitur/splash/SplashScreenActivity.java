@@ -51,8 +51,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -125,6 +123,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
         getSupportActionBar().hide();
         initView();
+        Config.methodRequiresTwoPermission(SplashScreenActivity.this);
         androidVersionDevice = BuildConfig.VERSION_NAME;
         Log.d(TAG, "onCreate: " + androidVersionDevice);
 
@@ -136,56 +135,55 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         flagSplash = sharedPreferences.getString(Config.SHARED_FLAG_SPLASH, "");
         Log.d(TAG, "flagSplash: " + flagSplash);
-        methodRequiresTwoPermission();
         if (flagSplash.equalsIgnoreCase("")) {
             Config.dialogAlertSplash(SplashScreenActivity.this, "Buka kembali aplikasinya", "Apabila tidak di izinkan mengakibatkan error pada aplikasi", "Tidak");
-            methodRequiresTwoPermission();
         } else {
             editor.putString(Config.SHARED_FLAG_SPLASH, "1");
             editor.apply();
             Log.d(TAG, "Masuk Apps good day");
             // TODO harusnya unComent pada mode Production
-            if (Settings.Secure.getInt(getApplicationContext().getContentResolver(),
-                    Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0) {
-                typeCheat = "Dev-Mode";
-                Config.saveSharedCheat(SplashScreenActivity.this, typeCheat, "Tampilan Awal", "1");
-                Toast.makeText(this, "Matikan mode debugging", Toast.LENGTH_SHORT).show();
-                Config.dialogAlert(SplashScreenActivity.this, "Developer mode atau opsi developer ON", "Akun di BEKUKAN oleh sistem Android, hubungi kepegawaian dan PTI", "OKE");
-                // TODO bekukan akun yang nakal.
+//            if (Settings.Secure.getInt(getApplicationContext().getContentResolver(),
+//                    Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0) {
+//                typeCheat = "Dev-Mode";
+//                Config.saveSharedCheat(SplashScreenActivity.this, typeCheat, "Tampilan Awal", "1");
+//                Toast.makeText(this, "Matikan mode debugging", Toast.LENGTH_SHORT).show();
+//                Config.dialogAlert(SplashScreenActivity.this, "Developer mode atau opsi developer ON", "Akun di BEKUKAN oleh sistem Android, hubungi kepegawaian dan PTI", "OKE");
+//                // TODO bekukan akun yang nakal.
+//            } else {
+
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                showGPSDisabledAlertToUser();
+                Log.d(TAG, "onCreate: masuk If locaton");
             } else {
-
-                LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    showGPSDisabledAlertToUser();
-                    Log.d(TAG, "onCreate: masuk If locaton");
+                Log.d(TAG, "onCreate: masuk else locaton");
+                mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Config.dialogAlertSplash(SplashScreenActivity.this, "Buka kembali aplikasi", "Apabila tidak di izinkan mengakibatkan error pada aplikasi", "Tidak");
+                    Log.d(TAG, "onCreate: masuk activity compact");
+                    return;
                 } else {
-                    Log.d(TAG, "onCreate: masuk else locaton");
-                    mFusedLocation = LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this);
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        Log.d(TAG, "onCreate: masuk activity compact");
-                        return;
-                    } else {
-                        Log.d(TAG, "onCreate: masuk else activity compact");
-                        mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
-                            if (location != null) {
-                                Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
-                                Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
-                                lati = location.getLatitude();
-                                longi = location.getLongitude();
-                                gettingUpdateAplikasi();
-                            } else {
-                                gettingUpdateAplikasi();
-                                Toast.makeText(this, "Lokasi tidak ditemukan", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                    Log.d(TAG, "onCreate: masuk else activity compact");
+                    mFusedLocation.getLastLocation().addOnSuccessListener(SplashScreenActivity.this, location -> {
+                        if (location != null) {
+                            Log.d(TAG, "onSuccessgetLatitude: " + location.getLatitude());
+                            Log.d(TAG, "onSuccessgetLongitude: " + location.getLongitude());
+                            lati = location.getLatitude();
+                            longi = location.getLongitude();
+                            gettingUpdateAplikasi();
+                        } else {
+                            gettingUpdateAplikasi();
+                            Toast.makeText(this, "Lokasi tidak ditemukan", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
-
             }
+
+//            }
         }
 
         stringslist = new ArrayList<>();
-        Config.ads(SplashScreenActivity.this, adView);
+//        Config.ads(SplashScreenActivity.this, adView);
 
 
 //        Typeface typeface = ResourcesCompat.getFont(this, R.font.roboto);
@@ -228,6 +226,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void gettingUpdateAplikasi() {
+        editor.putString(Config.SHARED_FLAG_SPLASH, "1");
+        editor.apply();
         ApiService apiService = ApiConfig.getApiService(this);
         apiService.getUpdateAplikasi().enqueue(new Callback<UdpateAplikasiRootModel>() {
             @Override
@@ -308,7 +308,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         Log.d(TAG, "SDKInteger: " + getSdkVersion);
 
         // TODO check Android WAJIBBBBBBBBBBBBBBBBBBBBB 30
-        if (Integer.parseInt(getSdkVersion) > 30) {
+        if (Integer.parseInt(getSdkVersion) > 32) {
             finishAffinity();
             Toast.makeText(this, Config.ERROR_ANDROID + " " + getSdkVersion, Toast.LENGTH_LONG).show();
         } else {
@@ -316,8 +316,8 @@ public class SplashScreenActivity extends AppCompatActivity {
             Log.d(TAG, "onSuccessgetLatitude || gettingDataDeviceInfo : " + lati);
             Log.d(TAG, "onSuccessgetLongitude || gettingDataDeviceInfo : " + longi);
 
-            if (lati == 0.0 || longi == 0.0) {
-                Toast.makeText(SplashScreenActivity.this, "Alamat tidak ditemukan, input manual!", Toast.LENGTH_SHORT).show();
+            if (lati == 0.0 || longi == 0.0 || lati == null || longi == null) {
+                Toast.makeText(SplashScreenActivity.this, "Lokasi tidak ditemukan (2)", Toast.LENGTH_SHORT).show();
             } else {
                 Geocoder geocoder;
                 List<Address> addressList = null;
@@ -521,35 +521,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     // TODO Selesai cek Fake GPS
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)
-    private void methodRequiresTwoPermission() {
-        editor.putString(Config.SHARED_FLAG_SPLASH, "1");
-        editor.apply();
-        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION
-                , Manifest.permission.INTERNET
-                , Manifest.permission.ACCESS_WIFI_STATE
-                , Manifest.permission.ACCESS_NETWORK_STATE
-                , Manifest.permission.ACCESS_FINE_LOCATION
-                , Manifest.permission.ACCESS_COARSE_LOCATION
-                , Manifest.permission.CAMERA
-                , Manifest.permission.WRITE_SECURE_SETTINGS
-                , Manifest.permission.REQUEST_DELETE_PACKAGES
-                , Manifest.permission.QUERY_ALL_PACKAGES
-                , Manifest.permission.WRITE_EXTERNAL_STORAGE
-                , Manifest.permission.READ_EXTERNAL_STORAGE
-                , Manifest.permission.USE_FINGERPRINT};
-        if (EasyPermissions.hasPermissions(SplashScreenActivity.this, perms)) {
-            // Already have permission, do the thing
-            Log.d(TAG, "methodRequiresTwoPermission: Sukses");
-            gettingUpdateAplikasi();
-        } else {
-            // Do not have permissions, request them now
-            EasyPermissions.requestPermissions(this, getString(R.string.app_name),
-                    RC_CAMERA_AND_LOCATION, perms);
-        }
-    }
 
     private void initView() {
         adView = findViewById(R.id.adView);

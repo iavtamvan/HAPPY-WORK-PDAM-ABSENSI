@@ -1,12 +1,15 @@
 package com.pdamkotasmg.goodday.fitur.authentication.login;
 
+import android.Manifest;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -15,7 +18,12 @@ import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.fitur.authentication.login.controller.LoginController;
 import com.pdamkotasmg.goodday.utils.Config;
 
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+
 public class LoginActivity extends AppCompatActivity {
+    private static final int RC_CAMERA_AND_LOCATION = 1;
+
     private static final String TAG = "debug_login";
     private String getModel;
     private String getProduct;
@@ -45,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText edtNpp;
     private EditText edtPassword;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +104,8 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "lati: " + lati);
         Log.d(TAG, "longi: " + longi);
         getTokenFirebase();
+        methodRequiresTwoPermission();
+
         loginController = new LoginController();
         btnMasuk.setOnClickListener(v -> {
             if (edtNpp.getText().toString().isEmpty() || edtPassword.getText().toString().isEmpty()) {
@@ -121,6 +132,32 @@ public class LoginActivity extends AppCompatActivity {
                     // Log and toast
                     Log.d("debug", "getTokenFirebase: " + firebaseToken);
                 });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)
+    private void methodRequiresTwoPermission() {
+        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION
+                , Manifest.permission.INTERNET
+                , Manifest.permission.ACCESS_WIFI_STATE
+                , Manifest.permission.ACCESS_NETWORK_STATE
+                , Manifest.permission.ACCESS_FINE_LOCATION
+                , Manifest.permission.ACCESS_COARSE_LOCATION
+                , Manifest.permission.CAMERA
+                , Manifest.permission.WRITE_SECURE_SETTINGS
+                , Manifest.permission.REQUEST_DELETE_PACKAGES
+                , Manifest.permission.QUERY_ALL_PACKAGES
+                , Manifest.permission.WRITE_EXTERNAL_STORAGE
+                , Manifest.permission.READ_EXTERNAL_STORAGE
+                , Manifest.permission.USE_FINGERPRINT};
+        if (EasyPermissions.hasPermissions(LoginActivity.this, perms)) {
+            // Already have permission, do the thing
+            Log.d(TAG, "methodRequiresTwoPermission: Sukses");
+        } else {
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions(this, getString(R.string.app_name),
+                    RC_CAMERA_AND_LOCATION, perms);
+        }
     }
 
     private void initView() {

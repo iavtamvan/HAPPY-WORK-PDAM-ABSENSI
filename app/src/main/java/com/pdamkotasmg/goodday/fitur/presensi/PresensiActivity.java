@@ -146,9 +146,10 @@ public class PresensiActivity extends AppCompatActivity {
         animationView.setVisibility(View.GONE);
         tvMencariMuka.setText("Ayo foto...");
         tvVersiApps.setText("versi " + BuildConfig.VERSION_NAME);
-        ivFotoFront.post(() -> {
-            ivFotoFront.performClick();
-        });
+//        ivFotoFront.post(() -> {
+//            ivFotoFront.performClick();
+//        });
+        Config.dialogAlertPresensi(PresensiActivity.this, "Ambil Foto", "Ambil foto sekarang");
 
         getFotoFirst();
 
@@ -313,6 +314,12 @@ public class PresensiActivity extends AppCompatActivity {
         });
     }
 
+    public void getFoto(){
+        Camera.CameraInfo info = new Camera.CameraInfo();
+
+        easyImage.openCameraForImage(PresensiActivity.this);
+    }
+
     private void getFotoFirst() {
         ApiService apiService = ApiConfig.getApiService(PresensiActivity.this);
         apiService.getFotoFirst(access_token).enqueue(new Callback<FotoFirstRootModel>() {
@@ -455,15 +462,15 @@ public class PresensiActivity extends AppCompatActivity {
                 // TODO Compress file/image
                 try {
                     compressedImageFile = new Compressor(PresensiActivity.this)
-                            .setMaxHeight(128)
-                            .setMaxWidth(128)
-                            .setQuality(60)
+                            .setMaxHeight(512)
+                            .setMaxWidth(512)
+                            .setQuality(80)
                             .setCompressFormat(Bitmap.CompressFormat.WEBP)
                             .setDestinationDirectoryPath(imageFiles[0].getFile().getParent())
                             .compressToFile(imageFiles[0].getFile(), "comp_" + imageFiles[0].getFile().getName());
 
                     Log.d(TAG, "compressed: " + compressedImageFile.getPath());
-                    Glide.with(PresensiActivity.this).load(compressedImageFile.getPath()).override(128, 128).into(ivFotoFront);
+                    Glide.with(PresensiActivity.this).load(compressedImageFile.getPath()).override(256, 256).into(ivFotoFront);
                     editor.putString(Config.SHARED_COMPRESED_PHOTO_OFFLINE, compressedImageFile.getPath()); // TODO saving OFFLINE PHOTO
                     editor.apply();
 

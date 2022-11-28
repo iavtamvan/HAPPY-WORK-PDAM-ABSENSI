@@ -46,6 +46,50 @@ public class DataItem{
     @SerializedName("requested_at")
     private String requestedAt;
 
+    @SerializedName("approval_status_code")
+    private String approvalStatusCode;
+
+    @SerializedName("approval_status_name")
+    private String approvalStatusName;
+
+    @SerializedName("need_approval_by_npp")
+    private String needApprovalByNpp;
+
+    @SerializedName("need_approval_by_name")
+    private String needApprovalByName;
+
+    public String getApprovalStatusCode() {
+        return approvalStatusCode;
+    }
+
+    public void setApprovalStatusCode(String approvalStatusCode) {
+        this.approvalStatusCode = approvalStatusCode;
+    }
+
+    public String getApprovalStatusName() {
+        return approvalStatusName;
+    }
+
+    public void setApprovalStatusName(String approvalStatusName) {
+        this.approvalStatusName = approvalStatusName;
+    }
+
+    public String getNeedApprovalByNpp() {
+        return needApprovalByNpp;
+    }
+
+    public void setNeedApprovalByNpp(String needApprovalByNpp) {
+        this.needApprovalByNpp = needApprovalByNpp;
+    }
+
+    public String getNeedApprovalByName() {
+        return needApprovalByName;
+    }
+
+    public void setNeedApprovalByName(String needApprovalByName) {
+        this.needApprovalByName = needApprovalByName;
+    }
+
     public void setRequestStatusCode(String requestStatusCode){
         this.requestStatusCode = requestStatusCode;
     }

@@ -40,6 +40,7 @@ import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.authentication.login.LoginActivity;
 import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
+import com.pdamkotasmg.goodday.fitur.presensi.PresensiActivity;
 import com.pdamkotasmg.goodday.fitur.splash.SplashScreenActivity;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
@@ -177,6 +178,8 @@ public final class Config {
     public static final String SHARED_ACTION_CHEAT = "shared_action_cheat";
     public static final String SHARED_PAGE_CHEAT = "shared_page_cheat";
     public static final String SHARED_COUNT_CHEAT = "shared_count_cheat";
+
+    public static final String SHARED_TYPE_WEB_vIEW = "shared_type_web_view";
 
     //Firebase
     // global topic to receive app wide push notifications
@@ -498,6 +501,20 @@ public final class Config {
         // Show Dialog
         mDialog.show();
     }
+    public static void dialogAlertPresensi(Context context, String tittle, String message){
+        MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
+                .setTitle(tittle)
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("Foto Sekarang", (dialogInterface, which) -> {
+                    dialogInterface.dismiss();
+                    ((PresensiActivity) context).getFoto();
+                })
+                .build();
+
+        // Show Dialog
+        mDialog.show();
+    }
 
     // mock v2 from lis MOCK
     public static String[] requestedPermissions;
@@ -783,6 +800,28 @@ public final class Config {
                 , Manifest.permission.WRITE_EXTERNAL_STORAGE
                 , Manifest.permission.READ_EXTERNAL_STORAGE
                 , Manifest.permission.USE_FINGERPRINT};
+        if (EasyPermissions.hasPermissions(context, perms)) {
+            // Already have permission, do the thing
+            Log.d(TAG, "methodRequiresTwoPermission: Sukses");
+        } else {
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions((Activity) context, context.getString(R.string.app_name) ,
+                    RC_CAMERA_AND_LOCATION, perms);
+        }
+    }
+    private static final int RC_LOCATION = 2;
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @AfterPermissionGranted(RC_LOCATION)
+    public static void methodRequiresTwoPermissionLocation(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Config.SHARED_FLAG_SPLASH, "1");
+        editor.apply();
+        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION
+                , Manifest.permission.INTERNET
+                , Manifest.permission.ACCESS_FINE_LOCATION
+                , Manifest.permission.ACCESS_COARSE_LOCATION
+        };
         if (EasyPermissions.hasPermissions(context, perms)) {
             // Already have permission, do the thing
             Log.d(TAG, "methodRequiresTwoPermission: Sukses");
