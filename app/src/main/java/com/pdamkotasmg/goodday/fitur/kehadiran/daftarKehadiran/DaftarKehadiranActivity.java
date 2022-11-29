@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.ads.AdView;
-import com.krishna.securetimer.SecureTimer;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
@@ -70,8 +69,9 @@ public class DaftarKehadiranActivity extends AppCompatActivity {
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         nama = sharedPreferences.getString(Config.SHARED_NAME, "");
 
-        Date currentTimeInMillis = SecureTimer.with(DaftarKehadiranActivity.this).getCurrentDate();
-        formatDate = new SimpleDateFormat("yyyy-MM-dd").format(currentTimeInMillis);
+//        Date currentTimeInMillis = SecureTimer.with(DaftarKehadiranActivity.this).getCurrentDate();
+        Date dates = new Date();
+        formatDate = new SimpleDateFormat("yyyy-MM-dd").format(dates);
 
         getHistoryPresensi();
 

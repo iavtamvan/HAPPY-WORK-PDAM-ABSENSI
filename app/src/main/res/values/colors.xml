@@ -29,4 +29,6 @@
     <color name="dash_v2_yellowLight">#FEF8E6</color>
     <color name="dash_v2_blueDarkLight">#E7E8F1</color>
     <color name="dash_v2_redLight">#F1E7E7</color>
+
+    <color name="dash_v2_azure">#C9F0FF</color>
 </resources>

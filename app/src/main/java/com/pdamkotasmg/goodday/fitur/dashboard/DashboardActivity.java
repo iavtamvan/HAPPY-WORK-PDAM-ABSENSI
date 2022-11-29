@@ -81,6 +81,7 @@ public class DashboardActivity extends AppCompatActivity {
     private CardView divOther;
     private CircleImageView divProfil;
     private CircleImageView ivLogout;
+    private CardView divApprovals;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -266,6 +267,9 @@ public class DashboardActivity extends AppCompatActivity {
                     if (!list.contains("portal-pegawai.attendance.user.record")) {
                         divRekamWaktu.setVisibility(View.GONE);
                     }
+                    if (!list.contains("portal-pegawai.employee-request.admin.approval") || !list.contains("portal-pegawai.employee-request.user.approval")) {
+                        divApprovals.setVisibility(View.GONE);
+                    }
 
                 } else {
                     // TODO GONE Fitur
@@ -350,5 +354,6 @@ public class DashboardActivity extends AppCompatActivity {
         divOther = findViewById(R.id.div_other);
         divProfil = findViewById(R.id.div_profil);
         ivLogout = findViewById(R.id.iv_logout);
+        divApprovals = findViewById(R.id.div_approvals);
     }
 }

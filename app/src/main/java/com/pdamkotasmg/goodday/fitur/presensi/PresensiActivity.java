@@ -27,7 +27,6 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.krishna.securetimer.SecureTimer;
 import com.pdamkotasmg.goodday.BuildConfig;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
@@ -179,12 +178,14 @@ public class PresensiActivity extends AppCompatActivity {
         currentTimeLocal = new SimpleDateFormat("HH:mm").format(cDate);
 //        }
 
-        Date currentTimeInMillis = SecureTimer.with(PresensiActivity.this).getCurrentDate();
-        Log.d("debug", "dateServer: " + currentTimeInMillis);
-        timeServer = String.valueOf(currentTimeInMillis);
-        timeServer = new SimpleDateFormat("HH:mm:ss").format(currentTimeInMillis);
+        Date dates = new Date();
+
+//        Date currentTimeInMillis = SecureTimer.with(PresensiActivity.this).getCurrentDate();
+//        Log.d("debug", "dateServer: " + currentTimeInMillis);
+        timeServer = String.valueOf(dates);
+        timeServer = new SimpleDateFormat("HH:mm:ss").format(dates);
         Log.d("debug", "timeServer: " + timeServer);
-        dateServer = new SimpleDateFormat("yyyy-MM-dd").format(currentTimeInMillis);
+        dateServer = new SimpleDateFormat("yyyy-MM-dd").format(dates);
         Log.d("debug", "dateServerFix: " + dateServer);
 
         easyImage = new EasyImage.Builder(PresensiActivity.this)

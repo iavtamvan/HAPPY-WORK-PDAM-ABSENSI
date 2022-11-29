@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.ads.AdView;
-import com.krishna.securetimer.SecureTimer;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
@@ -118,12 +117,17 @@ public class KehadiranActivity extends AppCompatActivity {
             startActivity(new Intent(KehadiranActivity.this, DashboardActivity.class));
         });
 
-        Date currentTimeInMillis = SecureTimer.with(KehadiranActivity.this).getCurrentDate();
-        String dateServer = new SimpleDateFormat("EEEE, dd MMM yyyy").format(currentTimeInMillis);
+        Date dates = new Date();
+        Log.d(TAG, "onCreate: " + dates);
+
+//        Date currentTimeInMillis = SecureTimer.with(KehadiranActivity.this).getCurrentDate();
+//        Log.d(TAG, "currentTimeInMillis: " + currentTimeInMillis);
+
+        String dateServer = new SimpleDateFormat("EEEE, dd MMM yyyy").format(dates);
         tvListKehadiranNama.setText(nama);
         tvDate.setText(dateServer);
 
-        dateTo = new SimpleDateFormat("yyyy-MM-dd").format(currentTimeInMillis);
+        dateTo = new SimpleDateFormat("yyyy-MM-dd").format(dates);
         Log.e(TAG, "dateTo: " + dateTo);
         // TODO getShift pegawai DONE
         // TODO getHistory presensi DONE
