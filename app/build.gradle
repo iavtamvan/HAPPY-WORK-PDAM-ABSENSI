@@ -4,13 +4,13 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.pdamkotasmg.happywork"
         minSdkVersion 22
-        targetSdkVersion 32
+        targetSdkVersion 31
         versionCode 17 // update playstore
         versionName "1.0.4" // ini diganti
 
@@ -38,10 +38,10 @@ dependencies {
     testImplementation 'junit:junit:4.+'
 
     // library recycler view
-    implementation 'com.android.support:recyclerview-v7:32.0.0'
+    implementation 'com.android.support:recyclerview-v7:31.0.0'
 
     // library card view
-    implementation 'com.android.support:cardview-v7:32.0.0'
+    implementation 'com.android.support:cardview-v7:31.0.0'
 
     // retrofit, gson
     implementation 'com.google.code.gson:gson:2.8.6'
@@ -131,9 +131,14 @@ dependencies {
     //firebase
     implementation platform('com.google.firebase:firebase-bom:26.6.0')
     implementation 'com.google.firebase:firebase-crashlytics'
-    implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-perf'
+
+    implementation "com.google.firebase:firebase-iid:21.1.0"
+    implementation "com.google.firebase:firebase-messaging:22.0.0"
+
+//    implementation 'com.google.firebase:firebase-messaging'
+//    implementation 'com.google.firebase:firebase-iid'
 
     // qrcode
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.4'

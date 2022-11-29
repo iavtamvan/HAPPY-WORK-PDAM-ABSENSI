@@ -14,6 +14,7 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -73,7 +74,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             // play notification sound
             NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
             notificationUtils.playNotificationSound();
-        }else{
+        } else {
             // If the app is in background, firebase itself handles the notification
         }
     }
@@ -118,7 +119,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     showNotificationMessage(getApplicationContext(), "Biasa > " + title, message);
                 } else {
                     // image is present, show notification with image
-                    showNotificationMessageWithBigImage(getApplicationContext(),"Big > " + title, message, timestamp, resultIntent, imageUrl);
+                    showNotificationMessageWithBigImage(getApplicationContext(), "Big > " + title, message, timestamp, resultIntent, imageUrl);
                 }
             }
         } catch (JSONException e) {
@@ -132,17 +133,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * Showing notification with text only
      */
 
-    public void showNotificationMessage(Context context, String title, String message)
-    {
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void showNotificationMessage(Context context, String title, String message) {
         /**Creates an explicit intent for an Activity in your app**/
         Intent resultIntent = new Intent(context, SplashScreenActivity.class);
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context,
                 0 /* Request code */, resultIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_IMMUTABLE);
 
-        Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/raw/" + R.raw.notif);
+        Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/raw/" + R.raw.notification);
         mBuilder = new NotificationCompat.Builder(context);
         mBuilder.setSmallIcon(R.mipmap.ic_launcher);
         mBuilder.setContentTitle(title)
@@ -154,8 +155,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, Config.FIREBASE_NAME, importance);
             notificationChannel.enableLights(true);
@@ -174,6 +174,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         assert mNotificationManager != null;
         mNotificationManager.notify(0 /* Request Code */, mBuilder.build());
     }
+
     /**
      * Showing notification with text and image
      */

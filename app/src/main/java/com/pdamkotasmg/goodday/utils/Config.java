@@ -321,7 +321,7 @@ public final class Config {
 
     public static void showNotification(Context context, String title, String content) {
         int noificationId = new Random().nextInt(100);
-        Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.notif);
+        Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.notification);
         Log.d("debug", "showNotification: " + sound);
         String channelId = "notification_channel_3";
         NotificationManager notificationManager =
