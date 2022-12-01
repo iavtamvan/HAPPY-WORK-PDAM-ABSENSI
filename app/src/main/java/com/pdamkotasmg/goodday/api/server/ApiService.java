@@ -297,4 +297,11 @@ public interface ApiService {
             @Field("page") String page,
             @Field("count") String count
     );
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("portal-pegawai/api/employee-request/need-my-approval")
+    Call<PermintaanRootModel> getNeedApprovals(
+            @Header("Authorization") String auth,
+            @Query("formatted") String formatted
+    );
 }

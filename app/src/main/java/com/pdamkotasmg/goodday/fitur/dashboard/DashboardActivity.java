@@ -29,6 +29,7 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.home.activity.KehadiranActivity;
 import com.pdamkotasmg.goodday.fitur.menuLainnya.ListWebViewActivity;
 import com.pdamkotasmg.goodday.fitur.payslip.PayslipActivity;
 import com.pdamkotasmg.goodday.fitur.permintaan.activity.PermintaanActivity;
+import com.pdamkotasmg.goodday.fitur.permintaan.activity.PersetujuanActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.CheckLocationActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.PresensiActivity;
 import com.pdamkotasmg.goodday.fitur.profil.ProfileActivity;
@@ -239,6 +240,10 @@ public class DashboardActivity extends AppCompatActivity {
 
             // Show Dialog
             mDialog.show();
+        });
+
+        divApprovals.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), PersetujuanActivity.class));
         });
     }
 

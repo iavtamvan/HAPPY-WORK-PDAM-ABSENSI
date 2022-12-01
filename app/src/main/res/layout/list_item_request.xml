@@ -57,9 +57,9 @@
                                 android:src="@drawable/succes_req" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left|center_vertical"
                                 android:paddingLeft="10dp"
@@ -86,9 +86,9 @@
                                 android:src="@drawable/close_req" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left|center_vertical"
                                 android:paddingLeft="10dp"
@@ -115,9 +115,9 @@
                                 android:src="@drawable/cancel_req" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left|center_vertical"
                                 android:paddingLeft="10dp"
@@ -144,9 +144,9 @@
                                 android:src="@drawable/clock_req" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left|center_vertical"
                                 android:paddingLeft="10dp"
@@ -175,11 +175,11 @@
                                 android:src="@drawable/notes" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_list_item_request_type_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left|center_vertical"
                                 android:text="Attendance Correction"
@@ -187,10 +187,10 @@
                                 android:textSize="12dp" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left|center_vertical"
                                 android:text="Untuk"
@@ -202,10 +202,10 @@
                     </LinearLayout>
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_item_request_for_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:gravity="left"
                         android:text="Ade Fajr Ariav"
@@ -213,10 +213,10 @@
                         android:textSize="12dp" />
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_item_request_jabatan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:gravity="left"
                         android:text="Staff"
@@ -224,10 +224,10 @@
                         android:textSize="10dp" />
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_item_request_satker"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:gravity="left"
                         android:text="Sub Bidang Teknologi Informasi"
@@ -235,10 +235,10 @@
                         android:textSize="10dp" />
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
+                        android:fontFamily="@font/poppins"
 
                         android:gravity="left"
                         android:text="Perminttan No : "
@@ -246,10 +246,10 @@
                         android:textSize="10dp" />
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:id="@+id/tv_list_item_request_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
 
                         android:gravity="left"
                         android:text="RAC-202201-000019"
@@ -263,9 +263,9 @@
                         android:orientation="horizontal">
 
                         <TextView
-            android:fontFamily="@font/poppins"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:fontFamily="@font/poppins"
 
                             android:gravity="left|center_vertical"
                             android:text="Dibuat : "
@@ -273,11 +273,11 @@
                             android:textSize="12dp" />
 
                         <TextView
-            android:fontFamily="@font/poppins"
                             android:id="@+id/tv_list_item_request_from"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
+                            android:fontFamily="@font/poppins"
 
                             android:gravity="left|center_vertical"
                             android:text="2022-01-27 16:27:06"

@@ -29,7 +29,6 @@ import org.json.JSONObject;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
     public static final String NOTIFICATION_CHANNEL_ID = "10001";
 
@@ -37,6 +36,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private NotificationManager mNotificationManager;
     private NotificationCompat.Builder mBuilder;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.e(TAG, "From: " + remoteMessage.getFrom());
