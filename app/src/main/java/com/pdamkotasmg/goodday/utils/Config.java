@@ -199,6 +199,7 @@ public final class Config {
     public static final String BUNDLE_JABATAN = "jabatan";
     public static final String BUNDLE_RIWAYAT_ABSENSI = "riwayat_absensi";
     public static final String BUNDLE_NUMBER_REQUEST = "number_request";
+    public static final String BUNDLE_NUMBER_APPROVALS = "number_approvals";
 
 
 

@@ -95,7 +95,7 @@ public class DetailPerjalananDinasActivity extends AppCompatActivity {
     private void reqCancel() {
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(this);
-        apiService.getRequestEdit(accessToken, "ROD", numberReq, "CANCELLED")
+        apiService.postRequestEdit(accessToken, "ROD", numberReq, "CANCELLED")
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

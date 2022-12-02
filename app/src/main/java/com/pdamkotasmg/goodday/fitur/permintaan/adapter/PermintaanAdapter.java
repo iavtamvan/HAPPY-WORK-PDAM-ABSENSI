@@ -89,16 +89,19 @@ public class PermintaanAdapter extends RecyclerView.Adapter<PermintaanAdapter.Vi
             if (dataItems.get(position).getRequestTypeCode().equalsIgnoreCase("RAC")) {
                 Intent intent = new Intent(context, DetailKoreksiKehadiranActivity.class);
                 intent.putExtra(Config.BUNDLE_NUMBER_REQUEST, dataItems.get(position).getRequestNumber());
+                intent.putExtra(Config.BUNDLE_NUMBER_APPROVALS, "1");
                 context.startActivity(intent);
             }
             if (dataItems.get(position).getRequestTypeCode().equalsIgnoreCase("RLV")) {
                 Intent intent = new Intent(context, DetailCutiActivity.class);
                 intent.putExtra(Config.BUNDLE_NUMBER_REQUEST, dataItems.get(position).getRequestNumber());
+                intent.putExtra(Config.BUNDLE_NUMBER_APPROVALS, "1");
                 context.startActivity(intent);
             }
             if (dataItems.get(position).getRequestTypeCode().equalsIgnoreCase("ROD")) {
                 Intent intent = new Intent(context, DetailPerjalananDinasActivity.class);
                 intent.putExtra(Config.BUNDLE_NUMBER_REQUEST, dataItems.get(position).getRequestNumber());
+                intent.putExtra(Config.BUNDLE_NUMBER_APPROVALS, "1");
                 context.startActivity(intent);
             }
         });

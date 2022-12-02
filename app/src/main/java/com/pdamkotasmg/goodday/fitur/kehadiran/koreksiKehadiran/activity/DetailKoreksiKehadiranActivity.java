@@ -38,6 +38,8 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private String accessToken;
     private String numberReq;
+    private String approveReq;
+    private String reqStatusCode;
 
     private ProgressDialog progressDialog;
 
@@ -58,6 +60,7 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
     private TextView tvDetailsTanggalReq;
     private TextView tvDetailsStatus;
     private TextView tvDetailRequestNumber;
+    private Button btnApproved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,22 +83,40 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
 
         numberReq = getIntent().getStringExtra(Config.BUNDLE_NUMBER_REQUEST);
+        approveReq = getIntent().getStringExtra(Config.BUNDLE_NUMBER_APPROVALS);
 
         progressDialog = new ProgressDialog(DetailKoreksiKehadiranActivity.this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Mohon tunggu...");
         getDetailsKoreksiKehadiran();
 
-        btnCancel.setOnClickListener(v -> {
-            reqCancel();
-        });
+        if (approveReq.equalsIgnoreCase("2")) {
+//            btnCancel.setVisibility(View.GONE);
+            btnCancel.setText("Tolak");
+            btnCancel.setOnClickListener(view -> {
+                reqStatusCode = "REJECTED";
+                reqAprovals();
+            });
+
+            btnApproved.setVisibility(View.VISIBLE);
+            btnApproved.setOnClickListener(view -> {
+                reqStatusCode = "APPROVED";
+                reqAprovals();
+            });
+        } else {
+            btnCancel.setOnClickListener(v -> {
+                reqStatusCode = "CANCELLED";
+                reqCancel();
+            });
+        }
+
 
     }
 
     private void reqCancel() {
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(this);
-        apiService.getRequestEdit(accessToken, "RAC", numberReq, "CANCELLED")
+        apiService.postRequestEdit(accessToken, "RAC", numberReq, reqStatusCode)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -107,6 +128,35 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
                             getDetailsKoreksiKehadiran();
                         } else {
                             Toast.makeText(DetailKoreksiKehadiranActivity.this, "Pembatalan gagal", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "Error Else message: " + response.message());
+                            Log.d(TAG, "Error Else body: " + response.body());
+                            Log.d(TAG, "Error Else errorBody: " + response.errorBody());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        progressDialog.cancel();
+                        Toast.makeText(DetailKoreksiKehadiranActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void reqAprovals() {
+        progressDialog.show();
+        ApiService apiService = ApiConfig.getApiService(this);
+        apiService.postRequestApproval(accessToken, "RAC", numberReq, reqStatusCode)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        progressDialog.cancel();
+                        if (response.isSuccessful()) {
+                            String header = response.message();
+                            Log.d(TAG, "onResponse: " + header);
+                            Toast.makeText(DetailKoreksiKehadiranActivity.this, "Berhasil", Toast.LENGTH_SHORT).show();
+                            getDetailsKoreksiKehadiran();
+                        } else {
+                            Toast.makeText(DetailKoreksiKehadiranActivity.this, "Gagal Error", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "Error Else message: " + response.message());
                             Log.d(TAG, "Error Else body: " + response.body());
                             Log.d(TAG, "Error Else errorBody: " + response.errorBody());
@@ -159,13 +209,16 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
                             if (status.equalsIgnoreCase("Waiting")) {
                                 tvDetailsStatus.setTextColor(getResources().getColor(R.color.yellowPortal));
                             } else if (status.equalsIgnoreCase("Approved")) {
+                                btnApproved.setVisibility(View.GONE);
                                 btnCancel.setVisibility(View.GONE);
                                 tvDetailsStatus.setTextColor(getResources().getColor(R.color.greenPortal));
                             } else if (status.equalsIgnoreCase("Cancelled")) {
+                                btnApproved.setVisibility(View.GONE);
                                 btnCancel.setVisibility(View.GONE);
                                 tvDetailsStatus.setTextColor(getResources().getColor(R.color.redPortal));
                             } else {
                                 btnCancel.setVisibility(View.GONE);
+                                btnApproved.setVisibility(View.GONE);
                                 tvDetailsStatus.setTextColor(getResources().getColor(R.color.redPortal));
                             }
 
@@ -209,5 +262,6 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
         tvDetailsTanggalReq = findViewById(R.id.tv_details_tanggal_req);
         tvDetailsStatus = findViewById(R.id.tv_details_status);
         tvDetailRequestNumber = findViewById(R.id.tv_detail_request_number);
+        btnApproved = findViewById(R.id.btn_approved);
     }
 }

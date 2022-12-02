@@ -89,7 +89,7 @@ public class DetailCutiActivity extends AppCompatActivity {
         progressDialog.setMessage("Mohon tunggu...");
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(this);
-        apiService.getRequestEdit(accessToken, "RLV", numberReq, "CANCELLED")
+        apiService.postRequestEdit(accessToken, "RLV", numberReq, "CANCELLED")
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
