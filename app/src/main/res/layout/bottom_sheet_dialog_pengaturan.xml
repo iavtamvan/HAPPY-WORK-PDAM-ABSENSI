@@ -115,6 +115,31 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/div_digital_signature"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="34dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_digital_signature" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/poppins"
+
+                        android:gravity="center|left"
+                        android:paddingLeft="10dp"
+                        android:text="Tanda Tangan Elektronik (TTE)"
+                        android:textColor="@color/primary"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/div_logout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

@@ -164,6 +164,7 @@ public class ProfileActivity extends AppCompatActivity {
             LinearLayout divGantiPassword = bottomSheetDialogProfile.findViewById(R.id.div_ganti_password);
             LinearLayout divLogout = bottomSheetDialogProfile.findViewById(R.id.div_logout);
             LinearLayout divQrCode = bottomSheetDialogProfile.findViewById(R.id.div_qr_code);
+            LinearLayout divDigitalSignature = bottomSheetDialogProfile.findViewById(R.id.div_digital_signature);
 
             tvTutupDialog.setOnClickListener(v1 -> {
                 bottomSheetDialogProfile.cancel();
@@ -247,6 +248,10 @@ public class ProfileActivity extends AppCompatActivity {
 
                 });
                 bottomSheetDialogProfileGantiPassword.show();
+            });
+
+            divDigitalSignature.setOnClickListener(view -> {
+                startActivity(new Intent(getApplicationContext(), DigitalSignatureActivity.class));
             });
 
             bottomSheetDialogProfile.show();
