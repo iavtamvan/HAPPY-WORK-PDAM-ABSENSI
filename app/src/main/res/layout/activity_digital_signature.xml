@@ -9,199 +9,252 @@
 
     <include layout="@layout/content_header" />
 
-    <androidx.cardview.widget.CardView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/div_tte_create"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:fontFamily="@font/poppins"
-                    android:gravity="center"
-                    android:text="Silahkan Buat TTE Anda disini"
-                    android:textColor="@color/grey"
-                    android:textSize="15dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/grey" />
-
-                <com.github.gcacace.signaturepad.views.SignaturePad xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/signature_pad"
-                    android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/rectangle_shapes_black"
-                    app:penColor="@android:color/black" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/poppins"
-                    android:text="Unggah KTP"
-                    android:textColor="@color/black"
-                    android:textSize="14dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins"
-                    android:text="Klik disini untuk Foto KTP dengan Jelas"
-                    android:textColor="@color/redPortal"
-                    android:textSize="12dp"
-                    android:textStyle="bold" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/div_tte_pengguna"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:fontFamily="@font/poppins"
-                    android:gravity="center"
-                    android:text="Tanda Tangan Elektronik (TTE) Anda"
-                    android:textColor="@color/grey"
-                    android:textSize="15dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/grey" />
-
-                <ImageView
-                    android:id="@+id/iv_tte"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_margin="8dp" />
-
-                <TextView
-                    android:id="@+id/tv_npp_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:fontFamily="@font/poppins"
-                    android:gravity="center"
-                    android:text="-\n-"
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
+                android:layout_margin="10dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/logo_bsre" />
+                    <LinearLayout
+                        android:id="@+id/div_tte_create"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/logo" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"
+                            android:fontFamily="@font/poppins"
+                            android:gravity="center"
+                            android:text="Silahkan Buat TTE Anda disini"
+                            android:textColor="@color/grey"
+                            android:textSize="15dp" />
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/logo_pemkot_smg" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey" />
+
+                        <ImageView
+                            android:id="@+id/iv_foto_ktp"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:src="@drawable/logo"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_foto_tte"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:src="@drawable/logo"
+                            android:visibility="gone" />
+
+                        <LinearLayout
+                            android:id="@+id/div_upload_ktp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:fontFamily="@font/poppins"
+                                android:text="Unggah KTP"
+                                android:textColor="@color/black"
+                                android:textSize="14dp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Klik disini untuk Foto KTP dengan Jelas"
+                                android:textColor="@color/redPortal"
+                                android:textSize="12dp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/div_digital_signature_create"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:fontFamily="@font/poppins"
+                                android:text="Tanda Tangan Elektronik (TTE)"
+                                android:textColor="@color/black"
+                                android:textSize="14dp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Klik disini untuk melakukan Tanda Tangan Elektronik"
+                                android:textColor="@color/redPortal"
+                                android:textSize="12dp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/div_tte_pengguna"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"
+                            android:fontFamily="@font/poppins"
+                            android:gravity="center"
+                            android:text="Tanda Tangan Elektronik (TTE) Anda"
+                            android:textColor="@color/grey"
+                            android:textSize="15dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey" />
+
+                        <ImageView
+                            android:id="@+id/iv_tte"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_margin="8dp" />
+
+                        <TextView
+                            android:id="@+id/tv_npp_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"
+                            android:fontFamily="@font/poppins"
+                            android:gravity="center"
+                            android:text="-\n-"
+                            android:textColor="@color/black"
+                            android:textSize="15dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="100dp"
+                                android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/logo_bsre" />
+
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/logo" />
+
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/logo_pemkot_smg" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="Tanda Tangan Elektronik ini telah ditanda tangani secara Sah oleh Balai Sertifikasi Elektronik (BSrE) Badan Sandi dan Siber Negara (BSSN) Republik Indonesia."
+                            android:textColor="@color/black"
+                            android:textSize="11dp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/poppins"
-                    android:text="Tanda Tangan Elektronik ini telah ditanda tangani secara Sah oleh Balai Sertifikasi Elektronik (BSrE) Badan Sandi dan Siber Negara (BSSN) Republik Indonesia."
-                    android:textColor="@color/black"
-                    android:textSize="11dp" />
-
-            </LinearLayout>
-
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
+    </ScrollView>
 
-    </androidx.cardview.widget.CardView>
-
-    <LinearLayout
+    <Button
+        android:id="@+id/btnUpdateTTE"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginBottom="18dp"
+        android:backgroundTint="@color/primary"
+        android:text="Perbarui TTE"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/div_simpan_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnUpdateTTE"
+            android:id="@+id/btn_batal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="18dp"
             android:layout_marginRight="18dp"
-            android:backgroundTint="@color/primary"
-            android:text="Perbarui TTE"
-            android:textStyle="bold" />
+            android:layout_marginBottom="18dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/redPortal"
+            android:text="Batal"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
 
-        <LinearLayout
-            android:id="@+id/div_btn_action"
+        <Button
+            android:id="@+id/btn_save_tte"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginBottom="18dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/greenGojek"
+            android:text="Simpan Data"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btnReset"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/redPortal"
-                android:text="Reset"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/btnSave"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/greenGojek"
-                android:text="Simpan"
-                android:textStyle="bold" />
-        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>
