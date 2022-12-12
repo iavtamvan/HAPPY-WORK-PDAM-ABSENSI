@@ -102,7 +102,7 @@ public class DigitalSignatureActivity extends AppCompatActivity {
             });
 
             btnSave.setOnClickListener(view1 -> {
-                if (signaturePad.isEmpty() || compressedImageFile.getPath().isEmpty()) {
+                if (signaturePad.isEmpty() || compressedImageFile == null) {
                     Toast.makeText(this, "Unggah KTP Terlebih Dahulu", Toast.LENGTH_SHORT).show();
                 } else {
 
