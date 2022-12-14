@@ -63,6 +63,7 @@ public final class Config {
 
     //API KEY
     public static final String BASE_URL_IMAGE = "https://app.pdamkotasmg.co.id/api-gw-dev/portal-pegawai";
+    public static final String BASE_URL_IMAGE_HANDLER = "https://gateway.pdamkotasmg.co.id/api-gw-dev/file-handler/foto/?filename=";
 
     public static final String BASE_URL_NOTIF_FOTO_FAIL = "https://image.freepik.com/free-vector/people-with-sad-angry-emojis-illustration_53876-43293.jpg";
     public static final String BASE_URL_NOTIF_JIKA_TELAT = "https://image.freepik.com/free-vector/people-run-open-door-being-late-men-women-hurry-end-beginning-working-office-day-illustration_80590-9275.jpg";
@@ -75,7 +76,7 @@ public final class Config {
     public static final String ERROR_DATA_REGISTER = "Pastikan Data Anda Dengan Benar";
     public static final String ERROR_SESSION = "Sesi login anda telah habis, Login Ulang";
     public static final String ERROR_FAKE_GPS_TITLE = "Akun di NONAKTIFKAN \n Berbohong adalah suatu tindakan tidak terpuji \uD83D\uDE0A";
-    public static final String ERROR_ANDROID = "Not Supported Android 12 x004423 javLang:unsupportedOsVersion";
+    public static final String ERROR_ANDROID = "Not Supported Android x004423 javLang:unsupportedOsVersion";
 
     public static final String SHARED_PERMISION_APPS = "permision_apps";
 
@@ -633,8 +634,8 @@ public final class Config {
     public final static String adsInterestialDev = "ca-app-pub-3940256099942544/1033173712";
     public final static String adsInterestialProd = "ca-app-pub-6810772781589252/7755469730";
 
-//    public final static String adsBanner = "ca-app-pub-3940256099942544/6300978111";
-    public final static String adsBanner = "ca-app-pub-6810772781589252/4208134634";
+    public final static String adsBanner = "ca-app-pub-3940256099942544/6300978111"; // dev
+//    public final static String adsBanner = "ca-app-pub-6810772781589252/4208134634"; // prod
     public static void ads(Context context, AdView adView){
         MobileAds.initialize(context, initializationStatus -> {
         });
@@ -796,8 +797,6 @@ public final class Config {
                 , Manifest.permission.ACCESS_COARSE_LOCATION
                 , Manifest.permission.CAMERA
                 , Manifest.permission.WRITE_SECURE_SETTINGS
-                , Manifest.permission.REQUEST_DELETE_PACKAGES
-                , Manifest.permission.QUERY_ALL_PACKAGES
                 , Manifest.permission.WRITE_EXTERNAL_STORAGE
                 , Manifest.permission.READ_EXTERNAL_STORAGE
                 , Manifest.permission.USE_FINGERPRINT};

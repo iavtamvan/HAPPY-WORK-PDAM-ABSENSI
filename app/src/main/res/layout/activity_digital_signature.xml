@@ -227,8 +227,8 @@
         android:id="@+id/div_simpan_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/btn_batal"
@@ -241,7 +241,7 @@
             android:backgroundTint="@color/redPortal"
             android:text="Batal"
             android:textColor="@color/white"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_save_tte"

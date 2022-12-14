@@ -9,8 +9,8 @@
         android:id="@+id/cv_klik"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_margin="6dp"
+        android:orientation="vertical"
         app:cardCornerRadius="8dp"
         app:cardElevation="2dp">
 
@@ -46,9 +46,9 @@
                             android:orientation="vertical">
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="Sebelum"
@@ -57,10 +57,10 @@
                                 android:textStyle="bold" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_details_shift_dan_waktuIn_waktuOut_before"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="SH_HO [07:00 - 09:00]"
@@ -81,9 +81,9 @@
                                 android:orientation="vertical">
 
                                 <TextView
-            android:fontFamily="@font/poppins"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
 
                                     android:gravity="left"
                                     android:text="Waktu mulai"
@@ -92,10 +92,10 @@
                                     android:textStyle="bold" />
 
                                 <TextView
-            android:fontFamily="@font/poppins"
                                     android:id="@+id/tv_details_time_in_before"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
 
                                     android:gravity="left"
                                     android:text="07:00 | 20 Sep"
@@ -111,21 +111,21 @@
                                 android:orientation="vertical">
 
                                 <TextView
-            android:fontFamily="@font/poppins"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
 
                                     android:gravity="left"
-                                    android:text="Waktu mulai"
+                                    android:text="Waktu selesai"
                                     android:textColor="@color/grey"
                                     android:textSize="11dp"
                                     android:textStyle="bold" />
 
                                 <TextView
-            android:fontFamily="@font/poppins"
                                     android:id="@+id/tv_details_time_out_before"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
 
                                     android:gravity="left"
                                     android:text="07:00 | 20 Sep"
@@ -149,9 +149,9 @@
                             android:orientation="vertical">
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="Sesudah"
@@ -160,10 +160,10 @@
                                 android:textStyle="bold" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_details_shift_dan_waktuIn_waktuOut_after"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="SH_HO [07:00 - 09:00]"
@@ -184,9 +184,9 @@
                                 android:orientation="vertical">
 
                                 <TextView
-            android:fontFamily="@font/poppins"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
 
                                     android:gravity="left"
                                     android:text="Waktu mulai"
@@ -195,10 +195,10 @@
                                     android:textStyle="bold" />
 
                                 <TextView
-            android:fontFamily="@font/poppins"
                                     android:id="@+id/tv_details_time_in_ater"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
 
                                     android:gravity="left"
                                     android:text="07:00 | 20 Sep"
@@ -214,21 +214,21 @@
                                 android:orientation="vertical">
 
                                 <TextView
-            android:fontFamily="@font/poppins"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
 
                                     android:gravity="left"
-                                    android:text="Waktu mulai"
+                                    android:text="Waktu selesai"
                                     android:textColor="@color/grey"
                                     android:textSize="11dp"
                                     android:textStyle="bold" />
 
                                 <TextView
-            android:fontFamily="@font/poppins"
                                     android:id="@+id/tv_details_time_out_after"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
 
                                     android:gravity="left"
                                     android:text="07:00 | 20 Sep"
@@ -245,9 +245,9 @@
                             android:orientation="vertical">
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="Alasan"
@@ -256,10 +256,10 @@
                                 android:textStyle="bold" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_details_reason"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="Lupa absen pulang"

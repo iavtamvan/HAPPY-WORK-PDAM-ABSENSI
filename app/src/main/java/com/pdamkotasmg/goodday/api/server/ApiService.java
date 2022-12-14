@@ -22,6 +22,7 @@ import com.pdamkotasmg.goodday.fitur.presensi.model.checkLocationModel.CheckLoca
 import com.pdamkotasmg.goodday.fitur.presensi.model.faceDeetectionModel.FaceDetectionRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.fotoFirstModel.FotoFirstRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.savePresensiModel.SavePresensiRootModel;
+import com.pdamkotasmg.goodday.fitur.profil.model.tte.TTERootModel;
 import com.pdamkotasmg.goodday.fitur.splash.model.updateAplikasi.UdpateAplikasiRootModel;
 
 import okhttp3.MultipartBody;
@@ -306,10 +307,28 @@ public interface ApiService {
             @Field("count") String count
     );
 
+
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("portal-pegawai/api/employee-request/need-my-approval")
     Call<PermintaanRootModel> getNeedApprovals(
             @Header("Authorization") String auth,
             @Query("formatted") String formatted
     );
+
+    @Multipart
+    @POST("portal-pegawai/api/tte/save-document")
+    Call<FaceDetectionRootModel> postUploadTTE(
+            @Header("Authorization") String auth,
+            @Part("npp") RequestBody npp,
+            @Part MultipartBody.Part filePartPhotoKtp,
+            @Part MultipartBody.Part filePartPhotoTTE
+    );
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("portal-pegawai/api/tte/document")
+    Call<TTERootModel> getDocumentTTE(
+            @Header("Authorization") String auth,
+            @Query("npp") String npp
+    );
+
 }

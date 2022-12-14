@@ -1,8 +1,10 @@
 package com.pdamkotasmg.goodday.fitur.profil;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -21,6 +23,10 @@ import com.bumptech.glide.Glide;
 import com.github.gcacace.signaturepad.views.SignaturePad;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.pdamkotasmg.goodday.R;
+import com.pdamkotasmg.goodday.api.server.ApiConfig;
+import com.pdamkotasmg.goodday.api.server.ApiService;
+import com.pdamkotasmg.goodday.fitur.presensi.model.faceDeetectionModel.FaceDetectionRootModel;
+import com.pdamkotasmg.goodday.fitur.profil.model.tte.TTERootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.io.File;
@@ -30,10 +36,18 @@ import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
+import androidmads.library.qrgenearator.QRGContents;
+import androidmads.library.qrgenearator.QRGEncoder;
 import id.zelory.compressor.Compressor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import pl.aprilapps.easyphotopicker.EasyImage;
 import pl.aprilapps.easyphotopicker.MediaFile;
 import pl.aprilapps.easyphotopicker.MediaSource;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DigitalSignatureActivity extends AppCompatActivity {
 
@@ -43,9 +57,14 @@ public class DigitalSignatureActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private String fileTTE;
     private String fileKtp;
+    private String access_token;
+
+    private ProgressDialog progressDialog;
 
     private EasyImage easyImage;
     private File compressedImageFile;
+    private MultipartBody.Part bodyPhotoKtp;
+    private MultipartBody.Part bodyPhotoTTE;
 
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
@@ -83,9 +102,15 @@ public class DigitalSignatureActivity extends AppCompatActivity {
         ivHeaderInfo.setVisibility(View.GONE);
 
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         name = sharedPreferences.getString(Config.SHARED_NAME, "");
         npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
         tvNppName.setText(name + "\n" + npp);
+
+        progressDialog = new ProgressDialog(DigitalSignatureActivity.this);
+        progressDialog.setMessage("Mohon tunggu...");
+        progressDialog.setCancelable(false);
+        getDocumentTTE();
 
         divDigitalSignatureCreate.setOnClickListener(view -> {
             final BottomSheetDialog bottomSheetDialogDS = new BottomSheetDialog(DigitalSignatureActivity.this);
@@ -116,7 +141,7 @@ public class DigitalSignatureActivity extends AppCompatActivity {
                     File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
                     OutputStream fOut = null;
                     Integer counter = 0;
-                    File file = new File(path, "files_DS_" + npp + "_" + currentTime.getTime() + "_" + ".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
+                    File file = new File(path, "files_DS_" + npp + "_" + currentTime.getTime() + ".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
                     try {
                         fOut = new FileOutputStream(file);
                         Bitmap pictureBitmap = signaturePad.getSignatureBitmap(); // obtaining the Bitmap
@@ -137,7 +162,7 @@ public class DigitalSignatureActivity extends AppCompatActivity {
                         ivFotoTte.setVisibility(View.VISIBLE);
                         divDigitalSignatureCreate.setVisibility(View.GONE);
 
-                        Config.deleteFiles(compressedImageFile.getPath(), "ImageCompressed");
+//                        Config.deleteFiles(compressedImageFile.getPath(), "ImageCompressed");
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -201,9 +226,92 @@ public class DigitalSignatureActivity extends AppCompatActivity {
                 btnUpdateTTE.setVisibility(View.VISIBLE);
                 divTteCreate.setVisibility(View.GONE);
                 divTtePengguna.setVisibility(View.VISIBLE);
+
+                postUploadTTE();
+
             }
         });
 
+    }
+
+    private void getDocumentTTE() {
+        progressDialog.show();
+        ApiService apiService = ApiConfig.getApiService(DigitalSignatureActivity.this);
+        apiService.getDocumentTTE(access_token, npp).enqueue(new Callback<TTERootModel>() {
+            @Override
+            public void onResponse(Call<TTERootModel> call, Response<TTERootModel> response) {
+                if (response.isSuccessful()) {
+                    progressDialog.cancel();
+
+                    String fileKTPServer = response.body().getData().getFotoKtp();
+                    String fileTTEServer = response.body().getData().getFotoTtd();
+
+                    if (fileKTPServer == null || fileTTEServer == null) {
+                        divTtePengguna.setVisibility(View.GONE);
+                        btnUpdateTTE.setVisibility(View.GONE);
+                        ivFotoKtp.setVisibility(View.GONE);
+                        ivFotoTte.setVisibility(View.GONE);
+                        divUploadKtp.setVisibility(View.VISIBLE);
+                        divTteCreate.setVisibility(View.VISIBLE);
+                        divDigitalSignatureCreate.setVisibility(View.VISIBLE);
+                        divSimpanData.setVisibility(View.VISIBLE);
+                    } else {
+                        divSimpanData.setVisibility(View.GONE);
+                        btnUpdateTTE.setVisibility(View.VISIBLE);
+                        divTteCreate.setVisibility(View.GONE);
+                        divTtePengguna.setVisibility(View.VISIBLE);
+
+                        // Initializing the QR Encoder with your value to be encoded, type you required and Dimension
+                        QRGEncoder qrgEncoder = new QRGEncoder(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().getFotoTtd(), null, QRGContents.Type.TEXT, 999);
+                        qrgEncoder.setColorBlack(Color.BLACK);
+                        qrgEncoder.setColorWhite(Color.WHITE);
+                        // Getting QR-Code as Bitmap
+                        Bitmap bitmap = qrgEncoder.getBitmap();
+                        // Setting Bitmap to ImageView
+                        ivTte.setImageBitmap(bitmap);
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TTERootModel> call, Throwable t) {
+                progressDialog.cancel();
+                Toast.makeText(DigitalSignatureActivity.this, "Error mengambil data " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void postUploadTTE() {
+        progressDialog.show();
+        RequestBody nppBody = RequestBody.create(MediaType.parse("text/plain"), npp);
+
+        File imageFileKtp = new File(fileKtp);
+        RequestBody requestFilePhotoKtp = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileKtp);
+        bodyPhotoKtp = MultipartBody.Part.createFormData("foto_ktp", imageFileKtp.getName(), requestFilePhotoKtp);
+
+        File imageFileTTE = new File(fileTTE);
+        RequestBody requestFilePhotoTTE = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileTTE);
+        bodyPhotoTTE = MultipartBody.Part.createFormData("foto_ttd", imageFileTTE.getName(), requestFilePhotoTTE);
+
+        ApiService apiService = ApiConfig.getApiService(DigitalSignatureActivity.this);
+        apiService.postUploadTTE(access_token, nppBody, bodyPhotoKtp, bodyPhotoTTE)
+                .enqueue(new Callback<FaceDetectionRootModel>() {
+                    @Override
+                    public void onResponse(Call<FaceDetectionRootModel> call, Response<FaceDetectionRootModel> response) {
+                        if (response.isSuccessful()) {
+                            progressDialog.cancel();
+                            Toast.makeText(DigitalSignatureActivity.this, "Sukses mengirim data", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<FaceDetectionRootModel> call, Throwable t) {
+                        progressDialog.cancel();
+                        Toast.makeText(DigitalSignatureActivity.this, "Error mengirim data TTE", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

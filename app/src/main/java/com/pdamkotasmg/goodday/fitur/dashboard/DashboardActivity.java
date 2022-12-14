@@ -272,9 +272,16 @@ public class DashboardActivity extends AppCompatActivity {
                     if (!list.contains("portal-pegawai.attendance.user.record")) {
                         divRekamWaktu.setVisibility(View.GONE);
                     }
-                    if (!list.contains("portal-pegawai.employee-request.admin.approval") || !list.contains("portal-pegawai.employee-request.user.approval")) {
+//                    if (!list.contains("portal-pegawai.employee-request.admin.approval") || !list.contains("portal-pegawai.employee-request.user.approval")) {
+//                        Toast.makeText(DashboardActivity.this, "portal-pegawai.employee-request.user.approval", Toast.LENGTH_SHORT).show();
+//                        divApprovals.setVisibility(View.GONE);
+//                    }
+                    if (list.contains("portal-pegawai.employee-request.admin.approval") || list.contains("portal-pegawai.employee-request.user.approval")) {
+                        divApprovals.setVisibility(View.VISIBLE);
+                    } else {
                         divApprovals.setVisibility(View.GONE);
                     }
+
 
                 } else {
                     // TODO GONE Fitur

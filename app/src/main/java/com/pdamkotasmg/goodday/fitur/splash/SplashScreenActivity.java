@@ -310,8 +310,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         // TODO check Android WAJIBBBBBBBBBBBBBBBBBBBBB 30
 //        if (Integer.parseInt(getSdkVersion) > 32) {
         if (Integer.parseInt(getSdkVersion) > 33) {
+//        if (Integer.parseInt(getSdkVersion) > 30) {
             finishAffinity();
-            Toast.makeText(this, Config.ERROR_ANDROID + " " + getSdkVersion, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, Config.ERROR_ANDROID + " " + getSdkVersion, Toast.LENGTH_SHORT).show();
         } else {
 
             Log.d(TAG, "onSuccessgetLatitude || gettingDataDeviceInfo : " + lati);

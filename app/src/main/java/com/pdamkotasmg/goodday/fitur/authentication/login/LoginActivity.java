@@ -145,8 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                 , Manifest.permission.ACCESS_COARSE_LOCATION
                 , Manifest.permission.CAMERA
                 , Manifest.permission.WRITE_SECURE_SETTINGS
-                , Manifest.permission.REQUEST_DELETE_PACKAGES
-                , Manifest.permission.QUERY_ALL_PACKAGES
+
                 , Manifest.permission.WRITE_EXTERNAL_STORAGE
                 , Manifest.permission.READ_EXTERNAL_STORAGE
                 , Manifest.permission.USE_FINGERPRINT};
