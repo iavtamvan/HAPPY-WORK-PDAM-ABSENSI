@@ -205,22 +205,27 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
                             }
 
                             String status = dataList.getRequestStatus();
-                            tvDetailsStatus.setText(dataList.getRequestStatus());
-                            if (status.equalsIgnoreCase("Waiting")) {
-                                tvDetailsStatus.setTextColor(getResources().getColor(R.color.yellowPortal));
-                            } else if (status.equalsIgnoreCase("Approved")) {
-                                btnApproved.setVisibility(View.GONE);
-                                btnCancel.setVisibility(View.GONE);
-                                tvDetailsStatus.setTextColor(getResources().getColor(R.color.greenPortal));
-                            } else if (status.equalsIgnoreCase("Cancelled")) {
-                                btnApproved.setVisibility(View.GONE);
-                                btnCancel.setVisibility(View.GONE);
-                                tvDetailsStatus.setTextColor(getResources().getColor(R.color.redPortal));
-                            } else {
-                                btnCancel.setVisibility(View.GONE);
-                                btnApproved.setVisibility(View.GONE);
-                                tvDetailsStatus.setTextColor(getResources().getColor(R.color.redPortal));
+                            tvDetailsStatus.setText(status);
+
+                            for (int i = 0; i < dataList.getListOfApprovals().size(); i++) {
+                                String statuses = dataList.getListOfApprovals().get(i).getApprovalStatus();
+                                if (statuses.equalsIgnoreCase("Waiting")) {
+                                    tvDetailsStatus.setTextColor(getResources().getColor(R.color.black));
+                                } else if (statuses.equalsIgnoreCase("Approved")) {
+                                    btnApproved.setVisibility(View.GONE);
+                                    btnCancel.setVisibility(View.GONE);
+                                    tvDetailsStatus.setTextColor(getResources().getColor(R.color.black));
+                                } else if (statuses.equalsIgnoreCase("Cancelled")) {
+                                    btnApproved.setVisibility(View.GONE);
+                                    btnCancel.setVisibility(View.GONE);
+                                    tvDetailsStatus.setTextColor(getResources().getColor(R.color.black));
+                                } else {
+                                    btnCancel.setVisibility(View.GONE);
+                                    btnApproved.setVisibility(View.GONE);
+                                    tvDetailsStatus.setTextColor(getResources().getColor(R.color.black));
+                                }
                             }
+
 
                             tvDetailRequestDari.setText(dataList.getRequestedByName());
                             tvDetailRequestUntuk.setText(dataList.getRequestedForName());
