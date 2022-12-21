@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -56,11 +57,10 @@ public class WebViewActivity extends AppCompatActivity {
         wv.getSettings().setSupportZoom(true);
         wv.getSettings().setBuiltInZoomControls(true);
         wv.getSettings().setDisplayZoomControls(false);
-        wv.getSettings().setAppCacheEnabled(false);
+        wv.getSettings().setCacheMode(WebSettings.LOAD_NORMAL);
 
         // Baris di bawah untuk menambahkan scrollbar di dalam WebView-nya
         wv.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        wv.getSettings().setAppCacheEnabled(true);
         wv.setWebViewClient(new WebViewClient());
 
         if (typeWebView.contains("gistirta")) {

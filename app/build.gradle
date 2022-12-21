@@ -4,13 +4,13 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.pdamkotasmg.happywork"
-        minSdkVersion 22
-        targetSdkVersion 32
+        minSdkVersion 23
+        targetSdkVersion 33
         versionCode 18 // update playstore
         versionName "1.0.4" // ini diganti
 
@@ -32,29 +32,34 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.+'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+
+    def lifecycle_version = "2.4.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+    //noinspection GradleDependency
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     // library recycler view
-    implementation 'com.android.support:recyclerview-v7:32.0.0'
+    implementation 'com.android.support:recyclerview-v7:33.0.0'
 
     // library card view
-    implementation 'com.android.support:cardview-v7:32.0.0'
+    implementation 'com.android.support:cardview-v7:33.0.0'
 
     // retrofit, gson
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    implementation 'com.google.code.gson:gson:2.8.7'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
 
     //iamge slider
-    implementation "com.android.support:support-v4:+"
-    implementation 'com.squareup.picasso:picasso:2.3.2'
-    implementation 'com.nineoldandroids:library:2.4.0'
-    implementation 'com.daimajia.slider:library:1.1.5@aar'
+//    implementation "com.android.support:support-v4:+"
+//    implementation 'com.squareup.picasso:picasso:2.3.2'
+//    implementation 'com.nineoldandroids:library:2.4.0'
+//    implementation 'com.daimajia.slider:library:1.1.5@aar'
 
     //onboarding image
     implementation 'com.github.chyrta:AndroidOnboarder:0.7'
@@ -64,13 +69,13 @@ dependencies {
     implementation 'com.factor:bouncy:1.5'
 
     // ambil gambar
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     //box dialog
     implementation 'com.shreyaspatil:MaterialDialog:2.1'
-    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'com.google.android.material:material:1.7.0'
 
     // date time dialog
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
@@ -85,7 +90,7 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.5.0'
 
     //get lat long, address
-    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 
     //mock location
 
@@ -132,7 +137,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-perf'
 
     implementation "com.google.firebase:firebase-iid:21.1.0"
-    implementation "com.google.firebase:firebase-messaging:22.0.0"
+    implementation "com.google.firebase:firebase-messaging:23.1.1" // versi 23 ada BUG di android 12+ tadinya (22.0.0)
 
 //    implementation 'com.google.firebase:firebase-messaging'
 //    implementation 'com.google.firebase:firebase-iid'
@@ -161,6 +166,6 @@ dependencies {
     // Digital Signature
     implementation 'com.github.gcacace:signature-pad:1.3.1'
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 }
