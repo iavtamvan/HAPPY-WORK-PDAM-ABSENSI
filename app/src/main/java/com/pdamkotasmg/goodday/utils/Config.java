@@ -634,8 +634,8 @@ public final class Config {
     public final static String adsInterestialDev = "ca-app-pub-3940256099942544/1033173712";
     public final static String adsInterestialProd = "ca-app-pub-6810772781589252/7755469730";
 
-    public final static String adsBanner = "ca-app-pub-3940256099942544/6300978111"; // dev
-//    public final static String adsBanner = "ca-app-pub-6810772781589252/4208134634"; // prod
+//    public final static String adsBanner = "ca-app-pub-3940256099942544/6300978111"; // dev
+    public final static String adsBanner = "ca-app-pub-6810772781589252/4208134634"; // prod
     public static void ads(Context context, AdView adView){
         MobileAds.initialize(context, initializationStatus -> {
         });

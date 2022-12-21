@@ -9,8 +9,8 @@
     <!-- </intent> -->
     <!--  -->
     <uses-sdk
-        android:minSdkVersion="22"
-        android:targetSdkVersion="32"
+        android:minSdkVersion="23"
+        android:targetSdkVersion="33"
         tools:ignore="GradleOverrides" />
 
     <uses-permission android:name="android.permission.INTERNET" />
