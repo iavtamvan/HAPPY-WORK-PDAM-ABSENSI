@@ -90,8 +90,8 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
         progressDialog.setMessage("Mohon tunggu...");
         getDetailsKoreksiKehadiran();
 
-        if (approveReq.equalsIgnoreCase("2")) {
-//            btnCancel.setVisibility(View.GONE);
+        if (approveReq.equalsIgnoreCase("1")) {
+//            btnCancel.setVisibility(View.VISIBLE);
             btnCancel.setText("Tolak");
             btnCancel.setOnClickListener(view -> {
                 reqStatusCode = "REJECTED";
@@ -103,7 +103,10 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
                 reqStatusCode = "APPROVED";
                 reqAprovals();
             });
+            Toast.makeText(this, "" + approveReq, Toast.LENGTH_SHORT).show();
+//            btnCancel.setVisibility(View.GONE);
         } else {
+            Toast.makeText(this, "" + approveReq, Toast.LENGTH_SHORT).show();
             btnCancel.setOnClickListener(v -> {
                 reqStatusCode = "CANCELLED";
                 reqCancel();

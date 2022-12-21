@@ -19,7 +19,6 @@ import com.google.android.gms.ads.AdView;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
-import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.CutiActivity;
 import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.adapter.RiwayatCutiAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.riwayatCuti.DataItem;
 import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.model.riwayatCuti.RiwayatCutiRootModel;

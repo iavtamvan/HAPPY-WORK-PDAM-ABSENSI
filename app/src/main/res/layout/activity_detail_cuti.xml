@@ -49,9 +49,9 @@
                             android:orientation="vertical">
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="No"
@@ -59,10 +59,10 @@
                                 android:textSize="12dp" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_detail_request_number"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="----"
@@ -77,9 +77,9 @@
                             android:orientation="vertical">
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="Permintaan dari"
@@ -87,10 +87,10 @@
                                 android:textSize="12dp" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_detail_request_dari"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="--"
@@ -105,9 +105,9 @@
                             android:orientation="vertical">
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="Permintaan untuk"
@@ -115,10 +115,10 @@
                                 android:textSize="12dp" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_detail_request_untuk"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="--"
@@ -133,9 +133,9 @@
                             android:orientation="vertical">
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="Tanggal"
@@ -143,10 +143,10 @@
                                 android:textSize="12dp" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_detail_mulai_tanggal"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="--"
@@ -162,9 +162,9 @@
                             android:visibility="gone">
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="Total hari"
@@ -172,10 +172,10 @@
                                 android:textSize="12dp" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_detail_total_day"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="--"
@@ -190,9 +190,9 @@
                             android:orientation="vertical">
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="Tipe cuti"
@@ -200,10 +200,10 @@
                                 android:textSize="12dp" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_detail_tipe"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="--"
@@ -218,9 +218,9 @@
                             android:orientation="vertical">
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="Sisa cuti"
@@ -228,10 +228,10 @@
                                 android:textSize="12dp" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_detail_sisa_cuti"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="--"
@@ -246,9 +246,9 @@
                             android:orientation="vertical">
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="Alasan"
@@ -256,15 +256,44 @@
                                 android:textSize="12dp" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_detail_alasan"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="--"
                                 android:textColor="@color/grey"
                                 android:textSize="13dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+
+                                android:gravity="left"
+                                android:text="Status"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_details_status"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+
+                                android:gravity="left"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="13dp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -280,10 +309,10 @@
                                 android:background="@color/grey" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="Mengetahui"
@@ -311,16 +340,27 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="bottom"
-                        android:orientation="vertical">
+                        android:gravity="bottom|center"
+                        android:orientation="horizontal">
 
                         <Button
                             android:id="@+id/btn_cancel"
                             android:layout_width="wrap_content"
                             android:layout_height="60dp"
                             android:layout_gravity="center"
-                            android:backgroundTint="@color/primary"
+                            android:layout_margin="8dp"
+                            android:backgroundTint="@color/redPortal"
                             android:text="Batalkan" />
+
+                        <Button
+                            android:id="@+id/btn_approved"
+                            android:layout_width="wrap_content"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="8dp"
+                            android:backgroundTint="@color/greenGojek"
+                            android:text="Setujui"
+                            android:visibility="gone" />
                     </LinearLayout>
 
                 </LinearLayout>

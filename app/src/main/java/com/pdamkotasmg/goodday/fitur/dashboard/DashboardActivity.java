@@ -124,6 +124,8 @@ public class DashboardActivity extends AppCompatActivity {
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         messageInfo = sharedPreferences.getString(Config.SHARED_MESSAGE_INFO, "");
 
+        Log.d(TAG, "tokenFirebase: " + sharedPreferences.getString(Config.SHARED_FCM_TOKEN, ""));
+
         typeCheat = sharedPreferences.getString(Config.SHARED_ACTION_CHEAT, "");
         pageCheat = sharedPreferences.getString(Config.SHARED_PAGE_CHEAT, "");
         countCheat = sharedPreferences.getString(Config.SHARED_COUNT_CHEAT, "");

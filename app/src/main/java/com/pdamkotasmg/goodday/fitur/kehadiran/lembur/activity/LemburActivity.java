@@ -92,7 +92,7 @@ public class LemburActivity extends AppCompatActivity implements DatePickerDialo
         getSupportActionBar().hide();
         initView();
 
-        tvHeaderJudul.setText("Detail Koreksi Kehadiran");
+        tvHeaderJudul.setText("Lembur");
         ivHeaderInfo.setOnClickListener(v -> {
             LemburActivity.this.finish();
         });

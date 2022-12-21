@@ -33,6 +33,10 @@ public class DetailCutiActivity extends AppCompatActivity {
 
     private String accessToken;
     private String numberReq;
+    private String approveReq;
+    private String reqStatusCode;
+
+    private ProgressDialog progressDialog;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -53,6 +57,8 @@ public class DetailCutiActivity extends AppCompatActivity {
     private TextView tvDetailAlasan;
     private RecyclerView rvDetailMengetahui;
     private Button btnCancel;
+    private Button btnApproved;
+    private TextView tvDetailsStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +71,12 @@ public class DetailCutiActivity extends AppCompatActivity {
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
 
         numberReq = getIntent().getStringExtra(Config.BUNDLE_NUMBER_REQUEST);
+        approveReq = getIntent().getStringExtra(Config.BUNDLE_NUMBER_APPROVALS);
+
+        progressDialog = new ProgressDialog(DetailCutiActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Mohon tunggu...");
+        getDetail();
 
         ivHeaderBackArrow.setOnClickListener(v -> {
             DetailCutiActivity.this.finish();
@@ -76,14 +88,31 @@ public class DetailCutiActivity extends AppCompatActivity {
             Toast.makeText(DetailCutiActivity.this, "Detail cuti", Toast.LENGTH_SHORT).show();
         });
 
-        btnCancel.setOnClickListener(v -> {
-            postCancel();
-        });
+        if (approveReq.equalsIgnoreCase("1")) {
+//            btnCancel.setVisibility(View.VISIBLE);
+            btnCancel.setText("Tolak");
+            btnCancel.setOnClickListener(view -> {
+                reqStatusCode = "REJECTED";
+                reqAprovals();
+            });
 
-        getDetail();
+            btnApproved.setVisibility(View.VISIBLE);
+            btnApproved.setOnClickListener(view -> {
+                reqStatusCode = "APPROVED";
+                reqAprovals();
+            });
+            Toast.makeText(this, "" + approveReq, Toast.LENGTH_SHORT).show();
+//            btnCancel.setVisibility(View.GONE);
+        } else {
+            Toast.makeText(this, "" + approveReq, Toast.LENGTH_SHORT).show();
+            btnCancel.setOnClickListener(v -> {
+                reqStatusCode = "CANCELLED";
+                reqCancel();
+            });
+        }
     }
 
-    private void postCancel() {
+    private void reqCancel() {
         ProgressDialog progressDialog = new ProgressDialog(DetailCutiActivity.this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Mohon tunggu...");
@@ -101,6 +130,35 @@ public class DetailCutiActivity extends AppCompatActivity {
                             getDetail();
                         } else {
                             Toast.makeText(DetailCutiActivity.this, "Pembatalan gagal", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "Error Else message: " + response.message());
+                            Log.d(TAG, "Error Else body: " + response.body());
+                            Log.d(TAG, "Error Else errorBody: " + response.errorBody());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        progressDialog.cancel();
+                        Toast.makeText(DetailCutiActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void reqAprovals() {
+        progressDialog.show();
+        ApiService apiService = ApiConfig.getApiService(this);
+        apiService.postRequestApproval(accessToken, "RLV", numberReq, reqStatusCode)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        progressDialog.cancel();
+                        if (response.isSuccessful()) {
+                            String header = response.message();
+                            Log.d(TAG, "onResponse: " + header);
+                            Toast.makeText(DetailCutiActivity.this, "Berhasil", Toast.LENGTH_SHORT).show();
+                            getDetail();
+                        } else {
+                            Toast.makeText(DetailCutiActivity.this, "Gagal Error", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "Error Else message: " + response.message());
                             Log.d(TAG, "Error Else body: " + response.body());
                             Log.d(TAG, "Error Else errorBody: " + response.errorBody());
@@ -138,15 +196,37 @@ public class DetailCutiActivity extends AppCompatActivity {
                             tvDetailAlasan.setText(data.getRemark());
 
                             String status = data.getRequestStatus();
-                            if (status.equalsIgnoreCase("Rejected")) {
-                                btnCancel.setVisibility(View.GONE);
-                            } else if (status.equalsIgnoreCase("Approved")) {
-                                btnCancel.setVisibility(View.GONE);
-                            } else if (status.equalsIgnoreCase("Cancelled")) {
-                                btnCancel.setVisibility(View.GONE);
-                            } else {
-                                btnCancel.setVisibility(View.VISIBLE);
+                            tvDetailsStatus.setText(status);
+
+
+                            for (int i = 0; i < data.getListOfApprovals().size(); i++) {
+                                String statuses = data.getListOfApprovals().get(i).getApprovalStatus();
+                                if (statuses.equalsIgnoreCase("Waiting")) {
+                                    tvDetailsStatus.setTextColor(getResources().getColor(R.color.yellowPortal));
+                                } else if (statuses.equalsIgnoreCase("Approved")) {
+                                    btnApproved.setVisibility(View.GONE);
+                                    btnCancel.setVisibility(View.GONE);
+                                    tvDetailsStatus.setTextColor(getResources().getColor(R.color.greenPortal));
+                                } else if (statuses.equalsIgnoreCase("Cancelled")) {
+                                    btnApproved.setVisibility(View.GONE);
+                                    btnCancel.setVisibility(View.GONE);
+                                    tvDetailsStatus.setTextColor(getResources().getColor(R.color.redPortal));
+                                } else {
+                                    btnCancel.setVisibility(View.GONE);
+                                    btnApproved.setVisibility(View.GONE);
+                                    tvDetailsStatus.setTextColor(getResources().getColor(R.color.black));
+                                }
                             }
+
+//                            if (status.equalsIgnoreCase("Rejected")) {
+//                                btnCancel.setVisibility(View.GONE);
+//                            } else if (status.equalsIgnoreCase("Approved")) {
+//                                btnCancel.setVisibility(View.GONE);
+//                            } else if (status.equalsIgnoreCase("Cancelled")) {
+//                                btnCancel.setVisibility(View.GONE);
+//                            } else {
+//                                btnCancel.setVisibility(View.VISIBLE);
+//                            }
 
                             detailsListApprovalAdapter = new DetailsListApprovalAdapter(DetailCutiActivity.this, data.getListOfApprovals());
                             rvDetailMengetahui.setLayoutManager(new LinearLayoutManager(DetailCutiActivity.this));
@@ -177,5 +257,7 @@ public class DetailCutiActivity extends AppCompatActivity {
         tvDetailAlasan = findViewById(R.id.tv_detail_alasan);
         rvDetailMengetahui = findViewById(R.id.rv_detail_mengetahui);
         btnCancel = findViewById(R.id.btn_cancel);
+        btnApproved = findViewById(R.id.btn_approved);
+        tvDetailsStatus = findViewById(R.id.tv_details_status);
     }
 }

@@ -26,23 +26,24 @@
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" /> <!-- <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/> -->
 
+<!--    ======================================-->
+
+    <uses-feature
+        android:name="android.hardware.fingerprint"
+        android:required="false" />
     <uses-feature android:name="android.hardware.camera.front" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18"
-        tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" /> <!-- <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/> -->
-    <uses-feature
-        android:name="android.hardware.fingerprint"
-        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -53,11 +54,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyWork"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m">
         <activity
             android:name="com.pdamkotasmg.goodday.fitur.profil.DigitalSignatureActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name="com.pdamkotasmg.goodday.fitur.permintaan.activity.PersetujuanActivity"
             android:exported="false">
@@ -113,7 +114,7 @@
             android:name="com.pdamkotasmg.goodday.fitur.kehadiran.lembur.activity.LemburActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.cuti.CutiActivity"
+            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.cuti.activity.CutiActivity"
             android:exported="true" />
         <activity
             android:name="com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.RiwayatKoreksiKehadiranActivity"
@@ -132,9 +133,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.pdamkotasmg.goodday.Main2"
-            android:keepScreenOn="true" />
         <activity
             android:name="com.pdamkotasmg.goodday.fitur.profil.ScanQRCodeActivity"
             android:exported="true" />

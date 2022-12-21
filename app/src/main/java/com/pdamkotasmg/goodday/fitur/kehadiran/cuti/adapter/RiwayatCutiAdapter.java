@@ -73,6 +73,7 @@ public class RiwayatCutiAdapter extends RecyclerView.Adapter<RiwayatCutiAdapter.
         holder.cvKlik.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailCutiActivity.class);
             intent.putExtra(Config.BUNDLE_NUMBER_REQUEST, dataItems.get(position).getRequestNumber());
+            intent.putExtra(Config.BUNDLE_NUMBER_APPROVALS, "2");
             context.startActivity(intent);
         });
 

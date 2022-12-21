@@ -177,7 +177,7 @@
                                         android:fontFamily="@font/poppins"
 
                                         android:gravity="left"
-                                        android:text="Permintaan untuk"
+                                        android:text="Selesai tanggal"
                                         android:textColor="@color/black"
                                         android:textSize="12dp" />
 

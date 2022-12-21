@@ -79,6 +79,7 @@ public class RiwayatKoreksiKehadiranAdapter extends RecyclerView.Adapter<Riwayat
         holder.cvKlik.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailKoreksiKehadiranActivity.class);
             intent.putExtra(Config.BUNDLE_NUMBER_REQUEST, dataItems.get(position).getRequestNumber());
+            intent.putExtra(Config.BUNDLE_NUMBER_APPROVALS, "2");
             context.startActivity(intent);
         });
 
