@@ -84,9 +84,6 @@ dependencies {
     // Lottie Animation Library
     implementation 'com.airbnb.android:lottie:3.5.0'
 
-    //recaptcha
-    implementation 'com.google.android.gms:play-services-safetynet:17.0.0'
-
     //get lat long, address
     implementation 'com.google.android.gms:play-services-location:18.0.0'
 

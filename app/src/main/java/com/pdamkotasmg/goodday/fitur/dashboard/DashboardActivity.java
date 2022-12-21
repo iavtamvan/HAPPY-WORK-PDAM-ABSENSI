@@ -108,6 +108,7 @@ public class DashboardActivity extends AppCompatActivity {
             Config.showNotification(DashboardActivity.this, "Pekerjaan Sudah Siap", "Semangat kerja !!!");
         } else if (timeOfDay >= 11 && timeOfDay < 15) {
             tvGood.setText("Good Afternoon \uD83C\uDF1E");
+            Config.showNotification(DashboardActivity.this, "Sudah Waktunya Istirahat", "Semangat!!!");
         } else if (timeOfDay >= 15 && timeOfDay < 18) {
             Config.showNotification(DashboardActivity.this, "Saatnya Istirahat Sejenak", "Kalau lembur, jangan lupa klik LEMBUR YA!");
             tvGood.setText("Good Evening \uD83C\uDF25");
