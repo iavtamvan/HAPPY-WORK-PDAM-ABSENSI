@@ -28,8 +28,8 @@ import com.pdamkotasmg.goodday.fitur.feeds.controller.FeedsController;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.activity.KehadiranActivity;
 import com.pdamkotasmg.goodday.fitur.menuLainnya.ListWebViewActivity;
 import com.pdamkotasmg.goodday.fitur.payslip.PayslipActivity;
-import com.pdamkotasmg.goodday.fitur.permintaan.activity.PermintaanActivity;
-import com.pdamkotasmg.goodday.fitur.permintaan.activity.PersetujuanActivity;
+import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.activity.PermintaanActivity;
+import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.activity.PersetujuanActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.CheckLocationActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.PresensiActivity;
 import com.pdamkotasmg.goodday.fitur.profil.ProfileActivity;
@@ -197,14 +197,14 @@ public class DashboardActivity extends AppCompatActivity {
 //            Connectivity.isConnectedFast(DashboardActivity.this);
             // TODO check location shift location DONE
             if (Connectivity.isConnected(DashboardActivity.this)) {
-                if (!pageCheat.isEmpty()) {
-                    Toast.makeText(this, "Anda melakukan kecurangan pada aplikasi, konfirmasi jujur ke atasan anda kemudian Hubungi PTI", Toast.LENGTH_LONG).show();
-                } else {
-                    Log.d(TAG, "isConnect: Connected");
-                    editor.putString(Config.SHARED_STATUS_ABSENSI, "online");
-                    editor.apply();
-                    startActivity(new Intent(getApplicationContext(), CheckLocationActivity.class));
-                }
+//                if (!pageCheat.isEmpty()) {
+//                    Toast.makeText(this, "Anda melakukan kecurangan pada aplikasi, konfirmasi jujur ke atasan anda kemudian Hubungi PTI", Toast.LENGTH_LONG).show();
+//                } else {
+                Log.d(TAG, "isConnect: Connected");
+                editor.putString(Config.SHARED_STATUS_ABSENSI, "online");
+                editor.apply();
+                startActivity(new Intent(getApplicationContext(), CheckLocationActivity.class));
+//                }
             }
 
         });

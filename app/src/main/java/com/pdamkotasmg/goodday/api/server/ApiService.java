@@ -17,7 +17,7 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.detailPerja
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.postPerjalanDinas.PostPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.riwayatPerjalananDinas.RiwayatPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.perangkat.model.PerangkatRootModel;
-import com.pdamkotasmg.goodday.fitur.permintaan.model.PermintaanRootModel;
+import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.model.PermintaanRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.checkLocationModel.CheckLocationRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.faceDeetectionModel.FaceDetectionRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.fotoFirstModel.FotoFirstRootModel;

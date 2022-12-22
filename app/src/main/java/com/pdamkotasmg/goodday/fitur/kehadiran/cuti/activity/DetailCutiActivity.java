@@ -101,10 +101,10 @@ public class DetailCutiActivity extends AppCompatActivity {
                 reqStatusCode = "APPROVED";
                 reqAprovals();
             });
-            Toast.makeText(this, "" + approveReq, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Admin" + approveReq, Toast.LENGTH_SHORT).show();
 //            btnCancel.setVisibility(View.GONE);
         } else {
-            Toast.makeText(this, "" + approveReq, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Staff" + approveReq, Toast.LENGTH_SHORT).show();
             btnCancel.setOnClickListener(v -> {
                 reqStatusCode = "CANCELLED";
                 reqCancel();

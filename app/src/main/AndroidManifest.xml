@@ -23,14 +23,13 @@
         android:name="android.permission.WRITE_SECURE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
-    <uses-permission
-        android:name="android.permission.QUERY_ALL_PACKAGES"
-        tools:ignore="QueryAllPackagesPermission" />
+<!--    <uses-permission-->
+<!--        android:name="android.permission.QUERY_ALL_PACKAGES"-->
+<!--        tools:ignore="QueryAllPackagesPermission" />-->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" /> <!-- <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/> -->
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
@@ -60,7 +59,7 @@
             android:name="com.pdamkotasmg.goodday.fitur.profil.DigitalSignatureActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.permintaan.activity.PersetujuanActivity"
+            android:name="com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.activity.PersetujuanActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -102,7 +101,7 @@
             android:name="com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.DetailKoreksiKehadiranActivity"
             android:exported="false" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.permintaan.activity.PermintaanActivity"
+            android:name="com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.activity.PermintaanActivity"
             android:exported="false" />
         <activity
             android:name="com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.KoreksiKehadiranActivity"
@@ -199,5 +198,42 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-6810772781589252~8659403587" />
     </application>
+    <queries>
+        <package android:name="com.lexa.fakegps" />
+        <package android:name="com.blogspot.newapphorizons.fakegps" />
+        <package android:name="com.just4funtools.fakegpslocationprofessional" />
+        <package android:name="com.gsmartstudio.fakegps" />
+        <package android:name="com.ninja.toolkit.pulse.fake.gps.pro" />
+        <package android:name="com.incorporateapps.fakegps.fre" />
+        <package android:name="com.locationchanger" />
+        <package android:name="com.marlon.floating.fake.location" />
+        <package android:name="com.g_c.fakesnapmap" />
+        <package android:name="com.incorporateapps.fakegps_route" />
+        <package android:name="com.evezzon.fakegps" />
+        <package android:name="u.gavrikov.mocklocations" />
+        <package android:name="com.fakelocator.fakegpslocationspoofer" />
+        <package android:name="com.hopefactory2021.fakegpslocation" />
+        <package android:name="pp.steve.fakeroute" />
+        <package android:name="ru.gavrikov.mocklocations" />
+        <package android:name="com.pe.fakegpsrun" />
+        <package android:name="com.pe.fakegps" />
+        <package android:name="com.rosteam.gpsemulator" />
+        <package android:name="location.changer.fake.gps.spoof.emulator" />
+        <package android:name="fr.dvilleneuve.lockito" />
+        <package android:name="com.imyfone.anytoandroid" />
+        <package android:name="com.rasfar.mock.location" />
+        <package android:name="com.fly.gps" />
+        <package android:name="com.discipleskies.mock_location_spoofer" />
+        <package android:name="fake.gps.location" />
+        <package android:name="com.appanchor.fakegps" />
+        <package android:name="com.fakegps.fakelocation.fakegps" />
+        <package android:name="project.listick.fakegps" />
+        <package android:name="net.marlove.mockgps" />
+        <package android:name="com.g_c.fakesnapmap" />
+        <package android:name="com.theappninjas.fakegpsjoystick" />
+        <package android:name="com.xdoapp.virtualphonenavigation" />
+        <package android:name="com.foxbytecode.gpslocker" />
+        <package android:name="app.steve.fakeroute" />
+    </queries>
 
 </manifest>

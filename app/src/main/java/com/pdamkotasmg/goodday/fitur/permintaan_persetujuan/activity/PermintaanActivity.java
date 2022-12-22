@@ -1,4 +1,4 @@
-package com.pdamkotasmg.goodday.fitur.permintaan.activity;
+package com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.activity;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
-import com.pdamkotasmg.goodday.fitur.permintaan.adapter.PermintaanAdapter;
-import com.pdamkotasmg.goodday.fitur.permintaan.model.DataItem;
-import com.pdamkotasmg.goodday.fitur.permintaan.model.PermintaanRootModel;
+import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.adapter.PermintaanAdapter;
+import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.model.DataItem;
+import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.model.PermintaanRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.util.ArrayList;

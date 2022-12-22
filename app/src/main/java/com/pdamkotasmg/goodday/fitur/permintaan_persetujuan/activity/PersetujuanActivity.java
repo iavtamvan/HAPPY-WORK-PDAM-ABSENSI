@@ -1,5 +1,6 @@
-package com.pdamkotasmg.goodday.fitur.permintaan.activity;
+package com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.activity;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -13,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
-import com.pdamkotasmg.goodday.fitur.permintaan.adapter.PersetujuanAdapter;
-import com.pdamkotasmg.goodday.fitur.permintaan.model.DataItem;
-import com.pdamkotasmg.goodday.fitur.permintaan.model.PermintaanRootModel;
+import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.adapter.PersetujuanAdapter;
+import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.model.DataItem;
+import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.model.PermintaanRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class PersetujuanActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private String token;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,17 +56,23 @@ public class PersetujuanActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
 
+        progressDialog = new ProgressDialog(PersetujuanActivity.this);
+        progressDialog.setMessage("Mohon tunggu...");
+        progressDialog.setCancelable(false);
+
         getNeedApprovals();
 
     }
 
     private void getNeedApprovals() {
+        progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(PersetujuanActivity.this);
         apiService.getNeedApprovals(token, "1")
                 .enqueue(new Callback<PermintaanRootModel>() {
                     @Override
                     public void onResponse(Call<PermintaanRootModel> call, Response<PermintaanRootModel> response) {
                         if (response.isSuccessful()){
+                            progressDialog.cancel();
                             dataItems = new ArrayList<>();
                             dataItems = response.body().getData().getData();
                             persetujuanAdapter = new PersetujuanAdapter(PersetujuanActivity.this, dataItems);
@@ -76,6 +84,7 @@ public class PersetujuanActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<PermintaanRootModel> call, Throwable t) {
+                        progressDialog.cancel();
                         Toast.makeText(PersetujuanActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });

@@ -1,4 +1,4 @@
-package com.pdamkotasmg.goodday.fitur.permintaan.model;
+package com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.model;
 
 import com.google.gson.annotations.SerializedName;
 

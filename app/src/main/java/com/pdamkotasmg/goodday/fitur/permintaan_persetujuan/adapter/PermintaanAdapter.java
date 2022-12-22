@@ -1,4 +1,4 @@
-package com.pdamkotasmg.goodday.fitur.permintaan.adapter;
+package com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,7 +19,7 @@ import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.fitur.kehadiran.cuti.activity.DetailCutiActivity;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.DetailKoreksiKehadiranActivity;
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.activity.DetailPerjalananDinasActivity;
-import com.pdamkotasmg.goodday.fitur.permintaan.model.DataItem;
+import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.model.DataItem;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.util.List;
