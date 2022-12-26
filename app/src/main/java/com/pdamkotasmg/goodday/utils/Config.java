@@ -76,7 +76,7 @@ public final class Config {
     public static final String ERROR_DATA_REGISTER = "Pastikan Data Anda Dengan Benar";
     public static final String ERROR_SESSION = "Sesi login anda telah habis, Login Ulang";
     public static final String ERROR_FAKE_GPS_TITLE = "Akun di NONAKTIFKAN \n Berbohong adalah suatu tindakan tidak terpuji \uD83D\uDE0A";
-    public static final String ERROR_ANDROID = "Not Supported Android x004423 javLang:unsupportedOsVersion";
+    public static final String ERROR_ANDROID = "Failed to measure fs-verity: Not Supported Android x004423 javLang:unsupportedOsVersion";
 
     public static final String SHARED_PERMISION_APPS = "permision_apps";
 
