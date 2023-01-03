@@ -26,7 +26,6 @@ import com.pdamkotasmg.goodday.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.goodday.fitur.dashboard.model.permissionName.PermissionRootModel;
 import com.pdamkotasmg.goodday.fitur.feeds.controller.FeedsController;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.activity.KehadiranActivity;
-import com.pdamkotasmg.goodday.fitur.menuLainnya.ListWebViewActivity;
 import com.pdamkotasmg.goodday.fitur.payslip.PayslipActivity;
 import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.activity.PermintaanActivity;
 import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.activity.PersetujuanActivity;
@@ -43,6 +42,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import id.pdamkotasmg.pekerjaan_teknik_feature.activity.splash.SplashScreenActivity;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
@@ -215,7 +215,8 @@ public class DashboardActivity extends AppCompatActivity {
             startActivity(intent);
         });
         divOther.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), ListWebViewActivity.class));
+//            startActivity(new Intent(getApplicationContext(), ListWebViewActivity.class));
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         });
 
         divPayslip.setOnClickListener(v -> {

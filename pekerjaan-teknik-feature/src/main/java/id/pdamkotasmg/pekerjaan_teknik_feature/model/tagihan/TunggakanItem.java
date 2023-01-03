@@ -1,0 +1,83 @@
+package id.pdamkotasmg.pekerjaan_teknik_feature.model.tagihan;
+
+import com.google.gson.annotations.SerializedName;
+
+public class TunggakanItem{
+
+    @SerializedName("pemakaian")
+    private String pemakaian;
+
+    @SerializedName("tagihan")
+    private int tagihan;
+
+    @SerializedName("tahun")
+    private String tahun;
+
+    @SerializedName("bulan_name")
+    private String bulanName;
+
+    @SerializedName("is_terbayar")
+    private boolean isTerbayar;
+
+    @SerializedName("bulan")
+    private String bulan;
+
+    @SerializedName("periode")
+    private String periode;
+
+    public void setPemakaian(String pemakaian){
+        this.pemakaian = pemakaian;
+    }
+
+    public String getPemakaian(){
+        return pemakaian;
+    }
+
+    public void setTagihan(int tagihan){
+        this.tagihan = tagihan;
+    }
+
+    public int getTagihan(){
+        return tagihan;
+    }
+
+    public void setTahun(String tahun){
+        this.tahun = tahun;
+    }
+
+    public String getTahun(){
+        return tahun;
+    }
+
+    public void setBulanName(String bulanName){
+        this.bulanName = bulanName;
+    }
+
+    public String getBulanName(){
+        return bulanName;
+    }
+
+    public void setIsTerbayar(boolean isTerbayar){
+        this.isTerbayar = isTerbayar;
+    }
+
+    public boolean isIsTerbayar(){
+        return isTerbayar;
+    }
+
+    public void setBulan(String bulan){
+        this.bulan = bulan;
+    }
+
+    public String getBulan(){
+        return bulan;
+    }
+
+    public void setPeriode(String periode){
+        this.periode = periode;
+    }
+
+    public String getPeriode(){
+        return periode;
+    }
+}
