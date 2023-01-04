@@ -12,18 +12,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.ads.AdView;
 
 import id.pdamkotasmg.pekerjaan_teknik_feature.R;
-import id.pdamkotasmg.pekerjaan_teknik_feature.activity.home.HomeActivity;
-import id.pdamkotasmg.pekerjaan_teknik_feature.activity.login.LoginActivity;
+import id.pdamkotasmg.pekerjaan_teknik_feature.activity.home.HomeSPKActivity;
+import id.pdamkotasmg.pekerjaan_teknik_feature.activity.login.LoginSPKActivity;
 import id.pdamkotasmg.pekerjaan_teknik_feature.utils.Config;
 
-public class SplashScreenActivity extends AppCompatActivity {
+public class SplashScreenSPKActivity extends AppCompatActivity {
 
     private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
+        setContentView(R.layout.activity_splash_spk_screen);
         getSupportActionBar().hide();
         initView();
 
@@ -34,12 +34,12 @@ public class SplashScreenActivity extends AppCompatActivity {
             // TODO jika belum masuk ke LoginActivity
             if (telepon.equalsIgnoreCase("") || TextUtils.isEmpty(telepon)) {
                 finishAffinity();
-                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                startActivity(new Intent(SplashScreenSPKActivity.this, LoginSPKActivity.class));
             }
             // TODO  jika sudah nantinya akan masuk ke Home
             else {
-                finishAffinity();
-                startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
+                finish();
+                startActivity(new Intent(SplashScreenSPKActivity.this, HomeSPKActivity.class));
                 Log.d("nohp", "run: " + telepon);
             }
 

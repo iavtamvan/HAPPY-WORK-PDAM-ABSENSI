@@ -31,12 +31,12 @@ import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.an.deviceinfo.device.model.Device;
 import com.google.android.gms.ads.AdView;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.Random;
 
 import id.pdamkotasmg.pekerjaan_teknik_feature.R;
-import id.pdamkotasmg.pekerjaan_teknik_feature.activity.login.LoginActivity;
+import id.pdamkotasmg.pekerjaan_teknik_feature.activity.login.LoginSPKActivity;
 import id.pdamkotasmg.pekerjaan_teknik_feature.activity.spk.InputSpkActivity;
 import id.pdamkotasmg.pekerjaan_teknik_feature.activity.spk.VerifikasiActivity;
 import id.pdamkotasmg.pekerjaan_teknik_feature.activity.spk.callCenter.DaftarCallCenterActivity;
@@ -57,6 +57,7 @@ import id.pdamkotasmg.pekerjaan_teknik_feature.adapter.WarningAdapter;
 import id.pdamkotasmg.pekerjaan_teknik_feature.api.ApiConfig;
 import id.pdamkotasmg.pekerjaan_teknik_feature.api.ApiService;
 import id.pdamkotasmg.pekerjaan_teknik_feature.model.akun.login.LoginRootModel;
+import id.pdamkotasmg.pekerjaan_teknik_feature.model.monitoring.MonitoringSPKRootModel;
 import id.pdamkotasmg.pekerjaan_teknik_feature.model.progressMandor.ProgressMandorRootModel;
 import id.pdamkotasmg.pekerjaan_teknik_feature.model.warning.DataItem;
 import id.pdamkotasmg.pekerjaan_teknik_feature.model.warning.WarningRootModel;
@@ -96,18 +97,13 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
     private String getSdkVersion;
 
     private CardView cvKlikInstagram;
-    private CardView cvKlikFacebook;
-    private CardView cvKlikGmail;
     private LinearLayout divContainerInputSpk;
     private LinearLayout divContainerRiwayatSpk;
-    private TextView toolbarName;
-    private TextView toolbarSatkerSubsatker;
     private CardView cvKlikWa;
     private LinearLayout divContainerVerifikasiPerbaikan;
     private LinearLayout divContainerRiwayatVerifikasi;
     //    private LinearLayout divContainerHubungiPti;
     private AdView adView;
-    private LottieAnimationView ltKecoa;
     private LinearLayout divSurveyPelanggan;
     private LinearLayout divContainerCallCenter;
     private TextView tvAkses;
@@ -117,7 +113,6 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
     private TextView tvPekerjaanCabangSatker;
     private TextView tvPekerjaanSelesai;
     private TextView tvPekerjaanBelumSelesai;
-    private ImageView ivRefreshProgress;
     private RecyclerView rv;
     //    private ImageView ivHeader;
     private LinearLayout divContainerRiwayatAmbilPerbaikan;
@@ -125,6 +120,18 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
     private TextView tvHeaderJudul;
     private ImageView ivHeaderInfo;
     private TextView tvNameProgress;
+
+    private ImageView ivRefresh;
+    private TextView tvPoint;
+    private TextView tvGood;
+    private TextView tvNamePegawai;
+    private TextView tvSatker;
+    private TextView tvTotalWorkTrd;
+    private TextView tvTotalWorkPka;
+    private TextView tvTotalWorkCabBarat;
+    private TextView tvTotalWorkCabUtara;
+    private TextView tvTotalWorkCabSelatan;
+    private TextView tvTotalWorkCabTimur;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("SetTextI18n")
@@ -164,8 +171,26 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
 
         progressDialog = new ProgressDialog(HomeSPKActivity.this);
         progressDialog.setCancelable(false);
-//        getSyncPengaduan();
+        progressDialog.show();
         getAuthMe();
+        getProgres();
+        getWarning();
+        getMonitoring();
+
+        Calendar c = Calendar.getInstance();
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+
+        if (timeOfDay >= 0 && timeOfDay < 11) {
+            tvGood.setText("Good Morning \uD83C\uDF04");
+        } else if (timeOfDay >= 11 && timeOfDay < 15) {
+            tvGood.setText("Good Afternoon \uD83C\uDF1E");
+        } else if (timeOfDay >= 15 && timeOfDay < 18) {
+            tvGood.setText("Good Evening \uD83C\uDF25");
+        } else if (timeOfDay >= 18 && timeOfDay < 24) {
+            tvGood.setText("Good Night \uD83D\uDECC \uD83D\uDCA4");
+        }
+        tvNamePegawai.setText(name + " \uD83D\uDC4B");
+        tvSatker.setText(satker + " - " + subSatker);
 
         divContainerInputSpk.setOnClickListener(v -> {
             String statusBooking = sharedPreferences.getString(Config.SHARED_STATU_BOOKING, "");
@@ -229,8 +254,11 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
             dpd.setThemeDark(true);
             dpd.show(getSupportFragmentManager(), "Datepickerdialog");
         });
-        ivRefreshProgress.setOnClickListener(v -> {
+        ivRefresh.setOnClickListener(v -> {
+            getAuthMe();
             getProgres();
+            getWarning();
+            getMonitoring();
 //            showNotification(HomeSPKActivity.this, "Berhasil singkron", "Mantappss");
 //            showNotificationMessage(HomeSPKActivity.this, "Berhasil singkron", "Mantappss");
         });
@@ -250,7 +278,7 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
         String channelId = "notification_channel_3";
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent = new Intent(context.getApplicationContext(), LoginActivity.class);
+        Intent intent = new Intent(context.getApplicationContext(), LoginSPKActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context.getApplicationContext(),
                 0, intent, PendingIntent.FLAG_MUTABLE);
@@ -390,11 +418,9 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
                             if (list.contains("pekerjaan-teknik.ads-banner")) {
                                 Log.d(TAG, "pekerjaan-teknik.ads-banner: true ");
                                 adView.setVisibility(View.VISIBLE);
-                                ltKecoa.setVisibility(View.VISIBLE);
                             } else {
                                 Log.d(TAG, "fail: ");
                                 adView.setVisibility(View.GONE);
-                                ltKecoa.setVisibility(View.GONE);
                             }
 
                             // TODO input SPK
@@ -409,7 +435,6 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
 
                                 divProgress.setVisibility(View.VISIBLE);
                                 getProgres();
-                                getWarning();
 
 //                                    divContainerHubungiPti.setVisibility(View.GONE);
                             } else {
@@ -502,9 +527,8 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
                             tvPekerjaanCabangSatker.setText(response.body().getData().getCabBlnIni());
                             tvPekerjaanSelesai.setText(response.body().getData().getJmlBulanSelesai());
                             tvPekerjaanBelumSelesai.setText(response.body().getData().getJmlBulanBlmSelesai());
-                            getWarning();
+                            tvPoint.setText("\uD83C\uDF1F " + response.body().getData().getPoint() + " Points \uD83C\uDF1F");
                             progressDialog.cancel();
-                            showNotification(HomeSPKActivity.this, "Berhasil singkron SPK", "Ayo Kerja \uD83E\uDD38\uD83C\uDFFD\u200D♂️⛹\uD83C\uDFFD\u200D♀️ ⛹\uD83C\uDFFD ⛹\uD83C\uDFFD\u200D♂️ \uD83C\uDFCB\uD83C\uDFFD\u200D♀️ \uD83C\uDFCB\uD83C\uDFFD \uD83C\uDFCB\uD83C\uDFFD\u200D♂️");
                         }
                     }
 
@@ -516,6 +540,51 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
                 });
     }
 
+    private void getMonitoring() {
+        ApiService apiService = ApiConfig.getApiService(Config.BASE_URL);
+        apiService.getMonitoring(token).enqueue(new Callback<MonitoringSPKRootModel>() {
+            @Override
+            public void onResponse(Call<MonitoringSPKRootModel> call, Response<MonitoringSPKRootModel> response) {
+                if (response.isSuccessful()) {
+                    progressDialog.cancel();
+                    String mBelumSelesai = response.body().getData().getMonitoringStatusBelumSelesai();
+                    String mSelesai = response.body().getData().getMonitoringStatusSelesai();
+                    String mRehap = response.body().getData().getMonitoringStatusRehap();
+                    String mVerifikasiDanBelumDiverifikasi = response.body().getData().getMonitoringJumlahPekerjaanDiverifikasi() +
+                            "/"
+                            + response.body().getData().getMonitoringJumlahPekerjaanBelumDiverifikasi();
+                    String mTotalPekerjaan = response.body().getData().getMonitoringJumlahPekerjaanSemua();
+                    String mJumlahPekerjaanSemuaTRD = response.body().getData().getMonitoring_jumlah_pekerjaan_semua_TRD();
+                    String mJumlahPekerjaanSemuaPKA = response.body().getData().getMonitoring_jumlah_pekerjaan_semua_PKA();
+                    String mJumlahPekerjaanSemuaSLT = response.body().getData().getMonitoring_jumlah_pekerjaan_semua_SLT();
+                    String mJumlahPekerjaanSemuaBRT = response.body().getData().getMonitoring_jumlah_pekerjaan_semua_BRT();
+                    String mJumlahPekerjaanSemuaUTR = response.body().getData().getMonitoring_jumlah_pekerjaan_semua_UTR();
+                    String mJumlahPekerjaanSemuaTMR = response.body().getData().getMonitoring_jumlah_pekerjaan_semua_TMR();
+
+                    tvTotalWorkTrd.setText(mJumlahPekerjaanSemuaTRD + " Work");
+                    tvTotalWorkPka.setText(mJumlahPekerjaanSemuaPKA + " Work");
+                    tvTotalWorkCabSelatan.setText(mJumlahPekerjaanSemuaSLT + " Work");
+                    tvTotalWorkCabBarat.setText(mJumlahPekerjaanSemuaBRT + " Work");
+                    tvTotalWorkCabUtara.setText(mJumlahPekerjaanSemuaUTR + " Work");
+                    tvTotalWorkCabTimur.setText(mJumlahPekerjaanSemuaTMR + " Work");
+
+//                    tvPekerjaanBelumSelesai.setText(mBelumSelesai);
+//                    tvPekerjaanSelesai.setText(mSelesai);
+//                    tvPekerjaanRehap.setText(mRehap);
+//                    tvPekerjaanVerifikasiBlmverifikasi.setText(mVerifikasiDanBelumDiverifikasi);
+//                    tvPekerjaanPekerjaanSemua.setText(mTotalPekerjaan);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MonitoringSPKRootModel> call, Throwable t) {
+                progressDialog.cancel();
+                Toast.makeText(HomeSPKActivity.this, "Gagal mengambil data Monitoring", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void initView() {
         cvKlikInstagram = findViewById(R.id.cv_klik_instagram);
         divContainerInputSpk = findViewById(R.id.div_container_input_spk);
@@ -525,7 +594,6 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
         divContainerRiwayatVerifikasi = findViewById(R.id.div_container_riwayat_verifikasi);
 //        divContainerHubungiPti = findViewById(R.id.div_container_hubungi_pti);
         adView = findViewById(R.id.adView);
-        ltKecoa = findViewById(R.id.lt_kecoa);
         divSurveyPelanggan = findViewById(R.id.div_survey_pelanggan);
         divContainerCallCenter = findViewById(R.id.div_container_call_center);
         tvAkses = findViewById(R.id.tv_akses);
@@ -535,7 +603,6 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
         tvPekerjaanCabangSatker = findViewById(R.id.tv_pekerjaan_cabang_satker);
         tvPekerjaanSelesai = findViewById(R.id.tv_pekerjaan_selesai);
         tvPekerjaanBelumSelesai = findViewById(R.id.tv_pekerjaan_belum_selesai);
-        ivRefreshProgress = findViewById(R.id.iv_refresh_progress);
         rv = findViewById(R.id.rv);
 //        ivHeader = findViewById(R.id.iv_header);
         divContainerRiwayatAmbilPerbaikan = findViewById(R.id.div_container_riwayat_ambil_perbaikan);
@@ -543,6 +610,17 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
         tvHeaderJudul = findViewById(R.id.tv_header_judul);
         ivHeaderInfo = findViewById(R.id.iv_header_info);
         tvNameProgress = findViewById(R.id.tv_name_progress);
+        ivRefresh = findViewById(R.id.iv_refresh);
+        tvPoint = findViewById(R.id.tv_point);
+        tvGood = findViewById(R.id.tv_good);
+        tvNamePegawai = findViewById(R.id.tv_name_pegawai);
+        tvSatker = findViewById(R.id.tv_satker);
+        tvTotalWorkTrd = findViewById(R.id.tv_total_work_trd);
+        tvTotalWorkPka = findViewById(R.id.tv_total_work_pka);
+        tvTotalWorkCabBarat = findViewById(R.id.tv_total_work_cab_barat);
+        tvTotalWorkCabUtara = findViewById(R.id.tv_total_work_cab_utara);
+        tvTotalWorkCabSelatan = findViewById(R.id.tv_total_work_cab_selatan);
+        tvTotalWorkCabTimur = findViewById(R.id.tv_total_work_cab_timur);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -586,5 +664,22 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        //        super.onBackPressed();
+        MaterialDialog mDialog = new MaterialDialog.Builder(HomeSPKActivity.this)
+                .setTitle("Kembali ke GOOD DAY?")
+                .setCancelable(false)
+                .setNegativeButton("Tidak", (dialogInterface, which) -> {
+                    dialogInterface.dismiss();
+                })
+                .setPositiveButton("Ya", (dialogInterface, which) -> {
+                    finish();
+                })
+                .build();
+
+        mDialog.show();
     }
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <ScrollView
@@ -282,13 +282,6 @@
                             android:textColor="@android:color/black"
                             android:textSize="14dp"
                             android:textStyle="bold" />
-
-                        <ImageView
-                            android:id="@+id/iv_refresh_progress"
-                            android:layout_width="50dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/refresh_progress" />
-
 
                     </LinearLayout>
 
@@ -612,12 +605,14 @@
                     android:text="Contact Me"
                     android:textColor="@android:color/black"
                     android:textSize="12dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cv_klik_instagram"
@@ -666,40 +661,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:orientation="vertical">
-
-                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/adView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone"
-                    ads:adSize="LARGE_BANNER"
-                    ads:adUnitId="ca-app-pub-6810772781589252/4208134634" />
-
-            </LinearLayout>
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lt_kecoa"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_gravity="bottom"
-                android:visibility="gone"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
-                app:lottie_autoPlay="true"
-                app:lottie_fileName="coro.json"
-                app:lottie_loop="true"
-                app:lottie_speed="1"
-                tools:ignore="MissingConstraints" />
-
         </LinearLayout>
-
     </ScrollView>
-
-
 </LinearLayout>

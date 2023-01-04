@@ -217,7 +217,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/dash_v2_blueDarkLight"
+                    android:backgroundTint="@color/dash_v2_blueLightBanget"
                     app:cardCornerRadius="10dp">
 
                     <LinearLayout

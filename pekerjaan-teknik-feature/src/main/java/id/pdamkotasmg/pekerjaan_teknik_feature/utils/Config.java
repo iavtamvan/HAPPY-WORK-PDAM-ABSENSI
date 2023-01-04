@@ -26,7 +26,7 @@ import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import java.util.Random;
 
 import id.pdamkotasmg.pekerjaan_teknik_feature.R;
-import id.pdamkotasmg.pekerjaan_teknik_feature.activity.login.LoginActivity;
+import id.pdamkotasmg.pekerjaan_teknik_feature.activity.login.LoginSPKActivity;
 
 public final class Config {
 //    public static final String BASE_URL_PORTAL_PEGAWAI = "https://gateway.pdamkotasmg.co.id/api-gw-dev/portal-pegawai/"; // dev
@@ -191,7 +191,7 @@ public final class Config {
         editor.putString(Config.SHARED_FIREBASE_TOKEN, "");
 //        editor.putString("regId", "");
         editor.apply();
-        context.startActivity(new Intent(context, LoginActivity.class));
+        context.startActivity(new Intent(context, LoginSPKActivity.class));
     }
 
     public static void popUpSuccesIntent(Activity activity, String message, Class toActivity) {
@@ -261,7 +261,7 @@ public final class Config {
         String channelId = "notification_channel_3";
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent = new Intent(context.getApplicationContext(), LoginActivity.class);
+        Intent intent = new Intent(context.getApplicationContext(), LoginSPKActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context.getApplicationContext(),
                 0, intent, PendingIntent.FLAG_MUTABLE);

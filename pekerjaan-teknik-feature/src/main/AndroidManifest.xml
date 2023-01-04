@@ -53,7 +53,7 @@
             android:name=".activity.spk.VerifikasiActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.splash.SplashScreenActivity"
+            android:name=".activity.splash.SplashScreenSPKActivity"
             android:exported="false"/>
         <activity android:name=".activity.spk.riwayat.DetailRiwayatSpkActivity" />
         <activity
@@ -63,7 +63,7 @@
             android:name=".activity.home.HomeActivity"
             android:label="@string/title_activity_home" />
         <activity android:name=".activity.spk.search.SearchPengawasActivity" />
-        <activity android:name=".activity.login.LoginActivity" />
+        <activity android:name=".activity.login.LoginSPKActivity" />
         <activity android:name=".activity.spk.InputSpkActivity" />
 
         <meta-data

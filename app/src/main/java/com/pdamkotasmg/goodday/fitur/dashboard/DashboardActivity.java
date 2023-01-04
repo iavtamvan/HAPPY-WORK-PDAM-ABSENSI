@@ -216,7 +216,6 @@ public class DashboardActivity extends AppCompatActivity {
         });
         divOther.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), ListWebViewActivity.class));
-//            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
         });
 
         divPayslip.setOnClickListener(v -> {

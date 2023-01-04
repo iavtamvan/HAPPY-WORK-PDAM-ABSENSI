@@ -31,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginSPKActivity extends AppCompatActivity {
     private static final String TAG = "debug";
     private static final int RC_CAMERA_AND_LOCATION = 1;
 
@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_spk);
         getSupportActionBar().hide();
         initView();
 
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+        ProgressDialog progressDialog = new ProgressDialog(LoginSPKActivity.this);
         progressDialog.setMessage("Mohon tunggu ...");
         progressDialog.setCancelable(false);
         progressDialog.show();
@@ -214,14 +214,14 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                         } else {
                             progressDialog.cancel();
-                            Toast.makeText(LoginActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginSPKActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<LoginRootModel> call, Throwable t) {
                         progressDialog.cancel();
-                        Toast.makeText(LoginActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginSPKActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -246,7 +246,7 @@ public class LoginActivity extends AppCompatActivity {
                 , Manifest.permission.WRITE_SECURE_SETTINGS
                 , Manifest.permission.WRITE_EXTERNAL_STORAGE
                 , Manifest.permission.READ_EXTERNAL_STORAGE};
-        if (EasyPermissions.hasPermissions(LoginActivity.this, perms)) {
+        if (EasyPermissions.hasPermissions(LoginSPKActivity.this, perms)) {
             // Already have permission, do the thing
             Log.d(TAG, "methodRequiresTwoPermission: Sukses");
         } else {

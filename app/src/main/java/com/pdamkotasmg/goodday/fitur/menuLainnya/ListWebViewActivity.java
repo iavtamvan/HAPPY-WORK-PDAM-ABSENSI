@@ -15,7 +15,7 @@ import com.google.android.gms.ads.AdView;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.utils.Config;
 
-import id.pdamkotasmg.pekerjaan_teknik_feature.activity.splash.SplashScreenActivity;
+import id.pdamkotasmg.pekerjaan_teknik_feature.activity.splash.SplashScreenSPKActivity;
 
 public class ListWebViewActivity extends AppCompatActivity {
 
@@ -71,7 +71,7 @@ public class ListWebViewActivity extends AppCompatActivity {
         });
 
         divPekerjaanTeknik.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+            startActivity(new Intent(getApplicationContext(), SplashScreenSPKActivity.class));
         });
 
     }
