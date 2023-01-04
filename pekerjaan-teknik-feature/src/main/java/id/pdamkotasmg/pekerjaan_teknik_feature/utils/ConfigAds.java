@@ -22,7 +22,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
-import id.pdamkotasmg.pekerjaan_teknik_feature.activity.home.HomeActivity;
+import id.pdamkotasmg.pekerjaan_teknik_feature.activity.home.HomeSPKActivity;
 import id.pdamkotasmg.pekerjaan_teknik_feature.activity.login.LoginSPKActivity;
 
 public final class ConfigAds {
@@ -223,7 +223,7 @@ public final class ConfigAds {
                     // TODO  jika sudah nantinya akan masuk ke Home
                     else {
                         ((Activity) context).finishAffinity();
-                        context.startActivity(new Intent(context, HomeActivity.class));
+                        context.startActivity(new Intent(context, HomeSPKActivity.class));
                         Log.d("nohp", "run: " + telepon);
                     }
                 }, 2000);

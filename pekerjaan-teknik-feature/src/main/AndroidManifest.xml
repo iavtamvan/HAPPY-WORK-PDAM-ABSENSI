@@ -47,8 +47,7 @@
             android:exported="false" />
         <activity
             android:name=".activity.spk.riwayat.RiwayatVerifikasiActivity"
-            android:exported="false"
-            android:parentActivityName=".activity.home.HomeActivity" />
+            android:exported="false"/>
         <activity
             android:name=".activity.spk.VerifikasiActivity"
             android:exported="false" />
@@ -57,11 +56,7 @@
             android:exported="false"/>
         <activity android:name=".activity.spk.riwayat.DetailRiwayatSpkActivity" />
         <activity
-            android:name=".activity.spk.riwayat.RiwayatSpkActivity"
-            android:parentActivityName=".activity.home.HomeActivity" />
-        <activity
-            android:name=".activity.home.HomeActivity"
-            android:label="@string/title_activity_home" />
+            android:name=".activity.spk.riwayat.RiwayatSpkActivity" />
         <activity android:name=".activity.spk.search.SearchPengawasActivity" />
         <activity android:name=".activity.login.LoginSPKActivity" />
         <activity android:name=".activity.spk.InputSpkActivity" />

@@ -106,7 +106,6 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
     private AdView adView;
     private LinearLayout divSurveyPelanggan;
     private LinearLayout divContainerCallCenter;
-    private TextView tvAkses;
     private LinearLayout divContainerSyncCallCenter;
     private LinearLayout divProgress;
     private TextView tvPekerjaanDiambil;
@@ -357,10 +356,8 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
                         progressDialog.cancel();
                         if (response.isSuccessful()) {
                             Toast.makeText(HomeSPKActivity.this, "Sinkronisasi Berhasil", Toast.LENGTH_SHORT).show();
-//                            getAuthMe();
                         } else {
                             Toast.makeText(HomeSPKActivity.this, "Sinkronisasi Pengaduan Gagal, Hubungi PTI " + response.message(), Toast.LENGTH_SHORT).show();
-                            tvAkses.setText("Sinkronisasi Pengaduan Gagal, Hubungi PTI");
                         }
                     }
 
@@ -596,7 +593,6 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
         adView = findViewById(R.id.adView);
         divSurveyPelanggan = findViewById(R.id.div_survey_pelanggan);
         divContainerCallCenter = findViewById(R.id.div_container_call_center);
-        tvAkses = findViewById(R.id.tv_akses);
         divContainerSyncCallCenter = findViewById(R.id.div_container_sync_call_center);
         divProgress = findViewById(R.id.div_progress);
         tvPekerjaanDiambil = findViewById(R.id.tv_pekerjaan_diambil);

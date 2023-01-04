@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import id.pdamkotasmg.pekerjaan_teknik_feature.R;
-import id.pdamkotasmg.pekerjaan_teknik_feature.activity.home.HomeActivity;
+import id.pdamkotasmg.pekerjaan_teknik_feature.activity.home.HomeSPKActivity;
 import id.pdamkotasmg.pekerjaan_teknik_feature.api.ApiConfig;
 import id.pdamkotasmg.pekerjaan_teknik_feature.api.ApiService;
 import id.pdamkotasmg.pekerjaan_teknik_feature.model.akun.login.Data;
@@ -211,7 +211,7 @@ public class LoginSPKActivity extends AppCompatActivity {
                             editor.apply();
                             progressDialog.cancel();
                             finishAffinity();
-                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                            startActivity(new Intent(getApplicationContext(), HomeSPKActivity.class));
                         } else {
                             progressDialog.cancel();
                             Toast.makeText(LoginSPKActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
