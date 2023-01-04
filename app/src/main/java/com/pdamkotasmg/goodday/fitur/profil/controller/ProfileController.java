@@ -30,6 +30,7 @@ public class ProfileController {
                         if (response.isSuccessful()){
                             Toast.makeText(context, "" + response.message().toUpperCase() + " KELUAR", Toast.LENGTH_SHORT).show();
                             Config.logout(context);
+                            id.pdamkotasmg.pekerjaan_teknik_feature.utils.Config.logout(context);
                         }
                     }
 

@@ -131,6 +131,7 @@ public class HomeActivity extends AppCompatActivity {
         tvNamePegawai.setText(name + " \uD83D\uDC4B");
         tvSatker.setText(satker + " - " + subSatker);
 
+        ivLogout.setVisibility(View.GONE);
         ivLogout.setOnClickListener(v -> {
             MaterialDialog mDialog = new MaterialDialog.Builder(HomeActivity.this)
                     .setTitle("Logout dari aplikasi?")
@@ -277,13 +278,14 @@ public class HomeActivity extends AppCompatActivity {
                             Log.d(TAG, "update APK: " + data.get(0).getUpdateApk().get(i));
                             updateApkList.add(data.get(0).getUpdateApk().get(i));
                         }
+                        String versi_apps = "6.0"; // TODO harus diganti saat mau upload ke PlayStore
                         String resultUpdateApk = TextUtils.join(", \n", updateApkList);
                         Log.d(TAG, "update APK: " + resultUpdateApk);
 
 //                        if (!npp.contains("6908321002")) {
-//                        if (!resultUpdateApk.equals(BuildConfig)) {
+//                        if (!resultUpdateApk.equals(versi_apps)) {
 //                            MaterialDialog mDialog = new MaterialDialog.Builder(HomeActivity.this)
-//                                    .setTitle("Aplikasi harus di update ke versi " + resultUpdateApk + ", \nsekarang memakai aplikasi versi " + BuildConfig.VERSION_NAME)
+//                                    .setTitle("Aplikasi harus di update ke versi " + resultUpdateApk + ", \nsekarang memakai aplikasi versi " + versi_apps)
 //                                    .setMessage(data.get(0).getMessaggeUpdate().toString().replace("[", "").replace("]", "").replace(",", "\n"))
 //                                    .setCancelable(false)
 //                                    .setPositiveButton("Update Sekarang", (dialogInterface, which) -> {

@@ -15,6 +15,8 @@ import com.google.android.gms.ads.AdView;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.utils.Config;
 
+import id.pdamkotasmg.pekerjaan_teknik_feature.activity.splash.SplashScreenActivity;
+
 public class ListWebViewActivity extends AppCompatActivity {
 
     private String typeWebView;
@@ -27,6 +29,7 @@ public class ListWebViewActivity extends AppCompatActivity {
     private CardView divWablast;
     private CardView divSurveyPelanggan;
     private AdView adView;
+    private CardView divPekerjaanTeknik;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,10 @@ public class ListWebViewActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), WebViewActivity.class));
         });
 
+        divPekerjaanTeknik.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), SplashScreenActivity.class));
+        });
+
     }
 
     private void saveShared(String typeWebView) {
@@ -85,5 +92,6 @@ public class ListWebViewActivity extends AppCompatActivity {
         divWablast = findViewById(R.id.div_wablast);
         divSurveyPelanggan = findViewById(R.id.div_survey_pelanggan);
         adView = findViewById(R.id.adView);
+        divPekerjaanTeknik = findViewById(R.id.div_pekerjaan_teknik);
     }
 }
