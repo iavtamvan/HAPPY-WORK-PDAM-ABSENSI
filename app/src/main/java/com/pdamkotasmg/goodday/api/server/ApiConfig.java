@@ -21,6 +21,7 @@ public class ApiConfig {
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(chuckerInterceptor)
+                .addInterceptor(httpLoggingInterceptor)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()

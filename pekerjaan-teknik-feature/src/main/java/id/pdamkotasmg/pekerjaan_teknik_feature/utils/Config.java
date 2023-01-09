@@ -191,7 +191,6 @@ public final class Config {
         editor.putString(Config.SHARED_FIREBASE_TOKEN, "");
 //        editor.putString("regId", "");
         editor.apply();
-        context.startActivity(new Intent(context, LoginSPKActivity.class));
     }
 
     public static void popUpSuccesIntent(Activity activity, String message, Class toActivity) {
