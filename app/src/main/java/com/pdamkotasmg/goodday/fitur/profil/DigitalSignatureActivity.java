@@ -131,52 +131,52 @@ public class DigitalSignatureActivity extends AppCompatActivity {
             });
 
             btnSave.setOnClickListener(view1 -> {
-//                if (signaturePad.isEmpty() || compressedImageFile == null) {
-//                    Toast.makeText(this, "Unggah KTP Terlebih Dahulu", Toast.LENGTH_SHORT).show();
-//                } else {
+                if (signaturePad.isEmpty() || compressedImageFile == null) {
+                    Toast.makeText(this, "Unggah KTP Terlebih Dahulu", Toast.LENGTH_SHORT).show();
+                } else {
 
-                Log.d(TAG, "getSignatureBitmap: " + signaturePad.getSignatureBitmap());
-                Log.d(TAG, "getTransparentSignatureBitmap: " + signaturePad.getTransparentSignatureBitmap());
+                    Log.d(TAG, "getSignatureBitmap: " + signaturePad.getSignatureBitmap());
+                    Log.d(TAG, "getTransparentSignatureBitmap: " + signaturePad.getTransparentSignatureBitmap());
 
-                // Assume block needs to be inside a Try/Catch block.
-                Date currentTime = Calendar.getInstance().getTime();
-                Log.d(TAG, "currentTime: " + currentTime.getTime());
+                    // Assume block needs to be inside a Try/Catch block.
+                    Date currentTime = Calendar.getInstance().getTime();
+                    Log.d(TAG, "currentTime: " + currentTime.getTime());
 
 //                    File path = Environment.getExternalStorageDirectory();
-                File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                    File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM); // save Dir paling aman di android 7 - 13
 //                File path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "/PDAM");
 //                path.mkdir();
-                OutputStream fOut = null;
-                Integer counter = 0;
-                File file = new File(path, "files_DS_" + npp + "_" + currentTime.getTime() + ".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
-                try {
-                    fOut = new FileOutputStream(file);
-                    Bitmap pictureBitmap = signaturePad.getSignatureBitmap(); // obtaining the Bitmap
-                    pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
-                    fOut.flush(); // Not really required
-                    fOut.close(); // do not forget to close the stream
+                    OutputStream fOut = null;
+                    Integer counter = 0;
+                    File file = new File(path, "files_DS_" + npp + "_" + currentTime.getTime() + ".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
+                    try {
+                        fOut = new FileOutputStream(file);
+                        Bitmap pictureBitmap = signaturePad.getSignatureBitmap(); // obtaining the Bitmap
+                        pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
+                        fOut.flush(); // Not really required
+                        fOut.close(); // do not forget to close the stream
 
-                    MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
-                    fileTTE = file.getAbsolutePath();
-                    Log.d(TAG, "getAbsolutePath: " + file.getAbsolutePath());
-                    Log.d(TAG, "getName: " + file.getName());
-                    codeTTE = "1";
+                        MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+                        fileTTE = file.getAbsolutePath();
+                        Log.d(TAG, "getAbsolutePath: " + file.getAbsolutePath());
+                        Log.d(TAG, "getName: " + file.getName());
+                        codeTTE = "1";
 
-                    bottomSheetDialogDS.dismiss();
+                        bottomSheetDialogDS.dismiss();
 
-                    Glide.with(DigitalSignatureActivity.this).load(fileTTE).into(ivTte);
+                        Glide.with(DigitalSignatureActivity.this).load(fileTTE).into(ivTte);
 
-                    Glide.with(DigitalSignatureActivity.this).load(fileTTE).into(ivFotoResuiltDrawTte);
-                    ivFotoResuiltDrawTte.setVisibility(View.VISIBLE);
-                    divDigitalSignatureCreate.setVisibility(View.GONE);
+                        Glide.with(DigitalSignatureActivity.this).load(fileTTE).into(ivFotoResuiltDrawTte);
+                        ivFotoResuiltDrawTte.setVisibility(View.VISIBLE);
+                        divDigitalSignatureCreate.setVisibility(View.GONE);
 
 //                        Config.deleteFiles(compressedImageFile.getPath(), "ImageCompressed");
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-//                }
+                }
 
             });
 

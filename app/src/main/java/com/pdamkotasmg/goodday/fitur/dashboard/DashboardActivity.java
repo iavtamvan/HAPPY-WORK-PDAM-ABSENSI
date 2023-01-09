@@ -238,6 +238,7 @@ public class DashboardActivity extends AppCompatActivity {
                     .setNegativeButton("Gak", (dialogInterface, which) -> dialogInterface.dismiss())
                     .setPositiveButton("Iya", (dialogInterface, which) -> {
                         profileController.logout(DashboardActivity.this);
+                        dialogInterface.dismiss();
                     })
                     .build();
 
