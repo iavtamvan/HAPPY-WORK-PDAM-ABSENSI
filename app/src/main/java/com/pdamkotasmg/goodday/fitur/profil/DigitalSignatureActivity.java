@@ -142,7 +142,7 @@ public class DigitalSignatureActivity extends AppCompatActivity {
                 Log.d(TAG, "currentTime: " + currentTime.getTime());
 
 //                    File path = Environment.getExternalStorageDirectory();
-                File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
 //                File path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "/PDAM");
 //                path.mkdir();
                 OutputStream fOut = null;

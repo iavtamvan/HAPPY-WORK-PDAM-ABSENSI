@@ -6,16 +6,27 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.utils.Config;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Calendar;
+import java.util.Date;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -25,6 +36,8 @@ public class QrCodeActivity extends AppCompatActivity {
     private String npp;
     private String nama;
     private String jabatan;
+
+    private Bitmap saveBitmapQRCode;
 
     private static final String TAG = "debug";
     private ImageView ivHeaderBackArrow;
@@ -37,6 +50,9 @@ public class QrCodeActivity extends AppCompatActivity {
     private TextView tvNpp;
     private LottieAnimationView animationView;
     private ImageView ivScan;
+    private LinearLayout divQrCode;
+    private LinearLayout divSimpanQrCode;
+    private ImageView ivLogoGDQrCode;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -69,6 +85,37 @@ public class QrCodeActivity extends AppCompatActivity {
             QrCodeActivity.this.finish();
         });
 
+        divSimpanQrCode.setOnClickListener(view -> {
+            divQrCode.setDrawingCacheEnabled(true);
+            divQrCode.buildDrawingCache(true);
+            saveBitmapQRCode = Bitmap.createBitmap(divQrCode.getDrawingCache());
+
+            // Assume block needs to be inside a Try/Catch block.
+            Date currentTime = Calendar.getInstance().getTime();
+            Log.d(TAG, "currentTime: " + currentTime.getTime());
+
+            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+            OutputStream fOut = null;
+            File file = new File(path, "files_QR_CODE_" + npp + "_" + currentTime.getTime() + ".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
+            try {
+                fOut = new FileOutputStream(file);
+                saveBitmapQRCode.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
+                fOut.flush(); // Not really required
+                fOut.close(); // do not forget to close the stream
+
+                MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+                Log.d(TAG, "getAbsolutePath QRCode: " + file.getAbsolutePath());
+                Log.d(TAG, "getName QRCode: " + file.getName());
+
+                Toast.makeText(this, "Berhasil simpan di Gallery", Toast.LENGTH_SHORT).show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        });
+
     }
 
     private void initView() {
@@ -81,5 +128,8 @@ public class QrCodeActivity extends AppCompatActivity {
         tvNpp = findViewById(R.id.tv_npp);
         animationView = findViewById(R.id.animation_view);
         ivScan = findViewById(R.id.iv_scan);
+        divQrCode = findViewById(R.id.div_qr_code);
+        divSimpanQrCode = findViewById(R.id.div_simpan_qr_code);
+        ivLogoGDQrCode = findViewById(R.id.iv_logo_GD_qr_code);
     }
 }
