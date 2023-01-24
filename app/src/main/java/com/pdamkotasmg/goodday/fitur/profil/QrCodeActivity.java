@@ -1,6 +1,7 @@
 package com.pdamkotasmg.goodday.fitur.profil;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -86,6 +87,10 @@ public class QrCodeActivity extends AppCompatActivity {
         });
 
         divSimpanQrCode.setOnClickListener(view -> {
+            ProgressDialog progressDialog = new ProgressDialog(QrCodeActivity.this);
+            progressDialog.show();
+            progressDialog.setMessage("Mohon Tunggu");
+            progressDialog.setCancelable(false);
             divQrCode.setDrawingCacheEnabled(true);
             divQrCode.buildDrawingCache(true);
             saveBitmapQRCode = Bitmap.createBitmap(divQrCode.getDrawingCache());
@@ -107,9 +112,12 @@ public class QrCodeActivity extends AppCompatActivity {
                 Log.d(TAG, "getAbsolutePath QRCode: " + file.getAbsolutePath());
                 Log.d(TAG, "getName QRCode: " + file.getName());
 
+                progressDialog.dismiss();
                 Toast.makeText(this, "Berhasil simpan di Gallery", Toast.LENGTH_SHORT).show();
+                Config.showNotification(QrCodeActivity.this, "QR Code", "Berhasil menyimpan QR Code, cek di Gallery!");
 
             } catch (IOException e) {
+                progressDialog.dismiss();
                 e.printStackTrace();
             }
 
