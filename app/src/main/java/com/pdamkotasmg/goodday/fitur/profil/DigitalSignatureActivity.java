@@ -112,6 +112,7 @@ public class DigitalSignatureActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(DigitalSignatureActivity.this);
         progressDialog.setMessage("Mohon tunggu...");
         progressDialog.setCancelable(false);
+        codeTTE = "0";
         getDocumentTTE();
 
         divDigitalSignatureCreate.setOnClickListener(view -> {
@@ -327,6 +328,7 @@ public class DigitalSignatureActivity extends AppCompatActivity {
                     public void onResponse(Call<FaceDetectionRootModel> call, Response<FaceDetectionRootModel> response) {
                         if (response.isSuccessful()) {
                             progressDialog.cancel();
+                            getDocumentTTE();
                             Toast.makeText(DigitalSignatureActivity.this, "Sukses mengirim data", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -402,6 +404,7 @@ public class DigitalSignatureActivity extends AppCompatActivity {
         btnSaveTte = findViewById(R.id.btn_save_tte);
         ivFotoResuiltDrawTte = findViewById(R.id.iv_foto_resuilt_draw_tte);
         btnBatal = findViewById(R.id.btn_batal);
+        btnSelesaiTte = findViewById(R.id.btn_selesai_tte);
         divSimpanData = findViewById(R.id.div_simpan_data);
     }
 }
