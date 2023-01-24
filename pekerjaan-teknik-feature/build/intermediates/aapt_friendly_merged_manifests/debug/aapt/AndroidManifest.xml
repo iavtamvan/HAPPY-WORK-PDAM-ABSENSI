@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="id.pdamkotasmg.pekerjaan_teknik_feature" >
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="32" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+
+    <uses-feature android:name="android.hardware.camera.front" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <application android:theme="@style/Theme.HappyWork" >
+        <activity
+            android:name="id.pdamkotasmg.pekerjaan_teknik_feature.HomeFeaturedSPKActivity"
+            android:exported="true" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="id.pdamkotasmg.pekerjaan_teknik_feature.activity.webView.WebViewActivity"
+            android:exported="true" />
+        <activity
+            android:name="id.pdamkotasmg.pekerjaan_teknik_feature.activity.spk.MapsAdressActivity"
+            android:exported="true" />
+        <activity
+            android:name="id.pdamkotasmg.pekerjaan_teknik_feature.activity.home.HomeSPKActivity"
+            android:exported="false" />
+        <activity
+            android:name="id.pdamkotasmg.pekerjaan_teknik_feature.activity.spk.riwayat.RiwayatAmbilPekerjaanActivity"
+            android:exported="false" />
+        <activity
+            android:name="id.pdamkotasmg.pekerjaan_teknik_feature.activity.spk.callCenter.DaftarCallCenterActivity"
+            android:exported="false" />
+        <activity
+            android:name="id.pdamkotasmg.pekerjaan_teknik_feature.activity.spk.MapsActivity"
+            android:exported="false" />
+        <activity
+            android:name="id.pdamkotasmg.pekerjaan_teknik_feature.activity.spk.riwayat.RiwayatVerifikasiActivity"
+            android:exported="false" />
+        <activity
+            android:name="id.pdamkotasmg.pekerjaan_teknik_feature.activity.spk.VerifikasiActivity"
+            android:exported="false" />
+        <activity
+            android:name="id.pdamkotasmg.pekerjaan_teknik_feature.activity.splash.SplashScreenSPKActivity"
+            android:exported="false" />
+        <activity android:name="id.pdamkotasmg.pekerjaan_teknik_feature.activity.spk.riwayat.DetailRiwayatSpkActivity" />
+        <activity android:name="id.pdamkotasmg.pekerjaan_teknik_feature.activity.spk.riwayat.RiwayatSpkActivity" />
+        <activity android:name="id.pdamkotasmg.pekerjaan_teknik_feature.activity.spk.search.SearchPengawasActivity" />
+        <activity android:name="id.pdamkotasmg.pekerjaan_teknik_feature.activity.login.LoginSPKActivity" />
+        <activity android:name="id.pdamkotasmg.pekerjaan_teknik_feature.activity.spk.InputSpkActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+    </application>
+
+</manifest>

@@ -16,11 +16,12 @@ public class ApiConfig {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        ChuckerCollector chuckerCollector = new ChuckerCollector(context, false);
+        ChuckerCollector chuckerCollector = new ChuckerCollector(context, true);
         ChuckerInterceptor chuckerInterceptor = new ChuckerInterceptor(context, chuckerCollector);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(chuckerInterceptor)
+                .addInterceptor(httpLoggingInterceptor)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()

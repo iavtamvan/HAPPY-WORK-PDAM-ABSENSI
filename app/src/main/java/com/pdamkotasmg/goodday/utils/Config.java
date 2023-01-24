@@ -496,6 +496,7 @@ public final class Config {
                 .setPositiveButton("Buka Kembali", (dialogInterface, which) -> {
                     ((SplashScreenActivity) context).finishAffinity();
                     context.startActivity(new Intent(context, SplashScreenActivity.class));
+                    dialogInterface.dismiss();
 //                    context.startActivity(new Intent(context, SplashScreenActivity.class));
                 })
                 .build();

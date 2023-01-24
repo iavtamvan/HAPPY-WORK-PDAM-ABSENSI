@@ -182,6 +182,7 @@ public class ProfileActivity extends AppCompatActivity {
                         .setNegativeButton("Gak", (dialogInterface, which) -> dialogInterface.dismiss())
                         .setPositiveButton("Iya", (dialogInterface, which) -> {
                             profileController.logout(ProfileActivity.this);
+                            dialogInterface.dismiss();
                         })
                         .build();
 

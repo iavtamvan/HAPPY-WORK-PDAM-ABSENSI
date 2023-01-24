@@ -62,7 +62,7 @@
                             android:visibility="gone" />
 
                         <ImageView
-                            android:id="@+id/iv_foto_tte"
+                            android:id="@+id/iv_foto_resuilt_draw_tte"
                             android:layout_width="match_parent"
                             android:layout_height="300dp"
                             android:src="@drawable/logo"
@@ -216,9 +216,22 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="4dp"
         android:backgroundTint="@color/primary"
         android:text="Perbarui TTE"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_selesai_tte"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginBottom="18dp"
+        android:backgroundTint="@color/greenGojek"
+        android:text="Selesai"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:visibility="gone" />
