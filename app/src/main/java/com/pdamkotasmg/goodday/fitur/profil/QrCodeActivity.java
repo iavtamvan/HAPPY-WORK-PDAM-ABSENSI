@@ -120,8 +120,6 @@ public class QrCodeActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 e.printStackTrace();
             }
-
-
         });
 
     }
