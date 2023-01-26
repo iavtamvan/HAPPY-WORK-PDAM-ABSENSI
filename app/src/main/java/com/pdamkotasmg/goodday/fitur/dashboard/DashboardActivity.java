@@ -19,6 +19,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.gson.Gson;
+import com.pdamkotasmg.goodday.BuildConfig;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
@@ -116,6 +117,12 @@ public class DashboardActivity extends AppCompatActivity {
             Config.showNotification(DashboardActivity.this, "Saatnya Tidur", "Kalau lembur, jangan lupa klik LEMBUR YA!");
             tvGood.setText("Good Night \uD83D\uDECC \uD83D\uDCA4");
         }
+
+        tvGood.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.setClassName(BuildConfig.APPLICATION_ID, "id.pdamkotasmg.edms.EDMSHomeActivity");
+            startActivity(intent);
+        });
 
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         editor = sharedPreferences.edit();
