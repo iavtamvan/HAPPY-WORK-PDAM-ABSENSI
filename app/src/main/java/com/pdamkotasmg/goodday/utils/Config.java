@@ -71,7 +71,7 @@ public final class Config {
     public static final String BASE_URL_NOTIF_NORMAL = "https://image.freepik.com/free-vector/people-jumping-trampoline_74855-4453.jpg";
     public static final String BASE_URL_NOTIF_ERROR = "https://image.freepik.com/free-vector/oops-404-error-with-broken-robot-concept-illustration_114360-1932.jpg";
 
-    public static final String ERROR_MSG = "Periksa Koneksi";
+    public static final String ERROR_MSG = "Pengambilan data Gagal, coba lagi nanti";
     public static final String ERROR_PASSWORD = "Pastikan Kata Sandi Anda Sama";
     public static final String ERROR_DATA_REGISTER = "Pastikan Data Anda Dengan Benar";
     public static final String ERROR_SESSION = "Sesi login anda telah habis, Login Ulang";
@@ -202,6 +202,9 @@ public final class Config {
     public static final String BUNDLE_NUMBER_REQUEST = "number_request";
     public static final String BUNDLE_NUMBER_APPROVALS = "number_approvals";
 
+    // TODO Mulai EDMS
+    public static final String BUNDLE_NUMBER_TRX_SURAT = "number_trx_surat";
+    // TODO Selesai EDMS
 
 
     public static final void changeNoHp(String noHpOriginal) {

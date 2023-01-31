@@ -120,7 +120,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         tvGood.setOnClickListener(view -> {
             Intent intent = new Intent();
-            intent.setClassName(BuildConfig.APPLICATION_ID, "id.pdamkotasmg.edms.EDMSHomeActivity");
+            intent.setClassName(BuildConfig.APPLICATION_ID, "id.pdamkotasmg.edms.fitur.suratMasuk.activity.EDMSHomeActivity");
             startActivity(intent);
         });
 

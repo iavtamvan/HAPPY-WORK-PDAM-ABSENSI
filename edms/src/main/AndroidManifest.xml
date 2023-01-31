@@ -14,7 +14,14 @@
 
     <application android:icon="@mipmap/ic_launcher">
         <activity
-            android:name=".EDMSHomeActivity"
+            android:name=".DetailSuratMasukActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".fitur.suratMasuk.activity.EDMSHomeActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
