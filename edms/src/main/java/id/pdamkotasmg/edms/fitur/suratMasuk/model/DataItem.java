@@ -100,6 +100,50 @@ public class DataItem{
     @SerializedName("modal_type")
     private String modalType;
 
+    @SerializedName("file1_url")
+    private String fileUrl1;
+
+    @SerializedName("file2_url")
+    private String fileUrl2;
+
+    @SerializedName("file1_name")
+    private String fileName1;
+
+    @SerializedName("file2_name")
+    private String fileName2;
+
+    public String getFileUrl1() {
+        return fileUrl1;
+    }
+
+    public void setFileUrl1(String fileUrl1) {
+        this.fileUrl1 = fileUrl1;
+    }
+
+    public String getFileUrl2() {
+        return fileUrl2;
+    }
+
+    public void setFileUrl2(String fileUrl2) {
+        this.fileUrl2 = fileUrl2;
+    }
+
+    public String getFileName1() {
+        return fileName1;
+    }
+
+    public void setFileName1(String fileName1) {
+        this.fileName1 = fileName1;
+    }
+
+    public String getFileName2() {
+        return fileName2;
+    }
+
+    public void setFileName2(String fileName2) {
+        this.fileName2 = fileName2;
+    }
+
     public String getModalType() {
         return modalType;
     }

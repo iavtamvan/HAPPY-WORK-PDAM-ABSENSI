@@ -3,7 +3,10 @@ package id.pdamkotasmg.edms.fitur.suratMasuk.activity;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,6 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.pdamkotasmg.goodday.utils.AlphabetColor;
 import com.pdamkotasmg.goodday.utils.Config;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,6 +42,11 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private String accessToken;
+    private String urlFile1;
+    private String urlFile2;
+    private String nameFile1;
+    private String nameFile2;
+    private String nameFileGlobals;
 
     private ProgressDialog progressDialog;
 
@@ -70,6 +85,15 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Loading data..");
         getData();
+
+        tvPerihal.setOnClickListener(view -> {
+            String replacement = urlFile1.replace("https://gateway.pdamkotasmg.co.id/api-gw-dev/file-handler/document/?filename=", "/").trim();
+            Log.d(TAG, "replacement: " + replacement.trim());
+//            downloadFile(replacement);
+            nameFileGlobals = nameFile1;
+            new DownloadFileFromURL().execute(urlFile1);
+
+        });
     }
 
     private void getData() {
@@ -112,6 +136,11 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
                             tvSifatDetailTop.setText(response.body().getData().get(0).getSmSifat());
                             tvTipeSurat.setText(response.body().getData().get(0).getModalType());
 
+                            urlFile1 = response.body().getData().get(0).getFileUrl1();
+                            nameFile1 = response.body().getData().get(0).getFileName1();
+                            urlFile2 = response.body().getData().get(0).getFileUrl2();
+                            nameFile2 = response.body().getData().get(0).getFileName2();
+
                         }
                     }
 
@@ -121,6 +150,92 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
                         Toast.makeText(DetailSuratMasukActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    class DownloadFileFromURL extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Bar Dialog
+         **/
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            showDialog(progress_bar_type);
+        }
+
+        /**
+         * Downloading file in background thread
+         **/
+        @Override
+        protected String doInBackground(String... f_url) {
+            int count;
+            try {
+                URL url = new URL(f_url[0]);
+                URLConnection conection = url.openConnection();
+                conection.connect();
+
+                // this will be useful so that you can show a tipical 0-100%
+                // progress bar
+                int lenghtOfFile = conection.getContentLength();
+                Log.d(TAG, "lenghtOfFile: " + lenghtOfFile);
+
+                // download the file
+                InputStream input = new BufferedInputStream(url.openStream(),
+                        8192);
+                Log.d(TAG, "InputStream: " + input);
+
+                File path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/PDAM");
+                path.mkdir();
+
+                // Output stream
+                OutputStream output = new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/PDAM/" + nameFile1 + ".xlsx");
+                Log.d(TAG, "OutputStream: " + output);
+
+                byte data[] = new byte[1024];
+
+                long total = 0;
+
+                while ((count = input.read(data)) != -1) {
+                    total += count;
+                    // publishing the progress....
+                    // After this onProgressUpdate will be called
+                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
+
+                    // writing data to file
+                    output.write(data, 0, count);
+                }
+
+                // flushing output
+                output.flush();
+
+                // closing streams
+                output.close();
+                input.close();
+                Log.d(TAG, "doInBackground: " + output);
+                Log.d(TAG, "Aww: Sukses");
+            } catch (Exception e) {
+                Log.e("Error: ", e.getMessage());
+            }
+
+            return null;
+        }
+
+        /**
+         * Updating progress bar
+         **/
+        protected void onProgressUpdate(String... progress) {
+            // setting progress percentage
+//            pDialog.setProgress(Integer.parseInt(progress[0]));
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         **/
+        @Override
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog after the file was downloaded
+//            dismissDialog(progress_bar_type);
+        }
     }
 
     private void initView() {
