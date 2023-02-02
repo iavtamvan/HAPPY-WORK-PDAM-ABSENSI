@@ -1,6 +1,7 @@
 package id.pdamkotasmg.edms.fitur.suratMasuk.activity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -37,6 +38,8 @@ public class EDMSHomeActivity extends AppCompatActivity {
     private List<DataItem> dataItems;
     private SuratMasukAdapter suratMasukAdapter;
 
+    private ProgressDialog progressDialog;
+
     private ImageView ivMore;
     private TextView tvJudulSurat;
     private RecyclerView rvEdms;
@@ -52,17 +55,22 @@ public class EDMSHomeActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
 
+        progressDialog = new ProgressDialog(EDMSHomeActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Loading data..");
         getDataSuratMasuk();
 
     }
 
     private void getDataSuratMasuk() {
+        progressDialog.show();
         ApiServiceEDMS apiServiceEDMS = ApiConfigEDMS.getApiService(EDMSHomeActivity.this);
-        apiServiceEDMS.getEDMSSuratMasuk(accessToken)
+        apiServiceEDMS.getSuratMasuk(accessToken)
                 .enqueue(new Callback<SuratMasukRootModel>() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onResponse(Call<SuratMasukRootModel> call, Response<SuratMasukRootModel> response) {
+                        progressDialog.dismiss();
                         if (response.isSuccessful()){
                             dataItems = response.body().getData();
                             suratMasukAdapter = new SuratMasukAdapter(EDMSHomeActivity.this, dataItems);
@@ -74,6 +82,7 @@ public class EDMSHomeActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<SuratMasukRootModel> call, Throwable t) {
+                        progressDialog.dismiss();
                         Toast.makeText(EDMSHomeActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });

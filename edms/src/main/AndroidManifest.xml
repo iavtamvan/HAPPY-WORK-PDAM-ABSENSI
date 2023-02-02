@@ -14,7 +14,7 @@
 
     <application android:icon="@mipmap/ic_launcher">
         <activity
-            android:name=".DetailSuratMasukActivity"
+            android:name=".fitur.suratMasuk.activity.DetailSuratMasukActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

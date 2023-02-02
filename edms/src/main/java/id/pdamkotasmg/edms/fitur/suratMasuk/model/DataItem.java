@@ -97,6 +97,17 @@ public class DataItem{
     @SerializedName("sm_trx")
     private String smTrx;
 
+    @SerializedName("modal_type")
+    private String modalType;
+
+    public String getModalType() {
+        return modalType;
+    }
+
+    public void setModalType(String modalType) {
+        this.modalType = modalType;
+    }
+
     public void setSmTujuanNama(String smTujuanNama){
         this.smTujuanNama = smTujuanNama;
     }

@@ -317,11 +317,11 @@ public final class Config {
         context.startActivity(new Intent(context, SplashScreenActivity.class));
     }
 
-    public static void deleteFiles(String pathName, String log) {
+    public static void deleteFiles(String pathName, String msgLog) {
         // v TODO delete image original
         File file = new File(pathName);
         boolean deleted = file.delete();
-        Log.d("debug", log + " Deleted : " + deleted);
+        Log.d("debug", msgLog + " Deleted : " + deleted);
     }
 
     public static void showNotification(Context context, String title, String content) {

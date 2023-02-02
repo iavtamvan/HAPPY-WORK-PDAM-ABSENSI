@@ -2,12 +2,10 @@ package id.pdamkotasmg.edms.fitur.suratMasuk.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class SuratMasukRootModel {
+public class PostSuratMasukDetailRootModel {
 
     @SerializedName("data")
-    private List<DataItem> data;
+    private DataItem data;
 
     @SerializedName("message")
     private String message;
@@ -15,12 +13,12 @@ public class SuratMasukRootModel {
     @SerializedName("status")
     private Integer status;
 
-    public void setData(List<DataItem> data) {
-        this.data = data;
+    public DataItem getData() {
+        return data;
     }
 
-    public List<DataItem> getData() {
-        return data;
+    public void setData(DataItem data) {
+        this.data = data;
     }
 
     public void setMessage(String message) {
