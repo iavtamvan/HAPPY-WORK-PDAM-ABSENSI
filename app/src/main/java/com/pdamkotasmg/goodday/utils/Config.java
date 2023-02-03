@@ -354,7 +354,7 @@ public final class Config {
 //        }
 
 
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+        builder.setSmallIcon(R.drawable.logo_gd);
         builder.setDefaults(NotificationCompat.PRIORITY_MAX);
         builder.setContentTitle(title); // make suer change the channel for image
         builder.setContentText(content);

@@ -67,6 +67,10 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
     private TextView tvSifatDetail;
     private TextView tvSifatDetailTop;
     private TextView tvTipeSurat;
+    private LinearLayout divLampiran1;
+    private TextView tvFileLampiran1;
+    private LinearLayout divLampiran2;
+    private TextView tvFileLampiran2;
 
 
     @Override
@@ -91,8 +95,24 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
 //            downloadFile(replacement);
             nameFileGlobals = nameFile1;
             new DownloadFileFromURL().execute(urlFile1);
-
         });
+
+        divLampiran1.setOnClickListener(view -> {
+            String replacement = urlFile1.replace("https://gateway.pdamkotasmg.co.id/api-gw-dev/file-handler/document/?filename=", "/").trim();
+            Log.d(TAG, "replacement: " + replacement.trim());
+//            downloadFile(replacement);
+            nameFileGlobals = nameFile1;
+            new DownloadFileFromURL().execute(urlFile1);
+        });
+
+        divLampiran2.setOnClickListener(view -> {
+            String replacement = urlFile2.replace("https://gateway.pdamkotasmg.co.id/api-gw-dev/file-handler/document/?filename=", "/").trim();
+            Log.d(TAG, "replacement: " + replacement.trim());
+//            downloadFile(replacement);
+            nameFileGlobals = nameFile2;
+            new DownloadFileFromURL().execute(urlFile2);
+        });
+
     }
 
     private void getData() {
@@ -138,9 +158,10 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
 
                             urlFile1 = response.body().getData().get(0).getFileUrl1();
                             nameFile1 = response.body().getData().get(0).getFileName1();
+                            tvFileLampiran1.setText(nameFile1);
                             urlFile2 = response.body().getData().get(0).getFileUrl2();
                             nameFile2 = response.body().getData().get(0).getFileName2();
-
+                            tvFileLampiran2.setText(nameFile2);
                         }
                     }
 
@@ -212,6 +233,7 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             } catch (Exception e) {
                 progressDialog.dismiss();
+//                Toast.makeText(DetailSuratMasukActivity.this, "Error mengunduh", Toast.LENGTH_SHORT).show();
                 Log.e("Error: ", e.getMessage());
             }
 
@@ -224,6 +246,8 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String file_url) {
+            Toast.makeText(DetailSuratMasukActivity.this, "Berhasil di simpan", Toast.LENGTH_SHORT).show();
+            Config.showNotification(DetailSuratMasukActivity.this, "Surat Masuk", "Berhasil menyimpan Surat Masuk " + nameFileGlobals + ", cek di Folder Download/PDAM!");
             progressDialog.dismiss();
         }
     }
@@ -245,5 +269,9 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
         tvSifatDetail = findViewById(R.id.tv_sifat_detail);
         tvSifatDetailTop = findViewById(R.id.tv_sifat_detail_top);
         tvTipeSurat = findViewById(R.id.tv_tipe_surat);
+        divLampiran1 = findViewById(R.id.div_lampiran_1);
+        tvFileLampiran1 = findViewById(R.id.tv_file_lampiran_1);
+        divLampiran2 = findViewById(R.id.div_lampiran_2);
+        tvFileLampiran2 = findViewById(R.id.tv_file_lampiran_2);
     }
 }

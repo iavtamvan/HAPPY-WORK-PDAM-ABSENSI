@@ -278,7 +278,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<UdpateAplikasiRootModel> call, Throwable t) {
-                Toast.makeText(SplashScreenActivity.this, "Get Device Update Error 001S778J", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SplashScreenActivity.this, "Error, Coba Buka Kembali (#001S778J)", Toast.LENGTH_SHORT).show();
+                finishAffinity();
             }
         });
     }
