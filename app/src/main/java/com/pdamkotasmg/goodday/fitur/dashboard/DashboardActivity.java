@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
@@ -40,6 +41,7 @@ import com.pdamkotasmg.goodday.utils.Connectivity;
 import com.scottyab.rootbeer.RootBeer;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
@@ -142,6 +144,9 @@ public class DashboardActivity extends AppCompatActivity {
         scrollingtext.setSelected(true);
         tvNameDashboard.setText(sharedPreferences.getString(Config.SHARED_NAME, ""));
         tvSatker.setText(satker);
+
+        File path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/PDAM");
+        path.mkdir();
 
         if (!messageInfo.isEmpty()) {
             cvInfoWarning.setVisibility(View.VISIBLE);

@@ -18,7 +18,6 @@ import com.pdamkotasmg.goodday.utils.AlphabetColor;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -26,6 +25,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -83,7 +83,6 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(DetailSuratMasukActivity.this);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading data..");
         getData();
 
         tvPerihal.setOnClickListener(view -> {
@@ -97,6 +96,7 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
     }
 
     private void getData() {
+        progressDialog.setMessage("Loading data..");
         progressDialog.show();
         ApiServiceEDMS apiServiceEDMS = ApiConfigEDMS.getApiService(DetailSuratMasukActivity.this);
         apiServiceEDMS.postDetailSuratMasuk(accessToken, trxSuratMasuk)
@@ -160,6 +160,8 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog.setMessage("Mengunduh file..");
+            progressDialog.show();
 //            showDialog(progress_bar_type);
         }
 
@@ -174,22 +176,16 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
                 URLConnection conection = url.openConnection();
                 conection.connect();
 
-                // this will be useful so that you can show a tipical 0-100%
-                // progress bar
                 int lenghtOfFile = conection.getContentLength();
-                Log.d(TAG, "lenghtOfFile: " + lenghtOfFile);
 
                 // download the file
                 InputStream input = new BufferedInputStream(url.openStream(),
                         8192);
-                Log.d(TAG, "InputStream: " + input);
 
-                File path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/PDAM");
-                path.mkdir();
+                Date currentTime = Calendar.getInstance().getTime();
 
                 // Output stream
-                OutputStream output = new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/PDAM/" + nameFile1 + ".xlsx");
-                Log.d(TAG, "OutputStream: " + output);
+                OutputStream output = new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/PDAM/" + nameFile1 + "-" + currentTime.getTime() + ".xlsx");
 
                 byte data[] = new byte[1024];
 
@@ -213,28 +209,22 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
                 input.close();
                 Log.d(TAG, "doInBackground: " + output);
                 Log.d(TAG, "Aww: Sukses");
+                progressDialog.dismiss();
             } catch (Exception e) {
+                progressDialog.dismiss();
                 Log.e("Error: ", e.getMessage());
             }
 
             return null;
         }
 
-        /**
-         * Updating progress bar
-         **/
         protected void onProgressUpdate(String... progress) {
-            // setting progress percentage
-//            pDialog.setProgress(Integer.parseInt(progress[0]));
+            progressDialog.dismiss();
         }
 
-        /**
-         * After completing background task Dismiss the progress dialog
-         **/
         @Override
         protected void onPostExecute(String file_url) {
-            // dismiss the dialog after the file was downloaded
-//            dismissDialog(progress_bar_type);
+            progressDialog.dismiss();
         }
     }
 

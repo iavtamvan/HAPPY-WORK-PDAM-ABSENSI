@@ -99,7 +99,7 @@ public class QrCodeActivity extends AppCompatActivity {
             Date currentTime = Calendar.getInstance().getTime();
             Log.d(TAG, "currentTime: " + currentTime.getTime());
 
-            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS + "/PDAM");
             OutputStream fOut = null;
             File file = new File(path, "files_QR_CODE_" + npp + "_" + currentTime.getTime() + ".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
             try {
