@@ -77,10 +77,9 @@
                 android:orientation="vertical">
 
                 <TextView
-            android:fontFamily="@font/poppins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:fontFamily="@font/poppins"
                     android:gravity="left|center"
                     android:text="Sebelumnya"
                     android:textColor="@color/black"
@@ -137,9 +136,9 @@
                 android:orientation="vertical">
 
                 <TextView
-            android:fontFamily="@font/poppins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
 
                     android:gravity="left|center"
                     android:text="Sesudah"

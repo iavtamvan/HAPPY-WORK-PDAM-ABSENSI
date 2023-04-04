@@ -2,17 +2,23 @@ package com.pdamkotasmg.goodday.fitur.payslip.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.fitur.payslip.model.DataItem;
+import com.pdamkotasmg.goodday.utils.Config;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,6 +27,7 @@ import java.util.List;
 
 public class SalaryHistoryAdapter extends RecyclerView.Adapter<SalaryHistoryAdapter.ViewHolder> {
     Context context;
+    private String getPass;
     private List<DataItem> dataItems;
 
     public SalaryHistoryAdapter(Context context, List<DataItem> dataItems) {
@@ -50,7 +57,30 @@ public class SalaryHistoryAdapter extends RecyclerView.Adapter<SalaryHistoryAdap
             e.printStackTrace();
         }
 
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        getPass = sharedPreferences.getString(Config.SHARED_GETPASSWORD, "");
+
         holder.tvListPayslipKeteranganPayslip.setText(dataItems.get(position).getPayrollPeriodRemark());
+        holder.cvKlik.setOnClickListener(view -> {
+            final BottomSheetDialog bottomSheetDialogPaySlip = new BottomSheetDialog(context);
+            bottomSheetDialogPaySlip.setContentView(R.layout.bottom_sheet_dialog_open_payslip);
+            TextView tvKeteranganMembukaPayslip = bottomSheetDialogPaySlip.findViewById(R.id.tv_keterangan_membuka_payslip);
+            EditText edtBottomDialogInputPass = bottomSheetDialogPaySlip.findViewById(R.id.edt_bottom_dialog_input_pass);
+            Button btnSendMatchPassword = bottomSheetDialogPaySlip.findViewById(R.id.btn_send_match_password);
+
+            tvKeteranganMembukaPayslip.setText(dataItems.get(position).getPayrollPeriod() + " - " + holder.tvListPayslipDate.getText().toString().trim());
+
+            btnSendMatchPassword.setOnClickListener(view1 -> {
+                if (edtBottomDialogInputPass.getText().toString().equals(getPass)){
+                    Toast.makeText(context, "Password benar", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "salah", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+            bottomSheetDialogPaySlip.show();
+        });
     }
 
     @Override
