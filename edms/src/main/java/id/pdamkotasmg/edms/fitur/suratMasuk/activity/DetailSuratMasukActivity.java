@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -79,6 +80,13 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_surat_masuk);
         getSupportActionBar().hide();
         initView();
+
+        ivHeaderBackArrow.setOnClickListener(view -> {
+            finish();
+        });
+
+        tvHeaderJudul.setText("Surat Masuk");
+        ivHeaderInfo.setVisibility(View.GONE);
 
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");

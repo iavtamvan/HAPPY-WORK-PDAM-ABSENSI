@@ -1,5 +1,7 @@
 package com.pdamkotasmg.goodday.utils;
 
+import com.pdamkotasmg.goodday.R;
+
 public class AlphabetColor {
     public static int getColor(char c) {
         if (c == 'A') {
@@ -41,9 +43,9 @@ public class AlphabetColor {
         }else if (c == 'S') {
             return com.pdamkotasmg.goodday.R.color.dash_v2_bluedark;
         }else if (c == 'T') {
-            return com.pdamkotasmg.goodday.R.color.dash_v2_blueLightBanget;
+            return R.color.purple_200;
         }else if (c == 'U') {
-            return com.pdamkotasmg.goodday.R.color.dash_v2_purpleLight;
+            return com.pdamkotasmg.goodday.R.color.orangeGreatDay;
         }else if (c == 'v') {
             return com.pdamkotasmg.goodday.R.color.dash_v2_azure;
         }else if (c == 'W') {

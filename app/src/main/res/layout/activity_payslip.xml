@@ -33,7 +33,7 @@
                 app:lottie_speed="1" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_kehadiran"
+                android:id="@+id/rv_salary_history"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:listitem="@layout/list_item_payslip" />

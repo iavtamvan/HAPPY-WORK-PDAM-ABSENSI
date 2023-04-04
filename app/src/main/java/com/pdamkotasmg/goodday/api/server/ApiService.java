@@ -16,6 +16,7 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.lembur.model.overtimeType.Overtim
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.detailPerjalananDinas.DetailPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.postPerjalanDinas.PostPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.riwayatPerjalananDinas.RiwayatPerjalananDinasRootModel;
+import com.pdamkotasmg.goodday.fitur.payslip.model.SalaryHistoryRootModel;
 import com.pdamkotasmg.goodday.fitur.perangkat.model.PerangkatRootModel;
 import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.model.PermintaanRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.checkLocationModel.CheckLocationRootModel;
@@ -330,5 +331,14 @@ public interface ApiService {
             @Header("Authorization") String auth,
             @Query("npp") String npp
     );
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("portal-pegawai/api/payroll-service/payroll/salary-history/my-salary-history")
+    Call<SalaryHistoryRootModel> getSalaryHistory(
+            @Header("Authorization") String auth,
+            @Header("Channel") String Channel
+    );
+
+
 
 }
