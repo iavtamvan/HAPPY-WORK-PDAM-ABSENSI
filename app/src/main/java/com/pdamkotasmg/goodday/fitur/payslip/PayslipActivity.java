@@ -33,6 +33,9 @@ public class PayslipActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     private String accessToken;
+    private String getPass;
+
+
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
     private ImageView ivHeaderInfo;
@@ -46,6 +49,9 @@ public class PayslipActivity extends AppCompatActivity {
         initView();
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+        getPass = sharedPreferences.getString(Config.SHARED_GETPASSWORD, "");
+
+        Toast.makeText(this, "" + getPass, Toast.LENGTH_LONG).show();
 
         progressDialog = new ProgressDialog(PayslipActivity.this);
         progressDialog.setCancelable(false);

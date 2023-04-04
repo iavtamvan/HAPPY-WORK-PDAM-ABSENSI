@@ -90,6 +90,7 @@ public final class Config {
     public static final String SHARED_GETSDKVERSION = "getSdkVersion";
     public static final String SHARED_GETBUILDNUMBER = "getBuildNumber";
     public static final String SHARED_GETBUILDINCREMENTAL = "getBuildIncremental";
+    public static final String SHARED_GETPASSWORD = "getpassword";
     public static final String SHARED_IPADRESS = "ipAdress";
     public static final String SHARED_CONNECTIONTYPE = "connectionType";
     public static final String SHARED_HWID = "hwid";
@@ -311,6 +312,7 @@ public final class Config {
         editor.putString(SHARED_HELLO, "");
         editor.putString(SHARED_IMAGE_HEADER, "");
         editor.putString(SHARED_MESSAGE_INFO, "");
+        editor.putString(SHARED_GETPASSWORD, "");
         editor.apply();
 
         ((Activity) context).finishAffinity();

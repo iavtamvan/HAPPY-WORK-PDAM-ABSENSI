@@ -167,6 +167,7 @@ public class LoginController {
                     editor.putString(Config.SHARED_SUBSATKER_FORMATTED, subsatker_formatted);
                     editor.putString(Config.SHARED_APP_VERSION, app_version);
                     editor.putString(Config.SHARED_FCM_TOKEN, fcmToken);
+                    editor.putString(Config.SHARED_GETPASSWORD, password);
 
                     editor.apply();
 
