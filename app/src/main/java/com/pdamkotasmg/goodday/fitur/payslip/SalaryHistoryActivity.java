@@ -1,5 +1,6 @@
 package com.pdamkotasmg.goodday.fitur.payslip;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PayslipActivity extends AppCompatActivity {
+public class SalaryHistoryActivity extends AppCompatActivity {
 
     private List<DataItem> dataItems;
     private SalaryHistoryAdapter salaryHistoryAdapter;
@@ -41,19 +42,29 @@ public class PayslipActivity extends AppCompatActivity {
     private ImageView ivHeaderInfo;
     private RecyclerView rvSalaryHistory;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_payslip);
+        setContentView(R.layout.activity_salary_history);
         getSupportActionBar().hide();
         initView();
+
+        ivHeaderBackArrow.setOnClickListener(v -> {
+            SalaryHistoryActivity.this.finish();
+        });
+        tvHeaderJudul.setText("Riwayat PaySlip");
+        ivHeaderInfo.setOnClickListener(v -> {
+            Toast.makeText(SalaryHistoryActivity.this, "Cek gaji kamu, kurang atau nambah?", Toast.LENGTH_SHORT).show();
+        });
+
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         getPass = sharedPreferences.getString(Config.SHARED_GETPASSWORD, "");
 
         Toast.makeText(this, "" + getPass, Toast.LENGTH_LONG).show();
 
-        progressDialog = new ProgressDialog(PayslipActivity.this);
+        progressDialog = new ProgressDialog(SalaryHistoryActivity.this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Mengambil uang Anda...");
 
@@ -62,7 +73,7 @@ public class PayslipActivity extends AppCompatActivity {
 
     private void getSalaryHistory() {
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService(PayslipActivity.this);
+        ApiService apiService = ApiConfig.getApiService(SalaryHistoryActivity.this);
         apiService.getSalaryHistory(accessToken, "MOBILE")
                 .enqueue(new Callback<SalaryHistoryRootModel>() {
                     @Override
@@ -70,8 +81,8 @@ public class PayslipActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             progressDialog.cancel();
                             dataItems = response.body().getData();
-                            salaryHistoryAdapter = new SalaryHistoryAdapter(PayslipActivity.this, dataItems);
-                            rvSalaryHistory.setLayoutManager(new LinearLayoutManager(PayslipActivity.this));
+                            salaryHistoryAdapter = new SalaryHistoryAdapter(SalaryHistoryActivity.this, dataItems);
+                            rvSalaryHistory.setLayoutManager(new LinearLayoutManager(SalaryHistoryActivity.this));
                             rvSalaryHistory.setAdapter(salaryHistoryAdapter);
                             salaryHistoryAdapter.notifyDataSetChanged();
                         }
@@ -80,7 +91,7 @@ public class PayslipActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<SalaryHistoryRootModel> call, Throwable t) {
                         progressDialog.cancel();
-                        Toast.makeText(PayslipActivity.this, "Payslip: " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SalaryHistoryActivity.this, "Payslip: " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

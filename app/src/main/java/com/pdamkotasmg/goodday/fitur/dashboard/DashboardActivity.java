@@ -29,7 +29,7 @@ import com.pdamkotasmg.goodday.fitur.dashboard.model.permissionName.PermissionRo
 import com.pdamkotasmg.goodday.fitur.feeds.controller.FeedsController;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.activity.KehadiranActivity;
 import com.pdamkotasmg.goodday.fitur.menuLainnya.ListWebViewActivity;
-import com.pdamkotasmg.goodday.fitur.payslip.PayslipActivity;
+import com.pdamkotasmg.goodday.fitur.payslip.SalaryHistoryActivity;
 import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.activity.PermintaanActivity;
 import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.activity.PersetujuanActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.CheckLocationActivity;
@@ -231,7 +231,7 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         divPayslip.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), PayslipActivity.class));
+            startActivity(new Intent(getApplicationContext(), SalaryHistoryActivity.class));
         });
 
         divRequest.setOnClickListener(v -> {

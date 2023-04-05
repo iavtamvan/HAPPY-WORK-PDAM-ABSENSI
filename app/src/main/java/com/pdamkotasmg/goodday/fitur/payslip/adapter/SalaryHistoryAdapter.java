@@ -2,6 +2,7 @@ package com.pdamkotasmg.goodday.fitur.payslip.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.pdamkotasmg.goodday.R;
+import com.pdamkotasmg.goodday.fitur.payslip.PaySlipActivity;
 import com.pdamkotasmg.goodday.fitur.payslip.model.DataItem;
 import com.pdamkotasmg.goodday.utils.Config;
 
@@ -38,7 +40,7 @@ public class SalaryHistoryAdapter extends RecyclerView.Adapter<SalaryHistoryAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.list_item_payslip, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.list_item_salary_history, parent, false);
         return new ViewHolder(view);
     }
 
@@ -71,10 +73,10 @@ public class SalaryHistoryAdapter extends RecyclerView.Adapter<SalaryHistoryAdap
             tvKeteranganMembukaPayslip.setText(dataItems.get(position).getPayrollPeriod() + " - " + holder.tvListPayslipDate.getText().toString().trim());
 
             btnSendMatchPassword.setOnClickListener(view1 -> {
-                if (edtBottomDialogInputPass.getText().toString().equals(getPass)){
-                    Toast.makeText(context, "Password benar", Toast.LENGTH_SHORT).show();
+                if (!edtBottomDialogInputPass.getText().toString().equals(getPass)){
+                    Toast.makeText(context, "Password salah", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, "salah", Toast.LENGTH_SHORT).show();
+                    context.startActivity(new Intent(context, PaySlipActivity.class));
                 }
             });
 
