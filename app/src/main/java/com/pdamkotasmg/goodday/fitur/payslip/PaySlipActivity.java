@@ -1,8 +1,14 @@
 package com.pdamkotasmg.goodday.fitur.payslip;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +56,8 @@ public class PaySlipActivity extends AppCompatActivity {
     private TextView tvNetPayBottom;
     private TextView tvTerbilang;
     private TextView tvTransferedTo;
+    private LinearLayout divPendapatan;
+    private LinearLayout divPotongan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,31 +90,67 @@ public class PaySlipActivity extends AppCompatActivity {
     }
 
     private void getPaySlip() {
+        ProgressDialog progressDialog = new ProgressDialog(PaySlipActivity.this);
+        progressDialog.setMessage("Menghitung Gaji...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(PaySlipActivity.this);
-        apiService.getPaySlip(accessToken, "MOBILE", "MTH01", "11", "2022")
-                .enqueue(new Callback<PaySlipRootModel>() {
-                    @Override
-                    public void onResponse(Call<PaySlipRootModel> call, Response<PaySlipRootModel> response) {
-                        if (response.isSuccessful()){
+        apiService.getPaySlip(accessToken, "MOBILE", "MTH01", "11", "2022").enqueue(new Callback<PaySlipRootModel>() {
+            @Override
+            public void onResponse(Call<PaySlipRootModel> call, Response<PaySlipRootModel> response) {
+                if (response.isSuccessful()) {
 
-                            tvNetPayTop.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getNetPay())));
-                            tvNetPayBottom.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getNetPay())));
-                            tvTotalEarnings.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getTotalEarnings())));
-                            tvTerbilang.setText(response.body().getData().getTerbilang());
-                            tvTransferedTo.setText(response.body().getData().getTransferedTo().replace(" - ", "\n"));
+                    tvNetPayTop.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getNetPay())));
+                    tvNetPayBottom.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getNetPay())));
+                    tvTotalEarnings.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getTotalEarnings())));
+                    tvTerbilang.setText(response.body().getData().getTerbilang());
+                    tvTransferedTo.setText(response.body().getData().getTransferedTo().replace(" - ", "\n"));
 
-                            tvSubtotalEarnings.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getSubtotalEarnings())));
-                            tvSubtotalDeductions.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getSubtotalDeductions())));
-                            tvTax.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getTax())));
+                    tvSubtotalEarnings.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getSubtotalEarnings())));
+                    tvSubtotalDeductions.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getSubtotalDeductions())));
+                    tvTax.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getTax())));
 
-                        }
+                    allowancesItems = response.body().getData().getAllowances();
+                    for (int i = 0; i < allowancesItems.size(); i++) {
+
+                        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        @SuppressLint("InflateParams") View view = layoutInflater.inflate(R.layout.list_item_payslip, null);
+
+                        TextView tvComponentName = view.findViewById(R.id.tv_component_name);
+                        TextView tvNominal = view.findViewById(R.id.tv_nominal);
+
+                        tvComponentName.setText(allowancesItems.get(i).getComponentName());
+                        tvNominal.setText(formatRupiah.format((double) Double.parseDouble(allowancesItems.get(i).getNominal())));
+
+                        divPendapatan.addView(view);
                     }
 
-                    @Override
-                    public void onFailure(Call<PaySlipRootModel> call, Throwable t) {
-                        Toast.makeText(PaySlipActivity.this, "Payslip: " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    deductionsItems = response.body().getData().getDeductions();
+                    for (int i = 0; i < deductionsItems.size(); i++) {
+
+                        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        @SuppressLint("InflateParams") View view = layoutInflater.inflate(R.layout.list_item_payslip, null);
+
+                        TextView tvComponentName = view.findViewById(R.id.tv_component_name);
+                        TextView tvNominal = view.findViewById(R.id.tv_nominal);
+
+                        tvComponentName.setText(deductionsItems.get(i).getComponentName());
+                        tvNominal.setText(formatRupiah.format((double) Double.parseDouble(deductionsItems.get(i).getNominal())));
+
+                        divPotongan.addView(view);
                     }
-                });
+
+                    progressDialog.cancel();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PaySlipRootModel> call, Throwable t) {
+                progressDialog.cancel();
+                Toast.makeText(PaySlipActivity.this, "Payslip: " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initView() {
@@ -125,5 +169,7 @@ public class PaySlipActivity extends AppCompatActivity {
         tvNetPayBottom = findViewById(R.id.tv_net_pay_bottom);
         tvTerbilang = findViewById(R.id.tv_terbilang);
         tvTransferedTo = findViewById(R.id.tv_transfered_to);
+        divPendapatan = findViewById(R.id.div_pendapatan);
+        divPotongan = findViewById(R.id.div_potongan);
     }
 }

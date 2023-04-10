@@ -62,8 +62,6 @@ public class SalaryHistoryActivity extends AppCompatActivity {
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         getPass = sharedPreferences.getString(Config.SHARED_GETPASSWORD, "");
 
-        Toast.makeText(this, "" + getPass, Toast.LENGTH_LONG).show();
-
         progressDialog = new ProgressDialog(SalaryHistoryActivity.this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Mengambil uang Anda...");

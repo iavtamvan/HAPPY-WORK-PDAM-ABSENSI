@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class DeductionsItem{
 
     @SerializedName("nominal")
-    private Integer nominal;
+    private String nominal;
 
     @SerializedName("component_name")
     private String componentName;
@@ -13,11 +13,11 @@ public class DeductionsItem{
     @SerializedName("component_code")
     private String componentCode;
 
-    public void setNominal(Integer nominal){
+    public void setNominal(String nominal){
         this.nominal = nominal;
     }
 
-    public Integer getNominal(){
+    public String getNominal(){
         return nominal;
     }
 
