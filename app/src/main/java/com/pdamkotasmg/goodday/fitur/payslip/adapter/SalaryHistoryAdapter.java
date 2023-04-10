@@ -82,6 +82,7 @@ public class SalaryHistoryAdapter extends RecyclerView.Adapter<SalaryHistoryAdap
                     intent.putExtra(Config.BUNDLE_OPT_PERIOD_MONTH, dataItems.get(position).getPeriodMonth());
                     intent.putExtra(Config.BUNDLE_OPT_PERIOD_YEAR, dataItems.get(position).getPeriodYear());
                     context.startActivity(intent);
+                    bottomSheetDialogPaySlip.cancel();
                 }
             });
 

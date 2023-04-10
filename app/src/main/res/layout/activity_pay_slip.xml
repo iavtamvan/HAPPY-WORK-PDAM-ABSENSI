@@ -100,7 +100,7 @@
                                 android:layout_marginLeft="2dp"
                                 android:fontFamily="@font/poppins"
                                 android:gravity="center"
-                                android:text="02 Maret 2023"
+                                android:text="--"
                                 android:textColor="@color/grey"
                                 android:textSize="12dp"
                                 android:textStyle="bold" />
@@ -112,8 +112,8 @@
                                 android:layout_marginLeft="2dp"
                                 android:fontFamily="@font/poppins"
                                 android:gravity="center"
-                                android:text="IDR 3,000,000"
-                                android:textColor="@color/grey_dark"
+                                android:text="---"
+                                android:textColor="@color/black"
                                 android:textSize="18dp"
                                 android:textStyle="bold" />
 

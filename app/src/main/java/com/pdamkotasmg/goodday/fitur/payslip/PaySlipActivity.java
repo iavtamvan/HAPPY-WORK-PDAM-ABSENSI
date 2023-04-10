@@ -41,7 +41,7 @@ public class PaySlipActivity extends AppCompatActivity {
 
     private NumberFormat formatRupiah;
 
-    private String period, month, year;
+    private String date, period, month, year;
 
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
@@ -85,13 +85,13 @@ public class PaySlipActivity extends AppCompatActivity {
         name = sharedPreferences.getString(Config.SHARED_NAME, "");
         npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
 
+        date = getIntent().getStringExtra(Config.BUNDLE_DATE_PAYSLIP);
         period = getIntent().getStringExtra(Config.BUNDLE_OPT_PAYROLL_PERIOD);
         month = getIntent().getStringExtra(Config.BUNDLE_OPT_PERIOD_MONTH);
         year = getIntent().getStringExtra(Config.BUNDLE_OPT_PERIOD_YEAR);
 
         tvNamePegawai.setText(name + " (" + npp + ")");
-
-        Toast.makeText(this, "" + period + month + year, Toast.LENGTH_SHORT).show();
+        tvTanggal.setText(date);
 
         getPaySlip();
 
@@ -108,44 +108,50 @@ public class PaySlipActivity extends AppCompatActivity {
             public void onResponse(Call<PaySlipRootModel> call, Response<PaySlipRootModel> response) {
                 if (response.isSuccessful()) {
 
-                    tvNetPayTop.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getNetPay())));
-                    tvNetPayBottom.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getNetPay())));
-                    tvTotalEarnings.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getTotalEarnings())));
-                    tvTerbilang.setText(response.body().getData().getTerbilang());
-                    tvTransferedTo.setText(response.body().getData().getTransferedTo().replace(" - ", "\n"));
+                    if (response.body().getData() == null) {
+                        Toast.makeText(PaySlipActivity.this, "Data kosong", Toast.LENGTH_SHORT).show();
+                    } else {
 
-                    tvSubtotalEarnings.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getSubtotalEarnings())));
-                    tvSubtotalDeductions.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getSubtotalDeductions())));
-                    tvTax.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getTax())));
+                        tvNetPayTop.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getNetPay())));
+                        tvNetPayBottom.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getNetPay())));
+                        tvTotalEarnings.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getTotalEarnings())));
+                        tvTerbilang.setText(response.body().getData().getTerbilang());
+                        tvTransferedTo.setText(response.body().getData().getTransferedTo().replace(" - ", "\n"));
 
-                    allowancesItems = response.body().getData().getAllowances();
-                    for (int i = 0; i < allowancesItems.size(); i++) {
+                        tvSubtotalEarnings.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getSubtotalEarnings())));
+                        tvSubtotalDeductions.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getSubtotalDeductions())));
+                        tvTax.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getTax())));
 
-                        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        @SuppressLint("InflateParams") View view = layoutInflater.inflate(R.layout.list_item_payslip, null);
+                        allowancesItems = response.body().getData().getAllowances();
+                        for (int i = 0; i < allowancesItems.size(); i++) {
 
-                        TextView tvComponentName = view.findViewById(R.id.tv_component_name);
-                        TextView tvNominal = view.findViewById(R.id.tv_nominal);
+                            LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            @SuppressLint("InflateParams") View view = layoutInflater.inflate(R.layout.list_item_payslip, null);
 
-                        tvComponentName.setText(allowancesItems.get(i).getComponentName());
-                        tvNominal.setText(formatRupiah.format((double) Double.parseDouble(allowancesItems.get(i).getNominal())));
+                            TextView tvComponentName = view.findViewById(R.id.tv_component_name);
+                            TextView tvNominal = view.findViewById(R.id.tv_nominal);
 
-                        divPendapatan.addView(view);
-                    }
+                            tvComponentName.setText(allowancesItems.get(i).getComponentName());
+                            tvNominal.setText(formatRupiah.format((double) Double.parseDouble(allowancesItems.get(i).getNominal())));
 
-                    deductionsItems = response.body().getData().getDeductions();
-                    for (int i = 0; i < deductionsItems.size(); i++) {
+                            divPendapatan.addView(view);
+                        }
 
-                        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        @SuppressLint("InflateParams") View view = layoutInflater.inflate(R.layout.list_item_payslip, null);
+                        deductionsItems = response.body().getData().getDeductions();
+                        for (int i = 0; i < deductionsItems.size(); i++) {
 
-                        TextView tvComponentName = view.findViewById(R.id.tv_component_name);
-                        TextView tvNominal = view.findViewById(R.id.tv_nominal);
+                            LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            @SuppressLint("InflateParams") View view = layoutInflater.inflate(R.layout.list_item_payslip, null);
 
-                        tvComponentName.setText(deductionsItems.get(i).getComponentName());
-                        tvNominal.setText(formatRupiah.format((double) Double.parseDouble(deductionsItems.get(i).getNominal())));
+                            TextView tvComponentName = view.findViewById(R.id.tv_component_name);
+                            TextView tvNominal = view.findViewById(R.id.tv_nominal);
 
-                        divPotongan.addView(view);
+                            tvComponentName.setText(deductionsItems.get(i).getComponentName());
+                            tvNominal.setText(formatRupiah.format((double) Double.parseDouble(deductionsItems.get(i).getNominal())));
+
+                            divPotongan.addView(view);
+                        }
+
                     }
 
                     progressDialog.cancel();
