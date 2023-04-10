@@ -79,10 +79,14 @@ public class SalaryHistoryActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             progressDialog.cancel();
                             dataItems = response.body().getData();
-                            salaryHistoryAdapter = new SalaryHistoryAdapter(SalaryHistoryActivity.this, dataItems);
-                            rvSalaryHistory.setLayoutManager(new LinearLayoutManager(SalaryHistoryActivity.this));
-                            rvSalaryHistory.setAdapter(salaryHistoryAdapter);
-                            salaryHistoryAdapter.notifyDataSetChanged();
+                            if (dataItems == null || dataItems.isEmpty()) {
+                                Toast.makeText(SalaryHistoryActivity.this, "Data kosong", Toast.LENGTH_SHORT).show();
+                            } else {
+                                salaryHistoryAdapter = new SalaryHistoryAdapter(SalaryHistoryActivity.this, dataItems);
+                                rvSalaryHistory.setLayoutManager(new LinearLayoutManager(SalaryHistoryActivity.this));
+                                rvSalaryHistory.setAdapter(salaryHistoryAdapter);
+                                salaryHistoryAdapter.notifyDataSetChanged();
+                            }
                         }
                     }
 
