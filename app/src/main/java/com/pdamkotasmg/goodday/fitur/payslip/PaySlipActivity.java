@@ -41,6 +41,8 @@ public class PaySlipActivity extends AppCompatActivity {
 
     private NumberFormat formatRupiah;
 
+    private String period, month, year;
+
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
     private ImageView ivHeaderInfo;
@@ -83,7 +85,13 @@ public class PaySlipActivity extends AppCompatActivity {
         name = sharedPreferences.getString(Config.SHARED_NAME, "");
         npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
 
+        period = getIntent().getStringExtra(Config.BUNDLE_OPT_PAYROLL_PERIOD);
+        month = getIntent().getStringExtra(Config.BUNDLE_OPT_PERIOD_MONTH);
+        year = getIntent().getStringExtra(Config.BUNDLE_OPT_PERIOD_YEAR);
+
         tvNamePegawai.setText(name + " (" + npp + ")");
+
+        Toast.makeText(this, "" + period + month + year, Toast.LENGTH_SHORT).show();
 
         getPaySlip();
 
@@ -95,7 +103,7 @@ public class PaySlipActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(PaySlipActivity.this);
-        apiService.getPaySlip(accessToken, "MOBILE", "MTH01", "11", "2022").enqueue(new Callback<PaySlipRootModel>() {
+        apiService.getPaySlip(accessToken, "MOBILE", period, month, year).enqueue(new Callback<PaySlipRootModel>() {
             @Override
             public void onResponse(Call<PaySlipRootModel> call, Response<PaySlipRootModel> response) {
                 if (response.isSuccessful()) {

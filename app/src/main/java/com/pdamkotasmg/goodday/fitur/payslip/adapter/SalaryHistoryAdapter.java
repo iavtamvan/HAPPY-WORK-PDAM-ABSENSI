@@ -76,7 +76,12 @@ public class SalaryHistoryAdapter extends RecyclerView.Adapter<SalaryHistoryAdap
                 if (!edtBottomDialogInputPass.getText().toString().equals(getPass)){
                     Toast.makeText(context, "Password salah", Toast.LENGTH_SHORT).show();
                 } else {
-                    context.startActivity(new Intent(context, PaySlipActivity.class));
+                    Intent intent = new Intent(context, PaySlipActivity.class);
+                    intent.putExtra(Config.BUNDLE_DATE_PAYSLIP, holder.tvListPayslipDate.getText().toString().trim());
+                    intent.putExtra(Config.BUNDLE_OPT_PAYROLL_PERIOD, dataItems.get(position).getPayrollPeriod());
+                    intent.putExtra(Config.BUNDLE_OPT_PERIOD_MONTH, dataItems.get(position).getPeriodMonth());
+                    intent.putExtra(Config.BUNDLE_OPT_PERIOD_YEAR, dataItems.get(position).getPeriodYear());
+                    context.startActivity(intent);
                 }
             });
 

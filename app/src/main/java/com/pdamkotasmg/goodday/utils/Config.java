@@ -203,6 +203,11 @@ public final class Config {
     public static final String BUNDLE_NUMBER_REQUEST = "number_request";
     public static final String BUNDLE_NUMBER_APPROVALS = "number_approvals";
 
+    public static final String BUNDLE_DATE_PAYSLIP = "date_payslip";
+    public static final String BUNDLE_OPT_PAYROLL_PERIOD = "opt_payroll_period";
+    public static final String BUNDLE_OPT_PERIOD_MONTH = "opt_period_month";
+    public static final String BUNDLE_OPT_PERIOD_YEAR = "opt_period_year";
+
     // TODO Mulai EDMS
     public static final String BUNDLE_NUMBER_TRX_SURAT = "number_trx_surat";
     // TODO Selesai EDMS

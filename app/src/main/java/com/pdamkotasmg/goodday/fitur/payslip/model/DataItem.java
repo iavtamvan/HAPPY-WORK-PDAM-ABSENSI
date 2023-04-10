@@ -8,10 +8,10 @@ public class DataItem{
     private String payDate;
 
     @SerializedName("period_year")
-    private Integer periodYear;
+    private String periodYear;
 
     @SerializedName("period_month")
-    private Integer periodMonth;
+    private String periodMonth;
 
     @SerializedName("payroll_period_remark")
     private String payrollPeriodRemark;
@@ -27,19 +27,19 @@ public class DataItem{
         return payDate;
     }
 
-    public void setPeriodYear(Integer periodYear){
+    public void setPeriodYear(String periodYear){
         this.periodYear = periodYear;
     }
 
-    public Integer getPeriodYear(){
+    public String getPeriodYear(){
         return periodYear;
     }
 
-    public void setPeriodMonth(Integer periodMonth){
+    public void setPeriodMonth(String periodMonth){
         this.periodMonth = periodMonth;
     }
 
-    public Integer getPeriodMonth(){
+    public String getPeriodMonth(){
         return periodMonth;
     }
 
