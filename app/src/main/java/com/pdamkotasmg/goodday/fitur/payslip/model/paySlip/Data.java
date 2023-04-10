@@ -1,7 +1,8 @@
 package com.pdamkotasmg.goodday.fitur.payslip.model.paySlip;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class Data{
 
@@ -9,7 +10,7 @@ public class Data{
     private String terbilang;
 
     @SerializedName("transfered_amount")
-    private Integer transferedAmount;
+    private String transferedAmount;
 
     @SerializedName("tax_status")
     private String taxStatus;
@@ -18,16 +19,16 @@ public class Data{
     private String employeeNo;
 
     @SerializedName("tax")
-    private Integer tax;
+    private String tax;
 
     @SerializedName("deductions")
     private List<DeductionsItem> deductions;
 
     @SerializedName("subtotal_earnings")
-    private Integer subtotalEarnings;
+    private String subtotalEarnings;
 
     @SerializedName("net_pay")
-    private Integer netPay;
+    private String netPay;
 
     @SerializedName("transfered_to")
     private String transferedTo;
@@ -36,7 +37,7 @@ public class Data{
     private String costCenter;
 
     @SerializedName("total_earnings")
-    private Integer totalEarnings;
+    private String totalEarnings;
 
     @SerializedName("name")
     private String name;
@@ -45,7 +46,7 @@ public class Data{
     private String taxRefNo;
 
     @SerializedName("subtotal_deductions")
-    private Integer subtotalDeductions;
+    private String subtotalDeductions;
 
     @SerializedName("position")
     private String position;
@@ -54,7 +55,7 @@ public class Data{
     private List<AllowancesItem> allowances;
 
     @SerializedName("total_deductions")
-    private Integer totalDeductions;
+    private String totalDeductions;
 
     public void setTerbilang(String terbilang){
         this.terbilang = terbilang;
@@ -64,11 +65,11 @@ public class Data{
         return terbilang;
     }
 
-    public void setTransferedAmount(Integer transferedAmount){
+    public void setTransferedAmount(String transferedAmount){
         this.transferedAmount = transferedAmount;
     }
 
-    public Integer getTransferedAmount(){
+    public String getTransferedAmount(){
         return transferedAmount;
     }
 
@@ -88,11 +89,11 @@ public class Data{
         return employeeNo;
     }
 
-    public void setTax(Integer tax){
+    public void setTax(String tax){
         this.tax = tax;
     }
 
-    public Integer getTax(){
+    public String getTax(){
         return tax;
     }
 
@@ -104,19 +105,19 @@ public class Data{
         return deductions;
     }
 
-    public void setSubtotalEarnings(Integer subtotalEarnings){
+    public void setSubtotalEarnings(String subtotalEarnings){
         this.subtotalEarnings = subtotalEarnings;
     }
 
-    public Integer getSubtotalEarnings(){
+    public String getSubtotalEarnings(){
         return subtotalEarnings;
     }
 
-    public void setNetPay(Integer netPay){
+    public void setNetPay(String netPay){
         this.netPay = netPay;
     }
 
-    public Integer getNetPay(){
+    public String getNetPay(){
         return netPay;
     }
 
@@ -136,11 +137,11 @@ public class Data{
         return costCenter;
     }
 
-    public void setTotalEarnings(Integer totalEarnings){
+    public void setTotalEarnings(String totalEarnings){
         this.totalEarnings = totalEarnings;
     }
 
-    public Integer getTotalEarnings(){
+    public String getTotalEarnings(){
         return totalEarnings;
     }
 
@@ -160,11 +161,11 @@ public class Data{
         return taxRefNo;
     }
 
-    public void setSubtotalDeductions(Integer subtotalDeductions){
+    public void setSubtotalDeductions(String subtotalDeductions){
         this.subtotalDeductions = subtotalDeductions;
     }
 
-    public Integer getSubtotalDeductions(){
+    public String getSubtotalDeductions(){
         return subtotalDeductions;
     }
 
@@ -184,11 +185,11 @@ public class Data{
         return allowances;
     }
 
-    public void setTotalDeductions(Integer totalDeductions){
+    public void setTotalDeductions(String totalDeductions){
         this.totalDeductions = totalDeductions;
     }
 
-    public Integer getTotalDeductions(){
+    public String getTotalDeductions(){
         return totalDeductions;
     }
 }

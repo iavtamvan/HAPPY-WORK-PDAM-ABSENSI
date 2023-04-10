@@ -17,6 +17,7 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.detailPerja
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.postPerjalanDinas.PostPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.riwayatPerjalananDinas.RiwayatPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.payslip.model.SalaryHistoryRootModel;
+import com.pdamkotasmg.goodday.fitur.payslip.model.paySlip.PaySlipRootModel;
 import com.pdamkotasmg.goodday.fitur.perangkat.model.PerangkatRootModel;
 import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.model.PermintaanRootModel;
 import com.pdamkotasmg.goodday.fitur.presensi.model.checkLocationModel.CheckLocationRootModel;
@@ -337,6 +338,17 @@ public interface ApiService {
     Call<SalaryHistoryRootModel> getSalaryHistory(
             @Header("Authorization") String auth,
             @Header("Channel") String Channel
+    );
+
+    @FormUrlEncoded
+    @POST("portal-pegawai/api/payroll-service/payroll/pay-slip/slip/preview")
+    Call<PaySlipRootModel> getPaySlip(
+            @Header("Authorization") String auth,
+            @Header("Channel") String Channel,
+            @Field("opt_payroll_period") String opt_payroll_period,
+            @Field("opt_period_month") String opt_period_month,
+            @Field("opt_period_year") String opt_period_year
+
     );
 
 

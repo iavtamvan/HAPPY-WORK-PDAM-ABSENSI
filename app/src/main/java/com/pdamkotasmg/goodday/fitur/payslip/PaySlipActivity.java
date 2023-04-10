@@ -1,5 +1,6 @@
 package com.pdamkotasmg.goodday.fitur.payslip;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,8 +10,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pdamkotasmg.goodday.R;
+import com.pdamkotasmg.goodday.api.server.ApiConfig;
+import com.pdamkotasmg.goodday.api.server.ApiService;
+import com.pdamkotasmg.goodday.fitur.payslip.model.paySlip.AllowancesItem;
+import com.pdamkotasmg.goodday.fitur.payslip.model.paySlip.DeductionsItem;
+import com.pdamkotasmg.goodday.fitur.payslip.model.paySlip.PaySlipRootModel;
+import com.pdamkotasmg.goodday.utils.Config;
+
+import java.text.NumberFormat;
+import java.util.List;
+import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PaySlipActivity extends AppCompatActivity {
+
+
+    private String accessToken;
+    private String name, npp;
+    private List<AllowancesItem> allowancesItems;
+    private List<DeductionsItem> deductionsItems;
+
+    private NumberFormat formatRupiah;
 
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
@@ -42,6 +65,48 @@ public class PaySlipActivity extends AppCompatActivity {
         ivHeaderInfo.setOnClickListener(v -> {
             Toast.makeText(PaySlipActivity.this, "Horeeee, ayo liburan!", Toast.LENGTH_SHORT).show();
         });
+
+        Locale localeID = new Locale("in", "ID");
+        formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+        name = sharedPreferences.getString(Config.SHARED_NAME, "");
+        npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+
+        tvNamePegawai.setText(name + " (" + npp + ")");
+
+        getPaySlip();
+
+    }
+
+    private void getPaySlip() {
+        ApiService apiService = ApiConfig.getApiService(PaySlipActivity.this);
+        apiService.getPaySlip(accessToken, "MOBILE", "MTH01", "11", "2022")
+                .enqueue(new Callback<PaySlipRootModel>() {
+                    @Override
+                    public void onResponse(Call<PaySlipRootModel> call, Response<PaySlipRootModel> response) {
+                        if (response.isSuccessful()){
+
+                            tvNetPayTop.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getNetPay())));
+                            tvNetPayBottom.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getNetPay())));
+                            tvTotalEarnings.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getTotalEarnings())));
+                            tvTerbilang.setText(response.body().getData().getTerbilang());
+                            tvTransferedTo.setText(response.body().getData().getTransferedTo().replace(" - ", "\n"));
+
+                            tvSubtotalEarnings.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getSubtotalEarnings())));
+                            tvSubtotalDeductions.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getSubtotalDeductions())));
+                            tvTax.setText(formatRupiah.format((double) Double.parseDouble(response.body().getData().getTax())));
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PaySlipRootModel> call, Throwable t) {
+                        Toast.makeText(PaySlipActivity.this, "Payslip: " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void initView() {

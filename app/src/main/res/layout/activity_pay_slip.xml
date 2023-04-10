@@ -66,7 +66,7 @@
                                 android:fontFamily="@font/poppins"
                                 android:text="Name of employee"
                                 android:textColor="@color/primary"
-                                android:textSize="14dp"
+                                android:textSize="13dp"
                                 android:textStyle="bold" />
 
                             <View
@@ -150,7 +150,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/poppins"
                                 android:gravity="end"
-                                android:text="RP.3000.000"
+                                android:text="--"
                                 android:textColor="@color/black"
                                 android:textSize="12dp"
                                 android:textStyle="bold" />
@@ -194,7 +194,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/poppins"
                                 android:gravity="end"
-                                android:text="RP.3000.000"
+                                android:text="--"
                                 android:textColor="@color/black"
                                 android:textSize="12dp"
                                 android:textStyle="bold" />
@@ -238,7 +238,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/poppins"
                                 android:gravity="end"
-                                android:text="RP.3000.000"
+                                android:text="--"
                                 android:textColor="@color/black"
                                 android:textSize="12dp"
                                 android:textStyle="bold" />
@@ -268,7 +268,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/poppins"
                                 android:gravity="end"
-                                android:text="RP.3000.000"
+                                android:text="--"
                                 android:textColor="@color/grey"
                                 android:textSize="12dp"
                                 android:textStyle="bold" />
@@ -306,7 +306,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/poppins"
                                 android:gravity="end"
-                                android:text="RP.3000.000"
+                                android:text="---"
                                 android:textColor="@color/black"
                                 android:textSize="12dp"
                                 android:textStyle="bold" />
@@ -319,7 +319,7 @@
                             android:layout_marginLeft="2dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/poppins"
-                            android:text="Dua Juta Sembilan Ratus Enam Puluh Satu Ribu Sembilan Ratus Lima Puluh Enam Rupiah"
+                            android:text="--"
                             android:textColor="@color/grey_dark"
                             android:textSize="11dp"
                             android:textStyle="bold" />
@@ -355,7 +355,7 @@
                                 android:layout_marginLeft="2dp"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/poppins"
-                                android:text="Bank Rakyat Indonesia - 008301115559506 - Angger Priyardhan Putro, S.Kom"
+                                android:text="---"
                                 android:textColor="@color/black"
                                 android:textSize="12dp"
                                 android:textStyle="bold" />
