@@ -288,7 +288,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
                                     android:fontFamily="@font/poppins"
-                                    android:text="PaySlip (beta)"
+                                    android:text="PaySlip"
                                     android:textColor="@color/black"
                                     android:textSize="13dp" />
 

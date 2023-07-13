@@ -18,7 +18,7 @@
             android:fontFamily="@font/poppins"
             android:text="Pajak"
             android:textColor="@color/grey_dark"
-            android:textSize="12dp"
+            android:textSize="11dp"
             android:textStyle="bold" />
 
         <TextView
@@ -31,7 +31,7 @@
             android:gravity="end"
             android:text="--"
             android:textColor="@color/grey"
-            android:textSize="12dp"
+            android:textSize="11dp"
             android:textStyle="bold" />
     </LinearLayout>
 

@@ -71,7 +71,7 @@ public class PaySlipActivity extends AppCompatActivity {
         ivHeaderBackArrow.setOnClickListener(v -> {
             PaySlipActivity.this.finish();
         });
-        tvHeaderJudul.setText("Payslip");
+        tvHeaderJudul.setText("PaySlip");
         ivHeaderInfo.setOnClickListener(v -> {
             Toast.makeText(PaySlipActivity.this, "Horeeee, ayo liburan!", Toast.LENGTH_SHORT).show();
         });
