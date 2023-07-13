@@ -100,8 +100,8 @@
 
                         <ImageView
                             android:id="@+id/iv_verified"
-                            android:layout_width="24dp"
-                            android:layout_height="18dp"
+                            android:layout_width="25dp"
+                            android:layout_height="19dp"
                             android:layout_toRightOf="@id/tv_profile_name"
                             android:src="@drawable/verified" />
 

@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -86,6 +87,7 @@ public class DashboardActivity extends AppCompatActivity {
     private CircleImageView divProfil;
     private CircleImageView ivLogout;
     private CardView divApprovals;
+    private ImageView ivVerified;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -119,6 +121,8 @@ public class DashboardActivity extends AppCompatActivity {
             Config.showNotification(DashboardActivity.this, "Saatnya Tidur", "Kalau lembur, jangan lupa klik LEMBUR YA!");
             tvGood.setText("Good Night \uD83D\uDECC \uD83D\uDCA4");
         }
+
+        ivVerified.setImageResource(R.drawable.verified);
 
         tvGood.setOnClickListener(view -> {
             Intent intent = new Intent();
@@ -383,5 +387,6 @@ public class DashboardActivity extends AppCompatActivity {
         divProfil = findViewById(R.id.div_profil);
         ivLogout = findViewById(R.id.iv_logout);
         divApprovals = findViewById(R.id.div_approvals);
+        ivVerified = findViewById(R.id.iv_verified);
     }
 }
