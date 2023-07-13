@@ -81,20 +81,31 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins"
-
                         android:text="Nama"
                         android:textColor="@color/black"
                         android:textSize="11dp" />
 
-                    <TextView
-                        android:id="@+id/tv_profile_name"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins"
+                        android:layout_height="wrap_content">
 
-                        android:text="-"
-                        android:textColor="@color/black"
-                        android:textSize="14dp" />
+                        <TextView
+                            android:id="@+id/tv_profile_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins"
+                            android:text="-"
+                            android:textColor="@color/black"
+                            android:textSize="14dp" />
+
+                        <ImageView
+                            android:id="@+id/iv_verified"
+                            android:layout_width="24dp"
+                            android:layout_height="18dp"
+                            android:layout_toRightOf="@id/tv_profile_name"
+                            android:src="@drawable/verified" />
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 
