@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.pdamkotasmg.goodday.BuildConfig;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.authentication.login.LoginActivity;
@@ -109,10 +110,14 @@ public class LoginController {
                         Log.d(TAG, "debugRoles: " + roles);
                         if (roles.contains("petugas-baca-meter")) {
                             Log.d(TAG, "debugRoles: login redirect");
+                            Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent();
+                            intent.setClassName(BuildConfig.APPLICATION_ID, "co.id.pdamkotasmg.MainActivity");
+                            context.startActivity(intent);
                         } else {
                             Log.d(TAG, "debugRoles: failed login redirect");
+                            Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show();
                         }
-
                         loading.cancel();
                     } else {
                         alamat = dataLogin.getUser().getRlPegawai().getAlamat();

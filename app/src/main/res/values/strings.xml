@@ -2,4 +2,5 @@
     <string name="app_name">Good Day Tirta Moedal</string>
     <string name="title_edms">EDMS</string>
     <string name="title_pembaca_meter">Pembaca Meter</string>
+    <string name="title_pembacameter">pembacameter</string>
 </resources>

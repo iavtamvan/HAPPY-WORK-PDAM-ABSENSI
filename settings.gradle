@@ -1,3 +1,4 @@
 include ':app'
 rootProject.name = "HappyWork"
 include ':edms'
+include ':pembacameter'
