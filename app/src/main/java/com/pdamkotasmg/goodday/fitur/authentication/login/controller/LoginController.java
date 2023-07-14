@@ -2,17 +2,14 @@ package com.pdamkotasmg.goodday.fitur.authentication.login.controller;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
-import com.pdamkotasmg.goodday.fitur.authentication.login.LoginActivity;
 import com.pdamkotasmg.goodday.fitur.authentication.login.model.AkunRootModel;
 import com.pdamkotasmg.goodday.fitur.authentication.login.model.Data;
-import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import retrofit2.Call;
@@ -20,6 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginController {
+    private final String TAG = "debug";
     private Data dataLogin;
     //token
     private String access_token;
@@ -99,6 +97,10 @@ public class LoginController {
                     name = dataLogin.getUser().getName();
                     avatar = dataLogin.getUser().getAvatar();
 
+                    Log.d(TAG, "Roles: " + dataLogin.getRoles().toString());
+                    Log.d(TAG, "Roles: " + dataLogin.getRoles().toString());
+                    Log.d(TAG, "Roles: " + dataLogin.getRoles().toString());
+
                     loading.cancel();
 
                     if (dataLogin.getUser().getRlPegawai() == null){
@@ -129,9 +131,11 @@ public class LoginController {
                         satker_formatted = dataLogin.getUser().getRlPegawai().getSatkerFormatted();
                         subsatker_formatted = dataLogin.getUser().getRlPegawai().getSubsatkerFormatted();
 
-                        Toast.makeText(context, "" + dataLogin.getRoles().get(0), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(context, "" + dataLogin.getRoles().get(0), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(context, "" + dataLogin.getRoles().get(0), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, "" + dataLogin.getRoles().get(0), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, "" + dataLogin.getRoles().get(0), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, "" + dataLogin.getRoles().get(0), Toast.LENGTH_SHORT).show();
+
+
 
 
                     }
@@ -177,9 +181,9 @@ public class LoginController {
 
                     editor.apply();
 
-                    Toast.makeText(context, "Sukses Login " + appVersion, Toast.LENGTH_SHORT).show();
-                    ((LoginActivity) context).finishAffinity();
-                    context.startActivity(new Intent(context, DashboardActivity.class));
+//                    Toast.makeText(context, "Sukses Login " + appVersion, Toast.LENGTH_SHORT).show();
+//                    ((LoginActivity) context).finishAffinity();
+//                    context.startActivity(new Intent(context, DashboardActivity.class));
                 } else {
                     loading.cancel();
                     Log.d("debug login res server", "errorBody: " + response.errorBody());

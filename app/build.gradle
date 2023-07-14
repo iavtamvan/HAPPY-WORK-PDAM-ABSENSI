@@ -28,7 +28,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     namespace 'com.pdamkotasmg.goodday'
-    dynamicFeatures = [':edms']
+    dynamicFeatures = [':edms', ':pembacameter']
 }
 
 dependencies {
