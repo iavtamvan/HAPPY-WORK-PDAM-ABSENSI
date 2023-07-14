@@ -2,6 +2,8 @@ package com.pdamkotasmg.goodday.fitur.authentication.login.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Data{
 
     @SerializedName("access_token")
@@ -21,6 +23,17 @@ public class Data{
 
     @SerializedName("device")
     private Device device;
+
+    @SerializedName("roles")
+    private ArrayList<String> roles;
+
+    public ArrayList<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(ArrayList<String> roles) {
+        this.roles = roles;
+    }
 
     public void setAccessToken(String accessToken){
         this.accessToken = accessToken;

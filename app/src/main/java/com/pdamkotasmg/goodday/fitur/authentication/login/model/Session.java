@@ -2,7 +2,7 @@ package com.pdamkotasmg.goodday.fitur.authentication.login.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Session{
+public class    Session{
 
     @SerializedName("is_expired")
     private Boolean isExpired;

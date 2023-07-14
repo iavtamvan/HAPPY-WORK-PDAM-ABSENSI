@@ -128,6 +128,12 @@ public class LoginController {
                         st_data = dataLogin.getUser().getRlPegawai().getStData();
                         satker_formatted = dataLogin.getUser().getRlPegawai().getSatkerFormatted();
                         subsatker_formatted = dataLogin.getUser().getRlPegawai().getSubsatkerFormatted();
+
+                        Toast.makeText(context, "" + dataLogin.getRoles().get(0), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "" + dataLogin.getRoles().get(0), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "" + dataLogin.getRoles().get(0), Toast.LENGTH_SHORT).show();
+
+
                     }
 
                     app_version = dataLogin.getDevice().getAppVersion();
