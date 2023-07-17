@@ -131,6 +131,7 @@ public final class Config {
     public static final String SHARED_TLP = "tlp";
     public static final String SHARED_PEK = "pek";
     public static final String SHARED_ST_DATA = "st_data";
+    public static final String SHARED_ROLES = "roles";
     public static final String SHARED_SATKER_FORMATTED = "satker_formatted";
     public static final String SHARED_SUBSATKER_FORMATTED = "subsatker_formatted";
     public static final String SHARED_APP_VERSION = "app_version";
@@ -318,6 +319,7 @@ public final class Config {
         editor.putString(SHARED_IMAGE_HEADER, "");
         editor.putString(SHARED_MESSAGE_INFO, "");
         editor.putString(SHARED_GETPASSWORD, "");
+        editor.putString(SHARED_ROLES, "");
         editor.apply();
 
         ((Activity) context).finishAffinity();

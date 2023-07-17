@@ -58,6 +58,9 @@ public class LoginController {
     private String subsatker_formatted;
     private String app_version;
 
+    // vendor
+    private String roles;
+
     private ProgressDialog loading;
 
     public void login(
@@ -105,14 +108,16 @@ public class LoginController {
 
                     if (dataLogin.getUser().getRlPegawai() == null) {
                         Log.d("debug ", "RL Pegawai: Kosong");
-                        String roles = dataLogin.getRoles().toString().replace("[", "").replace("]", "");
+                        roles = dataLogin.getRoles().toString().replace("[", "").replace("]", "");
 
                         Log.d(TAG, "debugRoles: " + roles);
                         if (roles.contains("petugas-baca-meter")) {
                             Log.d(TAG, "debugRoles: login redirect");
-                            Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show();
+                            roles = "petugas-baca-meter";
+                            Toast.makeText(context, "Login Success " + roles, Toast.LENGTH_SHORT).show();
+                            saveDataLogin(context, fcmToken, password);
                             Intent intent = new Intent();
-                            intent.setClassName(BuildConfig.APPLICATION_ID, "co.id.pdamkotasmg.MainActivity");
+                            intent.setClassName(BuildConfig.APPLICATION_ID, "co.id.pdamkotasmg.BottomActivity");
                             context.startActivity(intent);
                         } else {
                             Log.d(TAG, "debugRoles: failed login redirect");
@@ -208,6 +213,7 @@ public class LoginController {
         editor.putString(Config.SHARED_APP_VERSION, app_version);
         editor.putString(Config.SHARED_FCM_TOKEN, fcmToken);
         editor.putString(Config.SHARED_GETPASSWORD, password);
+        editor.putString(Config.SHARED_ROLES, roles);
 
         editor.apply();
     }

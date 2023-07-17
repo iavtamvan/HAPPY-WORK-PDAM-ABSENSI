@@ -13,4 +13,13 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/dash_v2_bluedark</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.HappyWork.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.HappyWork.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.HappyWork.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

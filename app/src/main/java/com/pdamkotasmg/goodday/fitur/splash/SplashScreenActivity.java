@@ -508,6 +508,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             Log.d(TAG, "Status Fack: Tidak ada fake gps");
             SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
             String name = sp.getString(Config.SHARED_NAME, "");
+            String roles = sp.getString(Config.SHARED_ROLES, "");
             // TODO jika belum masuk ke welcome
             if (name.equalsIgnoreCase("") || TextUtils.isEmpty(name)) {
                 finishAffinity();
@@ -516,8 +517,15 @@ public class SplashScreenActivity extends AppCompatActivity {
             // TODO jika sudah nantinya akan masuk ke dashboard
             else {
                 finishAffinity();
-                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                if (roles.contains("petugas-baca-meter")){
+                    Intent intent = new Intent();
+                    intent.setClassName(BuildConfig.APPLICATION_ID, "co.id.pdamkotasmg.BottomActivity");
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                }
                 Log.d(TAG, "run: " + name);
+
             }
 
         }, SPLASH_TIME_OUT);

@@ -162,7 +162,7 @@ dependencies {
     implementation 'com.github.chuckerteam.chucker:library:3.5.2'
 
     // runtime ktx
-    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+    implementation 'androidx.work:work-runtime-ktx:2.8.1'
 
     // Digital Signature
     implementation 'com.github.gcacace:signature-pad:1.3.1'
