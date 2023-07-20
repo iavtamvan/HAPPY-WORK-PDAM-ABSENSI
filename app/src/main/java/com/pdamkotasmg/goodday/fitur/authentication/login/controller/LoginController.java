@@ -31,6 +31,8 @@ public class LoginController {
     //user
     private String npp_profile;
     private String name;
+    private String idCabang;
+    private String cabang;
 
     //rlPegawai
     private String alamat;
@@ -103,6 +105,22 @@ public class LoginController {
                     npp_profile = dataLogin.getUser().getNpp();
                     name = dataLogin.getUser().getName();
                     avatar = dataLogin.getUser().getAvatar();
+                    idCabang = dataLogin.getUser().getId_cabang();
+                    cabang = dataLogin.getUser().getId_cabang();
+
+                    if (cabang.contains("1")) {
+                        cabang = "Selatan";
+                    } else if (cabang.contains("2")) {
+                        cabang = "Barat";
+                    } else if (cabang.contains("3")) {
+                        cabang = "Timur";
+                    } else if (cabang.contains("4")) {
+                        cabang = "Utara";
+                    } else if (cabang.contains("5")) {
+                        cabang = "Tengah";
+                    } else if (cabang.contains("0")) {
+                        cabang = "Pusat";
+                    }
 
                     loading.cancel();
 
@@ -214,6 +232,8 @@ public class LoginController {
         editor.putString(Config.SHARED_FCM_TOKEN, fcmToken);
         editor.putString(Config.SHARED_GETPASSWORD, password);
         editor.putString(Config.SHARED_ROLES, roles);
+        editor.putString(Config.SHARED_ID_CABANG, idCabang);
+        editor.putString(Config.SHARED_CABANG, cabang);
 
         editor.apply();
     }

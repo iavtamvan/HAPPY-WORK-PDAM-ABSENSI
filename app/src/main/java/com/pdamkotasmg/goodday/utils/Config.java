@@ -140,6 +140,8 @@ public final class Config {
     public static final String SHARED_START_TIME = "start_time";
     public static final String SHARED_END_TIME = "end_time";
     public static final String SHARED_SHIFT_DAILY_CODE = "shift_daily_code";
+    public static final String SHARED_ID_CABANG = "id_cabang";
+    public static final String SHARED_CABANG = "cabang";
 
     public static final String SHARED_COMPRESED_PHOTO_OFFLINE = "compressed_photo_offline";
     public static final String SHARED_LATI_OFFLINE = "latitude_offline";
@@ -212,6 +214,11 @@ public final class Config {
     // TODO Mulai EDMS
     public static final String BUNDLE_NUMBER_TRX_SURAT = "number_trx_surat";
     // TODO Selesai EDMS
+
+    // TODO Mulai Pembaca Meter
+    public static final String BUNDLE_PEMBACA_METER_CODE_INPUT_DATA = "bundle_pembaca_meter_code_input_data";
+    public static final String BUNDLE_PEMBACA_METER_CODE_BENDEL = "bundle_pembaca_meter_code_input_data";
+    // TODO Selesai Pembaca Meter
 
 
     public static final void changeNoHp(String noHpOriginal) {
@@ -320,6 +327,8 @@ public final class Config {
         editor.putString(SHARED_MESSAGE_INFO, "");
         editor.putString(SHARED_GETPASSWORD, "");
         editor.putString(SHARED_ROLES, "");
+        editor.putString(SHARED_CABANG, "");
+        editor.putString(SHARED_ID_CABANG, "");
         editor.apply();
 
         ((Activity) context).finishAffinity();
