@@ -352,7 +352,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Buka Data"
-                android:textSize="18dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>

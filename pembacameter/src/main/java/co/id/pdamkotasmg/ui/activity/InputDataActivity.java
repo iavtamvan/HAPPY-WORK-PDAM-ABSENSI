@@ -17,6 +17,7 @@ public class InputDataActivity extends AppCompatActivity {
     private String codeInputData;
 
     private String cabang;
+    private String periode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,17 +26,19 @@ public class InputDataActivity extends AppCompatActivity {
         View root = binding.getRoot();
         setContentView(root);
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+        cabang = sharedPreferences.getString(Config.SHARED_CABANG, "");
+        periode = sharedPreferences.getString(Config.SHARED_PERIODE, "");
 
         codeInputData = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA);
-        cabang = sharedPreferences.getString(Config.SHARED_CABANG, "");
         if (codeInputData.contains("1")) {
             binding.divInputBendel.setVisibility(View.VISIBLE);
             binding.tvBendelCabang.setText(cabang);
+            binding.tvBendelPeriode.setText(String.valueOf(periode));
         }
 
         binding.btnBukaData.setOnClickListener(view -> {
             if (codeInputData.contains("1")) {
-                String codeBendel = binding.edtBendel.toString();
+                String codeBendel = binding.edtBendel.getText().toString();
                 Intent intent = new Intent(this, BendelDataActivity.class);
                 intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL, codeBendel);
                 startActivity(intent);

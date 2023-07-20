@@ -19,7 +19,7 @@ public interface ApiService {
             @Header("Authorization") String auth,
             @Query("nolangg") String nolangg
     );
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
+
     @FormUrlEncoded
     @POST("pembaca-meter/api/p/bendel")
     Call<BendelRootModel> getBendel(

@@ -218,6 +218,9 @@ public final class Config {
     // TODO Mulai Pembaca Meter
     public static final String BUNDLE_PEMBACA_METER_CODE_INPUT_DATA = "bundle_pembaca_meter_code_input_data";
     public static final String BUNDLE_PEMBACA_METER_CODE_BENDEL = "bundle_pembaca_meter_code_input_data";
+
+    public static final String SHARED_PERIODE = "shared_periode";
+    public static final String SHARED_PERIODE_BULAN_LALU = "shared_periode_bulan_lalu";
     // TODO Selesai Pembaca Meter
 
 
