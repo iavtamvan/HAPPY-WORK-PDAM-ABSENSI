@@ -117,7 +117,7 @@ public class LoginController {
                             Toast.makeText(context, "Login Success " + roles, Toast.LENGTH_SHORT).show();
                             saveDataLogin(context, fcmToken, password);
                             Intent intent = new Intent();
-                            intent.setClassName(BuildConfig.APPLICATION_ID, "co.id.pdamkotasmg.BottomActivity");
+                            intent.setClassName(BuildConfig.APPLICATION_ID, "co.id.pdamkotasmg.HomeActivity");
                             context.startActivity(intent);
                         } else {
                             Log.d(TAG, "debugRoles: failed login redirect");

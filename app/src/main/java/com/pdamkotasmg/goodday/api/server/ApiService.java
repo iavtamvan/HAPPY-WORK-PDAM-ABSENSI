@@ -351,6 +351,13 @@ public interface ApiService {
 
     );
 
+    // Pembaca meter
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("pembaca-meter/api/m/plg-nolangg")
+    Call<RiwayatKehadiranRootModel> getPelanggan(
+            @Header("Authorization") String auth,
+            @Query("nolangg") String nolangg
+    );
 
 
 }

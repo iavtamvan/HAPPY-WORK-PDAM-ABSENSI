@@ -519,7 +519,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 finishAffinity();
                 if (roles.contains("petugas-baca-meter")){
                     Intent intent = new Intent();
-                    intent.setClassName(BuildConfig.APPLICATION_ID, "co.id.pdamkotasmg.BottomActivity");
+                    intent.setClassName(BuildConfig.APPLICATION_ID, "co.id.pdamkotasmg.HomeActivity");
                     startActivity(intent);
                 } else {
                     startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
