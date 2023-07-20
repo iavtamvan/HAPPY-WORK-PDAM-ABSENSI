@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="co.id.pdamkotasmg.ui.HomeFragment"
+        android:name="co.id.pdamkotasmg.ui.fragment.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="co.id.pdamkotasmg.ui.InputDataFragment"
+        android:name="co.id.pdamkotasmg.ui.fragment.InputDataFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_input_data" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="co.id.pdamkotasmg.ui.DataPelangganFragment"
+        android:name="co.id.pdamkotasmg.ui.fragment.DataPelangganFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_data_pelanggan" />
 </navigation>

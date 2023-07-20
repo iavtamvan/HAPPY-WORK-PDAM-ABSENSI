@@ -1,4 +1,4 @@
-package co.id.pdamkotasmg.ui;
+package co.id.pdamkotasmg.ui.fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;

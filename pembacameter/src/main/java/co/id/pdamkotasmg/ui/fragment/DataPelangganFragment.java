@@ -1,4 +1,4 @@
-package co.id.pdamkotasmg.ui;
+package co.id.pdamkotasmg.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

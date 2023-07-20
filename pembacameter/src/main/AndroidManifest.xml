@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:dist="http://schemas.android.com/apk/distribution">
+    xmlns:dist="http://schemas.android.com/apk/distribution" >
 
     <dist:module
         dist:instant="false"
-        dist:title="@string/title_pembaca_meter">
+        dist:title="@string/title_pembaca_meter" >
         <dist:delivery>
             <dist:install-time />
         </dist:delivery>
@@ -12,7 +12,16 @@
         <dist:fusing dist:include="true" />
     </dist:module>
 
-    <application android:icon="@mipmap/ic_launcher">
+    <application android:icon="@mipmap/ic_launcher" >
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.PembacaMeterActivity"
+            android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.InputActivity"
+            android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.InputDataActivity"
+            android:exported="false" />
         <activity
             android:name="co.id.pdamkotasmg.HomeActivity"
             android:exported="false"
