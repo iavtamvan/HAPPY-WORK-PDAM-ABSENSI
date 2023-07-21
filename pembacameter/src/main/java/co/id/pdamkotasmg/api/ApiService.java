@@ -24,7 +24,8 @@ public interface ApiService {
     @POST("pembaca-meter/api/p/bendel")
     Call<BendelRootModel> getBendel(
             @Header("Authorization") String auth,
-            @Field("bendel") String bendel
+            @Field("bendel") String bendel,
+            @Field("nolangg") String nolangg
     );
 
 

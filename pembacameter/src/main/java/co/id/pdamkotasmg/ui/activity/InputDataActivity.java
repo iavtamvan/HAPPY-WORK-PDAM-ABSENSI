@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -39,9 +40,13 @@ public class InputDataActivity extends AppCompatActivity {
         binding.btnBukaData.setOnClickListener(view -> {
             if (codeInputData.contains("1")) {
                 String codeBendel = binding.edtBendel.getText().toString();
-                Intent intent = new Intent(this, BendelDataActivity.class);
-                intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL, codeBendel);
-                startActivity(intent);
+                if (codeBendel.isEmpty()) {
+                    Toast.makeText(this, "Isi bendel", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(this, BendelDataActivity.class);
+                    intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL, codeBendel);
+                    startActivity(intent);
+                }
             }
         });
 

@@ -1,5 +1,6 @@
 package co.id.pdamkotasmg.ui.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class BendelDataActivity extends AppCompatActivity {
         binding = ActivityBendelDataBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
         setContentView(root);
+        getSupportActionBar().hide();
 
         SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
@@ -48,27 +50,40 @@ public class BendelDataActivity extends AppCompatActivity {
         codeBendel = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL);
         binding.tvBendel.setText("DAFTAR BACAAN METER CABANG " + cabang + " BENDEL " + codeBendel + " PERIODE " + periode);
 
+        binding.btnCari.setOnClickListener(view -> {
+            if (binding.edtNolangg.toString().isEmpty()) {
+                Toast.makeText(this, "Isi ID Pelanggan", Toast.LENGTH_SHORT).show();
+            } else {
+                getBendel();
+            }
+        });
+
         getBendel();
 
     }
 
     private void getBendel() {
+        ProgressDialog progressDialog = new ProgressDialog(BendelDataActivity.this);
+        progressDialog.setMessage("Mohon tunggu...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(this);
-        apiService.getBendel(token, codeBendel).enqueue(new Callback<BendelRootModel>() {
+        apiService.getBendel(token, codeBendel, binding.edtNolangg.getText().toString().trim()).enqueue(new Callback<BendelRootModel>() {
             @Override
             public void onResponse(Call<BendelRootModel> call, Response<BendelRootModel> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(BendelDataActivity.this, "" + response.body(), Toast.LENGTH_SHORT).show();
                     dataItems = response.body().getData();
                     bendelAdapter = new BendelAdapter(BendelDataActivity.this, dataItems);
                     binding.rv.setAdapter(bendelAdapter);
                     binding.rv.setLayoutManager(new LinearLayoutManager(BendelDataActivity.this));
                     bendelAdapter.notifyDataSetChanged();
+                    progressDialog.cancel();
                 }
             }
 
             @Override
             public void onFailure(Call<BendelRootModel> call, Throwable t) {
+                progressDialog.cancel();
                 Toast.makeText(BendelDataActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
             }
         });
