@@ -1,5 +1,6 @@
 package co.id.pdamkotasmg.model.bendel;
 
+import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class DataItem{
@@ -20,7 +21,7 @@ public class DataItem{
     private Object tglMeter;
 
     @SerializedName("rl_trbaca")
-    private RlTrbaca rlTrbaca;
+    private List<RlTrbacaItem> rlTrbaca;
 
     @SerializedName("nolangg")
     private String nolangg;
@@ -104,11 +105,11 @@ public class DataItem{
         return tglMeter;
     }
 
-    public void setRlTrbaca(RlTrbaca rlTrbaca){
+    public void setRlTrbaca(List<RlTrbacaItem> rlTrbaca){
         this.rlTrbaca = rlTrbaca;
     }
 
-    public RlTrbaca getRlTrbaca(){
+    public List<RlTrbacaItem> getRlTrbaca(){
         return rlTrbaca;
     }
 

@@ -57,9 +57,7 @@ public class BendelDataActivity extends AppCompatActivity {
                 getBendel();
             }
         });
-
         getBendel();
-
     }
 
     private void getBendel() {

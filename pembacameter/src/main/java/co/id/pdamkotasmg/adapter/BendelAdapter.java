@@ -2,6 +2,7 @@ package co.id.pdamkotasmg.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import co.id.pdamkotasmg.model.bendel.DataItem;
 import co.id.pdamkotasmg.pembacameter.R;
+import co.id.pdamkotasmg.ui.activity.PembacaMeterActivity;
 
 public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder> {
     Context context;
@@ -61,14 +63,15 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
         }
 
         holder.tvListBendelSt.setText(st);
-        holder.tvListBendelLalu.setText(dataItems.get(position).getRlTrbaca().getLalu() + "m3");
+        holder.tvListBendelLalu.setText(dataItems.get(position).getRlTrbaca().get(0).getKini() + " - "
+                + dataItems.get(position).getRlTrbaca().get(0).getM3() + "m3");
         holder.tvListBendelDibuat.setText("Generate by System Cabang " + cabang + "-" + periode);
 
         holder.cvKlik.setOnClickListener(v -> {
-//            Intent intent = new Intent(context, DetailCutiActivity.class);
+            Intent intent = new Intent(context, PembacaMeterActivity.class);
 //            intent.putExtra(Config.BUNDLE_NUMBER_REQUEST, dataItems.get(position).getRequestNumber());
-//            intent.putExtra(Config.BUNDLE_NUMBER_APPROVALS, "2");
-//            context.startActivity(intent);
+            intent.putExtra(Config.BUNDLE_NUMBER_APPROVALS, "2");
+            context.startActivity(intent);
         });
 
     }
