@@ -113,6 +113,17 @@ public class PembacaMeterActivity extends AppCompatActivity {
             easyImage.openChooser(PembacaMeterActivity.this);
         });
 
+        binding.btnBukaData.setOnClickListener(view -> {
+            if (compressedImageFile1 == null || binding.edtKini.getText().toString().isEmpty()) {
+                Toast.makeText(this, "" + Config.ERROR_DATA_REGISTER, Toast.LENGTH_SHORT).show();
+            } else {
+                // TODO send to server
+                // TODO 1 send picture to server
+                // TODO 2 send data to server 3.7
+                // TODO Selesai
+            }
+        });
+
     }
 
     private void getListGabungan() {
