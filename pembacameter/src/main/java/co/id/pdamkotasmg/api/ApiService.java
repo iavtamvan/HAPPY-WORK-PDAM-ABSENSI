@@ -1,6 +1,8 @@
 package co.id.pdamkotasmg.api;
 
 import co.id.pdamkotasmg.model.bendel.BendelRootModel;
+import co.id.pdamkotasmg.model.checkPelanggan.CheckPelangganRootModel;
+import co.id.pdamkotasmg.model.listGabungan.ListGabunganRootModel;
 import co.id.pdamkotasmg.model.pelanggan.PelangganByNolanggRootModel;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -18,6 +20,19 @@ public interface ApiService {
     Call<PelangganByNolanggRootModel> getPelanggan(
             @Header("Authorization") String auth,
             @Query("nolangg") String nolangg
+    );
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("pembaca-meter/api/m/data-plg")
+    Call<CheckPelangganRootModel> getCheckPelanggan(
+            @Header("Authorization") String auth,
+            @Query("nolangg") String nolangg
+    );
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("pembaca-meter/api/m/gabungan")
+    Call<ListGabunganRootModel> getListGabungan(
+            @Header("Authorization") String auth
     );
 
     @FormUrlEncoded

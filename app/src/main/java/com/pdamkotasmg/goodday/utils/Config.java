@@ -219,6 +219,16 @@ public final class Config {
     public static final String BUNDLE_PEMBACA_METER_CODE_INPUT_DATA = "bundle_pembaca_meter_code_input_data";
     public static final String BUNDLE_PEMBACA_METER_CODE_BENDEL = "bundle_pembaca_meter_code_input_data";
 
+    public static final String BUNDLE_PEMBACA_METER_NOLANGG = "pembaca_meter_nolangg";
+    public static final String BUNDLE_PEMBACA_METER_DISM = "pembaca_meter_dism";
+    public static final String BUNDLE_PEMBACA_METER_NAMA = "pembaca_meter_nama";
+    public static final String BUNDLE_PEMBACA_METER_ALAMAT = "pembaca_meter_alamat";
+    public static final String BUNDLE_PEMBACA_METER_TARIF = "pembaca_meter_tarif";
+    public static final String BUNDLE_PEMBACA_METER_SUMBER_LAIN = "pembaca_meter_sumber_lain";
+    public static final String BUNDLE_PEMBACA_METER_MEREK_METER = "pembaca_meter_merek_meter";
+    public static final String BUNDLE_PEMBACA_METER_LALU = "pembaca_meter_lalu";
+
+
     public static final String SHARED_PERIODE = "shared_periode";
     public static final String SHARED_PERIODE_BULAN_LALU = "shared_periode_bulan_lalu";
     // TODO Selesai Pembaca Meter

@@ -56,7 +56,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="left"
-                                android:text="05200401"
+                                android:text="-"
                                 android:textColor="@color/red"
                                 android:textSize="13dp" />
                         </LinearLayout>
@@ -80,7 +80,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="left"
-                                android:text="5261004"
+                                android:text="-"
                                 android:textColor="@color/black"
                                 android:textSize="13dp" />
                         </LinearLayout>
@@ -100,7 +100,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="left"
-                        android:text="Gedung Wanita Setda Prov.	"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="13dp" />
 
@@ -118,7 +118,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="left"
-                        android:text="Sriwijaya 29"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="13dp" />
 
@@ -136,7 +136,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="left"
-                        android:text="5261004"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="13dp" />
 
@@ -154,7 +154,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="left"
-                        android:text="null"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="13dp" />
 
@@ -172,7 +172,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="left"
-                        android:text="ITRON LOL"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="13dp" />
 
@@ -190,7 +190,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="left"
-                        android:text="1234"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="13dp" />
 
@@ -219,7 +219,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/white"
-                                android:maxLength="4" />
+                                android:maxLines="1"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <TextView
@@ -229,7 +229,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
                             android:gravity="left|center"
-                            android:text=" = 20 m3"
+                            android:text=" = m3"
                             android:textColor="@color/black"
                             android:textSize="13dp" />
 
@@ -245,7 +245,7 @@
                         android:textSize="10dp" />
 
                     <com.jaredrummler.materialspinner.MaterialSpinner
-                        android:id="@+id/spn_asal"
+                        android:id="@+id/spn_status_meter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="-- Pilih --" />
@@ -287,7 +287,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="left"
-                        android:text="Kosong"
+                        android:text="-"
                         android:textColor="@color/black"
                         android:textSize="13dp" />
 
@@ -297,6 +297,7 @@
                         android:layout_marginTop="5dp"
                         android:gravity="left"
                         android:text="Foto Meter: "
+                        android:maxLines="1"
                         android:textColor="@color/grey"
                         android:textSize="10dp" />
 
@@ -305,45 +306,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="155dp"
                         android:src="@drawable/ic_camera" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="left|center_vertical"
-                            android:text="Note : "
-                            android:textColor="@color/grey"
-                            android:textSize="12dp" />
-
-                        <TextView
-                            android:id="@+id/tv_system_update"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp"
-                            android:gravity="left|center_vertical"
-                            android:text="Pastikan semua data benar - System v.0.1"
-                            android:textColor="@color/dash_v2_bluedark"
-                            android:textSize="11dp"
-                            android:textStyle="italic" />
-
-                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/btn_buka_data"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="Simpan Data"
-        android:textSize="14dp"
-        android:textStyle="bold" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tv_system_update"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:gravity="left|center_vertical"
+            android:text="Pastikan semua data benar - System v.0.1"
+            android:textColor="@color/dash_v2_bluedark"
+            android:textSize="11dp"
+            android:textStyle="italic" />
+
+        <Button
+            android:id="@+id/btn_buka_data"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Simpan Data"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 </LinearLayout>

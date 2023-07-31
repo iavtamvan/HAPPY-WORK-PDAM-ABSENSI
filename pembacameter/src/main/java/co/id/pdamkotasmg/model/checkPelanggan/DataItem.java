@@ -1,4 +1,4 @@
-package co.id.pdamkotasmg.model.bendel;
+package co.id.pdamkotasmg.model.checkPelanggan;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -23,6 +23,9 @@ public class DataItem{
 
     @SerializedName("rl_trbaca")
     private List<RlTrbacaItem> rlTrbaca;
+
+    @SerializedName("rl_tarif")
+    private RlTarif rlTarif;
 
     @SerializedName("nolangg")
     private String nolangg;
@@ -112,6 +115,14 @@ public class DataItem{
 
     public List<RlTrbacaItem> getRlTrbaca(){
         return rlTrbaca;
+    }
+
+    public void setRlTarif(RlTarif rlTarif){
+        this.rlTarif = rlTarif;
+    }
+
+    public RlTarif getRlTarif(){
+        return rlTarif;
     }
 
     public void setNolangg(String nolangg){

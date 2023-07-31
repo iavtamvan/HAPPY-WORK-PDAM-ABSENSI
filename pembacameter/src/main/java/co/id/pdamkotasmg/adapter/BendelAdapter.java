@@ -69,8 +69,14 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
 
         holder.cvKlik.setOnClickListener(v -> {
             Intent intent = new Intent(context, PembacaMeterActivity.class);
-//            intent.putExtra(Config.BUNDLE_NUMBER_REQUEST, dataItems.get(position).getRequestNumber());
-            intent.putExtra(Config.BUNDLE_NUMBER_APPROVALS, "2");
+            intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, dataItems.get(position).getNolangg());
+//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_DISM, dataItems.get(position).getDism());
+//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_NAMA, dataItems.get(position).getNama());
+//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_ALAMAT, dataItems.get(position).getAlamat());
+//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_TARIF, dataItems.get(position).getTarif());
+//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_SUMBER_LAIN, dataItems.get(position).getNolangg());
+//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_MEREK_METER, dataItems.get(position).getNolangg());
+//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_LALU, dataItems.get(position).getNolangg());
             context.startActivity(intent);
         });
 
@@ -83,8 +89,6 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout cvKlik;
-        private TextView tvListItemNolangg;
-        private LinearLayout divCopy;
         private TextView tvListBendelNolangg;
         private TextView tvListBendelDism;
         private TextView tvListBendelNama;
@@ -96,8 +100,6 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cvKlik = itemView.findViewById(R.id.cvKlik);
-            tvListItemNolangg = itemView.findViewById(R.id.tv_list_item_nolangg);
-            divCopy = itemView.findViewById(R.id.div_copy);
             tvListBendelNolangg = itemView.findViewById(R.id.tv_list_bendel_nolangg);
             tvListBendelDism = itemView.findViewById(R.id.tv_list_bendel_dism);
             tvListBendelNama = itemView.findViewById(R.id.tv_list_bendel_nama);
