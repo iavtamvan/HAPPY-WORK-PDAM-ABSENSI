@@ -1,12 +1,11 @@
-package co.id.pdamkotasmg.model.checkPelanggan;
+package co.id.pdamkotasmg.model.fileHandler;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class CheckPelangganRootModel{
+public class PostFotoUploadRootModel{
 
     @SerializedName("data")
-    private List<DataItem> data;
+    private Data data;
 
     @SerializedName("message")
     private String message;
@@ -14,11 +13,11 @@ public class CheckPelangganRootModel{
     @SerializedName("status")
     private Integer status;
 
-    public void setData(List<DataItem> data){
+    public void setData(Data data){
         this.data = data;
     }
 
-    public List<DataItem> getData(){
+    public Data getData(){
         return data;
     }
 

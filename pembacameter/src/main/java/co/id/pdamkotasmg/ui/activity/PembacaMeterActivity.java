@@ -22,16 +22,24 @@ import com.pdamkotasmg.goodday.utils.Config;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import co.id.pdamkotasmg.api.ApiConfig;
 import co.id.pdamkotasmg.api.ApiService;
 import co.id.pdamkotasmg.model.checkPelanggan.CheckPelangganRootModel;
+import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
 import co.id.pdamkotasmg.model.listGabungan.ListGabunganRootModel;
 import co.id.pdamkotasmg.model.listGabungan.StatusMeterItem;
 import co.id.pdamkotasmg.pembacameter.databinding.ActivityPembacaMeterBinding;
 import id.zelory.compressor.Compressor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import pl.aprilapps.easyphotopicker.EasyImage;
 import pl.aprilapps.easyphotopicker.MediaFile;
 import pl.aprilapps.easyphotopicker.MediaSource;
@@ -53,8 +61,12 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
     private String token;
     private String nolangg;
+    private String npp;
     private String lalu;
     private String kodeStatusMeter;
+
+    private String filePathServer;
+    private String fileUrlServer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +77,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
+        npp = sp.getString(Config.SHARED_NPP_PROFILE, "");
         nolangg = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG);
 
         easyImage = new EasyImage.Builder(PembacaMeterActivity.this)
@@ -114,16 +127,51 @@ public class PembacaMeterActivity extends AppCompatActivity {
         });
 
         binding.btnBukaData.setOnClickListener(view -> {
-            if (compressedImageFile1 == null || binding.edtKini.getText().toString().isEmpty()) {
-                Toast.makeText(this, "" + Config.ERROR_DATA_REGISTER, Toast.LENGTH_SHORT).show();
-            } else {
-                // TODO send to server
-                // TODO 1 send picture to server
-                // TODO 2 send data to server 3.7
-                // TODO Selesai
-            }
+//            if (compressedImageFile1 == null || binding.edtKini.getText().toString().isEmpty()) {
+//                Toast.makeText(this, "" + Config.ERROR_DATA_REGISTER, Toast.LENGTH_SHORT).show();
+//            } else {
+            // TODO send to server
+            // TODO 1 send picture to server
+            postFotoMeter();
+            // TODO 2 send data to server 3.7
+
+            // TODO Selesai
+//            }
         });
 
+    }
+
+    private void postFotoMeter() {
+        Date currentTime = Calendar.getInstance().getTime();
+        String timestamp = String.valueOf(currentTime.getTime());
+        String year = new SimpleDateFormat("Y", Locale.getDefault()).format(new Date());
+        String month = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
+        RequestBody path = RequestBody.create(MediaType.parse("text/plain"), "/pembaca-meter/foto-pembaca-meter/" + year + "/" + month);
+        RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), "pembaca-meter-" + nolangg + "-" + npp + "-" + year + month + "-" + timestamp);
+
+        File imageFileMeter = new File(compressedImageFile1.getPath());
+        RequestBody requestFilePhotoKtp = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileMeter);
+        MultipartBody.Part bodyFileMeter = MultipartBody.Part.createFormData("photo", imageFileMeter.getName(), requestFilePhotoKtp);
+
+
+        ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
+        apiService.postUploadFoto(token, path, fileName, bodyFileMeter)
+                .enqueue(new Callback<PostFotoUploadRootModel>() {
+                    @Override
+                    public void onResponse(Call<PostFotoUploadRootModel> call, Response<PostFotoUploadRootModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.d(TAG, "uploadImage " + response.body().getData().getFileurl());
+                            filePathServer = response.body().getData().getFilepath();
+                            fileUrlServer = response.body().getData().getFileurl();
+//                            postDataPembacaMeter();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PostFotoUploadRootModel> call, Throwable t) {
+                        Toast.makeText(PembacaMeterActivity.this, "Upload Foto Gagal " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void getListGabungan() {
@@ -163,6 +211,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             getListGabungan();
                             binding.tvNolangg.setText(response.body().getData().get(0).getNolangg());
+                            binding.tvPeriode.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
                             binding.tvDism.setText(response.body().getData().get(0).getDism());
                             binding.tvNama.setText(response.body().getData().get(0).getNama());
                             binding.tvAlamat.setText(response.body().getData().get(0).getAlamat());
@@ -171,7 +220,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                             binding.tvMerekMeter.setText(response.body().getData().get(0).getMerek() + " / " + response.body().getData().get(0).getNomormtr());
                             lalu = response.body().getData().get(0).getRlTrbaca().get(0).getKini();
                             binding.tvLalu.setText(lalu + " - " + response.body().getData().get(0).getRlTrbaca().get(0).getM3() + "m3");
-                            binding.tvStatusData.setText(response.body().getData().get(0).getRlTrbaca().get(0).getRlStBaca().getKode() + " - " + response.body().getData().get(0).getRlTrbaca().get(0).getRlStBaca().getNm_status());
+                            binding.tvStatusData.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
                         }
                     }
 

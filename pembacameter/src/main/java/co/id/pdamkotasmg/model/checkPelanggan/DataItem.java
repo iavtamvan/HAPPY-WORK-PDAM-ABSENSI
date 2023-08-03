@@ -57,6 +57,9 @@ public class DataItem{
     @SerializedName("diameter")
     private String diameter;
 
+    @SerializedName("rl_dt_baca_periode_skrg")
+    private List<RlDtBacaPeriodeSkrgItem> rlDtBacaPeriodeSkrg;
+
     @SerializedName("tlp")
     private String tlp;
 
@@ -203,6 +206,14 @@ public class DataItem{
 
     public String getDiameter(){
         return diameter;
+    }
+
+    public void setRlDtBacaPeriodeSkrg(List<RlDtBacaPeriodeSkrgItem> rlDtBacaPeriodeSkrg){
+        this.rlDtBacaPeriodeSkrg = rlDtBacaPeriodeSkrg;
+    }
+
+    public List<RlDtBacaPeriodeSkrgItem> getRlDtBacaPeriodeSkrg(){
+        return rlDtBacaPeriodeSkrg;
     }
 
     public void setTlp(String tlp){
