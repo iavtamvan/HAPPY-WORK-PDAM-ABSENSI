@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.pdamkotasmg.goodday.utils.Config;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import java.io.File;
 import java.io.IOException;
@@ -133,8 +134,19 @@ public class PembacaMeterActivity extends AppCompatActivity {
             } else {
                 // TODO send to server
                 // TODO 1 send picture to server
-                postFotoMeter();
                 // TODO 2 send data to server 3.7
+                MaterialDialog mDialog = new MaterialDialog.Builder(PembacaMeterActivity.this)
+                        .setTitle("Apaka data Anda sudah benar?")
+                        .setCancelable(false)
+                        .setNegativeButton("Belum", (dialogInterface, which) -> {
+                            dialogInterface.dismiss();
+                        })
+                        .setPositiveButton("Sudah", (dialogInterface, which) -> {
+                            postFotoMeter();
+                        })
+                        .build();
+
+                mDialog.show();
 
                 // TODO Selesai
             }
