@@ -5,6 +5,7 @@ import co.id.pdamkotasmg.model.checkPelanggan.CheckPelangganRootModel;
 import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
 import co.id.pdamkotasmg.model.listGabungan.ListGabunganRootModel;
 import co.id.pdamkotasmg.model.pelanggan.PelangganByNolanggRootModel;
+import co.id.pdamkotasmg.model.updatePembacaMeter.UpdatePembacaMeterRootModel;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -57,5 +58,14 @@ public interface ApiService {
             @Part MultipartBody.Part photo
     );
 
-
+    @FormUrlEncoded
+    @POST("pembaca-meter/api/u/update-baca-meter")
+    Call<UpdatePembacaMeterRootModel> postUpdatePembacaMeter(
+            @Header("Authorization") String auth,
+            @Field("nolangg") String nolangg,
+            @Field("kini") String kini,
+            @Field("foto_meter") String foto_meter,
+            @Field("ip_entry") String ip_entry,
+            @Field("keterangan") String keterangan
+    );
 }

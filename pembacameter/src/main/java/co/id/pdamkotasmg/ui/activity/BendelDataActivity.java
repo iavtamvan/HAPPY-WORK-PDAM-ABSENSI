@@ -48,7 +48,8 @@ public class BendelDataActivity extends AppCompatActivity {
         cabang = sp.getString(Config.SHARED_CABANG, "");
 
         codeBendel = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL);
-        binding.tvBendel.setText("DAFTAR BACAAN METER CABANG " + cabang + " BENDEL " + codeBendel + " PERIODE " + periode);
+        binding.tvBendel.setText("- DAFTAR BACAAN METER CABANG " + cabang + " BENDEL " + codeBendel + " PERIODE " + periode + "\n" +
+                "- ID Pelanggan yang sudah dibaca TIDAK TAMPIL pada halaman ini");
 
         binding.btnCari.setOnClickListener(view -> {
             if (binding.edtNolangg.toString().isEmpty()) {
@@ -71,6 +72,7 @@ public class BendelDataActivity extends AppCompatActivity {
             public void onResponse(Call<BendelRootModel> call, Response<BendelRootModel> response) {
                 if (response.isSuccessful()) {
                     dataItems = response.body().getData();
+                    binding.tvTotalDataBendel.setText("Data : " + dataItems.size() + " Pelanggan");
                     bendelAdapter = new BendelAdapter(BendelDataActivity.this, dataItems);
                     binding.rv.setAdapter(bendelAdapter);
                     binding.rv.setLayoutManager(new LinearLayoutManager(BendelDataActivity.this));
@@ -85,5 +87,11 @@ public class BendelDataActivity extends AppCompatActivity {
                 Toast.makeText(BendelDataActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getBendel();
     }
 }

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:cardBackgroundColor="@color/dash_v2_bluedark"
+        app:cardBackgroundColor="@color/redPortal"
         app:cardCornerRadius="8dp">
 
         <LinearLayout
@@ -31,7 +31,7 @@
 
                 <ImageView
                     android:layout_width="20dp"
-                    android:layout_height="60dp"
+                    android:layout_height="80dp"
                     android:src="@drawable/ic_health" />
 
                 <TextView
@@ -42,7 +42,7 @@
                     android:layout_marginRight="4dp"
                     android:fontFamily="@font/poppins"
                     android:gravity="center|left"
-                    android:text="hehehe"
+                    android:text="ID Pelanggan yang sudah dibaca TIDAK TAMPIL pada halaman ini"
                     android:textColor="@color/white"
                     android:textSize="12dp"
                     android:textStyle="bold" />
@@ -83,6 +83,17 @@
 
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_total_data_bendel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:fontFamily="@font/poppins"
+        android:text="ID Pelanggan yang sudah dibaca TIDAK TAMPIL pada halaman ini"
+        android:textSize="12dp"
+        android:textStyle="bold" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"

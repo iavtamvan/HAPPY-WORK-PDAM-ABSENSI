@@ -35,6 +35,7 @@ import co.id.pdamkotasmg.model.checkPelanggan.CheckPelangganRootModel;
 import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
 import co.id.pdamkotasmg.model.listGabungan.ListGabunganRootModel;
 import co.id.pdamkotasmg.model.listGabungan.StatusMeterItem;
+import co.id.pdamkotasmg.model.updatePembacaMeter.UpdatePembacaMeterRootModel;
 import co.id.pdamkotasmg.pembacameter.databinding.ActivityPembacaMeterBinding;
 import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
@@ -127,21 +128,22 @@ public class PembacaMeterActivity extends AppCompatActivity {
         });
 
         binding.btnBukaData.setOnClickListener(view -> {
-//            if (compressedImageFile1 == null || binding.edtKini.getText().toString().isEmpty()) {
-//                Toast.makeText(this, "" + Config.ERROR_DATA_REGISTER, Toast.LENGTH_SHORT).show();
-//            } else {
-            // TODO send to server
-            // TODO 1 send picture to server
-            postFotoMeter();
-            // TODO 2 send data to server 3.7
+            if (compressedImageFile1 == null || binding.edtKini.getText().toString().isEmpty()) {
+                Toast.makeText(this, "" + Config.ERROR_DATA_REGISTER, Toast.LENGTH_SHORT).show();
+            } else {
+                // TODO send to server
+                // TODO 1 send picture to server
+                postFotoMeter();
+                // TODO 2 send data to server 3.7
 
-            // TODO Selesai
-//            }
+                // TODO Selesai
+            }
         });
 
     }
 
     private void postFotoMeter() {
+        progressDialog.show();
         Date currentTime = Calendar.getInstance().getTime();
         String timestamp = String.valueOf(currentTime.getTime());
         String year = new SimpleDateFormat("Y", Locale.getDefault()).format(new Date());
@@ -163,13 +165,35 @@ public class PembacaMeterActivity extends AppCompatActivity {
                             Log.d(TAG, "uploadImage " + response.body().getData().getFileurl());
                             filePathServer = response.body().getData().getFilepath();
                             fileUrlServer = response.body().getData().getFileurl();
-//                            postDataPembacaMeter();
+                            postDataPembacaMeter();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<PostFotoUploadRootModel> call, Throwable t) {
+                        progressDialog.cancel();
                         Toast.makeText(PembacaMeterActivity.this, "Upload Foto Gagal " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void postDataPembacaMeter() {
+        ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
+        apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, "192.111.123.1", binding.edtKeterangan.getText().toString().trim())
+                .enqueue(new Callback<UpdatePembacaMeterRootModel>() {
+                    @Override
+                    public void onResponse(Call<UpdatePembacaMeterRootModel> call, Response<UpdatePembacaMeterRootModel> response) {
+                        if (response.isSuccessful()) {
+                            progressDialog.cancel();
+                            PembacaMeterActivity.this.finish();
+                            Toast.makeText(PembacaMeterActivity.this, "Success update data : " + response.body().getData().getUpdateData(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UpdatePembacaMeterRootModel> call, Throwable t) {
+                        progressDialog.cancel();
+                        Toast.makeText(PembacaMeterActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
