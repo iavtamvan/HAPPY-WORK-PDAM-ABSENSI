@@ -1,6 +1,7 @@
 package co.id.pdamkotasmg.ui.fragment;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +34,7 @@ public class InputDataFragment extends Fragment {
     private String codeInputData;
     private String token;
     private String nolangg;
+    private ProgressDialog progressDialog;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -43,6 +45,10 @@ public class InputDataFragment extends Fragment {
 
         SharedPreferences sp = getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
+
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Mohon tunggu...");
 
         binding.divInBendel.setOnClickListener(view -> {
             codeInputData = "1";
@@ -69,6 +75,7 @@ public class InputDataFragment extends Fragment {
 
             builder.setPositiveButton("OK", (dialog, which) -> {
                 nolangg = input.getText().toString();
+                progressDialog.show();
                 checkPelanggan(nolangg);
             });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -88,7 +95,9 @@ public class InputDataFragment extends Fragment {
                         if (response.isSuccessful()) {
                             if (response.body().getData().get(0).getRlStatusPelanggan().getKode().contains("4")){
                                 Toast.makeText(getActivity(), "Status pelanggan tutup/blokir", Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
                             } else {
+                                progressDialog.cancel();
                                 Intent intent = new Intent(getActivity(), PembacaMeterActivity.class);
                                 intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
                                 getActivity().startActivity(intent);
@@ -98,6 +107,7 @@ public class InputDataFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<CheckByNolanggRootModel> call, Throwable throwable) {
+                        progressDialog.cancel();
                         Toast.makeText(getActivity(), "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
