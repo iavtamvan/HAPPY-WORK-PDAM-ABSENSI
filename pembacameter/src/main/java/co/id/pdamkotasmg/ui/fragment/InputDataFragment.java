@@ -75,8 +75,12 @@ public class InputDataFragment extends Fragment {
 
             builder.setPositiveButton("OK", (dialog, which) -> {
                 nolangg = input.getText().toString();
-                progressDialog.show();
-                checkPelanggan(nolangg);
+                if (nolangg.isEmpty()) {
+                    Toast.makeText(getActivity(), "Isi nolangg", Toast.LENGTH_SHORT).show();
+                } else {
+                    progressDialog.show();
+                    checkPelanggan(nolangg);
+                }
             });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
