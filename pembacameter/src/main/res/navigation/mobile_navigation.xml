@@ -14,12 +14,12 @@
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="co.id.pdamkotasmg.ui.fragment.InputDataFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/title_input"
         tools:layout="@layout/fragment_input_data" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="co.id.pdamkotasmg.ui.fragment.DataPelangganFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/title_verifikasi"
         tools:layout="@layout/fragment_data_pelanggan" />
 </navigation>
