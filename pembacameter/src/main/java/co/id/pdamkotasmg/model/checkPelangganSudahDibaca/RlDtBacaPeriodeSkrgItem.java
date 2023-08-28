@@ -1,35 +1,35 @@
-package co.id.pdamkotasmg.model.checkPelanggan;
+package co.id.pdamkotasmg.model.checkPelangganSudahDibaca;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RlTrbacaItem{
+public class RlDtBacaPeriodeSkrgItem{
 
     @SerializedName("dt")
-    private String dt;
+    private Integer dt;
 
     @SerializedName("rl_petugas")
-    private RlPetugas rlPetugas;
+    private Object rlPetugas;
 
     @SerializedName("cabang")
     private String cabang;
 
     @SerializedName("m3")
-    private String m3;
+    private Integer m3;
 
     @SerializedName("kt")
-    private String kt;
+    private Object kt;
 
     @SerializedName("kini")
-    private String kini;
+    private Integer kini;
 
     @SerializedName("rl_dt_baca")
     private RlDtBaca rlDtBaca;
 
     @SerializedName("lalu")
-    private String lalu;
+    private Integer lalu;
 
     @SerializedName("tgl_baca")
-    private String tglBaca;
+    private Object tglBaca;
 
     @SerializedName("nolangg")
     private String nolangg;
@@ -38,21 +38,21 @@ public class RlTrbacaItem{
     private String periode;
 
     @SerializedName("petugas")
-    private String petugas;
+    private Object petugas;
 
-    public void setDt(String dt){
+    public void setDt(Integer dt){
         this.dt = dt;
     }
 
-    public String getDt(){
+    public Integer getDt(){
         return dt;
     }
 
-    public void setRlPetugas(RlPetugas rlPetugas){
+    public void setRlPetugas(Object rlPetugas){
         this.rlPetugas = rlPetugas;
     }
 
-    public RlPetugas getRlPetugas(){
+    public Object getRlPetugas(){
         return rlPetugas;
     }
 
@@ -64,27 +64,27 @@ public class RlTrbacaItem{
         return cabang;
     }
 
-    public void setM3(String m3){
+    public void setM3(Integer m3){
         this.m3 = m3;
     }
 
-    public String getM3(){
+    public Integer getM3(){
         return m3;
     }
 
-    public void setKt(String kt){
+    public void setKt(Object kt){
         this.kt = kt;
     }
 
-    public String getKt(){
+    public Object getKt(){
         return kt;
     }
 
-    public void setKini(String kini){
+    public void setKini(Integer kini){
         this.kini = kini;
     }
 
-    public String getKini(){
+    public Integer getKini(){
         return kini;
     }
 
@@ -96,19 +96,19 @@ public class RlTrbacaItem{
         return rlDtBaca;
     }
 
-    public void setLalu(String lalu){
+    public void setLalu(Integer lalu){
         this.lalu = lalu;
     }
 
-    public String getLalu(){
+    public Integer getLalu(){
         return lalu;
     }
 
-    public void setTglBaca(String tglBaca){
+    public void setTglBaca(Object tglBaca){
         this.tglBaca = tglBaca;
     }
 
-    public String getTglBaca(){
+    public Object getTglBaca(){
         return tglBaca;
     }
 
@@ -128,11 +128,11 @@ public class RlTrbacaItem{
         return periode;
     }
 
-    public void setPetugas(String petugas){
+    public void setPetugas(Object petugas){
         this.petugas = petugas;
     }
 
-    public String getPetugas(){
+    public Object getPetugas(){
         return petugas;
     }
 }

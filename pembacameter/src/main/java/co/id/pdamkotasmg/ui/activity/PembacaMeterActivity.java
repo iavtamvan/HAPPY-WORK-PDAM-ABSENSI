@@ -32,7 +32,7 @@ import java.util.Locale;
 
 import co.id.pdamkotasmg.api.ApiConfig;
 import co.id.pdamkotasmg.api.ApiService;
-import co.id.pdamkotasmg.model.checkPelanggan.CheckPelangganRootModel;
+import co.id.pdamkotasmg.model.checkPelangganSudahDibaca.CheckPelangganRootModel;
 import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
 import co.id.pdamkotasmg.model.listGabungan.ListGabunganRootModel;
 import co.id.pdamkotasmg.model.listGabungan.StatusMeterItem;
@@ -239,24 +239,33 @@ public class PembacaMeterActivity extends AppCompatActivity {
     private void getCheckPelanggan() {
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
-        apiService.getCheckPelanggan(token, nolangg)
+        apiService.getCheckPelangganDetail(token, nolangg)
                 .enqueue(new Callback<CheckPelangganRootModel>() {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onResponse(Call<CheckPelangganRootModel> call, Response<CheckPelangganRootModel> response) {
                         if (response.isSuccessful()) {
-                            getListGabungan();
-                            binding.tvNolangg.setText(response.body().getData().get(0).getNolangg());
-                            binding.tvPeriode.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
-                            binding.tvDism.setText(response.body().getData().get(0).getDism());
-                            binding.tvNama.setText(response.body().getData().get(0).getNama());
-                            binding.tvAlamat.setText(response.body().getData().get(0).getAlamat());
-                            binding.tvTarif.setText(response.body().getData().get(0).getRlTarif().getKode() + " - " + response.body().getData().get(0).getRlTarif().getNmTarif());
-                            binding.tvSumberLain.setText(response.body().getData().get(0).getSumur());
-                            binding.tvMerekMeter.setText(response.body().getData().get(0).getMerek() + " / " + response.body().getData().get(0).getNomormtr());
-                            lalu = response.body().getData().get(0).getRlTrbaca().get(0).getKini();
-                            binding.tvLalu.setText(lalu + " - " + response.body().getData().get(0).getRlTrbaca().get(0).getM3() + "m3");
-                            binding.tvStatusData.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
+                            if (response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("0")) {
+                                getListGabungan();
+                                binding.tvNolangg.setText(response.body().getData().get(0).getNolangg());
+                                binding.tvPeriode.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
+                                binding.tvDism.setText(response.body().getData().get(0).getDism());
+                                binding.tvNama.setText(response.body().getData().get(0).getNama());
+                                binding.tvAlamat.setText(response.body().getData().get(0).getAlamat());
+                                binding.tvTarif.setText(response.body().getData().get(0).getRlTarif().getKode() + " - " + response.body().getData().get(0).getRlTarif().getNmTarif());
+                                binding.tvSumberLain.setText(response.body().getData().get(0).getSumur());
+                                binding.tvMerekMeter.setText(response.body().getData().get(0).getMerek() + " / " + response.body().getData().get(0).getNomormtr());
+                                lalu = response.body().getData().get(0).getRlTrbaca().get(0).getKini();
+                                binding.tvLalu.setText(lalu + " - " + response.body().getData().get(0).getRlTrbaca().get(0).getM3() + "m3");
+                                binding.tvStatusData.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
+                            } else {
+                                binding.svContainer.setVisibility(View.GONE);
+                                binding.btnBukaData.setVisibility(View.GONE);
+                                binding.tvSystemUpdate.setText(response.body().getData().get(0).getNolangg() +
+                                        " Pelanggan sudah dalam status " +
+                                        response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
+                                progressDialog.cancel();
+                            }
                         }
                     }
 

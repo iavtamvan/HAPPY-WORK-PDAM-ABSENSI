@@ -1,29 +1,48 @@
 package co.id.pdamkotasmg.ui.fragment;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.pdamkotasmg.goodday.utils.Config;
 
+import co.id.pdamkotasmg.api.ApiConfig;
+import co.id.pdamkotasmg.api.ApiService;
+import co.id.pdamkotasmg.model.checkByNolangg.CheckByNolanggRootModel;
 import co.id.pdamkotasmg.pembacameter.databinding.FragmentInputDataBinding;
-import co.id.pdamkotasmg.ui.activity.InputDataActivity;
+import co.id.pdamkotasmg.ui.activity.PembacaMeterActivity;
+import co.id.pdamkotasmg.ui.activity.bendel.InputDataActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class InputDataFragment extends Fragment {
 
     private FragmentInputDataBinding binding;
     private String codeInputData;
+    private String token;
+    private String nolangg;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentInputDataBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        SharedPreferences sp = getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
 
         binding.divInBendel.setOnClickListener(view -> {
             codeInputData = "1";
@@ -40,7 +59,48 @@ public class InputDataFragment extends Fragment {
             Config.logout(getActivity());
         });
 
+        binding.divInPerPelanggan.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Nolangg");
+
+            final EditText input = new EditText(getActivity());
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                nolangg = input.getText().toString();
+                checkPelanggan(nolangg);
+            });
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+            builder.show();
+        });
+
         return root;
+    }
+
+    private void checkPelanggan(String nolangg) {
+        ApiService apiService = ApiConfig.getApiService(getActivity());
+        apiService.getCheckPelangganStatus(token, nolangg)
+                .enqueue(new Callback<CheckByNolanggRootModel>() {
+                    @Override
+                    public void onResponse(Call<CheckByNolanggRootModel> call, Response<CheckByNolanggRootModel> response) {
+                        if (response.isSuccessful()) {
+                            if (response.body().getData().get(0).getRlStatusPelanggan().getKode().contains("4")){
+                                Toast.makeText(getActivity(), "Status pelanggan tutup/blokir", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Intent intent = new Intent(getActivity(), PembacaMeterActivity.class);
+                                intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
+                                getActivity().startActivity(intent);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<CheckByNolanggRootModel> call, Throwable throwable) {
+                        Toast.makeText(getActivity(), "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override

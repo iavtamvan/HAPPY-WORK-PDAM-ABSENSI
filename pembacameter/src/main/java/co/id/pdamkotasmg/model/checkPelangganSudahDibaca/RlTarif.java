@@ -1,4 +1,4 @@
-package co.id.pdamkotasmg.model.checkPelanggan;
+package co.id.pdamkotasmg.model.checkPelangganSudahDibaca;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="4dp"
     android:orientation="vertical"
-    tools:context="co.id.pdamkotasmg.ui.activity.BendelDataActivity">
+    tools:context="co.id.pdamkotasmg.ui.activity.bendel.BendelDataActivity">
 
     <include layout="@layout/content_header" />
 

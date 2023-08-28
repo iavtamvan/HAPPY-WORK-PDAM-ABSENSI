@@ -1,4 +1,4 @@
-package co.id.pdamkotasmg.ui.activity;
+package co.id.pdamkotasmg.ui.activity.bendel;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

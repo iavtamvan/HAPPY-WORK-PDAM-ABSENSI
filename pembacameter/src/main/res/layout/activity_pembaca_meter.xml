@@ -9,6 +9,7 @@
     <include layout="@layout/content_header" />
 
     <ScrollView
+        android:id="@+id/sv_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">

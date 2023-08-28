@@ -1,8 +1,6 @@
-package co.id.pdamkotasmg.model.checkPelanggan;
+package co.id.pdamkotasmg.model.checkByNolangg;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 
 public class DataItem{
 
@@ -13,19 +11,19 @@ public class DataItem{
     private String cabang;
 
     @SerializedName("sumur")
-    private String sumur;
+    private Object sumur;
+
+    @SerializedName("rl_status_pelanggan")
+    private RlStatusPelanggan rlStatusPelanggan;
+
+    @SerializedName("rl_cabang")
+    private RlCabang rlCabang;
 
     @SerializedName("kec")
-    private String kec;
+    private Object kec;
 
     @SerializedName("tgl_meter")
-    private String tglMeter;
-
-    @SerializedName("rl_trbaca")
-    private List<RlTrbacaItem> rlTrbaca;
-
-    @SerializedName("rl_tarif")
-    private RlTarif rlTarif;
+    private Object tglMeter;
 
     @SerializedName("nolangg")
     private String nolangg;
@@ -40,31 +38,31 @@ public class DataItem{
     private String dism;
 
     @SerializedName("tgl_buka")
-    private String tglBuka;
+    private Object tglBuka;
 
     @SerializedName("tarif")
     private String tarif;
 
     @SerializedName("kel")
-    private String kel;
+    private Object kel;
 
     @SerializedName("nama")
     private String nama;
 
     @SerializedName("tgl_pasang")
-    private String tglPasang;
+    private Object tglPasang;
 
     @SerializedName("diameter")
     private String diameter;
 
-    @SerializedName("rl_dt_baca_periode_skrg")
-    private List<RlDtBacaPeriodeSkrgItem> rlDtBacaPeriodeSkrg;
+    @SerializedName("rl_status_tarif")
+    private RlStatusTarif rlStatusTarif;
 
     @SerializedName("tlp")
     private String tlp;
 
     @SerializedName("tgl_tutup")
-    private String tglTutup;
+    private Object tglTutup;
 
     @SerializedName("nomormtr")
     private String nomormtr;
@@ -88,44 +86,44 @@ public class DataItem{
         return cabang;
     }
 
-    public void setSumur(String sumur){
+    public void setSumur(Object sumur){
         this.sumur = sumur;
     }
 
-    public String getSumur(){
+    public Object getSumur(){
         return sumur;
     }
 
-    public void setKec(String kec){
+    public void setRlStatusPelanggan(RlStatusPelanggan rlStatusPelanggan){
+        this.rlStatusPelanggan = rlStatusPelanggan;
+    }
+
+    public RlStatusPelanggan getRlStatusPelanggan(){
+        return rlStatusPelanggan;
+    }
+
+    public void setRlCabang(RlCabang rlCabang){
+        this.rlCabang = rlCabang;
+    }
+
+    public RlCabang getRlCabang(){
+        return rlCabang;
+    }
+
+    public void setKec(Object kec){
         this.kec = kec;
     }
 
-    public String getKec(){
+    public Object getKec(){
         return kec;
     }
 
-    public void setTglMeter(String tglMeter){
+    public void setTglMeter(Object tglMeter){
         this.tglMeter = tglMeter;
     }
 
-    public String getTglMeter(){
+    public Object getTglMeter(){
         return tglMeter;
-    }
-
-    public void setRlTrbaca(List<RlTrbacaItem> rlTrbaca){
-        this.rlTrbaca = rlTrbaca;
-    }
-
-    public List<RlTrbacaItem> getRlTrbaca(){
-        return rlTrbaca;
-    }
-
-    public void setRlTarif(RlTarif rlTarif){
-        this.rlTarif = rlTarif;
-    }
-
-    public RlTarif getRlTarif(){
-        return rlTarif;
     }
 
     public void setNolangg(String nolangg){
@@ -160,11 +158,11 @@ public class DataItem{
         return dism;
     }
 
-    public void setTglBuka(String tglBuka){
+    public void setTglBuka(Object tglBuka){
         this.tglBuka = tglBuka;
     }
 
-    public String getTglBuka(){
+    public Object getTglBuka(){
         return tglBuka;
     }
 
@@ -176,11 +174,11 @@ public class DataItem{
         return tarif;
     }
 
-    public void setKel(String kel){
+    public void setKel(Object kel){
         this.kel = kel;
     }
 
-    public String getKel(){
+    public Object getKel(){
         return kel;
     }
 
@@ -192,11 +190,11 @@ public class DataItem{
         return nama;
     }
 
-    public void setTglPasang(String tglPasang){
+    public void setTglPasang(Object tglPasang){
         this.tglPasang = tglPasang;
     }
 
-    public String getTglPasang(){
+    public Object getTglPasang(){
         return tglPasang;
     }
 
@@ -208,12 +206,12 @@ public class DataItem{
         return diameter;
     }
 
-    public void setRlDtBacaPeriodeSkrg(List<RlDtBacaPeriodeSkrgItem> rlDtBacaPeriodeSkrg){
-        this.rlDtBacaPeriodeSkrg = rlDtBacaPeriodeSkrg;
+    public void setRlStatusTarif(RlStatusTarif rlStatusTarif){
+        this.rlStatusTarif = rlStatusTarif;
     }
 
-    public List<RlDtBacaPeriodeSkrgItem> getRlDtBacaPeriodeSkrg(){
-        return rlDtBacaPeriodeSkrg;
+    public RlStatusTarif getRlStatusTarif(){
+        return rlStatusTarif;
     }
 
     public void setTlp(String tlp){
@@ -224,11 +222,11 @@ public class DataItem{
         return tlp;
     }
 
-    public void setTglTutup(String tglTutup){
+    public void setTglTutup(Object tglTutup){
         this.tglTutup = tglTutup;
     }
 
-    public String getTglTutup(){
+    public Object getTglTutup(){
         return tglTutup;
     }
 

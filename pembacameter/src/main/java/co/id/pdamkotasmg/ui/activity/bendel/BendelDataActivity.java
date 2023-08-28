@@ -1,4 +1,4 @@
-package co.id.pdamkotasmg.ui.activity;
+package co.id.pdamkotasmg.ui.activity.bendel;
 
 import android.app.ProgressDialog;
 import android.content.Context;

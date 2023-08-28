@@ -1,7 +1,8 @@
 package co.id.pdamkotasmg.api;
 
 import co.id.pdamkotasmg.model.bendel.BendelRootModel;
-import co.id.pdamkotasmg.model.checkPelanggan.CheckPelangganRootModel;
+import co.id.pdamkotasmg.model.checkByNolangg.CheckByNolanggRootModel;
+import co.id.pdamkotasmg.model.checkPelangganSudahDibaca.CheckPelangganRootModel;
 import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
 import co.id.pdamkotasmg.model.listGabungan.ListGabunganRootModel;
 import co.id.pdamkotasmg.model.pelanggan.PelangganByNolanggRootModel;
@@ -30,7 +31,14 @@ public interface ApiService {
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("pembaca-meter/api/m/data-plg")
-    Call<CheckPelangganRootModel> getCheckPelanggan(
+    Call<CheckPelangganRootModel> getCheckPelangganDetail(
+            @Header("Authorization") String auth,
+            @Query("nolangg") String nolangg
+    );
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("pembaca-meter/api/m/mplg")
+    Call<CheckByNolanggRootModel> getCheckPelangganStatus(
             @Header("Authorization") String auth,
             @Query("nolangg") String nolangg
     );

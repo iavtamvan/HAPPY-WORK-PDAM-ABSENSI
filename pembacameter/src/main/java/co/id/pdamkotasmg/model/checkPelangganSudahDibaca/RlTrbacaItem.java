@@ -1,35 +1,35 @@
-package co.id.pdamkotasmg.model.checkPelanggan;
+package co.id.pdamkotasmg.model.checkPelangganSudahDibaca;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RlDtBacaPeriodeSkrgItem{
+public class RlTrbacaItem{
 
     @SerializedName("dt")
-    private Integer dt;
+    private String dt;
 
     @SerializedName("rl_petugas")
-    private Object rlPetugas;
+    private RlPetugas rlPetugas;
 
     @SerializedName("cabang")
     private String cabang;
 
     @SerializedName("m3")
-    private Integer m3;
+    private String m3;
 
     @SerializedName("kt")
-    private Object kt;
+    private String kt;
 
     @SerializedName("kini")
-    private Integer kini;
+    private String kini;
 
     @SerializedName("rl_dt_baca")
     private RlDtBaca rlDtBaca;
 
     @SerializedName("lalu")
-    private Integer lalu;
+    private String lalu;
 
     @SerializedName("tgl_baca")
-    private Object tglBaca;
+    private String tglBaca;
 
     @SerializedName("nolangg")
     private String nolangg;
@@ -38,21 +38,21 @@ public class RlDtBacaPeriodeSkrgItem{
     private String periode;
 
     @SerializedName("petugas")
-    private Object petugas;
+    private String petugas;
 
-    public void setDt(Integer dt){
+    public void setDt(String dt){
         this.dt = dt;
     }
 
-    public Integer getDt(){
+    public String getDt(){
         return dt;
     }
 
-    public void setRlPetugas(Object rlPetugas){
+    public void setRlPetugas(RlPetugas rlPetugas){
         this.rlPetugas = rlPetugas;
     }
 
-    public Object getRlPetugas(){
+    public RlPetugas getRlPetugas(){
         return rlPetugas;
     }
 
@@ -64,27 +64,27 @@ public class RlDtBacaPeriodeSkrgItem{
         return cabang;
     }
 
-    public void setM3(Integer m3){
+    public void setM3(String m3){
         this.m3 = m3;
     }
 
-    public Integer getM3(){
+    public String getM3(){
         return m3;
     }
 
-    public void setKt(Object kt){
+    public void setKt(String kt){
         this.kt = kt;
     }
 
-    public Object getKt(){
+    public String getKt(){
         return kt;
     }
 
-    public void setKini(Integer kini){
+    public void setKini(String kini){
         this.kini = kini;
     }
 
-    public Integer getKini(){
+    public String getKini(){
         return kini;
     }
 
@@ -96,19 +96,19 @@ public class RlDtBacaPeriodeSkrgItem{
         return rlDtBaca;
     }
 
-    public void setLalu(Integer lalu){
+    public void setLalu(String lalu){
         this.lalu = lalu;
     }
 
-    public Integer getLalu(){
+    public String getLalu(){
         return lalu;
     }
 
-    public void setTglBaca(Object tglBaca){
+    public void setTglBaca(String tglBaca){
         this.tglBaca = tglBaca;
     }
 
-    public Object getTglBaca(){
+    public String getTglBaca(){
         return tglBaca;
     }
 
@@ -128,11 +128,11 @@ public class RlDtBacaPeriodeSkrgItem{
         return periode;
     }
 
-    public void setPetugas(Object petugas){
+    public void setPetugas(String petugas){
         this.petugas = petugas;
     }
 
-    public Object getPetugas(){
+    public String getPetugas(){
         return petugas;
     }
 }
