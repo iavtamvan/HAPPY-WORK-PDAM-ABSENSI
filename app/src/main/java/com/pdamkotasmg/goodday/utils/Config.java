@@ -72,6 +72,7 @@ public final class Config {
     public static final String BASE_URL_NOTIF_ERROR = "https://image.freepik.com/free-vector/oops-404-error-with-broken-robot-concept-illustration_114360-1932.jpg";
 
     public static final String ERROR_MSG = "Pengambilan data Gagal, coba lagi nanti";
+    public static final String ERROR_NULL_DATA = "Data Kosong";
     public static final String ERROR_PASSWORD = "Pastikan Kata Sandi Anda Sama";
     public static final String ERROR_DATA_REGISTER = "Pastikan Data Anda Dengan Benar";
     public static final String ERROR_SESSION = "Sesi login anda telah habis, Login Ulang";

@@ -21,16 +21,17 @@ import com.pdamkotasmg.goodday.utils.Config;
 import co.id.pdamkotasmg.api.ApiConfig;
 import co.id.pdamkotasmg.api.ApiService;
 import co.id.pdamkotasmg.model.checkByNolangg.CheckByNolanggRootModel;
-import co.id.pdamkotasmg.pembacameter.databinding.FragmentInputDataBinding;
+import co.id.pdamkotasmg.pembacameter.databinding.FragmentDashboardBinding;
 import co.id.pdamkotasmg.ui.activity.PembacaMeterActivity;
+import co.id.pdamkotasmg.ui.activity.RiwayatPembacaMeterActivity;
 import co.id.pdamkotasmg.ui.activity.bendel.InputDataActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class InputDataFragment extends Fragment {
+public class DashboardFragment extends Fragment {
 
-    private FragmentInputDataBinding binding;
+    private FragmentDashboardBinding binding;
     private String codeInputData;
     private String token;
     private String nolangg;
@@ -40,7 +41,7 @@ public class InputDataFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentInputDataBinding.inflate(inflater, container, false);
+        binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         SharedPreferences sp = getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -85,6 +86,10 @@ public class InputDataFragment extends Fragment {
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
             builder.show();
+        });
+
+        binding.divRiwayatBacaMeter.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), RiwayatPembacaMeterActivity.class));
         });
 
         return root;

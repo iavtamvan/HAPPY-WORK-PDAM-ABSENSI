@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="co.id.pdamkotasmg.ui.fragment.InputDataFragment"
+        android:name="co.id.pdamkotasmg.ui.fragment.DashboardFragment"
         android:label="@string/title_input"
-        tools:layout="@layout/fragment_input_data" />
+        tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
