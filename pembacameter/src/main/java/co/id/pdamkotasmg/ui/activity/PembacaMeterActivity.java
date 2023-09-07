@@ -235,7 +235,6 @@ public class PembacaMeterActivity extends AppCompatActivity {
                     }
                 });
     }
-
     private void getCheckPelanggan() {
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
