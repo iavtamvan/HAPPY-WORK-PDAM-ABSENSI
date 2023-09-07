@@ -22,9 +22,6 @@ public class RlTrbacaItem{
     @SerializedName("kini")
     private String kini;
 
-    @SerializedName("rl_dt_baca")
-    private RlDtBaca rlDtBaca;
-
     @SerializedName("lalu")
     private String lalu;
 
@@ -86,14 +83,6 @@ public class RlTrbacaItem{
 
     public String getKini(){
         return kini;
-    }
-
-    public void setRlDtBaca(RlDtBaca rlDtBaca){
-        this.rlDtBaca = rlDtBaca;
-    }
-
-    public RlDtBaca getRlDtBaca(){
-        return rlDtBaca;
     }
 
     public void setLalu(String lalu){
