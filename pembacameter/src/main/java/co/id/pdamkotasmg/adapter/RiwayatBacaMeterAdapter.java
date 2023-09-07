@@ -22,7 +22,7 @@ import java.util.List;
 
 import co.id.pdamkotasmg.model.riwayatBacaMeter.DataItem;
 import co.id.pdamkotasmg.pembacameter.R;
-import co.id.pdamkotasmg.ui.activity.PembacaMeterActivity;
+import co.id.pdamkotasmg.ui.activity.DetailRiwayatPembacaMeterActivity;
 
 public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMeterAdapter.ViewHolder> {
     Context context;
@@ -61,7 +61,7 @@ public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMet
         }
 
         holder.cvKlik.setOnClickListener(v -> {
-            Intent intent = new Intent(context, PembacaMeterActivity.class);
+            Intent intent = new Intent(context, DetailRiwayatPembacaMeterActivity.class);
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, dataItems.get(position).getNolangg());
             context.startActivity(intent);
         });

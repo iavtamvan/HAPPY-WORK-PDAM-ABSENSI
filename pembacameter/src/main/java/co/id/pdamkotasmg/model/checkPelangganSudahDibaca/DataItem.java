@@ -42,9 +42,6 @@ public class DataItem{
     @SerializedName("tgl_meter")
     private String tglMeter;
 
-    @SerializedName("rl_status_meter")
-    private RlStatusMeter rlStatusMeter;
-
     @SerializedName("rl_tarif")
     private RlTarif rlTarif;
 
@@ -175,14 +172,6 @@ public class DataItem{
 
     public String getTglMeter(){
         return tglMeter;
-    }
-
-    public void setRlStatusMeter(RlStatusMeter rlStatusMeter){
-        this.rlStatusMeter = rlStatusMeter;
-    }
-
-    public RlStatusMeter getRlStatusMeter(){
-        return rlStatusMeter;
     }
 
     public void setRlTarif(RlTarif rlTarif){

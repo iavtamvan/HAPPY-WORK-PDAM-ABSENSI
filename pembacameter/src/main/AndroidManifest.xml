@@ -14,6 +14,9 @@
 
     <application android:icon="@mipmap/ic_launcher">
         <activity
+            android:name="co.id.pdamkotasmg.ui.activity.DetailRiwayatPembacaMeterActivity"
+            android:exported="false" />
+        <activity
             android:name="co.id.pdamkotasmg.ui.activity.RiwayatPembacaMeterActivity"
             android:exported="false" />
         <activity

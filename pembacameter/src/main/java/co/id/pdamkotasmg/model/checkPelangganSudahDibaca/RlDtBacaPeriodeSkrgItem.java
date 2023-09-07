@@ -58,9 +58,6 @@ public class RlDtBacaPeriodeSkrgItem{
     @SerializedName("tgl_baca")
     private String tglBaca;
 
-    @SerializedName("rl_st_ver")
-    private RlStVer rlStVer;
-
     @SerializedName("st")
     private String st;
 
@@ -248,14 +245,6 @@ public class RlDtBacaPeriodeSkrgItem{
 
     public String getTglBaca(){
         return tglBaca;
-    }
-
-    public void setRlStVer(RlStVer rlStVer){
-        this.rlStVer = rlStVer;
-    }
-
-    public RlStVer getRlStVer(){
-        return rlStVer;
     }
 
     public void setSt(String st){
