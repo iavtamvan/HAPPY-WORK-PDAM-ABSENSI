@@ -96,6 +96,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/tv_title_transfer"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
@@ -113,41 +114,52 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="6dp"
                                     android:fontFamily="@font/poppins"
-                                    android:text="TRANSFER"
+                                    android:text="--"
                                     android:textColor="@color/black"
                                     android:textSize="11dp"
                                     android:textStyle="bold" />
 
                                 <ImageView
+                                    android:id="@+id/iv_trf_kosong"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
+                                    android:visibility="gone"
                                     android:src="@drawable/close_req" />
 
                                 <ImageView
+                                    android:id="@+id/iv_trf_siap"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
+                                    android:visibility="gone"
                                     android:src="@drawable/ic_running" />
 
                                 <ImageView
+                                    android:id="@+id/iv_trf_verifikasi"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
+                                    android:visibility="gone"
                                     android:src="@drawable/succes_req" />
 
                                 <ImageView
+                                    android:id="@+id/iv_trf_transfer"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
+                                    android:visibility="gone"
                                     android:src="@drawable/ic_transfer" />
 
                                 <ImageView
+                                    android:id="@+id/iv_trf_pde"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
+                                    android:visibility="gone"
                                     android:src="@drawable/ic_double_check" />
 
                                 <ImageView
+                                    android:id="@+id/iv_trf_koreksi"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
+                                    android:visibility="gone"
                                     android:src="@drawable/ic_correction" />
-
 
                             </LinearLayout>
                         </LinearLayout>
@@ -204,7 +216,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="5dp"
                                     android:fontFamily="@font/poppins"
-                                    android:text="00ZA0002 | 3125009"
+                                    android:text="-- | --"
                                     android:textColor="@color/black"
                                     android:textSize="11dp"
                                     android:textStyle="bold" />
@@ -220,7 +232,7 @@
                                     android:paddingTop="2dp"
                                     android:paddingRight="4dp"
                                     android:paddingBottom="2dp"
-                                    android:text="AKTIF"
+                                    android:text="--"
                                     android:textColor="@color/white"
                                     android:textSize="11dp"
                                     android:textStyle="bold" />
@@ -239,7 +251,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="KU Kel Muktihardjo"
+                                android:text="--"
                                 android:textColor="@color/black"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -256,7 +268,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="Kr Kimpul 1/26"
+                                android:text="--"
                                 android:textColor="@color/black"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -273,7 +285,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="Rumah Tangga 3 (RT 3)"
+                                android:text="--"
                                 android:textColor="@color/black"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -290,7 +302,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="ITRON | 121C-011655"
+                                android:text="-- | --"
                                 android:textColor="@color/black"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -307,7 +319,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="Null"
+                                android:text="--"
                                 android:textColor="@color/black"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -324,7 +336,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="UTARA"
+                                android:text="--"
                                 android:textColor="@color/black"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -376,7 +388,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="202308"
+                                android:text="--"
                                 android:textColor="@color/black"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -393,7 +405,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="2023-08-02 | 08:01:16"
+                                android:text="-- | --"
                                 android:textColor="@color/black"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -410,7 +422,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="106 - 10m3"
+                                android:text="-- - --"
                                 android:textColor="@color/md_material_blue_600"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -427,7 +439,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="Matukin"
+                                android:text="--"
                                 android:textColor="@color/black"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -494,7 +506,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="202308"
+                                android:text="--"
                                 android:textColor="@color/black"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -511,7 +523,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="2023-08-02 | 08:01:16"
+                                android:text="-- | --"
                                 android:textColor="@color/black"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -528,7 +540,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="106 - 10m3"
+                                android:text="-- - --"
                                 android:textColor="@color/md_material_blue_600"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -545,7 +557,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="1"
+                                android:text="--"
                                 android:textColor="@color/black"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -562,7 +574,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="Matukin"
+                                android:text="--"
                                 android:textColor="@color/black"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -579,7 +591,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="Samsudin | 2023-09-03 - 08:31:01"
+                                android:text="-- | --"
                                 android:textColor="@color/black"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />
@@ -596,7 +608,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="Samsudin | 2023-09-03 - 08:31:01"
+                                android:text="-- | --"
                                 android:textColor="@color/black"
                                 android:textSize="11dp"
                                 android:textStyle="bold" />

@@ -37,6 +37,28 @@ public class RlTrbacaItem{
     @SerializedName("petugas")
     private String petugas;
 
+    @SerializedName("file")
+    private String file;
+
+    @SerializedName("jam_baca")
+    private String jamBaca;
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
+    }
+
+    public String getJamBaca() {
+        return jamBaca;
+    }
+
+    public void setJamBaca(String jamBaca) {
+        this.jamBaca = jamBaca;
+    }
+
     public void setDt(String dt){
         this.dt = dt;
     }
