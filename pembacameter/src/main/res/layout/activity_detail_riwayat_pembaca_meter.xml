@@ -566,6 +566,40 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
+                                android:text="Status Meter"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_st_meter"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Keterangan"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_keterangan"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
                                 android:text="Petugas"
                                 android:textSize="12dp" />
 
@@ -663,7 +697,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:fontFamily="@font/poppins"
-                            android:text="Ada kesalahan data, Perlu Bantuan?\nKlik tombol ini saja!\nDilakukan pada jam kerja"
+                            android:text="Ada kesalahan data, Perlu Bantuan?\nKlik tombol ini saja!\nSaat jam kerja"
                             android:textColor="@color/white"
                             android:textSize="11dp" />
 

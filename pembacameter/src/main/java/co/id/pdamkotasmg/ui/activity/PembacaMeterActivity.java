@@ -96,11 +96,11 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
         if (kodeStatusMeter == null) {
             kodeStatusMeter = "1";
-//            Toast.makeText(this, "Before " + kodeStatusMeter, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Before " + kodeStatusMeter, Toast.LENGTH_SHORT).show();
         }
         binding.spnStatusMeter.setOnItemSelectedListener((view, position, id, item) -> {
             kodeStatusMeter = arrayStatusMeter.get(position).substring(0, 1).trim();
-//            Toast.makeText(this, "After " + kodeStatusMeter, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "After " + kodeStatusMeter, Toast.LENGTH_SHORT).show();
         });
         binding.edtKini.addTextChangedListener(new TextWatcher() {
             @Override
@@ -192,7 +192,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
     private void postDataPembacaMeter() {
         ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
-        apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, "192.111.123.1", binding.edtKeterangan.getText().toString().trim())
+        apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, "192.111.123.1", kodeStatusMeter, binding.edtKeterangan.getText().toString().trim())
                 .enqueue(new Callback<UpdatePembacaMeterRootModel>() {
                     @Override
                     public void onResponse(Call<UpdatePembacaMeterRootModel> call, Response<UpdatePembacaMeterRootModel> response) {

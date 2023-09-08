@@ -80,6 +80,7 @@ public interface ApiService {
             @Field("kini") String kini,
             @Field("foto_meter") String foto_meter,
             @Field("ip_entry") String ip_entry,
+            @Field("st") String stMeter,
             @Field("keterangan") String keterangan
     );
 }

@@ -94,6 +94,9 @@ public class RlDtBacaPeriodeSkrgItem{
     @SerializedName("rl_user_transfer")
     private RlUserTransfer rlUserTransfer;
 
+    @SerializedName("rl_st_meter")
+    private RlStMeter rlStMeter;
+
     @SerializedName("catatanver")
     private String catatanver;
 
@@ -102,6 +105,14 @@ public class RlDtBacaPeriodeSkrgItem{
 
     @SerializedName("jam_ver")
     private String jamVer;
+
+    public RlStMeter getRlStMeter() {
+        return rlStMeter;
+    }
+
+    public void setRlStMeter(RlStMeter rlStMeter) {
+        this.rlStMeter = rlStMeter;
+    }
 
     public void setUserTransfer(String userTransfer){
         this.userTransfer = userTransfer;

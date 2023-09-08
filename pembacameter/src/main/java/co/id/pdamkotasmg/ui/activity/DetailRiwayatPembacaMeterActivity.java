@@ -1,9 +1,12 @@
 package co.id.pdamkotasmg.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -26,6 +29,8 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
 
     private ActivityDetailRiwayatPembacaMeterBinding binding;
 
+    private ProgressDialog progressDialog;
+
     private String token;
     private String nolangg;
 
@@ -40,11 +45,21 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
         nolangg = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG);
 
+        progressDialog = new ProgressDialog(DetailRiwayatPembacaMeterActivity.this);
+        progressDialog.setMessage("Mohon tunggu...");
+        progressDialog.setCancelable(false);
+
         getDataDetailRwiayat();
+
+        binding.cvCallIav.setOnClickListener(view -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send/?phone=6283838191709&text=Halo%20iav,%20ada%20kesalahan%20data%20dari%20HPM,%20tolong%20di%20cek.%20Sertakan%20nolangg,%20periode,%20dan%20bendel%20nya......"));
+            startActivity(browserIntent);
+        });
 
     }
 
     private void getDataDetailRwiayat() {
+        progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(DetailRiwayatPembacaMeterActivity.this);
         apiService.getCheckPelangganDetail(token, nolangg)
                 .enqueue(new Callback<CheckPelangganRootModel>() {
@@ -92,7 +107,7 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
 
                             binding.tvPeriodeBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getPeriode());
                             binding.tvTglJamBacaBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getTglBaca() + " | " + response.body().getData().get(0).getRlTrbaca().get(0).getJamBaca());
-                            binding.tvPemakaianBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getKini() + " - " + response.body().getData().get(0).getRlTrbaca().get(0).getM3());
+                            binding.tvPemakaianBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getKini() + " - " + response.body().getData().get(0).getRlTrbaca().get(0).getM3() + "m3");
                             binding.tvPetugasBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getRlPetugas().getNmPetugas());
                             Glide.with(DetailRiwayatPembacaMeterActivity.this)
                                     .load(response.body().getData().get(0).getRlTrbaca().get(0).getFile())
@@ -100,12 +115,16 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                                     .error(R.drawable.im_good_day)
                                     .into(binding.ivFotoMeterBlnLalu);
 
+
                             binding.tvPeriodeBlnSekarang.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
                             binding.tvTglJamBacaBlnSekarang.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getTglBaca() + " | "
                                     + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getJamBaca());
                             binding.tvPemakaianBlnSekarang.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKini() + " - "
-                                    + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getM3());
+                                    + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getM3() + "m3");
                             binding.tvDataDiperbaruiKeBlnSekarang.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKe());
+                            binding.tvStMeter.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlStMeter().getStatus());
+                            binding.tvKeterangan.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKt());
+
                             binding.tvPetugasBlnSekarang.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlPetugas().getNmPetugas());
 
 
@@ -115,7 +134,6 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                                 binding.tvVerfikatorJamWaktuBlnSekarang.setText(userVer
                                         + " | " + userVer + " - "
                                         + userVer);
-                                Toast.makeText(DetailRiwayatPembacaMeterActivity.this, "Masuk NULL userver", Toast.LENGTH_SHORT).show();
                             } else {
                                 binding.tvVerfikatorJamWaktuBlnSekarang.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlUserVer().getNmPetugas()
                                         + " | " + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getTglVer() + " - "
@@ -128,7 +146,6 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                                 userPindahData = "null";
                                 binding.tvPindahDataBlnSekarang.setText(userPindahData
                                         + " | " + userPindahData);
-                                Toast.makeText(DetailRiwayatPembacaMeterActivity.this, "Masuk NULL userPindahData", Toast.LENGTH_SHORT).show();
                             } else {
                                 binding.tvPindahDataBlnSekarang.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlUserTransfer().getNmPetugas()
                                         + " | " + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getTglTransfer());
@@ -142,9 +159,7 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                                         .override(512, 512)
                                         .error(R.drawable.im_good_day)
                                         .into(binding.ivFotoMeterBlnSekarang);
-                                Toast.makeText(DetailRiwayatPembacaMeterActivity.this, "Masuk NULL filePeriodeSekarang", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(DetailRiwayatPembacaMeterActivity.this, "Masuk ke ftmtr skrg", Toast.LENGTH_SHORT).show();
                                 Glide.with(DetailRiwayatPembacaMeterActivity.this)
                                         .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
                                         .override(512, 512)
@@ -152,12 +167,15 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                                         .into(binding.ivFotoMeterBlnSekarang);
                             }
 
+                            progressDialog.cancel();
+
 
                         }
                     }
 
                     @Override
                     public void onFailure(Call<CheckPelangganRootModel> call, Throwable t) {
+                        progressDialog.cancel();
                         Toast.makeText(DetailRiwayatPembacaMeterActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
