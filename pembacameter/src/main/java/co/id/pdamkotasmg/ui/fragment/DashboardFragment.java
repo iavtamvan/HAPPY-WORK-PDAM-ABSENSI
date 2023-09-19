@@ -35,6 +35,7 @@ public class DashboardFragment extends Fragment {
     private String codeInputData;
     private String token;
     private String nolangg;
+    private String kodeInputData;
     private ProgressDialog progressDialog;
 
 
@@ -80,7 +81,31 @@ public class DashboardFragment extends Fragment {
                     Toast.makeText(getActivity(), "Isi nolangg", Toast.LENGTH_SHORT).show();
                 } else {
                     progressDialog.show();
-                    checkPelanggan(nolangg);
+                    kodeInputData = "1";
+                    checkPelanggan(nolangg, kodeInputData);
+                }
+            });
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+            builder.show();
+        });
+
+        binding.divInFotoMeter.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Nolangg");
+
+            final EditText input = new EditText(getActivity());
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                nolangg = input.getText().toString();
+                if (nolangg.isEmpty()) {
+                    Toast.makeText(getActivity(), "Isi nolangg", Toast.LENGTH_SHORT).show();
+                } else {
+                    progressDialog.show();
+                    kodeInputData = "2";
+                    checkPelanggan(nolangg, kodeInputData);
                 }
             });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -95,7 +120,7 @@ public class DashboardFragment extends Fragment {
         return root;
     }
 
-    private void checkPelanggan(String nolangg) {
+    private void checkPelanggan(String nolangg, String kodeInputData) {
         ApiService apiService = ApiConfig.getApiService(getActivity());
         apiService.getCheckPelangganStatus(token, nolangg)
                 .enqueue(new Callback<CheckByNolanggRootModel>() {
@@ -103,12 +128,13 @@ public class DashboardFragment extends Fragment {
                     public void onResponse(Call<CheckByNolanggRootModel> call, Response<CheckByNolanggRootModel> response) {
                         if (response.isSuccessful()) {
                             if (response.body().getData().get(0).getRlStatusPelanggan().getKode().contains("4")){
-                                Toast.makeText(getActivity(), "Status pelanggan tutup/blokir", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Status pelanggan tutup/blokir", Toast.LENGTH_LONG).show();
                                 progressDialog.cancel();
                             } else {
                                 progressDialog.cancel();
                                 Intent intent = new Intent(getActivity(), PembacaMeterActivity.class);
                                 intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
+                                intent.putExtra(Config.BUNDLE_PEMBACA_METER_KODE_INPUT_DATA, kodeInputData);
                                 getActivity().startActivity(intent);
                             }
                         }

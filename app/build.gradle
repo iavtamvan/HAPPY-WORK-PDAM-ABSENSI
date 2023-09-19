@@ -91,6 +91,7 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.5.0'
 
     //get lat long, address
+    implementation 'com.github.delight-im:Android-SimpleLocation:v1.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 
     //mock location

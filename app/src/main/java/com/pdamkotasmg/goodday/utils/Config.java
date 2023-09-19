@@ -221,6 +221,7 @@ public final class Config {
     public static final String BUNDLE_PEMBACA_METER_CODE_BENDEL = "bundle_pembaca_meter_code_input_data";
 
     public static final String BUNDLE_PEMBACA_METER_NOLANGG = "pembaca_meter_nolangg";
+    public static final String BUNDLE_PEMBACA_METER_KODE_INPUT_DATA = "pembaca_meter_kode_input_data";
     public static final String BUNDLE_PEMBACA_METER_DISM = "pembaca_meter_dism";
     public static final String BUNDLE_PEMBACA_METER_NAMA = "pembaca_meter_nama";
     public static final String BUNDLE_PEMBACA_METER_ALAMAT = "pembaca_meter_alamat";
