@@ -10,6 +10,9 @@ public class DataItem{
     @SerializedName("jam_baca")
     private String jamBaca;
 
+    @SerializedName("dt")
+    private String dt;
+
     @SerializedName("rl_pelanggan")
     private RlPelanggan rlPelanggan;
 
@@ -21,6 +24,14 @@ public class DataItem{
 
     @SerializedName("periode")
     private String periode;
+
+    public String getDt() {
+        return dt;
+    }
+
+    public void setDt(String dt) {
+        this.dt = dt;
+    }
 
     public void setDism(String dism){
         this.dism = dism;

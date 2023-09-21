@@ -27,6 +27,7 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
     Context context;
     private String periode;
     private String cabang;
+    private String codeInputData;
     private List<DataItem> dataItems;
 
     public BendelAdapter(Context context, List<DataItem> dataItems) {
@@ -68,15 +69,10 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
         holder.tvListBendelDibuat.setText("Generate by System Cabang " + cabang + "-" + periode);
 
         holder.cvKlik.setOnClickListener(v -> {
+            codeInputData = "1";
             Intent intent = new Intent(context, PembacaMeterActivity.class);
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, dataItems.get(position).getNolangg());
-//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_DISM, dataItems.get(position).getDism());
-//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_NAMA, dataItems.get(position).getNama());
-//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_ALAMAT, dataItems.get(position).getAlamat());
-//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_TARIF, dataItems.get(position).getTarif());
-//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_SUMBER_LAIN, dataItems.get(position).getNolangg());
-//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_MEREK_METER, dataItems.get(position).getNolangg());
-//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_LALU, dataItems.get(position).getNolangg());
+            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeInputData);
             context.startActivity(intent);
         });
 

@@ -21,9 +21,18 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/iv_success_req"
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 android:src="@drawable/succes_req" />
+
+            <ImageView
+                android:id="@+id/iv_close_req"
+                android:layout_width="20dp"
+                android:visibility="gone"
+                android:layout_height="match_parent"
+                android:src="@drawable/close_req" />
         </LinearLayout>
 
         <androidx.cardview.widget.CardView

@@ -9,6 +9,7 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,9 +56,19 @@ public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMet
         if (dataItems.get(position).getTglBaca().isEmpty()) {
             holder.tvListStatusDibaca.setText("Belum Dibaca");
             holder.tvListStatusDibaca.setTextColor(Color.parseColor("#dc3545"));
+            holder.ivCloseReq.setVisibility(View.VISIBLE);
         } else {
             holder.tvListStatusDibaca.setText("Sudah Dibaca");
             holder.tvListStatusDibaca.setTextColor(Color.parseColor("#31B057"));
+            holder.ivSuccessReq.setVisibility(View.VISIBLE);
+        }
+
+        if (dataItems.get(position).getDt().contains("5")){
+            holder.ivCloseReq.setVisibility(View.VISIBLE);
+            holder.ivSuccessReq.setVisibility(View.GONE);
+            String statusDibaca = holder.tvListStatusDibaca.getText().toString();
+            holder.tvListStatusDibaca.setText(statusDibaca + " namun di KOREKSI");
+            holder.tvListStatusDibaca.setTextColor(Color.parseColor("#C30000"));
         }
 
         holder.cvKlik.setOnClickListener(v -> {
@@ -83,6 +94,8 @@ public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMet
         private TextView tvListSt;
         private TextView tvListTglJamBaca;
         private TextView tvListStatusDibaca;
+        private ImageView ivSuccessReq;
+        private ImageView ivCloseReq;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -96,6 +109,8 @@ public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMet
             tvListSt = itemView.findViewById(R.id.tv_list_st);
             tvListTglJamBaca = itemView.findViewById(R.id.tv_list_tgl_jam_baca);
             tvListStatusDibaca = itemView.findViewById(R.id.tv_list_status_dibaca);
+            ivSuccessReq = itemView.findViewById(R.id.iv_success_req);
+            ivCloseReq = itemView.findViewById(R.id.iv_close_req);
         }
     }
 }

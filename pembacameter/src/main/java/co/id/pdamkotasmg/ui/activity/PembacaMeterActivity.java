@@ -93,7 +93,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
     private String npp;
     private String lalu;
     private String kodeStatusMeter;
-    private String kodeInputData;
+    private String codeInputData;
 
     private String filePathServer;
     private String fileUrlServer;
@@ -109,7 +109,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
         npp = sp.getString(Config.SHARED_NPP_PROFILE, "");
         nolangg = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG);
-        kodeInputData = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_KODE_INPUT_DATA);
+        codeInputData = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA);
 
         easyImage = new EasyImage.Builder(PembacaMeterActivity.this)
                 .setCopyImagesToPublicGalleryFolder(false)
@@ -215,9 +215,11 @@ public class PembacaMeterActivity extends AppCompatActivity {
             }
         });
         binding.ivCamera.setOnClickListener(view -> {
-            if (kodeInputData.contains("1")) {
+            if (codeInputData.contains("1")) {
                 easyImage.openCameraForImage(PembacaMeterActivity.this);
-            } else if (kodeInputData.contains("2")) {
+            } else if (codeInputData.contains("2")) {
+                easyImage.openCameraForImage(PembacaMeterActivity.this);
+            } else if (codeInputData.contains("3")) {
                 easyImage.openGallery(PembacaMeterActivity.this);
             }
         });
