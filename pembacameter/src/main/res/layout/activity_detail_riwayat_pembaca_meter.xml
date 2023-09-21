@@ -92,77 +92,96 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/tv_title_transfer"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins"
-                                android:text="Status | Periode 202309"
-                                android:textSize="12dp" />
+                            android:orientation="horizontal">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:layout_margin="8dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
                                 <TextView
-                                    android:id="@+id/tv_nm_transfer"
-                                    android:layout_width="wrap_content"
+                                    android:id="@+id/tv_title_transfer"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginRight="6dp"
                                     android:fontFamily="@font/poppins"
-                                    android:text="--"
-                                    android:textColor="@color/black"
-                                    android:textSize="11dp"
-                                    android:textStyle="bold" />
+                                    android:text="Status | Periode 202309"
+                                    android:textSize="12dp" />
 
-                                <ImageView
-                                    android:id="@+id/iv_trf_kosong"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:visibility="gone"
-                                    android:src="@drawable/close_req" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
 
-                                <ImageView
-                                    android:id="@+id/iv_trf_siap"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:visibility="gone"
-                                    android:src="@drawable/ic_running" />
+                                    <TextView
+                                        android:id="@+id/tv_nm_transfer"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="6dp"
+                                        android:fontFamily="@font/poppins"
+                                        android:text="--"
+                                        android:textColor="@color/black"
+                                        android:textSize="11dp"
+                                        android:textStyle="bold" />
 
-                                <ImageView
-                                    android:id="@+id/iv_trf_verifikasi"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:visibility="gone"
-                                    android:src="@drawable/succes_req" />
+                                    <ImageView
+                                        android:id="@+id/iv_trf_kosong"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/close_req"
+                                        android:visibility="gone" />
 
-                                <ImageView
-                                    android:id="@+id/iv_trf_transfer"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:visibility="gone"
-                                    android:src="@drawable/ic_transfer" />
+                                    <ImageView
+                                        android:id="@+id/iv_trf_siap"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/ic_running"
+                                        android:visibility="gone" />
 
-                                <ImageView
-                                    android:id="@+id/iv_trf_pde"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:visibility="gone"
-                                    android:src="@drawable/ic_double_check" />
+                                    <ImageView
+                                        android:id="@+id/iv_trf_verifikasi"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/succes_req"
+                                        android:visibility="gone" />
 
-                                <ImageView
-                                    android:id="@+id/iv_trf_koreksi"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:visibility="gone"
-                                    android:src="@drawable/ic_correction" />
+                                    <ImageView
+                                        android:id="@+id/iv_trf_transfer"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/ic_transfer"
+                                        android:visibility="gone" />
 
+                                    <ImageView
+                                        android:id="@+id/iv_trf_pde"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/ic_double_check"
+                                        android:visibility="gone" />
+
+                                    <ImageView
+                                        android:id="@+id/iv_trf_koreksi"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/ic_correction"
+                                        android:visibility="gone" />
+
+                                </LinearLayout>
                             </LinearLayout>
+
+                            <Button
+                                android:id="@+id/btn_koreksi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="8dp"
+                                android:backgroundTint="@color/red"
+                                android:text="KOREKSI"
+                                android:textSize="13dp"
+                                android:visibility="gone" />
+
                         </LinearLayout>
+
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 

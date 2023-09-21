@@ -121,7 +121,12 @@ public class PembacaMeterActivity extends AppCompatActivity {
         progressDialog.setMessage("Mohong tunggu ...");
         progressDialog.setCancelable(false);
 
-        getCheckPelanggan();
+        if (codeInputData.contains("5")) {
+            getCheckPelanggan(nolangg);
+            binding.tvSystemUpdate.setText("DATA KOREKSI");
+        }
+
+        getCheckPelanggan(nolangg);
 
         if (kodeStatusMeter == null) {
             kodeStatusMeter = "1";
@@ -221,6 +226,8 @@ public class PembacaMeterActivity extends AppCompatActivity {
                 easyImage.openCameraForImage(PembacaMeterActivity.this);
             } else if (codeInputData.contains("3")) {
                 easyImage.openGallery(PembacaMeterActivity.this);
+            } else if (codeInputData.contains("5")) {
+                easyImage.openCameraForImage(PembacaMeterActivity.this);
             }
         });
 
@@ -333,7 +340,8 @@ public class PembacaMeterActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void getCheckPelanggan() {
+
+    private void getCheckPelanggan(String nolangg) {
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
         apiService.getCheckPelangganDetail(token, nolangg)
@@ -342,7 +350,8 @@ public class PembacaMeterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<CheckPelangganRootModel> call, Response<CheckPelangganRootModel> response) {
                         if (response.isSuccessful()) {
-                            if (response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("0")) {
+                            if (response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("0") ||
+                                    response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("5")) {
                                 getListGabungan();
                                 binding.tvNolangg.setText(response.body().getData().get(0).getNolangg());
                                 binding.tvPeriode.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());

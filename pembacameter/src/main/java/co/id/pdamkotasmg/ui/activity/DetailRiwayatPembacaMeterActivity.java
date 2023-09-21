@@ -33,6 +33,7 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
 
     private String token;
     private String nolangg;
+    private String codeinputData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,14 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
         binding.cvCallIav.setOnClickListener(view -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send/?phone=6283838191709&text=Halo%20iav,%20ada%20kesalahan%20data%20dari%20HPM,%20tolong%20di%20cek.%20Sertakan%20nolangg,%20periode,%20dan%20bendel%20nya......"));
             startActivity(browserIntent);
+        });
+
+        binding.btnKoreksi.setOnClickListener(view -> {
+            codeinputData = "5";
+            Intent intent = new Intent(DetailRiwayatPembacaMeterActivity.this, PembacaMeterActivity.class);
+            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeinputData);
+            intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
+            startActivity(intent);
         });
 
     }
@@ -83,6 +92,7 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                                 binding.ivTrfPde.setVisibility(View.VISIBLE);
                             } else if (statusTransferKode.contains("5")) {
                                 binding.ivTrfKoreksi.setVisibility(View.VISIBLE);
+                                binding.btnKoreksi.setVisibility(View.VISIBLE);
                             }
                             binding.tvNolanggDism.setText(response.body().getData().get(0).getNolangg() + " | " + response.body().getData().get(0).getDism());
 
