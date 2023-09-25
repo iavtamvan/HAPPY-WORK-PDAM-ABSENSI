@@ -84,6 +84,8 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                                 binding.ivTrfKosong.setVisibility(View.VISIBLE);
                             } else if (statusTransferKode.contains("1")) {
                                 binding.ivTrfSiap.setVisibility(View.VISIBLE);
+                                binding.ivTrfKoreksi.setVisibility(View.GONE);
+                                binding.btnKoreksi.setVisibility(View.GONE);
                             } else if (statusTransferKode.contains("2")) {
                                 binding.ivTrfVerifikasi.setVisibility(View.VISIBLE);
                             } else if (statusTransferKode.contains("3")) {
@@ -189,5 +191,11 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                         Toast.makeText(DetailRiwayatPembacaMeterActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getDataDetailRwiayat();
     }
 }

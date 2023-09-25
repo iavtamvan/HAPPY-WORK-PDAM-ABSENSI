@@ -42,12 +42,12 @@ public class RiwayatPembacaMeterActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(RiwayatPembacaMeterActivity.this);
         progressDialog.setMessage("Mohon tunggu...");
         progressDialog.setCancelable(false);
-        progressDialog.show();
 
         getDataRiwayatBacaMeter();
     }
 
     private void getDataRiwayatBacaMeter() {
+        progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(RiwayatPembacaMeterActivity.this);
         apiService.getRiwayatBacaMeter(token)
                 .enqueue(new Callback<RiwayatBacaMeterRootModel>() {
@@ -73,5 +73,11 @@ public class RiwayatPembacaMeterActivity extends AppCompatActivity {
                         Toast.makeText(RiwayatPembacaMeterActivity.this, "" + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getDataRiwayatBacaMeter();
     }
 }

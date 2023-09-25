@@ -223,7 +223,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/poppins"
-                    android:text="Riwayat Baca Meter"
+                    android:text="Riwayat Baca Meter &amp; Koreksi"
                     android:textColor="@color/black"
                     android:textSize="13dp" />
             </LinearLayout>
