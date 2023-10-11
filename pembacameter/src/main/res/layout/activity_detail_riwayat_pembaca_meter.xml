@@ -106,7 +106,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins"
-                                    android:text="Status | Periode 202309"
+                                    android:text="Status Data | Periode 202309"
                                     android:textSize="12dp" />
 
                                 <LinearLayout
@@ -653,6 +653,23 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
+                                android:text="Status Verifikasi"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_status_verifikasi"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
                                 android:text="Petugas Pindah Data"
                                 android:textSize="12dp" />
 
@@ -678,6 +695,16 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="200dp"
                                 android:src="@drawable/im_good_day" />
+
+                            <Button
+                                android:id="@+id/btn_ubah_data"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="8dp"
+                                android:backgroundTint="@color/red"
+                                android:text="UBAH DATA BULAN SEKARANG"
+                                android:textSize="13dp"
+                                android:visibility="gone" />
 
                         </LinearLayout>
                     </LinearLayout>

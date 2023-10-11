@@ -58,7 +58,15 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
         });
 
         binding.btnKoreksi.setOnClickListener(view -> {
-            codeinputData = "5";
+            codeinputData = "5"; // koreksi
+            Intent intent = new Intent(DetailRiwayatPembacaMeterActivity.this, PembacaMeterActivity.class);
+            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeinputData);
+            intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
+            startActivity(intent);
+        });
+
+        binding.btnUbahData.setOnClickListener(view -> {
+            codeinputData = "6"; // verifikasi tapi ditolak
             Intent intent = new Intent(DetailRiwayatPembacaMeterActivity.this, PembacaMeterActivity.class);
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeinputData);
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
@@ -84,10 +92,16 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                                 binding.ivTrfKosong.setVisibility(View.VISIBLE);
                             } else if (statusTransferKode.contains("1")) {
                                 binding.ivTrfSiap.setVisibility(View.VISIBLE);
+                                binding.ivTrfVerifikasi.setVisibility(View.GONE);
+                                binding.ivTrfTransfer.setVisibility(View.GONE);
                                 binding.ivTrfKoreksi.setVisibility(View.GONE);
                                 binding.btnKoreksi.setVisibility(View.GONE);
                             } else if (statusTransferKode.contains("2")) {
                                 binding.ivTrfVerifikasi.setVisibility(View.VISIBLE);
+                                binding.ivTrfSiap.setVisibility(View.GONE);
+                                binding.ivTrfTransfer.setVisibility(View.GONE);
+                                binding.ivTrfKoreksi.setVisibility(View.GONE);
+                                binding.btnKoreksi.setVisibility(View.GONE);
                             } else if (statusTransferKode.contains("3")) {
                                 binding.ivTrfTransfer.setVisibility(View.VISIBLE);
                             } else if (statusTransferKode.contains("4")) {
@@ -177,6 +191,29 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                                         .override(512, 512)
                                         .error(R.drawable.im_good_day)
                                         .into(binding.ivFotoMeterBlnSekarang);
+                            }
+
+                            String statusVerifikasi = response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getStver();
+                            if (statusVerifikasi.contains("2")) {
+                                binding.tvStatusVerifikasi.setText("DITOLAK / CU");
+                                binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#C30000"));
+                                binding.btnUbahData.setVisibility(View.VISIBLE);
+                            } else if (statusVerifikasi.contains("3")) {
+                                binding.tvStatusVerifikasi.setText("DITOLAK FOTO TDK ADA");
+                                binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#C30000"));
+                                binding.btnUbahData.setVisibility(View.VISIBLE);
+                            } else if (statusVerifikasi.contains("4")) {
+                                binding.tvStatusVerifikasi.setText("ST PLG TUTUP");
+                                binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#C30000"));
+                                binding.btnUbahData.setVisibility(View.VISIBLE);
+                            } else if (statusVerifikasi.contains("0")) {
+                                binding.tvStatusVerifikasi.setText("BELUM VERIFIKASI");
+                                binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#D5840D"));
+                                binding.btnUbahData.setVisibility(View.GONE);
+                            } else {
+                                binding.tvStatusVerifikasi.setText("DISETUJUI");
+                                binding.btnUbahData.setVisibility(View.GONE);
+                                binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#31B057"));
                             }
 
                             progressDialog.cancel();

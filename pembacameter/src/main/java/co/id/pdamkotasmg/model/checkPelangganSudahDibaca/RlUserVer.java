@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class RlUserVer{
 
-    @SerializedName("kode")
+    @SerializedName("id")
     private String kode;
 
-    @SerializedName("nm_petugas")
+    @SerializedName("nama")
     private String nmPetugas;
 
     public void setKode(String kode){

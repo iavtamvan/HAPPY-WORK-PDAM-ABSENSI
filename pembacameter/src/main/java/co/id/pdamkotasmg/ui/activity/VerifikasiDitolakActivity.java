@@ -12,66 +12,71 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.pdamkotasmg.goodday.utils.Config;
 
-import co.id.pdamkotasmg.adapter.RiwayatBacaMeterAdapter;
+import co.id.pdamkotasmg.adapter.VerifikasiDitolakBacaMeterAdapter;
 import co.id.pdamkotasmg.api.ApiConfig;
 import co.id.pdamkotasmg.api.ApiService;
 import co.id.pdamkotasmg.model.riwayatBacaMeter.RiwayatBacaMeterRootModel;
-import co.id.pdamkotasmg.pembacameter.databinding.ActivityRiwayatPembacaMeterBinding;
+import co.id.pdamkotasmg.pembacameter.databinding.ActivityVerifikasiDitolakBinding;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RiwayatPembacaMeterActivity extends AppCompatActivity {
+public class VerifikasiDitolakActivity extends AppCompatActivity {
 
-    private ActivityRiwayatPembacaMeterBinding binding;
+    private ActivityVerifikasiDitolakBinding binding;
+    private VerifikasiDitolakBacaMeterAdapter verifikasiDitolakBacaMeterAdapter;
 
-    private RiwayatBacaMeterAdapter riwayatBacaMeterAdapter;
     private ProgressDialog progressDialog;
+
     private String token;
+    private String nolangg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityRiwayatPembacaMeterBinding.inflate(getLayoutInflater());
+        binding = ActivityVerifikasiDitolakBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
         setContentView(root);
 
         SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
+        nolangg = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG);
 
-        progressDialog = new ProgressDialog(RiwayatPembacaMeterActivity.this);
+        progressDialog = new ProgressDialog(VerifikasiDitolakActivity.this);
         progressDialog.setMessage("Mohon tunggu...");
         progressDialog.setCancelable(false);
 
-        getDataRiwayatBacaMeter();
+        getDataVerifikasiDitolak();
+
     }
 
-    private void getDataRiwayatBacaMeter() {
+    private void getDataVerifikasiDitolak() {
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService(RiwayatPembacaMeterActivity.this);
-        apiService.getRiwayatBacaMeter(token)
+        ApiService apiService = ApiConfig.getApiService(VerifikasiDitolakActivity.this);
+        apiService.getVerifikasiDitolak(token)
                 .enqueue(new Callback<RiwayatBacaMeterRootModel>() {
                     @Override
                     public void onResponse(Call<RiwayatBacaMeterRootModel> call, Response<RiwayatBacaMeterRootModel> response) {
                         if (response.isSuccessful()) {
-                            if (response.body().getData().isEmpty()) {
-                                progressDialog.cancel();
-                                Toast.makeText(RiwayatPembacaMeterActivity.this, Config.ERROR_NULL_DATA, Toast.LENGTH_SHORT).show();
-                            } else {
-                                progressDialog.cancel();
-                                riwayatBacaMeterAdapter = new RiwayatBacaMeterAdapter(RiwayatPembacaMeterActivity.this, response.body().getData());
-                                binding.rv.setLayoutManager(new LinearLayoutManager(RiwayatPembacaMeterActivity.this));
-                                binding.rv.setAdapter(riwayatBacaMeterAdapter);
-                                riwayatBacaMeterAdapter.notifyDataSetChanged();
-                            }
+                            progressDialog.cancel();
+                            verifikasiDitolakBacaMeterAdapter = new VerifikasiDitolakBacaMeterAdapter(VerifikasiDitolakActivity.this, response.body().getData());
+                            binding.rv.setAdapter(verifikasiDitolakBacaMeterAdapter);
+                            binding.rv.setLayoutManager(new LinearLayoutManager(VerifikasiDitolakActivity.this));
+                            verifikasiDitolakBacaMeterAdapter.notifyDataSetChanged();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<RiwayatBacaMeterRootModel> call, Throwable t) {
                         progressDialog.cancel();
-                        Toast.makeText(RiwayatPembacaMeterActivity.this, "" + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VerifikasiDitolakActivity.this, "" + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getDataVerifikasiDitolak();
     }
 }

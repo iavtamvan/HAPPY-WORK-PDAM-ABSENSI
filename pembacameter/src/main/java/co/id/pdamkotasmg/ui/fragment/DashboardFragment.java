@@ -24,6 +24,7 @@ import co.id.pdamkotasmg.model.checkByNolangg.CheckByNolanggRootModel;
 import co.id.pdamkotasmg.pembacameter.databinding.FragmentDashboardBinding;
 import co.id.pdamkotasmg.ui.activity.PembacaMeterActivity;
 import co.id.pdamkotasmg.ui.activity.RiwayatPembacaMeterActivity;
+import co.id.pdamkotasmg.ui.activity.VerifikasiDitolakActivity;
 import co.id.pdamkotasmg.ui.activity.bendel.InputDataActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -114,6 +115,10 @@ public class DashboardFragment extends Fragment {
 
         binding.divRiwayatBacaMeter.setOnClickListener(view -> {
             startActivity(new Intent(getActivity(), RiwayatPembacaMeterActivity.class));
+        });
+
+        binding.divInVerifikasiDitolak.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), VerifikasiDitolakActivity.class));
         });
 
         return root;

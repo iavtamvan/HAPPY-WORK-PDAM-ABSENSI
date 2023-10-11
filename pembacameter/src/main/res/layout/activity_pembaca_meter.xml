@@ -342,7 +342,7 @@
                         android:id="@+id/iv_camera"
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
-                        android:src="@drawable/ic_camera" />
+                        android:src="@drawable/image_not_found" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

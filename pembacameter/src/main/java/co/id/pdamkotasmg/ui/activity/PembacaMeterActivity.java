@@ -94,6 +94,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
     private String lalu;
     private String kodeStatusMeter;
     private String codeInputData;
+    private String action_code;
 
     private String filePathServer;
     private String fileUrlServer;
@@ -122,8 +123,13 @@ public class PembacaMeterActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         if (codeInputData.contains("5")) {
+            action_code = "";
             getCheckPelanggan(nolangg);
             binding.tvSystemUpdate.setText("DATA KOREKSI");
+        } else if (codeInputData.contains("6")) {
+            getCheckPelanggan(nolangg);
+            action_code = "1";
+            binding.tvSystemUpdate.setText("DATA VERIFIKASI TAPI DITOLAK");
         }
 
         getCheckPelanggan(nolangg);
@@ -195,7 +201,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
         binding.spnStatusMeter.setOnItemSelectedListener((view, position, id, item) -> {
             kodeStatusMeter = arrayStatusMeter.get(position).substring(0, 1).trim();
-            Toast.makeText(this, "After " + kodeStatusMeter, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "After " + kodeStatusMeter, Toast.LENGTH_SHORT).show();
         });
         binding.edtKini.addTextChangedListener(new TextWatcher() {
             @Override
@@ -227,6 +233,8 @@ public class PembacaMeterActivity extends AppCompatActivity {
             } else if (codeInputData.contains("3")) {
                 easyImage.openGallery(PembacaMeterActivity.this);
             } else if (codeInputData.contains("5")) {
+                easyImage.openCameraForImage(PembacaMeterActivity.this);
+            } else if (codeInputData.contains("6")) {
                 easyImage.openCameraForImage(PembacaMeterActivity.this);
             }
         });
@@ -295,7 +303,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
     private void postDataPembacaMeter() {
         ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
-        apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, "192.111.123.1", kodeStatusMeter, binding.edtKeterangan.getText().toString().trim())
+        apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, "192.111.123.1", kodeStatusMeter, binding.edtKeterangan.getText().toString().trim(), action_code)
                 .enqueue(new Callback<UpdatePembacaMeterRootModel>() {
                     @Override
                     public void onResponse(Call<UpdatePembacaMeterRootModel> call, Response<UpdatePembacaMeterRootModel> response) {
@@ -303,7 +311,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                             Config.deleteFiles(compressedImageFile1.getPath(), "ImageCompressDel");
                             progressDialog.cancel();
                             PembacaMeterActivity.this.finish();
-                            Toast.makeText(PembacaMeterActivity.this, "Success update data : " + response.body().getData().getUpdateData(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PembacaMeterActivity.this, "Success mengirim data : " + response.body().getData().getUpdateData(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -351,7 +359,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                     public void onResponse(Call<CheckPelangganRootModel> call, Response<CheckPelangganRootModel> response) {
                         if (response.isSuccessful()) {
                             if (response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("0") ||
-                                    response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("5")) {
+                                    response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("5") || codeInputData.contains("6")) {
                                 getListGabungan();
                                 binding.tvNolangg.setText(response.body().getData().get(0).getNolangg());
                                 binding.tvPeriode.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());

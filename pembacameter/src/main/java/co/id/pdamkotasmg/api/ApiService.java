@@ -50,6 +50,11 @@ public interface ApiService {
             @Header("Authorization") String auth);
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("pembaca-meter/api/m/ver/ditolak")
+    Call<RiwayatBacaMeterRootModel> getVerifikasiDitolak(
+            @Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("pembaca-meter/api/m/gabungan")
     Call<ListGabunganRootModel> getListGabungan(
             @Header("Authorization") String auth
@@ -81,6 +86,7 @@ public interface ApiService {
             @Field("foto_meter") String foto_meter,
             @Field("ip_entry") String ip_entry,
             @Field("st") String stMeter,
-            @Field("keterangan") String keterangan
+            @Field("keterangan") String keterangan,
+            @Field("action_code") String action_code
     );
 }

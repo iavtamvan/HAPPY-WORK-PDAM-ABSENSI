@@ -13,8 +13,14 @@ public class DataItem{
     @SerializedName("dt")
     private String dt;
 
+    @SerializedName("stver")
+    private String stver;
+
     @SerializedName("rl_pelanggan")
     private RlPelanggan rlPelanggan;
+
+    @SerializedName("rl_st_ver")
+    private RlStVer rlStVer;
 
     @SerializedName("tgl_baca")
     private String tglBaca;
@@ -24,6 +30,22 @@ public class DataItem{
 
     @SerializedName("periode")
     private String periode;
+
+    public RlStVer getRlStVer() {
+        return rlStVer;
+    }
+
+    public void setRlStVer(RlStVer rlStVer) {
+        this.rlStVer = rlStVer;
+    }
+
+    public String getStver() {
+        return stver;
+    }
+
+    public void setStver(String stver) {
+        this.stver = stver;
+    }
 
     public String getDt() {
         return dt;
