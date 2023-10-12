@@ -20,12 +20,14 @@ import co.id.pdamkotasmg.api.ApiService;
 import co.id.pdamkotasmg.model.bendel.BendelRootModel;
 import co.id.pdamkotasmg.model.bendel.DataItem;
 import co.id.pdamkotasmg.pembacameter.databinding.ActivityBendelDataBinding;
+import co.id.pdamkotasmg.pembacameter.databinding.ContentHeaderBinding;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class BendelDataActivity extends AppCompatActivity {
     private ActivityBendelDataBinding binding;
+    private ContentHeaderBinding contentHeaderBinding;
     private String codeBendel;
     private String token;
     private String periode;
@@ -37,10 +39,18 @@ public class BendelDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         binding = ActivityBendelDataBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
         setContentView(root);
-        getSupportActionBar().hide();
+
+        contentHeaderBinding = ContentHeaderBinding.inflate(getLayoutInflater());
+        View contentRoot = contentHeaderBinding.getRoot();
+        setContentView(contentRoot);
+        contentHeaderBinding.tvHeaderJudul.setText("Bendel");
+        contentHeaderBinding.ivHeaderBackArrow.setOnClickListener(view -> BendelDataActivity.this.finish());
+        contentHeaderBinding.ivHeaderInfo.setOnClickListener(view -> Toast.makeText(this, "Daftar Bendel", Toast.LENGTH_SHORT).show());
+
 
         SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");

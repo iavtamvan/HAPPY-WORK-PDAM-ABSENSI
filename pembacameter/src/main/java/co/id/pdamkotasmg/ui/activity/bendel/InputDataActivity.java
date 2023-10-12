@@ -11,10 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import co.id.pdamkotasmg.pembacameter.databinding.ActivityInputDataBinding;
+import co.id.pdamkotasmg.pembacameter.databinding.ContentHeaderBinding;
 
 public class InputDataActivity extends AppCompatActivity {
 
     private ActivityInputDataBinding binding;
+    private ContentHeaderBinding contentHeaderBinding;
     private String codeInputData;
 
     private String cabang;
@@ -23,9 +25,19 @@ public class InputDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         binding = ActivityInputDataBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
         setContentView(root);
+
+        contentHeaderBinding = ContentHeaderBinding.inflate(getLayoutInflater());
+        View contentRoot = contentHeaderBinding.getRoot();
+        setContentView(contentRoot);
+        contentHeaderBinding.tvHeaderJudul.setText("Input Data");
+        contentHeaderBinding.ivHeaderBackArrow.setOnClickListener(view -> InputDataActivity.this.finish());
+        contentHeaderBinding.ivHeaderInfo.setOnClickListener(view -> Toast.makeText(this, "Input Data Bendel", Toast.LENGTH_SHORT).show());
+
+
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         cabang = sharedPreferences.getString(Config.SHARED_CABANG, "");
         periode = sharedPreferences.getString(Config.SHARED_PERIODE, "");

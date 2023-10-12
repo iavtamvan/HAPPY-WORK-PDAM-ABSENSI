@@ -21,6 +21,7 @@ import co.id.pdamkotasmg.api.ApiService;
 import co.id.pdamkotasmg.model.checkPelangganSudahDibaca.CheckPelangganRootModel;
 import co.id.pdamkotasmg.pembacameter.R;
 import co.id.pdamkotasmg.pembacameter.databinding.ActivityDetailRiwayatPembacaMeterBinding;
+import co.id.pdamkotasmg.pembacameter.databinding.ContentHeaderBinding;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,6 +29,7 @@ import retrofit2.Response;
 public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
 
     private ActivityDetailRiwayatPembacaMeterBinding binding;
+    private ContentHeaderBinding contentHeaderBinding;
 
     private ProgressDialog progressDialog;
 
@@ -40,11 +42,18 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDetailRiwayatPembacaMeterBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
+        contentHeaderBinding = ContentHeaderBinding.inflate(getLayoutInflater());
+        View contentRoot = contentHeaderBinding.getRoot();
         setContentView(root);
+        setContentView(contentRoot);
 
         SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
         nolangg = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG);
+
+        contentHeaderBinding.tvHeaderJudul.setText("Detail Riwayat");
+        contentHeaderBinding.ivHeaderBackArrow.setOnClickListener(view -> DetailRiwayatPembacaMeterActivity.this.finish());
+        contentHeaderBinding.ivHeaderInfo.setOnClickListener(view -> Toast.makeText(this, "Detail Riwayat Pembaca Meter", Toast.LENGTH_SHORT).show());
 
         progressDialog = new ProgressDialog(DetailRiwayatPembacaMeterActivity.this);
         progressDialog.setMessage("Mohon tunggu...");
