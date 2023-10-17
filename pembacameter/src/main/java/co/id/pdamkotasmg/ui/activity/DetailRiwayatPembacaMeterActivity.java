@@ -181,7 +181,7 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                                 binding.tvPindahDataBlnSekarang.setText(userPindahData
                                         + " | " + userPindahData);
                             } else {
-                                binding.tvPindahDataBlnSekarang.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlUserTransfer().getNmPetugas()
+                                binding.tvPindahDataBlnSekarang.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlUserTransfer().getNama()
                                         + " | " + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getTglTransfer());
                             }
 

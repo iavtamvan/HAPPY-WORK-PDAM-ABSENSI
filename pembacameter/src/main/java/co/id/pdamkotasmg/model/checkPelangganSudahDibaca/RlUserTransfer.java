@@ -4,25 +4,25 @@ import com.google.gson.annotations.SerializedName;
 
 public class RlUserTransfer{
 
-    @SerializedName("kode")
-    private String kode;
+    @SerializedName("id")
+    private String id;
 
-    @SerializedName("nm_petugas")
-    private String nmPetugas;
+    @SerializedName("nama")
+    private String nama;
 
-    public void setKode(String kode){
-        this.kode = kode;
+    public String getId() {
+        return id;
     }
 
-    public String getKode(){
-        return kode;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setNmPetugas(String nmPetugas){
-        this.nmPetugas = nmPetugas;
+    public String getNama() {
+        return nama;
     }
 
-    public String getNmPetugas(){
-        return nmPetugas;
+    public void setNama(String nama) {
+        this.nama = nama;
     }
 }
