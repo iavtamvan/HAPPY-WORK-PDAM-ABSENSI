@@ -17,7 +17,6 @@ import co.id.pdamkotasmg.api.ApiConfig;
 import co.id.pdamkotasmg.api.ApiService;
 import co.id.pdamkotasmg.model.riwayatBacaMeter.RiwayatBacaMeterRootModel;
 import co.id.pdamkotasmg.pembacameter.databinding.ActivityVerifikasiDitolakBinding;
-import co.id.pdamkotasmg.pembacameter.databinding.ContentHeaderBinding;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,7 +24,7 @@ import retrofit2.Response;
 public class VerifikasiDitolakActivity extends AppCompatActivity {
 
     private ActivityVerifikasiDitolakBinding binding;
-    private ContentHeaderBinding contentHeaderBinding;
+//    private ContentHeaderBinding contentHeaderBinding;
     private VerifikasiDitolakBacaMeterAdapter verifikasiDitolakBacaMeterAdapter;
 
     private ProgressDialog progressDialog;
@@ -41,12 +40,12 @@ public class VerifikasiDitolakActivity extends AppCompatActivity {
         View root = binding.getRoot();
         setContentView(root);
 
-        contentHeaderBinding = ContentHeaderBinding.inflate(getLayoutInflater());
-        View contentRoot = contentHeaderBinding.getRoot();
-        setContentView(contentRoot);
-        contentHeaderBinding.tvHeaderJudul.setText("Verifikasi Ditolak");
-        contentHeaderBinding.ivHeaderBackArrow.setOnClickListener(view -> VerifikasiDitolakActivity.this.finish());
-        contentHeaderBinding.ivHeaderInfo.setOnClickListener(view -> Toast.makeText(this, "Verifikasi Ditolak", Toast.LENGTH_SHORT).show());
+//        contentHeaderBinding = ContentHeaderBinding.inflate(getLayoutInflater());
+//        View contentRoot = contentHeaderBinding.getRoot();
+//        setContentView(contentRoot);
+//        contentHeaderBinding.tvHeaderJudul.setText("Verifikasi Ditolak");
+//        contentHeaderBinding.ivHeaderBackArrow.setOnClickListener(view -> VerifikasiDitolakActivity.this.finish());
+//        contentHeaderBinding.ivHeaderInfo.setOnClickListener(view -> Toast.makeText(this, "Verifikasi Ditolak", Toast.LENGTH_SHORT).show());
 
         SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");

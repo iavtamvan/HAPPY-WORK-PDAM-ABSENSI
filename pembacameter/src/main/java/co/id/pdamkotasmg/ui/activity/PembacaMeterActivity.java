@@ -56,7 +56,6 @@ import co.id.pdamkotasmg.model.listGabungan.ListGabunganRootModel;
 import co.id.pdamkotasmg.model.listGabungan.StatusMeterItem;
 import co.id.pdamkotasmg.model.updatePembacaMeter.UpdatePembacaMeterRootModel;
 import co.id.pdamkotasmg.pembacameter.databinding.ActivityPembacaMeterBinding;
-import co.id.pdamkotasmg.pembacameter.databinding.ContentHeaderBinding;
 import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -71,7 +70,7 @@ import retrofit2.Response;
 public class PembacaMeterActivity extends AppCompatActivity {
     private final String TAG = "debug";
     private ActivityPembacaMeterBinding binding;
-    private ContentHeaderBinding contentHeaderBinding;
+//    private ContentHeaderBinding contentHeaderBinding;
 
     private List<StatusMeterItem> statusMeterItems = new ArrayList<>();
     private ArrayList<String> arrayStatusMeter = new ArrayList<>();
@@ -109,12 +108,12 @@ public class PembacaMeterActivity extends AppCompatActivity {
         View root = binding.getRoot();
         setContentView(root);
 
-        contentHeaderBinding = ContentHeaderBinding.inflate(getLayoutInflater());
-        View contentRoot = contentHeaderBinding.getRoot();
-        setContentView(contentRoot);
-        contentHeaderBinding.tvHeaderJudul.setText("Form Pembaca Meter");
-        contentHeaderBinding.ivHeaderBackArrow.setOnClickListener(view -> PembacaMeterActivity.this.finish());
-        contentHeaderBinding.ivHeaderInfo.setOnClickListener(view -> Toast.makeText(this, "Form Pembaca Meter", Toast.LENGTH_SHORT).show());
+//        contentHeaderBinding = ContentHeaderBinding.inflate(getLayoutInflater());
+//        View contentRoot = contentHeaderBinding.getRoot();
+//        setContentView(contentRoot);
+//        contentHeaderBinding.tvHeaderJudul.setText("Form Pembaca Meter");
+//        contentHeaderBinding.ivHeaderBackArrow.setOnClickListener(view -> PembacaMeterActivity.this.finish());
+//        contentHeaderBinding.ivHeaderInfo.setOnClickListener(view -> Toast.makeText(this, "Form Pembaca Meter", Toast.LENGTH_SHORT).show());
 
         SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");

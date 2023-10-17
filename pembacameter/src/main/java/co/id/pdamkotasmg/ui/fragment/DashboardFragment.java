@@ -131,15 +131,20 @@ public class DashboardFragment extends Fragment {
                     @Override
                     public void onResponse(Call<CheckByNolanggRootModel> call, Response<CheckByNolanggRootModel> response) {
                         if (response.isSuccessful()) {
-                            if (response.body().getData().get(0).getRlStatusPelanggan().getKode().contains("4")) {
-                                Toast.makeText(getActivity(), "Status pelanggan tutup/blokir", Toast.LENGTH_LONG).show();
+                            if (response.body().getData().isEmpty()) {
+                                Toast.makeText(getActivity(), "Data tidak ada/nolangg salah", Toast.LENGTH_SHORT).show();
                                 progressDialog.cancel();
                             } else {
-                                progressDialog.cancel();
-                                Intent intent = new Intent(getActivity(), PembacaMeterActivity.class);
-                                intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
-                                intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeInputData);
-                                getActivity().startActivity(intent);
+                                if (response.body().getData().get(0).getRlStatusPelanggan().getKode().contains("4")) {
+                                    Toast.makeText(getActivity(), "Status pelanggan tutup/blokir", Toast.LENGTH_LONG).show();
+                                    progressDialog.cancel();
+                                } else {
+                                    progressDialog.cancel();
+                                    Intent intent = new Intent(getActivity(), PembacaMeterActivity.class);
+                                    intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
+                                    intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeInputData);
+                                    getActivity().startActivity(intent);
+                                }
                             }
                         }
                     }
