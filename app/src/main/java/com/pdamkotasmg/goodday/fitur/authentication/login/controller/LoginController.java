@@ -108,18 +108,23 @@ public class LoginController {
                     idCabang = dataLogin.getUser().getId_cabang();
                     cabang = dataLogin.getUser().getId_cabang();
 
-                    if (cabang.contains("1")) {
-                        cabang = "Selatan";
-                    } else if (cabang.contains("2")) {
-                        cabang = "Barat";
-                    } else if (cabang.contains("3")) {
-                        cabang = "Timur";
-                    } else if (cabang.contains("4")) {
-                        cabang = "Utara";
-                    } else if (cabang.contains("5")) {
-                        cabang = "Tengah";
-                    } else if (cabang.contains("0")) {
-                        cabang = "Pusat";
+                    if (cabang == null){
+                        Toast.makeText(context, "Role Pegawai", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Role vendor", Toast.LENGTH_SHORT).show();
+                        if (cabang.contains("1")) {
+                            cabang = "Selatan";
+                        } else if (cabang.contains("2")) {
+                            cabang = "Barat";
+                        } else if (cabang.contains("3")) {
+                            cabang = "Timur";
+                        } else if (cabang.contains("4")) {
+                            cabang = "Utara";
+                        } else if (cabang.contains("5")) {
+                            cabang = "Tengah";
+                        } else if (cabang.contains("0")) {
+                            cabang = "Pusat";
+                        }
                     }
 
                     loading.cancel();
