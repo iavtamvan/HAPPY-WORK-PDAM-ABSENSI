@@ -62,8 +62,10 @@ public final class Config {
     public static final String APLICATION_NAME = "Happy Work";
 
     //API KEY
-    public static final String BASE_URL_IMAGE = "https://app.pdamkotasmg.co.id/api-gw-dev/portal-pegawai";
-    public static final String BASE_URL_IMAGE_HANDLER = "https://gateway.pdamkotasmg.co.id/api-gw-dev/file-handler/foto/?filename=";
+//    public static final String BASE_URL_IMAGE = "https://app.pdamkotasmg.co.id/api-gw-dev/portal-pegawai";
+    public static final String BASE_URL_IMAGE = "https://app.pdamkotasmg.co.id/api-gw/portal-pegawai";
+//    public static final String BASE_URL_IMAGE_HANDLER = "https://gateway.pdamkotasmg.co.id/api-gw-dev/file-handler/foto/?filename=";
+    public static final String BASE_URL_IMAGE_HANDLER = "https://gateway.pdamkotasmg.co.id/api-gw/file-handler/foto/?filename=";
 
     public static final String BASE_URL_NOTIF_FOTO_FAIL = "https://image.freepik.com/free-vector/people-with-sad-angry-emojis-illustration_53876-43293.jpg";
     public static final String BASE_URL_NOTIF_JIKA_TELAT = "https://image.freepik.com/free-vector/people-run-open-door-being-late-men-women-hurry-end-beginning-working-office-day-illustration_80590-9275.jpg";

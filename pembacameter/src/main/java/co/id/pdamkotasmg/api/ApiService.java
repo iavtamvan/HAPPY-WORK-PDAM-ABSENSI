@@ -87,6 +87,9 @@ public interface ApiService {
             @Field("ip_entry") String ip_entry,
             @Field("st") String stMeter,
             @Field("keterangan") String keterangan,
-            @Field("action_code") String action_code
+            @Field("action_code") String action_code,
+            @Field("latitude") String latitude,
+            @Field("longitude") String longitude,
+            @Field("alamat") String alamat
     );
 }

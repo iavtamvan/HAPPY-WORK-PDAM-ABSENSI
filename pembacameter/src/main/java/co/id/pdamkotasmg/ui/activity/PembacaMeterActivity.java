@@ -147,65 +147,11 @@ public class PembacaMeterActivity extends AppCompatActivity {
             kodeStatusMeter = "1";
         }
 
-        mFusedLocation = LocationServices.getFusedLocationProviderClient(PembacaMeterActivity.this);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mFusedLocation.getLastLocation().addOnSuccessListener(this, location -> {
-            if (location != null) {
-                // Do it all with location
-                Log.d("My Current location", "Lat : " + location.getLatitude() + " Long : " + location.getLongitude());
-                // Display in Toast
-                lati = location.getLatitude();
-                longi = location.getLongitude();
-                Log.d(TAG, "lat: " + lati);
-                Log.d(TAG, "long: " + longi);
-
-                if (lati == null || longi == null || lati == 0.0 || longi == 0.0) {
-                    Toast.makeText(this, "Alamat tidak ditemukan", Toast.LENGTH_SHORT).show();
-                } else {
-                    Geocoder geocoder;
-                    List<Address> addressList = new ArrayList<>();
-                    if (addressList == null) {
-                        Log.d("debug", "adress list : Null");
-                    } else {
-                        geocoder = new Geocoder(PembacaMeterActivity.this, Locale.getDefault());
-                        try {
-                            Log.d(TAG, "Lati: " + lati + " longi" + longi);
-                            addressList = geocoder.getFromLocation(lati, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-                            address_gps = addressList.get(0).getAddressLine(0); // If any additional address_gps line present than only, check with max available address_gps lines by getMaxAddressLineIndex()
-                            Log.d(TAG, "onCreate: " + address_gps);
-                            if (address_gps == null) {
-                                address_gps = "alamat";
-                            }
-                            city = addressList.get(0).getLocality();
-                            if (city == null) {
-                                city = "kota";
-                            }
-                            state = addressList.get(0).getAdminArea();
-                            if (state == null) {
-                                state = ".";
-                            }
-                            country = addressList.get(0).getCountryName();
-                            if (country == null) {
-                                country = "negara";
-                            }
-                            postalCode = addressList.get(0).getPostalCode();
-                            if (postalCode == null) {
-                                postalCode = "postal";
-                            }
-                            knownName = addressList.get(0).getFeatureName(); // Only if available else return NULL
-                            if (knownName == null) {
-                                knownName = "name";
-                            }
-                            Log.d("debug", "loc: " + address_gps + " ");
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
+        binding.tvLatlongAdress.setOnClickListener(view -> {
+            getLocationAdress();
+            progressDialog.show();
+            progressDialog.setMessage("Refresh Lokasi");
+            progressDialog.setCancelable(false);
         });
 
         binding.spnStatusMeter.setOnItemSelectedListener((view, position, id, item) -> {
@@ -275,6 +221,73 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
     }
 
+    private void getLocationAdress() {
+        mFusedLocation = LocationServices.getFusedLocationProviderClient(PembacaMeterActivity.this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mFusedLocation.getLastLocation().addOnSuccessListener(this, location -> {
+            if (location != null) {
+                // Do it all with location
+                Log.d("My Current location", "Lat : " + location.getLatitude() + " Long : " + location.getLongitude());
+                // Display in Toast
+                lati = location.getLatitude();
+                longi = location.getLongitude();
+                Log.d(TAG, "lat: " + lati);
+                Log.d(TAG, "long: " + longi);
+
+                if (lati == null || longi == null || lati == 0.0 || longi == 0.0) {
+                    Toast.makeText(this, "Alamat tidak ditemukan", Toast.LENGTH_SHORT).show();
+                } else {
+                    Geocoder geocoder;
+                    List<Address> addressList = new ArrayList<>();
+                    if (addressList == null) {
+                        Log.d("debug", "adress list : Null");
+                    } else {
+                        geocoder = new Geocoder(PembacaMeterActivity.this, Locale.getDefault());
+                        try {
+                            Log.d(TAG, "Lati: " + lati + " longi" + longi);
+                            addressList = geocoder.getFromLocation(lati, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                            address_gps = addressList.get(0).getAddressLine(0); // If any additional address_gps line present than only, check with max available address_gps lines by getMaxAddressLineIndex()
+                            Log.d(TAG, "onCreate: " + address_gps);
+                            if (address_gps == null) {
+                                address_gps = "alamat";
+                            }
+                            city = addressList.get(0).getLocality();
+                            if (city == null) {
+                                city = "kota";
+                            }
+                            state = addressList.get(0).getAdminArea();
+                            if (state == null) {
+                                state = ".";
+                            }
+                            country = addressList.get(0).getCountryName();
+                            if (country == null) {
+                                country = "negara";
+                            }
+                            postalCode = addressList.get(0).getPostalCode();
+                            if (postalCode == null) {
+                                postalCode = "postal";
+                            }
+                            knownName = addressList.get(0).getFeatureName(); // Only if available else return NULL
+                            if (knownName == null) {
+                                knownName = "name";
+                            }
+                            Log.d("debug", "loc: " + address_gps + " ");
+
+                            binding.tvLatlongAdress.setText(address_gps + " | lat: " + lati + " longi: " + longi + "\n Tekan disini untuk refresh Lokasi");
+                            progressDialog.cancel();
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
     private void postFotoMeter() {
         progressDialog.show();
         Date currentTime = Calendar.getInstance().getTime();
@@ -312,7 +325,9 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
     private void postDataPembacaMeter() {
         ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
-        apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, "192.111.123.1", kodeStatusMeter, binding.edtKeterangan.getText().toString().trim(), action_code)
+        apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, "192.111.123.1",
+                        kodeStatusMeter, binding.edtKeterangan.getText().toString().trim(),
+                        action_code, String.valueOf(lati), String.valueOf(longi), address_gps)
                 .enqueue(new Callback<UpdatePembacaMeterRootModel>() {
                     @Override
                     public void onResponse(Call<UpdatePembacaMeterRootModel> call, Response<UpdatePembacaMeterRootModel> response) {
@@ -366,6 +381,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onResponse(Call<CheckPelangganRootModel> call, Response<CheckPelangganRootModel> response) {
+                        getLocationAdress();
                         if (response.isSuccessful()) {
                             if (response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("0") ||
                                     response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("5") || codeInputData.contains("6")) {

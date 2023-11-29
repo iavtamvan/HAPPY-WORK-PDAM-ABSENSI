@@ -21,7 +21,7 @@ import com.pdamkotasmg.goodday.utils.Config;
 import co.id.pdamkotasmg.api.ApiConfig;
 import co.id.pdamkotasmg.api.ApiService;
 import co.id.pdamkotasmg.model.checkByNolangg.CheckByNolanggRootModel;
-import co.id.pdamkotasmg.pembacameter.databinding.FragmentDashboardBinding;
+import co.id.pdamkotasmg.pembacameter.databinding.FragmentInputBinding;
 import co.id.pdamkotasmg.ui.activity.PembacaMeterActivity;
 import co.id.pdamkotasmg.ui.activity.RiwayatPembacaMeterActivity;
 import co.id.pdamkotasmg.ui.activity.VerifikasiDitolakActivity;
@@ -30,19 +30,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DashboardFragment extends Fragment {
+public class InputFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentInputBinding binding;
     private String codeInputData;
     private String token;
     private String nolangg;
     private ProgressDialog progressDialog;
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentInputBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         SharedPreferences sp = getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -51,6 +50,9 @@ public class DashboardFragment extends Fragment {
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Mohon tunggu...");
+
+        binding.tvHeaderJudul.setText("Inpu Baca Meter");
+        binding.ivHeaderInfo.setOnClickListener(view -> Toast.makeText(getActivity(), "Trial", Toast.LENGTH_SHORT).show());
 
         binding.divInBendel.setOnClickListener(view -> {
             codeInputData = "1";
@@ -65,6 +67,9 @@ public class DashboardFragment extends Fragment {
 //            getActivity().startActivity(intent);
 
             Config.logout(getActivity());
+
+//            Toast.makeText(getActivity(), "Belum tersedia", Toast.LENGTH_SHORT).show();
+
         });
 
         binding.divInPerPelanggan.setOnClickListener(view -> {
@@ -119,6 +124,10 @@ public class DashboardFragment extends Fragment {
 
         binding.divInVerifikasiDitolak.setOnClickListener(view -> {
             startActivity(new Intent(getActivity(), VerifikasiDitolakActivity.class));
+        });
+
+        binding.divInFotoMeterManual.setOnClickListener(view -> {
+            Toast.makeText(getActivity(), "Belum tersedia", Toast.LENGTH_SHORT).show();
         });
 
         return root;

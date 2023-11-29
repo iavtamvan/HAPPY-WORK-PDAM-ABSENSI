@@ -111,7 +111,7 @@ public class LoginController {
                     if (cabang == null){
                         Toast.makeText(context, "Role Pegawai", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(context, "Role vendor", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Role Vendor", Toast.LENGTH_SHORT).show();
                         if (cabang.contains("1")) {
                             cabang = "Selatan";
                         } else if (cabang.contains("2")) {
@@ -205,6 +205,8 @@ public class LoginController {
 
         SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Log.d(TAG, "Access Token Good Day " + access_token);
 
         editor.putString(Config.SHARED_ACCESS_TOKEN, token_type + " " + access_token);
         editor.putString(Config.SHARED_NPP_PROFILE, npp_profile);

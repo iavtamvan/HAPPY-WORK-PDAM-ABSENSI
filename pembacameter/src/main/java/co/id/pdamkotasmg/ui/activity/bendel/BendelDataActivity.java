@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.pdamkotasmg.goodday.utils.Config;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import co.id.pdamkotasmg.adapter.BendelAdapter;
@@ -25,6 +26,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class BendelDataActivity extends AppCompatActivity {
+    private final String TAG = "debug";
+
     private ActivityBendelDataBinding binding;
     private String codeBendel;
     private String token;
@@ -33,6 +36,7 @@ public class BendelDataActivity extends AppCompatActivity {
 
     private BendelAdapter bendelAdapter;
     private List<DataItem> dataItems;
+    private ArrayList<DataItem> dataItemsNolangg = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,21 @@ public class BendelDataActivity extends AppCompatActivity {
                     binding.rv.setLayoutManager(new LinearLayoutManager(BendelDataActivity.this));
                     bendelAdapter.notifyDataSetChanged();
                     progressDialog.cancel();
+//                    Log.d(TAG, "response body: " + response.body().getData().get(0).getNolangg());
+//
+//                    DataItem dataItemArrays = new DataItem();
+//                    for (int i = 0; i < dataItems.size(); i++) {
+//                        dataItemArrays.setNolangg(response.body().getData().get(i).getNolangg());
+//                    }
+//                    dataItemsNolangg.add(dataItemArrays);
+//                    Log.d(TAG, "dataItemsNolangg: " + dataItemsNolangg.get(0).getNolangg());
+
+
+//                    for (int i = 0; i < dataItemsNolangg.size(); i++) {
+//                        binding.tvTotalDataBendel.setText(dataItemsNolangg.get(i).getNolangg());
+//                    }
+
+
                 }
             }
 

@@ -3,6 +3,7 @@ package co.id.pdamkotasmg.ui.fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
+    private String TAG = "debug";
 
     private FragmentHomeBinding binding;
     private ContentHeaderNoArrowBinding contentHeaderNoArrowBinding;
@@ -45,6 +47,7 @@ public class HomeFragment extends Fragment {
 //        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         SharedPreferences sp = getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
+        Log.d(TAG, "Access Token Pembaca Meter " + token);
 
         getDataPelanggan();
 
@@ -58,7 +61,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onResponse(Call<PelangganByNolanggRootModel> call, Response<PelangganByNolanggRootModel> response) {
                         if (response.isSuccessful()) {
-                            Toast.makeText(getActivity(), "" + response.body(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Testing", Toast.LENGTH_SHORT).show();
                         }
                     }
 
