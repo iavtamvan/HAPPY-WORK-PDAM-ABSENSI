@@ -16,7 +16,7 @@ public class ApiConfig {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        ChuckerCollector chuckerCollector = new ChuckerCollector(context, true);
+        ChuckerCollector chuckerCollector = new ChuckerCollector(context, false);
         ChuckerInterceptor chuckerInterceptor = new ChuckerInterceptor(context, chuckerCollector);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()

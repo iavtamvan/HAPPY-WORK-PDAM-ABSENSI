@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:dist="http://schemas.android.com/apk/distribution">
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <dist:module
         dist:instant="false"
@@ -28,9 +29,9 @@
         <activity
             android:name="co.id.pdamkotasmg.ui.activity.bendel.BendelDataActivity"
             android:exported="false" />
-        <activity
-            android:name="co.id.pdamkotasmg.ui.activity.InputActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name="co.id.pdamkotasmg.ui.activity.InputActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name="co.id.pdamkotasmg.ui.activity.bendel.InputDataActivity"
             android:exported="false" />
@@ -38,10 +39,10 @@
             android:name="co.id.pdamkotasmg.HomeActivity"
             android:exported="false"
             android:label="@string/title_activity_home" />
-        <activity
-            android:name="co.id.pdamkotasmg.BottomActivity"
-            android:exported="false"
-            android:label="@string/title_activity_bottom" />
+<!--        <activity-->
+<!--            android:name="co.id.pdamkotasmg.BottomActivity"-->
+<!--            android:exported="false"-->
+<!--            android:label="@string/title_activity_bottom" />-->
         <activity
             android:name="co.id.pdamkotasmg.MainActivity"
             android:exported="false" />

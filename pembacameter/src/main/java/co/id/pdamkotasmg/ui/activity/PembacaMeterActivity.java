@@ -89,6 +89,11 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
+    private Date cDate;
+
+    private String currentDateLocal;
+    private String currentTimeLocal;
+
     private String token;
     private String nolangg;
     private String npp;
@@ -100,6 +105,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
     private String filePathServer;
     private String fileUrlServer;
 
+    @SuppressLint("SimpleDateFormat")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,6 +146,10 @@ public class PembacaMeterActivity extends AppCompatActivity {
             action_code = "1";
             binding.tvSystemUpdate.setText("DATA VERIFIKASI TAPI DITOLAK");
         }
+
+        cDate = new Date();
+        currentDateLocal = new SimpleDateFormat("EEEE, dd MMM yyyy").format(cDate);
+        currentTimeLocal = new SimpleDateFormat("HH:mm").format(cDate);
 
         getCheckPelanggan(nolangg);
 
@@ -222,6 +232,9 @@ public class PembacaMeterActivity extends AppCompatActivity {
     }
 
     private void getLocationAdress() {
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Refresh Lokasi...");
         mFusedLocation = LocationServices.getFusedLocationProviderClient(PembacaMeterActivity.this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -238,6 +251,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
                 if (lati == null || longi == null || lati == 0.0 || longi == 0.0) {
                     Toast.makeText(this, "Alamat tidak ditemukan", Toast.LENGTH_SHORT).show();
+                    progressDialog.cancel();
                 } else {
                     Geocoder geocoder;
                     List<Address> addressList = new ArrayList<>();
@@ -279,6 +293,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                             progressDialog.cancel();
 
                         } catch (IOException e) {
+                            progressDialog.cancel();
                             e.printStackTrace();
                         }
                     }
@@ -300,7 +315,6 @@ public class PembacaMeterActivity extends AppCompatActivity {
         File imageFileMeter = new File(compressedImageFile1.getPath());
         RequestBody requestFilePhotoKtp = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileMeter);
         MultipartBody.Part bodyFileMeter = MultipartBody.Part.createFormData("photo", imageFileMeter.getName(), requestFilePhotoKtp);
-
 
         ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
         apiService.postUploadFoto(token, path, fileName, bodyFileMeter)
@@ -451,6 +465,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
                         String[] lines = {
                                 address_gps,
+                                currentDateLocal + " - " + currentTimeLocal,
                                 "Lat: " + lati,
                                 "Longi: " + longi,
                                 nolangg + " (" + npp + ")"
@@ -516,7 +531,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
         try {
             // Create an OutputStream to write the image to the destination file
             OutputStream outputStream = new FileOutputStream(destination);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            bitmap.compress(Bitmap.CompressFormat.WEBP, 100, outputStream);
             outputStream.flush();
             outputStream.close();
 

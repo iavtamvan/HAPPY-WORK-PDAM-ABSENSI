@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context="co.id.pdamkotasmg.ui.activity.bendel.InputDataActivity">
 
-    <include layout="@layout/content_header" />
+<!--    <include layout="@layout/content_header" />-->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -89,6 +89,7 @@
                             android:id="@+id/edt_bendel"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:inputType="number"
                             android:background="@color/white"
                             android:maxLength="4" />
                     </com.google.android.material.textfield.TextInputLayout>

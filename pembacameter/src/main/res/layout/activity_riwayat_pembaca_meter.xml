@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context="co.id.pdamkotasmg.ui.activity.RiwayatPembacaMeterActivity">
 
-    <include layout="@layout/content_header" />
+<!--    <include layout="@layout/content_header" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"

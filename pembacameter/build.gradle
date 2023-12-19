@@ -7,7 +7,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        minSdk 24
+        minSdkVersion 23
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -19,6 +19,11 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    packagingOptions{
+        resources.excludes.add("META-INF/*")
+        resources.excludes.add("kotlin/*")
+        resources.excludes.add("*/okhttp3/internal/publicsuffix/publicsuffixes.gz")
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

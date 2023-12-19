@@ -5,6 +5,8 @@ import android.content.Context;
 import com.chuckerteam.chucker.api.ChuckerCollector;
 import com.chuckerteam.chucker.api.ChuckerInterceptor;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -16,12 +18,15 @@ public class ApiConfig {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        ChuckerCollector chuckerCollector = new ChuckerCollector(context, true);
+        ChuckerCollector chuckerCollector = new ChuckerCollector(context, false);
         ChuckerInterceptor chuckerInterceptor = new ChuckerInterceptor(context, chuckerCollector);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(chuckerInterceptor)
                 .addInterceptor(httpLoggingInterceptor)
+                .connectTimeout(300, TimeUnit.SECONDS)
+                .writeTimeout(300, TimeUnit.SECONDS)
+                .readTimeout(300, TimeUnit.SECONDS)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()

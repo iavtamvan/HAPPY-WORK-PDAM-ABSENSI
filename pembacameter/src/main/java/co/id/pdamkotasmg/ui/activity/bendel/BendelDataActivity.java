@@ -52,8 +52,7 @@ public class BendelDataActivity extends AppCompatActivity {
         cabang = sp.getString(Config.SHARED_CABANG, "");
 
         codeBendel = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL);
-        binding.tvBendel.setText("- DAFTAR BACAAN METER CABANG " + cabang + " BENDEL " + codeBendel + " PERIODE " + periode + "\n" +
-                "- ID Pelanggan yang sudah dibaca TIDAK TAMPIL pada halaman ini");
+        binding.tvBendel.setText("DAFTAR BACAAN METER CABANG " + cabang + " BENDEL " + codeBendel + " PERIODE " + periode);
 
         binding.btnCari.setOnClickListener(view -> {
             if (binding.edtNolangg.toString().isEmpty()) {
