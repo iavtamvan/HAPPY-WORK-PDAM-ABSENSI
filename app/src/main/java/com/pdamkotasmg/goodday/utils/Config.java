@@ -44,7 +44,10 @@ import com.pdamkotasmg.goodday.fitur.presensi.PresensiActivity;
 import com.pdamkotasmg.goodday.fitur.splash.SplashScreenActivity;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -353,10 +356,16 @@ public final class Config {
     }
 
     public static void deleteFiles(String pathName, String msgLog) {
-        // v TODO delete image original
+        // TODO delete image original
         File file = new File(pathName);
         boolean deleted = file.delete();
         Log.d("debug", msgLog + " Deleted : " + deleted);
+    }
+
+    public static void deleteFolders(String pathFolder, String msgLog) throws IOException {
+        File dir = new File(pathFolder);
+        FileUtils.deleteDirectory(dir);
+        Log.d(TAG, "deleted : true > " + dir);
     }
 
     public static void showNotification(Context context, String title, String content) {

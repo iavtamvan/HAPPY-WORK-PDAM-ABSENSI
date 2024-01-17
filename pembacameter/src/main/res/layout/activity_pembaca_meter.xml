@@ -68,7 +68,7 @@
                                     android:gravity="center|left"
                                     android:text="Lokasi: | Lat: - Long: "
                                     android:textColor="@color/white"
-                                    android:textSize="12dp"
+                                    android:textSize="10dp"
                                     android:textStyle="bold" />
 
                             </LinearLayout>
@@ -203,175 +203,269 @@
                         android:textColor="@color/black"
                         android:textSize="13dp" />
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="left"
-                        android:text="Tarif: "
-                        android:textColor="@color/grey"
-                        android:textSize="10dp" />
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_tarif"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text="-"
-                        android:textColor="@color/black"
-                        android:textSize="13dp" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="left"
-                        android:text="Sumber Lain: "
-                        android:textColor="@color/grey"
-                        android:textSize="10dp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:gravity="left"
+                                android:text="Tarif: "
+                                android:textColor="@color/grey"
+                                android:textSize="10dp" />
 
-                    <TextView
-                        android:id="@+id/tv_sumber_lain"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text="-"
-                        android:textColor="@color/black"
-                        android:textSize="13dp" />
+                            <TextView
+                                android:id="@+id/tv_tarif"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="left"
+                                android:text="-"
+                                android:textColor="@color/black"
+                                android:textSize="13dp" />
+                        </LinearLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="left"
-                        android:text="Merek Meter: "
-                        android:textColor="@color/grey"
-                        android:textSize="10dp" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_merek_meter"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text="-"
-                        android:textColor="@color/black"
-                        android:textSize="13dp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:gravity="left"
+                                android:text="Sumber Lain: "
+                                android:textColor="@color/grey"
+                                android:textSize="10dp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="left"
-                        android:text="Lalu: "
-                        android:textColor="@color/grey"
-                        android:textSize="10dp" />
-
-                    <TextView
-                        android:id="@+id/tv_lalu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text="-"
-                        android:textColor="@color/black"
-                        android:textSize="13dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="left"
-                        android:text="Kini: "
-                        android:textColor="@color/grey"
-                        android:textSize="10dp" />
+                            <TextView
+                                android:id="@+id/tv_sumber_lain"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="left"
+                                android:text="-"
+                                android:textColor="@color/black"
+                                android:textSize="13dp" />
+                        </LinearLayout>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="250dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                            <EditText
-                                android:id="@+id/edt_kini"
+                            <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number"
-                                android:background="@color/white"
-                                android:maxLines="1"/>
-                        </com.google.android.material.textfield.TextInputLayout>
+                                android:layout_marginTop="5dp"
+                                android:gravity="left"
+                                android:text="Merek Meter: "
+                                android:textColor="@color/grey"
+                                android:textSize="10dp" />
 
-                        <TextView
-                            android:id="@+id/tv_hitung_kubik"
+                            <TextView
+                                android:id="@+id/tv_merek_meter"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="left"
+                                android:text="-"
+                                android:textColor="@color/black"
+                                android:textSize="13dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="left|center"
-                            android:text=" = m3"
-                            android:textColor="@color/black"
-                            android:textSize="13dp" />
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:gravity="left"
+                                android:text="Lalu: "
+                                android:textColor="@color/grey"
+                                android:textSize="10dp" />
+
+                            <TextView
+                                android:id="@+id/tv_lalu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="left"
+                                android:text="-"
+                                android:textColor="@color/black"
+                                android:textSize="13dp" />
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="left"
-                        android:text="Status Meter: "
-                        android:textColor="@color/grey"
-                        android:textSize="10dp" />
+                        android:orientation="horizontal">
 
-                    <com.jaredrummler.materialspinner.MaterialSpinner
-                        android:id="@+id/spn_status_meter"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="-- Pilih --" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="left"
-                        android:text="Keterangan: "
-                        android:textColor="@color/grey"
-                        android:textSize="10dp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="1"
+                                android:gravity="left"
+                                android:text="Kini: "
+                                android:textColor="@color/grey"
+                                android:textSize="10dp" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="1">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
 
-                        <EditText
-                            android:id="@+id/edt_keterangan"
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="90dp"
+                                    android:layout_height="wrap_content">
+
+                                    <EditText
+                                        android:id="@+id/edt_kini"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:background="@color/white"
+                                        android:inputType="number"
+                                        android:maxLines="1" />
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <TextView
+                                    android:id="@+id/tv_hitung_kubik"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:gravity="left|center"
+                                    android:text=" = m3"
+                                    android:textColor="@color/black"
+                                    android:textSize="13dp" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                    <TextView
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="1"
+                                android:gravity="left|top"
+                                android:text="Keterangan: "
+                                android:textColor="@color/grey"
+                                android:textSize="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
+
+                                    <EditText
+                                        android:id="@+id/edt_keterangan"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:background="@color/white"
+                                        android:imeActionLabel="Selesai"
+                                        android:inputType="text"
+                                        android:maxLines="1" />
+                                </com.google.android.material.textfield.TextInputLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="left"
-                        android:text="Status Data: "
-                        android:textColor="@color/grey"
-                        android:textSize="10dp" />
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_status_data"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text="-"
-                        android:textColor="@color/black"
-                        android:textSize="13dp" />
+
+                        <LinearLayout
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:gravity="left"
+                                android:text="Status Meter: "
+                                android:textColor="@color/grey"
+                                android:textSize="10dp" />
+
+                            <com.jaredrummler.materialspinner.MaterialSpinner
+                                android:id="@+id/spn_status_meter"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="-- Pilih --" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="4dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:gravity="left"
+                                android:text="Status Data: "
+                                android:textColor="@color/grey"
+                                android:textSize="10dp" />
+
+                            <TextView
+                                android:id="@+id/tv_status_data"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="left|center"
+                                android:text="-"
+                                android:textColor="@color/black"
+                                android:textSize="13dp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
 
                     <TextView
                         android:layout_width="match_parent"
@@ -385,6 +479,13 @@
 
                     <ImageView
                         android:id="@+id/iv_camera"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:visibility="gone"
+                        android:src="@drawable/image_not_found" />
+
+                    <com.github.chrisbanes.photoview.PhotoView
+                        android:id="@+id/photoView"
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
                         android:src="@drawable/image_not_found" />

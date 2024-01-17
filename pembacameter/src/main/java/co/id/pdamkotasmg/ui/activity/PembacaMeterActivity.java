@@ -55,6 +55,7 @@ import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
 import co.id.pdamkotasmg.model.listGabungan.ListGabunganRootModel;
 import co.id.pdamkotasmg.model.listGabungan.StatusMeterItem;
 import co.id.pdamkotasmg.model.updatePembacaMeter.UpdatePembacaMeterRootModel;
+import co.id.pdamkotasmg.pembacameter.R;
 import co.id.pdamkotasmg.pembacameter.databinding.ActivityPembacaMeterBinding;
 import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
@@ -104,6 +105,8 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
     private String filePathServer;
     private String fileUrlServer;
+    private String rootPathImage;
+    private String pathImageWatermark;
 
     @SuppressLint("SimpleDateFormat")
     @Override
@@ -190,9 +193,9 @@ public class PembacaMeterActivity extends AppCompatActivity {
                 }
             }
         });
-        binding.ivCamera.setOnClickListener(view -> {
+        binding.photoView.setOnClickListener(view -> {
             if (codeInputData.contains("1")) {
-                easyImage.openCameraForImage(PembacaMeterActivity.this);
+                easyImage.openChooser(PembacaMeterActivity.this);
             } else if (codeInputData.contains("2")) {
                 easyImage.openCameraForImage(PembacaMeterActivity.this);
             } else if (codeInputData.contains("3")) {
@@ -228,7 +231,6 @@ public class PembacaMeterActivity extends AppCompatActivity {
                 // TODO Selesai
             }
         });
-
     }
 
     private void getLocationAdress() {
@@ -289,7 +291,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                             }
                             Log.d("debug", "loc: " + address_gps + " ");
 
-                            binding.tvLatlongAdress.setText(address_gps + " | lat: " + lati + " longi: " + longi + "\n Tekan disini untuk refresh Lokasi");
+                            binding.tvLatlongAdress.setText(address_gps + " | lat: " + lati + " longi: " + longi + "\nTekan disini untuk refresh Lokasi");
                             progressDialog.cancel();
 
                         } catch (IOException e) {
@@ -304,6 +306,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
     }
 
     private void postFotoMeter() {
+        progressDialog.setMessage("Mengirim Data");
         progressDialog.show();
         Date currentTime = Calendar.getInstance().getTime();
         String timestamp = String.valueOf(currentTime.getTime());
@@ -346,10 +349,15 @@ public class PembacaMeterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<UpdatePembacaMeterRootModel> call, Response<UpdatePembacaMeterRootModel> response) {
                         if (response.isSuccessful()) {
-                            Config.deleteFiles(compressedImageFile1.getPath(), "ImageCompressDel");
+                            try {
+                                Config.deleteFolders(rootPathImage, "deletedFolders");
+                                Config.deleteFolders(pathImageWatermark, "ImgWatermarkDelete");
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                             progressDialog.cancel();
                             PembacaMeterActivity.this.finish();
-                            Toast.makeText(PembacaMeterActivity.this, "Success mengirim data : " + response.body().getData().getUpdateData(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PembacaMeterActivity.this, "Success mengirim data : " + response.body().getData().getUpdateData(), Toast.LENGTH_LONG).show();
                         }
                     }
 
@@ -437,10 +445,24 @@ public class PembacaMeterActivity extends AppCompatActivity {
         easyImage.handleActivityResult(requestCode, resultCode, data, PembacaMeterActivity.this, new EasyImage.Callbacks() {
             @Override
             public void onMediaFilesPicked(@NonNull MediaFile[] mediaFiles, @NonNull MediaSource mediaSource) {
+
+                try {
+                    compressedImageFile1 = new Compressor(PembacaMeterActivity.this)
+                            .setMaxHeight(400)
+                            .setMaxWidth(400)
+                            .setQuality(50)
+                            .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                            .setDestinationDirectoryPath(mediaFiles[0].getFile().getParent())
+                            .compressToFile(mediaFiles[0].getFile(), "comp1_PM_" + mediaFiles[0].getFile().getName());
+                    showImageWatermark(compressedImageFile1.getPath());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
                 // TODO Cepret,Compress. delete file/image
-                showImageWatermark(mediaFiles);
                 // TODO delete image
 //                    Config.deleteFiles(mediaFiles[0].getFile().getPath(), "ImageOriginal");
+                rootPathImage = mediaFiles[0].getFile().getParent();
             }
 
             @Override
@@ -453,15 +475,16 @@ public class PembacaMeterActivity extends AppCompatActivity {
         });
     }
 
-    private void showImageWatermark(MediaFile[] mediaFiles) {
+    private void showImageWatermark(String file) {
         Glide.with(PembacaMeterActivity.this)
                 .asBitmap()
-                .load(mediaFiles[0].getFile())
+                .load(file)
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                         // Create a Canvas to draw the watermark on the image
                         Canvas canvas = new Canvas(resource);
+                        canvas.drawBitmap(resource, 0, 0, null);
 
                         String[] lines = {
                                 address_gps,
@@ -485,7 +508,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                         paint.setColor(Color.WHITE); // Ganti dengan warna yang Anda inginkan
 
                         // Mengatur ukuran font
-                        paint.setTextSize(40); // Ganti dengan ukuran font yang Anda inginkan
+                        paint.setTextSize(20); // Ganti dengan ukuran font yang Anda inginkan
 
                         // Mengatur gaya teks (contoh: bold)
                         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
@@ -502,9 +525,10 @@ public class PembacaMeterActivity extends AppCompatActivity {
                         }
 
                         // Set the final image with watermark to the ImageView
-                        binding.ivCamera.setImageBitmap(resource);
+//                        binding.ivCamera.setImageBitmap(resource);
+                        binding.photoView.setImageBitmap(resource);
 
-                        saveImageToExternalStorage(resource, mediaFiles);
+                        saveImageToExternalStorage(resource);
                     }
 
                     @Override
@@ -513,9 +537,10 @@ public class PembacaMeterActivity extends AppCompatActivity {
                 });
     }
 
-    private void saveImageToExternalStorage(Bitmap bitmap, MediaFile[] mediaFiles) {
+    private void saveImageToExternalStorage(Bitmap bitmap) {
         // Define the directory where the image will be saved
-        File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "/PDAM/PEMBACA-METER/FOTO");
+        directory.mkdirs();
 
         // Generate a random UUID
         UUID randomUUID = UUID.randomUUID();
@@ -531,30 +556,32 @@ public class PembacaMeterActivity extends AppCompatActivity {
         try {
             // Create an OutputStream to write the image to the destination file
             OutputStream outputStream = new FileOutputStream(destination);
-            bitmap.compress(Bitmap.CompressFormat.WEBP, 100, outputStream);
+            bitmap.compress(Bitmap.CompressFormat.WEBP, 50, outputStream);
             outputStream.flush();
             outputStream.close();
 
             // Add the image to the MediaStore (gallery)
 //            MediaStore.Images.Media.insertImage(getContentResolver(), destination.getAbsolutePath(), fileName, null);
 
+            pathImageWatermark = destination.getParent();
             compressedImageFile1 = new File(destination.getPath());
 
             compressedImageFile1 = new Compressor(PembacaMeterActivity.this)
-                    .setMaxHeight(640)
-                    .setMaxWidth(480)
-                    .setQuality(70)
+                    .setMaxHeight(400)
+                    .setMaxWidth(400)
+                    .setQuality(50)
                     .setCompressFormat(Bitmap.CompressFormat.WEBP)
-                    .setDestinationDirectoryPath(mediaFiles[0].getFile().getParent())
-                    .compressToFile(destination, "comp_PM_" + mediaFiles[0].getFile().getName());
+                    .setDestinationDirectoryPath(rootPathImage)
+                    .compressToFile(destination, "comp2_PM_" + randomUUIDString + ".jpg");
 
             // Show a toast message indicating that the image has been saved
             Log.d(TAG, "Compresseddd: " + compressedImageFile1);
-            Log.d(TAG, "ImageOriginal: " + mediaFiles[0].getFile().getPath());
-            Log.d(TAG, "ImageImageSavedWatrermark: " + destination.getPath());
+//            Log.d(TAG, "ImageOriginal: " + rootPathImage);
+            Log.d(TAG, "ImageImageSavedWatrermark: " + pathImageWatermark);
 
-            Config.deleteFiles(mediaFiles[0].getFile().getPath(), "ImageOriginal");
-            Config.deleteFiles(destination.getPath(), "ImageSavedStream");
+            int file_size = Integer.parseInt(String.valueOf(compressedImageFile1.length() / 1024));
+            Log.d(TAG, "Size Image : " + file_size + " kb");
+            Toast.makeText(this, "Size Image : " + file_size + " kb", Toast.LENGTH_LONG).show();
             Toast.makeText(this, "Image saved", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();

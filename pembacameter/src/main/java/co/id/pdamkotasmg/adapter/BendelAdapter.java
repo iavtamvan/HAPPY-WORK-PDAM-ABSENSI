@@ -64,7 +64,13 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
         }
 
         holder.tvListBendelSt.setText(st);
-        holder.tvListBendelLalu.setText(dataItems.get(position).getRlTrbaca().get(0).getKini() + " - "
+
+        String kini = dataItems.get(position).getRlTrbaca().get(0).getKini();
+        if (kini == null) {
+            kini = "-";
+        }
+
+        holder.tvListBendelLalu.setText(kini + "\n"
                 + dataItems.get(position).getRlTrbaca().get(0).getM3() + "m3");
         holder.tvListBendelDibuat.setText("Generate by System Cabang " + cabang + "-" + periode);
 
