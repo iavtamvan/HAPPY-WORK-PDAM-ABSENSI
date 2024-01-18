@@ -1,6 +1,7 @@
 package co.id.pdamkotasmg.api;
 
 import co.id.pdamkotasmg.model.bendel.BendelRootModel;
+import co.id.pdamkotasmg.model.bendel.bendelNext.BendelNextModel;
 import co.id.pdamkotasmg.model.checkByNolangg.CheckByNolanggRootModel;
 import co.id.pdamkotasmg.model.checkPelangganSudahDibaca.CheckPelangganRootModel;
 import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
@@ -66,6 +67,13 @@ public interface ApiService {
             @Header("Authorization") String auth,
             @Field("bendel") String bendel,
             @Field("nolangg") String nolangg
+    );
+
+    @FormUrlEncoded
+    @POST("pembaca-meter/api/p/bendel-next")
+    Call<BendelNextModel> getBendelNext(
+            @Header("Authorization") String auth,
+            @Field("bendel") String bendel
     );
 
     @Multipart

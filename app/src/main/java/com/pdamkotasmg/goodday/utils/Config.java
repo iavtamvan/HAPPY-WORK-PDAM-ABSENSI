@@ -192,6 +192,8 @@ public final class Config {
 
     public static final String SHARED_TYPE_WEB_vIEW = "shared_type_web_view";
 
+    public static final String SHARED_ARRAY_BENDEL = "shared_array_bendel";
+
     //Firebase
     // global topic to receive app wide push notifications
     public static final String FIREBASE_NAME = "pdam-tirta-happy-work";
@@ -224,6 +226,7 @@ public final class Config {
     // TODO Mulai Pembaca Meter
     public static final String BUNDLE_PEMBACA_METER_CODE_INPUT_DATA = "bundle_pembaca_meter_code_input_data";
     public static final String BUNDLE_PEMBACA_METER_CODE_BENDEL = "bundle_pembaca_meter_code_input_data";
+    public static final String BUNDLE_PEMBACA_METER_CODE_BENDEL_NEXT = "bundle_pembaca_meter_code_bendel_next";
 
     public static final String BUNDLE_PEMBACA_METER_NOLANGG = "pembaca_meter_nolangg";
     public static final String BUNDLE_PEMBACA_METER_KODE_INPUT_DATA = "pembaca_meter_kode_input_data";

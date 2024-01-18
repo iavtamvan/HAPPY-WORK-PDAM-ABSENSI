@@ -50,6 +50,8 @@ import java.util.UUID;
 
 import co.id.pdamkotasmg.api.ApiConfig;
 import co.id.pdamkotasmg.api.ApiService;
+import co.id.pdamkotasmg.model.bendel.bendelNext.BendelNextModel;
+import co.id.pdamkotasmg.model.bendel.bendelNext.Data;
 import co.id.pdamkotasmg.model.checkPelangganSudahDibaca.CheckPelangganRootModel;
 import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
 import co.id.pdamkotasmg.model.listGabungan.ListGabunganRootModel;
@@ -75,6 +77,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
     private List<StatusMeterItem> statusMeterItems = new ArrayList<>();
     private ArrayList<String> arrayStatusMeter = new ArrayList<>();
+    private Data dataItems;
 
     private FusedLocationProviderClient mFusedLocation;
     private Double lati, longi;
@@ -87,6 +90,8 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
     private EasyImage easyImage;
     private File compressedImageFile1;
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editorSp;
 
     private ProgressDialog progressDialog;
 
@@ -101,6 +106,8 @@ public class PembacaMeterActivity extends AppCompatActivity {
     private String lalu;
     private String kodeStatusMeter;
     private String codeInputData;
+    private String codeBendel;
+    private String codeSimpandanLanjut;
     private String action_code;
 
     private String filePathServer;
@@ -124,11 +131,13 @@ public class PembacaMeterActivity extends AppCompatActivity {
 //        contentHeaderBinding.ivHeaderBackArrow.setOnClickListener(view -> PembacaMeterActivity.this.finish());
 //        contentHeaderBinding.ivHeaderInfo.setOnClickListener(view -> Toast.makeText(this, "Form Pembaca Meter", Toast.LENGTH_SHORT).show());
 
-        SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        editorSp = sp.edit();
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
         npp = sp.getString(Config.SHARED_NPP_PROFILE, "");
         nolangg = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG);
         codeInputData = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA);
+        codeBendel = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL_NEXT);
 
         easyImage = new EasyImage.Builder(PembacaMeterActivity.this)
                 .setCopyImagesToPublicGalleryFolder(false)
@@ -207,7 +216,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
             }
         });
 
-        binding.btnBukaData.setOnClickListener(view -> {
+        binding.btnSimpanData.setOnClickListener(view -> {
             if (compressedImageFile1 == null || binding.edtKini.getText().toString().isEmpty()) {
                 Toast.makeText(this, "" + Config.ERROR_DATA_REGISTER, Toast.LENGTH_SHORT).show();
             } else {
@@ -231,12 +240,35 @@ public class PembacaMeterActivity extends AppCompatActivity {
                 // TODO Selesai
             }
         });
+
+        binding.btnSimpanLanjut.setOnClickListener(view -> {
+            if (compressedImageFile1 == null || binding.edtKini.getText().toString().isEmpty()) {
+                Toast.makeText(this, "" + Config.ERROR_DATA_REGISTER, Toast.LENGTH_SHORT).show();
+            } else {
+                // TODO send to server
+                // TODO 1 send picture to server
+                // TODO 2 send data to server 3.7
+                MaterialDialog mDialog = new MaterialDialog.Builder(PembacaMeterActivity.this)
+                        .setTitle("Apaka data Anda sudah benar?")
+                        .setCancelable(false)
+                        .setNegativeButton("Belum", (dialogInterface, which) -> {
+                            dialogInterface.dismiss();
+                        })
+                        .setPositiveButton("Sudah", (dialogInterface, which) -> {
+                            dialogInterface.dismiss();
+                            codeSimpandanLanjut = "1";
+                            postFotoMeter();
+                        })
+                        .build();
+
+                mDialog.show();
+
+                // TODO Selesai
+            }
+        });
     }
 
     private void getLocationAdress() {
-        progressDialog.show();
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Refresh Lokasi...");
         mFusedLocation = LocationServices.getFusedLocationProviderClient(PembacaMeterActivity.this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -292,7 +324,11 @@ public class PembacaMeterActivity extends AppCompatActivity {
                             Log.d("debug", "loc: " + address_gps + " ");
 
                             binding.tvLatlongAdress.setText(address_gps + " | lat: " + lati + " longi: " + longi + "\nTekan disini untuk refresh Lokasi");
-                            progressDialog.cancel();
+                            Log.d(TAG, "getLocationAdress:  " + codeSimpandanLanjut);
+
+                            if (codeSimpandanLanjut == null){
+                                progressDialog.cancel();
+                            }
 
                         } catch (IOException e) {
                             progressDialog.cancel();
@@ -306,7 +342,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
     }
 
     private void postFotoMeter() {
-        progressDialog.setMessage("Mengirim Data");
+        progressDialog.setMessage("Mohon tunggu...");
         progressDialog.show();
         Date currentTime = Calendar.getInstance().getTime();
         String timestamp = String.valueOf(currentTime.getTime());
@@ -346,6 +382,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                         kodeStatusMeter, binding.edtKeterangan.getText().toString().trim(),
                         action_code, String.valueOf(lati), String.valueOf(longi), address_gps)
                 .enqueue(new Callback<UpdatePembacaMeterRootModel>() {
+                    @SuppressLint("UseCompatLoadingForDrawables")
                     @Override
                     public void onResponse(Call<UpdatePembacaMeterRootModel> call, Response<UpdatePembacaMeterRootModel> response) {
                         if (response.isSuccessful()) {
@@ -355,9 +392,18 @@ public class PembacaMeterActivity extends AppCompatActivity {
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
-                            progressDialog.cancel();
-                            PembacaMeterActivity.this.finish();
+
                             Toast.makeText(PembacaMeterActivity.this, "Success mengirim data : " + response.body().getData().getUpdateData(), Toast.LENGTH_LONG).show();
+                            if (codeSimpandanLanjut.equals("1")) {
+                                binding.edtKini.setText("");
+                                binding.edtKeterangan.setText("");
+                                binding.photoView.setImageDrawable(getResources().getDrawable(R.drawable.image_not_found));
+                                getLocationAdress();
+                                getBendel();
+                            } else {
+                                progressDialog.cancel();
+                                PembacaMeterActivity.this.finish();
+                            }
                         }
                     }
 
@@ -421,7 +467,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                                 binding.tvStatusData.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
                             } else {
                                 binding.svContainer.setVisibility(View.GONE);
-                                binding.btnBukaData.setVisibility(View.GONE);
+                                binding.btnSimpanData.setVisibility(View.GONE);
                                 binding.tvSystemUpdate.setText(response.body().getData().get(0).getNolangg() +
                                         " Pelanggan sudah dalam status " +
                                         response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
@@ -587,6 +633,26 @@ public class PembacaMeterActivity extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void getBendel() {
+        ApiService apiService = ApiConfig.getApiService(this);
+        apiService.getBendelNext(token, codeBendel).enqueue(new Callback<BendelNextModel>() {
+            @Override
+            public void onResponse(Call<BendelNextModel> call, Response<BendelNextModel> response) {
+                if (response.isSuccessful()) {
+                    dataItems = response.body().getData();
+                    String nolangg = dataItems.getNolangg();
+                    getCheckPelanggan(nolangg);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BendelNextModel> call, Throwable t) {
+                progressDialog.cancel();
+                Toast.makeText(PembacaMeterActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

@@ -25,6 +25,7 @@ import co.id.pdamkotasmg.ui.activity.PembacaMeterActivity;
 
 public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder> {
     Context context;
+    private final String TAG = "debug";
     private String periode;
     private String cabang;
     private String codeInputData;
@@ -78,6 +79,7 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
             codeInputData = "1";
             Intent intent = new Intent(context, PembacaMeterActivity.class);
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, dataItems.get(position).getNolangg());
+            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL_NEXT, dataItems.get(position).getDism().substring(0,4));
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeInputData);
             context.startActivity(intent);
         });
