@@ -112,8 +112,10 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                                 binding.btnKoreksi.setVisibility(View.GONE);
                             } else if (statusTransferKode.contains("3")) {
                                 binding.ivTrfTransfer.setVisibility(View.VISIBLE);
+                                binding.btnKoreksi.setVisibility(View.GONE);
                             } else if (statusTransferKode.contains("4")) {
                                 binding.ivTrfPde.setVisibility(View.VISIBLE);
+                                binding.btnKoreksi.setVisibility(View.GONE);
                             } else if (statusTransferKode.contains("5")) {
                                 binding.ivTrfKoreksi.setVisibility(View.VISIBLE);
                                 binding.btnKoreksi.setVisibility(View.VISIBLE);

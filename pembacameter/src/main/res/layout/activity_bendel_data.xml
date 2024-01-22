@@ -83,7 +83,7 @@
             android:layout_marginRight="8dp"
             android:fontFamily="@font/poppins"
             android:gravity="center"
-            android:text="Data : 100 Pelanggan"
+            android:text="Data : <?> Pelanggan"
             android:textSize="12dp"
             android:textStyle="bold" />
 

@@ -177,7 +177,8 @@
                                 android:layout_marginRight="8dp"
                                 android:backgroundTint="@color/red"
                                 android:text="KOREKSI"
-                                android:textSize="13dp" />
+                                android:textSize="13dp"
+                                android:visibility="gone" />
 
                         </LinearLayout>
 
