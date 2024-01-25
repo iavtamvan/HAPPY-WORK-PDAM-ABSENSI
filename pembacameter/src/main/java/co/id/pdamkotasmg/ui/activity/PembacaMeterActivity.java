@@ -149,14 +149,36 @@ public class PembacaMeterActivity extends AppCompatActivity {
         progressDialog.setMessage("Mohong tunggu ...");
         progressDialog.setCancelable(false);
 
-        if (codeInputData.contains("5")) {
+        if (codeInputData.contains("1")) {
+//            getCheckPelanggan(nolangg);
+            action_code = "";
+//            binding.tvSystemUpdate.setText("DATA EDIT !!!!");
+            binding.btnSimpanLanjut.setVisibility(View.VISIBLE);
+        } else if (codeInputData.contains("2")) {
+//            getCheckPelanggan(nolangg);
+            action_code = "";
+//            binding.tvSystemUpdate.setText("DATA EDIT !!!!");
+            binding.btnSimpanLanjut.setVisibility(View.GONE);
+        } else if (codeInputData.contains("3")) {
+//            getCheckPelanggan(nolangg);
+            action_code = "";
+//            binding.tvSystemUpdate.setText("DATA EDIT !!!!");
+            binding.btnSimpanLanjut.setVisibility(View.GONE);
+        }  else if (codeInputData.contains("5")) {
             action_code = "";
             getCheckPelanggan(nolangg);
-            binding.tvSystemUpdate.setText("DATA KOREKSI");
+            binding.tvSystemUpdate.setText("DATA KOREKSI"); // jarang di pakai oleh PEMBACA METER DAN QC by Asihargani Barat [Whatsapp]
+            binding.btnSimpanLanjut.setVisibility(View.GONE);
         } else if (codeInputData.contains("6")) {
             getCheckPelanggan(nolangg);
             action_code = "1";
             binding.tvSystemUpdate.setText("DATA VERIFIKASI TAPI DITOLAK");
+            binding.btnSimpanLanjut.setVisibility(View.GONE);
+        } else if (codeInputData.contains("7")) {
+            getCheckPelanggan(nolangg);
+            action_code = "7";
+            binding.tvSystemUpdate.setText("DATA EDIT !!!!");
+            binding.btnSimpanLanjut.setVisibility(View.GONE);
         }
 
         cDate = new Date();
@@ -203,16 +225,18 @@ public class PembacaMeterActivity extends AppCompatActivity {
             }
         });
         binding.photoView.setOnClickListener(view -> {
-            if (codeInputData.contains("1")) {
+            if (codeInputData.contains("1")) { // normal mode Bendel
                 easyImage.openChooser(PembacaMeterActivity.this);
-            } else if (codeInputData.contains("2")) {
-                easyImage.openCameraForImage(PembacaMeterActivity.this);
-            } else if (codeInputData.contains("3")) {
+            } else if (codeInputData.contains("2")) { // input dari no pelanggan
+                easyImage.openChooser(PembacaMeterActivity.this);
+            } else if (codeInputData.contains("3")) { // input dari foto meter
                 easyImage.openGallery(PembacaMeterActivity.this);
-            } else if (codeInputData.contains("5")) {
-                easyImage.openCameraForImage(PembacaMeterActivity.this);
-            } else if (codeInputData.contains("6")) {
-                easyImage.openCameraForImage(PembacaMeterActivity.this);
+            } else if (codeInputData.contains("5")) { // koreksi / CU
+                easyImage.openChooser(PembacaMeterActivity.this);
+            } else if (codeInputData.contains("6")) { // verifikasi tapi ditolak
+                easyImage.openChooser(PembacaMeterActivity.this);
+            } else if (codeInputData.contains("7")) { // edit data bacaan
+                easyImage.openChooser(PembacaMeterActivity.this);
             }
         });
 
@@ -451,8 +475,11 @@ public class PembacaMeterActivity extends AppCompatActivity {
                     public void onResponse(Call<CheckPelangganRootModel> call, Response<CheckPelangganRootModel> response) {
                         getLocationAdress();
                         if (response.isSuccessful()) {
-                            if (response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("0") ||
-                                    response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("5") || codeInputData.contains("6")) {
+                            progressDialog.cancel();
+                            if (response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("0") || // kosong
+                                    response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("5") // koreksi
+                                    || codeInputData.contains("6")) // verifikasi ditolak
+                            {
                                 getListGabungan();
                                 binding.tvNolangg.setText(response.body().getData().get(0).getNolangg());
                                 binding.tvPeriode.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
@@ -466,12 +493,16 @@ public class PembacaMeterActivity extends AppCompatActivity {
                                 binding.tvLalu.setText(lalu + " - " + response.body().getData().get(0).getRlTrbaca().get(0).getM3() + "m3");
                                 binding.tvStatusData.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
                             } else {
-                                binding.svContainer.setVisibility(View.GONE);
-                                binding.btnSimpanData.setVisibility(View.GONE);
-                                binding.tvSystemUpdate.setText(response.body().getData().get(0).getNolangg() +
-                                        " Pelanggan sudah dalam status " +
-                                        response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
-                                progressDialog.cancel();
+                                if (codeInputData.contains("7")) { // edit data bacaan
+                                    binding.svContainer.setVisibility(View.VISIBLE);
+                                    binding.btnSimpanData.setVisibility(View.VISIBLE);
+                                } else {
+                                    binding.svContainer.setVisibility(View.GONE);
+                                    binding.btnSimpanData.setVisibility(View.GONE);
+                                    binding.tvSystemUpdate.setText(response.body().getData().get(0).getNolangg() +
+                                            " Pelanggan sudah dalam status " +
+                                            response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
+                                }
                             }
                         }
                     }

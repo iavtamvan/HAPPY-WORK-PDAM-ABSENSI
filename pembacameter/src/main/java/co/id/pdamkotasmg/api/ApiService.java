@@ -2,6 +2,7 @@ package co.id.pdamkotasmg.api;
 
 import co.id.pdamkotasmg.model.bendel.BendelRootModel;
 import co.id.pdamkotasmg.model.bendel.bendelNext.BendelNextModel;
+import co.id.pdamkotasmg.model.bendel.tandaiPlg.TandaiBendelRootModel;
 import co.id.pdamkotasmg.model.checkByNolangg.CheckByNolanggRootModel;
 import co.id.pdamkotasmg.model.checkPelangganSudahDibaca.CheckPelangganRootModel;
 import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
@@ -99,5 +100,14 @@ public interface ApiService {
             @Field("latitude") String latitude,
             @Field("longitude") String longitude,
             @Field("alamat") String alamat
+    );
+
+    @FormUrlEncoded
+    @POST("pembaca-meter/api/u/update-tanda-plg")
+    Call<TandaiBendelRootModel> postUpdateTandaPlg(
+            @Header("Authorization") String auth,
+            @Field("nolangg") String nolangg,
+            @Field("bendel") String bendel,
+            @Field("tandai") String tandai
     );
 }

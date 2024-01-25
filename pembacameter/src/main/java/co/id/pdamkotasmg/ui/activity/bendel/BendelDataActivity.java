@@ -75,20 +75,13 @@ public class BendelDataActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<BendelRootModel> call, Response<BendelRootModel> response) {
                 if (response.isSuccessful()) {
+                    progressDialog.cancel();
                     dataItems = response.body().getData();
                     binding.tvTotalDataBendel.setText("Data : " + dataItems.size() + " Pelanggan");
                     bendelAdapter = new BendelAdapter(BendelDataActivity.this, dataItems);
                     binding.rv.setAdapter(bendelAdapter);
                     binding.rv.setLayoutManager(new LinearLayoutManager(BendelDataActivity.this));
                     bendelAdapter.notifyDataSetChanged();
-
-
-//                    Gson gson = new Gson();
-//                    String json = gson.toJson(dataItems);
-//                    editorSp.putString(Config.SHARED_ARRAY_BENDEL, json);
-//                    editorSp.apply();
-
-                    progressDialog.cancel();
 
                 }
             }

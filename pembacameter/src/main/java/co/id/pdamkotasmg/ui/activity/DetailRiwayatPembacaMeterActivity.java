@@ -41,18 +41,15 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDetailRiwayatPembacaMeterBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
-//        contentHeaderBinding = ContentHeaderBinding.inflate(getLayoutInflater());
-//        View contentRoot = contentHeaderBinding.getRoot();
         setContentView(root);
-//        setContentView(contentRoot);
+
+        binding.ivHeaderBackArrow.setOnClickListener(view -> DetailRiwayatPembacaMeterActivity.this.finish());
+        binding.tvHeaderJudul.setText("Detail Bacaan");
+        binding.ivHeaderInfo.setVisibility(View.GONE);
 
         SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
         nolangg = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG);
-
-//        contentHeaderBinding.tvHeaderJudul.setText("Detail Riwayat");
-//        contentHeaderBinding.ivHeaderBackArrow.setOnClickListener(view -> DetailRiwayatPembacaMeterActivity.this.finish());
-//        contentHeaderBinding.ivHeaderInfo.setOnClickListener(view -> Toast.makeText(this, "Detail Riwayat Pembaca Meter", Toast.LENGTH_SHORT).show());
 
         progressDialog = new ProgressDialog(DetailRiwayatPembacaMeterActivity.this);
         progressDialog.setMessage("Mohon tunggu...");
@@ -73,8 +70,16 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        binding.btnUbahData.setOnClickListener(view -> {
+        binding.btnUbahDataDitolakVerifikator.setOnClickListener(view -> {
             codeinputData = "6"; // verifikasi tapi ditolak
+            Intent intent = new Intent(DetailRiwayatPembacaMeterActivity.this, PembacaMeterActivity.class);
+            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeinputData);
+            intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
+            startActivity(intent);
+        });
+
+        binding.btnEditData.setOnClickListener(view -> {
+            codeinputData = "7"; // Edit Data
             Intent intent = new Intent(DetailRiwayatPembacaMeterActivity.this, PembacaMeterActivity.class);
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeinputData);
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
@@ -96,27 +101,28 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
 
                             String statusTransferKode = response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode();
                             binding.tvNmTransfer.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
-                            if (statusTransferKode.contains("0")) {
+                            if (statusTransferKode.contains("0")) { // kosong
                                 binding.ivTrfKosong.setVisibility(View.VISIBLE);
-                            } else if (statusTransferKode.contains("1")) {
+                            } else if (statusTransferKode.contains("1")) { // siap
                                 binding.ivTrfSiap.setVisibility(View.VISIBLE);
                                 binding.ivTrfVerifikasi.setVisibility(View.GONE);
                                 binding.ivTrfTransfer.setVisibility(View.GONE);
                                 binding.ivTrfKoreksi.setVisibility(View.GONE);
                                 binding.btnKoreksi.setVisibility(View.GONE);
-                            } else if (statusTransferKode.contains("2")) {
+                                binding.btnEditData.setVisibility(View.VISIBLE);
+                            } else if (statusTransferKode.contains("2")) { // verifikasi
                                 binding.ivTrfVerifikasi.setVisibility(View.VISIBLE);
                                 binding.ivTrfSiap.setVisibility(View.GONE);
                                 binding.ivTrfTransfer.setVisibility(View.GONE);
                                 binding.ivTrfKoreksi.setVisibility(View.GONE);
                                 binding.btnKoreksi.setVisibility(View.GONE);
-                            } else if (statusTransferKode.contains("3")) {
+                            } else if (statusTransferKode.contains("3")) { // transfer
                                 binding.ivTrfTransfer.setVisibility(View.VISIBLE);
                                 binding.btnKoreksi.setVisibility(View.GONE);
-                            } else if (statusTransferKode.contains("4")) {
+                            } else if (statusTransferKode.contains("4")) { // PDE
                                 binding.ivTrfPde.setVisibility(View.VISIBLE);
                                 binding.btnKoreksi.setVisibility(View.GONE);
-                            } else if (statusTransferKode.contains("5")) {
+                            } else if (statusTransferKode.contains("5")) { // Koreksi
                                 binding.ivTrfKoreksi.setVisibility(View.VISIBLE);
                                 binding.btnKoreksi.setVisibility(View.VISIBLE);
                             }
@@ -207,23 +213,33 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                             if (statusVerifikasi.contains("2")) {
                                 binding.tvStatusVerifikasi.setText("DITOLAK / CU");
                                 binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#C30000"));
-                                binding.btnUbahData.setVisibility(View.VISIBLE);
+                                binding.btnUbahDataDitolakVerifikator.setVisibility(View.GONE);
+                                binding.btnCekUlang.setVisibility(View.VISIBLE);
+                                binding.btnEditData.setVisibility(View.VISIBLE);
                             } else if (statusVerifikasi.contains("3")) {
                                 binding.tvStatusVerifikasi.setText("DITOLAK FOTO TDK ADA");
                                 binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#C30000"));
-                                binding.btnUbahData.setVisibility(View.VISIBLE);
+                                binding.btnUbahDataDitolakVerifikator.setVisibility(View.VISIBLE);
+                                binding.btnEditData.setVisibility(View.GONE);
+                                binding.btnCekUlang.setVisibility(View.GONE);
                             } else if (statusVerifikasi.contains("4")) {
                                 binding.tvStatusVerifikasi.setText("ST PLG TUTUP");
                                 binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#C30000"));
-                                binding.btnUbahData.setVisibility(View.VISIBLE);
+                                binding.btnUbahDataDitolakVerifikator.setVisibility(View.VISIBLE);
+                                binding.btnEditData.setVisibility(View.GONE);
+                                binding.btnCekUlang.setVisibility(View.GONE);
                             } else if (statusVerifikasi.contains("0")) {
                                 binding.tvStatusVerifikasi.setText("BELUM VERIFIKASI");
                                 binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#D5840D"));
-                                binding.btnUbahData.setVisibility(View.GONE);
+                                binding.btnEditData.setVisibility(View.VISIBLE);
+                                binding.btnUbahDataDitolakVerifikator.setVisibility(View.GONE);
+                                binding.btnCekUlang.setVisibility(View.GONE);
                             } else {
                                 binding.tvStatusVerifikasi.setText("DISETUJUI");
-                                binding.btnUbahData.setVisibility(View.GONE);
                                 binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#31B057"));
+                                binding.btnUbahDataDitolakVerifikator.setVisibility(View.GONE);
+                                binding.btnEditData.setVisibility(View.GONE);
+                                binding.btnCekUlang.setVisibility(View.GONE);
                             }
 
                             progressDialog.cancel();

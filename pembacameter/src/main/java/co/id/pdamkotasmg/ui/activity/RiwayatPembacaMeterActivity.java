@@ -38,12 +38,9 @@ public class RiwayatPembacaMeterActivity extends AppCompatActivity {
         View root = binding.getRoot();
         setContentView(root);
 
-//        contentHeaderBinding = ContentHeaderBinding.inflate(getLayoutInflater());
-//        View contentRoot = contentHeaderBinding.getRoot();
-//        setContentView(contentRoot);
-//        contentHeaderBinding.tvHeaderJudul.setText("Riwayat Pembaca Meter");
-//        contentHeaderBinding.ivHeaderBackArrow.setOnClickListener(view -> RiwayatPembacaMeterActivity.this.finish());
-//        contentHeaderBinding.ivHeaderInfo.setOnClickListener(view -> Toast.makeText(this, "Riwayat Pembaca Meter", Toast.LENGTH_SHORT).show());
+        binding.ivHeaderBackArrow.setOnClickListener(view -> RiwayatPembacaMeterActivity.this.finish());
+        binding.tvHeaderJudul.setText("Riwayat Bacaan");
+        binding.ivHeaderInfo.setVisibility(View.GONE);
 
         SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");

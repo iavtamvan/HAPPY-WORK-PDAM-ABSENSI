@@ -8,8 +8,10 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -17,19 +19,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.pdamkotasmg.goodday.utils.Config;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import co.id.pdamkotasmg.api.ApiConfig;
+import co.id.pdamkotasmg.api.ApiService;
 import co.id.pdamkotasmg.model.bendel.DataItem;
+import co.id.pdamkotasmg.model.bendel.RlDataBacaSekarang;
+import co.id.pdamkotasmg.model.bendel.tandaiPlg.TandaiBendelRootModel;
 import co.id.pdamkotasmg.pembacameter.R;
 import co.id.pdamkotasmg.ui.activity.PembacaMeterActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder> {
     Context context;
     private final String TAG = "debug";
     private String periode;
     private String cabang;
+    private String token;
+    private String bendel;
     private String codeInputData;
     private List<DataItem> dataItems;
+
+    private int markedPosition = 1; // Initially, no position is marked
 
     public BendelAdapter(Context context, List<DataItem> dataItems) {
         this.context = context;
@@ -43,19 +58,24 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
         return new ViewHolder(view);
     }
 
-    @SuppressLint({"SetTextI18n", "SimpleDateFormat", "UseCompatLoadingForDrawables"})
+    @SuppressLint({"SetTextI18n", "SimpleDateFormat", "UseCompatLoadingForDrawables", "ResourceAsColor"})
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         SharedPreferences sp = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
         periode = sp.getString(Config.SHARED_PERIODE, "");
         cabang = sp.getString(Config.SHARED_CABANG, "");
+        bendel = dataItems.get(position).getDism().substring(0, 4);
 
         holder.tvListBendelNolangg.setText(dataItems.get(position).getNolangg());
         holder.tvListBendelDism.setText(dataItems.get(position).getDism());
         holder.tvListBendelNama.setText(dataItems.get(position).getNama());
         holder.tvListBendelAlamat.setText(dataItems.get(position).getAlamat());
+
+        int incrementedNumber = position + 1; // Increment starting from 1
+        holder.tvNo.setText("" + incrementedNumber);
 
         String st = dataItems.get(position).getSt();
         if (st.contains("2")) {
@@ -71,17 +91,54 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
             kini = "-";
         }
 
+        if (Objects.equals(dataItems.get(position).getRlDtBacaSekarang().get(0).getTandai(), "1")) {
+            holder.ivTandai.setVisibility(View.GONE);
+            holder.ivTandaiPelanggan.setVisibility(View.VISIBLE);
+        } else {
+            holder.ivTandai.setVisibility(View.VISIBLE);
+            holder.ivTandaiPelanggan.setVisibility(View.GONE);
+        }
+
         holder.tvListBendelLalu.setText(kini + "\n"
                 + dataItems.get(position).getRlTrbaca().get(0).getM3() + "m3");
-        holder.tvListBendelDibuat.setText("Generate by System Cabang " + cabang + "-" + periode);
+//        holder.tvListBendelDibuat.setText("Generate by System Cabang " + cabang + "-" + periode);
 
         holder.cvKlik.setOnClickListener(v -> {
             codeInputData = "1";
             Intent intent = new Intent(context, PembacaMeterActivity.class);
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, dataItems.get(position).getNolangg());
-            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL_NEXT, dataItems.get(position).getDism().substring(0,4));
+            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL_NEXT, bendel);
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeInputData);
             context.startActivity(intent);
+        });
+
+        ArrayList<RlDataBacaSekarang> listDataBacaSekarang = new ArrayList<>();
+        RlDataBacaSekarang rlDataBacaSekarang = new RlDataBacaSekarang();
+        rlDataBacaSekarang.setTandai(dataItems.get(position).getRlDtBacaSekarang().get(0).getTandai());
+        listDataBacaSekarang.add(rlDataBacaSekarang);
+
+        holder.ivTandai.setOnClickListener(view -> {
+            ApiService apiService = ApiConfig.getApiService(context);
+            apiService.postUpdateTandaPlg(token, dataItems.get(position).getNolangg(), bendel, "1")
+                    .enqueue(new Callback<TandaiBendelRootModel>() {
+                        @SuppressLint("ResourceAsColor")
+                        @Override
+                        public void onResponse(Call<TandaiBendelRootModel> call, Response<TandaiBendelRootModel> response) {
+                            if (response.isSuccessful()) {
+                                holder.ivTandai.setVisibility(View.GONE);
+                                holder.ivTandaiPelanggan.setVisibility(View.VISIBLE);
+                                Toast.makeText(context, "Tandai Sukses " + dataItems.get(position).getNolangg(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<TandaiBendelRootModel> call, Throwable t) {
+                            Toast.makeText(context, "Tandai PLG Gagal", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        });
+        holder.ivTandaiPelanggan.setOnClickListener(view -> {
+            Toast.makeText(context, "Sudah ditandai", Toast.LENGTH_SHORT).show();
         });
 
     }
@@ -99,7 +156,10 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
         private TextView tvListBendelAlamat;
         private TextView tvListBendelSt;
         private TextView tvListBendelLalu;
-        private TextView tvListBendelDibuat;
+        //        private TextView tvListBendelDibuat;
+        private ImageView ivTandai;
+        private ImageView ivTandaiPelanggan;
+        private TextView tvNo;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -110,7 +170,10 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
             tvListBendelAlamat = itemView.findViewById(R.id.tv_list_bendel_alamat);
             tvListBendelSt = itemView.findViewById(R.id.tv_list_bendel_st);
             tvListBendelLalu = itemView.findViewById(R.id.tv_list_bendel_lalu);
-            tvListBendelDibuat = itemView.findViewById(R.id.tv_list_bendel_dibuat);
+//            tvListBendelDibuat = itemView.findViewById(R.id.tv_list_bendel_dibuat);
+            ivTandai = itemView.findViewById(R.id.iv_tandai);
+            ivTandaiPelanggan = itemView.findViewById(R.id.iv_tandai_success);
+            tvNo = itemView.findViewById(R.id.tv_no);
         }
     }
 }

@@ -21,6 +21,17 @@
         app:cardCornerRadius="8dp"
         app:cardElevation="2dp">
 
+        <TextView
+            android:id="@+id/tv_no"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="55dp"
+            android:fontFamily="@font/audiowide"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="#164E4E4E"
+            android:textSize="40dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -227,25 +238,34 @@
                                     android:layout_marginLeft="3dp"
                                     android:orientation="horizontal">
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="match_parent"
-                                        android:gravity="left|center_vertical"
-                                        android:text="Dibuat : "
-                                        android:textColor="@color/grey"
-                                        android:visibility="gone"
-                                        android:textSize="12dp" />
-
-                                    <TextView
-                                        android:id="@+id/tv_list_bendel_dibuat"
+                                    <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
-                                        android:layout_marginLeft="10dp"
-                                        android:gravity="center"
-                                        android:text="Generate by System"
-                                        android:textColor="@color/dash_v2_bluedark"
-                                        android:textSize="11dp"
-                                        android:textStyle="italic" />
+                                        android:layout_weight="1" />
+
+                                    <ImageView
+                                        android:id="@+id/iv_tandai"
+                                        android:layout_width="50dp"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/mark_plg_before" />
+                                    <ImageView
+                                        android:id="@+id/iv_tandai_success"
+                                        android:layout_width="50dp"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/mark_plg"
+                                        android:visibility="gone"/>
+
+                                    <!--                                    <TextView-->
+                                    <!--                                        android:id="@+id/tv_list_bendel_dibuat"-->
+                                    <!--                                        android:layout_width="match_parent"-->
+                                    <!--                                        android:layout_height="match_parent"-->
+                                    <!--                                        android:layout_marginLeft="10dp"-->
+                                    <!--                                        android:layout_weight="1"-->
+                                    <!--                                        android:gravity="center"-->
+                                    <!--                                        android:text="Generate by System"-->
+                                    <!--                                        android:textColor="@color/dash_v2_bluedark"-->
+                                    <!--                                        android:textSize="11dp"-->
+                                    <!--                                        android:textStyle="italic" />-->
 
                                 </LinearLayout>
 
