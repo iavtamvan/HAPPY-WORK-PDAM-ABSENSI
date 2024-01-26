@@ -52,7 +52,7 @@ public class InputFragment extends Fragment {
         progressDialog.setMessage("Mohon tunggu...");
 
         binding.tvHeaderJudul.setText("Inpu Baca Meter");
-        binding.ivHeaderInfo.setOnClickListener(view -> Toast.makeText(getActivity(), "Trial", Toast.LENGTH_SHORT).show());
+        binding.ivHeaderInfo.setOnClickListener(view -> Config.logout(getActivity()));
 
         binding.divInBendel.setOnClickListener(view -> {
             codeInputData = "1";
@@ -65,10 +65,6 @@ public class InputFragment extends Fragment {
 //            Intent intent = new Intent(getActivity(), InputDataActivity.class);
 //            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeInputData);
 //            getActivity().startActivity(intent);
-
-            Config.logout(getActivity());
-
-//            Toast.makeText(getActivity(), "Belum tersedia", Toast.LENGTH_SHORT).show();
 
         });
 

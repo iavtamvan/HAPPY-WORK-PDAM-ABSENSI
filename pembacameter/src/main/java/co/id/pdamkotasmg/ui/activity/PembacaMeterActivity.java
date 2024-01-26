@@ -506,16 +506,11 @@ public class PembacaMeterActivity extends AppCompatActivity {
                                 binding.tvLalu.setText(lalu + " - " + response.body().getData().get(0).getRlTrbaca().get(0).getM3() + "m3");
                                 binding.tvStatusData.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
                             } else {
-//                                if (codeInputData.contains("7")) { // edit data bacaan
-//                                    binding.svContainer.setVisibility(View.VISIBLE);
-//                                    binding.btnSimpanData.setVisibility(View.VISIBLE);
-//                                } else {
                                 binding.svContainer.setVisibility(View.GONE);
                                 binding.btnSimpanData.setVisibility(View.GONE);
                                 binding.tvSystemUpdate.setText(response.body().getData().get(0).getNolangg() +
                                         " Pelanggan sudah dalam status " +
                                         response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
-//                                }
                             }
                         }
                     }

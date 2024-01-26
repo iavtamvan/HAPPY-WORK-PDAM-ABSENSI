@@ -152,11 +152,20 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                             binding.tvTglJamBacaBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getTglBaca() + " | " + response.body().getData().get(0).getRlTrbaca().get(0).getJamBaca());
                             binding.tvPemakaianBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getKini() + " - " + response.body().getData().get(0).getRlTrbaca().get(0).getM3() + "m3");
                             binding.tvPetugasBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getRlPetugas().getNmPetugas());
-                            Glide.with(DetailRiwayatPembacaMeterActivity.this)
-                                    .load(response.body().getData().get(0).getRlTrbaca().get(0).getFile())
-                                    .override(512, 512)
-                                    .error(R.drawable.im_good_day)
-                                    .into(binding.ivFotoMeterBlnLalu);
+
+                            if (response.body().getData().get(0).getRlTrbaca().get(0).getFile().contains("/pembaca-meter/")) {
+                                Glide.with(DetailRiwayatPembacaMeterActivity.this)
+                                        .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlTrbaca().get(0).getFile())
+                                        .override(512, 512)
+                                        .error(R.drawable.im_good_day)
+                                        .into(binding.ivFotoMeterBlnLalu);
+                            } else {
+                                Glide.with(DetailRiwayatPembacaMeterActivity.this)
+                                        .load(Config.BASE_URL_IMAGE_SIRAMHPM_VENDOR + response.body().getData().get(0).getRlTrbaca().get(0).getFile().replace("../", ""))
+                                        .override(512, 512)
+                                        .error(R.drawable.im_good_day)
+                                        .into(binding.ivFotoMeterBlnLalu);
+                            }
 
 
                             binding.tvPeriodeBlnSekarang.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
@@ -203,11 +212,22 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                                         .error(R.drawable.im_good_day)
                                         .into(binding.ivFotoMeterBlnSekarang);
                             } else {
-                                Glide.with(DetailRiwayatPembacaMeterActivity.this)
-                                        .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
-                                        .override(512, 512)
-                                        .error(R.drawable.im_good_day)
-                                        .into(binding.ivFotoMeterBlnSekarang);
+
+                                if (response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile().contains("/pembaca-meter/")){
+                                    Glide.with(DetailRiwayatPembacaMeterActivity.this)
+                                            .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
+                                            .override(512, 512)
+                                            .error(R.drawable.im_good_day)
+                                            .into(binding.ivFotoMeterBlnSekarang);
+                                } else {
+                                    Glide.with(DetailRiwayatPembacaMeterActivity.this)
+                                            .load(Config.BASE_URL_IMAGE_SIRAMHPM_VENDOR + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile().replace("../", ""))
+                                            .override(512, 512)
+                                            .error(R.drawable.im_good_day)
+                                            .into(binding.ivFotoMeterBlnSekarang);
+                                }
+
+
                             }
 
                             String statusVerifikasi = response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getStver();
