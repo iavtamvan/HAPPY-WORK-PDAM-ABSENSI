@@ -41,7 +41,6 @@ public class HomeFragment extends Fragment {
         SharedPreferences sp = getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
         Log.d(TAG, "Access Token Pembaca Meter " + token);
-
         getDataPelanggan();
 
         return root;

@@ -99,7 +99,8 @@ public interface ApiService {
             @Field("action_code") String action_code,
             @Field("latitude") String latitude,
             @Field("longitude") String longitude,
-            @Field("alamat") String alamat
+            @Field("alamat") String alamat,
+            @Field("manometer") String manometer
     );
 
     @FormUrlEncoded

@@ -109,6 +109,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
     private String codeBendel;
     private String codeSimpandanLanjut;
     private String action_code;
+    private String modelDevice;
 
     private String filePathServer;
     private String fileUrlServer;
@@ -132,6 +133,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
         editorSp = sp.edit();
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
         npp = sp.getString(Config.SHARED_NPP_PROFILE, "");
+        modelDevice = sp.getString(Config.SHARED_GETMODEL,"");
         nolangg = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG);
         codeInputData = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA);
         codeBendel = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL_NEXT);
@@ -403,9 +405,9 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
     private void postDataPembacaMeter() {
         ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
-        apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, "192.111.123.1",
+        apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, modelDevice,
                         kodeStatusMeter, binding.edtKeterangan.getText().toString().trim(),
-                        action_code, String.valueOf(lati), String.valueOf(longi), address_gps)
+                        action_code, String.valueOf(lati), String.valueOf(longi), address_gps, binding.edtManometer.getText().toString().trim())
                 .enqueue(new Callback<UpdatePembacaMeterRootModel>() {
                     @SuppressLint("UseCompatLoadingForDrawables")
                     @Override
