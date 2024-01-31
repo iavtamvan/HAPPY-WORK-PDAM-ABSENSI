@@ -43,6 +43,17 @@ public class RlTrbacaItem{
     @SerializedName("jam_baca")
     private String jamBaca;
 
+    @SerializedName("manometer")
+    private String manometer;
+
+    public String getManometer() {
+        return manometer;
+    }
+
+    public void setManometer(String manometer) {
+        this.manometer = manometer;
+    }
+
     public String getFile() {
         return file;
     }

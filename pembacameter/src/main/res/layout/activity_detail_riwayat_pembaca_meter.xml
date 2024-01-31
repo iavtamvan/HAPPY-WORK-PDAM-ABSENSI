@@ -514,6 +514,23 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
+                                android:text="Manometer"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_manometer_bln_lalu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
                                 android:text="Foto Meter"
                                 android:textSize="12dp" />
 
@@ -677,6 +694,23 @@
 
                             <TextView
                                 android:id="@+id/tv_petugas_bln_sekarang"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Manometer"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_manometer_bln_sekarang"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"

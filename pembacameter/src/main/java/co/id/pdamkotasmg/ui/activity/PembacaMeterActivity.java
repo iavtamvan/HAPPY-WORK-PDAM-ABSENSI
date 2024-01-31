@@ -510,6 +510,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                             } else {
                                 binding.svContainer.setVisibility(View.GONE);
                                 binding.btnSimpanData.setVisibility(View.GONE);
+                                binding.btnSimpanLanjut.setVisibility(View.GONE);
                                 binding.tvSystemUpdate.setText(response.body().getData().get(0).getNolangg() +
                                         " Pelanggan sudah dalam status " +
                                         response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());

@@ -106,6 +106,17 @@ public class RlDtBacaPeriodeSkrgItem{
     @SerializedName("jam_ver")
     private String jamVer;
 
+    @SerializedName("manometer")
+    private String manometer;
+
+    public String getManometer() {
+        return manometer;
+    }
+
+    public void setManometer(String manometer) {
+        this.manometer = manometer;
+    }
+
     public RlStMeter getRlStMeter() {
         return rlStMeter;
     }

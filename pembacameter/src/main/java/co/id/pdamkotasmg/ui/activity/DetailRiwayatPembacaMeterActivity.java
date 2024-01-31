@@ -152,6 +152,7 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                             binding.tvTglJamBacaBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getTglBaca() + " | " + response.body().getData().get(0).getRlTrbaca().get(0).getJamBaca());
                             binding.tvPemakaianBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getKini() + " - " + response.body().getData().get(0).getRlTrbaca().get(0).getM3() + "m3");
                             binding.tvPetugasBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getRlPetugas().getNmPetugas());
+                            binding.tvManometerBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getManometer());
 
                             if (response.body().getData().get(0).getRlTrbaca().get(0).getFile().contains("/pembaca-meter/")) {
                                 Glide.with(DetailRiwayatPembacaMeterActivity.this)
@@ -178,6 +179,7 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                             binding.tvKeterangan.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKt());
 
                             binding.tvPetugasBlnSekarang.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlPetugas().getNmPetugas());
+                            binding.tvManometerBlnSekarang.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getManometer());
 
 
                             String userVer = String.valueOf(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlUserVer());
