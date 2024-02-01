@@ -515,7 +515,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                                                 .error(R.drawable.image_not_found)
                                                 .into(binding.photoView);
                                     } else {
-                                        Toast.makeText(PembacaMeterActivity.this, "Id Pelanggan belum bisa CU, status belum tertransfer", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(PembacaMeterActivity.this, "Nolangg belum bisa CU, status belum tertransfer", Toast.LENGTH_SHORT).show();
                                         binding.svContainer.setVisibility(View.GONE);
                                         binding.btnSimpanData.setVisibility(View.GONE);
                                         binding.btnSimpanLanjut.setVisibility(View.GONE);

@@ -4,7 +4,7 @@
     android:id="@+id/cvKlik"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_margin="3dp"
     android:orientation="vertical"
     app:cardElevation="4dp">
 
@@ -13,28 +13,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/iv_success_req"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                android:src="@drawable/succes_req" />
-
-            <ImageView
-                android:id="@+id/iv_close_req"
-                android:layout_width="20dp"
-                android:visibility="gone"
-                android:layout_height="match_parent"
-                android:src="@drawable/close_req" />
-        </LinearLayout>
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_klik"
             android:layout_width="match_parent"
@@ -42,16 +20,16 @@
             android:layout_marginLeft="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginRight="4dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="4dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="18dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginRight="18dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginBottom="5dp"
                 android:orientation="vertical">
 
@@ -249,6 +227,7 @@
                                 android:id="@+id/tv_list_tgl_jam_baca"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
+                                android:layout_marginRight="8dp"
                                 android:gravity="left|center_vertical"
                                 android:text="2023-09-01 15:48:45"
                                 android:textColor="@color/grey"
@@ -261,10 +240,25 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
                                 android:gravity="left|center_vertical"
+                                android:visibility="gone"
                                 android:text="Sudah dibaca"
                                 android:textColor="@color/greenGojek"
                                 android:textSize="12dp"
                                 android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/iv_success_req"
+                                android:layout_width="20dp"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/succes_req"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/iv_close_req"
+                                android:layout_width="20dp"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/close_req"
+                                android:visibility="gone" />
 
                         </LinearLayout>
 

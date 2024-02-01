@@ -54,18 +54,18 @@ public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMet
         holder.tvListTglJamBaca.setText(dataItems.get(position).getTglBaca() + " " + dataItems.get(position).getJamBaca());
 
         if (dataItems.get(position).getTglBaca().isEmpty()) {
-            holder.tvListStatusDibaca.setText("Belum Dibaca");
+//            holder.tvListStatusDibaca.setText("Belum Dibaca");
             holder.tvListStatusDibaca.setTextColor(Color.parseColor("#dc3545"));
             holder.ivCloseReq.setVisibility(View.VISIBLE);
         } else {
-            holder.tvListStatusDibaca.setText("Sudah Dibaca");
+//            holder.tvListStatusDibaca.setText("Sudah Dibaca");
             holder.tvListStatusDibaca.setTextColor(Color.parseColor("#31B057"));
             holder.ivSuccessReq.setVisibility(View.VISIBLE);
         }
 
         if (dataItems.get(position).getDt().contains("5")){
-            holder.ivCloseReq.setVisibility(View.VISIBLE);
-            holder.ivSuccessReq.setVisibility(View.GONE);
+//            holder.ivCloseReq.setVisibility(View.VISIBLE);
+//            holder.ivSuccessReq.setVisibility(View.GONE);
             String statusDibaca = holder.tvListStatusDibaca.getText().toString();
             holder.tvListStatusDibaca.setText(statusDibaca + " namun di KOREKSI");
             holder.tvListStatusDibaca.setTextColor(Color.parseColor("#C30000"));

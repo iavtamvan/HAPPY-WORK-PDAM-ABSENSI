@@ -55,12 +55,51 @@
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edt_bendel"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:maxLines="1"
+            android:inputType="number"
+            android:hint="Bendel"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:textSize="12dp" />
+
+        <Button
+            android:id="@+id/btn_cari"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:text="Cari" />
+
+        <TextView
+            android:id="@+id/tv_total_data_bendel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:fontFamily="@font/poppins"
+            android:gravity="center"
+            android:text="Data : ? Pelanggan"
+            android:textSize="12dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="8dp"
+        android:layout_margin="4dp"
         tools:listitem="@layout/item_list_riwayat_pembaca_meter"/>
     
 </LinearLayout>
