@@ -77,12 +77,15 @@ public class BendelDataActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     progressDialog.cancel();
                     dataItems = response.body().getData();
-                    binding.tvTotalDataBendel.setText("Data : " + dataItems.size() + " Pelanggan");
-                    bendelAdapter = new BendelAdapter(BendelDataActivity.this, dataItems);
-                    binding.rv.setAdapter(bendelAdapter);
-                    binding.rv.setLayoutManager(new LinearLayoutManager(BendelDataActivity.this));
-                    bendelAdapter.notifyDataSetChanged();
-
+                    if (dataItems == null){
+                        Toast.makeText(BendelDataActivity.this, "Tidak dalam wilayah pembacaan Anda", Toast.LENGTH_SHORT).show();
+                    } else {
+                        binding.tvTotalDataBendel.setText("Data : " + dataItems.size() + " Pelanggan");
+                        bendelAdapter = new BendelAdapter(BendelDataActivity.this, dataItems);
+                        binding.rv.setAdapter(bendelAdapter);
+                        binding.rv.setLayoutManager(new LinearLayoutManager(BendelDataActivity.this));
+                        bendelAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 
