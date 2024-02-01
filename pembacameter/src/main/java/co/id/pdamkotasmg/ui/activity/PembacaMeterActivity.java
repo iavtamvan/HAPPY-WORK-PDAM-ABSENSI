@@ -178,6 +178,11 @@ public class PembacaMeterActivity extends AppCompatActivity {
             action_code = "7";
             binding.tvSystemUpdate.setText("DATA EDIT !!!!");
             binding.btnSimpanLanjut.setVisibility(View.GONE);
+        } else if (codeInputData.contains("8")) { // edit data
+//            getCheckPelanggan(nolangg);
+            action_code = "8";
+            binding.tvSystemUpdate.setText("DATA CEK ULANG");
+            binding.btnSimpanLanjut.setVisibility(View.GONE);
         }
 
         cDate = new Date();
@@ -239,6 +244,8 @@ public class PembacaMeterActivity extends AppCompatActivity {
             } else if (codeInputData.contains("6")) { // verifikasi tapi ditolak
                 easyImage.openChooser(PembacaMeterActivity.this);
             } else if (codeInputData.contains("7")) { // edit data bacaan
+                easyImage.openChooser(PembacaMeterActivity.this);
+            } else if (codeInputData.contains("8")) { // Cek ulang
                 easyImage.openChooser(PembacaMeterActivity.this);
             }
         });
@@ -373,7 +380,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
         progressDialog.show();
         Date currentTime = Calendar.getInstance().getTime();
         String timestamp = String.valueOf(currentTime.getTime());
-        String year = new SimpleDateFormat("Y", Locale.getDefault()).format(new Date());
+        String year = new SimpleDateFormat("y", Locale.getDefault()).format(new Date());
         String month = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
         RequestBody path = RequestBody.create(MediaType.parse("text/plain"), "/pembaca-meter/foto-pembaca-meter/" + year + "/" + month);
         RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), "pembaca-meter-" + nolangg + "-" + npp + "-" + year + month + "-" + timestamp);
@@ -407,7 +414,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
         ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
         apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, modelDevice,
                         kodeStatusMeter, binding.edtKeterangan.getText().toString().trim(),
-                        action_code, String.valueOf(lati), String.valueOf(longi), address_gps, binding.edtManometer.getText().toString().trim())
+                        action_code, String.valueOf(lati), String.valueOf(longi), address_gps, binding.edtManometer.getText().toString().trim(), modelDevice)
                 .enqueue(new Callback<UpdatePembacaMeterRootModel>() {
                     @SuppressLint("UseCompatLoadingForDrawables")
                     @Override
@@ -483,6 +490,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                                     response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("5") // koreksi
                                     || codeInputData.contains("6") // verifikasi ditolak
                                     || codeInputData.contains("7") // edit
+                                    || codeInputData.contains("8") // BACA ULANG
                             ) {
                                 lalu = response.body().getData().get(0).getRlTrbaca().get(0).getKini();
                                 if (codeInputData.contains("7")) { // edit data bacaan
@@ -494,6 +502,16 @@ public class PembacaMeterActivity extends AppCompatActivity {
                                     Glide.with(PembacaMeterActivity.this)
                                             .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
                                             .error(R.drawable.image_not_found)
+                                            .into(binding.photoView);
+                                } else if (codeInputData.contains("8")) { // Baca Ulang
+                                    binding.divStMeter.setVisibility(View.VISIBLE);
+                                    binding.tvStMeter.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlStMeter().getStatus());
+                                    binding.edtKini.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKini());
+                                    binding.edtKeterangan.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKt());
+
+                                    Glide.with(PembacaMeterActivity.this)
+                                            .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
+                                            .error(R.drawable.im_good_day)
                                             .into(binding.photoView);
                                 }
 
@@ -614,7 +632,8 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
                         // Set the final image with watermark to the ImageView
 //                        binding.ivCamera.setImageBitmap(resource);
-                        binding.photoView.setImageBitmap(resource);
+//                        binding.photoView.setImageBitmap(resource);
+                        Glide.with(PembacaMeterActivity.this).load(resource).error(R.drawable.image_not_found).into(binding.photoView);
 
                         saveImageToExternalStorage(resource);
                     }

@@ -61,10 +61,26 @@ public class InputFragment extends Fragment {
             getActivity().startActivity(intent);
         });
         binding.divInBacaUlang.setOnClickListener(view -> {
-//            codeInputData = "5";
-//            Intent intent = new Intent(getActivity(), InputDataActivity.class);
-//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeInputData);
-//            getActivity().startActivity(intent);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Nolangg");
+
+            final EditText input = new EditText(getActivity());
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                nolangg = input.getText().toString();
+                if (nolangg.isEmpty()) {
+                    Toast.makeText(getActivity(), "Isi nolangg", Toast.LENGTH_SHORT).show();
+                } else {
+                    progressDialog.show();
+                    codeInputData = "8";
+                    checkPelanggan(nolangg, codeInputData);
+                }
+            });
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+            builder.show();
 
         });
 

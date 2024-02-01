@@ -11,29 +11,17 @@ public class UpdatePembacaMeterRootModel{
     private String message;
 
     @SerializedName("status")
-    private Integer status;
-
-    public void setData(Data data){
-        this.data = data;
-    }
+    private int status;
 
     public Data getData(){
         return data;
-    }
-
-    public void setMessage(String message){
-        this.message = message;
     }
 
     public String getMessage(){
         return message;
     }
 
-    public void setStatus(Integer status){
-        this.status = status;
-    }
-
-    public Integer getStatus(){
+    public int getStatus(){
         return status;
     }
 }
