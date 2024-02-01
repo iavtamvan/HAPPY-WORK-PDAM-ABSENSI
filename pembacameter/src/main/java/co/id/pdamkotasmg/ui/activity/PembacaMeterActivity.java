@@ -504,15 +504,25 @@ public class PembacaMeterActivity extends AppCompatActivity {
                                             .error(R.drawable.image_not_found)
                                             .into(binding.photoView);
                                 } else if (codeInputData.contains("8")) { // Baca Ulang
-                                    binding.divStMeter.setVisibility(View.VISIBLE);
-                                    binding.tvStMeter.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlStMeter().getStatus());
-                                    binding.edtKini.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKini());
-                                    binding.edtKeterangan.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKt());
+                                    if (response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getDt().contains("3")) {
+                                        binding.divStMeter.setVisibility(View.VISIBLE);
+                                        binding.tvStMeter.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlStMeter().getStatus());
+                                        binding.edtKini.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKini());
+                                        binding.edtKeterangan.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKt());
 
-                                    Glide.with(PembacaMeterActivity.this)
-                                            .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
-                                            .error(R.drawable.im_good_day)
-                                            .into(binding.photoView);
+                                        Glide.with(PembacaMeterActivity.this)
+                                                .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
+                                                .error(R.drawable.image_not_found)
+                                                .into(binding.photoView);
+                                    } else {
+                                        Toast.makeText(PembacaMeterActivity.this, "Id Pelanggan belum bisa CU, status belum tertransfer", Toast.LENGTH_SHORT).show();
+                                        binding.svContainer.setVisibility(View.GONE);
+                                        binding.btnSimpanData.setVisibility(View.GONE);
+                                        binding.btnSimpanLanjut.setVisibility(View.GONE);
+                                        binding.tvSystemUpdate.setText(response.body().getData().get(0).getNolangg() +
+                                                " Pelanggan sudah dalam status " +
+                                                response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
+                                    }
                                 }
 
                                 binding.tvNolangg.setText(response.body().getData().get(0).getNolangg());
