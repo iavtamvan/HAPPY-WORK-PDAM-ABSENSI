@@ -57,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
         editor.apply();
 
 
+
         Log.d(TAG, "Current time " + currentTime);
         Log.d(TAG, "Current date " + currentDate);
 //        Log.d(TAG, "Current periode " + periode);

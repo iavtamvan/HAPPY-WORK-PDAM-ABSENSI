@@ -6,6 +6,7 @@ import co.id.pdamkotasmg.model.bendel.tandaiPlg.TandaiBendelRootModel;
 import co.id.pdamkotasmg.model.checkByNolangg.CheckByNolanggRootModel;
 import co.id.pdamkotasmg.model.checkPelangganSudahDibaca.CheckPelangganRootModel;
 import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
+import co.id.pdamkotasmg.model.home.HomeRootModel;
 import co.id.pdamkotasmg.model.listGabungan.ListGabunganRootModel;
 import co.id.pdamkotasmg.model.pelanggan.PelangganByNolanggRootModel;
 import co.id.pdamkotasmg.model.riwayatBacaMeter.RiwayatBacaMeterRootModel;
@@ -60,6 +61,12 @@ public interface ApiService {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("pembaca-meter/api/m/gabungan")
     Call<ListGabunganRootModel> getListGabungan(
+            @Header("Authorization") String auth
+    );
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("pembaca-meter/api/m/count-periode")
+    Call<HomeRootModel> getCountPeriode(
             @Header("Authorization") String auth
     );
 

@@ -298,6 +298,12 @@ public class DigitalSignatureActivity extends AppCompatActivity {
                     }
 
 
+                } else {
+                    progressDialog.cancel();
+                    divTteCreate.setVisibility(View.GONE);
+                    btnBatal.setVisibility(View.GONE);
+                    btnSaveTte.setVisibility(View.GONE);
+                    Toast.makeText(DigitalSignatureActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                 }
             }
 

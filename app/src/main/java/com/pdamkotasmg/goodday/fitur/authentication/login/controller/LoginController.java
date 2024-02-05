@@ -111,7 +111,6 @@ public class LoginController {
                     if (cabang == null){
                         Toast.makeText(context, "Role Pegawai", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(context, "Role Vendor", Toast.LENGTH_SHORT).show();
                         if (cabang.contains("1")) {
                             cabang = "Selatan";
                         } else if (cabang.contains("2")) {
