@@ -265,6 +265,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                         })
                         .setPositiveButton("Sudah", (dialogInterface, which) -> {
                             dialogInterface.dismiss();
+                            codeSimpandanLanjut = "0";
                             postFotoMeter();
                         })
                         .build();

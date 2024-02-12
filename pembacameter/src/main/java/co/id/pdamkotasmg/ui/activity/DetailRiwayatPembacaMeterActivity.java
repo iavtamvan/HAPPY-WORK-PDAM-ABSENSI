@@ -154,7 +154,7 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                             binding.tvPetugasBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getRlPetugas().getNmPetugas());
                             binding.tvManometerBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getManometer());
 
-                            if (response.body().getData().get(0).getRlTrbaca().get(0).getFile().contains("/pembaca-meter/")) {
+                            if (response.body().getData().get(0).getRlTrbaca().get(0).getFile().contains("pembaca-meter/")) {
                                 Glide.with(DetailRiwayatPembacaMeterActivity.this)
                                         .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlTrbaca().get(0).getFile())
                                         .override(512, 512)
@@ -215,7 +215,7 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                                         .into(binding.ivFotoMeterBlnSekarang);
                             } else {
 
-                                if (response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile().contains("/pembaca-meter/")){
+                                if (response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile().contains("pembaca-meter/")){
                                     Glide.with(DetailRiwayatPembacaMeterActivity.this)
                                             .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
                                             .override(512, 512)

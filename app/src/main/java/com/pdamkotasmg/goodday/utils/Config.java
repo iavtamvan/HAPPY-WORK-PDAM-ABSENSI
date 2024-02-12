@@ -39,7 +39,6 @@ import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.authentication.login.LoginActivity;
-import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.PresensiActivity;
 import com.pdamkotasmg.goodday.fitur.splash.SplashScreenActivity;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
@@ -372,14 +371,14 @@ public final class Config {
         Log.d(TAG, "deleted : true > " + dir);
     }
 
-    public static void showNotification(Context context, String title, String content) {
+    public static void showNotification(Context context, String title, String content, Class classThis) {
         int noificationId = new Random().nextInt(100);
         Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.notification);
         Log.d("debug", "showNotification: " + sound);
         String channelId = "notification_channel_3";
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent = new Intent(context.getApplicationContext(), DashboardActivity.class);
+        Intent intent = new Intent(context.getApplicationContext(), classThis);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context.getApplicationContext(),
                 0, intent, PendingIntent.FLAG_MUTABLE);

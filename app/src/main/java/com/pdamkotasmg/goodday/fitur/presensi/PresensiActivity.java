@@ -399,7 +399,7 @@ public class PresensiActivity extends AppCompatActivity {
                                 btnKirimPresensi.setText("\uD83E\uDD11");
                                 btnKirimPresensi2.setVisibility(View.GONE);
                                 Config.deleteFiles(compressedImageFile.getAbsolutePath(), "ImageCompressed"); // (2)
-                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TKK ???????");
+                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TKK ???????", PresensiActivity.class);
                             } else {
                                 Toast.makeText(PresensiActivity.this, "Deteksi Wajah " + response.body().getData().getMatchPercent() + "%", Toast.LENGTH_SHORT).show();
                                 divMencariMuka.setVisibility(View.VISIBLE);
@@ -509,7 +509,7 @@ public class PresensiActivity extends AppCompatActivity {
                             tvMencariMuka.setText("Selesai Mengirim");
                             btnKirimPresensi.setEnabled(false);
 
-                            Config.showNotification(PresensiActivity.this, "Horeeeeeeeeeee", "Presensi tersimpan dengan baik!");
+                            Config.showNotification(PresensiActivity.this, "Horeeeeeeeeeee", "Presensi tersimpan dengan baik!", PresensiActivity.class);
                             finish();
 //                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
                             Intent intent = new Intent(PresensiActivity.this, KehadiranActivity.class);
@@ -559,7 +559,7 @@ public class PresensiActivity extends AppCompatActivity {
                             animationView.setVisibility(View.GONE);
                             tvMencariMuka.setText("Gagal Mengirim");
                             Toast.makeText(PresensiActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
-                            Config.showNotification(PresensiActivity.this, "" + response.code(), "Error, hubungi PTI ");
+                            Config.showNotification(PresensiActivity.this, "" + response.code(), "Error, hubungi PTI ", PresensiActivity.class);
                         }
                     }
 

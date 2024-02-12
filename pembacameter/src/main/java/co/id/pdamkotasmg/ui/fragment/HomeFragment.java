@@ -63,15 +63,15 @@ public class HomeFragment extends Fragment {
 
         if (timeOfDay >= 0 && timeOfDay < 11) {
             binding.tvGood.setText("Good Morning \uD83C\uDF04");
-            Config.showNotification(getActivity(), "Pekerjaan Sudah Siap", "Semangat kerja !!!");
+            Config.showNotification(getActivity(), "Pekerjaan Sudah Siap", "Semangat kerja !!!", getActivity().getClass());
         } else if (timeOfDay >= 11 && timeOfDay < 15) {
             binding.tvGood.setText("Good Afternoon \uD83C\uDF1E");
-            Config.showNotification(getActivity(), "Sudah Waktunya Istirahat", "Semangat!!!");
+            Config.showNotification(getActivity(), "Sudah Waktunya Istirahat", "Semangat!!!", getActivity().getClass());
         } else if (timeOfDay >= 15 && timeOfDay < 18) {
-            Config.showNotification(getActivity(), "Saatnya Istirahat Sejenak", "Kalau lembur, jangan lupa klik Tidur YA!");
+            Config.showNotification(getActivity(), "Saatnya Istirahat Sejenak", "Kalau lembur, jangan lupa klik Tidur YA!", getActivity().getClass());
             binding.tvGood.setText("Good Evening \uD83C\uDF25");
         } else if (timeOfDay >= 18 && timeOfDay < 24) {
-            Config.showNotification(getActivity(), "Saatnya Tidur", "Kalau lembur, jangan lupa tidur YA!");
+            Config.showNotification(getActivity(), "Saatnya Tidur", "Kalau lembur, jangan lupa tidur YA!", getActivity().getClass());
             binding.tvGood.setText("Good Night \uD83D\uDECC \uD83D\uDCA4");
         }
 

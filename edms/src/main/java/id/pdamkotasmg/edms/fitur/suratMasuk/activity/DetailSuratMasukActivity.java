@@ -253,7 +253,7 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String file_url) {
             Toast.makeText(DetailSuratMasukActivity.this, "Berhasil di simpan", Toast.LENGTH_SHORT).show();
-            Config.showNotification(DetailSuratMasukActivity.this, "Surat Masuk", "Berhasil menyimpan Surat Masuk " + nameFileGlobals + ", cek di Folder Download/PDAM!");
+            Config.showNotification(DetailSuratMasukActivity.this, "Surat Masuk", "Berhasil menyimpan Surat Masuk " + nameFileGlobals + ", cek di Folder Download/PDAM!", DetailSuratMasukActivity.class);
             progressDialog.dismiss();
         }
     }

@@ -110,15 +110,15 @@ public class DashboardActivity extends AppCompatActivity {
 
         if (timeOfDay >= 0 && timeOfDay < 11) {
             tvGood.setText("Good Morning \uD83C\uDF04");
-            Config.showNotification(DashboardActivity.this, "Pekerjaan Sudah Siap", "Semangat kerja !!!");
+            Config.showNotification(DashboardActivity.this, "Pekerjaan Sudah Siap", "Semangat kerja !!!", DashboardActivity.class);
         } else if (timeOfDay >= 11 && timeOfDay < 15) {
             tvGood.setText("Good Afternoon \uD83C\uDF1E");
-            Config.showNotification(DashboardActivity.this, "Sudah Waktunya Istirahat", "Semangat!!!");
+            Config.showNotification(DashboardActivity.this, "Sudah Waktunya Istirahat", "Semangat!!!", DashboardActivity.class);
         } else if (timeOfDay >= 15 && timeOfDay < 18) {
-            Config.showNotification(DashboardActivity.this, "Saatnya Istirahat Sejenak", "Kalau lembur, jangan lupa klik LEMBUR YA!");
+            Config.showNotification(DashboardActivity.this, "Saatnya Istirahat Sejenak", "Kalau lembur, jangan lupa klik LEMBUR YA!", DashboardActivity.class);
             tvGood.setText("Good Evening \uD83C\uDF25");
         } else if (timeOfDay >= 18 && timeOfDay < 24) {
-            Config.showNotification(DashboardActivity.this, "Saatnya Tidur", "Kalau lembur, jangan lupa klik LEMBUR YA!");
+            Config.showNotification(DashboardActivity.this, "Saatnya Tidur", "Kalau lembur, jangan lupa klik LEMBUR YA!", DashboardActivity.class);
             tvGood.setText("Good Night \uD83D\uDECC \uD83D\uDCA4");
         }
 
