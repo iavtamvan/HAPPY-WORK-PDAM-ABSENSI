@@ -11,7 +11,7 @@ android {
         applicationId "com.pdamkotasmg.happywork"
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode 37 // update playstore
+        versionCode 42 // update playstore
         versionName "1.1.1" // ini diganti
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -22,6 +22,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    buildFeatures {
+        viewBinding true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

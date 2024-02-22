@@ -1,19 +1,23 @@
 package co.id.pdamkotasmg.ui.fragment;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.pdamkotasmg.goodday.fitur.menuLainnya.ProfilePelangganDanTagihanActivity;
 import com.pdamkotasmg.goodday.fitur.profil.ProfileActivity;
 import com.pdamkotasmg.goodday.fitur.profil.controller.ProfileController;
 import com.pdamkotasmg.goodday.utils.Config;
@@ -38,6 +42,7 @@ public class HomeFragment extends Fragment {
     private String token;
     private String npp;
     private String nama;
+    private String nolangg;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -105,6 +110,30 @@ public class HomeFragment extends Fragment {
             binding.tvTotalPeriode.setText("--");
             progressDialog.show();
             getCountPeriode();
+        });
+
+        binding.divInProfilPelanggan.setVisibility(View.GONE);
+        binding.divInProfilPelanggan.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Nolangg");
+
+            final EditText input = new EditText(getActivity());
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                nolangg = input.getText().toString();
+                if (nolangg.isEmpty()) {
+                    Toast.makeText(getActivity(), "Isi nolangg", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getActivity(), ProfilePelangganDanTagihanActivity.class);
+                    intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
+                    startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+            builder.show();
         });
 
         Log.d(TAG, "Access Token Pembaca Meter " + token);

@@ -221,13 +221,21 @@ public class PembacaMeterActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().isEmpty()) {
                     Toast.makeText(PembacaMeterActivity.this, "Isi meter Kini", Toast.LENGTH_SHORT).show();
-                    binding.tvHitungKubik.setText(" = 0m3");
+                    binding.tvHitungKubik.setText(" 0m3");
+                    binding.tvHitungKubik.setTextColor(getColor(R.color.black));
                 } else {
 //                    if (codeInputData.contains("7")){
 //
 //                    } else {
                     String hitungm3 = String.valueOf(Integer.parseInt(editable.toString()) - Integer.parseInt(lalu));
-                    binding.tvHitungKubik.setText(" = " + hitungm3 + "m3");
+                    binding.tvHitungKubik.setText(hitungm3 + "m3");
+
+                    if (Integer.parseInt(hitungm3) < 0) {
+                        binding.tvHitungKubik.setTextColor(getColor(R.color.red));
+                    } else {
+                        binding.tvHitungKubik.setTextColor(getColor(R.color.black));
+                    }
+
 //                    }
                 }
             }
@@ -251,29 +259,99 @@ public class PembacaMeterActivity extends AppCompatActivity {
         });
 
         binding.btnSimpanData.setOnClickListener(view -> {
-            if (compressedImageFile1 == null || binding.edtKini.getText().toString().isEmpty()) {
-                Toast.makeText(this, "" + Config.ERROR_DATA_REGISTER, Toast.LENGTH_SHORT).show();
+            if (codeInputData.contains("7")) { // edit
+                if (compressedImageFile1 == null) {
+                    MaterialDialog mDialog = new MaterialDialog.Builder(PembacaMeterActivity.this)
+                            .setTitle("Apakah data Anda sudah benar?")
+                            .setCancelable(false)
+                            .setNegativeButton("Belum", (dialogInterface, which) -> {
+                                dialogInterface.dismiss();
+                            })
+                            .setPositiveButton("Sudah", (dialogInterface, which) -> {
+                                dialogInterface.dismiss();
+                                codeSimpandanLanjut = "0";
+                                progressDialog.show();
+                                postDataPembacaMeter();
+                            })
+                            .build();
+
+                    mDialog.show();
+                } else {
+                    MaterialDialog mDialog = new MaterialDialog.Builder(PembacaMeterActivity.this)
+                            .setTitle("Apakah data Anda sudah benar?")
+                            .setCancelable(false)
+                            .setNegativeButton("Belum", (dialogInterface, which) -> {
+                                dialogInterface.dismiss();
+                            })
+                            .setPositiveButton("Sudah", (dialogInterface, which) -> {
+                                dialogInterface.dismiss();
+                                codeSimpandanLanjut = "0";
+                                postFotoMeter();
+                            })
+                            .build();
+
+                    mDialog.show();
+                }
+
+            } else if (codeInputData.contains("8")) { // cek ulang
+                if (compressedImageFile1 == null) {
+                    MaterialDialog mDialog = new MaterialDialog.Builder(PembacaMeterActivity.this)
+                            .setTitle("Apakah data Anda sudah benar?")
+                            .setCancelable(false)
+                            .setNegativeButton("Belum", (dialogInterface, which) -> {
+                                dialogInterface.dismiss();
+                            })
+                            .setPositiveButton("Sudah", (dialogInterface, which) -> {
+                                dialogInterface.dismiss();
+                                codeSimpandanLanjut = "0";
+                                progressDialog.show();
+                                postDataPembacaMeter();
+                            })
+                            .build();
+
+                    mDialog.show();
+                } else {
+                    MaterialDialog mDialog = new MaterialDialog.Builder(PembacaMeterActivity.this)
+                            .setTitle("Apakah data Anda sudah benar?")
+                            .setCancelable(false)
+                            .setNegativeButton("Belum", (dialogInterface, which) -> {
+                                dialogInterface.dismiss();
+                            })
+                            .setPositiveButton("Sudah", (dialogInterface, which) -> {
+                                dialogInterface.dismiss();
+                                codeSimpandanLanjut = "0";
+                                postFotoMeter();
+                            })
+                            .build();
+
+                    mDialog.show();
+                }
             } else {
-                // TODO send to server
-                // TODO 1 send picture to server
-                // TODO 2 send data to server 3.7
-                MaterialDialog mDialog = new MaterialDialog.Builder(PembacaMeterActivity.this)
-                        .setTitle("Apaka data Anda sudah benar?")
-                        .setCancelable(false)
-                        .setNegativeButton("Belum", (dialogInterface, which) -> {
-                            dialogInterface.dismiss();
-                        })
-                        .setPositiveButton("Sudah", (dialogInterface, which) -> {
-                            dialogInterface.dismiss();
-                            codeSimpandanLanjut = "0";
-                            postFotoMeter();
-                        })
-                        .build();
+                if (compressedImageFile1 == null || binding.edtKini.getText().toString().isEmpty()) {
+                    Toast.makeText(this, "" + Config.ERROR_DATA_REGISTER, Toast.LENGTH_SHORT).show();
+                } else {
+                    // TODO send to server
+                    // TODO 1 send picture to server
+                    // TODO 2 send data to server 3.7
+                    MaterialDialog mDialog = new MaterialDialog.Builder(PembacaMeterActivity.this)
+                            .setTitle("Apakah data Anda sudah benar?")
+                            .setCancelable(false)
+                            .setNegativeButton("Belum", (dialogInterface, which) -> {
+                                dialogInterface.dismiss();
+                            })
+                            .setPositiveButton("Sudah", (dialogInterface, which) -> {
+                                dialogInterface.dismiss();
+                                codeSimpandanLanjut = "0";
+                                postFotoMeter();
+                            })
+                            .build();
 
-                mDialog.show();
+                    mDialog.show();
 
-                // TODO Selesai
+                    // TODO Selesai
+                }
             }
+
         });
 
         binding.btnSimpanLanjut.setOnClickListener(view -> {
@@ -421,23 +499,38 @@ public class PembacaMeterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<UpdatePembacaMeterRootModel> call, Response<UpdatePembacaMeterRootModel> response) {
                         if (response.isSuccessful()) {
-                            try {
-                                Config.deleteFolders(rootPathImage, "deletedFolders");
-                                Config.deleteFolders(pathImageWatermark, "ImgWatermarkDelete");
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-
-                            Toast.makeText(PembacaMeterActivity.this, "Success mengirim data : " + response.body().getData().getUpdateData(), Toast.LENGTH_LONG).show();
-                            if (codeSimpandanLanjut.equals("1")) {
-                                binding.edtKini.setText("");
-                                binding.edtKeterangan.setText("");
-                                binding.photoView.setImageDrawable(getResources().getDrawable(R.drawable.image_not_found));
-                                getLocationAdress();
-                                getBendel();
+                            if (rootPathImage == null || pathImageWatermark == null) {
+                                Log.d(TAG, "null path delete");
+                                Toast.makeText(PembacaMeterActivity.this, "Success mengirim data : " + response.body().getData().getUpdateData(), Toast.LENGTH_LONG).show();
+                                if (codeSimpandanLanjut.equals("1")) {
+                                    binding.edtKini.setText("");
+                                    binding.edtKeterangan.setText("");
+                                    binding.photoView.setImageDrawable(getResources().getDrawable(R.drawable.image_not_found));
+                                    getLocationAdress();
+                                    getBendel();
+                                } else {
+                                    progressDialog.cancel();
+                                    PembacaMeterActivity.this.finish();
+                                }
                             } else {
-                                progressDialog.cancel();
-                                PembacaMeterActivity.this.finish();
+                                try {
+                                    Config.deleteFolders(rootPathImage, "deletedFolders");
+                                    Config.deleteFolders(pathImageWatermark, "ImgWatermarkDelete");
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+
+                                Toast.makeText(PembacaMeterActivity.this, "Success mengirim data : " + response.body().getData().getUpdateData(), Toast.LENGTH_LONG).show();
+                                if (codeSimpandanLanjut.equals("1")) {
+                                    binding.edtKini.setText("");
+                                    binding.edtKeterangan.setText("");
+                                    binding.photoView.setImageDrawable(getResources().getDrawable(R.drawable.image_not_found));
+                                    getLocationAdress();
+                                    getBendel();
+                                } else {
+                                    progressDialog.cancel();
+                                    PembacaMeterActivity.this.finish();
+                                }
                             }
                         }
                     }
@@ -504,6 +597,8 @@ public class PembacaMeterActivity extends AppCompatActivity {
                                             .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
                                             .error(R.drawable.image_not_found)
                                             .into(binding.photoView);
+
+                                    filePathServer = response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile();
                                 } else if (codeInputData.contains("8")) { // Baca Ulang
                                     if (response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getDt().contains("3")) {
                                         binding.divStMeter.setVisibility(View.VISIBLE);
@@ -515,6 +610,8 @@ public class PembacaMeterActivity extends AppCompatActivity {
                                                 .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
                                                 .error(R.drawable.image_not_found)
                                                 .into(binding.photoView);
+
+                                        filePathServer = response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile();
                                     } else {
                                         Toast.makeText(PembacaMeterActivity.this, "Nolangg belum bisa CU, status belum tertransfer", Toast.LENGTH_SHORT).show();
                                         binding.svContainer.setVisibility(View.GONE);
@@ -532,7 +629,8 @@ public class PembacaMeterActivity extends AppCompatActivity {
                                 binding.tvNama.setText(response.body().getData().get(0).getNama());
                                 binding.tvAlamat.setText(response.body().getData().get(0).getAlamat());
                                 binding.tvTarif.setText(response.body().getData().get(0).getRlTarif().getKode() + " - " + response.body().getData().get(0).getRlTarif().getNmTarif());
-                                binding.tvSumberLain.setText(response.body().getData().get(0).getSumur());
+                                binding.tvKeteranganLain.setText("Keterangan " + response.body().getData().get(0).getRlTrbaca().get(0).getPeriode());
+                                binding.tvKtLain.setText(response.body().getData().get(0).getRlTrbaca().get(0).getKt());
                                 binding.tvMerekMeter.setText(response.body().getData().get(0).getMerek() + " / " + response.body().getData().get(0).getNomormtr());
                                 binding.tvLalu.setText(lalu + " - " + response.body().getData().get(0).getRlTrbaca().get(0).getM3() + "m3");
                                 binding.tvStatusData.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());

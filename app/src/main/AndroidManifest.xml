@@ -29,7 +29,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" /> <!-- <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/> -->
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" /> <!-- ====================================== -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <uses-feature
         android:name="android.hardware.fingerprint"
@@ -306,81 +306,84 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.payslip.PaySlipActivity"
+            android:name=".fitur.menuLainnya.ProfilePelangganDanTagihanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fitur.payslip.PaySlipActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.profil.DigitalSignatureActivity"
+            android:name=".fitur.profil.DigitalSignatureActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.activity.PersetujuanActivity"
+            android:name=".fitur.permintaan_persetujuan.activity.PersetujuanActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.menuLainnya.WebViewActivity"
+            android:name=".fitur.menuLainnya.WebViewActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.menuLainnya.ListWebViewActivity"
+            android:name=".fitur.menuLainnya.ListWebViewActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.lembur.activity.DetailLemburActivity"
+            android:name=".fitur.kehadiran.lembur.activity.DetailLemburActivity"
             android:exported="false" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.lembur.activity.RiwayatLemburActivity"
+            android:name=".fitur.kehadiran.lembur.activity.RiwayatLemburActivity"
             android:exported="false" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.activity.DetailPerjalananDinasActivity"
+            android:name=".fitur.kehadiran.perjalananDinas.activity.DetailPerjalananDinasActivity"
             android:exported="false" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.activity.RiwayatPerjalananDinasActivity"
+            android:name=".fitur.kehadiran.perjalananDinas.activity.RiwayatPerjalananDinasActivity"
             android:exported="false" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.cuti.activity.DetailCutiActivity"
+            android:name=".fitur.kehadiran.cuti.activity.DetailCutiActivity"
             android:exported="false" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.cuti.activity.RiwayatCutiActivity"
+            android:name=".fitur.kehadiran.cuti.activity.RiwayatCutiActivity"
             android:exported="false" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.DetailKoreksiKehadiranActivity"
+            android:name=".fitur.kehadiran.koreksiKehadiran.activity.DetailKoreksiKehadiranActivity"
             android:exported="false" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.activity.PermintaanActivity"
+            android:name=".fitur.permintaan_persetujuan.activity.PermintaanActivity"
             android:exported="false" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.KoreksiKehadiranActivity"
+            android:name=".fitur.kehadiran.koreksiKehadiran.activity.KoreksiKehadiranActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.activity.PerjalananDinasActivity"
+            android:name=".fitur.kehadiran.perjalananDinas.activity.PerjalananDinasActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.lembur.activity.LemburActivity"
+            android:name=".fitur.kehadiran.lembur.activity.LemburActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.cuti.activity.CutiActivity"
+            android:name=".fitur.kehadiran.cuti.activity.CutiActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.activity.RiwayatKoreksiKehadiranActivity"
+            android:name=".fitur.kehadiran.koreksiKehadiran.activity.RiwayatKoreksiKehadiranActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.daftarKehadiran.DaftarKehadiranActivity"
+            android:name=".fitur.kehadiran.daftarKehadiran.DaftarKehadiranActivity"
             android:exported="true" />
-        <activity android:name="com.pdamkotasmg.goodday.fitur.splash.IntroActivity" />
+        <activity android:name=".fitur.splash.IntroActivity" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.splash.SplashScreenActivity"
+            android:name=".fitur.splash.SplashScreenActivity"
             android:exported="true"
             android:keepScreenOn="true">
             <intent-filter>
@@ -390,40 +393,40 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.profil.ScanQRCodeActivity"
+            android:name=".fitur.profil.ScanQRCodeActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.profil.QrCodeActivity"
+            android:name=".fitur.profil.QrCodeActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.presensi.PresensiActivity"
+            android:name=".fitur.presensi.PresensiActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.presensi.CheckLocationActivity"
+            android:name=".fitur.presensi.CheckLocationActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.perangkat.PerangkatActivity"
+            android:name=".fitur.perangkat.PerangkatActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.profil.ProfileActivity"
+            android:name=".fitur.profil.ProfileActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.authentication.login.LoginActivity"
+            android:name=".fitur.authentication.login.LoginActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.authentication.ReisterActivity"
+            android:name=".fitur.authentication.ReisterActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.authentication.WelcomeAuthActivity"
+            android:name=".fitur.authentication.WelcomeAuthActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.payslip.SalaryHistoryActivity"
+            android:name=".fitur.payslip.SalaryHistoryActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.kehadiran.home.activity.KehadiranActivity"
+            android:name=".fitur.kehadiran.home.activity.KehadiranActivity"
             android:exported="true" />
         <activity
-            android:name="com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity"
+            android:name=".fitur.dashboard.DashboardActivity"
             android:exported="true" />
 
         <meta-data
@@ -434,14 +437,14 @@
             android:value="face" />
 
         <service
-            android:name="com.pdamkotasmg.goodday.utils.firebase.MyFirebaseMessagingService"
+            android:name=".utils.firebase.MyFirebaseMessagingService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service
-            android:name="com.pdamkotasmg.goodday.utils.firebase.MyFirebaseInstanceIDService"
+            android:name=".utils.firebase.MyFirebaseInstanceIDService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
