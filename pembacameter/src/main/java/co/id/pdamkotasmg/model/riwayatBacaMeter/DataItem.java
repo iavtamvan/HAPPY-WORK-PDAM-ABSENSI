@@ -13,11 +13,23 @@ public class DataItem{
     @SerializedName("dt")
     private String dt;
 
+    @SerializedName("st")
+    private String st;
+
+    @SerializedName("kini")
+    private String kini;
+
+    @SerializedName("m3")
+    private String m3;
+
     @SerializedName("stver")
     private String stver;
 
     @SerializedName("rl_pelanggan")
     private RlPelanggan rlPelanggan;
+
+    @SerializedName("rl_st_meter")
+    private RlStatusMeter rlStatusMeter;
 
     @SerializedName("rl_st_ver")
     private RlStVer rlStVer;
@@ -30,6 +42,38 @@ public class DataItem{
 
     @SerializedName("periode")
     private String periode;
+
+    public String getSt() {
+        return st;
+    }
+
+    public void setSt(String st) {
+        this.st = st;
+    }
+
+    public String getKini() {
+        return kini;
+    }
+
+    public void setKini(String kini) {
+        this.kini = kini;
+    }
+
+    public String getM3() {
+        return m3;
+    }
+
+    public void setM3(String m3) {
+        this.m3 = m3;
+    }
+
+    public RlStatusMeter getRlStatusMeter() {
+        return rlStatusMeter;
+    }
+
+    public void setRlStatusMeter(RlStatusMeter rlStatusMeter) {
+        this.rlStatusMeter = rlStatusMeter;
+    }
 
     public RlStVer getRlStVer() {
         return rlStVer;

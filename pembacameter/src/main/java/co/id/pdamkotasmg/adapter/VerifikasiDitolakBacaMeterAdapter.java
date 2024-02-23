@@ -109,8 +109,6 @@ public class VerifikasiDitolakBacaMeterAdapter extends RecyclerView.Adapter<Veri
         private TextView tvListDism;
         private TextView tvListPeriode;
         private TextView tvListNama;
-        private TextView tvListAlamat;
-        private TextView tvListSt;
         private TextView tvListTglJamBaca;
         private TextView tvListStatusDibaca;
         private ImageView ivSuccessReq;
@@ -124,8 +122,6 @@ public class VerifikasiDitolakBacaMeterAdapter extends RecyclerView.Adapter<Veri
             tvListDism = itemView.findViewById(R.id.tv_list_dism);
             tvListPeriode = itemView.findViewById(R.id.tv_list_periode);
             tvListNama = itemView.findViewById(R.id.tv_list_nama);
-            tvListAlamat = itemView.findViewById(R.id.tv_list_alamat);
-            tvListSt = itemView.findViewById(R.id.tv_list_st);
             tvListTglJamBaca = itemView.findViewById(R.id.tv_list_tgl_jam_baca);
             tvListStatusDibaca = itemView.findViewById(R.id.tv_list_status_dibaca);
             ivSuccessReq = itemView.findViewById(R.id.iv_success_req);

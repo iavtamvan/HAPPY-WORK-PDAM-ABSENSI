@@ -45,12 +45,6 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:baselineAligned="false"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -132,52 +126,62 @@
                                             android:textColor="@color/black"
                                             android:textSize="13dp" />
                                     </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="left"
+                                            android:text="Stand: "
+                                            android:textColor="@color/grey"
+                                            android:textSize="10dp" />
+
+                                        <TextView
+                                            android:id="@+id/tv_list_stand"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="left"
+                                            android:text="2333"
+                                            android:textColor="@color/black"
+                                            android:textSize="13dp" />
+                                    </LinearLayout>
                                 </LinearLayout>
 
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:gravity="left"
-                                    android:text="Nama: "
-                                    android:textColor="@color/grey"
-                                    android:textSize="10dp" />
-
-                                <TextView
-                                    android:id="@+id/tv_list_nama"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="left"
-                                    android:text="Gedung Wanita Setda Prov.	"
-                                    android:textColor="@color/black"
-                                    android:textSize="13dp" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:gravity="left"
-                                    android:text="Alamat: "
-                                    android:textColor="@color/grey"
-                                    android:textSize="10dp"
-                                    android:visibility="gone" />
-
-                                <TextView
-                                    android:id="@+id/tv_list_alamat"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="left"
-                                    android:text="Sriwijaya 29"
-                                    android:textColor="@color/black"
-                                    android:textSize="13dp"
-                                    android:visibility="gone" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:visibility="gone">
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="5dp"
+                                        android:gravity="left"
+                                        android:text="Nama: "
+                                        android:textColor="@color/grey"
+                                        android:textSize="10dp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_list_nama"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="left"
+                                        android:text="Gedung Wanita Setda Prov.	"
+                                        android:textColor="@color/black"
+                                        android:textSize="13dp" />
+
+                                </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -190,22 +194,23 @@
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="5dp"
                                             android:gravity="left"
-                                            android:text="Tanggal Baca: "
+                                            android:text="Status Meter: "
                                             android:textColor="@color/grey"
                                             android:textSize="10dp" />
 
                                         <TextView
-                                            android:id="@+id/tv_list_st"
+                                            android:id="@+id/tv_status_meter"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:gravity="left"
-                                            android:text="2023-09-01 15:48:45"
+                                            android:text="GEMBOK"
                                             android:textColor="@color/black"
                                             android:textSize="13dp" />
 
                                     </LinearLayout>
-                                </LinearLayout>
+
                             </LinearLayout>
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -213,15 +218,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="left|center_vertical"
-                                android:text="Dimuat : "
-                                android:textColor="@color/grey"
-                                android:textSize="12dp"
-                                android:visibility="gone" />
 
                             <TextView
                                 android:id="@+id/tv_list_tgl_jam_baca"

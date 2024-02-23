@@ -53,6 +53,13 @@ public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMet
         holder.tvListNama.setText(dataItems.get(position).getRlPelanggan().getNama());
         holder.tvListTglJamBaca.setText(dataItems.get(position).getTglBaca() + " " + dataItems.get(position).getJamBaca());
 
+        holder.tvListStand.setText(dataItems.get(position).getKini() + " - " + dataItems.get(position).getM3() + " m3");
+        holder.tvListStatusMeter.setText(dataItems.get(position).getRlStatusMeter().getStatus());
+
+//        if (!dataItems.get(position).getRlStatusMeter().getKode().contains("1")){
+//            holder.cvKlik.setBackgroundColor(context.getColor(R.color.red));
+//        }
+
         if (dataItems.get(position).getTglBaca().isEmpty()) {
 //            holder.tvListStatusDibaca.setText("Belum Dibaca");
             holder.tvListStatusDibaca.setTextColor(Color.parseColor("#dc3545"));
@@ -90,10 +97,10 @@ public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMet
         private TextView tvListDism;
         private TextView tvListPeriode;
         private TextView tvListNama;
-        private TextView tvListAlamat;
-        private TextView tvListSt;
         private TextView tvListTglJamBaca;
         private TextView tvListStatusDibaca;
+        private TextView tvListStand;
+        private TextView tvListStatusMeter;
         private ImageView ivSuccessReq;
         private ImageView ivCloseReq;
 
@@ -105,8 +112,8 @@ public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMet
             tvListDism = itemView.findViewById(R.id.tv_list_dism);
             tvListPeriode = itemView.findViewById(R.id.tv_list_periode);
             tvListNama = itemView.findViewById(R.id.tv_list_nama);
-            tvListAlamat = itemView.findViewById(R.id.tv_list_alamat);
-            tvListSt = itemView.findViewById(R.id.tv_list_st);
+            tvListStand = itemView.findViewById(R.id.tv_list_stand);
+            tvListStatusMeter = itemView.findViewById(R.id.tv_status_meter);
             tvListTglJamBaca = itemView.findViewById(R.id.tv_list_tgl_jam_baca);
             tvListStatusDibaca = itemView.findViewById(R.id.tv_list_status_dibaca);
             ivSuccessReq = itemView.findViewById(R.id.iv_success_req);
