@@ -112,7 +112,6 @@ public class HomeFragment extends Fragment {
             getCountPeriode();
         });
 
-        binding.divInProfilPelanggan.setVisibility(View.GONE);
         binding.divInProfilPelanggan.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage("Nolangg");

@@ -117,17 +117,35 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
         rlDataBacaSekarang.setTandai(dataItems.get(position).getRlDtBacaSekarang().get(0).getTandai());
         listDataBacaSekarang.add(rlDataBacaSekarang);
 
-        holder.ivTandai.setOnClickListener(view -> {
+//        holder.ivTandai.setOnClickListener(view -> {
+//
+//        });
+//        holder.ivTandaiPelanggan.setOnClickListener(view -> {
+//            Toast.makeText(context, "Sudah ditandai", Toast.LENGTH_SHORT).show();
+//        });
+
+        holder.divTandai.setOnClickListener(view -> {
+            String kodeTandai;
+            if (dataItems.get(position).getRlDtBacaSekarang().get(position).getTandai().equals("1")) {
+                kodeTandai = "0";
+                holder.ivTandai.setVisibility(View.VISIBLE);
+                holder.ivTandaiPelanggan.setVisibility(View.GONE);
+            } else {
+                kodeTandai = "1";
+                holder.ivTandai.setVisibility(View.GONE);
+                holder.ivTandaiPelanggan.setVisibility(View.VISIBLE);
+            }
+
             ApiService apiService = ApiConfig.getApiService(context);
-            apiService.postUpdateTandaPlg(token, dataItems.get(position).getNolangg(), bendel, "1")
+            apiService.postUpdateTandaPlg(token, dataItems.get(position).getNolangg(), bendel, kodeTandai)
                     .enqueue(new Callback<TandaiBendelRootModel>() {
                         @SuppressLint("ResourceAsColor")
                         @Override
                         public void onResponse(Call<TandaiBendelRootModel> call, Response<TandaiBendelRootModel> response) {
                             if (response.isSuccessful()) {
-                                holder.ivTandai.setVisibility(View.GONE);
-                                holder.ivTandaiPelanggan.setVisibility(View.VISIBLE);
-                                Toast.makeText(context, "Tandai Sukses " + dataItems.get(position).getNolangg(), Toast.LENGTH_SHORT).show();
+//                                holder.ivTandai.setVisibility(View.GONE);
+//                                holder.ivTandaiPelanggan.setVisibility(View.VISIBLE);
+                                Toast.makeText(context, "Sukses " + dataItems.get(position).getNolangg(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -136,9 +154,6 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
                             Toast.makeText(context, "Tandai PLG Gagal", Toast.LENGTH_SHORT).show();
                         }
                     });
-        });
-        holder.ivTandaiPelanggan.setOnClickListener(view -> {
-            Toast.makeText(context, "Sudah ditandai", Toast.LENGTH_SHORT).show();
         });
 
     }
@@ -160,6 +175,7 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
         private ImageView ivTandai;
         private ImageView ivTandaiPelanggan;
         private TextView tvNo;
+        private LinearLayout divTandai;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -174,6 +190,7 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
             ivTandai = itemView.findViewById(R.id.iv_tandai);
             ivTandaiPelanggan = itemView.findViewById(R.id.iv_tandai_success);
             tvNo = itemView.findViewById(R.id.tv_no);
+            divTandai = itemView.findViewById(R.id.div_tandai);
         }
     }
 }

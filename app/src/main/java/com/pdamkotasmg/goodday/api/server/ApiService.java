@@ -17,6 +17,7 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.detailPerja
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.postPerjalanDinas.PostPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.riwayatPerjalananDinas.RiwayatPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.menuLainnya.profilePelanggan.model.BillingTagihanRootModel;
+import com.pdamkotasmg.goodday.fitur.menuLainnya.profilePelanggan.model.kardek.DataBacaanKardekRootModel;
 import com.pdamkotasmg.goodday.fitur.payslip.model.SalaryHistoryRootModel;
 import com.pdamkotasmg.goodday.fitur.payslip.model.paySlip.PaySlipRootModel;
 import com.pdamkotasmg.goodday.fitur.perangkat.model.PerangkatRootModel;
@@ -362,9 +363,13 @@ public interface ApiService {
     );
 
     // billing profile pelanggan , foto meter dll
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("pengaduan/api/billing/tagihan/air/{nolangg}")
     Call<BillingTagihanRootModel> getBillingTagihan(@Path("nolangg") String nolangg, @Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("pembaca-meter/api/m/kardek-data-bacaan")
+    Call<DataBacaanKardekRootModel> getDataBacaan(@Path("nolangg") String nolangg, @Path("tahun") String tahun, @Header("Authorization") String auth);
 
 
 }

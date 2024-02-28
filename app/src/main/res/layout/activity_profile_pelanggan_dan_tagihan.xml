@@ -62,15 +62,13 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_margin="3dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -832,34 +830,1089 @@
                         android:textSize="15dp"
                         android:textStyle="bold" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/div_bayar_yuk"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/shapes_rectangle_masuk"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:gravity="center"
-                        android:text="BAYAR SEKARANG"
-                        android:textColor="@color/white"
-                        android:textSize="14dp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/div_data_bacaan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_data_bacaan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="4dp"
+                                android:layout_weight="1"
+                                android:gravity="center|left"
+                                android:text="Data Bacaan"
+                                android:textColor="@color/black"
+                                android:textSize="13dp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/white">
+
+                                    <EditText
+                                        android:id="@+id/edt_tahun"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:background="@color/white"
+                                        android:text="Tahun" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Cari"/>
+
+                            </LinearLayout>
+
+
+                            <HorizontalScrollView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TableLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:divider="?android:attr/dividerHorizontal"
+                                    android:dividerVertical="?android:attr/dividerVertical"
+                                    android:showDividers="beginning|middle|end">
+
+                                    <TableRow
+                                        android:background="@color/white"
+                                        android:divider="@color/black"
+                                        android:showDividers="middle">
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_tahun_lalu"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="Tahun 2023"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="M3"
+                                            android:textColor="@color/white"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_tahun_sekarang"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="Tahun 2024"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="STAND"
+                                            android:textColor="@color/white"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="M3"
+                                            android:textColor="@color/white"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="KONDISI"
+                                            android:textColor="@color/white"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="DATA"
+                                            android:textColor="@color/white"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="KETERANGAN"
+                                            android:textColor="@color/white"
+                                            android:textStyle="bold" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:background="@color/grey_dark"
+                                        android:divider="@color/white"
+                                        android:showDividers="middle">
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="STAND"
+                                            android:textColor="@color/white"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="M3"
+                                            android:textColor="@color/white"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="BULAN"
+                                            android:textColor="@color/white"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="STAND"
+                                            android:textColor="@color/white"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="M3"
+                                            android:textColor="@color/white"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="KONDISI"
+                                            android:textColor="@color/white"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="DATA"
+                                            android:textColor="@color/white"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="KETERANGAN"
+                                            android:textColor="@color/white"
+                                            android:textStyle="bold" />
+                                    </TableRow>
+
+                                    <!-- Data rows -->
+                                    <TableRow
+                                        android:divider="@color/black"
+                                        android:showDividers="middle">
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_stand1"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_m31"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="Januari"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_stand1"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_m31"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_kondisi1"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_data1"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_keterangan1"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:divider="@color/black"
+                                        android:showDividers="middle">
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_stand2"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_m32"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="Februari"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_stand2"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_m32"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_kondisi2"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_data2"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_keterangan2"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:divider="@color/black"
+                                        android:showDividers="middle">
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_stand3"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_m33"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="Maret"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_stand3"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_m33"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_kondisi3"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_data3"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_keterangan3"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:divider="@color/black"
+                                        android:showDividers="middle">
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_stand4"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_m34"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="April"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_stand4"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_m34"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_kondisi4"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_data4"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_keterangan4"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:divider="@color/black"
+                                        android:showDividers="middle">
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_stand5"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_m35"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="Mei"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_stand5"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_m35"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_kondisi5"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_data5"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_keterangan5"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:divider="@color/black"
+                                        android:showDividers="middle">
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_stand6"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_m36"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="Juni"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_stand6"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_m36"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_kondisi6"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_data6"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_keterangan6"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:divider="@color/black"
+                                        android:showDividers="middle">
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_stand7"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_m37"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="Juli"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_stand7"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_m37"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_kondisi7"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_data7"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_keterangan7"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:divider="@color/black"
+                                        android:showDividers="middle">
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_stand8"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_m38"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="Agustus"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_stand8"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_m38"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_kondisi8"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_data8"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_keterangan8"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:divider="@color/black"
+                                        android:showDividers="middle">
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_stand9"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_m39"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="September"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_stand9"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_m39"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_kondisi9"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_data9"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_keterangan9"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:divider="@color/black"
+                                        android:showDividers="middle">
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_stand10"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_m310"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="Oktober"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_stand10"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_m310"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_kondisi10"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_data10"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_keterangan10"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:divider="@color/black"
+                                        android:showDividers="middle">
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_stand11"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_m311"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="November"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_stand11"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_m311"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_kondisi11"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_data11"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_keterangan11"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:divider="@color/black"
+                                        android:showDividers="middle">
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_stand12"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_lalu_m312"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="Desember"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_stand12"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_m312"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_kondisi12"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_data12"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/tv_tr_thn_skrg_keterangan12"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:padding="8dp"
+                                            android:text="--"
+                                            android:textColor="@color/black" />
+                                    </TableRow>
+
+
+                                </TableLayout>
+                            </HorizontalScrollView>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/div_bayar_yuk"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_margin="4dp"
+        android:background="@drawable/shapes_rectangle_masuk"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="BAYAR SEKARANG"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
 
 </LinearLayout>
