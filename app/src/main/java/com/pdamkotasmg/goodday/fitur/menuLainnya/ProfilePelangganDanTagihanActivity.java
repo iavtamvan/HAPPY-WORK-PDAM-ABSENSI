@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
@@ -190,6 +191,31 @@ public class ProfilePelangganDanTagihanActivity extends AppCompatActivity {
     private TextView tvTrThnSkrgData12;
     private TextView tvTrThnSkrgKeterangan12;
     private Button btnCariBacaanTahun;
+    private TextView tvFotoMeterTahun;
+    private TextView tvBulanStandM31;
+    private PhotoView ivFotoMeter1;
+    private TextView tvBulanStandM32;
+    private PhotoView ivFotoMeter2;
+    private TextView tvBulanStandM33;
+    private PhotoView ivFotoMeter3;
+    private TextView tvBulanStandM34;
+    private PhotoView ivFotoMeter4;
+    private TextView tvBulanStandM35;
+    private PhotoView ivFotoMeter5;
+    private TextView tvBulanStandM36;
+    private PhotoView ivFotoMeter6;
+    private TextView tvBulanStandM37;
+    private PhotoView ivFotoMeter7;
+    private TextView tvBulanStandM38;
+    private PhotoView ivFotoMeter8;
+    private TextView tvBulanStandM39;
+    private PhotoView ivFotoMeter9;
+    private TextView tvBulanStandM310;
+    private PhotoView ivFotoMeter10;
+    private TextView tvBulanStandM311;
+    private PhotoView ivFotoMeter11;
+    private TextView tvBulanStandM312;
+    private PhotoView ivFotoMeter12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -519,102 +545,136 @@ public class ProfilePelangganDanTagihanActivity extends AppCompatActivity {
     public void getDataBacaanKardek(String token, String nolangg, String tahun) {
         ApiService apiService = ApiConfig.getApiService(ProfilePelangganDanTagihanActivity.this);
         apiService.getDataBacaan(nolangg, tahun, token).enqueue(new Callback<DataBacaanKardekRootModel>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<DataBacaanKardekRootModel> call, Response<DataBacaanKardekRootModel> response) {
                 loading.dismiss();
                 if (response.isSuccessful()) {
-                    // kardek tahun lalu
-                    tvTrThnLaluStand1.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl1());
-                    tvTrThnLaluStand2.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl2());
-                    tvTrThnLaluStand3.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl3());
-                    tvTrThnLaluStand4.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl4());
-                    tvTrThnLaluStand5.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl5());
-                    tvTrThnLaluStand6.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl6());
-                    tvTrThnLaluStand7.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl7());
-                    tvTrThnLaluStand8.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl8());
-                    tvTrThnLaluStand9.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl9());
-                    tvTrThnLaluStand10.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl10());
-                    tvTrThnLaluStand11.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl11());
-                    tvTrThnLaluStand12.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl12());
-                    tvTrThnLaluM31.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM31());
-                    tvTrThnLaluM32.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM32());
-                    tvTrThnLaluM33.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM33());
-                    tvTrThnLaluM34.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM34());
-                    tvTrThnLaluM35.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM35());
-                    tvTrThnLaluM36.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM36());
-                    tvTrThnLaluM37.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM37());
-                    tvTrThnLaluM38.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM38());
-                    tvTrThnLaluM39.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM39());
-                    tvTrThnLaluM310.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM310());
-                    tvTrThnLaluM311.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM311());
-                    tvTrThnLaluM312.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM312());
 
-                    tvTrTahunLalu.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getTahun());
+                    if (response.body().getData().getQueryKardekDataBacaanTahunLalu() == null || response.body().getData().getQueryKardekDataBacaan() == null) {
+                        Toast.makeText(ProfilePelangganDanTagihanActivity.this, "Data tidak ditemukan", Toast.LENGTH_SHORT).show();
+                    } else {
 
-                    // kardek tahun sekarang (sesuai request)
-                    tvTrThnSkrgStand1.setText(response.body().getData().getQueryKardekDataBacaan().getBl1());
-                    tvTrThnSkrgStand2.setText(response.body().getData().getQueryKardekDataBacaan().getBl2());
-                    tvTrThnSkrgStand3.setText(response.body().getData().getQueryKardekDataBacaan().getBl3());
-                    tvTrThnSkrgStand4.setText(response.body().getData().getQueryKardekDataBacaan().getBl4());
-                    tvTrThnSkrgStand5.setText(response.body().getData().getQueryKardekDataBacaan().getBl5());
-                    tvTrThnSkrgStand6.setText(response.body().getData().getQueryKardekDataBacaan().getBl6());
-                    tvTrThnSkrgStand7.setText(response.body().getData().getQueryKardekDataBacaan().getBl7());
-                    tvTrThnSkrgStand8.setText(response.body().getData().getQueryKardekDataBacaan().getBl8());
-                    tvTrThnSkrgStand9.setText(response.body().getData().getQueryKardekDataBacaan().getBl9());
-                    tvTrThnSkrgStand10.setText(response.body().getData().getQueryKardekDataBacaan().getBl10());
-                    tvTrThnSkrgStand11.setText(response.body().getData().getQueryKardekDataBacaan().getBl11());
-                    tvTrThnSkrgStand12.setText(response.body().getData().getQueryKardekDataBacaan().getBl12());
-                    tvTrThnSkrgM31.setText(response.body().getData().getQueryKardekDataBacaan().getM31());
-                    tvTrThnSkrgM32.setText(response.body().getData().getQueryKardekDataBacaan().getM32());
-                    tvTrThnSkrgM33.setText(response.body().getData().getQueryKardekDataBacaan().getM33());
-                    tvTrThnSkrgM34.setText(response.body().getData().getQueryKardekDataBacaan().getM34());
-                    tvTrThnSkrgM35.setText(response.body().getData().getQueryKardekDataBacaan().getM35());
-                    tvTrThnSkrgM36.setText(response.body().getData().getQueryKardekDataBacaan().getM36());
-                    tvTrThnSkrgM37.setText(response.body().getData().getQueryKardekDataBacaan().getM37());
-                    tvTrThnSkrgM38.setText(response.body().getData().getQueryKardekDataBacaan().getM38());
-                    tvTrThnSkrgM39.setText(response.body().getData().getQueryKardekDataBacaan().getM39());
-                    tvTrThnSkrgM310.setText(response.body().getData().getQueryKardekDataBacaan().getM310());
-                    tvTrThnSkrgM311.setText(response.body().getData().getQueryKardekDataBacaan().getM311());
-                    tvTrThnSkrgM312.setText(response.body().getData().getQueryKardekDataBacaan().getM312());
-                    tvTrThnSkrgKondisi1.setText(response.body().getData().getQueryKardekDataBacaan().getNmst1());
-                    tvTrThnSkrgKondisi2.setText(response.body().getData().getQueryKardekDataBacaan().getNmst2());
-                    tvTrThnSkrgKondisi3.setText(response.body().getData().getQueryKardekDataBacaan().getNmst3());
-                    tvTrThnSkrgKondisi4.setText(response.body().getData().getQueryKardekDataBacaan().getNmst4());
-                    tvTrThnSkrgKondisi5.setText(response.body().getData().getQueryKardekDataBacaan().getNmst5());
-                    tvTrThnSkrgKondisi6.setText(response.body().getData().getQueryKardekDataBacaan().getNmst6());
-                    tvTrThnSkrgKondisi7.setText(response.body().getData().getQueryKardekDataBacaan().getNmst7());
-                    tvTrThnSkrgKondisi8.setText(response.body().getData().getQueryKardekDataBacaan().getNmst8());
-                    tvTrThnSkrgKondisi9.setText(response.body().getData().getQueryKardekDataBacaan().getNmst9());
-                    tvTrThnSkrgKondisi10.setText(response.body().getData().getQueryKardekDataBacaan().getNmst10());
-                    tvTrThnSkrgKondisi11.setText(response.body().getData().getQueryKardekDataBacaan().getNmst11());
-                    tvTrThnSkrgKondisi12.setText(response.body().getData().getQueryKardekDataBacaan().getNmst12());
-                    tvTrThnSkrgData1.setText(response.body().getData().getQueryKardekDataBacaan().getSc1());
-                    tvTrThnSkrgData2.setText(response.body().getData().getQueryKardekDataBacaan().getSc2());
-                    tvTrThnSkrgData3.setText(response.body().getData().getQueryKardekDataBacaan().getSc3());
-                    tvTrThnSkrgData4.setText(response.body().getData().getQueryKardekDataBacaan().getSc4());
-                    tvTrThnSkrgData5.setText(response.body().getData().getQueryKardekDataBacaan().getSc5());
-                    tvTrThnSkrgData6.setText(response.body().getData().getQueryKardekDataBacaan().getSc6());
-                    tvTrThnSkrgData7.setText(response.body().getData().getQueryKardekDataBacaan().getSc7());
-                    tvTrThnSkrgData8.setText(response.body().getData().getQueryKardekDataBacaan().getSc8());
-                    tvTrThnSkrgData9.setText(response.body().getData().getQueryKardekDataBacaan().getSc9());
-                    tvTrThnSkrgData10.setText(response.body().getData().getQueryKardekDataBacaan().getSc10());
-                    tvTrThnSkrgData11.setText(response.body().getData().getQueryKardekDataBacaan().getSc11());
-                    tvTrThnSkrgData12.setText(response.body().getData().getQueryKardekDataBacaan().getSc12());
-                    tvTrThnSkrgKeterangan1.setText(response.body().getData().getQueryKardekDataBacaan().getKt1());
-                    tvTrThnSkrgKeterangan2.setText(response.body().getData().getQueryKardekDataBacaan().getKt2());
-                    tvTrThnSkrgKeterangan3.setText(response.body().getData().getQueryKardekDataBacaan().getKt3());
-                    tvTrThnSkrgKeterangan4.setText(response.body().getData().getQueryKardekDataBacaan().getKt4());
-                    tvTrThnSkrgKeterangan5.setText(response.body().getData().getQueryKardekDataBacaan().getKt5());
-                    tvTrThnSkrgKeterangan6.setText(response.body().getData().getQueryKardekDataBacaan().getKt6());
-                    tvTrThnSkrgKeterangan7.setText(response.body().getData().getQueryKardekDataBacaan().getKt7());
-                    tvTrThnSkrgKeterangan8.setText(response.body().getData().getQueryKardekDataBacaan().getKt8());
-                    tvTrThnSkrgKeterangan9.setText(response.body().getData().getQueryKardekDataBacaan().getKt9());
-                    tvTrThnSkrgKeterangan10.setText(response.body().getData().getQueryKardekDataBacaan().getKt10());
-                    tvTrThnSkrgKeterangan11.setText(response.body().getData().getQueryKardekDataBacaan().getKt11());
-                    tvTrThnSkrgKeterangan12.setText(response.body().getData().getQueryKardekDataBacaan().getKt12());
+                        // kardek tahun lalu
+                        tvTrThnLaluStand1.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl1());
+                        tvTrThnLaluStand2.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl2());
+                        tvTrThnLaluStand3.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl3());
+                        tvTrThnLaluStand4.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl4());
+                        tvTrThnLaluStand5.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl5());
+                        tvTrThnLaluStand6.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl6());
+                        tvTrThnLaluStand7.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl7());
+                        tvTrThnLaluStand8.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl8());
+                        tvTrThnLaluStand9.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl9());
+                        tvTrThnLaluStand10.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl10());
+                        tvTrThnLaluStand11.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl11());
+                        tvTrThnLaluStand12.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl12());
+                        tvTrThnLaluM31.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM31());
+                        tvTrThnLaluM32.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM32());
+                        tvTrThnLaluM33.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM33());
+                        tvTrThnLaluM34.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM34());
+                        tvTrThnLaluM35.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM35());
+                        tvTrThnLaluM36.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM36());
+                        tvTrThnLaluM37.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM37());
+                        tvTrThnLaluM38.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM38());
+                        tvTrThnLaluM39.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM39());
+                        tvTrThnLaluM310.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM310());
+                        tvTrThnLaluM311.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM311());
+                        tvTrThnLaluM312.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM312());
+                        tvTrTahunLalu.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getTahun());
 
-                    tvTrTahunSekarang.setText("Tahun " + response.body().getData().getQueryKardekDataBacaan().getTahun());
+                        // kardek tahun sekarang (sesuai request)
+                        tvTrThnSkrgStand1.setText(response.body().getData().getQueryKardekDataBacaan().getBl1());
+                        tvTrThnSkrgStand2.setText(response.body().getData().getQueryKardekDataBacaan().getBl2());
+                        tvTrThnSkrgStand3.setText(response.body().getData().getQueryKardekDataBacaan().getBl3());
+                        tvTrThnSkrgStand4.setText(response.body().getData().getQueryKardekDataBacaan().getBl4());
+                        tvTrThnSkrgStand5.setText(response.body().getData().getQueryKardekDataBacaan().getBl5());
+                        tvTrThnSkrgStand6.setText(response.body().getData().getQueryKardekDataBacaan().getBl6());
+                        tvTrThnSkrgStand7.setText(response.body().getData().getQueryKardekDataBacaan().getBl7());
+                        tvTrThnSkrgStand8.setText(response.body().getData().getQueryKardekDataBacaan().getBl8());
+                        tvTrThnSkrgStand9.setText(response.body().getData().getQueryKardekDataBacaan().getBl9());
+                        tvTrThnSkrgStand10.setText(response.body().getData().getQueryKardekDataBacaan().getBl10());
+                        tvTrThnSkrgStand11.setText(response.body().getData().getQueryKardekDataBacaan().getBl11());
+                        tvTrThnSkrgStand12.setText(response.body().getData().getQueryKardekDataBacaan().getBl12());
+                        tvTrThnSkrgM31.setText(response.body().getData().getQueryKardekDataBacaan().getM31());
+                        tvTrThnSkrgM32.setText(response.body().getData().getQueryKardekDataBacaan().getM32());
+                        tvTrThnSkrgM33.setText(response.body().getData().getQueryKardekDataBacaan().getM33());
+                        tvTrThnSkrgM34.setText(response.body().getData().getQueryKardekDataBacaan().getM34());
+                        tvTrThnSkrgM35.setText(response.body().getData().getQueryKardekDataBacaan().getM35());
+                        tvTrThnSkrgM36.setText(response.body().getData().getQueryKardekDataBacaan().getM36());
+                        tvTrThnSkrgM37.setText(response.body().getData().getQueryKardekDataBacaan().getM37());
+                        tvTrThnSkrgM38.setText(response.body().getData().getQueryKardekDataBacaan().getM38());
+                        tvTrThnSkrgM39.setText(response.body().getData().getQueryKardekDataBacaan().getM39());
+                        tvTrThnSkrgM310.setText(response.body().getData().getQueryKardekDataBacaan().getM310());
+                        tvTrThnSkrgM311.setText(response.body().getData().getQueryKardekDataBacaan().getM311());
+                        tvTrThnSkrgM312.setText(response.body().getData().getQueryKardekDataBacaan().getM312());
+                        tvTrThnSkrgKondisi1.setText(response.body().getData().getQueryKardekDataBacaan().getNmst1());
+                        tvTrThnSkrgKondisi2.setText(response.body().getData().getQueryKardekDataBacaan().getNmst2());
+                        tvTrThnSkrgKondisi3.setText(response.body().getData().getQueryKardekDataBacaan().getNmst3());
+                        tvTrThnSkrgKondisi4.setText(response.body().getData().getQueryKardekDataBacaan().getNmst4());
+                        tvTrThnSkrgKondisi5.setText(response.body().getData().getQueryKardekDataBacaan().getNmst5());
+                        tvTrThnSkrgKondisi6.setText(response.body().getData().getQueryKardekDataBacaan().getNmst6());
+                        tvTrThnSkrgKondisi7.setText(response.body().getData().getQueryKardekDataBacaan().getNmst7());
+                        tvTrThnSkrgKondisi8.setText(response.body().getData().getQueryKardekDataBacaan().getNmst8());
+                        tvTrThnSkrgKondisi9.setText(response.body().getData().getQueryKardekDataBacaan().getNmst9());
+                        tvTrThnSkrgKondisi10.setText(response.body().getData().getQueryKardekDataBacaan().getNmst10());
+                        tvTrThnSkrgKondisi11.setText(response.body().getData().getQueryKardekDataBacaan().getNmst11());
+                        tvTrThnSkrgKondisi12.setText(response.body().getData().getQueryKardekDataBacaan().getNmst12());
+                        tvTrThnSkrgData1.setText(response.body().getData().getQueryKardekDataBacaan().getSc1());
+                        tvTrThnSkrgData2.setText(response.body().getData().getQueryKardekDataBacaan().getSc2());
+                        tvTrThnSkrgData3.setText(response.body().getData().getQueryKardekDataBacaan().getSc3());
+                        tvTrThnSkrgData4.setText(response.body().getData().getQueryKardekDataBacaan().getSc4());
+                        tvTrThnSkrgData5.setText(response.body().getData().getQueryKardekDataBacaan().getSc5());
+                        tvTrThnSkrgData6.setText(response.body().getData().getQueryKardekDataBacaan().getSc6());
+                        tvTrThnSkrgData7.setText(response.body().getData().getQueryKardekDataBacaan().getSc7());
+                        tvTrThnSkrgData8.setText(response.body().getData().getQueryKardekDataBacaan().getSc8());
+                        tvTrThnSkrgData9.setText(response.body().getData().getQueryKardekDataBacaan().getSc9());
+                        tvTrThnSkrgData10.setText(response.body().getData().getQueryKardekDataBacaan().getSc10());
+                        tvTrThnSkrgData11.setText(response.body().getData().getQueryKardekDataBacaan().getSc11());
+                        tvTrThnSkrgData12.setText(response.body().getData().getQueryKardekDataBacaan().getSc12());
+                        tvTrThnSkrgKeterangan1.setText(response.body().getData().getQueryKardekDataBacaan().getKt1());
+                        tvTrThnSkrgKeterangan2.setText(response.body().getData().getQueryKardekDataBacaan().getKt2());
+                        tvTrThnSkrgKeterangan3.setText(response.body().getData().getQueryKardekDataBacaan().getKt3());
+                        tvTrThnSkrgKeterangan4.setText(response.body().getData().getQueryKardekDataBacaan().getKt4());
+                        tvTrThnSkrgKeterangan5.setText(response.body().getData().getQueryKardekDataBacaan().getKt5());
+                        tvTrThnSkrgKeterangan6.setText(response.body().getData().getQueryKardekDataBacaan().getKt6());
+                        tvTrThnSkrgKeterangan7.setText(response.body().getData().getQueryKardekDataBacaan().getKt7());
+                        tvTrThnSkrgKeterangan8.setText(response.body().getData().getQueryKardekDataBacaan().getKt8());
+                        tvTrThnSkrgKeterangan9.setText(response.body().getData().getQueryKardekDataBacaan().getKt9());
+                        tvTrThnSkrgKeterangan10.setText(response.body().getData().getQueryKardekDataBacaan().getKt10());
+                        tvTrThnSkrgKeterangan11.setText(response.body().getData().getQueryKardekDataBacaan().getKt11());
+                        tvTrThnSkrgKeterangan12.setText(response.body().getData().getQueryKardekDataBacaan().getKt12());
+                        tvTrTahunSekarang.setText("Tahun " + response.body().getData().getQueryKardekDataBacaan().getTahun());
+                        tvFotoMeterTahun.setText("Foto Meter Tahun " + response.body().getData().getQueryKardekDataBacaan().getTahun());
 
+                        // get foto meter tahun sekarang
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getJanuari().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter1);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getFebruari().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter2);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getMaret().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter3);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getApril().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter4);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getMei().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter5);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getJuni().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter6);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getJuli().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter7);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getAgustus().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter8);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getSeptember().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter9);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getOktober().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter10);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getNovember().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter11);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getDesember().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter12);
+
+                        tvBulanStandM31.setText("Januari : " + response.body().getData().getFotoMeter().getJanuari().getStand() + " - " + response.body().getData().getFotoMeter().getJanuari().getM3());
+                        tvBulanStandM32.setText("Februari : " + response.body().getData().getFotoMeter().getFebruari().getStand() + " - " + response.body().getData().getFotoMeter().getFebruari().getM3());
+                        tvBulanStandM33.setText("Maret : " + response.body().getData().getFotoMeter().getMaret().getStand() + " - " + response.body().getData().getFotoMeter().getMaret().getM3());
+                        tvBulanStandM34.setText("April : " + response.body().getData().getFotoMeter().getApril().getStand() + " - " + response.body().getData().getFotoMeter().getApril().getM3());
+                        tvBulanStandM35.setText("Mei : " + response.body().getData().getFotoMeter().getMei().getStand() + " - " + response.body().getData().getFotoMeter().getMei().getM3());
+                        tvBulanStandM36.setText("Juni : " + response.body().getData().getFotoMeter().getJuni().getStand() + " - " + response.body().getData().getFotoMeter().getJuni().getM3());
+                        tvBulanStandM37.setText("Juli : " + response.body().getData().getFotoMeter().getJuli().getStand() + " - " + response.body().getData().getFotoMeter().getJuli().getM3());
+                        tvBulanStandM38.setText("Agustus : " + response.body().getData().getFotoMeter().getAgustus().getStand() + " - " + response.body().getData().getFotoMeter().getAgustus().getM3());
+                        tvBulanStandM39.setText("September : " + response.body().getData().getFotoMeter().getSeptember().getStand() + " - " + response.body().getData().getFotoMeter().getSeptember().getM3());
+                        tvBulanStandM310.setText("Oktober : " + response.body().getData().getFotoMeter().getOktober().getStand() + " - " + response.body().getData().getFotoMeter().getOktober().getM3());
+                        tvBulanStandM311.setText("November : " + response.body().getData().getFotoMeter().getNovember().getStand() + " - " + response.body().getData().getFotoMeter().getNovember().getM3());
+                        tvBulanStandM312.setText("Desember : " + response.body().getData().getFotoMeter().getDesember().getStand() + " - " + response.body().getData().getFotoMeter().getDesember().getM3());
+                    }
+                } else {
+                    Toast.makeText(ProfilePelangganDanTagihanActivity.this, "Data tidak ditemukan", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -748,5 +808,30 @@ public class ProfilePelangganDanTagihanActivity extends AppCompatActivity {
         tvTrThnSkrgData12 = findViewById(R.id.tv_tr_thn_skrg_data12);
         tvTrThnSkrgKeterangan12 = findViewById(R.id.tv_tr_thn_skrg_keterangan12);
         btnCariBacaanTahun = findViewById(R.id.btn_cari_bacaan_tahun);
+        tvFotoMeterTahun = findViewById(R.id.tv_foto_meter_tahun);
+        tvBulanStandM31 = findViewById(R.id.tv_bulan_stand_m31);
+        ivFotoMeter1 = findViewById(R.id.iv_foto_meter_1);
+        tvBulanStandM32 = findViewById(R.id.tv_bulan_stand_m3_2);
+        ivFotoMeter2 = findViewById(R.id.iv_foto_meter_2);
+        tvBulanStandM33 = findViewById(R.id.tv_bulan_stand_m3_3);
+        ivFotoMeter3 = findViewById(R.id.iv_foto_meter_3);
+        tvBulanStandM34 = findViewById(R.id.tv_bulan_stand_m3_4);
+        ivFotoMeter4 = findViewById(R.id.iv_foto_meter_4);
+        tvBulanStandM35 = findViewById(R.id.tv_bulan_stand_m3_5);
+        ivFotoMeter5 = findViewById(R.id.iv_foto_meter_5);
+        tvBulanStandM36 = findViewById(R.id.tv_bulan_stand_m3_6);
+        ivFotoMeter6 = findViewById(R.id.iv_foto_meter_6);
+        tvBulanStandM37 = findViewById(R.id.tv_bulan_stand_m3_7);
+        ivFotoMeter7 = findViewById(R.id.iv_foto_meter_7);
+        tvBulanStandM38 = findViewById(R.id.tv_bulan_stand_m3_8);
+        ivFotoMeter8 = findViewById(R.id.iv_foto_meter_8);
+        tvBulanStandM39 = findViewById(R.id.tv_bulan_stand_m3_9);
+        ivFotoMeter9 = findViewById(R.id.iv_foto_meter_9);
+        tvBulanStandM310 = findViewById(R.id.tv_bulan_stand_m3_10);
+        ivFotoMeter10 = findViewById(R.id.iv_foto_meter_10);
+        tvBulanStandM311 = findViewById(R.id.tv_bulan_stand_m3_11);
+        ivFotoMeter11 = findViewById(R.id.iv_foto_meter_11);
+        tvBulanStandM312 = findViewById(R.id.tv_bulan_stand_m3_12);
+        ivFotoMeter12 = findViewById(R.id.iv_foto_meter_12);
     }
 }

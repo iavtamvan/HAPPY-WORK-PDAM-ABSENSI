@@ -1855,6 +1855,405 @@
                 </androidx.cardview.widget.CardView>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_foto_meter_tahun"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="4dp"
+                                android:layout_weight="1"
+                                android:gravity="center|left"
+                                android:text="Foto Meter Tahun 2024"
+                                android:textColor="@color/black"
+                                android:textSize="13dp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/persegi_shapes_black"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv_bulan_stand_m31"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Januari"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold" />
+
+                                    <com.github.chrisbanes.photoview.PhotoView
+                                        android:id="@+id/iv_foto_meter_1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="150dp"
+                                        android:scaleType="fitXY"
+                                        android:layout_margin="3dp"
+                                        android:src="@drawable/im_good_day" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/persegi_shapes_black"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv_bulan_stand_m3_2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Februari"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold" />
+
+                                    <com.github.chrisbanes.photoview.PhotoView
+                                        android:id="@+id/iv_foto_meter_2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="150dp"
+                                        android:scaleType="fitXY"
+                                        android:layout_margin="3dp"
+                                        android:src="@drawable/im_good_day" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/persegi_shapes_black"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv_bulan_stand_m3_3"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Maret"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold" />
+
+                                    <com.github.chrisbanes.photoview.PhotoView
+                                        android:id="@+id/iv_foto_meter_3"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="150dp"
+                                        android:scaleType="fitXY"
+                                        android:layout_margin="3dp"
+                                        android:src="@drawable/im_good_day" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/persegi_shapes_black"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv_bulan_stand_m3_4"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="April"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold" />
+
+                                    <com.github.chrisbanes.photoview.PhotoView
+                                        android:id="@+id/iv_foto_meter_4"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="150dp"
+                                        android:scaleType="fitXY"
+                                        android:layout_margin="3dp"
+                                        android:src="@drawable/im_good_day" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/persegi_shapes_black"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv_bulan_stand_m3_5"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Mei"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold" />
+
+                                    <com.github.chrisbanes.photoview.PhotoView
+                                        android:id="@+id/iv_foto_meter_5"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="150dp"
+                                        android:scaleType="fitXY"
+                                        android:layout_margin="3dp"
+                                        android:src="@drawable/im_good_day" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/persegi_shapes_black"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv_bulan_stand_m3_6"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Juni"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold" />
+
+                                    <com.github.chrisbanes.photoview.PhotoView
+                                        android:id="@+id/iv_foto_meter_6"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="150dp"
+                                        android:scaleType="fitXY"
+                                        android:layout_margin="3dp"
+                                        android:src="@drawable/im_good_day" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/persegi_shapes_black"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv_bulan_stand_m3_7"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Juli"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold" />
+
+                                    <com.github.chrisbanes.photoview.PhotoView
+                                        android:id="@+id/iv_foto_meter_7"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="150dp"
+                                        android:scaleType="fitXY"
+                                        android:layout_margin="3dp"
+                                        android:src="@drawable/im_good_day" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/persegi_shapes_black"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv_bulan_stand_m3_8"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Agustus"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold" />
+
+                                    <com.github.chrisbanes.photoview.PhotoView
+                                        android:id="@+id/iv_foto_meter_8"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="150dp"
+                                        android:scaleType="fitXY"
+                                        android:layout_margin="3dp"
+                                        android:src="@drawable/im_good_day" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/persegi_shapes_black"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv_bulan_stand_m3_9"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="September"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold" />
+
+                                    <com.github.chrisbanes.photoview.PhotoView
+                                        android:id="@+id/iv_foto_meter_9"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="150dp"
+                                        android:scaleType="fitXY"
+                                        android:layout_margin="3dp"
+                                        android:src="@drawable/im_good_day" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/persegi_shapes_black"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv_bulan_stand_m3_10"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Oktober"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold" />
+
+                                    <com.github.chrisbanes.photoview.PhotoView
+                                        android:id="@+id/iv_foto_meter_10"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="150dp"
+                                        android:scaleType="fitXY"
+                                        android:layout_margin="3dp"
+                                        android:src="@drawable/im_good_day" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/persegi_shapes_black"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv_bulan_stand_m3_11"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="November"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold" />
+
+                                    <com.github.chrisbanes.photoview.PhotoView
+                                        android:id="@+id/iv_foto_meter_11"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="150dp"
+                                        android:scaleType="fitXY"
+                                        android:layout_margin="3dp"
+                                        android:src="@drawable/im_good_day" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/persegi_shapes_black"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv_bulan_stand_m3_12"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Desember"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold" />
+
+                                    <com.github.chrisbanes.photoview.PhotoView
+                                        android:id="@+id/iv_foto_meter_12"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="150dp"
+                                        android:scaleType="fitXY"
+                                        android:layout_margin="3dp"
+                                        android:src="@drawable/im_good_day" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
