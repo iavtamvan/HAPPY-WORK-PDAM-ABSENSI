@@ -369,7 +369,5 @@ public interface ApiService {
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("pembaca-meter/api/m/kardek-data-bacaan")
-    Call<DataBacaanKardekRootModel> getDataBacaan(@Path("nolangg") String nolangg, @Path("tahun") String tahun, @Header("Authorization") String auth);
-
-
+    Call<DataBacaanKardekRootModel> getDataBacaan(@Query("nolangg") String nolangg, @Query("tahun") String tahun, @Header("Authorization") String auth);
 }

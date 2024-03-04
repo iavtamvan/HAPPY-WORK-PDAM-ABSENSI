@@ -5,166 +5,166 @@ import com.google.gson.annotations.SerializedName;
 public class QueryKardekDataBacaanTahunLalu{
 
     @SerializedName("m31")
-    private Integer m31;
+    private String m31;
 
     @SerializedName("m33")
-    private Integer m33;
+    private String m33;
 
     @SerializedName("m32")
-    private Integer m32;
+    private String m32;
 
     @SerializedName("m35")
-    private Integer m35;
+    private String m35;
 
     @SerializedName("m34")
-    private Integer m34;
+    private String m34;
 
     @SerializedName("m37")
-    private Integer m37;
+    private String m37;
 
     @SerializedName("m36")
-    private Integer m36;
+    private String m36;
 
     @SerializedName("m39")
-    private Integer m39;
+    private String m39;
 
     @SerializedName("m38")
-    private Integer m38;
+    private String m38;
 
     @SerializedName("role_id")
-    private Object roleId;
+    private String roleId;
 
     @SerializedName("id")
-    private Integer id;
+    private String id;
 
     @SerializedName("bl1")
-    private Integer bl1;
+    private String bl1;
 
     @SerializedName("bl3")
-    private Integer bl3;
+    private String bl3;
 
     @SerializedName("bl2")
-    private Integer bl2;
+    private String bl2;
 
     @SerializedName("bl5")
-    private Integer bl5;
+    private String bl5;
 
     @SerializedName("bl4")
-    private Integer bl4;
+    private String bl4;
 
     @SerializedName("bl7")
-    private Integer bl7;
+    private String bl7;
 
     @SerializedName("bl6")
-    private Integer bl6;
+    private String bl6;
 
     @SerializedName("bl9")
-    private Integer bl9;
+    private String bl9;
 
     @SerializedName("bl8")
-    private Integer bl8;
+    private String bl8;
 
     @SerializedName("dism")
     private String dism;
 
     @SerializedName("catatan_pembaca_12")
-    private Object catatanPembaca12;
+    private String catatanPembaca12;
 
     @SerializedName("m311")
-    private Integer m311;
+    private String m311;
 
     @SerializedName("catatan_pembaca_10")
-    private Object catatanPembaca10;
+    private String catatanPembaca10;
 
     @SerializedName("m312")
-    private Integer m312;
+    private String m312;
 
     @SerializedName("user_id")
-    private Object userId;
+    private String userId;
 
     @SerializedName("catatan_pembaca_11")
-    private Object catatanPembaca11;
+    private String catatanPembaca11;
 
     @SerializedName("m310")
-    private Integer m310;
+    private String m310;
 
     @SerializedName("bl11")
-    private Integer bl11;
+    private String bl11;
 
     @SerializedName("sc12")
     private String sc12;
 
     @SerializedName("bl12")
-    private Integer bl12;
+    private String bl12;
 
     @SerializedName("sc11")
     private String sc11;
 
     @SerializedName("bl10")
-    private Integer bl10;
+    private String bl10;
 
     @SerializedName("catatan_pembaca_9")
-    private Object catatanPembaca9;
+    private String catatanPembaca9;
 
     @SerializedName("created_at")
-    private Object createdAt;
+    private String createdAt;
 
     @SerializedName("catatan_pembaca_7")
-    private Object catatanPembaca7;
+    private String catatanPembaca7;
 
     @SerializedName("susulan")
-    private Object susulan;
+    private String susulan;
 
     @SerializedName("catatan_pembaca_8")
-    private Object catatanPembaca8;
+    private String catatanPembaca8;
 
     @SerializedName("catatan_pembaca_5")
-    private Object catatanPembaca5;
+    private String catatanPembaca5;
 
     @SerializedName("catatan_pembaca_6")
-    private Object catatanPembaca6;
+    private String catatanPembaca6;
 
     @SerializedName("catatan_pembaca_3")
-    private Object catatanPembaca3;
+    private String catatanPembaca3;
 
     @SerializedName("catatan_pembaca_4")
-    private Object catatanPembaca4;
+    private String catatanPembaca4;
 
     @SerializedName("m3r2")
-    private Integer m3r2;
+    private String m3r2;
 
     @SerializedName("updated_at")
     private String updatedAt;
 
     @SerializedName("m3r3")
-    private Integer m3r3;
+    private String m3r3;
 
     @SerializedName("bllalu")
-    private Integer bllalu;
+    private String bllalu;
 
     @SerializedName("m3r1")
-    private Integer m3r1;
+    private String m3r1;
 
     @SerializedName("m3r6")
-    private Integer m3r6;
+    private String m3r6;
 
     @SerializedName("m3r7")
-    private Integer m3r7;
+    private String m3r7;
 
     @SerializedName("sc10")
     private String sc10;
 
     @SerializedName("m3r4")
-    private Integer m3r4;
+    private String m3r4;
 
     @SerializedName("m3r5")
-    private Integer m3r5;
+    private String m3r5;
 
     @SerializedName("m3r8")
-    private Integer m3r8;
+    private String m3r8;
 
     @SerializedName("m3r9")
-    private Integer m3r9;
+    private String m3r9;
 
     @SerializedName("sc1")
     private String sc1;
@@ -176,7 +176,7 @@ public class QueryKardekDataBacaanTahunLalu{
     private String sc2;
 
     @SerializedName("tahun")
-    private Integer tahun;
+    private String tahun;
 
     @SerializedName("sc5")
     private String sc5;
@@ -230,7 +230,7 @@ public class QueryKardekDataBacaanTahunLalu{
     private String st2;
 
     @SerializedName("catatan_pembaca_1")
-    private Object catatanPembaca1;
+    private String catatanPembaca1;
 
     @SerializedName("st1")
     private String st1;
@@ -239,7 +239,7 @@ public class QueryKardekDataBacaanTahunLalu{
     private String kt9;
 
     @SerializedName("catatan_pembaca_2")
-    private Object catatanPembaca2;
+    private String catatanPembaca2;
 
     @SerializedName("st4")
     private String st4;
@@ -248,7 +248,7 @@ public class QueryKardekDataBacaanTahunLalu{
     private String st3;
 
     @SerializedName("m3r10")
-    private Integer m3r10;
+    private String m3r10;
 
     @SerializedName("st6")
     private String st6;
@@ -257,13 +257,13 @@ public class QueryKardekDataBacaanTahunLalu{
     private String st12;
 
     @SerializedName("m3r11")
-    private Integer m3r11;
+    private String m3r11;
 
     @SerializedName("st5")
     private String st5;
 
     @SerializedName("m3r12")
-    private Integer m3r12;
+    private String m3r12;
 
     @SerializedName("st8")
     private String st8;
@@ -289,163 +289,163 @@ public class QueryKardekDataBacaanTahunLalu{
     @SerializedName("kt11")
     private String kt11;
 
-    public void setM31(Integer m31){
+    public void setM31(String m31){
         this.m31 = m31;
     }
 
-    public Integer getM31(){
+    public String getM31(){
         return m31;
     }
 
-    public void setM33(Integer m33){
+    public void setM33(String m33){
         this.m33 = m33;
     }
 
-    public Integer getM33(){
+    public String getM33(){
         return m33;
     }
 
-    public void setM32(Integer m32){
+    public void setM32(String m32){
         this.m32 = m32;
     }
 
-    public Integer getM32(){
+    public String getM32(){
         return m32;
     }
 
-    public void setM35(Integer m35){
+    public void setM35(String m35){
         this.m35 = m35;
     }
 
-    public Integer getM35(){
+    public String getM35(){
         return m35;
     }
 
-    public void setM34(Integer m34){
+    public void setM34(String m34){
         this.m34 = m34;
     }
 
-    public Integer getM34(){
+    public String getM34(){
         return m34;
     }
 
-    public void setM37(Integer m37){
+    public void setM37(String m37){
         this.m37 = m37;
     }
 
-    public Integer getM37(){
+    public String getM37(){
         return m37;
     }
 
-    public void setM36(Integer m36){
+    public void setM36(String m36){
         this.m36 = m36;
     }
 
-    public Integer getM36(){
+    public String getM36(){
         return m36;
     }
 
-    public void setM39(Integer m39){
+    public void setM39(String m39){
         this.m39 = m39;
     }
 
-    public Integer getM39(){
+    public String getM39(){
         return m39;
     }
 
-    public void setM38(Integer m38){
+    public void setM38(String m38){
         this.m38 = m38;
     }
 
-    public Integer getM38(){
+    public String getM38(){
         return m38;
     }
 
-    public void setRoleId(Object roleId){
+    public void setRoleId(String roleId){
         this.roleId = roleId;
     }
 
-    public Object getRoleId(){
+    public String getRoleId(){
         return roleId;
     }
 
-    public void setId(Integer id){
+    public void setId(String id){
         this.id = id;
     }
 
-    public Integer getId(){
+    public String getId(){
         return id;
     }
 
-    public void setBl1(Integer bl1){
+    public void setBl1(String bl1){
         this.bl1 = bl1;
     }
 
-    public Integer getBl1(){
+    public String getBl1(){
         return bl1;
     }
 
-    public void setBl3(Integer bl3){
+    public void setBl3(String bl3){
         this.bl3 = bl3;
     }
 
-    public Integer getBl3(){
+    public String getBl3(){
         return bl3;
     }
 
-    public void setBl2(Integer bl2){
+    public void setBl2(String bl2){
         this.bl2 = bl2;
     }
 
-    public Integer getBl2(){
+    public String getBl2(){
         return bl2;
     }
 
-    public void setBl5(Integer bl5){
+    public void setBl5(String bl5){
         this.bl5 = bl5;
     }
 
-    public Integer getBl5(){
+    public String getBl5(){
         return bl5;
     }
 
-    public void setBl4(Integer bl4){
+    public void setBl4(String bl4){
         this.bl4 = bl4;
     }
 
-    public Integer getBl4(){
+    public String getBl4(){
         return bl4;
     }
 
-    public void setBl7(Integer bl7){
+    public void setBl7(String bl7){
         this.bl7 = bl7;
     }
 
-    public Integer getBl7(){
+    public String getBl7(){
         return bl7;
     }
 
-    public void setBl6(Integer bl6){
+    public void setBl6(String bl6){
         this.bl6 = bl6;
     }
 
-    public Integer getBl6(){
+    public String getBl6(){
         return bl6;
     }
 
-    public void setBl9(Integer bl9){
+    public void setBl9(String bl9){
         this.bl9 = bl9;
     }
 
-    public Integer getBl9(){
+    public String getBl9(){
         return bl9;
     }
 
-    public void setBl8(Integer bl8){
+    public void setBl8(String bl8){
         this.bl8 = bl8;
     }
 
-    public Integer getBl8(){
+    public String getBl8(){
         return bl8;
     }
 
@@ -457,67 +457,67 @@ public class QueryKardekDataBacaanTahunLalu{
         return dism;
     }
 
-    public void setCatatanPembaca12(Object catatanPembaca12){
+    public void setCatatanPembaca12(String catatanPembaca12){
         this.catatanPembaca12 = catatanPembaca12;
     }
 
-    public Object getCatatanPembaca12(){
+    public String getCatatanPembaca12(){
         return catatanPembaca12;
     }
 
-    public void setM311(Integer m311){
+    public void setM311(String m311){
         this.m311 = m311;
     }
 
-    public Integer getM311(){
+    public String getM311(){
         return m311;
     }
 
-    public void setCatatanPembaca10(Object catatanPembaca10){
+    public void setCatatanPembaca10(String catatanPembaca10){
         this.catatanPembaca10 = catatanPembaca10;
     }
 
-    public Object getCatatanPembaca10(){
+    public String getCatatanPembaca10(){
         return catatanPembaca10;
     }
 
-    public void setM312(Integer m312){
+    public void setM312(String m312){
         this.m312 = m312;
     }
 
-    public Integer getM312(){
+    public String getM312(){
         return m312;
     }
 
-    public void setUserId(Object userId){
+    public void setUserId(String userId){
         this.userId = userId;
     }
 
-    public Object getUserId(){
+    public String getUserId(){
         return userId;
     }
 
-    public void setCatatanPembaca11(Object catatanPembaca11){
+    public void setCatatanPembaca11(String catatanPembaca11){
         this.catatanPembaca11 = catatanPembaca11;
     }
 
-    public Object getCatatanPembaca11(){
+    public String getCatatanPembaca11(){
         return catatanPembaca11;
     }
 
-    public void setM310(Integer m310){
+    public void setM310(String m310){
         this.m310 = m310;
     }
 
-    public Integer getM310(){
+    public String getM310(){
         return m310;
     }
 
-    public void setBl11(Integer bl11){
+    public void setBl11(String bl11){
         this.bl11 = bl11;
     }
 
-    public Integer getBl11(){
+    public String getBl11(){
         return bl11;
     }
 
@@ -529,11 +529,11 @@ public class QueryKardekDataBacaanTahunLalu{
         return sc12;
     }
 
-    public void setBl12(Integer bl12){
+    public void setBl12(String bl12){
         this.bl12 = bl12;
     }
 
-    public Integer getBl12(){
+    public String getBl12(){
         return bl12;
     }
 
@@ -545,91 +545,91 @@ public class QueryKardekDataBacaanTahunLalu{
         return sc11;
     }
 
-    public void setBl10(Integer bl10){
+    public void setBl10(String bl10){
         this.bl10 = bl10;
     }
 
-    public Integer getBl10(){
+    public String getBl10(){
         return bl10;
     }
 
-    public void setCatatanPembaca9(Object catatanPembaca9){
+    public void setCatatanPembaca9(String catatanPembaca9){
         this.catatanPembaca9 = catatanPembaca9;
     }
 
-    public Object getCatatanPembaca9(){
+    public String getCatatanPembaca9(){
         return catatanPembaca9;
     }
 
-    public void setCreatedAt(Object createdAt){
+    public void setCreatedAt(String createdAt){
         this.createdAt = createdAt;
     }
 
-    public Object getCreatedAt(){
+    public String getCreatedAt(){
         return createdAt;
     }
 
-    public void setCatatanPembaca7(Object catatanPembaca7){
+    public void setCatatanPembaca7(String catatanPembaca7){
         this.catatanPembaca7 = catatanPembaca7;
     }
 
-    public Object getCatatanPembaca7(){
+    public String getCatatanPembaca7(){
         return catatanPembaca7;
     }
 
-    public void setSusulan(Object susulan){
+    public void setSusulan(String susulan){
         this.susulan = susulan;
     }
 
-    public Object getSusulan(){
+    public String getSusulan(){
         return susulan;
     }
 
-    public void setCatatanPembaca8(Object catatanPembaca8){
+    public void setCatatanPembaca8(String catatanPembaca8){
         this.catatanPembaca8 = catatanPembaca8;
     }
 
-    public Object getCatatanPembaca8(){
+    public String getCatatanPembaca8(){
         return catatanPembaca8;
     }
 
-    public void setCatatanPembaca5(Object catatanPembaca5){
+    public void setCatatanPembaca5(String catatanPembaca5){
         this.catatanPembaca5 = catatanPembaca5;
     }
 
-    public Object getCatatanPembaca5(){
+    public String getCatatanPembaca5(){
         return catatanPembaca5;
     }
 
-    public void setCatatanPembaca6(Object catatanPembaca6){
+    public void setCatatanPembaca6(String catatanPembaca6){
         this.catatanPembaca6 = catatanPembaca6;
     }
 
-    public Object getCatatanPembaca6(){
+    public String getCatatanPembaca6(){
         return catatanPembaca6;
     }
 
-    public void setCatatanPembaca3(Object catatanPembaca3){
+    public void setCatatanPembaca3(String catatanPembaca3){
         this.catatanPembaca3 = catatanPembaca3;
     }
 
-    public Object getCatatanPembaca3(){
+    public String getCatatanPembaca3(){
         return catatanPembaca3;
     }
 
-    public void setCatatanPembaca4(Object catatanPembaca4){
+    public void setCatatanPembaca4(String catatanPembaca4){
         this.catatanPembaca4 = catatanPembaca4;
     }
 
-    public Object getCatatanPembaca4(){
+    public String getCatatanPembaca4(){
         return catatanPembaca4;
     }
 
-    public void setM3r2(Integer m3r2){
+    public void setM3r2(String m3r2){
         this.m3r2 = m3r2;
     }
 
-    public Integer getM3r2(){
+    public String getM3r2(){
         return m3r2;
     }
 
@@ -641,43 +641,43 @@ public class QueryKardekDataBacaanTahunLalu{
         return updatedAt;
     }
 
-    public void setM3r3(Integer m3r3){
+    public void setM3r3(String m3r3){
         this.m3r3 = m3r3;
     }
 
-    public Integer getM3r3(){
+    public String getM3r3(){
         return m3r3;
     }
 
-    public void setBllalu(Integer bllalu){
+    public void setBllalu(String bllalu){
         this.bllalu = bllalu;
     }
 
-    public Integer getBllalu(){
+    public String getBllalu(){
         return bllalu;
     }
 
-    public void setM3r1(Integer m3r1){
+    public void setM3r1(String m3r1){
         this.m3r1 = m3r1;
     }
 
-    public Integer getM3r1(){
+    public String getM3r1(){
         return m3r1;
     }
 
-    public void setM3r6(Integer m3r6){
+    public void setM3r6(String m3r6){
         this.m3r6 = m3r6;
     }
 
-    public Integer getM3r6(){
+    public String getM3r6(){
         return m3r6;
     }
 
-    public void setM3r7(Integer m3r7){
+    public void setM3r7(String m3r7){
         this.m3r7 = m3r7;
     }
 
-    public Integer getM3r7(){
+    public String getM3r7(){
         return m3r7;
     }
 
@@ -689,35 +689,35 @@ public class QueryKardekDataBacaanTahunLalu{
         return sc10;
     }
 
-    public void setM3r4(Integer m3r4){
+    public void setM3r4(String m3r4){
         this.m3r4 = m3r4;
     }
 
-    public Integer getM3r4(){
+    public String getM3r4(){
         return m3r4;
     }
 
-    public void setM3r5(Integer m3r5){
+    public void setM3r5(String m3r5){
         this.m3r5 = m3r5;
     }
 
-    public Integer getM3r5(){
+    public String getM3r5(){
         return m3r5;
     }
 
-    public void setM3r8(Integer m3r8){
+    public void setM3r8(String m3r8){
         this.m3r8 = m3r8;
     }
 
-    public Integer getM3r8(){
+    public String getM3r8(){
         return m3r8;
     }
 
-    public void setM3r9(Integer m3r9){
+    public void setM3r9(String m3r9){
         this.m3r9 = m3r9;
     }
 
-    public Integer getM3r9(){
+    public String getM3r9(){
         return m3r9;
     }
 
@@ -745,11 +745,11 @@ public class QueryKardekDataBacaanTahunLalu{
         return sc2;
     }
 
-    public void setTahun(Integer tahun){
+    public void setTahun(String tahun){
         this.tahun = tahun;
     }
 
-    public Integer getTahun(){
+    public String getTahun(){
         return tahun;
     }
 
@@ -889,11 +889,11 @@ public class QueryKardekDataBacaanTahunLalu{
         return st2;
     }
 
-    public void setCatatanPembaca1(Object catatanPembaca1){
+    public void setCatatanPembaca1(String catatanPembaca1){
         this.catatanPembaca1 = catatanPembaca1;
     }
 
-    public Object getCatatanPembaca1(){
+    public String getCatatanPembaca1(){
         return catatanPembaca1;
     }
 
@@ -913,11 +913,11 @@ public class QueryKardekDataBacaanTahunLalu{
         return kt9;
     }
 
-    public void setCatatanPembaca2(Object catatanPembaca2){
+    public void setCatatanPembaca2(String catatanPembaca2){
         this.catatanPembaca2 = catatanPembaca2;
     }
 
-    public Object getCatatanPembaca2(){
+    public String getCatatanPembaca2(){
         return catatanPembaca2;
     }
 
@@ -937,11 +937,11 @@ public class QueryKardekDataBacaanTahunLalu{
         return st3;
     }
 
-    public void setM3r10(Integer m3r10){
+    public void setM3r10(String m3r10){
         this.m3r10 = m3r10;
     }
 
-    public Integer getM3r10(){
+    public String getM3r10(){
         return m3r10;
     }
 
@@ -961,11 +961,11 @@ public class QueryKardekDataBacaanTahunLalu{
         return st12;
     }
 
-    public void setM3r11(Integer m3r11){
+    public void setM3r11(String m3r11){
         this.m3r11 = m3r11;
     }
 
-    public Integer getM3r11(){
+    public String getM3r11(){
         return m3r11;
     }
 
@@ -977,11 +977,11 @@ public class QueryKardekDataBacaanTahunLalu{
         return st5;
     }
 
-    public void setM3r12(Integer m3r12){
+    public void setM3r12(String m3r12){
         this.m3r12 = m3r12;
     }
 
-    public Integer getM3r12(){
+    public String getM3r12(){
         return m3r12;
     }
 

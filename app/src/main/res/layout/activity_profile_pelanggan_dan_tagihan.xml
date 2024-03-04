@@ -880,17 +880,19 @@
                                     android:background="@color/white">
 
                                     <EditText
-                                        android:id="@+id/edt_tahun"
+                                        android:id="@+id/edt_data_bacaan_tahun"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:background="@color/white"
-                                        android:text="Tahun" />
+                                        android:inputType="number"
+                                        android:hint="Tahun" />
 
                                 </com.google.android.material.textfield.TextInputLayout>
 
                                 <Button
+                                    android:id="@+id/btn_cari_bacaan_tahun"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:text="Cari"/>
 
                             </LinearLayout>
@@ -913,20 +915,18 @@
                                         android:showDividers="middle">
 
                                         <TextView
-                                            android:id="@+id/tv_tr_tahun_lalu"
-                                            android:layout_weight="1"
                                             android:gravity="center"
                                             android:padding="8dp"
-                                            android:text="Tahun 2023"
+                                            android:text="Tahun"
                                             android:textColor="@color/black"
                                             android:textStyle="bold" />
 
                                         <TextView
-                                            android:layout_weight="1"
+                                            android:id="@+id/tv_tr_tahun_lalu"
                                             android:gravity="center"
                                             android:padding="8dp"
-                                            android:text="M3"
-                                            android:textColor="@color/white"
+                                            android:text="2023"
+                                            android:textColor="@color/black"
                                             android:textStyle="bold" />
 
                                         <TextView
@@ -938,45 +938,10 @@
                                             android:textColor="@color/black"
                                             android:textStyle="bold" />
 
-                                        <TextView
-                                            android:layout_weight="1"
-                                            android:gravity="center"
-                                            android:padding="8dp"
-                                            android:text="STAND"
-                                            android:textColor="@color/white"
-                                            android:textStyle="bold" />
 
-                                        <TextView
-                                            android:layout_weight="1"
-                                            android:gravity="center"
-                                            android:padding="8dp"
-                                            android:text="M3"
-                                            android:textColor="@color/white"
-                                            android:textStyle="bold" />
 
-                                        <TextView
-                                            android:layout_weight="1"
-                                            android:gravity="center"
-                                            android:padding="8dp"
-                                            android:text="KONDISI"
-                                            android:textColor="@color/white"
-                                            android:textStyle="bold" />
 
-                                        <TextView
-                                            android:layout_weight="1"
-                                            android:gravity="center"
-                                            android:padding="8dp"
-                                            android:text="DATA"
-                                            android:textColor="@color/white"
-                                            android:textStyle="bold" />
 
-                                        <TextView
-                                            android:layout_weight="1"
-                                            android:gravity="center"
-                                            android:padding="8dp"
-                                            android:text="KETERANGAN"
-                                            android:textColor="@color/white"
-                                            android:textStyle="bold" />
                                     </TableRow>
 
                                     <TableRow

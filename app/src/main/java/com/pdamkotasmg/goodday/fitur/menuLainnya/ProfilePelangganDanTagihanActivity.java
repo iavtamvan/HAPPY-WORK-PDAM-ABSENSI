@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,11 +29,13 @@ import com.pdamkotasmg.goodday.fitur.menuLainnya.profilePelanggan.model.Angsuran
 import com.pdamkotasmg.goodday.fitur.menuLainnya.profilePelanggan.model.BillingTagihanRootModel;
 import com.pdamkotasmg.goodday.fitur.menuLainnya.profilePelanggan.model.FlatItem;
 import com.pdamkotasmg.goodday.fitur.menuLainnya.profilePelanggan.model.TunggakanItem;
+import com.pdamkotasmg.goodday.fitur.menuLainnya.profilePelanggan.model.kardek.DataBacaanKardekRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -96,6 +100,96 @@ public class ProfilePelangganDanTagihanActivity extends AppCompatActivity {
     private ImageView ivFotoRumah;
     private RecyclerView rvFlat;
     private CardView cvKlikFotoRumah;
+    private LinearLayout divDataBacaan;
+    private CardView cvDataBacaan;
+    private EditText edtDataBacaanTahun;
+    private TextView tvTrTahunLalu;
+    private TextView tvTrTahunSekarang;
+    private TextView tvTrThnLaluStand1;
+    private TextView tvTrThnLaluM31;
+    private TextView tvTrThnSkrgStand1;
+    private TextView tvTrThnSkrgM31;
+    private TextView tvTrThnSkrgKondisi1;
+    private TextView tvTrThnSkrgData1;
+    private TextView tvTrThnSkrgKeterangan1;
+    private TextView tvTrThnLaluStand2;
+    private TextView tvTrThnLaluM32;
+    private TextView tvTrThnSkrgStand2;
+    private TextView tvTrThnSkrgM32;
+    private TextView tvTrThnSkrgKondisi2;
+    private TextView tvTrThnSkrgData2;
+    private TextView tvTrThnSkrgKeterangan2;
+    private TextView tvTrThnLaluStand3;
+    private TextView tvTrThnLaluM33;
+    private TextView tvTrThnSkrgStand3;
+    private TextView tvTrThnSkrgM33;
+    private TextView tvTrThnSkrgKondisi3;
+    private TextView tvTrThnSkrgData3;
+    private TextView tvTrThnSkrgKeterangan3;
+    private TextView tvTrThnLaluStand4;
+    private TextView tvTrThnLaluM34;
+    private TextView tvTrThnSkrgStand4;
+    private TextView tvTrThnSkrgM34;
+    private TextView tvTrThnSkrgKondisi4;
+    private TextView tvTrThnSkrgData4;
+    private TextView tvTrThnSkrgKeterangan4;
+    private TextView tvTrThnLaluStand5;
+    private TextView tvTrThnLaluM35;
+    private TextView tvTrThnSkrgStand5;
+    private TextView tvTrThnSkrgM35;
+    private TextView tvTrThnSkrgKondisi5;
+    private TextView tvTrThnSkrgData5;
+    private TextView tvTrThnSkrgKeterangan5;
+    private TextView tvTrThnLaluStand6;
+    private TextView tvTrThnLaluM36;
+    private TextView tvTrThnSkrgStand6;
+    private TextView tvTrThnSkrgM36;
+    private TextView tvTrThnSkrgKondisi6;
+    private TextView tvTrThnSkrgData6;
+    private TextView tvTrThnSkrgKeterangan6;
+    private TextView tvTrThnLaluStand7;
+    private TextView tvTrThnLaluM37;
+    private TextView tvTrThnSkrgStand7;
+    private TextView tvTrThnSkrgM37;
+    private TextView tvTrThnSkrgKondisi7;
+    private TextView tvTrThnSkrgData7;
+    private TextView tvTrThnSkrgKeterangan7;
+    private TextView tvTrThnLaluStand8;
+    private TextView tvTrThnLaluM38;
+    private TextView tvTrThnSkrgStand8;
+    private TextView tvTrThnSkrgM38;
+    private TextView tvTrThnSkrgKondisi8;
+    private TextView tvTrThnSkrgData8;
+    private TextView tvTrThnSkrgKeterangan8;
+    private TextView tvTrThnLaluStand9;
+    private TextView tvTrThnLaluM39;
+    private TextView tvTrThnSkrgStand9;
+    private TextView tvTrThnSkrgM39;
+    private TextView tvTrThnSkrgKondisi9;
+    private TextView tvTrThnSkrgData9;
+    private TextView tvTrThnSkrgKeterangan9;
+    private TextView tvTrThnLaluStand10;
+    private TextView tvTrThnLaluM310;
+    private TextView tvTrThnSkrgStand10;
+    private TextView tvTrThnSkrgM310;
+    private TextView tvTrThnSkrgKondisi10;
+    private TextView tvTrThnSkrgData10;
+    private TextView tvTrThnSkrgKeterangan10;
+    private TextView tvTrThnLaluStand11;
+    private TextView tvTrThnLaluM311;
+    private TextView tvTrThnSkrgStand11;
+    private TextView tvTrThnSkrgM311;
+    private TextView tvTrThnSkrgKondisi11;
+    private TextView tvTrThnSkrgData11;
+    private TextView tvTrThnSkrgKeterangan11;
+    private TextView tvTrThnLaluStand12;
+    private TextView tvTrThnLaluM312;
+    private TextView tvTrThnSkrgStand12;
+    private TextView tvTrThnSkrgM312;
+    private TextView tvTrThnSkrgKondisi12;
+    private TextView tvTrThnSkrgData12;
+    private TextView tvTrThnSkrgKeterangan12;
+    private Button btnCariBacaanTahun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +203,10 @@ public class ProfilePelangganDanTagihanActivity extends AppCompatActivity {
         token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         nollang = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG);
 
+        loading = new ProgressDialog(ProfilePelangganDanTagihanActivity.this);
+        loading.setCancelable(false);
+        loading.setMessage("Mohon tunggu...");
+
         tunggakanItems = new ArrayList<>();
         angsuranRekItems = new ArrayList<>();
         flatItems = new ArrayList<>();
@@ -120,6 +218,10 @@ public class ProfilePelangganDanTagihanActivity extends AppCompatActivity {
 
         divParrent.setVisibility(View.GONE);
         getData(nollang, token);
+
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        getDataBacaanKardek(token, nollang, String.valueOf(year));
 
         divBayarYuk.setOnClickListener(v -> {
 //            Intent intent = new Intent(getApplicationContext(), PaymentMethodActivity.class);
@@ -135,6 +237,10 @@ public class ProfilePelangganDanTagihanActivity extends AppCompatActivity {
             getData(nollang, token);
         });
 
+        btnCariBacaanTahun.setOnClickListener(view -> {
+            loading.show();
+            getDataBacaanKardek(token, nollang, edtDataBacaanTahun.getText().toString().trim());
+        });
     }
 
 
@@ -410,6 +516,116 @@ public class ProfilePelangganDanTagihanActivity extends AppCompatActivity {
 
     }
 
+    public void getDataBacaanKardek(String token, String nolangg, String tahun) {
+        ApiService apiService = ApiConfig.getApiService(ProfilePelangganDanTagihanActivity.this);
+        apiService.getDataBacaan(nolangg, tahun, token).enqueue(new Callback<DataBacaanKardekRootModel>() {
+            @Override
+            public void onResponse(Call<DataBacaanKardekRootModel> call, Response<DataBacaanKardekRootModel> response) {
+                loading.dismiss();
+                if (response.isSuccessful()) {
+                    // kardek tahun lalu
+                    tvTrThnLaluStand1.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl1());
+                    tvTrThnLaluStand2.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl2());
+                    tvTrThnLaluStand3.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl3());
+                    tvTrThnLaluStand4.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl4());
+                    tvTrThnLaluStand5.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl5());
+                    tvTrThnLaluStand6.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl6());
+                    tvTrThnLaluStand7.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl7());
+                    tvTrThnLaluStand8.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl8());
+                    tvTrThnLaluStand9.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl9());
+                    tvTrThnLaluStand10.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl10());
+                    tvTrThnLaluStand11.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl11());
+                    tvTrThnLaluStand12.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getBl12());
+                    tvTrThnLaluM31.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM31());
+                    tvTrThnLaluM32.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM32());
+                    tvTrThnLaluM33.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM33());
+                    tvTrThnLaluM34.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM34());
+                    tvTrThnLaluM35.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM35());
+                    tvTrThnLaluM36.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM36());
+                    tvTrThnLaluM37.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM37());
+                    tvTrThnLaluM38.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM38());
+                    tvTrThnLaluM39.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM39());
+                    tvTrThnLaluM310.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM310());
+                    tvTrThnLaluM311.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM311());
+                    tvTrThnLaluM312.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getM312());
+
+                    tvTrTahunLalu.setText(response.body().getData().getQueryKardekDataBacaanTahunLalu().getTahun());
+
+                    // kardek tahun sekarang (sesuai request)
+                    tvTrThnSkrgStand1.setText(response.body().getData().getQueryKardekDataBacaan().getBl1());
+                    tvTrThnSkrgStand2.setText(response.body().getData().getQueryKardekDataBacaan().getBl2());
+                    tvTrThnSkrgStand3.setText(response.body().getData().getQueryKardekDataBacaan().getBl3());
+                    tvTrThnSkrgStand4.setText(response.body().getData().getQueryKardekDataBacaan().getBl4());
+                    tvTrThnSkrgStand5.setText(response.body().getData().getQueryKardekDataBacaan().getBl5());
+                    tvTrThnSkrgStand6.setText(response.body().getData().getQueryKardekDataBacaan().getBl6());
+                    tvTrThnSkrgStand7.setText(response.body().getData().getQueryKardekDataBacaan().getBl7());
+                    tvTrThnSkrgStand8.setText(response.body().getData().getQueryKardekDataBacaan().getBl8());
+                    tvTrThnSkrgStand9.setText(response.body().getData().getQueryKardekDataBacaan().getBl9());
+                    tvTrThnSkrgStand10.setText(response.body().getData().getQueryKardekDataBacaan().getBl10());
+                    tvTrThnSkrgStand11.setText(response.body().getData().getQueryKardekDataBacaan().getBl11());
+                    tvTrThnSkrgStand12.setText(response.body().getData().getQueryKardekDataBacaan().getBl12());
+                    tvTrThnSkrgM31.setText(response.body().getData().getQueryKardekDataBacaan().getM31());
+                    tvTrThnSkrgM32.setText(response.body().getData().getQueryKardekDataBacaan().getM32());
+                    tvTrThnSkrgM33.setText(response.body().getData().getQueryKardekDataBacaan().getM33());
+                    tvTrThnSkrgM34.setText(response.body().getData().getQueryKardekDataBacaan().getM34());
+                    tvTrThnSkrgM35.setText(response.body().getData().getQueryKardekDataBacaan().getM35());
+                    tvTrThnSkrgM36.setText(response.body().getData().getQueryKardekDataBacaan().getM36());
+                    tvTrThnSkrgM37.setText(response.body().getData().getQueryKardekDataBacaan().getM37());
+                    tvTrThnSkrgM38.setText(response.body().getData().getQueryKardekDataBacaan().getM38());
+                    tvTrThnSkrgM39.setText(response.body().getData().getQueryKardekDataBacaan().getM39());
+                    tvTrThnSkrgM310.setText(response.body().getData().getQueryKardekDataBacaan().getM310());
+                    tvTrThnSkrgM311.setText(response.body().getData().getQueryKardekDataBacaan().getM311());
+                    tvTrThnSkrgM312.setText(response.body().getData().getQueryKardekDataBacaan().getM312());
+                    tvTrThnSkrgKondisi1.setText(response.body().getData().getQueryKardekDataBacaan().getNmst1());
+                    tvTrThnSkrgKondisi2.setText(response.body().getData().getQueryKardekDataBacaan().getNmst2());
+                    tvTrThnSkrgKondisi3.setText(response.body().getData().getQueryKardekDataBacaan().getNmst3());
+                    tvTrThnSkrgKondisi4.setText(response.body().getData().getQueryKardekDataBacaan().getNmst4());
+                    tvTrThnSkrgKondisi5.setText(response.body().getData().getQueryKardekDataBacaan().getNmst5());
+                    tvTrThnSkrgKondisi6.setText(response.body().getData().getQueryKardekDataBacaan().getNmst6());
+                    tvTrThnSkrgKondisi7.setText(response.body().getData().getQueryKardekDataBacaan().getNmst7());
+                    tvTrThnSkrgKondisi8.setText(response.body().getData().getQueryKardekDataBacaan().getNmst8());
+                    tvTrThnSkrgKondisi9.setText(response.body().getData().getQueryKardekDataBacaan().getNmst9());
+                    tvTrThnSkrgKondisi10.setText(response.body().getData().getQueryKardekDataBacaan().getNmst10());
+                    tvTrThnSkrgKondisi11.setText(response.body().getData().getQueryKardekDataBacaan().getNmst11());
+                    tvTrThnSkrgKondisi12.setText(response.body().getData().getQueryKardekDataBacaan().getNmst12());
+                    tvTrThnSkrgData1.setText(response.body().getData().getQueryKardekDataBacaan().getSc1());
+                    tvTrThnSkrgData2.setText(response.body().getData().getQueryKardekDataBacaan().getSc2());
+                    tvTrThnSkrgData3.setText(response.body().getData().getQueryKardekDataBacaan().getSc3());
+                    tvTrThnSkrgData4.setText(response.body().getData().getQueryKardekDataBacaan().getSc4());
+                    tvTrThnSkrgData5.setText(response.body().getData().getQueryKardekDataBacaan().getSc5());
+                    tvTrThnSkrgData6.setText(response.body().getData().getQueryKardekDataBacaan().getSc6());
+                    tvTrThnSkrgData7.setText(response.body().getData().getQueryKardekDataBacaan().getSc7());
+                    tvTrThnSkrgData8.setText(response.body().getData().getQueryKardekDataBacaan().getSc8());
+                    tvTrThnSkrgData9.setText(response.body().getData().getQueryKardekDataBacaan().getSc9());
+                    tvTrThnSkrgData10.setText(response.body().getData().getQueryKardekDataBacaan().getSc10());
+                    tvTrThnSkrgData11.setText(response.body().getData().getQueryKardekDataBacaan().getSc11());
+                    tvTrThnSkrgData12.setText(response.body().getData().getQueryKardekDataBacaan().getSc12());
+                    tvTrThnSkrgKeterangan1.setText(response.body().getData().getQueryKardekDataBacaan().getKt1());
+                    tvTrThnSkrgKeterangan2.setText(response.body().getData().getQueryKardekDataBacaan().getKt2());
+                    tvTrThnSkrgKeterangan3.setText(response.body().getData().getQueryKardekDataBacaan().getKt3());
+                    tvTrThnSkrgKeterangan4.setText(response.body().getData().getQueryKardekDataBacaan().getKt4());
+                    tvTrThnSkrgKeterangan5.setText(response.body().getData().getQueryKardekDataBacaan().getKt5());
+                    tvTrThnSkrgKeterangan6.setText(response.body().getData().getQueryKardekDataBacaan().getKt6());
+                    tvTrThnSkrgKeterangan7.setText(response.body().getData().getQueryKardekDataBacaan().getKt7());
+                    tvTrThnSkrgKeterangan8.setText(response.body().getData().getQueryKardekDataBacaan().getKt8());
+                    tvTrThnSkrgKeterangan9.setText(response.body().getData().getQueryKardekDataBacaan().getKt9());
+                    tvTrThnSkrgKeterangan10.setText(response.body().getData().getQueryKardekDataBacaan().getKt10());
+                    tvTrThnSkrgKeterangan11.setText(response.body().getData().getQueryKardekDataBacaan().getKt11());
+                    tvTrThnSkrgKeterangan12.setText(response.body().getData().getQueryKardekDataBacaan().getKt12());
+
+                    tvTrTahunSekarang.setText("Tahun " + response.body().getData().getQueryKardekDataBacaan().getTahun());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DataBacaanKardekRootModel> call, Throwable t) {
+                loading.dismiss();
+                Toast.makeText(ProfilePelangganDanTagihanActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     private void initView() {
         tvNolangg = findViewById(R.id.tv_nolangg);
@@ -442,5 +658,95 @@ public class ProfilePelangganDanTagihanActivity extends AppCompatActivity {
         ivFotoRumah = findViewById(R.id.iv_foto_rumah);
         rvFlat = findViewById(R.id.rv_flat);
         cvKlikFotoRumah = findViewById(R.id.cv_klik_foto_rumah);
+        divDataBacaan = findViewById(R.id.div_data_bacaan);
+        cvDataBacaan = findViewById(R.id.cv_data_bacaan);
+        edtDataBacaanTahun = findViewById(R.id.edt_data_bacaan_tahun);
+        tvTrTahunLalu = findViewById(R.id.tv_tr_tahun_lalu);
+        tvTrTahunSekarang = findViewById(R.id.tv_tr_tahun_sekarang);
+        tvTrThnLaluStand1 = findViewById(R.id.tv_tr_thn_lalu_stand1);
+        tvTrThnLaluM31 = findViewById(R.id.tv_tr_thn_lalu_m31);
+        tvTrThnSkrgStand1 = findViewById(R.id.tv_tr_thn_skrg_stand1);
+        tvTrThnSkrgM31 = findViewById(R.id.tv_tr_thn_skrg_m31);
+        tvTrThnSkrgKondisi1 = findViewById(R.id.tv_tr_thn_skrg_kondisi1);
+        tvTrThnSkrgData1 = findViewById(R.id.tv_tr_thn_skrg_data1);
+        tvTrThnSkrgKeterangan1 = findViewById(R.id.tv_tr_thn_skrg_keterangan1);
+        tvTrThnLaluStand2 = findViewById(R.id.tv_tr_thn_lalu_stand2);
+        tvTrThnLaluM32 = findViewById(R.id.tv_tr_thn_lalu_m32);
+        tvTrThnSkrgStand2 = findViewById(R.id.tv_tr_thn_skrg_stand2);
+        tvTrThnSkrgM32 = findViewById(R.id.tv_tr_thn_skrg_m32);
+        tvTrThnSkrgKondisi2 = findViewById(R.id.tv_tr_thn_skrg_kondisi2);
+        tvTrThnSkrgData2 = findViewById(R.id.tv_tr_thn_skrg_data2);
+        tvTrThnSkrgKeterangan2 = findViewById(R.id.tv_tr_thn_skrg_keterangan2);
+        tvTrThnLaluStand3 = findViewById(R.id.tv_tr_thn_lalu_stand3);
+        tvTrThnLaluM33 = findViewById(R.id.tv_tr_thn_lalu_m33);
+        tvTrThnSkrgStand3 = findViewById(R.id.tv_tr_thn_skrg_stand3);
+        tvTrThnSkrgM33 = findViewById(R.id.tv_tr_thn_skrg_m33);
+        tvTrThnSkrgKondisi3 = findViewById(R.id.tv_tr_thn_skrg_kondisi3);
+        tvTrThnSkrgData3 = findViewById(R.id.tv_tr_thn_skrg_data3);
+        tvTrThnSkrgKeterangan3 = findViewById(R.id.tv_tr_thn_skrg_keterangan3);
+        tvTrThnLaluStand4 = findViewById(R.id.tv_tr_thn_lalu_stand4);
+        tvTrThnLaluM34 = findViewById(R.id.tv_tr_thn_lalu_m34);
+        tvTrThnSkrgStand4 = findViewById(R.id.tv_tr_thn_skrg_stand4);
+        tvTrThnSkrgM34 = findViewById(R.id.tv_tr_thn_skrg_m34);
+        tvTrThnSkrgKondisi4 = findViewById(R.id.tv_tr_thn_skrg_kondisi4);
+        tvTrThnSkrgData4 = findViewById(R.id.tv_tr_thn_skrg_data4);
+        tvTrThnSkrgKeterangan4 = findViewById(R.id.tv_tr_thn_skrg_keterangan4);
+        tvTrThnLaluStand5 = findViewById(R.id.tv_tr_thn_lalu_stand5);
+        tvTrThnLaluM35 = findViewById(R.id.tv_tr_thn_lalu_m35);
+        tvTrThnSkrgStand5 = findViewById(R.id.tv_tr_thn_skrg_stand5);
+        tvTrThnSkrgM35 = findViewById(R.id.tv_tr_thn_skrg_m35);
+        tvTrThnSkrgKondisi5 = findViewById(R.id.tv_tr_thn_skrg_kondisi5);
+        tvTrThnSkrgData5 = findViewById(R.id.tv_tr_thn_skrg_data5);
+        tvTrThnSkrgKeterangan5 = findViewById(R.id.tv_tr_thn_skrg_keterangan5);
+        tvTrThnLaluStand6 = findViewById(R.id.tv_tr_thn_lalu_stand6);
+        tvTrThnLaluM36 = findViewById(R.id.tv_tr_thn_lalu_m36);
+        tvTrThnSkrgStand6 = findViewById(R.id.tv_tr_thn_skrg_stand6);
+        tvTrThnSkrgM36 = findViewById(R.id.tv_tr_thn_skrg_m36);
+        tvTrThnSkrgKondisi6 = findViewById(R.id.tv_tr_thn_skrg_kondisi6);
+        tvTrThnSkrgData6 = findViewById(R.id.tv_tr_thn_skrg_data6);
+        tvTrThnSkrgKeterangan6 = findViewById(R.id.tv_tr_thn_skrg_keterangan6);
+        tvTrThnLaluStand7 = findViewById(R.id.tv_tr_thn_lalu_stand7);
+        tvTrThnLaluM37 = findViewById(R.id.tv_tr_thn_lalu_m37);
+        tvTrThnSkrgStand7 = findViewById(R.id.tv_tr_thn_skrg_stand7);
+        tvTrThnSkrgM37 = findViewById(R.id.tv_tr_thn_skrg_m37);
+        tvTrThnSkrgKondisi7 = findViewById(R.id.tv_tr_thn_skrg_kondisi7);
+        tvTrThnSkrgData7 = findViewById(R.id.tv_tr_thn_skrg_data7);
+        tvTrThnSkrgKeterangan7 = findViewById(R.id.tv_tr_thn_skrg_keterangan7);
+        tvTrThnLaluStand8 = findViewById(R.id.tv_tr_thn_lalu_stand8);
+        tvTrThnLaluM38 = findViewById(R.id.tv_tr_thn_lalu_m38);
+        tvTrThnSkrgStand8 = findViewById(R.id.tv_tr_thn_skrg_stand8);
+        tvTrThnSkrgM38 = findViewById(R.id.tv_tr_thn_skrg_m38);
+        tvTrThnSkrgKondisi8 = findViewById(R.id.tv_tr_thn_skrg_kondisi8);
+        tvTrThnSkrgData8 = findViewById(R.id.tv_tr_thn_skrg_data8);
+        tvTrThnSkrgKeterangan8 = findViewById(R.id.tv_tr_thn_skrg_keterangan8);
+        tvTrThnLaluStand9 = findViewById(R.id.tv_tr_thn_lalu_stand9);
+        tvTrThnLaluM39 = findViewById(R.id.tv_tr_thn_lalu_m39);
+        tvTrThnSkrgStand9 = findViewById(R.id.tv_tr_thn_skrg_stand9);
+        tvTrThnSkrgM39 = findViewById(R.id.tv_tr_thn_skrg_m39);
+        tvTrThnSkrgKondisi9 = findViewById(R.id.tv_tr_thn_skrg_kondisi9);
+        tvTrThnSkrgData9 = findViewById(R.id.tv_tr_thn_skrg_data9);
+        tvTrThnSkrgKeterangan9 = findViewById(R.id.tv_tr_thn_skrg_keterangan9);
+        tvTrThnLaluStand10 = findViewById(R.id.tv_tr_thn_lalu_stand10);
+        tvTrThnLaluM310 = findViewById(R.id.tv_tr_thn_lalu_m310);
+        tvTrThnSkrgStand10 = findViewById(R.id.tv_tr_thn_skrg_stand10);
+        tvTrThnSkrgM310 = findViewById(R.id.tv_tr_thn_skrg_m310);
+        tvTrThnSkrgKondisi10 = findViewById(R.id.tv_tr_thn_skrg_kondisi10);
+        tvTrThnSkrgData10 = findViewById(R.id.tv_tr_thn_skrg_data10);
+        tvTrThnSkrgKeterangan10 = findViewById(R.id.tv_tr_thn_skrg_keterangan10);
+        tvTrThnLaluStand11 = findViewById(R.id.tv_tr_thn_lalu_stand11);
+        tvTrThnLaluM311 = findViewById(R.id.tv_tr_thn_lalu_m311);
+        tvTrThnSkrgStand11 = findViewById(R.id.tv_tr_thn_skrg_stand11);
+        tvTrThnSkrgM311 = findViewById(R.id.tv_tr_thn_skrg_m311);
+        tvTrThnSkrgKondisi11 = findViewById(R.id.tv_tr_thn_skrg_kondisi11);
+        tvTrThnSkrgData11 = findViewById(R.id.tv_tr_thn_skrg_data11);
+        tvTrThnSkrgKeterangan11 = findViewById(R.id.tv_tr_thn_skrg_keterangan11);
+        tvTrThnLaluStand12 = findViewById(R.id.tv_tr_thn_lalu_stand12);
+        tvTrThnLaluM312 = findViewById(R.id.tv_tr_thn_lalu_m312);
+        tvTrThnSkrgStand12 = findViewById(R.id.tv_tr_thn_skrg_stand12);
+        tvTrThnSkrgM312 = findViewById(R.id.tv_tr_thn_skrg_m312);
+        tvTrThnSkrgKondisi12 = findViewById(R.id.tv_tr_thn_skrg_kondisi12);
+        tvTrThnSkrgData12 = findViewById(R.id.tv_tr_thn_skrg_data12);
+        tvTrThnSkrgKeterangan12 = findViewById(R.id.tv_tr_thn_skrg_keterangan12);
+        btnCariBacaanTahun = findViewById(R.id.btn_cari_bacaan_tahun);
     }
 }

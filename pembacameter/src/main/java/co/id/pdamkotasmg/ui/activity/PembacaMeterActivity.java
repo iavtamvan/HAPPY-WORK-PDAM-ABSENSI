@@ -498,6 +498,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                     @SuppressLint("UseCompatLoadingForDrawables")
                     @Override
                     public void onResponse(Call<UpdatePembacaMeterRootModel> call, Response<UpdatePembacaMeterRootModel> response) {
+                        progressDialog.cancel();
                         if (response.isSuccessful()) {
                             if (rootPathImage == null || pathImageWatermark == null) {
                                 Log.d(TAG, "null path delete");
