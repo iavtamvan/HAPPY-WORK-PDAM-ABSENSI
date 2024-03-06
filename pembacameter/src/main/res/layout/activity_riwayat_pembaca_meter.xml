@@ -64,11 +64,21 @@
 
         <EditText
             android:id="@+id/edt_bendel"
-            android:layout_width="100dp"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
             android:maxLines="1"
             android:inputType="number"
             android:hint="Bendel"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:textSize="12dp" />
+
+        <EditText
+            android:id="@+id/edt_nolangg"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:maxLines="1"
+            android:inputType="number"
+            android:hint="nolangg"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:textSize="12dp" />
 

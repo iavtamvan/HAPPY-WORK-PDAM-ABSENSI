@@ -59,7 +59,7 @@ public class RiwayatPembacaMeterActivity extends AppCompatActivity {
     private void getDataRiwayatBacaMeter() {
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(RiwayatPembacaMeterActivity.this);
-        apiService.getRiwayatBacaMeter(token, binding.edtBendel.getText().toString().trim())
+        apiService.getRiwayatBacaMeter(token, binding.edtBendel.getText().toString().trim(), binding.edtNolangg.getText().toString().trim())
                 .enqueue(new Callback<RiwayatBacaMeterRootModel>() {
                     @Override
                     public void onResponse(Call<RiwayatBacaMeterRootModel> call, Response<RiwayatBacaMeterRootModel> response) {
@@ -69,7 +69,7 @@ public class RiwayatPembacaMeterActivity extends AppCompatActivity {
                                 Toast.makeText(RiwayatPembacaMeterActivity.this, Config.ERROR_NULL_DATA, Toast.LENGTH_SHORT).show();
                             } else {
                                 progressDialog.cancel();
-                                binding.tvTotalDataBendel.setText("Data : " + response.body().getData().size() + " Pelanggan");
+                                binding.tvTotalDataBendel.setText(response.body().getData().size() + " Data");
                                 riwayatBacaMeterAdapter = new RiwayatBacaMeterAdapter(RiwayatPembacaMeterActivity.this, response.body().getData());
                                 binding.rv.setLayoutManager(new LinearLayoutManager(RiwayatPembacaMeterActivity.this));
                                 binding.rv.setAdapter(riwayatBacaMeterAdapter);

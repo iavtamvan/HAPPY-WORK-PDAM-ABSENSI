@@ -52,6 +52,7 @@ public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMet
         holder.tvListPeriode.setText(dataItems.get(position).getPeriode());
         holder.tvListNama.setText(dataItems.get(position).getRlPelanggan().getNama());
         holder.tvListTglJamBaca.setText(dataItems.get(position).getTglBaca() + " " + dataItems.get(position).getJamBaca());
+        holder.tvAlamat.setText(dataItems.get(position).getRlPelanggan().getAlamat());
 
         holder.tvListStand.setText(dataItems.get(position).getKini() + " - " + dataItems.get(position).getM3() + " m3");
         holder.tvListStatusMeter.setText(dataItems.get(position).getRlStatusMeter().getStatus());
@@ -101,6 +102,7 @@ public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMet
         private TextView tvListStatusDibaca;
         private TextView tvListStand;
         private TextView tvListStatusMeter;
+        private TextView tvAlamat;
         private ImageView ivSuccessReq;
         private ImageView ivCloseReq;
 
@@ -116,6 +118,7 @@ public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMet
             tvListStatusMeter = itemView.findViewById(R.id.tv_status_meter);
             tvListTglJamBaca = itemView.findViewById(R.id.tv_list_tgl_jam_baca);
             tvListStatusDibaca = itemView.findViewById(R.id.tv_list_status_dibaca);
+            tvAlamat = itemView.findViewById(R.id.tv_alamat);
             ivSuccessReq = itemView.findViewById(R.id.iv_success_req);
             ivCloseReq = itemView.findViewById(R.id.iv_close_req);
         }

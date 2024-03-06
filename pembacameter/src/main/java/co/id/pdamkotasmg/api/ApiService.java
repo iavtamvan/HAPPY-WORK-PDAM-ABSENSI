@@ -50,7 +50,9 @@ public interface ApiService {
     @GET("pembaca-meter/api/m/user/riwayat")
     Call<RiwayatBacaMeterRootModel> getRiwayatBacaMeter(
             @Header("Authorization") String auth,
-            @Query("bendel") String bendel);
+            @Query("bendel") String bendel,
+            @Query("nolangg") String nolangg
+    );
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("pembaca-meter/api/m/ver/ditolak")
