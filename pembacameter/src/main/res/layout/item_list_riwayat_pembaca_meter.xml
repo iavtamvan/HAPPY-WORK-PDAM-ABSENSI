@@ -208,6 +208,31 @@
                                             android:textSize="13dp" />
 
                                     </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="5dp"
+                                            android:gravity="left"
+                                            android:text="Alamt: "
+                                            android:textColor="@color/grey"
+                                            android:textSize="10dp" />
+
+                                        <TextView
+                                            android:id="@+id/tv_alamat"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="left"
+                                            android:text="Madukoro AA/BB"
+                                            android:textColor="@color/black"
+                                            android:textSize="13dp" />
+
+                                    </LinearLayout>
 
                             </LinearLayout>
 

@@ -8,7 +8,6 @@ import co.id.pdamkotasmg.model.checkPelangganSudahDibaca.CheckPelangganRootModel
 import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
 import co.id.pdamkotasmg.model.home.HomeRootModel;
 import co.id.pdamkotasmg.model.listGabungan.ListGabunganRootModel;
-import co.id.pdamkotasmg.model.pelanggan.PelangganByNolanggRootModel;
 import co.id.pdamkotasmg.model.riwayatBacaMeter.RiwayatBacaMeterRootModel;
 import co.id.pdamkotasmg.model.updatePembacaMeter.UpdatePembacaMeterRootModel;
 import okhttp3.MultipartBody;
@@ -28,7 +27,7 @@ public interface ApiService {
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("pembaca-meter/api/m/plg-nolangg")
-    Call<PelangganByNolanggRootModel> getPelanggan(
+    Call<CheckPelangganRootModel> getPelanggan(
             @Header("Authorization") String auth,
             @Query("nolangg") String nolangg
     );

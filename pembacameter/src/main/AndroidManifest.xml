@@ -15,6 +15,9 @@
 
     <application android:icon="@mipmap/ic_launcher">
         <activity
+            android:name="co.id.pdamkotasmg.ui.activity.bendel.BendelPembacaActivity"
+            android:exported="false" />
+        <activity
             android:name="co.id.pdamkotasmg.ui.activity.VerifikasiDitolakActivity"
             android:exported="false" />
         <activity
@@ -28,24 +31,23 @@
             android:exported="false" />
         <activity
             android:name="co.id.pdamkotasmg.ui.activity.bendel.BendelDataActivity"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name="co.id.pdamkotasmg.ui.activity.InputActivity"-->
-<!--            android:exported="false" />-->
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name="co.id.pdamkotasmg.ui.activity.InputActivity" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name="co.id.pdamkotasmg.ui.activity.bendel.InputDataActivity"
             android:exported="false" />
         <activity
             android:name="co.id.pdamkotasmg.HomeActivity"
             android:exported="false"
-            android:label="@string/title_activity_home" />
-<!--        <activity-->
-<!--            android:name="co.id.pdamkotasmg.BottomActivity"-->
-<!--            android:exported="false"-->
-<!--            android:label="@string/title_activity_bottom" />-->
+            android:label="@string/title_activity_home" /> <!-- <activity -->
+        <!-- android:name="co.id.pdamkotasmg.BottomActivity" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_bottom" /> -->
         <activity
             android:name="co.id.pdamkotasmg.MainActivity"
             android:exported="false" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

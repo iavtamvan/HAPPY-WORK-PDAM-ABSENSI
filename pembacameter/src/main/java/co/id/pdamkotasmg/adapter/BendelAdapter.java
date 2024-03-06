@@ -29,7 +29,7 @@ import co.id.pdamkotasmg.model.bendel.DataItem;
 import co.id.pdamkotasmg.model.bendel.RlDataBacaSekarang;
 import co.id.pdamkotasmg.model.bendel.tandaiPlg.TandaiBendelRootModel;
 import co.id.pdamkotasmg.pembacameter.R;
-import co.id.pdamkotasmg.ui.activity.PembacaMeterActivity;
+import co.id.pdamkotasmg.ui.activity.bendel.BendelPembacaActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -105,10 +105,10 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
 
         holder.cvKlik.setOnClickListener(v -> {
             codeInputData = "1";
-            Intent intent = new Intent(context, PembacaMeterActivity.class);
+            Intent intent = new Intent(context, BendelPembacaActivity.class);
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, dataItems.get(position).getNolangg());
-            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL_NEXT, bendel);
-            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeInputData);
+//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL_NEXT, bendel);
+//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeInputData);
             context.startActivity(intent);
         });
 
@@ -124,13 +124,18 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
 //            Toast.makeText(context, "Sudah ditandai", Toast.LENGTH_SHORT).show();
 //        });
 
+        String kodeTandaiServer = dataItems.get(position).getRlDtBacaSekarang().get(0).getTandai();
         holder.divTandai.setOnClickListener(view -> {
-            String kodeTandai;
-            if (dataItems.get(position).getRlDtBacaSekarang().get(position).getTandai().equals("1")) {
+            String kodeTandai = null;
+            if (kodeTandaiServer == null) {
+                kodeTandai = "1";
+                holder.ivTandai.setVisibility(View.GONE);
+                holder.ivTandaiPelanggan.setVisibility(View.VISIBLE);
+            } else if (kodeTandaiServer.equals("1")) {
                 kodeTandai = "0";
                 holder.ivTandai.setVisibility(View.VISIBLE);
                 holder.ivTandaiPelanggan.setVisibility(View.GONE);
-            } else {
+            } else if (kodeTandaiServer.equals("0")){
                 kodeTandai = "1";
                 holder.ivTandai.setVisibility(View.GONE);
                 holder.ivTandaiPelanggan.setVisibility(View.VISIBLE);
