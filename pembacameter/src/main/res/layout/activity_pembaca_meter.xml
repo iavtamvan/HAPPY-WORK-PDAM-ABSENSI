@@ -47,10 +47,10 @@
 
             <ImageView
                 android:id="@+id/iv_header_info"
-                android:layout_width="25dp"
+                android:layout_width="50dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:src="@drawable/info" />
+                android:src="@drawable/ic_history" />
 
         </LinearLayout>
     </LinearLayout>

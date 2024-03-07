@@ -33,6 +33,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.pdamkotasmg.goodday.fitur.menuLainnya.ProfilePelangganDanTagihanActivity;
 import com.pdamkotasmg.goodday.utils.Config;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
@@ -127,7 +128,6 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
         binding.ivHeaderBackArrow.setOnClickListener(view -> PembacaMeterActivity.this.finish());
         binding.tvHeaderJudul.setText("Input Bacaan");
-        binding.ivHeaderInfo.setVisibility(View.GONE);
 
         sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         editorSp = sp.edit();
@@ -378,6 +378,13 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
                 // TODO Selesai
             }
+        });
+
+        binding.ivHeaderInfo.setOnClickListener(view -> {
+            Intent intent = new Intent(PembacaMeterActivity.this, ProfilePelangganDanTagihanActivity.class);
+            intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
+            startActivity(intent);
+
         });
     }
 

@@ -127,6 +127,7 @@ public class HomeFragment extends Fragment {
 
             tvTutupDialog.setOnClickListener(view1 -> {
                 bottomSheetDialogResultCariData.dismiss();
+                bottomSheetDialogResultCariData.dismiss();
             });
 
             divProfilPelanggan.setOnClickListener(view1 -> {
@@ -142,6 +143,7 @@ public class HomeFragment extends Fragment {
                     if (nolangg.isEmpty()) {
                         Toast.makeText(getActivity(), "Isi nolangg", Toast.LENGTH_SHORT).show();
                     } else {
+                        bottomSheetDialogResultCariData.dismiss();
                         Intent intent = new Intent(getActivity(), ProfilePelangganDanTagihanActivity.class);
                         intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
                         startActivity(intent);
@@ -154,6 +156,7 @@ public class HomeFragment extends Fragment {
 
             divCariNamaAlamatNometer.setOnClickListener(view1 -> {
                 startActivity(new Intent(getActivity(), CariDataActivity.class));
+                bottomSheetDialogResultCariData.dismiss();
             });
 
             bottomSheetDialogResultCariData.show();
