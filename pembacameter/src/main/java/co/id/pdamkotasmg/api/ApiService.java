@@ -3,6 +3,7 @@ package co.id.pdamkotasmg.api;
 import co.id.pdamkotasmg.model.bendel.BendelRootModel;
 import co.id.pdamkotasmg.model.bendel.bendelNext.BendelNextModel;
 import co.id.pdamkotasmg.model.bendel.tandaiPlg.TandaiBendelRootModel;
+import co.id.pdamkotasmg.model.cariData.CariDataRootModel;
 import co.id.pdamkotasmg.model.checkByNolangg.CheckByNolanggRootModel;
 import co.id.pdamkotasmg.model.checkPelangganSudahDibaca.CheckPelangganRootModel;
 import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
@@ -52,6 +53,15 @@ public interface ApiService {
             @Header("Authorization") String auth,
             @Query("bendel") String bendel,
             @Query("nolangg") String nolangg
+    );
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("pembaca-meter/api/m/cari-plg")
+    Call<CariDataRootModel> getCariData(
+            @Header("Authorization") String auth,
+            @Query("nama") String nama,
+            @Query("alamat") String alamat,
+            @Query("nometer") String nometer
     );
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})

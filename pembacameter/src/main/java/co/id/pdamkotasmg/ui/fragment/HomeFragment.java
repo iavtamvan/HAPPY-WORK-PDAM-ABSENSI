@@ -12,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.pdamkotasmg.goodday.fitur.menuLainnya.ProfilePelangganDanTagihanActivity;
 import com.pdamkotasmg.goodday.fitur.profil.ProfileActivity;
 import com.pdamkotasmg.goodday.fitur.profil.controller.ProfileController;
@@ -28,7 +31,9 @@ import java.util.Calendar;
 import co.id.pdamkotasmg.api.ApiConfig;
 import co.id.pdamkotasmg.api.ApiService;
 import co.id.pdamkotasmg.model.home.HomeRootModel;
+import co.id.pdamkotasmg.pembacameter.R;
 import co.id.pdamkotasmg.pembacameter.databinding.FragmentHomeBinding;
+import co.id.pdamkotasmg.ui.activity.CariDataActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -113,26 +118,47 @@ public class HomeFragment extends Fragment {
         });
 
         binding.divInProfilPelanggan.setOnClickListener(view -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage("Nolangg");
+            final BottomSheetDialog bottomSheetDialogResultCariData = new BottomSheetDialog(getActivity());
+            bottomSheetDialogResultCariData.setContentView(R.layout.bottom_sheet_dialog_cari_data);
 
-            final EditText input = new EditText(getActivity());
-            input.setInputType(InputType.TYPE_CLASS_TEXT);
-            builder.setView(input);
+            TextView tvTutupDialog = bottomSheetDialogResultCariData.findViewById(R.id.tv_tutup_dialog);
+            LinearLayout divProfilPelanggan = bottomSheetDialogResultCariData.findViewById(R.id.div_profil_pelanggan);
+            LinearLayout divCariNamaAlamatNometer = bottomSheetDialogResultCariData.findViewById(R.id.div_cari_nama_alamat_nometer);
 
-            builder.setPositiveButton("OK", (dialog, which) -> {
-                nolangg = input.getText().toString();
-                if (nolangg.isEmpty()) {
-                    Toast.makeText(getActivity(), "Isi nolangg", Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent intent = new Intent(getActivity(), ProfilePelangganDanTagihanActivity.class);
-                    intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
-                    startActivity(intent);
-                }
+            tvTutupDialog.setOnClickListener(view1 -> {
+                bottomSheetDialogResultCariData.dismiss();
             });
-            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
-            builder.show();
+            divProfilPelanggan.setOnClickListener(view1 -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Nolangg");
+
+                final EditText input = new EditText(getActivity());
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                builder.setPositiveButton("OK", (dialog, which) -> {
+                    nolangg = input.getText().toString();
+                    if (nolangg.isEmpty()) {
+                        Toast.makeText(getActivity(), "Isi nolangg", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intent = new Intent(getActivity(), ProfilePelangganDanTagihanActivity.class);
+                        intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+                builder.show();
+            });
+
+            divCariNamaAlamatNometer.setOnClickListener(view1 -> {
+                startActivity(new Intent(getActivity(), CariDataActivity.class));
+            });
+
+            bottomSheetDialogResultCariData.show();
+
+
         });
 
         Log.d(TAG, "Access Token Pembaca Meter " + token);
