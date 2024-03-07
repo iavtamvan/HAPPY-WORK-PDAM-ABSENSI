@@ -620,7 +620,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:gravity="left|center_vertical"
-            android:text="Pastikan semua data benar - System v.0.1"
+            android:text="Pastikan semua data benar - System v.0.9"
             android:textColor="@color/dash_v2_bluedark"
             android:textSize="11dp"
             android:textStyle="italic" />
