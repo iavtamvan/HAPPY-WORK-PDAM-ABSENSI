@@ -18,12 +18,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_refresh"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_refresh_data" />
+
         <TextView
             android:id="@+id/tv_tutup_dialog"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="30dp"
-            android:paddingLeft="40dp"
             android:gravity="center"
             android:text="Hasil Bacaan"
             android:textColor="@color/black"
@@ -48,7 +53,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
         android:gravity="center"
-        android:text="Berhasil Disimpan"
+        android:text="--"
         android:textColor="@color/greenGojek"
         android:textSize="25dp" />
 
@@ -427,7 +432,7 @@
             android:fontFamily="@font/poppins"
             android:gravity="center|left"
             android:paddingLeft="10dp"
-            android:text="Edit Data Bacaan"
+            android:text="Lihat &amp; Edit Data Bacaan"
             android:textColor="@color/primary"
             android:textSize="13dp" />
     </LinearLayout>

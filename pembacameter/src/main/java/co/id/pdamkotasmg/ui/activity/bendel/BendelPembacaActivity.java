@@ -22,6 +22,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -696,6 +697,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
         TextView tvManometer = bottomSheetDialogResultDataBacaan.findViewById(R.id.tv_manometer);
         TextView tvPetugas = bottomSheetDialogResultDataBacaan.findViewById(R.id.tv_petugas);
         PhotoView photoView = bottomSheetDialogResultDataBacaan.findViewById(R.id.photoView);
+        ImageView ivRefreshData = bottomSheetDialogResultDataBacaan.findViewById(R.id.iv_refresh);
         LinearLayout divEdit = bottomSheetDialogResultDataBacaan.findViewById(R.id.div_edit);
         LinearLayout divLihatRiwayat = bottomSheetDialogResultDataBacaan.findViewById(R.id.div_lihat_riwayat);
 
@@ -717,13 +719,88 @@ public class BendelPembacaActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), RiwayatPembacaMeterActivity.class));
         });
 
+        ivRefreshData.setOnClickListener(view -> {
+            progressDialog.show();
+            getDataHasilBacaan(tvTutupDialog, tvResultMsgServer, tvNolangg, tvDism, tvNama, tvPeriode, tvAlamat, tvStatusMeter, tvTarif, tvKtLain, tvMerekMeter, tvKini, tvManometer, tvPetugas, photoView);
+        });
+
+        getDataHasilBacaan(tvTutupDialog, tvResultMsgServer, tvNolangg, tvDism, tvNama, tvPeriode, tvAlamat, tvStatusMeter, tvTarif, tvKtLain, tvMerekMeter, tvKini, tvManometer, tvPetugas, photoView);
+//        ApiService apiService = ApiConfig.getApiService(BendelPembacaActivity.this);
+//        apiService.getPelanggan(token, nolangg)
+//                .enqueue(new Callback<CheckPelangganRootModel>() {
+//                    @Override
+//                    public void onResponse(Call<CheckPelangganRootModel> call, Response<CheckPelangganRootModel> response) {
+//                        progressDialog.cancel();
+//                        if (response.isSuccessful()) {
+//                            tvTutupDialog.setText("Hasil Bacaan " + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
+//                            tvResultMsgServer.setText("Berhasil Disimpan " + response.body().getMessage());
+//                            tvNolangg.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getNolangg());
+//                            tvDism.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getDism());
+//                            tvNama.setText(response.body().getData().get(0).getNama());
+//                            tvPeriode.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
+//                            tvAlamat.setText(response.body().getData().get(0).getAlamat());
+//                            tvStatusMeter.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlStMeter().getStatus());
+//                            tvTarif.setText(response.body().getData().get(0).getRlTarif().getNmTarif());
+//
+//                            String keterangan = response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKt();
+//                            if (keterangan == null) {
+//                                keterangan = "-";
+//                            }
+//                            tvKtLain.setText(keterangan);
+//                            tvMerekMeter.setText(response.body().getData().get(0).getMerek() + " - " + response.body().getData().get(0).getNomormtr());
+//                            tvKini.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKini());
+//                            tvManometer.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getManometer());
+//                            tvPetugas.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPcEntry() + " - " + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getIpEntry());
+//                            Glide.with(BendelPembacaActivity.this).load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
+//                                    .error(R.drawable.image_not_found)
+//                                    .override(512, 512)
+//                                    .into(photoView);
+//
+//                        } else {
+//                            progressDialog.cancel();
+//                            Toast.makeText(BendelPembacaActivity.this, "bottomSheetSuksesSimpanData: Error", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<CheckPelangganRootModel> call, Throwable t) {
+//                        progressDialog.cancel();
+//                        tvResultMsgServer.setText("Failure: Gagal mengambil data");
+//                        Toast.makeText(BendelPembacaActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                });
+
+        bottomSheetDialogResultDataBacaan.show();
+
+
+    }
+
+    private void getDataHasilBacaan(
+            TextView tvTutupDialog,
+            TextView tvResultMsgServer,
+            TextView tvNolangg,
+            TextView tvDism,
+            TextView tvNama,
+            TextView tvPeriode,
+            TextView tvAlamat,
+            TextView tvStatusMeter,
+            TextView tvTarif,
+            TextView tvKtLain,
+            TextView tvMerekMeter,
+            TextView tvKini,
+            TextView tvManometer,
+            TextView tvPetugas,
+            PhotoView photoView
+
+    ) {
         ApiService apiService = ApiConfig.getApiService(BendelPembacaActivity.this);
         apiService.getPelanggan(token, nolangg)
                 .enqueue(new Callback<CheckPelangganRootModel>() {
                     @Override
                     public void onResponse(Call<CheckPelangganRootModel> call, Response<CheckPelangganRootModel> response) {
-                        progressDialog.cancel();
                         if (response.isSuccessful()) {
+                            progressDialog.cancel();
                             tvTutupDialog.setText("Hasil Bacaan " + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
                             tvResultMsgServer.setText("Berhasil Disimpan " + response.body().getMessage());
                             tvNolangg.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getNolangg());
@@ -757,13 +834,10 @@ public class BendelPembacaActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<CheckPelangganRootModel> call, Throwable t) {
                         progressDialog.cancel();
+                        tvResultMsgServer.setText("Failure: Gagal mengambil data");
                         Toast.makeText(BendelPembacaActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
 
                     }
                 });
-
-        bottomSheetDialogResultDataBacaan.show();
-
-
     }
 }
