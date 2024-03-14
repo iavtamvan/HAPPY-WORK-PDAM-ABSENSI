@@ -39,6 +39,7 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.pdamkotasmg.goodday.BuildConfig;
 import com.pdamkotasmg.goodday.fitur.menuLainnya.ProfilePelangganDanTagihanActivity;
 import com.pdamkotasmg.goodday.utils.Config;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
@@ -252,8 +253,11 @@ public class BendelPembacaActivity extends AppCompatActivity {
         String timestamp = String.valueOf(currentTime.getTime());
         String year = new SimpleDateFormat("y", Locale.getDefault()).format(new Date());
         String month = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
+        UUID randomUUID = UUID.randomUUID();
+        String randomUUIDString = randomUUID.toString();
+
         RequestBody path = RequestBody.create(MediaType.parse("text/plain"), "/pembaca-meter/foto-pembaca-meter/" + year + "/" + month);
-        RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), "pembaca-meter-" + nolangg + "-" + npp + "-" + year + month + "-" + timestamp);
+        RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), "pembaca-meter-" + randomUUIDString + "-" + nolangg + "-" + npp + "-" + year + month + "-" + timestamp);
 
         File imageFileMeter = new File(compressedImageFile1.getPath());
         RequestBody requestFilePhotoKtp = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileMeter);
@@ -282,9 +286,10 @@ public class BendelPembacaActivity extends AppCompatActivity {
 
     private void postDataPembacaMeter() {
         ApiService apiService = ApiConfig.getApiService(BendelPembacaActivity.this);
-        apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, modelDevice,
+        apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, "khusus-bendel",
                         kodeStatusMeter, binding.edtKeterangan.getText().toString().trim(),
-                        action_code, String.valueOf(lati), String.valueOf(longi), address_gps, binding.edtManometer.getText().toString().trim(), modelDevice)
+                        action_code, String.valueOf(lati), String.valueOf(longi), address_gps, binding.edtManometer.getText().toString().trim(),
+                        BuildConfig.VERSION_CODE + "-" + BuildConfig.VERSION_NAME + " - " + modelDevice)
                 .enqueue(new Callback<UpdatePembacaMeterRootModel>() {
                     @SuppressLint("UseCompatLoadingForDrawables")
                     @Override
@@ -531,6 +536,13 @@ public class BendelPembacaActivity extends AppCompatActivity {
             @Override
             public void onMediaFilesPicked(@NonNull MediaFile[] mediaFiles, @NonNull MediaSource mediaSource) {
 
+                UUID randomUUID = UUID.randomUUID();
+                String randomUUIDString = randomUUID.toString();
+
+                Date currentTime = Calendar.getInstance().getTime();
+                String timestamp = String.valueOf(currentTime.getTime());
+
+
                 try {
                     compressedImageFile1 = new Compressor(BendelPembacaActivity.this)
                             .setMaxHeight(400)
@@ -538,8 +550,9 @@ public class BendelPembacaActivity extends AppCompatActivity {
                             .setQuality(50)
                             .setCompressFormat(Bitmap.CompressFormat.WEBP)
                             .setDestinationDirectoryPath(mediaFiles[0].getFile().getParent())
-                            .compressToFile(mediaFiles[0].getFile(), "comp1_PM_" + mediaFiles[0].getFile().getName());
+                            .compressToFile(mediaFiles[0].getFile(), "comp1_PM_" + nolangg + "_" + timestamp + "_" + randomUUIDString + "_" + mediaFiles[0].getFile().getName());
                     showImageWatermark(compressedImageFile1.getPath());
+//                    Log.d(TAG, "onMediaFilesPicked: " + compressedImageFile1.getPath());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
