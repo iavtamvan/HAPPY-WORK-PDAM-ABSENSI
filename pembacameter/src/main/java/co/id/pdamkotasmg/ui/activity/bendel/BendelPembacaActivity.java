@@ -624,8 +624,8 @@ public class BendelPembacaActivity extends AppCompatActivity {
 
                         // Set the final image with watermark to the ImageView
 //                        binding.ivCamera.setImageBitmap(resource);
-//                        binding.photoView.setImageBitmap(resource);
-                        Glide.with(BendelPembacaActivity.this).load(resource).error(R.drawable.image_not_found).into(binding.photoView);
+                        binding.photoView.setImageBitmap(resource);
+//                        Glide.with(BendelPembacaActivity.this).load(resource).error(R.drawable.image_not_found).into(binding.photoView);
 
                         saveImageToExternalStorage(resource);
                     }
