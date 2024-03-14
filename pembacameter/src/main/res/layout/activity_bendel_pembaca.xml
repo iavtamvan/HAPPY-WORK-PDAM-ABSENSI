@@ -460,7 +460,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="15dp"
-                                android:layout_weight="1"
                                 android:gravity="left|center"
                                 android:text=" m3"
                                 android:textColor="@color/black"
@@ -469,8 +468,9 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="200dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
