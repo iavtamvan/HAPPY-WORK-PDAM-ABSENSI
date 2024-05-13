@@ -1,7 +1,9 @@
 package com.pdamkotasmg.goodday.fitur.menuLainnya;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +31,8 @@ public class WebViewActivity extends AppCompatActivity {
     private TextView tvHeaderJudul;
     private ImageView ivHeaderInfo;
 
+    private ProgressDialog progressDialog;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -49,6 +53,10 @@ public class WebViewActivity extends AppCompatActivity {
         Log.d("debug", "onCreate: " + token);
         typeWebView = sharedPreferences.getString(Config.SHARED_TYPE_WEB_vIEW, "");
 
+        progressDialog = new ProgressDialog(WebViewActivity.this);
+        progressDialog.setMessage("Mohon tunggu...");
+        progressDialog.setCancelable(false);
+
         wv.getSettings().setLoadsImagesAutomatically(true);
         wv.getSettings().setJavaScriptEnabled(true);
         wv.getSettings().setDomStorageEnabled(true);
@@ -61,7 +69,7 @@ public class WebViewActivity extends AppCompatActivity {
 
         // Baris di bawah untuk menambahkan scrollbar di dalam WebView-nya
         wv.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        wv.setWebViewClient(new WebViewClient());
+        wv.setWebViewClient(new MyWebViewClient());
 
         if (typeWebView.contains("gistirta")) {
             tvHeaderJudul.setText("Gis Tirta Moedal");
@@ -83,6 +91,24 @@ public class WebViewActivity extends AppCompatActivity {
             tvHeaderJudul.setText("Moon Fish");
             wv.loadUrl("https://gateway.pdamkotasmg.co.id/moonfish/#/oauth?token=" + token);
             Toast.makeText(this, "moonfish", Toast.LENGTH_SHORT).show();
+        }else if (typeWebView.contains("cekkoneksi")) {
+            tvHeaderJudul.setText("Cek Koneksi");
+            wv.loadUrl("https://www.speedtest.net/");
+            Toast.makeText(this, "Cek Koneksi", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class MyWebViewClient extends WebViewClient {
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            progressDialog.show();
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            progressDialog.cancel();
         }
     }
 

@@ -1,8 +1,9 @@
 package co.id.pdamkotasmg.ui.fragment;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.pdamkotasmg.goodday.fitur.menuLainnya.ProfilePelangganDanTagihanActivity;
+import com.pdamkotasmg.goodday.fitur.menuLainnya.WebViewActivity;
 import com.pdamkotasmg.goodday.fitur.profil.ProfileActivity;
 import com.pdamkotasmg.goodday.fitur.profil.controller.ProfileController;
 import com.pdamkotasmg.goodday.utils.Config;
@@ -57,7 +59,7 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
 //        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        SharedPreferences sp = getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sp = getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
         nama = sp.getString(Config.SHARED_NAME, "");
         npp = sp.getString(Config.SHARED_NPP_PROFILE, "");
@@ -127,7 +129,6 @@ public class HomeFragment extends Fragment {
 
             tvTutupDialog.setOnClickListener(view1 -> {
                 bottomSheetDialogResultCariData.dismiss();
-                bottomSheetDialogResultCariData.dismiss();
             });
 
             divProfilPelanggan.setOnClickListener(view1 -> {
@@ -162,6 +163,34 @@ public class HomeFragment extends Fragment {
             bottomSheetDialogResultCariData.show();
 
 
+        });
+
+        binding.divInCekKoneksi.setOnClickListener(view -> {
+            final BottomSheetDialog bottomSheetDialogCheckKoneksi = new BottomSheetDialog(getActivity());
+            bottomSheetDialogCheckKoneksi.setContentView(R.layout.bottom_sheet_dialog_check_koneksi);
+
+            TextView tvTutupDialog = bottomSheetDialogCheckKoneksi.findViewById(R.id.tv_tutup_dialog);
+            LinearLayout divCheckKoneksiHp = bottomSheetDialogCheckKoneksi.findViewById(R.id.div_check_koneksi_hp);
+            LinearLayout divCheckKoneksiServer = bottomSheetDialogCheckKoneksi.findViewById(R.id.div_check_koneksi_server);
+
+            tvTutupDialog.setOnClickListener(view1 -> {
+                bottomSheetDialogCheckKoneksi.dismiss();
+            });
+
+            divCheckKoneksiHp.setOnClickListener(view1 -> {
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(Config.SHARED_TYPE_WEB_vIEW, "cekkoneksi");
+                editor.commit();
+
+                getActivity().startActivity(new Intent(getActivity(), WebViewActivity.class));
+            });
+
+            divCheckKoneksiServer.setOnClickListener(view1 -> {
+
+            });
+
+            bottomSheetDialogCheckKoneksi.show();
         });
 
         Log.d(TAG, "Access Token Pembaca Meter " + token);

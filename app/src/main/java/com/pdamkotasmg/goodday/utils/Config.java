@@ -368,7 +368,7 @@ public final class Config {
     public static void deleteFolders(String pathFolder, String msgLog) throws IOException {
         File dir = new File(pathFolder);
         FileUtils.deleteDirectory(dir);
-        Log.d(TAG, "deleted : true > " + dir);
+        Log.d(TAG, "deleted : true > " + dir + " -- " + msgLog);
     }
 
     public static void showNotification(Context context, String title, String content, Class classThis) {
