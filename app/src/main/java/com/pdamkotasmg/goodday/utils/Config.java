@@ -237,6 +237,7 @@ public final class Config {
     public static final String BUNDLE_PEMBACA_METER_SUMBER_LAIN = "pembaca_meter_sumber_lain";
     public static final String BUNDLE_PEMBACA_METER_MEREK_METER = "pembaca_meter_merek_meter";
     public static final String BUNDLE_PEMBACA_METER_LALU = "pembaca_meter_lalu";
+    public static final String BUNDLE_PEMBACA_METER_PING_INTERNET = "bundle_pembaca_meter_ping_internet";
 
 
     public static final String SHARED_PERIODE = "shared_periode";

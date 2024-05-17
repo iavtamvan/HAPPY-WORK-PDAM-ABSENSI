@@ -343,7 +343,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins"
-                            android:text="Semua data pencarian ada disini"
+                            android:text="Semua data pencarian pelanggan ada disini"
                             android:textColor="@color/grey_dark"
                             android:textStyle="bold"
                             android:textSize="9dp" />
@@ -394,45 +394,17 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/div_in_per_pelanggan"
-                    app:cardCornerRadius="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/dash_v2_yellowLight">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="30dp"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_pencil" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:fontFamily="@font/poppins"
-                            android:text="Data Bacaan &amp; Foto 1thn"
-                            android:textColor="@color/black"
-                            android:textSize="13dp" />
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
             </LinearLayout>
 
-
+            <TextView
+                android:id="@+id/terminal_output"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_weight="1"
+                android:background="#000"
+                android:textColor="#00FF00"
+                android:visibility="gone"
+                android:textSize="12sp" />
 
         </LinearLayout>
     </ScrollView>

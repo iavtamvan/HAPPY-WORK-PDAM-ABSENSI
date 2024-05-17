@@ -4,7 +4,10 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
@@ -19,6 +22,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.pdamkotasmg.goodday.fitur.menuLainnya.ProfilePelangganDanTagihanActivity;
@@ -29,12 +35,17 @@ import com.pdamkotasmg.goodday.utils.Config;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import java.util.Calendar;
+import java.util.List;
 
+import co.id.pdamkotasmg.adapter.CheckKoneksiServerAdapter;
 import co.id.pdamkotasmg.api.ApiConfig;
 import co.id.pdamkotasmg.api.ApiService;
+import co.id.pdamkotasmg.model.checkKoneksi.CheckItem;
+import co.id.pdamkotasmg.model.checkKoneksi.CheckKoneksiServerRootModel;
 import co.id.pdamkotasmg.model.home.HomeRootModel;
 import co.id.pdamkotasmg.pembacameter.R;
 import co.id.pdamkotasmg.pembacameter.databinding.FragmentHomeBinding;
+import co.id.pdamkotasmg.service.PingService;
 import co.id.pdamkotasmg.ui.activity.CariDataActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,6 +57,8 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private ProfileController profileController;
     private ProgressDialog progressDialog;
+    private BroadcastReceiver receiver;
+    private StringBuilder terminalOutputBuilder = new StringBuilder();
     private String token;
     private String npp;
     private String nama;
@@ -171,6 +184,7 @@ public class HomeFragment extends Fragment {
 
             TextView tvTutupDialog = bottomSheetDialogCheckKoneksi.findViewById(R.id.tv_tutup_dialog);
             LinearLayout divCheckKoneksiHp = bottomSheetDialogCheckKoneksi.findViewById(R.id.div_check_koneksi_hp);
+            LinearLayout divCheckPingInternet = bottomSheetDialogCheckKoneksi.findViewById(R.id.div_stabilitas_ping);
             LinearLayout divCheckKoneksiServer = bottomSheetDialogCheckKoneksi.findViewById(R.id.div_check_koneksi_server);
 
             tvTutupDialog.setOnClickListener(view1 -> {
@@ -186,8 +200,30 @@ public class HomeFragment extends Fragment {
                 getActivity().startActivity(new Intent(getActivity(), WebViewActivity.class));
             });
 
-            divCheckKoneksiServer.setOnClickListener(view1 -> {
+            divCheckPingInternet.setOnClickListener(view1 -> {
+            // Mendaftarkan BroadcastReceiver untuk menerima pesan dari layanan
+                progressDialog.show();
+                receiver = new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        if ("ping_result".equals(intent.getAction())) {
+                            String output = intent.getStringExtra(Config.BUNDLE_PEMBACA_METER_PING_INTERNET);
+                            // Menampilkan output ping di TextView
+//                            binding.terminalOutput.append(output + "\n");
+                            Log.d(TAG, output + "\n");
+//                            Toast.makeText(context, "Ping running ...", Toast.LENGTH_SHORT).show();
+                        }
+                        progressDialog.cancel();
+                    }
+                };
+                LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter("ping_result"));
 
+                // Memulai layanan
+                getActivity().startService(new Intent(getActivity(), PingService.class));
+            });
+
+            divCheckKoneksiServer.setOnClickListener(view1 -> {
+                showPopup();
             });
 
             bottomSheetDialogCheckKoneksi.show();
@@ -225,10 +261,55 @@ public class HomeFragment extends Fragment {
                 });
     }
 
+    private CheckKoneksiServerAdapter checkKoneksiServerAdapter;
+    private List<CheckItem> checkItems;
+    // Metode untuk menampilkan popup
+    private void showPopup() {
+        progressDialog.show();
+        final BottomSheetDialog bottomSheetDialogCheckKoneksiServer = new BottomSheetDialog(getActivity());
+        bottomSheetDialogCheckKoneksiServer.setContentView(R.layout.popup_check_koneksi_server);
+
+        RecyclerView rvCheckKoneksiServer = bottomSheetDialogCheckKoneksiServer.findViewById(R.id.rv_pop_up_chec_koneksi_server);
+        TextView tvTutup = bottomSheetDialogCheckKoneksiServer.findViewById(R.id.tv_tutup_dialog);
+        TextView tvStServer = bottomSheetDialogCheckKoneksiServer.findViewById(R.id.tv_st_server);
+
+        ApiService apiService = ApiConfig.getApiService(getActivity());
+        apiService.getTestPing().enqueue(new Callback<CheckKoneksiServerRootModel>() {
+            @Override
+            public void onResponse(Call<CheckKoneksiServerRootModel> call, Response<CheckKoneksiServerRootModel> response) {
+                if (response.isSuccessful()){
+                    progressDialog.cancel();
+                    // Menampilkan dialog
+                    bottomSheetDialogCheckKoneksiServer.show();
+                    tvStServer.setText("Status Semua Server : " + response.body().getData().getEnd());
+                    checkItems = response.body().getData().getCheck();
+                    checkKoneksiServerAdapter = new CheckKoneksiServerAdapter(getActivity(), checkItems);
+                    rvCheckKoneksiServer.setAdapter(checkKoneksiServerAdapter);
+                    rvCheckKoneksiServer.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    checkKoneksiServerAdapter.notifyDataSetChanged();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CheckKoneksiServerRootModel> call, Throwable t) {
+                progressDialog.cancel();
+                Toast.makeText(getActivity(), "Failed check", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        tvTutup.setOnClickListener(view -> {
+            bottomSheetDialogCheckKoneksiServer.cancel();
+        });
+
+
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+
     }
 
     @Override

@@ -5,6 +5,7 @@ import co.id.pdamkotasmg.model.bendel.bendelNext.BendelNextModel;
 import co.id.pdamkotasmg.model.bendel.tandaiPlg.TandaiBendelRootModel;
 import co.id.pdamkotasmg.model.cariData.CariDataRootModel;
 import co.id.pdamkotasmg.model.checkByNolangg.CheckByNolanggRootModel;
+import co.id.pdamkotasmg.model.checkKoneksi.CheckKoneksiServerRootModel;
 import co.id.pdamkotasmg.model.checkPelangganSudahDibaca.CheckPelangganRootModel;
 import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
 import co.id.pdamkotasmg.model.home.HomeRootModel;
@@ -80,6 +81,9 @@ public interface ApiService {
     Call<HomeRootModel> getCountPeriode(
             @Header("Authorization") String auth
     );
+
+    @GET("pembaca-meter/api/n/test")
+    Call<CheckKoneksiServerRootModel> getTestPing();
 
     @FormUrlEncoded
     @POST("pembaca-meter/api/p/bendel")
