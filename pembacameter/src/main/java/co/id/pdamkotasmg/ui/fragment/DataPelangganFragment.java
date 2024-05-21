@@ -25,7 +25,7 @@ public class DataPelangganFragment extends Fragment {
         binding = FragmentDataPelangganBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage("Mohon Tunggu...");
         progressDialog.show();
 
         WebSettings webSettings = binding.webView.getSettings();
