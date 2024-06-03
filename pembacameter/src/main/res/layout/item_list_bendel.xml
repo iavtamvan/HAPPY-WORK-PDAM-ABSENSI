@@ -70,6 +70,7 @@
                                 android:orientation="horizontal">
 
                                 <LinearLayout
+                                    android:id="@+id/div_nolangg"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -94,6 +95,22 @@
 
 
                                 </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/div_copy"
+                                    android:layout_width="25dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="4dp"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="16dp"
+                                        android:layout_height="20dp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="2dp"
+                                        android:src="@drawable/copy" />
+                                </LinearLayout>
+
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -143,32 +160,6 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:gravity="left"
-                                        android:text="--"
-                                        android:textColor="@color/black"
-                                        android:textSize="12dp" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="2dp"
-                                    android:layout_marginRight="2dp"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="ST: "
-                                        android:textColor="@color/grey"
-                                        android:textSize="10dp" />
-
-                                    <TextView
-                                        android:id="@+id/tv_list_bendel_st"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
                                         android:text="--"
                                         android:textColor="@color/black"
                                         android:textSize="12dp" />
@@ -230,6 +221,33 @@
                                         android:textColor="@color/black"
                                         android:textSize="12dp" />
                                 </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginRight="2dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="ST: "
+                                        android:textColor="@color/grey"
+                                        android:textSize="10dp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_list_bendel_st"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="--"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                </LinearLayout>
+
 
 
                                 <LinearLayout

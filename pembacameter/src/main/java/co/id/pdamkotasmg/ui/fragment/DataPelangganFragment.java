@@ -1,7 +1,10 @@
 package co.id.pdamkotasmg.ui.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,8 @@ import android.webkit.WebViewClient;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.pdamkotasmg.goodday.utils.Config;
+
 import co.id.pdamkotasmg.pembacameter.databinding.FragmentDataPelangganBinding;
 
 public class DataPelangganFragment extends Fragment {
@@ -19,11 +24,21 @@ public class DataPelangganFragment extends Fragment {
     private FragmentDataPelangganBinding binding;
     private ProgressDialog progressDialog;
 
+    private SharedPreferences sharedPreferences;
+    private String user;
+    private String pass;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentDataPelangganBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        sharedPreferences = getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        user = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+        pass = sharedPreferences.getString(Config.SHARED_GETPASSWORD, "");
+
+        Log.d("debug", user + pass);
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Mohon Tunggu...");
         progressDialog.show();
@@ -51,7 +66,7 @@ public class DataPelangganFragment extends Fragment {
 
         // Load the URL with POST data
         loadUrlWithPostData("https://app.pdamkotasmg.co.id/be-proxy/siramhpm/login/login-02-proses-api.php",
-                "user=2002&pass=2002");
+                "user=" + user + "&pass=" + pass);
 
         return root;
     }

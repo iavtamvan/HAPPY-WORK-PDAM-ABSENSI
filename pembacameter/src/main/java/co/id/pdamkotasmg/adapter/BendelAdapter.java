@@ -1,6 +1,7 @@
 package co.id.pdamkotasmg.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -73,6 +74,22 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
         holder.tvListBendelDism.setText(dataItems.get(position).getDism());
         holder.tvListBendelNama.setText(dataItems.get(position).getNama());
         holder.tvListBendelAlamat.setText(dataItems.get(position).getAlamat());
+
+        holder.divCopy.setOnClickListener(view -> {
+            ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            if (clipboardManager != null) {
+                clipboardManager.setText(holder.tvListBendelNolangg.getText());
+            }
+            Toast.makeText(context, holder.tvListBendelNolangg.getText() + " berhasil di copy", Toast.LENGTH_SHORT).show();
+        });
+
+        holder.divNolangg.setOnClickListener(view -> {
+            ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            if (clipboardManager != null) {
+                clipboardManager.setText(holder.tvListBendelNolangg.getText());
+            }
+            Toast.makeText(context, holder.tvListBendelNolangg.getText() + " berhasil di copy", Toast.LENGTH_SHORT).show();
+        });
 
         int incrementedNumber = position + 1; // Increment starting from 1
         holder.tvNo.setText("" + incrementedNumber);
@@ -181,6 +198,8 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
         private ImageView ivTandaiPelanggan;
         private TextView tvNo;
         private LinearLayout divTandai;
+        private LinearLayout divNolangg;
+        private LinearLayout divCopy;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -196,6 +215,8 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
             ivTandaiPelanggan = itemView.findViewById(R.id.iv_tandai_success);
             tvNo = itemView.findViewById(R.id.tv_no);
             divTandai = itemView.findViewById(R.id.div_tandai);
+            divNolangg = itemView.findViewById(R.id.div_nolangg);
+            divCopy = itemView.findViewById(R.id.div_copy);
         }
     }
 }

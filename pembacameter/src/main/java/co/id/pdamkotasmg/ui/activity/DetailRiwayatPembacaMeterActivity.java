@@ -284,4 +284,9 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
         super.onResume();
         getDataDetailRwiayat();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

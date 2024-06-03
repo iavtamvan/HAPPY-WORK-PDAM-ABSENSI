@@ -1,6 +1,7 @@
 package co.id.pdamkotasmg.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -85,6 +87,21 @@ public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMet
             context.startActivity(intent);
         });
 
+        holder.divCopy.setOnClickListener(view -> {
+            copy(holder);
+        });
+        holder.divListNolangg.setOnClickListener(view -> {
+            copy(holder);
+        });
+
+    }
+
+    public void copy(ViewHolder holder){
+        ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboardManager != null) {
+            clipboardManager.setText(holder.tvListNolangg.getText());
+        }
+        Toast.makeText(context, holder.tvListNolangg.getText() + " berhasil di copy", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -94,6 +111,8 @@ public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMet
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout cvKlik;
+        private LinearLayout divCopy;
+        private LinearLayout divListNolangg;
         private TextView tvListNolangg;
         private TextView tvListDism;
         private TextView tvListPeriode;
@@ -109,7 +128,8 @@ public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMet
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cvKlik = itemView.findViewById(R.id.cvKlik);
-            cvKlik = itemView.findViewById(R.id.cvKlik);
+            divListNolangg = itemView.findViewById(R.id.div_nolangg);
+            divCopy = itemView.findViewById(R.id.div_copy);
             tvListNolangg = itemView.findViewById(R.id.tv_list_nolangg);
             tvListDism = itemView.findViewById(R.id.tv_list_dism);
             tvListPeriode = itemView.findViewById(R.id.tv_list_periode);
