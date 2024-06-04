@@ -128,7 +128,7 @@ public class RiwayatBacaMeterAdapter extends RecyclerView.Adapter<RiwayatBacaMet
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cvKlik = itemView.findViewById(R.id.cvKlik);
-            divListNolangg = itemView.findViewById(R.id.div_nolangg);
+            divListNolangg = itemView.findViewById(R.id.div_list_nolangg);
             divCopy = itemView.findViewById(R.id.div_copy);
             tvListNolangg = itemView.findViewById(R.id.tv_list_nolangg);
             tvListDism = itemView.findViewById(R.id.tv_list_dism);
