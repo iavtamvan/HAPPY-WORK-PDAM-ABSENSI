@@ -12,6 +12,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -42,6 +43,9 @@ public class DataPelangganFragment extends Fragment {
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Mohon Tunggu...");
         progressDialog.show();
+
+        // Menangani tombol back
+        handleOnBackPressed();
 
         WebSettings webSettings = binding.webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -80,5 +84,23 @@ public class DataPelangganFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void handleOnBackPressed() {
+        requireActivity().getOnBackPressedDispatcher().addCallback(
+                getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        if (binding.webView.canGoBack()) {
+                            binding.webView.goBack();
+                        } else {
+                            if (isEnabled()) {
+                                setEnabled(false);
+                                requireActivity().onBackPressed();
+                            }
+                        }
+                    }
+                });
     }
 }

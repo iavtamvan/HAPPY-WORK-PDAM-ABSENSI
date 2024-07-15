@@ -69,6 +69,28 @@ public class DataItem{
     @SerializedName("tanggal")
     private String tanggal;
 
+    @SerializedName("survey_koordinat")
+    private String surveyKoordinat;
+
+    @SerializedName("survey_pelanggan")
+    private String surveyPelanggan;
+
+    public String getSurveyKoordinat() {
+        return surveyKoordinat;
+    }
+
+    public void setSurveyKoordinat(String surveyKoordinat) {
+        this.surveyKoordinat = surveyKoordinat;
+    }
+
+    public String getSurveyPelanggan() {
+        return surveyPelanggan;
+    }
+
+    public void setSurveyPelanggan(String surveyPelanggan) {
+        this.surveyPelanggan = surveyPelanggan;
+    }
+
     public List<RlDataBacaSekarang> getRlDtBacaSekarang() {
         return rlDtBacaSekarang;
     }
