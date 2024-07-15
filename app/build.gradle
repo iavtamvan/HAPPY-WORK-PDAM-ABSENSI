@@ -10,8 +10,8 @@ android {
     defaultConfig {
         applicationId "com.pdamkotasmg.happywork"
         minSdkVersion 23
-        targetSdkVersion 33
-        versionCode 45 // update playstore
+        targetSdkVersion 34
+        versionCode 46 // update playstore
         versionName "1.1.1" // ini diganti
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
