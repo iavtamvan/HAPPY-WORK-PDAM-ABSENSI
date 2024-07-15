@@ -22,6 +22,28 @@ public class RlDataBacaSekarang {
     @SerializedName("tandai")
     private String tandai;
 
+    @SerializedName("survey_koordinat")
+    private String surveyKoordinat;
+
+    @SerializedName("survey_pelanggan")
+    private String surveyPelanggan;
+
+    public String getSurveyKoordinat() {
+        return surveyKoordinat;
+    }
+
+    public void setSurveyKoordinat(String surveyKoordinat) {
+        this.surveyKoordinat = surveyKoordinat;
+    }
+
+    public String getSurveyPelanggan() {
+        return surveyPelanggan;
+    }
+
+    public void setSurveyPelanggan(String surveyPelanggan) {
+        this.surveyPelanggan = surveyPelanggan;
+    }
+
     public String getTglBaca() {
         return tglBaca;
     }

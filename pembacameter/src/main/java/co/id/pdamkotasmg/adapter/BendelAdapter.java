@@ -75,6 +75,12 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
         holder.tvListBendelNama.setText(dataItems.get(position).getNama());
         holder.tvListBendelAlamat.setText(dataItems.get(position).getAlamat());
 
+        if (dataItems.get(position).getRlDtBacaSekarang().get(0).getSurveyKoordinat() == null || dataItems.get(position).getRlDtBacaSekarang().get(0).getSurveyKoordinat().equals("0")) {
+            holder.ivSurveyKoordinat.setVisibility(View.GONE);
+        } else {
+            holder.ivSurveyKoordinat.setVisibility(View.VISIBLE);
+        }
+
         holder.divCopy.setOnClickListener(view -> {
             ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
             if (clipboardManager != null) {
@@ -196,6 +202,7 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
         //        private TextView tvListBendelDibuat;
         private ImageView ivTandai;
         private ImageView ivTandaiPelanggan;
+        private ImageView ivSurveyKoordinat;
         private TextView tvNo;
         private LinearLayout divTandai;
         private LinearLayout divNolangg;
@@ -213,6 +220,7 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
 //            tvListBendelDibuat = itemView.findViewById(R.id.tv_list_bendel_dibuat);
             ivTandai = itemView.findViewById(R.id.iv_tandai);
             ivTandaiPelanggan = itemView.findViewById(R.id.iv_tandai_success);
+            ivSurveyKoordinat = itemView.findViewById(R.id.iv_survey_koordinat);
             tvNo = itemView.findViewById(R.id.tv_no);
             divTandai = itemView.findViewById(R.id.div_tandai);
             divNolangg = itemView.findViewById(R.id.div_nolangg);
