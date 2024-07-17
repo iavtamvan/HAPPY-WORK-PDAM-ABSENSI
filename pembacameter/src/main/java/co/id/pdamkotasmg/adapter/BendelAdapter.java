@@ -78,6 +78,7 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
         if (dataItems.get(position).getRlDtBacaSekarang().get(0).getSurveyKoordinat() == null || dataItems.get(position).getRlDtBacaSekarang().get(0).getSurveyKoordinat().equals("0")) {
             holder.ivSurveyKoordinat.setVisibility(View.GONE);
         } else {
+            Toast.makeText(context, "Ada Pelanggan yang harus sesuai Koordinatnya !!!", Toast.LENGTH_SHORT).show();
             holder.ivSurveyKoordinat.setVisibility(View.VISIBLE);
         }
 
@@ -128,9 +129,6 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
 
         holder.cvKlik.setOnClickListener(v -> {
             codeInputData = "1";
-            if (dataItems.get(position).getRlDtBacaSekarang().get(0).getSurveyKoordinat().equals("1")){
-                Toast.makeText(context, "Data Koordinat harus Tepat !!! Cek Google Maps untuk memastikan", Toast.LENGTH_SHORT).show();
-            }
             Intent intent = new Intent(context, BendelPembacaActivity.class);
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, dataItems.get(position).getNolangg());
 //            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL_NEXT, bendel);
