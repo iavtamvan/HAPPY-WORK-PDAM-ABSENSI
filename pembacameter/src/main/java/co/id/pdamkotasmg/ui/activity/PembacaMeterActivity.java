@@ -35,7 +35,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.pdamkotasmg.goodday.fitur.menuLainnya.ProfilePelangganDanTagihanActivity;
 import com.pdamkotasmg.goodday.utils.Config;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -60,6 +59,7 @@ import co.id.pdamkotasmg.model.listGabungan.StatusMeterItem;
 import co.id.pdamkotasmg.model.updatePembacaMeter.UpdatePembacaMeterRootModel;
 import co.id.pdamkotasmg.pembacameter.R;
 import co.id.pdamkotasmg.pembacameter.databinding.ActivityPembacaMeterBinding;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -710,15 +710,14 @@ public class PembacaMeterActivity extends AppCompatActivity {
                         canvas.drawBitmap(resource, 0, 0, null);
 
                         String[] lines = {
-                                address_gps,
+//                                address_gps,
                                 currentDateLocal + " - " + currentTimeLocal,
-                                "Lat: " + lati,
-                                "Longi: " + longi,
+                                "Lat: " + lati + " Longi: " + longi,
                                 nolangg + " (" + npp + ")"
                         };
 
                         // Customize the watermark text with address and latitude/longitude
-                        String watermarkText = address_gps + ",\nLat: " + lati + "Long: " + longi + "\n" + nolangg + "\n" + npp;
+//                        String watermarkText = address_gps + ",\nLat: " + lati + "Long: " + longi + "\n" + nolangg + "\n" + npp;
 
                         // Calculate the position to place the watermark (you can adjust this)
                         int xPosition = 20; // X-coordinate

@@ -4,14 +4,14 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.pdamkotasmg.happywork"
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode 47 // update playstore
+        versionCode 48 // update playstore
         versionName "1.1.1" // ini diganti
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -25,6 +25,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -65,12 +66,8 @@ dependencies {
 //    implementation 'com.nineoldandroids:library:2.4.0'
 //    implementation 'com.daimajia.slider:library:1.1.5@aar'
 
-    //onboarding image
-    implementation 'com.github.chyrta:AndroidOnboarder:0.7'
-    implementation 'com.ramotion.paperonboarding:paper-onboarding:1.1.3'
-
     //bounce scroll
-    implementation 'com.factor:bouncy:1.5'
+//    implementation 'com.github.valkriaine:Bouncy:2.3'
 
     // ambil gambar
     implementation 'com.github.bumptech.glide:glide:4.11.0'
@@ -78,14 +75,14 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     //box dialog
-    implementation 'com.shreyaspatil:MaterialDialog:2.1'
+    implementation 'dev.shreyaspatil.MaterialDialog:MaterialDialog:2.2.3'
     implementation 'com.google.android.material:material:1.7.0'
 
     // date time dialog
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
 
     //time Mask
-    implementation 'ru.egslava:MaskedEditText:1.0.5'
+//    implementation 'ru.egslava:MaskedEditText:1.0.5'
 
     //inputdialog box
     implementation 'com.afollestad.material-dialogs:core:0.9.2.3' //standard
@@ -100,14 +97,14 @@ dependencies {
     //mock location
 
     // permission for android
-    implementation 'pub.devrel:easypermissions:2.0.1'
+    implementation 'pub.devrel:easypermissions:3.0.0'
 
     //smartTab Lyout
     implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'
     implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
 
     //camera
-    api 'com.otaliastudios:cameraview:2.7.0'
+    api 'com.otaliastudios:cameraview:2.7.2'
 
     //spinner
     implementation 'com.jaredrummler:material-spinner:1.3.1'
@@ -118,11 +115,8 @@ dependencies {
     //image popup
     implementation 'com.github.chathuralakmal:AndroidImagePopup:1.2.2'
 
-    //getTimeGlobal
-    implementation 'com.github.kk121:SecureTimer:v1.0'
-
     //get Device Info
-    implementation 'com.an.deviceinfo:deviceinfo:0.1.5'
+//    implementation 'com.an.deviceinfo:deviceinfo:0.1.5'
 
     // splash screen animation
 //    implementation 'com.github.ChilliBits:splash-screen:1.1.6'
@@ -148,16 +142,20 @@ dependencies {
 //    implementation 'com.google.firebase:firebase-iid'
 
     // qrcode
-    implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.4'
+    implementation 'com.github.androidmads:QRGenerator:1.0.1'
     implementation 'com.google.zxing:core:3.3.3'
 
-    implementation 'com.github.SumiMakito:AwesomeQRCode:1.2.0'
+    implementation ('com.github.SumiMakito:AwesomeQRCode:1.2.0'){
+        exclude group: 'com.waynejo', module: 'androidndkgif' // exclude jcenter module
+    }
 
     //scan QR
-    implementation 'com.budiyev.android:code-scanner:2.1.0'
+    implementation 'com.github.yuriy-budiyev:code-scanner:2.3.0'
 
     // root
     implementation 'com.scottyab:rootbeer-lib:0.1.0'
+
+//    implementation 'com.firebase:firebase-jobdispatcher:0.8.6'
 
     // ads
     implementation 'com.google.android.gms:play-services-ads:20.2.0'
@@ -166,7 +164,7 @@ dependencies {
     implementation 'com.github.chuckerteam.chucker:library:3.5.2'
 
     // runtime ktx
-    implementation 'androidx.work:work-runtime-ktx:2.8.1'
+    implementation 'androidx.work:work-runtime-ktx:2.9.1'
 
     // Digital Signature
     implementation 'com.github.gcacace:signature-pad:1.3.1'

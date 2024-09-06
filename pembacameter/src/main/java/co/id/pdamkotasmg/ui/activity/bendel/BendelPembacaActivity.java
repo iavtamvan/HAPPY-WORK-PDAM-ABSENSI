@@ -42,7 +42,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.pdamkotasmg.goodday.BuildConfig;
 import com.pdamkotasmg.goodday.fitur.menuLainnya.ProfilePelangganDanTagihanActivity;
 import com.pdamkotasmg.goodday.utils.Config;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -68,6 +67,7 @@ import co.id.pdamkotasmg.pembacameter.R;
 import co.id.pdamkotasmg.pembacameter.databinding.ActivityBendelPembacaBinding;
 import co.id.pdamkotasmg.ui.activity.DetailRiwayatPembacaMeterActivity;
 import co.id.pdamkotasmg.ui.activity.RiwayatPembacaMeterActivity;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -289,7 +289,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
         apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, "khusus-bendel",
                         kodeStatusMeter, binding.edtKeterangan.getText().toString().trim(),
                         action_code, String.valueOf(lati), String.valueOf(longi), address_gps, binding.edtManometer.getText().toString().trim(),
-                        BuildConfig.VERSION_CODE + "-" + BuildConfig.VERSION_NAME + " - " + modelDevice)
+                        BuildConfig.VERSION_NAME + "-" + BuildConfig.VERSION_NAME + " - " + modelDevice)
                 .enqueue(new Callback<UpdatePembacaMeterRootModel>() {
                     @SuppressLint("UseCompatLoadingForDrawables")
                     @Override
@@ -585,10 +585,8 @@ public class BendelPembacaActivity extends AppCompatActivity {
                         canvas.drawBitmap(resource, 0, 0, null);
 
                         String[] lines = {
-                                address_gps,
                                 currentDateLocal + " - " + currentTimeLocal,
-                                "Lat: " + lati,
-                                "Longi: " + longi,
+                                "Lat: " + lati + " Longi: " + longi,
                                 nolangg + " (" + npp + ")"
                         };
 

@@ -21,7 +21,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.gson.Gson;
-import com.pdamkotasmg.goodday.BuildConfig;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
@@ -40,13 +39,13 @@ import com.pdamkotasmg.goodday.fitur.profil.controller.ProfileController;
 import com.pdamkotasmg.goodday.utils.Config;
 import com.pdamkotasmg.goodday.utils.Connectivity;
 import com.scottyab.rootbeer.RootBeer;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
@@ -126,7 +125,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         tvGood.setOnClickListener(view -> {
             Intent intent = new Intent();
-            intent.setClassName(BuildConfig.APPLICATION_ID, "id.pdamkotasmg.edms.fitur.suratMasuk.activity.EDMSHomeActivity");
+            intent.setClassName("com.pdamkotasmg.happywork", "id.pdamkotasmg.edms.fitur.suratMasuk.activity.EDMSHomeActivity");
             startActivity(intent);
         });
 

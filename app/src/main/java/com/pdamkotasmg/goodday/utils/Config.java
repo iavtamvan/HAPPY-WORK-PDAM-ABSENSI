@@ -41,7 +41,7 @@ import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.authentication.login.LoginActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.PresensiActivity;
 import com.pdamkotasmg.goodday.fitur.splash.SplashScreenActivity;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import org.apache.commons.io.FileUtils;
 

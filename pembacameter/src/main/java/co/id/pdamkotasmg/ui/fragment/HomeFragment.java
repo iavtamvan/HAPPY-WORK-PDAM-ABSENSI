@@ -32,7 +32,7 @@ import com.pdamkotasmg.goodday.fitur.menuLainnya.WebViewActivity;
 import com.pdamkotasmg.goodday.fitur.profil.ProfileActivity;
 import com.pdamkotasmg.goodday.fitur.profil.controller.ProfileController;
 import com.pdamkotasmg.goodday.utils.Config;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import java.util.Calendar;
 import java.util.List;
