@@ -154,19 +154,27 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                             binding.tvPetugasBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getRlPetugas().getNmPetugas());
                             binding.tvManometerBlnLalu.setText(response.body().getData().get(0).getRlTrbaca().get(0).getManometer());
 
-                            if (response.body().getData().get(0).getRlTrbaca().get(0).getFile().contains("pembaca-meter/")) {
-                                Glide.with(DetailRiwayatPembacaMeterActivity.this)
-                                        .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlTrbaca().get(0).getFile())
-                                        .override(512, 512)
-                                        .error(R.drawable.im_good_day)
-                                        .into(binding.ivFotoMeterBlnLalu);
+                            String imageFileUrl = response.body().getData().get(0).getRlTrbaca().get(0).getFile();
+
+                            if (imageFileUrl == null) {
+                                imageFileUrl = "null";
                             } else {
-                                Glide.with(DetailRiwayatPembacaMeterActivity.this)
-                                        .load(Config.BASE_URL_IMAGE_SIRAMHPM_VENDOR + response.body().getData().get(0).getRlTrbaca().get(0).getFile().replace("../", ""))
-                                        .override(512, 512)
-                                        .error(R.drawable.im_good_day)
-                                        .into(binding.ivFotoMeterBlnLalu);
+                                if (imageFileUrl.contains("pembaca-meter/")) {
+                                    Glide.with(DetailRiwayatPembacaMeterActivity.this)
+                                            .load(Config.BASE_URL_IMAGE_HANDLER + imageFileUrl)
+                                            .override(512, 512)
+                                            .error(R.drawable.im_good_day)
+                                            .into(binding.ivFotoMeterBlnLalu);
+                                } else {
+                                    Glide.with(DetailRiwayatPembacaMeterActivity.this)
+                                            .load(Config.BASE_URL_IMAGE_SIRAMHPM_VENDOR + imageFileUrl.replace("../", ""))
+                                            .override(512, 512)
+                                            .error(R.drawable.im_good_day)
+                                            .into(binding.ivFotoMeterBlnLalu);
+                                }
                             }
+
+
 
 
                             binding.tvPeriodeBlnSekarang.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
@@ -233,37 +241,43 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                             }
 
                             String statusVerifikasi = response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getStver();
-                            if (statusVerifikasi.contains("2")) {
-                                binding.tvStatusVerifikasi.setText("DITOLAK / CU");
+                            if (statusVerifikasi == null) {
+                                binding.tvStatusVerifikasi.setText("null");
                                 binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#C30000"));
-                                binding.btnUbahDataDitolakVerifikator.setVisibility(View.GONE);
-                                binding.btnCekUlang.setVisibility(View.VISIBLE);
-                                binding.btnEditData.setVisibility(View.VISIBLE);
-                            } else if (statusVerifikasi.contains("3")) {
-                                binding.tvStatusVerifikasi.setText("DITOLAK FOTO TDK ADA");
-                                binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#C30000"));
-                                binding.btnUbahDataDitolakVerifikator.setVisibility(View.VISIBLE);
-                                binding.btnEditData.setVisibility(View.GONE);
-                                binding.btnCekUlang.setVisibility(View.GONE);
-                            } else if (statusVerifikasi.contains("4")) {
-                                binding.tvStatusVerifikasi.setText("ST PLG TUTUP");
-                                binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#C30000"));
-                                binding.btnUbahDataDitolakVerifikator.setVisibility(View.VISIBLE);
-                                binding.btnEditData.setVisibility(View.GONE);
-                                binding.btnCekUlang.setVisibility(View.GONE);
-                            } else if (statusVerifikasi.contains("0")) {
-                                binding.tvStatusVerifikasi.setText("BELUM VERIFIKASI");
-                                binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#D5840D"));
-                                binding.btnEditData.setVisibility(View.VISIBLE);
-                                binding.btnUbahDataDitolakVerifikator.setVisibility(View.GONE);
-                                binding.btnCekUlang.setVisibility(View.GONE);
                             } else {
-                                binding.tvStatusVerifikasi.setText("DISETUJUI");
-                                binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#31B057"));
-                                binding.btnUbahDataDitolakVerifikator.setVisibility(View.GONE);
-                                binding.btnEditData.setVisibility(View.GONE);
-                                binding.btnCekUlang.setVisibility(View.GONE);
+                                if (statusVerifikasi.contains("2")) {
+                                    binding.tvStatusVerifikasi.setText("DITOLAK / CU");
+                                    binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#C30000"));
+                                    binding.btnUbahDataDitolakVerifikator.setVisibility(View.GONE);
+                                    binding.btnCekUlang.setVisibility(View.VISIBLE);
+                                    binding.btnEditData.setVisibility(View.VISIBLE);
+                                } else if (statusVerifikasi.contains("3")) {
+                                    binding.tvStatusVerifikasi.setText("DITOLAK FOTO TDK ADA");
+                                    binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#C30000"));
+                                    binding.btnUbahDataDitolakVerifikator.setVisibility(View.VISIBLE);
+                                    binding.btnEditData.setVisibility(View.GONE);
+                                    binding.btnCekUlang.setVisibility(View.GONE);
+                                } else if (statusVerifikasi.contains("4")) {
+                                    binding.tvStatusVerifikasi.setText("ST PLG TUTUP");
+                                    binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#C30000"));
+                                    binding.btnUbahDataDitolakVerifikator.setVisibility(View.VISIBLE);
+                                    binding.btnEditData.setVisibility(View.GONE);
+                                    binding.btnCekUlang.setVisibility(View.GONE);
+                                } else if (statusVerifikasi.contains("0")) {
+                                    binding.tvStatusVerifikasi.setText("BELUM VERIFIKASI");
+                                    binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#D5840D"));
+                                    binding.btnEditData.setVisibility(View.VISIBLE);
+                                    binding.btnUbahDataDitolakVerifikator.setVisibility(View.GONE);
+                                    binding.btnCekUlang.setVisibility(View.GONE);
+                                } else {
+                                    binding.tvStatusVerifikasi.setText("DISETUJUI");
+                                    binding.tvStatusVerifikasi.setTextColor(Color.parseColor("#31B057"));
+                                    binding.btnUbahDataDitolakVerifikator.setVisibility(View.GONE);
+                                    binding.btnEditData.setVisibility(View.GONE);
+                                    binding.btnCekUlang.setVisibility(View.GONE);
+                                }
                             }
+
 
                             progressDialog.cancel();
 
