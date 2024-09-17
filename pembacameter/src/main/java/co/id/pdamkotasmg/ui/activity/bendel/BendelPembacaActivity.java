@@ -97,7 +97,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
     private String knownName;
 
     private EasyImage easyImage;
-    private File compressedImageFile1;
+    private File compressedImageFileFotoMeter;
     private SharedPreferences sp;
     private SharedPreferences.Editor editorSp;
 
@@ -123,6 +123,11 @@ public class BendelPembacaActivity extends AppCompatActivity {
     private String fileUrlServer;
     private String rootPathImage;
     private String pathImageWatermark;
+
+    private String reqCodeFoto;
+
+    private String getFilePathServerFotoManometer;
+    private File compressedImageFileManometer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,13 +213,19 @@ public class BendelPembacaActivity extends AppCompatActivity {
             }
         });
 
-        binding.photoView.setOnClickListener(view -> {
+        binding.photoViewLeft.setOnClickListener(view -> {
+            reqCodeFoto = "1";
+            easyImage.openChooser(BendelPembacaActivity.this);
+        });
+
+        binding.photoViewRight.setOnClickListener(view -> {
+            reqCodeFoto = "2";
             easyImage.openChooser(BendelPembacaActivity.this);
         });
 
         binding.btnSimpanData.setOnClickListener(view -> {
-            if (compressedImageFile1 == null || binding.edtKini.getText().toString().isEmpty()) {
-                Toast.makeText(this, "" + Config.ERROR_DATA_REGISTER, Toast.LENGTH_SHORT).show();
+            if (compressedImageFileFotoMeter == null || binding.edtKini.getText().toString().isEmpty()) {
+                Toast.makeText(this, Config.ERROR_DATA_REGISTER, Toast.LENGTH_SHORT).show();
             } else {
                 // TODO send to server
                 // TODO 1 send picture to server
@@ -259,7 +270,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
         RequestBody path = RequestBody.create(MediaType.parse("text/plain"), "/pembaca-meter/foto-pembaca-meter/" + year + "/" + month);
         RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), "pembaca-meter-" + randomUUIDString + "-" + nolangg + "-" + npp + "-" + year + month + "-" + timestamp);
 
-        File imageFileMeter = new File(compressedImageFile1.getPath());
+        File imageFileMeter = new File(compressedImageFileFotoMeter.getPath());
         RequestBody requestFilePhotoKtp = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileMeter);
         MultipartBody.Part bodyFileMeter = MultipartBody.Part.createFormData("photo", imageFileMeter.getName(), requestFilePhotoKtp);
 
@@ -272,7 +283,13 @@ public class BendelPembacaActivity extends AppCompatActivity {
                             Log.d(TAG, "uploadImage " + response.body().getData().getFileurl());
                             filePathServer = response.body().getData().getFilepath();
                             fileUrlServer = response.body().getData().getFileurl();
-                            postDataPembacaMeter();
+
+                            if (reqCodeFoto.contains("1")) {
+                                postDataPembacaMeter();
+                            } else if (reqCodeFoto.contains("2")){
+                                postFotoManoMeter();
+                            }
+
                         }
                     }
 
@@ -284,11 +301,47 @@ public class BendelPembacaActivity extends AppCompatActivity {
                 });
     }
 
+    private void postFotoManoMeter() {
+        Date currentTime = Calendar.getInstance().getTime();
+        String timestamp = String.valueOf(currentTime.getTime());
+        String year = new SimpleDateFormat("y", Locale.getDefault()).format(new Date());
+        String month = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
+        UUID randomUUID = UUID.randomUUID();
+        String randomUUIDString = randomUUID.toString();
+
+        RequestBody path = RequestBody.create(MediaType.parse("text/plain"), "/pembaca-meter/foto-pembaca-meter/" + year + "/" + month);
+        RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), "pembaca-meter-manometer-" + randomUUIDString + "-" + nolangg + "-" + npp + "-" + year + month + "-" + timestamp);
+
+        File imageFileMeter = new File(compressedImageFileManometer.getPath());
+        RequestBody requestFilePhotoKtp = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileMeter);
+        MultipartBody.Part bodyFileMeter = MultipartBody.Part.createFormData("photo", imageFileMeter.getName(), requestFilePhotoKtp);
+
+        ApiService apiService = ApiConfig.getApiService(BendelPembacaActivity.this);
+        apiService.postUploadFoto(token, path, fileName, bodyFileMeter)
+                .enqueue(new Callback<PostFotoUploadRootModel>() {
+                    @Override
+                    public void onResponse(Call<PostFotoUploadRootModel> call, Response<PostFotoUploadRootModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.d(TAG, "uploadImage " + response.body().getData().getFileurl());
+                            getFilePathServerFotoManometer = response.body().getData().getFilepath();
+//                            fileUrlServer = response.body().getData().getFileurl();
+                            postDataPembacaMeter();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PostFotoUploadRootModel> call, Throwable t) {
+                        progressDialog.cancel();
+                        Toast.makeText(BendelPembacaActivity.this, "Upload Foto Manometer Gagal " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
     private void postDataPembacaMeter() {
         ApiService apiService = ApiConfig.getApiService(BendelPembacaActivity.this);
         apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, "khusus-bendel",
                         kodeStatusMeter, binding.edtKeterangan.getText().toString().trim(),
-                        action_code, String.valueOf(lati), String.valueOf(longi), address_gps, binding.edtManometer.getText().toString().trim(),
+                        action_code, String.valueOf(lati), String.valueOf(longi), address_gps, binding.edtManometer.getText().toString().trim(), getFilePathServerFotoManometer,
                         BuildConfig.VERSION_NAME + "-" + BuildConfig.VERSION_NAME + " - " + modelDevice)
                 .enqueue(new Callback<UpdatePembacaMeterRootModel>() {
                     @SuppressLint("UseCompatLoadingForDrawables")
@@ -542,19 +595,35 @@ public class BendelPembacaActivity extends AppCompatActivity {
                 Date currentTime = Calendar.getInstance().getTime();
                 String timestamp = String.valueOf(currentTime.getTime());
 
-
-                try {
-                    compressedImageFile1 = new Compressor(BendelPembacaActivity.this)
-                            .setMaxHeight(400)
-                            .setMaxWidth(400)
-                            .setQuality(50)
-                            .setCompressFormat(Bitmap.CompressFormat.WEBP)
-                            .setDestinationDirectoryPath(mediaFiles[0].getFile().getParent())
-                            .compressToFile(mediaFiles[0].getFile(), "comp1_PM_" + nolangg + "_" + timestamp + "_" + randomUUIDString + "_" + mediaFiles[0].getFile().getName());
-                    showImageWatermark(compressedImageFile1.getPath());
-//                    Log.d(TAG, "onMediaFilesPicked: " + compressedImageFile1.getPath());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                if (reqCodeFoto.contains("1")){
+                    try {
+                        compressedImageFileFotoMeter = new Compressor(BendelPembacaActivity.this)
+                                .setMaxHeight(400)
+                                .setMaxWidth(400)
+                                .setQuality(50)
+                                .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                                .setDestinationDirectoryPath(mediaFiles[0].getFile().getParent())
+                                .compressToFile(mediaFiles[0].getFile(), "comp1_PM_" + nolangg + "_" + timestamp + "_" + randomUUIDString + "_" + mediaFiles[0].getFile().getName());
+                        showImageWatermark(compressedImageFileFotoMeter.getPath(), binding.photoViewLeft);
+//                    Log.d(TAG, "onMediaFilesPicked: " + compressedImageFileFotoMeter.getPath());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if (reqCodeFoto.contains("2")){
+                    try {
+                        compressedImageFileManometer = new Compressor(BendelPembacaActivity.this)
+                                .setMaxHeight(400)
+                                .setMaxWidth(400)
+                                .setQuality(50)
+                                .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                                .setDestinationDirectoryPath(mediaFiles[0].getFile().getParent())
+                                .compressToFile(mediaFiles[0].getFile(), "comp1_PM_MM_" + nolangg + "_" + timestamp + "_" + randomUUIDString + "_" + mediaFiles[0].getFile().getName());
+                        Glide.with(BendelPembacaActivity.this).load(compressedImageFileManometer.getPath()).error(R.drawable.image_not_found).into(binding.photoViewRight);
+//                        showImageWatermark(compressedImageFileManometer.getPath(), binding.photoViewRight);
+//                    Log.d(TAG, "onMediaFilesPicked: " + compressedImageFileFotoMeter.getPath());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
 
                 // TODO Cepret,Compress. delete file/image
@@ -573,7 +642,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
         });
     }
 
-    private void showImageWatermark(String file) {
+    private void showImageWatermark(String file, PhotoView photoView) {
         Glide.with(BendelPembacaActivity.this)
                 .asBitmap()
                 .load(file)
@@ -622,7 +691,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
 
                         // Set the final image with watermark to the ImageView
 //                        binding.ivCamera.setImageBitmap(resource);
-                        binding.photoView.setImageBitmap(resource);
+                        photoView.setImageBitmap(resource);
 //                        Glide.with(BendelPembacaActivity.this).load(resource).error(R.drawable.image_not_found).into(binding.photoView);
 
                         saveImageToExternalStorage(resource);
@@ -661,9 +730,9 @@ public class BendelPembacaActivity extends AppCompatActivity {
 //            MediaStore.Images.Media.insertImage(getContentResolver(), destination.getAbsolutePath(), fileName, null);
 
             pathImageWatermark = destination.getParent();
-            compressedImageFile1 = new File(destination.getPath());
+            compressedImageFileFotoMeter = new File(destination.getPath());
 
-            compressedImageFile1 = new Compressor(BendelPembacaActivity.this)
+            compressedImageFileFotoMeter = new Compressor(BendelPembacaActivity.this)
                     .setMaxHeight(400)
                     .setMaxWidth(400)
                     .setQuality(50)
@@ -672,11 +741,11 @@ public class BendelPembacaActivity extends AppCompatActivity {
                     .compressToFile(destination, "comp2_PM_" + randomUUIDString + ".jpg");
 
             // Show a toast message indicating that the image has been saved
-            Log.d(TAG, "Compresseddd: " + compressedImageFile1);
+            Log.d(TAG, "Compresseddd: " + compressedImageFileFotoMeter);
 //            Log.d(TAG, "ImageOriginal: " + rootPathImage);
             Log.d(TAG, "ImageImageSavedWatrermark: " + pathImageWatermark);
 
-            int file_size = Integer.parseInt(String.valueOf(compressedImageFile1.length() / 1024));
+            int file_size = Integer.parseInt(String.valueOf(compressedImageFileFotoMeter.length() / 1024));
             Log.d(TAG, "Size Image : " + file_size + " kb");
             Toast.makeText(this, "Size Image : " + file_size + " kb", Toast.LENGTH_LONG).show();
             Toast.makeText(this, "Image saved", Toast.LENGTH_SHORT).show();

@@ -124,6 +124,7 @@ public interface ApiService {
             @Field("longitude") String longitude,
             @Field("alamat") String alamat,
             @Field("manometer") String manometer,
+            @Field("manometer_foto") String manometer_foto,
             @Field("other") String other
     );
 

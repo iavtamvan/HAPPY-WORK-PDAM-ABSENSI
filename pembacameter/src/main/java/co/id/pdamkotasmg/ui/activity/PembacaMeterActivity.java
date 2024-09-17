@@ -500,7 +500,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
         ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
         apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, modelDevice,
                         kodeStatusMeter, binding.edtKeterangan.getText().toString().trim(),
-                        action_code, String.valueOf(lati), String.valueOf(longi), address_gps, binding.edtManometer.getText().toString().trim(), modelDevice)
+                        action_code, String.valueOf(lati), String.valueOf(longi), address_gps, binding.edtManometer.getText().toString().trim(), "", modelDevice)
                 .enqueue(new Callback<UpdatePembacaMeterRootModel>() {
                     @SuppressLint("UseCompatLoadingForDrawables")
                     @Override
