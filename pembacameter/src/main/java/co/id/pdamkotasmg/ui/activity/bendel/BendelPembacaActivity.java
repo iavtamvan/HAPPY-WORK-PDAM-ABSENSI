@@ -260,17 +260,8 @@ public class BendelPembacaActivity extends AppCompatActivity {
                                 // Dapatkan hasil Bitmap setelah rotasi
                                 Bitmap rotatedBitmap = getRotatedBitmap(binding.photoViewLeft, rotation);
                                 saveImageToExternalStorage(rotatedBitmap, "rotated_image");
-
                                 Log.d(TAG, "compressedImageFileFotoMeterRotated : " + compressedImageFileFotoMeter.getPath());
-
                                 postFotoMeter();
-//                                if (rotatedBitmap != null) {
-//                                    // Tampilkan hasil rotasi ke ImageView lain
-//                                    binding.photoViewRight.setImageBitmap(rotatedBitmap);
-//
-////                                // Simpan ke file jika diperlukan
-////                                saveBitmapToFile(rotatedBitmap, "rotated_image.png");
-//                                }
                             } else {
                                 postFotoMeter();
                             }
