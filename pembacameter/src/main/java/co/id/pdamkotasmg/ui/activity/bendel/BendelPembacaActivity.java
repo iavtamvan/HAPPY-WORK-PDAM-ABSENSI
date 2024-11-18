@@ -778,8 +778,8 @@ public class BendelPembacaActivity extends AppCompatActivity {
 
             int file_size = Integer.parseInt(String.valueOf(compressedImageFileFotoMeter.length() / 1024));
             Log.d(TAG, "Size Image : " + nameFile + " > " + file_size + " kb");
-            Toast.makeText(this, "Size Image : " + nameFile + " > " + file_size + " kb", Toast.LENGTH_LONG).show();
-            Toast.makeText(this, "Image saved" + nameFile + " > ", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Size Image : " + nameFile + " > " + file_size + " kb", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Image saved" + nameFile + " > ", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "Failed to save image " + nameFile + " > ", Toast.LENGTH_SHORT).show();
