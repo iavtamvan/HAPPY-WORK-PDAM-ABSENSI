@@ -10,8 +10,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -125,9 +127,15 @@ public class BendelPembacaActivity extends AppCompatActivity {
     private String pathImageWatermark;
 
     private String reqCodeFoto;
+    private String reqCodeRotateFotoMeter = "0";
 
     private String getFilePathServerFotoManometer;
     private File compressedImageFileManometer;
+
+    private UUID randomUUID;
+    private String randomUUIDString;
+    private Date currentTime;
+    private String timestamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +168,11 @@ public class BendelPembacaActivity extends AppCompatActivity {
         cDate = new Date();
         currentDateLocal = new SimpleDateFormat("EEEE, dd MMM yyyy").format(cDate);
         currentTimeLocal = new SimpleDateFormat("HH:mm").format(cDate);
+
+        randomUUID = UUID.randomUUID();
+        randomUUIDString = randomUUID.toString();
+        currentTime = Calendar.getInstance().getTime();
+        timestamp = String.valueOf(currentTime.getTime());
 
         getListGabungan();
 
@@ -239,7 +252,29 @@ public class BendelPembacaActivity extends AppCompatActivity {
                         .setPositiveButton("Sudah", (dialogInterface, which) -> {
                             dialogInterface.dismiss();
                             codeSimpandanLanjut = "0";
-                            postFotoMeter();
+                            Log.d(TAG, "reqCodeRotateFotoMeter : " + reqCodeRotateFotoMeter);
+                            if (reqCodeRotateFotoMeter.equals("1")){
+                                // Ambil rotasi dari ImageView
+                                float rotation = binding.photoViewLeft.getRotation();
+
+                                // Dapatkan hasil Bitmap setelah rotasi
+                                Bitmap rotatedBitmap = getRotatedBitmap(binding.photoViewLeft, rotation);
+                                saveImageToExternalStorage(rotatedBitmap, "rotated_image");
+
+                                Log.d(TAG, "compressedImageFileFotoMeterRotated : " + compressedImageFileFotoMeter.getPath());
+
+                                postFotoMeter();
+//                                if (rotatedBitmap != null) {
+//                                    // Tampilkan hasil rotasi ke ImageView lain
+//                                    binding.photoViewRight.setImageBitmap(rotatedBitmap);
+//
+////                                // Simpan ke file jika diperlukan
+////                                saveBitmapToFile(rotatedBitmap, "rotated_image.png");
+//                                }
+                            } else {
+                                postFotoMeter();
+                            }
+
                         })
                         .build();
 
@@ -254,6 +289,11 @@ public class BendelPembacaActivity extends AppCompatActivity {
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
             startActivity(intent);
 
+        });
+
+        binding.btnRotate.setOnClickListener(view -> {
+            binding.photoViewLeft.setRotation(binding.photoViewLeft.getRotation() + 90);
+            reqCodeRotateFotoMeter = "1";
         });
     }
 
@@ -694,7 +734,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
                         photoView.setImageBitmap(resource);
 //                        Glide.with(BendelPembacaActivity.this).load(resource).error(R.drawable.image_not_found).into(binding.photoView);
 
-                        saveImageToExternalStorage(resource);
+                        saveImageToExternalStorage(resource, "wtrmk_PM_");
                     }
 
                     @Override
@@ -703,7 +743,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
                 });
     }
 
-    private void saveImageToExternalStorage(Bitmap bitmap) {
+    private void saveImageToExternalStorage(Bitmap bitmap, String nameFile) {
         // Define the directory where the image will be saved
         File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "/PDAM/PEMBACA-METER/FOTO");
         directory.mkdirs();
@@ -714,7 +754,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
         String randomUUIDString = randomUUID.toString();
 
         // Create a unique file name based on the current date
-        String fileName = "wtrmk_PM_" + randomUUIDString + ".jpg";
+        String fileName = nameFile + randomUUIDString + ".jpg";
 
         // Create the destination file
         File destination = new File(directory, fileName);
@@ -738,20 +778,20 @@ public class BendelPembacaActivity extends AppCompatActivity {
                     .setQuality(50)
                     .setCompressFormat(Bitmap.CompressFormat.WEBP)
                     .setDestinationDirectoryPath(rootPathImage)
-                    .compressToFile(destination, "comp2_PM_" + randomUUIDString + ".jpg");
+                    .compressToFile(destination, "comp2_PM_" + nameFile + "_" + randomUUIDString + ".jpg");
 
             // Show a toast message indicating that the image has been saved
-            Log.d(TAG, "Compresseddd: " + compressedImageFileFotoMeter);
+            Log.d(TAG, "Compresseddd: " + nameFile + " > " + compressedImageFileFotoMeter);
 //            Log.d(TAG, "ImageOriginal: " + rootPathImage);
-            Log.d(TAG, "ImageImageSavedWatrermark: " + pathImageWatermark);
+            Log.d(TAG, "ImageImageSavedWatrermark: " + nameFile + " > " + pathImageWatermark);
 
             int file_size = Integer.parseInt(String.valueOf(compressedImageFileFotoMeter.length() / 1024));
-            Log.d(TAG, "Size Image : " + file_size + " kb");
-            Toast.makeText(this, "Size Image : " + file_size + " kb", Toast.LENGTH_LONG).show();
-            Toast.makeText(this, "Image saved", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "Size Image : " + nameFile + " > " + file_size + " kb");
+            Toast.makeText(this, "Size Image : " + nameFile + " > " + file_size + " kb", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Image saved" + nameFile + " > ", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Failed to save image " + nameFile + " > ", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -875,4 +915,36 @@ public class BendelPembacaActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
+    // TODO Mulai Function Rotate
+
+    private Bitmap getRotatedBitmap(ImageView imageView, float rotationAngle) {
+        // Ambil Drawable dari ImageView
+        Drawable drawable = imageView.getDrawable();
+        if (drawable == null) {
+            return null; // Pastikan drawable tidak null
+        }
+
+        // Konversi Drawable menjadi Bitmap
+        Bitmap originalBitmap = ((BitmapDrawable) drawable).getBitmap();
+
+        // Buat Matrix untuk rotasi
+        Matrix matrix = new Matrix();
+        matrix.postRotate(rotationAngle);
+
+        // Terapkan rotasi pada Bitmap
+        return Bitmap.createBitmap(
+                originalBitmap,
+                0,
+                0,
+                originalBitmap.getWidth(),
+                originalBitmap.getHeight(),
+                matrix,
+                true
+        );
+    }
+
+    // TODO Selesai Function Rotate
+
 }
