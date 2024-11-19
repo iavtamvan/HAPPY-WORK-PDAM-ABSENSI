@@ -33,7 +33,7 @@ import androidx.core.app.ActivityCompat;
 import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.google.android.gms.ads.AdView;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.pdamkotasmg.goodday.BuildConfig;
@@ -112,7 +112,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private List<String> stringslist;
 
     private FusedLocationProviderClient mFusedLocation;
-    private AdView adView;
+    
     private ImageView logo;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -542,7 +542,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     // TODO Selesai cek Fake GPS
 
     private void initView() {
-        adView = findViewById(R.id.adView);
+        
         logo = findViewById(R.id.logo);
     }
 }

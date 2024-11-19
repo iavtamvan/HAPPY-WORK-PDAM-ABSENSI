@@ -11,7 +11,7 @@ android {
         applicationId "com.pdamkotasmg.happywork"
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode 51 // update playstore
+        versionCode 52 // update playstore
         versionName "1.1.1" // ini diganti
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -158,7 +158,7 @@ dependencies {
 //    implementation 'com.firebase:firebase-jobdispatcher:0.8.6'
 
     // ads
-    implementation 'com.google.android.gms:play-services-ads:20.2.0'
+//    implementation 'com.google.android.gms:play-services-ads:21.0.0'
 
     //chucker
     implementation 'com.github.chuckerteam.chucker:library:3.5.2'

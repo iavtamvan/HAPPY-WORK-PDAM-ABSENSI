@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.google.android.gms.ads.AdView;
+
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.utils.Config;
 
@@ -26,7 +26,7 @@ public class ListWebViewActivity extends AppCompatActivity {
     private CardView divSambungBaru;
     private CardView divWablast;
     private CardView divSurveyPelanggan;
-    private AdView adView;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +34,6 @@ public class ListWebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_web_view);
         getSupportActionBar().hide();
         initView();
-
-        Config.ads(ListWebViewActivity.this, adView);
 
         tvHeaderJudul.setText("Menu Lainnya");
         ivHeaderBackArrow.setOnClickListener(view -> {
@@ -84,6 +82,6 @@ public class ListWebViewActivity extends AppCompatActivity {
         divSambungBaru = findViewById(R.id.div_sambung_baru);
         divWablast = findViewById(R.id.div_wablast);
         divSurveyPelanggan = findViewById(R.id.div_survey_pelanggan);
-        adView = findViewById(R.id.adView);
+        
     }
 }

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.gms.ads.AdView;
+
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
@@ -47,7 +47,7 @@ public class RiwayatCutiActivity extends AppCompatActivity {
     private LinearLayout divAnimation;
     private LottieAnimationView animationView;
     private RecyclerView rvCuti;
-    private AdView adView;
+    
     private Button btnNewRequest;
 
     @Override
@@ -120,7 +120,7 @@ public class RiwayatCutiActivity extends AppCompatActivity {
         divAnimation = findViewById(R.id.div_animation);
         animationView = findViewById(R.id.animation_view);
         rvCuti = findViewById(R.id.rv_cuti);
-        adView = findViewById(R.id.adView);
+        
         btnNewRequest = findViewById(R.id.btn_new_request);
     }
 }
