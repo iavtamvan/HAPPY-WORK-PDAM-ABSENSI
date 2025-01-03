@@ -305,7 +305,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
         RequestBody requestFilePhotoKtp = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileMeter);
         MultipartBody.Part bodyFileMeter = MultipartBody.Part.createFormData("photo", imageFileMeter.getName(), requestFilePhotoKtp);
 
-        ApiService apiService = ApiConfig.getApiService(BendelPembacaActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaActivity.this);
         apiService.postUploadFoto(token, path, fileName, bodyFileMeter)
                 .enqueue(new Callback<PostFotoUploadRootModel>() {
                     @Override
@@ -347,7 +347,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
         RequestBody requestFilePhotoKtp = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileMeter);
         MultipartBody.Part bodyFileMeter = MultipartBody.Part.createFormData("photo", imageFileMeter.getName(), requestFilePhotoKtp);
 
-        ApiService apiService = ApiConfig.getApiService(BendelPembacaActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaActivity.this);
         apiService.postUploadFoto(token, path, fileName, bodyFileMeter)
                 .enqueue(new Callback<PostFotoUploadRootModel>() {
                     @Override
@@ -369,7 +369,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
     }
 
     private void postDataPembacaMeter() {
-        ApiService apiService = ApiConfig.getApiService(BendelPembacaActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaActivity.this);
         apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, "khusus-bendel",
                         kodeStatusMeter, binding.edtKeterangan.getText().toString().trim(),
                         action_code, String.valueOf(lati), String.valueOf(longi), address_gps, binding.edtManometer.getText().toString().trim(), getFilePathServerFotoManometer,
@@ -430,7 +430,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
 
     private void getListGabungan() {
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService(BendelPembacaActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaActivity.this);
         apiService.getListGabungan(token)
                 .enqueue(new Callback<ListGabunganRootModel>() {
                     @Override
@@ -456,7 +456,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
     }
 
     private void getCheckPelanggan(String nolangg) {
-        ApiService apiService = ApiConfig.getApiService(BendelPembacaActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaActivity.this);
         apiService.getCheckPelangganDetail(token, nolangg)
                 .enqueue(new Callback<CheckPelangganRootModel>() {
                     @SuppressLint("SetTextI18n")
@@ -860,7 +860,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
             PhotoView photoView
 
     ) {
-        ApiService apiService = ApiConfig.getApiService(BendelPembacaActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaActivity.this);
         apiService.getPelanggan(token, nolangg)
                 .enqueue(new Callback<CheckPelangganRootModel>() {
                     @Override

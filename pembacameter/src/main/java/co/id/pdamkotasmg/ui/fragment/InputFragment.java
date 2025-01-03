@@ -146,7 +146,7 @@ public class InputFragment extends Fragment {
     }
 
     private void checkPelanggan(String nolangg, String codeInputData) {
-        ApiService apiService = ApiConfig.getApiService(getActivity());
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(getActivity());
         apiService.getCheckPelangganStatus(token, nolangg)
                 .enqueue(new Callback<CheckByNolanggRootModel>() {
                     @Override

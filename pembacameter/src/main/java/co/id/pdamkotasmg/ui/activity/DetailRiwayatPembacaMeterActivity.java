@@ -91,7 +91,7 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
 
     private void getDataDetailRwiayat() {
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService(DetailRiwayatPembacaMeterActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(DetailRiwayatPembacaMeterActivity.this);
         apiService.getCheckPelangganDetail(token, nolangg)
                 .enqueue(new Callback<CheckPelangganRootModel>() {
                     @SuppressLint({"SetTextI18n", "ResourceAsColor"})

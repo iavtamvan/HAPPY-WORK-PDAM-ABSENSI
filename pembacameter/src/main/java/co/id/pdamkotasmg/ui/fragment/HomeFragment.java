@@ -32,10 +32,10 @@ import com.pdamkotasmg.goodday.fitur.menuLainnya.WebViewActivity;
 import com.pdamkotasmg.goodday.fitur.profil.ProfileActivity;
 import com.pdamkotasmg.goodday.fitur.profil.controller.ProfileController;
 import com.pdamkotasmg.goodday.utils.Config;
-import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import co.id.pdamkotasmg.adapter.CheckKoneksiServerAdapter;
 import co.id.pdamkotasmg.api.ApiConfig;
@@ -43,10 +43,12 @@ import co.id.pdamkotasmg.api.ApiService;
 import co.id.pdamkotasmg.model.checkKoneksi.CheckItem;
 import co.id.pdamkotasmg.model.checkKoneksi.CheckKoneksiServerRootModel;
 import co.id.pdamkotasmg.model.home.HomeRootModel;
+import co.id.pdamkotasmg.model.motivation.RootMotivationItem;
 import co.id.pdamkotasmg.pembacameter.R;
 import co.id.pdamkotasmg.pembacameter.databinding.FragmentHomeBinding;
 import co.id.pdamkotasmg.service.PingService;
 import co.id.pdamkotasmg.ui.activity.CariDataActivity;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -231,12 +233,42 @@ public class HomeFragment extends Fragment {
 
         Log.d(TAG, "Access Token Pembaca Meter " + token);
         getCountPeriode();
+        getMotivation();
 
         return root;
     }
 
+    private void getMotivation() {
+        ApiService apiService = ApiConfig.getApiServiceGitHub(getActivity());
+        apiService.getMotivation().enqueue(new Callback<List<RootMotivationItem>>() {
+            @Override
+            public void onResponse(Call<List<RootMotivationItem>> call, Response<List<RootMotivationItem>> response) {
+
+                Log.d(TAG, "onResponse: " + response.body());
+
+                if (response.isSuccessful()) {
+
+                    List<RootMotivationItem> rootMotivationItems = response.body();
+
+                    int randomIndex = new Random().nextInt(rootMotivationItems.size());
+                    RootMotivationItem randomItem = rootMotivationItems.get(randomIndex);
+
+                    Log.d(TAG, "randomItem: " + randomItem.getQuote());
+
+                    binding.tvMotivation.setText(randomItem.getQuote() + " -" + randomItem.getBy() + "-");
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<RootMotivationItem>> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
     private void getCountPeriode() {
-        ApiService apiService = ApiConfig.getApiService(getActivity());
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(getActivity());
         apiService.getCountPeriode(token)
                 .enqueue(new Callback<HomeRootModel>() {
                     @Override
@@ -273,7 +305,7 @@ public class HomeFragment extends Fragment {
         TextView tvTutup = bottomSheetDialogCheckKoneksiServer.findViewById(R.id.tv_tutup_dialog);
         TextView tvStServer = bottomSheetDialogCheckKoneksiServer.findViewById(R.id.tv_st_server);
 
-        ApiService apiService = ApiConfig.getApiService(getActivity());
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(getActivity());
         apiService.getTestPing().enqueue(new Callback<CheckKoneksiServerRootModel>() {
             @Override
             public void onResponse(Call<CheckKoneksiServerRootModel> call, Response<CheckKoneksiServerRootModel> response) {

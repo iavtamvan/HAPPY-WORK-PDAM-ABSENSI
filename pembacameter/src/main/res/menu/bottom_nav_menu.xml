@@ -3,17 +3,20 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:icon="@drawable/home"
+        android:title="@string/title_home"
+        android:tint="@null" />
 
     <item
         android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_pencil"
-        android:title="@string/title_input" />
+        android:icon="@drawable/input"
+        android:title="@string/title_input"
+        android:tint="@null" />
 
     <item
         android:id="@+id/navigation_notifications"
-        android:icon="@drawable/approvals"
-        android:title="@string/title_verifikasi" />
+        android:icon="@drawable/report"
+        android:title="@string/title_verifikasi"
+        android:tint="@null" />
 
 </menu>

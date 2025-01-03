@@ -165,7 +165,7 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
                 holder.ivTandaiPelanggan.setVisibility(View.VISIBLE);
             }
 
-            ApiService apiService = ApiConfig.getApiService(context);
+            ApiService apiService = ApiConfig.getApiServiceGWAPI(context);
             apiService.postUpdateTandaPlg(token, dataItems.get(position).getNolangg(), bendel, kodeTandai)
                     .enqueue(new Callback<TandaiBendelRootModel>() {
                         @SuppressLint("ResourceAsColor")

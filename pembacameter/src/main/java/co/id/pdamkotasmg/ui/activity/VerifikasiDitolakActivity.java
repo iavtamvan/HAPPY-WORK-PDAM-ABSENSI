@@ -61,7 +61,7 @@ public class VerifikasiDitolakActivity extends AppCompatActivity {
 
     private void getDataVerifikasiDitolak() {
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService(VerifikasiDitolakActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(VerifikasiDitolakActivity.this);
         apiService.getVerifikasiDitolak(token)
                 .enqueue(new Callback<RiwayatBacaMeterRootModel>() {
                     @Override

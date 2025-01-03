@@ -11,7 +11,7 @@ android {
         applicationId "com.pdamkotasmg.happywork"
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode 52 // update playstore
+        versionCode 53 // update playstore
         versionName "1.1.1" // ini diganti
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -145,9 +145,9 @@ dependencies {
     implementation 'com.github.androidmads:QRGenerator:1.0.1'
     implementation 'com.google.zxing:core:3.3.3'
 
-    implementation ('com.github.SumiMakito:AwesomeQRCode:1.2.0'){
-        exclude group: 'com.waynejo', module: 'androidndkgif' // exclude jcenter module
-    }
+//    implementation ('com.github.SumiMakito:AwesomeQRCode:1.2.0'){
+//        exclude group: 'com.waynejo', module: 'androidndkgif' // exclude jcenter module
+//    }
 
     //scan QR
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.0'

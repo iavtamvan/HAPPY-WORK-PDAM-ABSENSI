@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiConfig {
 
-    public static ApiService getApiService(Context context) {
+    public static ApiService getApiServiceGWAPI(Context context) {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -31,6 +31,34 @@ public class ApiConfig {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://gateway.pdamkotasmg.co.id/api-gw/")
+//                .baseUrl("https://gateway.pdamkotasmg.co.id/api-gw-dev/")
+//                .baseUrl("https://app.pdamkotasmg.co.id/api-gw-dev/")
+//                .baseUrl("https://tirta.pdamkotasmg.co.id/api-gw-dev/")
+//                .baseUrl("https://pdam-lb.herokuapp.com/api-gw-dev/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+
+        return retrofit.create(ApiService.class);
+    }
+
+    public static ApiService getApiServiceGitHub(Context context) {
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        ChuckerCollector chuckerCollector = new ChuckerCollector(context, false);
+        ChuckerInterceptor chuckerInterceptor = new ChuckerInterceptor(context, chuckerCollector);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(chuckerInterceptor)
+                .addInterceptor(httpLoggingInterceptor)
+                .connectTimeout(300, TimeUnit.SECONDS)
+                .writeTimeout(300, TimeUnit.SECONDS)
+                .readTimeout(300, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://raw.githubusercontent.com/")
 //                .baseUrl("https://gateway.pdamkotasmg.co.id/api-gw-dev/")
 //                .baseUrl("https://app.pdamkotasmg.co.id/api-gw-dev/")
 //                .baseUrl("https://tirta.pdamkotasmg.co.id/api-gw-dev/")

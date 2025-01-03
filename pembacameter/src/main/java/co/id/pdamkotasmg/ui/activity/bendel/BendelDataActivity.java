@@ -70,7 +70,7 @@ public class BendelDataActivity extends AppCompatActivity {
         progressDialog.setMessage("Mohon tunggu...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService(this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(this);
         apiService.getBendel(token, codeBendel, binding.edtNolangg.getText().toString().trim()).enqueue(new Callback<BendelRootModel>() {
             @Override
             public void onResponse(Call<BendelRootModel> call, Response<BendelRootModel> response) {

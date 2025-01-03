@@ -58,7 +58,7 @@ public class RiwayatPembacaMeterActivity extends AppCompatActivity {
 
     private void getDataRiwayatBacaMeter() {
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService(RiwayatPembacaMeterActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(RiwayatPembacaMeterActivity.this);
         apiService.getRiwayatBacaMeter(token, binding.edtBendel.getText().toString().trim(), binding.edtNolangg.getText().toString().trim())
                 .enqueue(new Callback<RiwayatBacaMeterRootModel>() {
                     @Override

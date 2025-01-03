@@ -475,7 +475,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
         RequestBody requestFilePhotoKtp = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileMeter);
         MultipartBody.Part bodyFileMeter = MultipartBody.Part.createFormData("photo", imageFileMeter.getName(), requestFilePhotoKtp);
 
-        ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(PembacaMeterActivity.this);
         apiService.postUploadFoto(token, path, fileName, bodyFileMeter)
                 .enqueue(new Callback<PostFotoUploadRootModel>() {
                     @Override
@@ -497,7 +497,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
     }
 
     private void postDataPembacaMeter() {
-        ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(PembacaMeterActivity.this);
         apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, modelDevice,
                         kodeStatusMeter, binding.edtKeterangan.getText().toString().trim(),
                         action_code, String.valueOf(lati), String.valueOf(longi), address_gps, binding.edtManometer.getText().toString().trim(), "", modelDevice)
@@ -553,7 +553,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
     private void getListGabungan() {
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(PembacaMeterActivity.this);
         apiService.getListGabungan(token)
                 .enqueue(new Callback<ListGabunganRootModel>() {
                     @Override
@@ -579,7 +579,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
     }
 
     private void getCheckPelanggan(String nolangg) {
-        ApiService apiService = ApiConfig.getApiService(PembacaMeterActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(PembacaMeterActivity.this);
         apiService.getCheckPelangganDetail(token, nolangg)
                 .enqueue(new Callback<CheckPelangganRootModel>() {
                     @SuppressLint("SetTextI18n")
@@ -813,7 +813,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
     }
 
     private void getBendel() {
-        ApiService apiService = ApiConfig.getApiService(this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(this);
         apiService.getBendelNext(token, codeBendel).enqueue(new Callback<BendelNextModel>() {
             @Override
             public void onResponse(Call<BendelNextModel> call, Response<BendelNextModel> response) {

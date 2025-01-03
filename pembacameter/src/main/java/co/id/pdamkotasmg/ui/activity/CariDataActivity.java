@@ -119,7 +119,7 @@ public class CariDataActivity extends AppCompatActivity {
 
     private void getCariData() {
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService(CariDataActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(CariDataActivity.this);
         apiService.getCariData(token, inputCariDataNama, inputCariDataAlamat, inputCariDataNometer)
                 .enqueue(new Callback<CariDataRootModel>() {
                     @Override

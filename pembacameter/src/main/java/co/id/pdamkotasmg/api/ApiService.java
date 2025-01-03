@@ -1,5 +1,7 @@
 package co.id.pdamkotasmg.api;
 
+import java.util.List;
+
 import co.id.pdamkotasmg.model.bendel.BendelRootModel;
 import co.id.pdamkotasmg.model.bendel.bendelNext.BendelNextModel;
 import co.id.pdamkotasmg.model.bendel.tandaiPlg.TandaiBendelRootModel;
@@ -10,6 +12,7 @@ import co.id.pdamkotasmg.model.checkPelangganSudahDibaca.CheckPelangganRootModel
 import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
 import co.id.pdamkotasmg.model.home.HomeRootModel;
 import co.id.pdamkotasmg.model.listGabungan.ListGabunganRootModel;
+import co.id.pdamkotasmg.model.motivation.RootMotivationItem;
 import co.id.pdamkotasmg.model.riwayatBacaMeter.RiwayatBacaMeterRootModel;
 import co.id.pdamkotasmg.model.updatePembacaMeter.UpdatePembacaMeterRootModel;
 import okhttp3.MultipartBody;
@@ -136,4 +139,9 @@ public interface ApiService {
             @Field("bendel") String bendel,
             @Field("tandai") String tandai
     );
+
+    // TODO API GitHub
+    @GET("lakuapik/quotes-indonesia/refs/heads/master/raw/quotes.min.json")
+    Call<List<RootMotivationItem>> getMotivation();
+
 }
