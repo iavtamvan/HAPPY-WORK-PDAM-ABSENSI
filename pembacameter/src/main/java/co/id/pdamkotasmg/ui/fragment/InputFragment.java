@@ -24,6 +24,7 @@ import co.id.pdamkotasmg.model.checkByNolangg.CheckByNolanggRootModel;
 import co.id.pdamkotasmg.pembacameter.databinding.FragmentInputBinding;
 import co.id.pdamkotasmg.ui.activity.PembacaMeterActivity;
 import co.id.pdamkotasmg.ui.activity.RiwayatPembacaMeterActivity;
+import co.id.pdamkotasmg.ui.activity.SingleManometerActivity;
 import co.id.pdamkotasmg.ui.activity.VerifikasiDitolakActivity;
 import co.id.pdamkotasmg.ui.activity.bendel.InputDataActivity;
 import retrofit2.Call;
@@ -138,8 +139,8 @@ public class InputFragment extends Fragment {
             startActivity(new Intent(getActivity(), VerifikasiDitolakActivity.class));
         });
 
-        binding.divInFotoMeterManual.setOnClickListener(view -> {
-            Toast.makeText(getActivity(), "Belum tersedia", Toast.LENGTH_SHORT).show();
+        binding.divInManometer.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), SingleManometerActivity.class));
         });
 
         return root;
