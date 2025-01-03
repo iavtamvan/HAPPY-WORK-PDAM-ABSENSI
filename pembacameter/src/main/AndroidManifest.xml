@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <dist:module
@@ -15,6 +16,9 @@
     </dist:module>
 
     <application android:icon="@mipmap/ic_launcher">
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.SingleManometerActivity"
+            android:exported="false" />
         <activity
             android:name="co.id.pdamkotasmg.ui.activity.CariDataActivity"
             android:exported="false" />
@@ -56,8 +60,7 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <service android:name="co.id.pdamkotasmg.service.PingService"/>
-
+        <service android:name="co.id.pdamkotasmg.service.PingService" />
     </application>
 
 </manifest>
