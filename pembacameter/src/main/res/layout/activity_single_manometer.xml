@@ -5,13 +5,14 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp"
     android:orientation="vertical"
     tools:context="co.id.pdamkotasmg.ui.activity.SingleManometerActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp">
 
         <ImageView
             android:id="@+id/iv_header_back_arrow"
@@ -35,6 +36,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="8dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -139,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:gravity="left"
-                android:text="Agus"
+                android:text="-"
                 android:textColor="@color/black"
                 android:textSize="13dp" />
         </LinearLayout>
@@ -160,17 +162,25 @@
                 android:textSize="10dp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cvFotoManometer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="220dp"
                 android:layout_margin="8dp"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="4dp">
 
+                <ImageView
+                    android:id="@+id/imageViewManometer"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/image_not_found" />
+
                 <com.github.chrisbanes.photoview.PhotoView
+                    android:layout_height="match_parent"
                     android:id="@+id/photoViewManometer"
                     android:layout_width="match_parent"
-                    android:layout_height="230dp"
-                    android:src="@drawable/image_not_found" />
+                    android:visibility="gone" />
 
             </androidx.cardview.widget.CardView>
         </LinearLayout>
@@ -181,10 +191,9 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/poppins"
             android:gravity="left"
-            android:text="*data yang sudah disimpan adalah data FINAL dan tidak dapat DIEDIT"
+            android:text="*jika terjadi kesalahan data, input lagi dengan nolangg yang sama [REPLACE] pastikan PERIODE saat ini"
             android:textColor="@color/red"
             android:textSize="11dp" />
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -199,7 +208,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/grey"
                 android:fontFamily="@font/poppins"
-                android:text="Batalkan"
+                android:text="BATAL"
                 android:textSize="14dp"
                 android:textStyle="bold" />
 
@@ -210,7 +219,7 @@
                 android:layout_margin="4dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/poppins"
-                android:text="Simpan Data"
+                android:text="Simpan"
                 android:textSize="14dp"
                 android:textStyle="bold" />
 

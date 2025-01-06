@@ -14,6 +14,7 @@ import co.id.pdamkotasmg.model.home.HomeRootModel;
 import co.id.pdamkotasmg.model.listGabungan.ListGabunganRootModel;
 import co.id.pdamkotasmg.model.motivation.RootMotivationItem;
 import co.id.pdamkotasmg.model.riwayatBacaMeter.RiwayatBacaMeterRootModel;
+import co.id.pdamkotasmg.model.singleManometer.SingleManomterRoot;
 import co.id.pdamkotasmg.model.updatePembacaMeter.UpdatePembacaMeterRootModel;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -138,6 +139,15 @@ public interface ApiService {
             @Field("nolangg") String nolangg,
             @Field("bendel") String bendel,
             @Field("tandai") String tandai
+    );
+
+    @FormUrlEncoded
+    @POST("pembaca-meter/api/u/single-manometer")
+    Call<SingleManomterRoot> postUpdateManometerSingle(
+            @Header("Authorization") String auth,
+            @Field("nolangg") String nolangg,
+            @Field("manometer") String manometer,
+            @Field("manometer_foto") String manometer_foto
     );
 
     // TODO API GitHub
