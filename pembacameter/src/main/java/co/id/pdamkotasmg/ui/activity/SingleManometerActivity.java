@@ -30,6 +30,7 @@ import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
 import co.id.pdamkotasmg.model.singleManometer.SingleManomterRoot;
 import co.id.pdamkotasmg.pembacameter.R;
 import co.id.pdamkotasmg.pembacameter.databinding.ActivitySingleManometerBinding;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -111,41 +112,53 @@ public class SingleManometerActivity extends AppCompatActivity {
                 return;
             }
 
-            // TODO proses Upload Foto
-            progressDialog.show();
+            MaterialDialog mDialog = new MaterialDialog.Builder(SingleManometerActivity.this)
+                    .setTitle("Apakah data Anda sudah benar?")
+                    .setCancelable(false)
+                    .setNegativeButton("Belum", (dialogInterface, which) -> {
+                        dialogInterface.dismiss();
+                    })
+                    .setPositiveButton("Sudah", (dialogInterface, which) -> {
+                        dialogInterface.dismiss();
 
-            Date currentTime = Calendar.getInstance().getTime();
-            String timestamp = String.valueOf(currentTime.getTime());
-            String year = new SimpleDateFormat("y", Locale.getDefault()).format(new Date());
-            String month = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
+                        // TODO proses Upload Foto
+                        progressDialog.show();
 
-            RequestBody path = RequestBody.create(MediaType.parse("text/plain"), "/pembaca-meter/foto-pembaca-meter/" + year + "/" + month);
-            RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), "pembaca-meter-manometer-single" + binding.edtNolanggManometer.getText().toString() + "-" + npp + "-" + year + month + "-" + timestamp);
+                        Date currentTime = Calendar.getInstance().getTime();
+                        String timestamp = String.valueOf(currentTime.getTime());
+                        String year = new SimpleDateFormat("y", Locale.getDefault()).format(new Date());
+                        String month = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
 
-            File imageFileMeter = new File(compressedImageFile1.getPath());
-            RequestBody requestFileManometer = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileMeter);
-            MultipartBody.Part bodyFileManometer = MultipartBody.Part.createFormData("photo", imageFileMeter.getName(), requestFileManometer);
+                        RequestBody path = RequestBody.create(MediaType.parse("text/plain"), "/pembaca-meter/foto-pembaca-meter/" + year + "/" + month);
+                        RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), "pembaca-meter-manometer-single" + binding.edtNolanggManometer.getText().toString() + "-" + npp + "-" + year + month + "-" + timestamp);
 
-            ApiService apiService = ApiConfig.getApiServiceGWAPI(SingleManometerActivity.this);
-            apiService.postUploadFoto(token, path, fileName, bodyFileManometer)
-                    .enqueue(new Callback<PostFotoUploadRootModel>() {
-                        @Override
-                        public void onResponse(Call<PostFotoUploadRootModel> call, Response<PostFotoUploadRootModel> response) {
-                            if (response.isSuccessful()) {
-                                Log.d(TAG, "uploadImage " + response.body().getData().getFileurl());
-                                filePathServer = response.body().getData().getFilepath();
-                                // TODO proses Sending database
-                                postDataManometer();
-                            }
-                        }
+                        File imageFileMeter = new File(compressedImageFile1.getPath());
+                        RequestBody requestFileManometer = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileMeter);
+                        MultipartBody.Part bodyFileManometer = MultipartBody.Part.createFormData("photo", imageFileMeter.getName(), requestFileManometer);
 
-                        @Override
-                        public void onFailure(Call<PostFotoUploadRootModel> call, Throwable t) {
-                            progressDialog.cancel();
-                            Toast.makeText(SingleManometerActivity.this, "Upload Foto Gagal " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                        ApiService apiService = ApiConfig.getApiServiceGWAPI(SingleManometerActivity.this);
+                        apiService.postUploadFoto(token, path, fileName, bodyFileManometer)
+                                .enqueue(new Callback<PostFotoUploadRootModel>() {
+                                    @Override
+                                    public void onResponse(Call<PostFotoUploadRootModel> call, Response<PostFotoUploadRootModel> response) {
+                                        if (response.isSuccessful()) {
+                                            Log.d(TAG, "uploadImage " + response.body().getData().getFileurl());
+                                            filePathServer = response.body().getData().getFilepath();
+                                            // TODO proses Sending database
+                                            postDataManometer();
+                                        }
+                                    }
 
+                                    @Override
+                                    public void onFailure(Call<PostFotoUploadRootModel> call, Throwable t) {
+                                        progressDialog.cancel();
+                                        Toast.makeText(SingleManometerActivity.this, "Upload Foto Gagal " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    })
+                    .build();
+
+            mDialog.show();
 
         });
 
@@ -171,16 +184,23 @@ public class SingleManometerActivity extends AppCompatActivity {
                     public void onResponse(Call<SingleManomterRoot> call, Response<SingleManomterRoot> response) {
                         if (response.isSuccessful()) {
                             progressDialog.cancel();
-                            Toast.makeText(SingleManometerActivity.this, "Data berhasil disimpan", Toast.LENGTH_SHORT).show();
-                            binding.edtNolanggManometer.setText("");
-                            binding.edtTekananManometer.setText("");
-                            SingleManometerActivity.this.finish();
+
+                            if (response.body().getData().equals("1")){
+                                Toast.makeText(SingleManometerActivity.this, "Data berhasil disimpan", Toast.LENGTH_SHORT).show();
+                                binding.edtNolanggManometer.setText("");
+                                binding.edtTekananManometer.setText("");
+                                SingleManometerActivity.this.finish();
+                            } else {
+                                Toast.makeText(SingleManometerActivity.this, "Data gagal disimpan", Toast.LENGTH_SHORT).show();
+                            }
+
+
                         }
                     }
 
                     @Override
                     public void onFailure(Call<SingleManomterRoot> call, Throwable t) {
-                        Toast.makeText(SingleManometerActivity.this, "Gagal tersimpan - " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SingleManometerActivity.this, "Gagal tersimpan Failure - " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
