@@ -174,6 +174,8 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
                                 }
                             }
 
+                            Glide.with(DetailRiwayatPembacaMeterActivity.this).load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlTrbaca().get(0).getManometerFoto()).error(R.drawable.im_good_day).into(binding.ivFotoManometerBlnLalu);
+
 
 
 
@@ -239,6 +241,8 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
 
 
                             }
+
+                            Glide.with(DetailRiwayatPembacaMeterActivity.this).load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getManometerFoto()).error(R.drawable.im_good_day).into(binding.ivFotoManometerBlnSekarang);
 
                             String statusVerifikasi = response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getStver();
                             if (statusVerifikasi == null) {

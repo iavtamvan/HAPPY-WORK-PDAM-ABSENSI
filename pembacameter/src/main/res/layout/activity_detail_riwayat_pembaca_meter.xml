@@ -540,6 +540,19 @@
                                 android:layout_height="200dp"
                                 android:src="@drawable/im_good_day" />
 
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Foto Manometer"
+                                android:textSize="12dp" />
+
+                            <com.github.chrisbanes.photoview.PhotoView
+                                android:id="@+id/iv_foto_manometer_bln_lalu"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp"
+                                android:src="@drawable/im_good_day" />
+
 <!--                            <ImageView-->
 <!--                                android:id="@+id/iv_foto_meter_bln_lalu"-->
 <!--                                android:layout_width="match_parent"-->
@@ -777,14 +790,21 @@
                                 android:text="Foto Meter"
                                 android:textSize="12dp" />
 
-<!--                            <ImageView-->
-<!--                                android:id="@+id/iv_foto_meter_bln_sekarang"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="200dp"-->
-<!--                                android:src="@drawable/im_good_day" />-->
-
                             <com.github.chrisbanes.photoview.PhotoView
                                 android:id="@+id/iv_foto_meter_bln_sekarang"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp"
+                                android:src="@drawable/im_good_day" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Foto Manometer"
+                                android:textSize="12dp" />
+
+                            <com.github.chrisbanes.photoview.PhotoView
+                                android:id="@+id/iv_foto_manometer_bln_sekarang"
                                 android:layout_width="match_parent"
                                 android:layout_height="200dp"
                                 android:src="@drawable/im_good_day" />

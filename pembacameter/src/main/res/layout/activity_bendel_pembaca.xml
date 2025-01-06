@@ -447,7 +447,7 @@
                                 android:id="@+id/photoViewLeft"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/image_not_found"
+                                android:src="@drawable/image_not_available"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -480,8 +480,8 @@
                         <com.github.chrisbanes.photoview.PhotoView
                             android:id="@+id/photoViewRight"
                             android:layout_width="match_parent"
-                            android:layout_height="230dp"
-                            android:src="@drawable/image_not_found" />
+                            android:layout_height="match_parent"
+                            android:src="@drawable/image_not_available" />
                     </androidx.cardview.widget.CardView>
 
                 </LinearLayout>

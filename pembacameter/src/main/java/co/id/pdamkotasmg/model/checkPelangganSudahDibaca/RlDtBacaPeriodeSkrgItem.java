@@ -109,6 +109,17 @@ public class RlDtBacaPeriodeSkrgItem{
     @SerializedName("manometer")
     private String manometer;
 
+    @SerializedName("manometer_foto")
+    private String manometerFoto;
+
+    public String getManometerFoto() {
+        return manometerFoto;
+    }
+
+    public void setManometerFoto(String manometerFoto) {
+        this.manometerFoto = manometerFoto;
+    }
+
     public String getManometer() {
         return manometer;
     }
