@@ -405,7 +405,7 @@
                         android:id="@+id/iv_camera"
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
-                        android:src="@drawable/image_not_found"
+                        android:src="@drawable/image_not_available"
                         android:visibility="gone" />
 
                     <androidx.cardview.widget.CardView
@@ -419,7 +419,7 @@
                             android:id="@+id/photoView"
                             android:layout_width="match_parent"
                             android:layout_height="230dp"
-                            android:src="@drawable/image_not_found" />
+                            android:src="@drawable/image_not_available" />
 
                     </androidx.cardview.widget.CardView>
 

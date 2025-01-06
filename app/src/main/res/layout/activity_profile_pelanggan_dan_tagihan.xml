@@ -796,7 +796,7 @@
                                 android:id="@+id/iv_foto_rumah"
                                 android:layout_width="match_parent"
                                 android:layout_height="250dp"
-                                android:src="@drawable/image_not_found"
+                                android:src="@drawable/image_not_available"
                                 android:visibility="gone" />
                         </LinearLayout>
 

@@ -294,7 +294,7 @@ public class ProfilePelangganDanTagihanActivity extends AppCompatActivity {
                             tvName.setText(namaPelanggan);
                             tvAlamat.setText(response.body().getData().getPelanggan().getAlamat() + " Kel. " + response.body().getData().getPelanggan().getKelurahan() + " Kec. " + response.body().getData().getPelanggan().getKecamatan());
                             tvStatusPelanggan.setText(response.body().getData().getPelanggan().getStatusKet());
-                            Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getPelanggan().getFotoRumah()).override(512, 512).error(R.drawable.image_not_found).into(ivFotoRumah);
+                            Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getPelanggan().getFotoRumah()).override(512, 512).error(R.drawable.image_not_available).into(ivFotoRumah);
 
                             cvKlikFotoRumah.setOnClickListener(view -> {
                                 if (ivFotoRumah.getVisibility() == View.GONE) {
@@ -647,18 +647,18 @@ public class ProfilePelangganDanTagihanActivity extends AppCompatActivity {
                         tvFotoMeterTahun.setText("Foto Meter Tahun " + response.body().getData().getQueryKardekDataBacaan().getTahun());
 
                         // get foto meter tahun sekarang
-                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getJanuari().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter1);
-                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getFebruari().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter2);
-                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getMaret().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter3);
-                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getApril().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter4);
-                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getMei().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter5);
-                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getJuni().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter6);
-                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getJuli().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter7);
-                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getAgustus().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter8);
-                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getSeptember().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter9);
-                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getOktober().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter10);
-                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getNovember().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter11);
-                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getDesember().getFoto()).error(R.drawable.image_not_found).into(ivFotoMeter12);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getJanuari().getFoto()).error(R.drawable.image_not_available).into(ivFotoMeter1);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getFebruari().getFoto()).error(R.drawable.image_not_available).into(ivFotoMeter2);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getMaret().getFoto()).error(R.drawable.image_not_available).into(ivFotoMeter3);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getApril().getFoto()).error(R.drawable.image_not_available).into(ivFotoMeter4);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getMei().getFoto()).error(R.drawable.image_not_available).into(ivFotoMeter5);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getJuni().getFoto()).error(R.drawable.image_not_available).into(ivFotoMeter6);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getJuli().getFoto()).error(R.drawable.image_not_available).into(ivFotoMeter7);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getAgustus().getFoto()).error(R.drawable.image_not_available).into(ivFotoMeter8);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getSeptember().getFoto()).error(R.drawable.image_not_available).into(ivFotoMeter9);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getOktober().getFoto()).error(R.drawable.image_not_available).into(ivFotoMeter10);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getNovember().getFoto()).error(R.drawable.image_not_available).into(ivFotoMeter11);
+                        Glide.with(ProfilePelangganDanTagihanActivity.this).load(response.body().getData().getFotoMeter().getDesember().getFoto()).error(R.drawable.image_not_available).into(ivFotoMeter12);
 
                         tvBulanStandM31.setText("Januari : " + response.body().getData().getFotoMeter().getJanuari().getStand() + " - " + response.body().getData().getFotoMeter().getJanuari().getM3());
                         tvBulanStandM32.setText("Februari : " + response.body().getData().getFotoMeter().getFebruari().getStand() + " - " + response.body().getData().getFotoMeter().getFebruari().getM3());

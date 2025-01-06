@@ -409,7 +409,7 @@
             android:id="@+id/photoView"
             android:layout_width="match_parent"
             android:layout_height="230dp"
-            android:src="@drawable/image_not_found" />
+            android:src="@drawable/image_not_available" />
 
     </androidx.cardview.widget.CardView>
 
