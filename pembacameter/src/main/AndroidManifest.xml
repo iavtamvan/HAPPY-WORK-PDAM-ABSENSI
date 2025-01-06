@@ -23,7 +23,7 @@
             android:name="co.id.pdamkotasmg.ui.activity.CariDataActivity"
             android:exported="false" />
         <activity
-            android:name="co.id.pdamkotasmg.ui.activity.bendel.BendelPembacaActivity"
+            android:name="co.id.pdamkotasmg.ui.activity.bendel.BendelPembacaKhususActivity"
             android:exported="false" />
         <activity
             android:name="co.id.pdamkotasmg.ui.activity.VerifikasiDitolakActivity"

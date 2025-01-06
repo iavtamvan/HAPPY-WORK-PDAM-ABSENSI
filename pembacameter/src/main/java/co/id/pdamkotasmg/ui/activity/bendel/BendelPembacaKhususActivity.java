@@ -81,7 +81,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BendelPembacaActivity extends AppCompatActivity {
+public class BendelPembacaKhususActivity extends AppCompatActivity {
     private final String TAG = "debug";
     private ActivityBendelPembacaBinding binding;
 
@@ -145,7 +145,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
         View root = binding.getRoot();
         setContentView(root);
 
-        binding.ivHeaderBackArrow.setOnClickListener(view -> BendelPembacaActivity.this.finish());
+        binding.ivHeaderBackArrow.setOnClickListener(view -> BendelPembacaKhususActivity.this.finish());
         binding.tvHeaderJudul.setText("Input Bacaan Khusus Bendel");
 
         sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -155,13 +155,13 @@ public class BendelPembacaActivity extends AppCompatActivity {
         modelDevice = sp.getString(Config.SHARED_GETMODEL, "");
         nolangg = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG);
 
-        easyImage = new EasyImage.Builder(BendelPembacaActivity.this)
+        easyImage = new EasyImage.Builder(BendelPembacaKhususActivity.this)
                 .setCopyImagesToPublicGalleryFolder(false)
                 .setFolderName("GD-Pembaca-Meter")
                 .allowMultiple(true)
                 .build();
 
-        progressDialog = new ProgressDialog(BendelPembacaActivity.this);
+        progressDialog = new ProgressDialog(BendelPembacaKhususActivity.this);
         progressDialog.setMessage("Mohong tunggu ...");
         progressDialog.setCancelable(false);
 
@@ -205,7 +205,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().isEmpty()) {
-                    Toast.makeText(BendelPembacaActivity.this, "Isi meter Kini", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BendelPembacaKhususActivity.this, "Isi meter Kini", Toast.LENGTH_SHORT).show();
                     binding.tvHitungKubik.setText(" 0m3");
                     binding.tvHitungKubik.setTextColor(getColor(R.color.black));
                 } else {
@@ -228,12 +228,12 @@ public class BendelPembacaActivity extends AppCompatActivity {
 
         binding.photoViewLeft.setOnClickListener(view -> {
             reqCodeFoto = "1";
-            easyImage.openChooser(BendelPembacaActivity.this);
+            easyImage.openChooser(BendelPembacaKhususActivity.this);
         });
 
         binding.photoViewRight.setOnClickListener(view -> {
             reqCodeFoto = "2";
-            easyImage.openChooser(BendelPembacaActivity.this);
+            easyImage.openChooser(BendelPembacaKhususActivity.this);
         });
 
         binding.btnSimpanData.setOnClickListener(view -> {
@@ -243,7 +243,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
                 // TODO send to server
                 // TODO 1 send picture to server
                 // TODO 2 send data to server 3.7
-                MaterialDialog mDialog = new MaterialDialog.Builder(BendelPembacaActivity.this)
+                MaterialDialog mDialog = new MaterialDialog.Builder(BendelPembacaKhususActivity.this)
                         .setTitle("Apakah data Anda sudah benar?")
                         .setCancelable(false)
                         .setNegativeButton("Belum", (dialogInterface, which) -> {
@@ -276,7 +276,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
         });
 
         binding.ivHeaderInfo.setOnClickListener(view -> {
-            Intent intent = new Intent(BendelPembacaActivity.this, ProfilePelangganDanTagihanActivity.class);
+            Intent intent = new Intent(BendelPembacaKhususActivity.this, ProfilePelangganDanTagihanActivity.class);
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
             startActivity(intent);
 
@@ -305,7 +305,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
         RequestBody requestFilePhotoKtp = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileMeter);
         MultipartBody.Part bodyFileMeter = MultipartBody.Part.createFormData("photo", imageFileMeter.getName(), requestFilePhotoKtp);
 
-        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaKhususActivity.this);
         apiService.postUploadFoto(token, path, fileName, bodyFileMeter)
                 .enqueue(new Callback<PostFotoUploadRootModel>() {
                     @Override
@@ -327,7 +327,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<PostFotoUploadRootModel> call, Throwable t) {
                         progressDialog.cancel();
-                        Toast.makeText(BendelPembacaActivity.this, "Upload Foto Gagal " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BendelPembacaKhususActivity.this, "Upload Foto Gagal " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -347,7 +347,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
         RequestBody requestFilePhotoKtp = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileMeter);
         MultipartBody.Part bodyFileMeter = MultipartBody.Part.createFormData("photo", imageFileMeter.getName(), requestFilePhotoKtp);
 
-        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaKhususActivity.this);
         apiService.postUploadFoto(token, path, fileName, bodyFileMeter)
                 .enqueue(new Callback<PostFotoUploadRootModel>() {
                     @Override
@@ -363,13 +363,13 @@ public class BendelPembacaActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<PostFotoUploadRootModel> call, Throwable t) {
                         progressDialog.cancel();
-                        Toast.makeText(BendelPembacaActivity.this, "Upload Foto Manometer Gagal " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(BendelPembacaKhususActivity.this, "Upload Foto Manometer Gagal " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
     private void postDataPembacaMeter() {
-        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaKhususActivity.this);
         apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, "khusus-bendel",
                         kodeStatusMeter, binding.edtKeterangan.getText().toString().trim(),
                         action_code, String.valueOf(lati), String.valueOf(longi), address_gps, binding.edtManometer.getText().toString().trim(), getFilePathServerFotoManometer,
@@ -401,7 +401,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
                                 throw new RuntimeException(e);
                             }
 
-                            Toast.makeText(BendelPembacaActivity.this, "Success mengirim data : " + response.body().getData().getUpdateData(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(BendelPembacaKhususActivity.this, "Success mengirim data : " + response.body().getData().getUpdateData(), Toast.LENGTH_LONG).show();
 //                                if (codeSimpandanLanjut.equals("1")) {
 //                                    binding.edtKini.setText("");
 //                                    binding.edtKeterangan.setText("");
@@ -415,7 +415,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
 //                            }
                             bottomSheetSuksesSimpanData();
                         } else {
-                            Toast.makeText(BendelPembacaActivity.this, "postDataPembacaMeter: Gagal/Error, Coba lagi", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BendelPembacaKhususActivity.this, "postDataPembacaMeter: Gagal/Error, Coba lagi", Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
                     }
@@ -423,14 +423,14 @@ public class BendelPembacaActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<UpdatePembacaMeterRootModel> call, Throwable t) {
                         progressDialog.cancel();
-                        Toast.makeText(BendelPembacaActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BendelPembacaKhususActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     private void getListGabungan() {
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaKhususActivity.this);
         apiService.getListGabungan(token)
                 .enqueue(new Callback<ListGabunganRootModel>() {
                     @Override
@@ -450,13 +450,13 @@ public class BendelPembacaActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<ListGabunganRootModel> call, Throwable t) {
                         progressDialog.cancel();
-                        Toast.makeText(BendelPembacaActivity.this, "Status Meter Null | " + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BendelPembacaKhususActivity.this, "Status Meter Null | " + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     private void getCheckPelanggan(String nolangg) {
-        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaKhususActivity.this);
         apiService.getCheckPelangganDetail(token, nolangg)
                 .enqueue(new Callback<CheckPelangganRootModel>() {
                     @SuppressLint("SetTextI18n")
@@ -533,14 +533,14 @@ public class BendelPembacaActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<CheckPelangganRootModel> call, Throwable t) {
-                        Toast.makeText(BendelPembacaActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BendelPembacaKhususActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                     }
                 });
     }
 
     private void getLocationAdress() {
-        mFusedLocation = LocationServices.getFusedLocationProviderClient(BendelPembacaActivity.this);
+        mFusedLocation = LocationServices.getFusedLocationProviderClient(BendelPembacaKhususActivity.this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -563,7 +563,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
                     if (addressList == null) {
                         Log.d("debug", "adress list : Null");
                     } else {
-                        geocoder = new Geocoder(BendelPembacaActivity.this, Locale.getDefault());
+                        geocoder = new Geocoder(BendelPembacaKhususActivity.this, Locale.getDefault());
                         try {
                             Log.d(TAG, "Lati: " + lati + " longi" + longi);
                             addressList = geocoder.getFromLocation(lati, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
@@ -616,7 +616,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        easyImage.handleActivityResult(requestCode, resultCode, data, BendelPembacaActivity.this, new EasyImage.Callbacks() {
+        easyImage.handleActivityResult(requestCode, resultCode, data, BendelPembacaKhususActivity.this, new EasyImage.Callbacks() {
             @Override
             public void onMediaFilesPicked(@NonNull MediaFile[] mediaFiles, @NonNull MediaSource mediaSource) {
 
@@ -628,7 +628,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
 
                 if (reqCodeFoto.contains("1")){
                     try {
-                        compressedImageFileFotoMeter = new Compressor(BendelPembacaActivity.this)
+                        compressedImageFileFotoMeter = new Compressor(BendelPembacaKhususActivity.this)
                                 .setMaxHeight(400)
                                 .setMaxWidth(400)
                                 .setQuality(50)
@@ -642,14 +642,14 @@ public class BendelPembacaActivity extends AppCompatActivity {
                     }
                 } else if (reqCodeFoto.contains("2")){
                     try {
-                        compressedImageFileManometer = new Compressor(BendelPembacaActivity.this)
+                        compressedImageFileManometer = new Compressor(BendelPembacaKhususActivity.this)
                                 .setMaxHeight(400)
                                 .setMaxWidth(400)
                                 .setQuality(50)
                                 .setCompressFormat(Bitmap.CompressFormat.WEBP)
                                 .setDestinationDirectoryPath(mediaFiles[0].getFile().getParent())
                                 .compressToFile(mediaFiles[0].getFile(), "comp1_PM_MM_" + nolangg + "_" + timestamp + "_" + randomUUIDString + "_" + mediaFiles[0].getFile().getName());
-                        Glide.with(BendelPembacaActivity.this).load(compressedImageFileManometer.getPath()).error(R.drawable.image_not_found).into(binding.photoViewRight);
+                        Glide.with(BendelPembacaKhususActivity.this).load(compressedImageFileManometer.getPath()).error(R.drawable.image_not_found).into(binding.photoViewRight);
 //                        showImageWatermark(compressedImageFileManometer.getPath(), binding.photoViewRight);
 //                    Log.d(TAG, "onMediaFilesPicked: " + compressedImageFileFotoMeter.getPath());
                     } catch (IOException e) {
@@ -674,7 +674,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
     }
 
     private void showImageWatermark(String file, PhotoView photoView) {
-        Glide.with(BendelPembacaActivity.this)
+        Glide.with(BendelPembacaKhususActivity.this)
                 .asBitmap()
                 .load(file)
                 .into(new CustomTarget<Bitmap>() {
@@ -763,7 +763,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
             pathImageWatermark = destination.getParent();
             compressedImageFileFotoMeter = new File(destination.getPath());
 
-            compressedImageFileFotoMeter = new Compressor(BendelPembacaActivity.this)
+            compressedImageFileFotoMeter = new Compressor(BendelPembacaKhususActivity.this)
                     .setMaxHeight(400)
                     .setMaxWidth(400)
                     .setQuality(50)
@@ -787,7 +787,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
     }
 
     private void bottomSheetSuksesSimpanData() {
-        final BottomSheetDialog bottomSheetDialogResultDataBacaan = new BottomSheetDialog(BendelPembacaActivity.this);
+        final BottomSheetDialog bottomSheetDialogResultDataBacaan = new BottomSheetDialog(BendelPembacaKhususActivity.this);
         bottomSheetDialogResultDataBacaan.setContentView(R.layout.bottom_sheet_result_data_bacaan);
         bottomSheetDialogResultDataBacaan.setCancelable(false);
 
@@ -814,19 +814,19 @@ public class BendelPembacaActivity extends AppCompatActivity {
 
         btnClose.setOnClickListener(view -> {
             bottomSheetDialogResultDataBacaan.dismiss();
-            BendelPembacaActivity.this.finish();
+            BendelPembacaKhususActivity.this.finish();
             progressDialog.cancel();
         });
 
         divEdit.setOnClickListener(view -> {
-            BendelPembacaActivity.this.finish();
-            Intent intent = new Intent(BendelPembacaActivity.this, DetailRiwayatPembacaMeterActivity.class);
+            BendelPembacaKhususActivity.this.finish();
+            Intent intent = new Intent(BendelPembacaKhususActivity.this, DetailRiwayatPembacaMeterActivity.class);
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
             startActivity(intent);
         });
 
         divLihatRiwayat.setOnClickListener(view -> {
-            BendelPembacaActivity.this.finish();
+            BendelPembacaKhususActivity.this.finish();
             startActivity(new Intent(getApplicationContext(), RiwayatPembacaMeterActivity.class));
         });
 
@@ -860,7 +860,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
             PhotoView photoView
 
     ) {
-        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaActivity.this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaKhususActivity.this);
         apiService.getPelanggan(token, nolangg)
                 .enqueue(new Callback<CheckPelangganRootModel>() {
                     @Override
@@ -886,14 +886,14 @@ public class BendelPembacaActivity extends AppCompatActivity {
                             tvKini.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKini());
                             tvManometer.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getManometer());
                             tvPetugas.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPcEntry() + " - " + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getIpEntry());
-                            Glide.with(BendelPembacaActivity.this).load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
+                            Glide.with(BendelPembacaKhususActivity.this).load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
                                     .error(R.drawable.image_not_found)
                                     .override(512, 512)
                                     .into(photoView);
 
                         } else {
                             progressDialog.cancel();
-                            Toast.makeText(BendelPembacaActivity.this, "bottomSheetSuksesSimpanData: Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BendelPembacaKhususActivity.this, "bottomSheetSuksesSimpanData: Error", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -901,7 +901,7 @@ public class BendelPembacaActivity extends AppCompatActivity {
                     public void onFailure(Call<CheckPelangganRootModel> call, Throwable t) {
                         progressDialog.cancel();
                         tvResultMsgServer.setText("Failure: Gagal mengambil data");
-                        Toast.makeText(BendelPembacaActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BendelPembacaKhususActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
 
                     }
                 });

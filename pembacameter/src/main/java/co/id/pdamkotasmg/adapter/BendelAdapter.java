@@ -30,7 +30,7 @@ import co.id.pdamkotasmg.model.bendel.DataItem;
 import co.id.pdamkotasmg.model.bendel.RlDataBacaSekarang;
 import co.id.pdamkotasmg.model.bendel.tandaiPlg.TandaiBendelRootModel;
 import co.id.pdamkotasmg.pembacameter.R;
-import co.id.pdamkotasmg.ui.activity.bendel.BendelPembacaActivity;
+import co.id.pdamkotasmg.ui.activity.bendel.BendelPembacaKhususActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -129,7 +129,7 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
 
         holder.cvKlik.setOnClickListener(v -> {
             codeInputData = "1";
-            Intent intent = new Intent(context, BendelPembacaActivity.class);
+            Intent intent = new Intent(context, BendelPembacaKhususActivity.class);
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, dataItems.get(position).getNolangg());
 //            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL_NEXT, bendel);
 //            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeInputData);
