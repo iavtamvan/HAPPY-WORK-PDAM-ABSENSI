@@ -212,7 +212,9 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
 //                    if (codeInputData.contains("7")){
 //
 //                    } else {
-                    String hitungm3 = String.valueOf(Integer.parseInt(editable.toString()) - Integer.parseInt(lalu));
+//                    String hitungm3 = String.valueOf(Integer.parseInt(editable.toString()) - Integer.parseInt(lalu));
+                    String hitungm3 = "0" ;
+                    hitungm3 = String.valueOf(Integer.parseInt(editable.toString()) - Integer.parseInt(lalu));
                     binding.tvHitungKubik.setText(hitungm3 + "m3");
 
                     if (Integer.parseInt(hitungm3) < 0) {
