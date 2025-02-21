@@ -323,16 +323,16 @@ public class DigitalSignatureActivity extends AppCompatActivity {
         RequestBody nppBody = RequestBody.create(MediaType.parse("text/plain"), npp);
         RequestBody nikKtpBody = RequestBody.create(MediaType.parse("text/plain"), edtNikKtp.getText().toString().trim());
 
-        File imageFileKtp = new File(fileKtp);
-        RequestBody requestFilePhotoKtp = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileKtp);
-        bodyPhotoKtp = MultipartBody.Part.createFormData("foto_ktp", imageFileKtp.getName(), requestFilePhotoKtp);
+//        File imageFileKtp = new File(fileKtp);
+//        RequestBody requestFilePhotoKtp = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileKtp);
+//        bodyPhotoKtp = MultipartBody.Part.createFormData("foto_ktp", imageFileKtp.getName(), requestFilePhotoKtp);
 
         File imageFileTTE = new File(fileTTE);
         RequestBody requestFilePhotoTTE = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileTTE);
         bodyPhotoTTE = MultipartBody.Part.createFormData("foto_ttd", imageFileTTE.getName(), requestFilePhotoTTE);
 
         ApiService apiService = ApiConfig.getApiService(DigitalSignatureActivity.this);
-        apiService.postUploadTTE(access_token, nppBody, nikKtpBody, bodyPhotoKtp, bodyPhotoTTE)
+        apiService.postUploadTTE(access_token, nppBody, nikKtpBody, bodyPhotoTTE)
                 .enqueue(new Callback<FaceDetectionRootModel>() {
                     @Override
                     public void onResponse(Call<FaceDetectionRootModel> call, Response<FaceDetectionRootModel> response) {

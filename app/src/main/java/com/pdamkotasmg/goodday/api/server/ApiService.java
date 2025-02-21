@@ -326,7 +326,6 @@ public interface ApiService {
             @Header("Authorization") String auth,
             @Part("npp") RequestBody npp,
             @Part("nik_ktp") RequestBody nik_ktp,
-            @Part MultipartBody.Part filePartPhotoKtp,
             @Part MultipartBody.Part filePartPhotoTTE
     );
 
