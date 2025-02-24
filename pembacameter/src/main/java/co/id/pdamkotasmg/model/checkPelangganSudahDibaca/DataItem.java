@@ -6,6 +6,27 @@ import java.util.List;
 
 public class DataItem{
 
+    @SerializedName("rl_status_pelanggan")
+    private RlStatusPelanggan rlStatusPelanggan;
+
+    @SerializedName("kec")
+    private String kec;
+
+    @SerializedName("rl_trbaca")
+    private List<RlTrbacaItem> rlTrbaca;
+
+    @SerializedName("tgl_buka")
+    private String tglBuka;
+
+    @SerializedName("tarif")
+    private String tarif;
+
+    @SerializedName("kel")
+    private String kel;
+
+    @SerializedName("diameter")
+    private String diameter;
+
     @SerializedName("st")
     private String st;
 
@@ -15,14 +36,11 @@ public class DataItem{
     @SerializedName("sumur")
     private String sumur;
 
-    @SerializedName("kec")
-    private String kec;
+    @SerializedName("rl_cabang")
+    private RlCabang rlCabang;
 
     @SerializedName("tgl_meter")
     private String tglMeter;
-
-    @SerializedName("rl_trbaca")
-    private List<RlTrbacaItem> rlTrbaca;
 
     @SerializedName("rl_tarif")
     private RlTarif rlTarif;
@@ -39,23 +57,11 @@ public class DataItem{
     @SerializedName("dism")
     private String dism;
 
-    @SerializedName("tgl_buka")
-    private String tglBuka;
-
-    @SerializedName("tarif")
-    private String tarif;
-
-    @SerializedName("kel")
-    private String kel;
-
     @SerializedName("nama")
     private String nama;
 
     @SerializedName("tgl_pasang")
     private String tglPasang;
-
-    @SerializedName("diameter")
-    private String diameter;
 
     @SerializedName("rl_dt_baca_periode_skrg")
     private List<RlDtBacaPeriodeSkrgItem> rlDtBacaPeriodeSkrg;
@@ -71,6 +77,62 @@ public class DataItem{
 
     @SerializedName("tanggal")
     private String tanggal;
+
+    public void setRlStatusPelanggan(RlStatusPelanggan rlStatusPelanggan){
+        this.rlStatusPelanggan = rlStatusPelanggan;
+    }
+
+    public RlStatusPelanggan getRlStatusPelanggan(){
+        return rlStatusPelanggan;
+    }
+
+    public void setKec(String kec){
+        this.kec = kec;
+    }
+
+    public String getKec(){
+        return kec;
+    }
+
+    public void setRlTrbaca(List<RlTrbacaItem> rlTrbaca){
+        this.rlTrbaca = rlTrbaca;
+    }
+
+    public List<RlTrbacaItem> getRlTrbaca(){
+        return rlTrbaca;
+    }
+
+    public void setTglBuka(String tglBuka){
+        this.tglBuka = tglBuka;
+    }
+
+    public String getTglBuka(){
+        return tglBuka;
+    }
+
+    public void setTarif(String tarif){
+        this.tarif = tarif;
+    }
+
+    public String getTarif(){
+        return tarif;
+    }
+
+    public void setKel(String kel){
+        this.kel = kel;
+    }
+
+    public String getKel(){
+        return kel;
+    }
+
+    public void setDiameter(String diameter){
+        this.diameter = diameter;
+    }
+
+    public String getDiameter(){
+        return diameter;
+    }
 
     public void setSt(String st){
         this.st = st;
@@ -96,12 +158,12 @@ public class DataItem{
         return sumur;
     }
 
-    public void setKec(String kec){
-        this.kec = kec;
+    public void setRlCabang(RlCabang rlCabang){
+        this.rlCabang = rlCabang;
     }
 
-    public String getKec(){
-        return kec;
+    public RlCabang getRlCabang(){
+        return rlCabang;
     }
 
     public void setTglMeter(String tglMeter){
@@ -110,14 +172,6 @@ public class DataItem{
 
     public String getTglMeter(){
         return tglMeter;
-    }
-
-    public void setRlTrbaca(List<RlTrbacaItem> rlTrbaca){
-        this.rlTrbaca = rlTrbaca;
-    }
-
-    public List<RlTrbacaItem> getRlTrbaca(){
-        return rlTrbaca;
     }
 
     public void setRlTarif(RlTarif rlTarif){
@@ -160,30 +214,6 @@ public class DataItem{
         return dism;
     }
 
-    public void setTglBuka(String tglBuka){
-        this.tglBuka = tglBuka;
-    }
-
-    public String getTglBuka(){
-        return tglBuka;
-    }
-
-    public void setTarif(String tarif){
-        this.tarif = tarif;
-    }
-
-    public String getTarif(){
-        return tarif;
-    }
-
-    public void setKel(String kel){
-        this.kel = kel;
-    }
-
-    public String getKel(){
-        return kel;
-    }
-
     public void setNama(String nama){
         this.nama = nama;
     }
@@ -198,14 +228,6 @@ public class DataItem{
 
     public String getTglPasang(){
         return tglPasang;
-    }
-
-    public void setDiameter(String diameter){
-        this.diameter = diameter;
-    }
-
-    public String getDiameter(){
-        return diameter;
     }
 
     public void setRlDtBacaPeriodeSkrg(List<RlDtBacaPeriodeSkrgItem> rlDtBacaPeriodeSkrg){

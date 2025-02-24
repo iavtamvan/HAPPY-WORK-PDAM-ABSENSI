@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#4E66FF</color>
+    <color name="primary">#0096D1</color>
+    <color name="colorPrimaryVariant">#3EBDC6</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="grey">#B8B8B8</color>
+    <color name="grey_dark">#989898</color>
+    <color name="grey_great_day">#E1E9EC</color>
+    <color name="grey_white">#F8F8F8</color>
+    <color name="red">#C30000</color>
+    <color name="lavender">#8692f7</color>
+    <color name="cranePurple">#5D1049</color>
+    <color name="cranePurpleDark">#4E0D3A</color>
+    <color name="greenGojek">#31B057</color>
+    <color name="orangeGreatDay">#D5840D</color>
+    <color name="orangeLightGreatDay">#F9E5B0</color>
+    <color name="yellowPortal">#ffc107</color>
+    <color name="redPortal">#dc3545</color>
+    <color name="greenPortal">#28a745</color>
+    <color name="colorGold">#ffd700</color>
+    <color name="colorDarkGold">#D1B000</color>
+    <color name="colorBlackDoff">#1B1B1B</color>
+    <color name="blue">#00BFFF</color>
+
+
+    <color name="dash_v2_bluedark">#363c94</color>
+    <color name="dash_v2_blueLightBanget">#EFF8FC</color>
+    <color name="dash_v2_purpleLight">#F9ECFB</color>
+    <color name="dash_v2_blueLightLumayan">#E7E9F8</color>
+    <color name="dash_v2_yellowLight">#FEF8E6</color>
+    <color name="dash_v2_blueDarkLight">#E7E8F1</color>
+    <color name="dash_v2_redLight">#F1E7E7</color>
+
+    <color name="dash_v2_azure">#C9F0FF</color>
+</resources>

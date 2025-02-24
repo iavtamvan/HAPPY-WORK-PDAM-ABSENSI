@@ -21,7 +21,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.gson.Gson;
-import com.pdamkotasmg.goodday.BuildConfig;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
@@ -40,13 +39,13 @@ import com.pdamkotasmg.goodday.fitur.profil.controller.ProfileController;
 import com.pdamkotasmg.goodday.utils.Config;
 import com.pdamkotasmg.goodday.utils.Connectivity;
 import com.scottyab.rootbeer.RootBeer;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
@@ -110,15 +109,15 @@ public class DashboardActivity extends AppCompatActivity {
 
         if (timeOfDay >= 0 && timeOfDay < 11) {
             tvGood.setText("Good Morning \uD83C\uDF04");
-            Config.showNotification(DashboardActivity.this, "Pekerjaan Sudah Siap", "Semangat kerja !!!");
+            Config.showNotification(DashboardActivity.this, "Pekerjaan Sudah Siap", "Semangat kerja !!!", DashboardActivity.class);
         } else if (timeOfDay >= 11 && timeOfDay < 15) {
             tvGood.setText("Good Afternoon \uD83C\uDF1E");
-            Config.showNotification(DashboardActivity.this, "Sudah Waktunya Istirahat", "Semangat!!!");
+            Config.showNotification(DashboardActivity.this, "Sudah Waktunya Istirahat", "Semangat!!!", DashboardActivity.class);
         } else if (timeOfDay >= 15 && timeOfDay < 18) {
-            Config.showNotification(DashboardActivity.this, "Saatnya Istirahat Sejenak", "Kalau lembur, jangan lupa klik LEMBUR YA!");
+            Config.showNotification(DashboardActivity.this, "Saatnya Istirahat Sejenak", "Kalau lembur, jangan lupa klik LEMBUR YA!", DashboardActivity.class);
             tvGood.setText("Good Evening \uD83C\uDF25");
         } else if (timeOfDay >= 18 && timeOfDay < 24) {
-            Config.showNotification(DashboardActivity.this, "Saatnya Tidur", "Kalau lembur, jangan lupa klik LEMBUR YA!");
+            Config.showNotification(DashboardActivity.this, "Saatnya Tidur", "Kalau lembur, jangan lupa klik LEMBUR YA!", DashboardActivity.class);
             tvGood.setText("Good Night \uD83D\uDECC \uD83D\uDCA4");
         }
 
@@ -126,7 +125,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         tvGood.setOnClickListener(view -> {
             Intent intent = new Intent();
-            intent.setClassName(BuildConfig.APPLICATION_ID, "id.pdamkotasmg.edms.fitur.suratMasuk.activity.EDMSHomeActivity");
+            intent.setClassName("com.pdamkotasmg.happywork", "id.pdamkotasmg.edms.fitur.suratMasuk.activity.EDMSHomeActivity");
             startActivity(intent);
         });
 

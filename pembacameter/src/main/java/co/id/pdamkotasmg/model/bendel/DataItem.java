@@ -24,6 +24,9 @@ public class DataItem{
     @SerializedName("rl_trbaca")
     private List<RlTrbacaItem> rlTrbaca;
 
+    @SerializedName("rl_dt_baca_periode_skrg")
+    private List<RlDataBacaSekarang> rlDtBacaSekarang;
+
     @SerializedName("nolangg")
     private String nolangg;
 
@@ -65,6 +68,14 @@ public class DataItem{
 
     @SerializedName("tanggal")
     private String tanggal;
+
+    public List<RlDataBacaSekarang> getRlDtBacaSekarang() {
+        return rlDtBacaSekarang;
+    }
+
+    public void setRlDtBacaSekarang(List<RlDataBacaSekarang> rlDtBacaSekarang) {
+        this.rlDtBacaSekarang = rlDtBacaSekarang;
+    }
 
     public void setSt(String st){
         this.st = st;

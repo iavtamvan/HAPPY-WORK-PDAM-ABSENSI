@@ -114,7 +114,7 @@ public class QrCodeActivity extends AppCompatActivity {
 
                 progressDialog.dismiss();
                 Toast.makeText(this, "Berhasil simpan di Gallery", Toast.LENGTH_SHORT).show();
-                Config.showNotification(QrCodeActivity.this, "QR Code", "Berhasil menyimpan QR Code, cek di Gallery!");
+                Config.showNotification(QrCodeActivity.this, "QR Code", "Berhasil menyimpan QR Code, cek di Gallery!", QrCodeActivity.class);
 
             } catch (IOException e) {
                 progressDialog.dismiss();

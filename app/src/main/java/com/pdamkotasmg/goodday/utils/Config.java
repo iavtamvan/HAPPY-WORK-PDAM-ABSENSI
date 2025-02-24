@@ -22,35 +22,27 @@ import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.authentication.login.LoginActivity;
-import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.PresensiActivity;
 import com.pdamkotasmg.goodday.fitur.splash.SplashScreenActivity;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
+
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Random;
 
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import okhttp3.ResponseBody;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -62,8 +54,11 @@ public final class Config {
     public static final String APLICATION_NAME = "Happy Work";
 
     //API KEY
-    public static final String BASE_URL_IMAGE = "https://app.pdamkotasmg.co.id/api-gw-dev/portal-pegawai";
-    public static final String BASE_URL_IMAGE_HANDLER = "https://gateway.pdamkotasmg.co.id/api-gw-dev/file-handler/foto/?filename=";
+//    public static final String BASE_URL_IMAGE = "https://app.pdamkotasmg.co.id/api-gw-dev/portal-pegawai";
+    public static final String BASE_URL_IMAGE = "https://app.pdamkotasmg.co.id/api-gw/portal-pegawai";
+//    public static final String BASE_URL_IMAGE_HANDLER = "https://gateway.pdamkotasmg.co.id/api-gw-dev/file-handler/foto/?filename=";
+    public static final String BASE_URL_IMAGE_HANDLER = "https://gateway.pdamkotasmg.co.id/api-gw/file-handler/foto/?filename=";
+    public static final String BASE_URL_IMAGE_SIRAMHPM_VENDOR = "https://app.pdamkotasmg.co.id/be-proxy/siramhpm/";
 
     public static final String BASE_URL_NOTIF_FOTO_FAIL = "https://image.freepik.com/free-vector/people-with-sad-angry-emojis-illustration_53876-43293.jpg";
     public static final String BASE_URL_NOTIF_JIKA_TELAT = "https://image.freepik.com/free-vector/people-run-open-door-being-late-men-women-hurry-end-beginning-working-office-day-illustration_80590-9275.jpg";
@@ -71,7 +66,8 @@ public final class Config {
     public static final String BASE_URL_NOTIF_NORMAL = "https://image.freepik.com/free-vector/people-jumping-trampoline_74855-4453.jpg";
     public static final String BASE_URL_NOTIF_ERROR = "https://image.freepik.com/free-vector/oops-404-error-with-broken-robot-concept-illustration_114360-1932.jpg";
 
-    public static final String ERROR_MSG = "Pengambilan data Gagal, coba lagi nanti";
+    public static final String ERROR_MSG = "Failure: Pengambilan data Gagal, coba lagi nanti";
+    public static final String ERROR_NULL_DATA = "Data Kosong";
     public static final String ERROR_PASSWORD = "Pastikan Kata Sandi Anda Sama";
     public static final String ERROR_DATA_REGISTER = "Pastikan Data Anda Dengan Benar";
     public static final String ERROR_SESSION = "Sesi login anda telah habis, Login Ulang";
@@ -186,6 +182,8 @@ public final class Config {
 
     public static final String SHARED_TYPE_WEB_vIEW = "shared_type_web_view";
 
+    public static final String SHARED_ARRAY_BENDEL = "shared_array_bendel";
+
     //Firebase
     // global topic to receive app wide push notifications
     public static final String FIREBASE_NAME = "pdam-tirta-happy-work";
@@ -218,8 +216,10 @@ public final class Config {
     // TODO Mulai Pembaca Meter
     public static final String BUNDLE_PEMBACA_METER_CODE_INPUT_DATA = "bundle_pembaca_meter_code_input_data";
     public static final String BUNDLE_PEMBACA_METER_CODE_BENDEL = "bundle_pembaca_meter_code_input_data";
+    public static final String BUNDLE_PEMBACA_METER_CODE_BENDEL_NEXT = "bundle_pembaca_meter_code_bendel_next";
 
     public static final String BUNDLE_PEMBACA_METER_NOLANGG = "pembaca_meter_nolangg";
+    public static final String BUNDLE_PEMBACA_METER_KODE_INPUT_DATA = "pembaca_meter_kode_input_data";
     public static final String BUNDLE_PEMBACA_METER_DISM = "pembaca_meter_dism";
     public static final String BUNDLE_PEMBACA_METER_NAMA = "pembaca_meter_nama";
     public static final String BUNDLE_PEMBACA_METER_ALAMAT = "pembaca_meter_alamat";
@@ -227,6 +227,7 @@ public final class Config {
     public static final String BUNDLE_PEMBACA_METER_SUMBER_LAIN = "pembaca_meter_sumber_lain";
     public static final String BUNDLE_PEMBACA_METER_MEREK_METER = "pembaca_meter_merek_meter";
     public static final String BUNDLE_PEMBACA_METER_LALU = "pembaca_meter_lalu";
+    public static final String BUNDLE_PEMBACA_METER_PING_INTERNET = "bundle_pembaca_meter_ping_internet";
 
 
     public static final String SHARED_PERIODE = "shared_periode";
@@ -349,20 +350,26 @@ public final class Config {
     }
 
     public static void deleteFiles(String pathName, String msgLog) {
-        // v TODO delete image original
+        // TODO delete image original
         File file = new File(pathName);
         boolean deleted = file.delete();
         Log.d("debug", msgLog + " Deleted : " + deleted);
     }
 
-    public static void showNotification(Context context, String title, String content) {
+    public static void deleteFolders(String pathFolder, String msgLog) throws IOException {
+        File dir = new File(pathFolder);
+        FileUtils.deleteDirectory(dir);
+        Log.d(TAG, "deleted : true > " + dir + " -- " + msgLog);
+    }
+
+    public static void showNotification(Context context, String title, String content, Class classThis) {
         int noificationId = new Random().nextInt(100);
         Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.notification);
         Log.d("debug", "showNotification: " + sound);
         String channelId = "notification_channel_3";
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent = new Intent(context.getApplicationContext(), DashboardActivity.class);
+        Intent intent = new Intent(context.getApplicationContext(), classThis);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context.getApplicationContext(),
                 0, intent, PendingIntent.FLAG_MUTABLE);
@@ -665,127 +672,8 @@ public final class Config {
         return md5StrBuff.toString().toUpperCase();
     }
 
-    public static InterstitialAd mInterstitialAd;
     public final static String adsInterestialDev = "ca-app-pub-3940256099942544/1033173712";
     public final static String adsInterestialProd = "ca-app-pub-6810772781589252/7755469730";
-
-//    public final static String adsBanner = "ca-app-pub-3940256099942544/6300978111"; // dev
-    public final static String adsBanner = "ca-app-pub-6810772781589252/4208134634"; // prod
-    public static void ads(Context context, AdView adView){
-        MobileAds.initialize(context, initializationStatus -> {
-        });
-        AdRequest adRequest = new AdRequest.Builder().build();
-        AdView adViews = new AdView(context);
-        adViews.setAdSize(AdSize.BANNER);
-        adViews.setAdUnitId(adsBanner);
-        adView.loadAd(adRequest);
-    }
-
-    public static void interestial(Context context) {
-        // TODO inisialisasi MobileAds
-        MobileAds.initialize(context, initializationStatus -> {
-        });
-        AdRequest adRequest = new AdRequest.Builder().build();
-        // TODO definisi InterstitialAd
-        InterstitialAd.load(context, adsInterestialProd, adRequest, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                // The mInterstitialAd reference will be null until
-                // an ad is loaded.
-                mInterstitialAd = interstitialAd;
-                Log.d(TAG, "onAdLoaded " + mInterstitialAd);
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(((Activity) context));
-                    mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                        @Override
-                        public void onAdDismissedFullScreenContent() {
-                            // Called when fullscreen content is dismissed.
-                            Log.d("TAG", "The ad was dismissed.");
-//                            context.startActivity(new Intent(context, classJava));
-                        }
-
-                        @Override
-                        public void onAdFailedToShowFullScreenContent(AdError adError) {
-                            // Called when fullscreen content failed to show.
-                            Log.d("TAG", "The ad failed to show.");
-                        }
-
-                        @Override
-                        public void onAdShowedFullScreenContent() {
-                            // Called when fullscreen content is shown.
-                            // Make sure to set your reference to null so you don't
-                            // show it a second time.
-                            mInterstitialAd = null;
-                            Log.d("TAG", "The ad was shown.");
-                        }
-                    });
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                // Handle the error
-                Log.d(TAG, loadAdError.getMessage());
-                mInterstitialAd = null;
-            }
-        });
-    }
-
-    public static void interestialIntent(Context context, Class classJava) {
-
-        // TODO inisialisasi MobileAds
-        MobileAds.initialize(context, initializationStatus -> {
-        });
-        AdRequest adRequest = new AdRequest.Builder().build();
-        // TODO definisi InterstitialAd
-        InterstitialAd.load(context, adsInterestialProd, adRequest, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                // The mInterstitialAd reference will be null until
-                // an ad is loaded.
-                mInterstitialAd = interstitialAd;
-                Log.d(TAG, "onAdLoaded " + mInterstitialAd);
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(((Activity) context));
-                    mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                        @Override
-                        public void onAdDismissedFullScreenContent() {
-                            // Called when fullscreen content is dismissed.
-                            Log.d("TAG", "The ad was dismissed.");
-                            ((Activity) context).finishAffinity();
-                            context.startActivity(new Intent(context, classJava));
-                        }
-
-                        @Override
-                        public void onAdFailedToShowFullScreenContent(AdError adError) {
-                            // Called when fullscreen content failed to show.
-                            Log.d("TAG", "The ad failed to show.");
-                        }
-
-                        @Override
-                        public void onAdShowedFullScreenContent() {
-                            // Called when fullscreen content is shown.
-                            // Make sure to set your reference to null so you don't
-                            // show it a second time.
-                            mInterstitialAd = null;
-                            Log.d("TAG", "The ad was shown.");
-                        }
-                    });
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                // Handle the error
-                Log.d(TAG, loadAdError.getMessage());
-                mInterstitialAd = null;
-            }
-        });
-    }
 
     public static void saveSharedCheat(Context context, String cheat, String page, String countCheat) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);

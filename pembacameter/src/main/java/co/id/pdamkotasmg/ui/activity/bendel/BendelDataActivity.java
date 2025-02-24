@@ -25,11 +25,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class BendelDataActivity extends AppCompatActivity {
+    private final String TAG = "debug";
+
     private ActivityBendelDataBinding binding;
     private String codeBendel;
     private String token;
     private String periode;
     private String cabang;
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editorSp;
 
     private BendelAdapter bendelAdapter;
     private List<DataItem> dataItems;
@@ -37,19 +41,19 @@ public class BendelDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         binding = ActivityBendelDataBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
         setContentView(root);
-        getSupportActionBar().hide();
 
-        SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        editorSp = sp.edit();
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
         periode = sp.getString(Config.SHARED_PERIODE, "");
         cabang = sp.getString(Config.SHARED_CABANG, "");
 
         codeBendel = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL);
-        binding.tvBendel.setText("- DAFTAR BACAAN METER CABANG " + cabang + " BENDEL " + codeBendel + " PERIODE " + periode + "\n" +
-                "- ID Pelanggan yang sudah dibaca TIDAK TAMPIL pada halaman ini");
+        binding.tvBendel.setText("DAFTAR BACAAN METER CABANG " + cabang + " BENDEL " + codeBendel + " PERIODE " + periode);
 
         binding.btnCari.setOnClickListener(view -> {
             if (binding.edtNolangg.toString().isEmpty()) {
@@ -66,18 +70,22 @@ public class BendelDataActivity extends AppCompatActivity {
         progressDialog.setMessage("Mohon tunggu...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        ApiService apiService = ApiConfig.getApiService(this);
+        ApiService apiService = ApiConfig.getApiServiceGWAPI(this);
         apiService.getBendel(token, codeBendel, binding.edtNolangg.getText().toString().trim()).enqueue(new Callback<BendelRootModel>() {
             @Override
             public void onResponse(Call<BendelRootModel> call, Response<BendelRootModel> response) {
                 if (response.isSuccessful()) {
-                    dataItems = response.body().getData();
-                    binding.tvTotalDataBendel.setText("Data : " + dataItems.size() + " Pelanggan");
-                    bendelAdapter = new BendelAdapter(BendelDataActivity.this, dataItems);
-                    binding.rv.setAdapter(bendelAdapter);
-                    binding.rv.setLayoutManager(new LinearLayoutManager(BendelDataActivity.this));
-                    bendelAdapter.notifyDataSetChanged();
                     progressDialog.cancel();
+                    dataItems = response.body().getData();
+                    if (dataItems == null){
+                        Toast.makeText(BendelDataActivity.this, "Tidak dalam wilayah pembacaan Anda", Toast.LENGTH_SHORT).show();
+                    } else {
+                        binding.tvTotalDataBendel.setText("Data : " + dataItems.size() + " Pelanggan");
+                        bendelAdapter = new BendelAdapter(BendelDataActivity.this, dataItems);
+                        binding.rv.setAdapter(bendelAdapter);
+                        binding.rv.setLayoutManager(new LinearLayoutManager(BendelDataActivity.this));
+                        bendelAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 

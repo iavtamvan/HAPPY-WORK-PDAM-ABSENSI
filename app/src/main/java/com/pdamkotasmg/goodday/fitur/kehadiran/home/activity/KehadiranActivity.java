@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.gms.ads.AdView;
+
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
@@ -72,7 +72,7 @@ public class KehadiranActivity extends AppCompatActivity {
     private LinearLayout divAnimation;
     private LottieAnimationView animationView;
     private Button btnHome;
-    private AdView adView;
+    
     private LinearLayout divDaftarKehadiran;
     private LinearLayout divKoreksiKehadiran;
     private LinearLayout divCuti;
@@ -92,8 +92,6 @@ public class KehadiranActivity extends AppCompatActivity {
         ivHeaderBackArrow.setOnClickListener(v -> {
             KehadiranActivity.this.finish();
         });
-
-        Config.ads(KehadiranActivity.this, adView);
 
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -237,7 +235,7 @@ public class KehadiranActivity extends AppCompatActivity {
         divAnimation = findViewById(R.id.div_animation);
         animationView = findViewById(R.id.animation_view);
         btnHome = findViewById(R.id.btnHome);
-        adView = findViewById(R.id.adView);
+        
         divDaftarKehadiran = findViewById(R.id.div_daftar_kehadiran);
         divKoreksiKehadiran = findViewById(R.id.div_koreksi_kehadiran);
         divCuti = findViewById(R.id.div_cuti);

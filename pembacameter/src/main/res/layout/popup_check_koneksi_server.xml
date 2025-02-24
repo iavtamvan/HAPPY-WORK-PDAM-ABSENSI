@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="5dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="@color/grey" />
+
+        <TextView
+            android:id="@+id/tv_tutup_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:fontFamily="@font/poppins"
+            android:gravity="center"
+            android:text="Tutup"
+            android:textColor="@color/redPortal" />
+
+        <TextView
+            android:id="@+id/tv_st_server"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:text="Status Semua Server : ----"
+            android:textSize="17dp"
+            android:textColor="@color/dash_v2_bluedark" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_pop_up_chec_koneksi_server"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

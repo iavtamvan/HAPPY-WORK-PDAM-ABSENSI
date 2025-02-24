@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:dist="http://schemas.android.com/apk/distribution">
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <dist:module
         dist:instant="false"
@@ -14,28 +17,50 @@
 
     <application android:icon="@mipmap/ic_launcher">
         <activity
+            android:name="co.id.pdamkotasmg.ui.activity.SingleManometerActivity"
+            android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.CariDataActivity"
+            android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.bendel.BendelPembacaKhususActivity"
+            android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.VerifikasiDitolakActivity"
+            android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.DetailRiwayatPembacaMeterActivity"
+            android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.RiwayatPembacaMeterActivity"
+            android:exported="false" />
+        <activity
             android:name="co.id.pdamkotasmg.ui.activity.PembacaMeterActivity"
             android:exported="false" />
         <activity
             android:name="co.id.pdamkotasmg.ui.activity.bendel.BendelDataActivity"
-            android:exported="false" />
-        <activity
-            android:name="co.id.pdamkotasmg.ui.activity.InputActivity"
-            android:exported="false" />
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name="co.id.pdamkotasmg.ui.activity.InputActivity" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name="co.id.pdamkotasmg.ui.activity.bendel.InputDataActivity"
             android:exported="false" />
         <activity
             android:name="co.id.pdamkotasmg.HomeActivity"
             android:exported="false"
-            android:label="@string/title_activity_home" />
-        <activity
-            android:name="co.id.pdamkotasmg.BottomActivity"
-            android:exported="false"
-            android:label="@string/title_activity_bottom" />
+            android:label="@string/title_activity_home" /> <!-- <activity -->
+        <!-- android:name="co.id.pdamkotasmg.BottomActivity" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_bottom" /> -->
         <activity
             android:name="co.id.pdamkotasmg.MainActivity"
             android:exported="false" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <service android:name="co.id.pdamkotasmg.service.PingService" />
     </application>
 
 </manifest>

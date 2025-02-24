@@ -16,6 +16,8 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.lembur.model.overtimeType.Overtim
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.detailPerjalananDinas.DetailPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.postPerjalanDinas.PostPerjalananDinasRootModel;
 import com.pdamkotasmg.goodday.fitur.kehadiran.perjalananDinas.model.riwayatPerjalananDinas.RiwayatPerjalananDinasRootModel;
+import com.pdamkotasmg.goodday.fitur.menuLainnya.profilePelanggan.model.BillingTagihanRootModel;
+import com.pdamkotasmg.goodday.fitur.menuLainnya.profilePelanggan.model.kardek.DataBacaanKardekRootModel;
 import com.pdamkotasmg.goodday.fitur.payslip.model.SalaryHistoryRootModel;
 import com.pdamkotasmg.goodday.fitur.payslip.model.paySlip.PaySlipRootModel;
 import com.pdamkotasmg.goodday.fitur.perangkat.model.PerangkatRootModel;
@@ -40,6 +42,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -322,7 +325,7 @@ public interface ApiService {
     Call<FaceDetectionRootModel> postUploadTTE(
             @Header("Authorization") String auth,
             @Part("npp") RequestBody npp,
-            @Part MultipartBody.Part filePartPhotoKtp,
+            @Part("nik_ktp") RequestBody nik_ktp,
             @Part MultipartBody.Part filePartPhotoTTE
     );
 
@@ -359,5 +362,12 @@ public interface ApiService {
             @Query("nolangg") String nolangg
     );
 
+    // billing profile pelanggan , foto meter dll
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("pengaduan/api/billing/tagihan/air/{nolangg}")
+    Call<BillingTagihanRootModel> getBillingTagihan(@Path("nolangg") String nolangg, @Header("Authorization") String auth);
 
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("pembaca-meter/api/m/kardek-data-bacaan")
+    Call<DataBacaanKardekRootModel> getDataBacaan(@Query("nolangg") String nolangg, @Query("tahun") String tahun, @Header("Authorization") String auth);
 }

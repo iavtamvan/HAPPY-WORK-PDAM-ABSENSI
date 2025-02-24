@@ -33,6 +33,7 @@ public class HomeActivity extends AppCompatActivity {
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getSupportActionBar().hide();
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -54,6 +55,7 @@ public class HomeActivity extends AppCompatActivity {
         editor.putString(Config.SHARED_PERIODE, periode);
         editor.putString(Config.SHARED_PERIODE_BULAN_LALU, String.valueOf(periodeBulanLalu));
         editor.apply();
+
 
 
         Log.d(TAG, "Current time " + currentTime);

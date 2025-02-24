@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context="co.id.pdamkotasmg.ui.activity.bendel.BendelDataActivity">
 
-    <include layout="@layout/content_header" />
+<!--    <include layout="@layout/content_header" />-->
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -20,8 +20,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="4dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -32,19 +34,18 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/ic_health" />
+                    android:src="@drawable/ic_health"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_bendel"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginRight="4dp"
                     android:fontFamily="@font/poppins"
                     android:gravity="center|left"
                     android:text="ID Pelanggan yang sudah dibaca TIDAK TAMPIL pada halaman ini"
                     android:textColor="@color/white"
-                    android:textSize="12dp"
+                    android:textSize="11dp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -60,39 +61,33 @@
         android:layout_marginRight="8dp"
         android:orientation="horizontal">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_weight="1">
-
-            <EditText
-                android:id="@+id/edt_nolangg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:hint="ID Pel" />
-        </com.google.android.material.textfield.TextInputLayout>
+        <EditText
+            android:id="@+id/edt_nolangg"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:hint="ID Pel"
+            android:textSize="12dp" />
 
         <Button
             android:id="@+id/btn_cari"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="30dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
             android:text="Cari" />
 
+        <TextView
+            android:id="@+id/tv_total_data_bendel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:fontFamily="@font/poppins"
+            android:gravity="center"
+            android:text="Data : ? Pelanggan"
+            android:textSize="12dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_total_data_bendel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:fontFamily="@font/poppins"
-        android:text="ID Pelanggan yang sudah dibaca TIDAK TAMPIL pada halaman ini"
-        android:textSize="12dp"
-        android:textStyle="bold" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -100,6 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="4dp"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        tools:listitem="@layout/item_list_bendel" />
 
 </LinearLayout>

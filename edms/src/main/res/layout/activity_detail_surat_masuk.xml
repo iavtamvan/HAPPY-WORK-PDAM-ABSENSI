@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context=".fitur.suratMasuk.activity.DetailSuratMasukActivity">
 
-    <include layout="@layout/content_header" />
+<!--    <include layout="@layout/content_header" />-->
 
     <LinearLayout
         android:layout_width="match_parent"

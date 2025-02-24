@@ -108,18 +108,22 @@ public class LoginController {
                     idCabang = dataLogin.getUser().getId_cabang();
                     cabang = dataLogin.getUser().getId_cabang();
 
-                    if (cabang.contains("1")) {
-                        cabang = "Selatan";
-                    } else if (cabang.contains("2")) {
-                        cabang = "Barat";
-                    } else if (cabang.contains("3")) {
-                        cabang = "Timur";
-                    } else if (cabang.contains("4")) {
-                        cabang = "Utara";
-                    } else if (cabang.contains("5")) {
-                        cabang = "Tengah";
-                    } else if (cabang.contains("0")) {
-                        cabang = "Pusat";
+                    if (cabang == null){
+                        Toast.makeText(context, "Role Pegawai", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (cabang.contains("1")) {
+                            cabang = "Selatan";
+                        } else if (cabang.contains("2")) {
+                            cabang = "Barat";
+                        } else if (cabang.contains("3")) {
+                            cabang = "Timur";
+                        } else if (cabang.contains("4")) {
+                            cabang = "Utara";
+                        } else if (cabang.contains("5")) {
+                            cabang = "Tengah";
+                        } else if (cabang.contains("0")) {
+                            cabang = "Pusat";
+                        }
                     }
 
                     loading.cancel();
@@ -200,6 +204,8 @@ public class LoginController {
 
         SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Log.d(TAG, "Access Token Good Day " + access_token);
 
         editor.putString(Config.SHARED_ACCESS_TOKEN, token_type + " " + access_token);
         editor.putString(Config.SHARED_NPP_PROFILE, npp_profile);

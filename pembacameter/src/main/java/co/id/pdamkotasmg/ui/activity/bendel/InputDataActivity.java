@@ -23,9 +23,11 @@ public class InputDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         binding = ActivityInputDataBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
         setContentView(root);
+
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         cabang = sharedPreferences.getString(Config.SHARED_CABANG, "");
         periode = sharedPreferences.getString(Config.SHARED_PERIODE, "");

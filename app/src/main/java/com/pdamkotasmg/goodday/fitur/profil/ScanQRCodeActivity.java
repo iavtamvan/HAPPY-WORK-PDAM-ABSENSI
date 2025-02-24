@@ -16,7 +16,7 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.fitur.presensi.CheckLocationActivity;
 import com.pdamkotasmg.goodday.utils.Config;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 
 public class ScanQRCodeActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;

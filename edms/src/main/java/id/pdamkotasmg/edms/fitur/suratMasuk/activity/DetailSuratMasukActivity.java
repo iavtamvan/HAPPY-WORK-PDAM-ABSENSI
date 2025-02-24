@@ -7,8 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,9 +50,9 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     private String trxSuratMasuk;
-    private ImageView ivHeaderBackArrow;
-    private TextView tvHeaderJudul;
-    private ImageView ivHeaderInfo;
+//    private ImageView ivHeaderBackArrow;
+//    private TextView tvHeaderJudul;
+//    private ImageView ivHeaderInfo;
     private TextView tvPerihal;
     private TextView tvJenis;
     private CircleImageView ciAvatar;
@@ -81,12 +79,12 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         initView();
 
-        ivHeaderBackArrow.setOnClickListener(view -> {
-            finish();
-        });
-
-        tvHeaderJudul.setText("Surat Masuk");
-        ivHeaderInfo.setVisibility(View.GONE);
+//        ivHeaderBackArrow.setOnClickListener(view -> {
+//            finish();
+//        });
+//
+//        tvHeaderJudul.setText("Surat Masuk");
+//        ivHeaderInfo.setVisibility(View.GONE);
 
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
@@ -255,15 +253,15 @@ public class DetailSuratMasukActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String file_url) {
             Toast.makeText(DetailSuratMasukActivity.this, "Berhasil di simpan", Toast.LENGTH_SHORT).show();
-            Config.showNotification(DetailSuratMasukActivity.this, "Surat Masuk", "Berhasil menyimpan Surat Masuk " + nameFileGlobals + ", cek di Folder Download/PDAM!");
+            Config.showNotification(DetailSuratMasukActivity.this, "Surat Masuk", "Berhasil menyimpan Surat Masuk " + nameFileGlobals + ", cek di Folder Download/PDAM!", DetailSuratMasukActivity.class);
             progressDialog.dismiss();
         }
     }
 
     private void initView() {
-        ivHeaderBackArrow = findViewById(R.id.iv_header_back_arrow);
-        tvHeaderJudul = findViewById(R.id.tv_header_judul);
-        ivHeaderInfo = findViewById(R.id.iv_header_info);
+//        ivHeaderBackArrow = findViewById(R.id.iv_header_back_arrow);
+//        tvHeaderJudul = findViewById(R.id.tv_header_judul);
+//        ivHeaderInfo = findViewById(R.id.iv_header_info);
         tvPerihal = findViewById(R.id.tv_perihal);
         tvJenis = findViewById(R.id.tv_jenis);
         ciAvatar = findViewById(R.id.ci_avatar);

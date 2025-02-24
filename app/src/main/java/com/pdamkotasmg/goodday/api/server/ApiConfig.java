@@ -16,7 +16,7 @@ public class ApiConfig {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        ChuckerCollector chuckerCollector = new ChuckerCollector(context, true);
+        ChuckerCollector chuckerCollector = new ChuckerCollector(context, false);
         ChuckerInterceptor chuckerInterceptor = new ChuckerInterceptor(context, chuckerCollector);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -25,7 +25,7 @@ public class ApiConfig {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://gateway.pdamkotasmg.co.id/api-gw-dev/")
+                .baseUrl("https://gateway.pdamkotasmg.co.id/api-gw/")
 //                .baseUrl("https://app.pdamkotasmg.co.id/api-gw-dev/")
 //                .baseUrl("https://tirta.pdamkotasmg.co.id/api-gw-dev/")
 //                .baseUrl("https://pdam-lb.herokuapp.com/api-gw-dev/")

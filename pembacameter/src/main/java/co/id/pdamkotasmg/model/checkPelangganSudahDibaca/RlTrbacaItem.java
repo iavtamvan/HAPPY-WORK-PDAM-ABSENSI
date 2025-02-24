@@ -22,9 +22,6 @@ public class RlTrbacaItem{
     @SerializedName("kini")
     private String kini;
 
-    @SerializedName("rl_dt_baca")
-    private RlDtBaca rlDtBaca;
-
     @SerializedName("lalu")
     private String lalu;
 
@@ -39,6 +36,50 @@ public class RlTrbacaItem{
 
     @SerializedName("petugas")
     private String petugas;
+
+    @SerializedName("file")
+    private String file;
+
+    @SerializedName("jam_baca")
+    private String jamBaca;
+
+    @SerializedName("manometer")
+    private String manometer;
+
+    @SerializedName("manometer_foto")
+    private String manometerFoto;
+
+    public String getManometerFoto() {
+        return manometerFoto;
+    }
+
+    public void setManometerFoto(String manometerFoto) {
+        this.manometerFoto = manometerFoto;
+    }
+
+    public String getManometer() {
+        return manometer;
+    }
+
+    public void setManometer(String manometer) {
+        this.manometer = manometer;
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
+    }
+
+    public String getJamBaca() {
+        return jamBaca;
+    }
+
+    public void setJamBaca(String jamBaca) {
+        this.jamBaca = jamBaca;
+    }
 
     public void setDt(String dt){
         this.dt = dt;
@@ -86,14 +127,6 @@ public class RlTrbacaItem{
 
     public String getKini(){
         return kini;
-    }
-
-    public void setRlDtBaca(RlDtBaca rlDtBaca){
-        this.rlDtBaca = rlDtBaca;
-    }
-
-    public RlDtBaca getRlDtBaca(){
-        return rlDtBaca;
     }
 
     public void setLalu(String lalu){

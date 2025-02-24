@@ -24,7 +24,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.ads.AdView;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.pdamkotasmg.goodday.BuildConfig;
@@ -116,7 +116,7 @@ public class PresensiActivity extends AppCompatActivity {
     private LottieAnimationView animationView;
     private TextView tvMencariMuka;
     private Button btnKirimPresensi2;
-    private AdView adView;
+    
     private CircleImageView ivFotoFirst;
     private LinearLayout divPercent;
 
@@ -130,7 +130,6 @@ public class PresensiActivity extends AppCompatActivity {
         // TODO 1 preview camera Done
         // TODO 2 face Detection Done
         // TODO 3 Save Absensi done
-        Config.ads(PresensiActivity.this, adView);
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         editor = sharedPreferences.edit();
         access_token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
@@ -399,7 +398,7 @@ public class PresensiActivity extends AppCompatActivity {
                                 btnKirimPresensi.setText("\uD83E\uDD11");
                                 btnKirimPresensi2.setVisibility(View.GONE);
                                 Config.deleteFiles(compressedImageFile.getAbsolutePath(), "ImageCompressed"); // (2)
-                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TKK ???????");
+                                Config.showNotification(PresensiActivity.this, "AKU SEDIH KARENA....", "Foto ngawur, mau potong TKK ???????", PresensiActivity.class);
                             } else {
                                 Toast.makeText(PresensiActivity.this, "Deteksi Wajah " + response.body().getData().getMatchPercent() + "%", Toast.LENGTH_SHORT).show();
                                 divMencariMuka.setVisibility(View.VISIBLE);
@@ -509,7 +508,7 @@ public class PresensiActivity extends AppCompatActivity {
                             tvMencariMuka.setText("Selesai Mengirim");
                             btnKirimPresensi.setEnabled(false);
 
-                            Config.showNotification(PresensiActivity.this, "Horeeeeeeeeeee", "Presensi tersimpan dengan baik!");
+                            Config.showNotification(PresensiActivity.this, "Horeeeeeeeeeee", "Presensi tersimpan dengan baik!", PresensiActivity.class);
                             finish();
 //                                startActivity(new Intent(PresensiActivity.this, KehadiranActivity.class));
                             Intent intent = new Intent(PresensiActivity.this, KehadiranActivity.class);
@@ -559,7 +558,7 @@ public class PresensiActivity extends AppCompatActivity {
                             animationView.setVisibility(View.GONE);
                             tvMencariMuka.setText("Gagal Mengirim");
                             Toast.makeText(PresensiActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
-                            Config.showNotification(PresensiActivity.this, "" + response.code(), "Error, hubungi PTI ");
+                            Config.showNotification(PresensiActivity.this, "" + response.code(), "Error, hubungi PTI ", PresensiActivity.class);
                         }
                     }
 
@@ -598,7 +597,7 @@ public class PresensiActivity extends AppCompatActivity {
         animationView = findViewById(R.id.animation_view);
         tvMencariMuka = findViewById(R.id.tv_mencari_muka);
         btnKirimPresensi2 = findViewById(R.id.btn_kirim_presensi_2);
-        adView = findViewById(R.id.adView);
+        
         ivFotoFirst = findViewById(R.id.iv_foto_first);
         divPercent = findViewById(R.id.div_percent);
     }
