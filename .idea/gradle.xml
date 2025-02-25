@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/edms" />
             <option value="$PROJECT_DIR$/pembacameter" />
+            <option value="$PROJECT_DIR$/tangkiair" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
