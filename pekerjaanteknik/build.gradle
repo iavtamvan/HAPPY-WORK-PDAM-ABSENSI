@@ -22,6 +22,9 @@ android {
 
 dependencies {
     implementation project(":app")
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.activity:activity:1.10.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
@@ -47,6 +50,12 @@ dependencies {
 
     // permission for android
     implementation 'pub.devrel:easypermissions:3.0.0'
+
+    // Lottie Animation Library
+    implementation 'com.airbnb.android:lottie:3.5.0'
+
+    // intent animation
+    implementation 'com.github.hajiyevelnur92:intentanimation:1.0'
 
     //firebase
     implementation platform('com.google.firebase:firebase-bom:26.6.0')
