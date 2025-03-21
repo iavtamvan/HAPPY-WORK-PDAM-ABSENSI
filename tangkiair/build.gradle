@@ -3,11 +3,11 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 android {
-    namespace 'com.example.tangkiair'
+    namespace 'co.id.pdamkotasmg.tangkiair'
     compileSdk 34
 
     defaultConfig {
-        minSdk 24
+        minSdk 26
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -17,16 +17,70 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    buildFeatures {
+        viewBinding true
+        buildConfig = true
+    }
 }
 
 dependencies {
     implementation project(":app")
-    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.core:core-ktx:1.15.0'
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.activity:activity:1.10.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+
+    // retrofit, gson
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    //chucker
+    implementation 'com.github.chuckerteam.chucker:library:3.5.2'
+
+    // ambil gambar
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //get lat long, address
+    implementation 'com.github.delight-im:Android-SimpleLocation:v1.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    //camera
+    api 'com.otaliastudios:cameraview:2.7.2'
+
+    //circle image
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //image popup
+    implementation 'com.github.chathuralakmal:AndroidImagePopup:1.2.2'
+
+    //compress image
+    implementation 'id.zelory:compressor:2.1.1'
+    implementation 'com.github.jkwiecien:EasyImage:3.2.0'
+
+    // runtime ktx
+    implementation 'androidx.work:work-runtime-ktx:2.9.1'
+
+    // delete folder
+    implementation 'org.apache.commons:commons-io:1.3.2'
+
+    // zoom image
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'

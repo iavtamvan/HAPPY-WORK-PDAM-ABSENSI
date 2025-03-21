@@ -1,4 +1,4 @@
-package com.example.tangkiair
+package co.id.pdamkotasmg.tangkiair
 
 import org.junit.Test
 
