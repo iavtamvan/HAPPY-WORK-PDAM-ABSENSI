@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    featureSplit="tangkiair"
+    package="com.pdamkotasmg.happywork"
+    android:versionCode="56"
+    android:versionName="1.1.1" >
+
+    <uses-sdk
+        android:minSdkVersion="26"
+        android:targetSdkVersion="26" />
+
+    <dist:module
+        dist:instant="false"
+        dist:title="@string/title_tangkiair" >
+        <dist:delivery>
+            <dist:install-time />
+        </dist:delivery>
+
+        <dist:fusing dist:include="false" />
+    </dist:module>
+
+    <application
+        android:debuggable="true"
+        android:extractNativeLibs="false"
+        android:testOnly="true" >
+        <activity
+            android:name="co.id.pdamkotasmg.tangkiair.HomeTangkiAirActivity"
+            android:exported="false"
+            android:splitName="tangkiair" />
+    </application>
+
+</manifest>

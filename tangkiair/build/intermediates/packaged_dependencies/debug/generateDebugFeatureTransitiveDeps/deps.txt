@@ -1,0 +1,2 @@
+:tangkiair::debug;Capability: group='HappyWork', name='tangkiair'
+androidx.collection:collection-jvm;Capability: group='androidx.collection', name='collection-jvm'

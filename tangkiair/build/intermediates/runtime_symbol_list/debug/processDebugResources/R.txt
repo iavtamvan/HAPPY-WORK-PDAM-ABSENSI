@@ -1,0 +1,2 @@
+int id main 0x7c010000
+int layout activity_home_tangki_air 0x7c020000

@@ -1,0 +1,6 @@
+co.id.pdamkotasmg.tangkiair.test.tangkiair-jetified-core-1.6.1-0 C:\Users\PDAM SEMARANG\.gradle\caches\transforms-4\11a03718dd4d08b3090480551488cb37\transformed\jetified-core-1.6.1\res
+co.id.pdamkotasmg.tangkiair.test.tangkiair-jetified-tracing-1.2.0-1 C:\Users\PDAM SEMARANG\.gradle\caches\transforms-4\86b1a58fe27b18f7ea1dfa261b4b5ea7\transformed\jetified-tracing-1.2.0\res
+co.id.pdamkotasmg.tangkiair.test.tangkiair-androidTest-2 C:\Users\PDAM SEMARANG\AndroidStudioProjects\pdam\HAPPY-WORK-PDAM-ABSENSI\tangkiair\build\generated\res\resValues\androidTest\debug
+co.id.pdamkotasmg.tangkiair.test.tangkiair-mergeDebugAndroidTestResources-3 C:\Users\PDAM SEMARANG\AndroidStudioProjects\pdam\HAPPY-WORK-PDAM-ABSENSI\tangkiair\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+co.id.pdamkotasmg.tangkiair.test.tangkiair-mergeDebugAndroidTestResources-4 C:\Users\PDAM SEMARANG\AndroidStudioProjects\pdam\HAPPY-WORK-PDAM-ABSENSI\tangkiair\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+co.id.pdamkotasmg.tangkiair.test.tangkiair-debugAndroidTest-5 C:\Users\PDAM SEMARANG\AndroidStudioProjects\pdam\HAPPY-WORK-PDAM-ABSENSI\tangkiair\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources

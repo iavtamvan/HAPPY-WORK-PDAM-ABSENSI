@@ -1,0 +1,2 @@
+com.pdamkotasmg.happywork:layout/activity_home_tangki_air = 0x7c020000
+com.pdamkotasmg.happywork:id/main = 0x7c010000
