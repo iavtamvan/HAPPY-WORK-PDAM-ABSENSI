@@ -6,4 +6,5 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_bottom">BottomActivity</string>
     <string name="title_tangkiair">tangkiair</string>
+    <string name="title_pekerjaanteknik">pekerjaanteknik</string>
 </resources>

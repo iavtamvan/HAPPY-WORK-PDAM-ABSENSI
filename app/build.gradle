@@ -32,7 +32,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     namespace 'com.pdamkotasmg.goodday'
-    dynamicFeatures = [':edms', ':pembacameter', ':tangkiair']
+    dynamicFeatures = [':edms', ':pembacameter', ':tangkiair', ':pekerjaanteknik']
 }
 
 dependencies {
