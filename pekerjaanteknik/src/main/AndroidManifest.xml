@@ -61,7 +61,8 @@
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.HappyWork.NoActionBar" />
         <activity android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.search.SearchPengawasActivity" />
-        <activity android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.login.LoginActivity" />
+        <activity android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.login.LoginActivity"
+            android:exported="false"/>
         <activity android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.InputSpkActivity" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"

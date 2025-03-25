@@ -73,7 +73,7 @@ public class ListWebViewActivity extends AppCompatActivity {
 
         divPekerjaanTeknik.setOnClickListener(view -> {
             Intent intent = new Intent();
-            intent.setClassName(this, "co.id.pdamkotasmg.pekerjaanteknik.activity.LoginActivity");
+            intent.setClassName(this, "co.id.pdamkotasmg.pekerjaanteknik.activity.login.LoginActivity");
             startActivity(intent);
 
 //            SplitInstallManager splitInstallManager = SplitInstallManagerFactory.create(this);
