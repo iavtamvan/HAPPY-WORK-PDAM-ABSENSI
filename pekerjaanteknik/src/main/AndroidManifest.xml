@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <dist:module
         dist:instant="false"
         dist:title="@string/title_pekerjaanteknik">
@@ -9,10 +11,10 @@
             <dist:install-time />
         </dist:delivery>
 
-        <dist:fusing dist:include="false" />
+        <dist:fusing dist:include="true" />
     </dist:module>
     
-    <application android:icon="@mipmap/ic_launcher">
+    <application>
 
         <activity
             android:name=".DeletedNowMainActivity"
@@ -20,47 +22,47 @@
         </activity>
 
         <activity
-            android:name=".activity.webView.WebViewActivity"
+            android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.webView.WebViewActivity"
             android:exported="true" />
         <activity
-            android:name=".activity.spk.MapsAdressActivity"
+            android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.MapsAdressActivity"
             android:exported="true" />
         <activity
-            android:name=".activity.home.HomeSPKActivity"
+            android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.home.HomeSPKActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.spk.riwayat.RiwayatAmbilPekerjaanActivity"
+            android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.riwayat.RiwayatAmbilPekerjaanActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.spk.callCenter.DaftarCallCenterActivity"
+            android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.callCenter.DaftarCallCenterActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.spk.MapsActivity"
+            android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.MapsActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.spk.riwayat.RiwayatVerifikasiActivity"
+            android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.riwayat.RiwayatVerifikasiActivity"
             android:exported="false"
-            android:parentActivityName=".activity.home.HomeActivity" />
+            android:parentActivityName="co.id.pdamkotasmg.pekerjaanteknik.activity.home.HomeActivity" />
         <activity
-            android:name=".activity.spk.VerifikasiActivity"
+            android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.VerifikasiActivity"
             android:exported="false" />
 
         <activity
-            android:name=".activity.splash.SplashScreenActivity"
+            android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.splash.SplashScreenActivity"
             android:exported="true">
         </activity>
 
-        <activity android:name=".activity.spk.riwayat.DetailRiwayatSpkActivity" />
+        <activity android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.riwayat.DetailRiwayatSpkActivity" />
         <activity
-            android:name=".activity.spk.riwayat.RiwayatSpkActivity"
-            android:parentActivityName=".activity.home.HomeActivity" />
+            android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.riwayat.RiwayatSpkActivity"
+            android:parentActivityName="co.id.pdamkotasmg.pekerjaanteknik.activity.home.HomeActivity" />
         <activity
-            android:name=".activity.home.HomeActivity"
+            android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.home.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.HappyWork.NoActionBar" />
-        <activity android:name=".activity.spk.search.SearchPengawasActivity" />
-        <activity android:name=".activity.login.LoginActivity" />
-        <activity android:name=".activity.spk.InputSpkActivity" />
+        <activity android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.search.SearchPengawasActivity" />
+        <activity android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.login.LoginActivity" />
+        <activity android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.InputSpkActivity" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
@@ -75,20 +77,20 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
 
-        <service
-            android:name=".utils.firebase.MyFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service
-            android:name=".utils.firebase.MyFirebaseInstanceIDService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
+<!--        <service-->
+<!--            android:name=".utils.firebase.MyFirebaseMessagingService"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
+<!--        <service-->
+<!--            android:name=".utils.firebase.MyFirebaseInstanceIDService"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
 
 <!--        <meta-data-->
 <!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fitur.activity.webView.WebViewActivity">
+    tools:context=".activity.webView.WebViewActivity">
 
     <include layout="@layout/content_header" />
 
