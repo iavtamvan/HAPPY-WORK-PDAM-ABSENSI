@@ -216,7 +216,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/image_not_found" />
+                    android:src="@drawable/image_not_available" />
 
                 <com.github.chrisbanes.photoview.PhotoView
                     android:layout_height="match_parent"

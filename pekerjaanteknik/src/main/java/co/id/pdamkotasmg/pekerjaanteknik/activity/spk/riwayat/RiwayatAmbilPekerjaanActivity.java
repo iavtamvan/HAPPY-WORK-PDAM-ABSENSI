@@ -20,7 +20,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.api.ApiConfig;
 import co.id.pdamkotasmg.pekerjaanteknik.api.ApiService;
 import co.id.pdamkotasmg.pekerjaanteknik.model.callCenter.diposisi.DataItem;
 import co.id.pdamkotasmg.pekerjaanteknik.model.callCenter.diposisi.DisposisiRootModel;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,7 +42,7 @@ public class RiwayatAmbilPekerjaanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_riwayat_ambil_pekerjaan);
-        getSupportActionBar().hide();
+        
 
         initView();
         Config.header(ivHeaderBackArrow, ivHeaderInfo, tvHeaderJudul, RiwayatAmbilPekerjaanActivity.this, "Riwayat Ambil Pekerjaan");

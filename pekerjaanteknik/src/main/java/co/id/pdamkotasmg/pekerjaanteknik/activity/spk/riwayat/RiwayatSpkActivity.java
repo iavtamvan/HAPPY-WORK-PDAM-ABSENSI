@@ -29,7 +29,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.api.ApiConfig;
 import co.id.pdamkotasmg.pekerjaanteknik.api.ApiService;
 import co.id.pdamkotasmg.pekerjaanteknik.model.riwayatSpk.mandor.DataItem;
 import co.id.pdamkotasmg.pekerjaanteknik.model.riwayatSpk.mandor.RiwayatSPKMandorRootModel;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 import co.id.pdamkotasmg.pekerjaanteknik.utils.ConfigAds;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,7 +57,7 @@ public class RiwayatSpkActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_riwayat_spk);
         initView();
-        getSupportActionBar().hide();
+        
         ConfigAds.banner(RiwayatSpkActivity.this, adView);
         Config.header(ivHeaderBackArrow, ivHeaderInfo, tvHeaderJudul, RiwayatSpkActivity.this, "Riwayat SPK");
 

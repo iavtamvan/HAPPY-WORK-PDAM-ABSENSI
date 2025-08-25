@@ -52,7 +52,7 @@ public class IntroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-        getSupportActionBar().hide();
+        
 
 //        divDaftarPage.setOnClickListener(v -> {
 //            Config.dialogAlertIntro(IntroActivity.this, "Sudah membaca seluruh konten?", "Membaca memberikanmu pengetahuan yang lebih banyak", "Belum");

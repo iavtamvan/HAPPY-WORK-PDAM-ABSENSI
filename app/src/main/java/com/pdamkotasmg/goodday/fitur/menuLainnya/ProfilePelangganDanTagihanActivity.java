@@ -221,7 +221,7 @@ public class ProfilePelangganDanTagihanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_pelanggan_dan_tagihan);
-        getSupportActionBar().hide();
+        
         initView();
 
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);

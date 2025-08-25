@@ -32,7 +32,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.model.pegawai.DataItem;
 import co.id.pdamkotasmg.pekerjaanteknik.model.pegawai.PegawaiRootModel;
 import co.id.pdamkotasmg.pekerjaanteknik.model.spk.SPKSebelumRootModel;
 import co.id.pdamkotasmg.pekerjaanteknik.model.zona.ZonaRootModelItem;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,7 +70,7 @@ public class SearchPengawasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_pengawas);
-        getSupportActionBar().hide();
+        
         initView();
         
         ivHeaderBackArrow.setOnClickListener(view -> {

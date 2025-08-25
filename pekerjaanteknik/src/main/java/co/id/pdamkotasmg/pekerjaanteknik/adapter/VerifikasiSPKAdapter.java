@@ -20,7 +20,7 @@ import java.util.List;
 import co.id.pdamkotasmg.pekerjaanteknik.R;
 import co.id.pdamkotasmg.pekerjaanteknik.activity.spk.riwayat.DetailRiwayatSpkActivity;
 import co.id.pdamkotasmg.pekerjaanteknik.model.riwayatSpk.verifikator.DataItem;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 
 public class VerifikasiSPKAdapter extends RecyclerView.Adapter<VerifikasiSPKAdapter.ViewHolder>
         implements Filterable {

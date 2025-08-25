@@ -58,8 +58,7 @@
             android:parentActivityName="co.id.pdamkotasmg.pekerjaanteknik.activity.home.HomeActivity" />
         <activity
             android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.home.HomeActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/Theme.HappyWork.NoActionBar" />
+            android:label="@string/title_activity_home" />
         <activity android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.search.SearchPengawasActivity" />
         <activity android:name="co.id.pdamkotasmg.pekerjaanteknik.activity.login.LoginActivity"
             android:exported="false"/>

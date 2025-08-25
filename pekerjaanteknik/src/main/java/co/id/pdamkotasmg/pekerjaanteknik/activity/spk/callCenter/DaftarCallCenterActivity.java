@@ -30,7 +30,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.model.callCenter.diposisi.DisposisiRoot
 import co.id.pdamkotasmg.pekerjaanteknik.model.callCenter.mastCCSatker.MCcSatkerItem;
 import co.id.pdamkotasmg.pekerjaanteknik.model.callCenter.mastCCSatker.MKategoriItem;
 import co.id.pdamkotasmg.pekerjaanteknik.model.callCenter.mastCCSatker.MastSatkerdanKategoriRootModel;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 import co.id.pdamkotasmg.pekerjaanteknik.utils.ConfigAds;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -69,7 +69,7 @@ public class DaftarCallCenterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daftar_call_center);
-        getSupportActionBar().hide();
+        
         initView();
 
         Config.header(ivHeaderBackArrow, ivHeaderInfo, tvHeaderJudul, DaftarCallCenterActivity.this, "Data Call Center");

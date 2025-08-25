@@ -15,6 +15,9 @@ public class Data{
     @SerializedName("token_type")
     private String tokenType;
 
+    @SerializedName("refresh_token")
+    private String refreshToken;
+
     @SerializedName("expires_in")
     private Integer expiresIn;
 
@@ -57,6 +60,14 @@ public class Data{
 
     public String getTokenType(){
         return tokenType;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     public void setExpiresIn(Integer expiresIn){

@@ -30,7 +30,7 @@ import org.json.JSONObject;
 import java.util.Random;
 
 import co.id.pdamkotasmg.pekerjaanteknik.R;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -243,7 +243,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Create bubble metadata
         Notification.BubbleMetadata bubbleData =
                 new Notification.BubbleMetadata.Builder(pendingIntent,
-                        Icon.createWithResource(context, R.drawable.ic_launcher_foreground))
+                        Icon.createWithResource(context, com.pdamkotasmg.goodday.R.drawable.ic_launcher_foreground))
                         .setDesiredHeight(600)
                         .build();
 
@@ -251,7 +251,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Notification.Builder builder =
                 new Notification.Builder(context, channelId)
                         .setContentIntent(pendingIntent)
-                        .setSmallIcon(R.drawable.ic_launcher_foreground)
+                        .setSmallIcon(com.pdamkotasmg.goodday.R.drawable.ic_launcher_foreground)
                         .setBubbleMetadata(bubbleData)
 //                        .setShortcutId()
                         .setContentTitle(title)
@@ -264,7 +264,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                context.getApplicationContext(), channelId
 //        );
 //
-//        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+//        builder.setSmallIcon(com.pdamkotasmg.goodday.R.drawable.ic_launcher_foreground);
 //        builder.setDefaults(NotificationCompat.PRIORITY_MAX);
 //        builder.setContentTitle(title); // make suer change the channel for image
 //        builder.setContentText(content);

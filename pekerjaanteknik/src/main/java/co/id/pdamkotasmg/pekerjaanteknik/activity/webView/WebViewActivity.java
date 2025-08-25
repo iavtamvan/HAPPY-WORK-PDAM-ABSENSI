@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import co.id.pdamkotasmg.pekerjaanteknik.R;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 
 public class WebViewActivity extends AppCompatActivity {
 
@@ -26,7 +26,7 @@ public class WebViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web_view);
+        setContentView(R.layout.activity_web_views);
 //        WebView myWebView = new WebView(WebViewActivity.this);
 //        setContentView(myWebView);
 //        WebSettings webSettings = myWebView.getSettings();
@@ -34,7 +34,7 @@ public class WebViewActivity extends AppCompatActivity {
 //        myWebView.loadUrl("https://gateway.pdamkotasmg.co.id/surveyplg/");
 //        myWebView.setWebViewClient(new MyWebViewClient());
         initView();
-        getSupportActionBar().hide();
+        
         Config.header(ivHeaderBackArrow, ivHeaderInfo, tvHeaderJudul, WebViewActivity.this, "Web View");
 
         webView = (WebView) findViewById(R.id.webview);

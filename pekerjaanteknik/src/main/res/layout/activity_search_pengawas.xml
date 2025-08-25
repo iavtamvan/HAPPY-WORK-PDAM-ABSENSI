@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".fitur.activity.spk.search.SearchPengawasActivity">
 
-    <include layout="@layout/content_header" />
+    <include layout="@layout/content_headers" />
 
     <TextView
         android:id="@+id/tv_judul"

@@ -140,7 +140,7 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        
         binding = ActivityBendelPembacaBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
         setContentView(root);
@@ -388,7 +388,7 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
 //                                if (codeSimpandanLanjut.equals("1")) {
 //                                    binding.edtKini.setText("");
 //                                    binding.edtKeterangan.setText("");
-//                                    binding.photoView.setImageDrawable(getResources().getDrawable(R.drawable.image_not_found));
+//                                    binding.photoView.setImageDrawable(getResources().getDrawable(com.pdamkotasmg.goodday.R.drawable.image_not_available));
 //                                    getLocationAdress();
 //                                    getBendel();
 //                                } else {
@@ -407,7 +407,7 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
 //                                if (codeSimpandanLanjut.equals("1")) {
 //                                    binding.edtKini.setText("");
 //                                    binding.edtKeterangan.setText("");
-//                                    binding.photoView.setImageDrawable(getResources().getDrawable(R.drawable.image_not_found));
+//                                    binding.photoView.setImageDrawable(getResources().getDrawable(com.pdamkotasmg.goodday.R.drawable.image_not_available));
 //                                    getLocationAdress();
 //                                    getBendel();
 //                                } else {
@@ -483,7 +483,7 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
 //
 //                                    Glide.with(BendelPembacaActivity.this)
 //                                            .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
-//                                            .error(R.drawable.image_not_found)
+//                                            .error(com.pdamkotasmg.goodday.R.drawable.image_not_available)
 //                                            .into(binding.photoView);
 //
 //                                    filePathServer = response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile();
@@ -496,7 +496,7 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
 //
 //                                        Glide.with(BendelPembacaActivity.this)
 //                                                .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
-//                                                .error(R.drawable.image_not_found)
+//                                                .error(com.pdamkotasmg.goodday.R.drawable.image_not_available)
 //                                                .into(binding.photoView);
 //
 //                                        filePathServer = response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile();
@@ -651,7 +651,7 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
                                 .setCompressFormat(Bitmap.CompressFormat.WEBP)
                                 .setDestinationDirectoryPath(mediaFiles[0].getFile().getParent())
                                 .compressToFile(mediaFiles[0].getFile(), "comp1_PM_MM_" + nolangg + "_" + timestamp + "_" + randomUUIDString + "_" + mediaFiles[0].getFile().getName());
-                        Glide.with(BendelPembacaKhususActivity.this).load(compressedImageFileManometer.getPath()).error(R.drawable.image_not_found).into(binding.photoViewRight);
+                        Glide.with(BendelPembacaKhususActivity.this).load(compressedImageFileManometer.getPath()).error(com.pdamkotasmg.goodday.R.drawable.image_not_available).into(binding.photoViewRight);
 //                        showImageWatermark(compressedImageFileManometer.getPath(), binding.photoViewRight);
 //                    Log.d(TAG, "onMediaFilesPicked: " + compressedImageFileFotoMeter.getPath());
                     } catch (IOException e) {
@@ -725,7 +725,7 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
                         // Set the final image with watermark to the ImageView
 //                        binding.ivCamera.setImageBitmap(resource);
                         photoView.setImageBitmap(resource);
-//                        Glide.with(BendelPembacaActivity.this).load(resource).error(R.drawable.image_not_found).into(binding.photoView);
+//                        Glide.with(BendelPembacaActivity.this).load(resource).error(com.pdamkotasmg.goodday.R.drawable.image_not_available).into(binding.photoView);
 
                         saveImageToExternalStorage(resource, "wtrmk_PM_");
                     }
@@ -889,7 +889,7 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
                             tvManometer.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getManometer());
                             tvPetugas.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPcEntry() + " - " + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getIpEntry());
                             Glide.with(BendelPembacaKhususActivity.this).load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
-                                    .error(R.drawable.image_not_found)
+                                    .error(com.pdamkotasmg.goodday.R.drawable.image_not_available)
                                     .override(512, 512)
                                     .into(photoView);
 

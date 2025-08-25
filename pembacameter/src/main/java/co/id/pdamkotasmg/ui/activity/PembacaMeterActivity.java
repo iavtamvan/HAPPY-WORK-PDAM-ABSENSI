@@ -121,7 +121,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        
         binding = ActivityPembacaMeterBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
         setContentView(root);
@@ -513,7 +513,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                                 if (codeSimpandanLanjut.equals("1")) {
                                     binding.edtKini.setText("");
                                     binding.edtKeterangan.setText("");
-                                    binding.photoView.setImageDrawable(getResources().getDrawable(R.drawable.image_not_found));
+                                    binding.photoView.setImageDrawable(getResources().getDrawable(com.pdamkotasmg.goodday.R.drawable.image_not_available));
                                     getLocationAdress();
                                     getBendel();
                                 } else {
@@ -532,7 +532,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                                 if (codeSimpandanLanjut.equals("1")) {
                                     binding.edtKini.setText("");
                                     binding.edtKeterangan.setText("");
-                                    binding.photoView.setImageDrawable(getResources().getDrawable(R.drawable.image_not_found));
+                                    binding.photoView.setImageDrawable(getResources().getDrawable(com.pdamkotasmg.goodday.R.drawable.image_not_available));
                                     getLocationAdress();
                                     getBendel();
                                 } else {
@@ -603,7 +603,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
                                     Glide.with(PembacaMeterActivity.this)
                                             .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
-                                            .error(R.drawable.image_not_found)
+                                            .error(com.pdamkotasmg.goodday.R.drawable.image_not_available)
                                             .into(binding.photoView);
 
                                     filePathServer = response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile();
@@ -616,7 +616,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
                                         Glide.with(PembacaMeterActivity.this)
                                                 .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
-                                                .error(R.drawable.image_not_found)
+                                                .error(com.pdamkotasmg.goodday.R.drawable.image_not_available)
                                                 .into(binding.photoView);
 
                                         filePathServer = response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile();
@@ -749,7 +749,7 @@ public class PembacaMeterActivity extends AppCompatActivity {
                         // Set the final image with watermark to the ImageView
 //                        binding.ivCamera.setImageBitmap(resource);
 //                        binding.photoView.setImageBitmap(resource);
-                        Glide.with(PembacaMeterActivity.this).load(resource).error(R.drawable.image_not_found).into(binding.photoView);
+                        Glide.with(PembacaMeterActivity.this).load(resource).error(com.pdamkotasmg.goodday.R.drawable.image_not_available).into(binding.photoView);
 
                         saveImageToExternalStorage(resource);
                     }

@@ -35,7 +35,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.api.ApiConfig;
 import co.id.pdamkotasmg.pekerjaanteknik.api.ApiService;
 import co.id.pdamkotasmg.pekerjaanteknik.model.callCenter.diposisi.DataItem;
 import co.id.pdamkotasmg.pekerjaanteknik.model.callCenter.diposisi.DisposisiRootModel;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;

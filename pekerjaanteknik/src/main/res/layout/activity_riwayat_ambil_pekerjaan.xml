@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".fitur.activity.spk.riwayat.RiwayatAmbilPekerjaanActivity">
 
-    <include layout="@layout/content_header" />
+    <include layout="@layout/content_headers" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"

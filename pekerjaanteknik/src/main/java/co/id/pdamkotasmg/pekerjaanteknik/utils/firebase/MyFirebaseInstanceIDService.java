@@ -11,7 +11,7 @@ import com.google.firebase.installations.FirebaseInstallations;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 
 public class MyFirebaseInstanceIDService extends IntentService {
     private static final String TAG = MyFirebaseInstanceIDService.class.getSimpleName();

@@ -18,13 +18,13 @@ import androidx.cardview.widget.CardView;
 
 import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
+import com.pdamkotasmg.goodday.utils.Config;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import co.id.pdamkotasmg.pekerjaanteknik.R;
-import co.id.pdamkotasmg.pekerjaanteknik.activity.login.LoginActivity;
 import co.id.pdamkotasmg.pekerjaanteknik.adapter.WarningAdapter;
 import co.id.pdamkotasmg.pekerjaanteknik.api.ApiConfig;
 import co.id.pdamkotasmg.pekerjaanteknik.api.ApiService;
@@ -35,7 +35,6 @@ import co.id.pdamkotasmg.pekerjaanteknik.model.monitoring.MonitoringSPKRootModel
 import co.id.pdamkotasmg.pekerjaanteknik.model.progressMandor.ProgressMandorRootModel;
 import co.id.pdamkotasmg.pekerjaanteknik.model.warning.DataItem;
 import co.id.pdamkotasmg.pekerjaanteknik.model.warning.WarningRootModel;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
 import co.id.pdamkotasmg.pekerjaanteknik.utils.ConfigAds;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import okhttp3.ResponseBody;
@@ -100,7 +99,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_homes);
         initView();
 
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
@@ -125,7 +124,7 @@ public class HomeActivity extends AppCompatActivity {
         if (refreshTokenFromLogin.isEmpty()) {
             progressDialog.cancel();
             finish();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+//            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         } else {
             getRefreshToken();
         }
@@ -135,14 +134,14 @@ public class HomeActivity extends AppCompatActivity {
 
         if (timeOfDay >= 0 && timeOfDay < 11) {
             tvGood.setText("Good Morning \uD83C\uDF04");
-            Config.showNotification(HomeActivity.this, "Pekerjaan Sudah Siap", "Semangat kerja !!!");
+            Config.showNotification(HomeActivity.this, "Pekerjaan Sudah Siap", "Semangat kerja !!!", HomeActivity.class);
         } else if (timeOfDay >= 11 && timeOfDay < 15) {
             tvGood.setText("Good Afternoon \uD83C\uDF1E");
         } else if (timeOfDay >= 15 && timeOfDay < 18) {
-            Config.showNotification(HomeActivity.this, "Saatnya Istirahat Sejenak", "Kalau lembur, jangan lupa klik LEMBUR YA!");
+            Config.showNotification(HomeActivity.this, "Saatnya Istirahat Sejenak", "Kalau lembur, jangan lupa klik LEMBUR YA!", HomeActivity.class);
             tvGood.setText("Good Evening \uD83C\uDF25");
         } else if (timeOfDay >= 18 && timeOfDay < 24) {
-            Config.showNotification(HomeActivity.this, "Saatnya Tidur", "Kalau lembur, jangan lupa klik LEMBUR YA!");
+            Config.showNotification(HomeActivity.this, "Saatnya Tidur", "Kalau lembur, jangan lupa klik LEMBUR YA!", HomeActivity.class);
             tvGood.setText("Good Night \uD83D\uDECC \uD83D\uDCA4");
         }
         tvNamePegawai.setText(name + " \uD83D\uDC4B");
@@ -223,7 +222,8 @@ public class HomeActivity extends AppCompatActivity {
                     if (data == null) {
                         progressDialog.cancel();
                         finish();
-                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+//                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                        Log.d(TAG, "onResponse: finish");
                     } else {
                         access_token = data.getAccessToken();
                         token_type = "Bearer";
@@ -246,7 +246,7 @@ public class HomeActivity extends AppCompatActivity {
                 } else {
                     progressDialog.cancel();
                     finish();
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+//                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }
             }
 

@@ -47,7 +47,7 @@ public class SalaryHistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salary_history);
-        getSupportActionBar().hide();
+        
         initView();
 
         ivHeaderBackArrow.setOnClickListener(v -> {

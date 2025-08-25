@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".fitur.activity.spk.MapsActivity">
 
-    <include layout="@layout/content_header" />
+    <include layout="@layout/content_headers" />
 
     <LinearLayout
         android:id="@+id/div_container"

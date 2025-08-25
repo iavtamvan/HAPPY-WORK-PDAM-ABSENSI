@@ -23,7 +23,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.api.ApiConfig;
 import co.id.pdamkotasmg.pekerjaanteknik.api.ApiService;
 import co.id.pdamkotasmg.pekerjaanteknik.model.riwayatSpk.verifikator.DataItem;
 import co.id.pdamkotasmg.pekerjaanteknik.model.riwayatSpk.verifikator.VerifikatorRootModel;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,7 +47,7 @@ public class VerifikasiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verifikasi);
         initView();
-        getSupportActionBar().hide();
+        
         Config.header(ivHeaderBackArrow, ivHeaderInfo, tvHeaderJudul, VerifikasiActivity.this, "Verifikasi Perbaikan");
 
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".fitur.activity.spk.InputSpkActivity">
 
-    <include layout="@layout/content_header" />
+    <include layout="@layout/content_headers" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -1281,7 +1281,7 @@
                                     android:id="@+id/iv_foto1"
                                     android:layout_width="match_parent"
                                     android:layout_height="150dp"
-                                    android:src="@drawable/image_not_found" />
+                                    android:src="@drawable/image_not_available" />
 
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
@@ -1321,7 +1321,7 @@
                                     android:id="@+id/iv_foto2"
                                     android:layout_width="match_parent"
                                     android:layout_height="150dp"
-                                    android:src="@drawable/image_not_found" />
+                                    android:src="@drawable/image_not_available" />
 
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
@@ -1397,7 +1397,7 @@
                                     android:id="@+id/iv_foto3"
                                     android:layout_width="match_parent"
                                     android:layout_height="150dp"
-                                    android:src="@drawable/image_not_found" />
+                                    android:src="@drawable/image_not_available" />
 
 
                             </LinearLayout>
@@ -1467,7 +1467,7 @@
                                     android:id="@+id/iv_foto4"
                                     android:layout_width="match_parent"
                                     android:layout_height="150dp"
-                                    android:src="@drawable/image_not_found" />
+                                    android:src="@drawable/image_not_available" />
 
 
                             </LinearLayout>

@@ -14,7 +14,7 @@ import com.pdamkotasmg.goodday.fitur.authentication.login.LoginActivity;
 
 import co.id.pdamkotasmg.pekerjaanteknik.R;
 import co.id.pdamkotasmg.pekerjaanteknik.activity.home.HomeActivity;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -23,8 +23,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
-        getSupportActionBar().hide();
+        setContentView(R.layout.activity_splash_screens);
+        
         initView();
 
         new Handler().postDelayed(() -> {

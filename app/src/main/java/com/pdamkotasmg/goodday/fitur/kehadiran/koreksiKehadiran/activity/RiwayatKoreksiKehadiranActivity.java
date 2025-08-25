@@ -57,7 +57,7 @@ public class RiwayatKoreksiKehadiranActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_riwayat_koreksi_kehadiran);
         initView();
-        getSupportActionBar().hide();
+        
 
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accesToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");

@@ -65,7 +65,7 @@ public class SingleManometerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        
         binding = ActivitySingleManometerBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
         setContentView(root);
@@ -107,7 +107,7 @@ public class SingleManometerActivity extends AppCompatActivity {
             }
 
             if (compressedImageFile1 == null) {
-                binding.photoViewManometer.setImageResource(R.drawable.image_not_found);
+                binding.photoViewManometer.setImageResource(com.pdamkotasmg.goodday.R.drawable.image_not_available);
                 Toast.makeText(this, "Pilih foto manometer", Toast.LENGTH_SHORT).show();
                 return;
             }

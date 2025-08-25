@@ -120,7 +120,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        getSupportActionBar().hide();
         initView();
         Config.methodRequiresTwoPermission(SplashScreenActivity.this);
         androidVersionDevice = BuildConfig.VERSION_NAME;
@@ -319,7 +318,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         Log.d(TAG, "SDKInteger: " + getSdkVersion);
 
         // TODO check Android WAJIBBBBBBBBBBBBBBBBBBBBB 32
-        if (Integer.parseInt(getSdkVersion) > 34) {
+        if (Integer.parseInt(getSdkVersion) > 35) {
             finishAffinity();
             Toast.makeText(this, Config.ERROR_ANDROID + " " + getSdkVersion, Toast.LENGTH_SHORT).show();
         } else {

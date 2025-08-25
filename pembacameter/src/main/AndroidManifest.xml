@@ -47,7 +47,8 @@
         <activity
             android:name="co.id.pdamkotasmg.HomeActivity"
             android:exported="false"
-            android:label="@string/title_activity_home" /> <!-- <activity -->
+            android:label="@string/title_activity_home"
+            android:theme="@style/Theme.HappyWork.DarkActionBar"/> <!-- <activity -->
         <!-- android:name="co.id.pdamkotasmg.BottomActivity" -->
         <!-- android:exported="false" -->
         <!-- android:label="@string/title_activity_bottom" /> -->

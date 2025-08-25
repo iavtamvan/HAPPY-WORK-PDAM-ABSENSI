@@ -33,7 +33,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.activity.spk.riwayat.DetailRiwayatSpkAc
 import co.id.pdamkotasmg.pekerjaanteknik.api.ApiConfig;
 import co.id.pdamkotasmg.pekerjaanteknik.api.ApiService;
 import co.id.pdamkotasmg.pekerjaanteknik.model.riwayatSpk.mandor.DataItem;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -68,7 +68,7 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_koreksi_kehadiran);
-        getSupportActionBar().hide();
+        
         initView();
 
         ivHeaderInfo.setOnClickListener(v -> {

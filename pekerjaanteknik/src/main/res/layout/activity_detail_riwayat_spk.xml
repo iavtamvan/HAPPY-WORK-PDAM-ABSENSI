@@ -858,7 +858,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="150dp"
                                         android:scaleType="fitXY"
-                                        android:src="@drawable/image_not_found" />
+                                        android:src="@drawable/image_not_available" />
 
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
@@ -890,7 +890,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="150dp"
                                         android:scaleType="fitXY"
-                                        android:src="@drawable/image_not_found" />
+                                        android:src="@drawable/image_not_available" />
 
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
@@ -930,7 +930,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="150dp"
                                         android:scaleType="fitXY"
-                                        android:src="@drawable/image_not_found" />
+                                        android:src="@drawable/image_not_available" />
 
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
@@ -962,7 +962,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="150dp"
                                         android:scaleType="fitXY"
-                                        android:src="@drawable/image_not_found" />
+                                        android:src="@drawable/image_not_available" />
 
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>

@@ -97,7 +97,7 @@ public class DigitalSignatureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_digital_signature);
         initView();
-        getSupportActionBar().hide();
+        
 
         ivHeaderBackArrow.setOnClickListener(view -> {
             DigitalSignatureActivity.this.finish();

@@ -21,14 +21,6 @@
         <entry key="Firebase Crashlytics">
           <value>
             <InsightsFilterSettings>
-              <option name="connection">
-                <ConnectionSetting>
-                  <option name="appId" value="com.pdamkotasmg.happywork" />
-                  <option name="mobileSdkAppId" value="1:583895094063:android:c89d919ef597d7a0c107da" />
-                  <option name="projectId" value="pdam-kota-smg-android" />
-                  <option name="projectNumber" value="583895094063" />
-                </ConnectionSetting>
-              </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
               <option name="timeIntervalDays" value="THIRTY_DAYS" />
               <option name="visibilityType" value="ALL" />

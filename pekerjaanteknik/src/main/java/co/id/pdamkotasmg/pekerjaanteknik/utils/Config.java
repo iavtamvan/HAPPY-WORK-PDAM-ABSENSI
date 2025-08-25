@@ -285,7 +285,7 @@ public final class Config {
 //        }
 
 
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+        builder.setSmallIcon(com.pdamkotasmg.goodday.R.drawable.ic_launcher_foreground);
         builder.setDefaults(NotificationCompat.PRIORITY_MAX);
         builder.setContentTitle(title); // make suer change the channel for image
         builder.setContentText(content);

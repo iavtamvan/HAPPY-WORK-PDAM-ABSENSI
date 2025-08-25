@@ -62,7 +62,7 @@ public class DetailPerjalananDinasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_perjalanan_dinas);
-        getSupportActionBar().hide();
+        
         initView();
 
         ivHeaderInfo.setOnClickListener(v -> {

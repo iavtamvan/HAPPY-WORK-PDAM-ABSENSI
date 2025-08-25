@@ -1,11 +1,14 @@
 package com.pdamkotasmg.goodday.fitur.menuLainnya;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,9 +16,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.google.android.play.core.splitinstall.SplitInstallManager;
-import com.google.android.play.core.splitinstall.SplitInstallManagerFactory;
-import com.google.android.play.core.splitinstall.SplitInstallRequest;
 import com.pdamkotasmg.goodday.BuildConfig;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.utils.Config;
@@ -32,13 +32,16 @@ public class ListWebViewActivity extends AppCompatActivity {
     private CardView divWablast;
     private CardView divSurveyPelanggan;
     private CardView divPekerjaanTeknik;
+    private CardView divDataPelanggan;
+    private String nolangg;
+    private String TAG = "debug";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_web_view);
-        getSupportActionBar().hide();
+        
         initView();
 
         tvHeaderJudul.setText("Menu Lainnya");
@@ -73,34 +76,32 @@ public class ListWebViewActivity extends AppCompatActivity {
 
         divPekerjaanTeknik.setOnClickListener(view -> {
             Intent intent = new Intent();
-            intent.setClassName(this, "co.id.pdamkotasmg.pekerjaanteknik.activity.login.LoginActivity");
+            intent.setClassName(this, "co.id.pdamkotasmg.pekerjaanteknik.activity.home.HomeSPKActivity");
             startActivity(intent);
+            Log.d(TAG, "onCreate: klik");
+        });
 
-//            SplitInstallManager splitInstallManager = SplitInstallManagerFactory.create(this);
-//
-//            if (splitInstallManager.getInstalledModules().contains("co.id.pdamkotasmg.pekerjaanteknik")) {
-//                // Jika sudah terinstal, buka activity di module lain
-//                Intent intent = new Intent();
-//                intent.setClassName(this, "co.id.pdamkotasmg.pekerjaanteknik.activity.LoginActivity");
-//                startActivity(intent);
-//            } else {
-//                // Jika belum terinstal, install module secara dinamis
-//                SplitInstallRequest request = SplitInstallRequest.newBuilder()
-//                        .addModule("co.id.pdamkotasmg.pekerjaanteknik")
-//                        .build();
-//
-//                splitInstallManager.startInstall(request)
-//                        .addOnSuccessListener(sessionId -> {
-//                            Toast.makeText(this, "Module berhasil diunduh!", Toast.LENGTH_SHORT).show();
-//                            Intent intent = new Intent();
-//                            intent.setClassName(this, "co.id.pdamkotasmg.pekerjaanteknik.activity.LoginActivity");
-//                            startActivity(intent);
-//                        })
-//                        .addOnFailureListener(e -> {
-//                            Toast.makeText(this, "Gagal menginstal fitur: " + e.getMessage(), Toast.LENGTH_LONG).show();
-//                            Log.d("debug", "Gagal menginstal fitur: " + e.getMessage());
-//                        });
-//            }
+        divDataPelanggan.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(ListWebViewActivity.this);
+            builder.setMessage("Nolangg");
+
+            final EditText input = new EditText(ListWebViewActivity.this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                nolangg = input.getText().toString();
+                if (nolangg.isEmpty()) {
+                    Toast.makeText(ListWebViewActivity.this, "Isi nolangg", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(ListWebViewActivity.this, ProfilePelangganDanTagihanActivity.class);
+                    intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
+                    startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+            builder.show();
         });
 
     }
@@ -121,5 +122,6 @@ public class ListWebViewActivity extends AppCompatActivity {
         divWablast = findViewById(R.id.div_wablast);
         divSurveyPelanggan = findViewById(R.id.div_survey_pelanggan);
         divPekerjaanTeknik = findViewById(R.id.div_pekerjaan_teknik);
+        divDataPelanggan = findViewById(R.id.div_data_pelanggan);
     }
 }

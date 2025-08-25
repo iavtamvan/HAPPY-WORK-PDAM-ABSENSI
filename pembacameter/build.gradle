@@ -4,7 +4,7 @@ plugins {
 }
 android {
     namespace 'co.id.pdamkotasmg.pembacameter'
-    compileSdk 33
+    compileSdk 35
 
     defaultConfig {
         minSdkVersion 23

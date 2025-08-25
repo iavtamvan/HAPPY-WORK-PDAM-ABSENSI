@@ -27,7 +27,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.R;
 import co.id.pdamkotasmg.pekerjaanteknik.api.ApiConfig;
 import co.id.pdamkotasmg.pekerjaanteknik.api.ApiService;
 import co.id.pdamkotasmg.pekerjaanteknik.model.verifikasiSPK.statusVerifikasi.StatusVerifikasiRootModel;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 import co.id.pdamkotasmg.pekerjaanteknik.utils.ConfigAds;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import okhttp3.ResponseBody;
@@ -118,7 +118,7 @@ public class DetailRiwayatSpkActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_riwayat_spk);
-        getSupportActionBar().hide();
+        
         initView();
 
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
@@ -236,10 +236,10 @@ public class DetailRiwayatSpkActivity extends AppCompatActivity {
         tvNppVerifikator.setText(nppVerifikator);
         tvLembur.setText(lembur);
 
-        Glide.with(DetailRiwayatSpkActivity.this).load(foto1).override(512, 512).error(R.drawable.image_not_found).into(ivFoto1);
-        Glide.with(DetailRiwayatSpkActivity.this).load(foto2).override(512, 512).error(R.drawable.image_not_found).into(ivFoto2);
-        Glide.with(DetailRiwayatSpkActivity.this).load(foto3).override(512, 512).error(R.drawable.image_not_found).into(ivFoto3);
-        Glide.with(DetailRiwayatSpkActivity.this).load(foto4).override(512, 512).error(R.drawable.image_not_found).into(ivFoto4);
+        Glide.with(DetailRiwayatSpkActivity.this).load(foto1).override(512, 512).error(com.pdamkotasmg.goodday.R.drawable.image_not_available).into(ivFoto1);
+        Glide.with(DetailRiwayatSpkActivity.this).load(foto2).override(512, 512).error(com.pdamkotasmg.goodday.R.drawable.image_not_available).into(ivFoto2);
+        Glide.with(DetailRiwayatSpkActivity.this).load(foto3).override(512, 512).error(com.pdamkotasmg.goodday.R.drawable.image_not_available).into(ivFoto3);
+        Glide.with(DetailRiwayatSpkActivity.this).load(foto4).override(512, 512).error(com.pdamkotasmg.goodday.R.drawable.image_not_available).into(ivFoto4);
 
         btnVerifikasi.setOnClickListener(v -> {
             MaterialDialog mDialog = new MaterialDialog.Builder(DetailRiwayatSpkActivity.this)

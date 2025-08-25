@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Locale;
 
 import co.id.pdamkotasmg.pekerjaanteknik.R;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 
 public class MapsAdressActivity extends AppCompatActivity implements OnMapReadyCallback {
     private final String TAG = "debug";
@@ -68,7 +68,7 @@ public class MapsAdressActivity extends AppCompatActivity implements OnMapReadyC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps_adress);
-        getSupportActionBar().hide();
+        
         initView();
 
         Config.header(ivHeaderBackArrow, ivHeaderInfo, tvHeaderJudul, MapsAdressActivity.this, "Google Maps");

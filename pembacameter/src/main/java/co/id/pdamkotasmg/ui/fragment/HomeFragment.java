@@ -85,6 +85,9 @@ public class HomeFragment extends Fragment {
         progressDialog.setMessage("Mohon tunggu...");
         progressDialog.show();
 
+        binding.scrollingtext.setText("HALOOooo PEMBACA METER..... SELAMAT BEKERJA....");
+        binding.scrollingtext.setSelected(true);
+
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 

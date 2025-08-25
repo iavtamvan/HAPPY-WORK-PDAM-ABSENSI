@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Locale;
 
 import co.id.pdamkotasmg.pekerjaanteknik.R;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 import im.delight.android.location.SimpleLocation;
 
 public class MapsActivity extends AppCompatActivity {
@@ -64,7 +64,7 @@ public class MapsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        getSupportActionBar().hide();
+        
         initView();
 
         Config.header(ivHeaderBackArrow, ivHeaderInfo, tvHeaderJudul, MapsActivity.this, "Google Maps");

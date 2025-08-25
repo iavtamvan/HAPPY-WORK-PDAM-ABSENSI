@@ -65,7 +65,7 @@ public class PaySlipActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_slip);
-        getSupportActionBar().hide();
+        
         initView();
 
         ivHeaderBackArrow.setOnClickListener(v -> {

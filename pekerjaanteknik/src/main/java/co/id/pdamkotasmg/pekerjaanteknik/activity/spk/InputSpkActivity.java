@@ -74,7 +74,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.model.post.postRoot.ListBarangLocalItem
 import co.id.pdamkotasmg.pekerjaanteknik.model.post.postRoot.ListPekerjaanItem;
 import co.id.pdamkotasmg.pekerjaanteknik.model.post.responseReuired.ResponseReqRootModel;
 import co.id.pdamkotasmg.pekerjaanteknik.model.tagihan.BillingTagihanRootModel;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 import co.id.pdamkotasmg.pekerjaanteknik.utils.ConfigAds;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import id.zelory.compressor.Compressor;
@@ -295,7 +295,7 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_spk);
-        getSupportActionBar().hide();
+        
         initView();
 
         Config.header(ivHeaderBackArrow, ivHeaderInfo, tvHeaderJudul, InputSpkActivity.this, "Input Form Perbaikan");
@@ -886,7 +886,7 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
             Log.d(TAG, "isi compres: " + compressedImageFile3);
             compressedImageFile3 = null;
             Log.d(TAG, "null compres: " + compressedImageFile3);
-            Glide.with(context).load(R.drawable.image_not_found).into(ivFoto3);
+            Glide.with(context).load(com.pdamkotasmg.goodday.R.drawable.image_not_available).into(ivFoto3);
             Log.d(TAG, "get ulang compres: " + compressedImageFile3);
         });
 
@@ -894,7 +894,7 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
             Log.d(TAG, "isi compres: " + compressedImageFile4);
             compressedImageFile4 = null;
             Log.d(TAG, "null compres: " + compressedImageFile4);
-            Glide.with(context).load(R.drawable.image_not_found).into(ivFoto4);
+            Glide.with(context).load(com.pdamkotasmg.goodday.R.drawable.image_not_available).into(ivFoto4);
             Log.d(TAG, "get ulang compres: " + compressedImageFile4);
         });
 

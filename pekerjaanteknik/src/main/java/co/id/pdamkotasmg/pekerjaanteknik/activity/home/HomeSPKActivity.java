@@ -58,7 +58,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.model.akun.login.LoginRootModel;
 import co.id.pdamkotasmg.pekerjaanteknik.model.progressMandor.ProgressMandorRootModel;
 import co.id.pdamkotasmg.pekerjaanteknik.model.warning.DataItem;
 import co.id.pdamkotasmg.pekerjaanteknik.model.warning.WarningRootModel;
-import co.id.pdamkotasmg.pekerjaanteknik.utils.Config;
+import com.pdamkotasmg.goodday.utils.Config;
 import co.id.pdamkotasmg.pekerjaanteknik.utils.ConfigAds;
 import okhttp3.ResponseBody;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -124,7 +124,7 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_spkactivity);
-        getSupportActionBar().hide();
+        
         initView();
 
         Config.header(ivHeaderBackArrow, ivHeaderInfo, tvHeaderJudul, HomeSPKActivity.this, "Home SPK");
@@ -260,7 +260,7 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
 //        }
 
 
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+        builder.setSmallIcon(com.pdamkotasmg.goodday.R.drawable.ic_launcher_foreground);
         builder.setDefaults(NotificationCompat.PRIORITY_MAX);
         builder.setContentTitle(title); // make suer change the channel for image
         builder.setContentText(content);
