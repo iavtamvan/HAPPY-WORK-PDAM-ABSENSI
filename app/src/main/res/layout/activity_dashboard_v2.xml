@@ -140,6 +140,7 @@
                                 android:text="Let's work hard from now on"
                                 android:textColor="@color/white"
                                 android:textSize="14dp"
+                                android:layout_marginBottom="20dp"
                                 android:textStyle="bold" />
 
                             <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -147,6 +148,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
+                                android:visibility="gone"
                                 android:layout_marginBottom="4dp">
 
                                 <com.airbnb.lottie.LottieAnimationView

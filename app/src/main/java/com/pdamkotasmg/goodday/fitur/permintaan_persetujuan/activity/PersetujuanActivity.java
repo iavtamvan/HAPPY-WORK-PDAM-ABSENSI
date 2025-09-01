@@ -44,7 +44,7 @@ public class PersetujuanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_persetujuan);
-        getSupportActionBar().hide();
+        
         initView();
 
         ivHeaderBackArrow.setOnClickListener(view -> {

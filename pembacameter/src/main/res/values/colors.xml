@@ -36,4 +36,7 @@
     <color name="dash_v2_redLight">#F1E7E7</color>
 
     <color name="dash_v2_azure">#C9F0FF</color>
+
+    <color name="md_material_blue_600">#1E88E5</color>
+
 </resources>

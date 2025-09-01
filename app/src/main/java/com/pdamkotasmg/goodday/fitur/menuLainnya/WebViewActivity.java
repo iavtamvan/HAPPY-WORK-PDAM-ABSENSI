@@ -39,7 +39,7 @@ public class WebViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
-        getSupportActionBar().hide();
+        
         initView();
 
         ivHeaderBackArrow.setOnClickListener(view -> {
@@ -74,23 +74,23 @@ public class WebViewActivity extends AppCompatActivity {
         if (typeWebView.contains("gistirta")) {
             tvHeaderJudul.setText("Gis Tirta Moedal");
             wv.loadUrl("https://gateway.pdamkotasmg.co.id/gistirtamoedal/#/oauth?token=" + token);
-            Toast.makeText(this, "gistirtamoedal", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "open gistirtamoedal", Toast.LENGTH_SHORT).show();
         } else if (typeWebView.contains("sambungbaru")) {
             tvHeaderJudul.setText("Sambung Baru");
-            wv.loadUrl("https://gateway.pdamkotasmg.co.id/sambung-baru/");
-            Toast.makeText(this, "sambung-baru", Toast.LENGTH_SHORT).show();
+            wv.loadUrl("https://gateway.pdamkotasmg.co.id/sambung-baru/#/");
+            Toast.makeText(this, "open sambung-baru", Toast.LENGTH_SHORT).show();
         } else if (typeWebView.contains("wablast")) {
             tvHeaderJudul.setText("Wa Blast");
             wv.loadUrl("https://gateway.pdamkotasmg.co.id/wablast/#/oauth?token=" + token);
-            Toast.makeText(this, "wablast", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "open wablast", Toast.LENGTH_SHORT).show();
         } else if (typeWebView.contains("surveyplg")) {
             tvHeaderJudul.setText("Survey Pelanggan");
             wv.loadUrl("https://gateway.pdamkotasmg.co.id/surveyplg/#/oauth?token=" + token);
-            Toast.makeText(this, "surveyplg", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "open surveyplg", Toast.LENGTH_SHORT).show();
         } else if (typeWebView.contains("moonfish")) {
             tvHeaderJudul.setText("Moon Fish");
             wv.loadUrl("https://gateway.pdamkotasmg.co.id/moonfish/#/oauth?token=" + token);
-            Toast.makeText(this, "moonfish", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "open moonfish", Toast.LENGTH_SHORT).show();
         }else if (typeWebView.contains("cekkoneksi")) {
             tvHeaderJudul.setText("Cek Koneksi");
             wv.loadUrl("https://www.speedtest.net/");

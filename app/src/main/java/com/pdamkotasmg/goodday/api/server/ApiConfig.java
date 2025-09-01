@@ -25,7 +25,7 @@ public class ApiConfig {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://gateway.pdamkotasmg.co.id/api-gw/")
+                .baseUrl("https://gateway.pdamkotasmg.co.id/api-gw-balanced/")
 //                .baseUrl("https://app.pdamkotasmg.co.id/api-gw-dev/")
 //                .baseUrl("https://tirta.pdamkotasmg.co.id/api-gw-dev/")
 //                .baseUrl("https://pdam-lb.herokuapp.com/api-gw-dev/")

@@ -26,7 +26,7 @@ public class WelcomeAuthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_auth);
-        getSupportActionBar().hide();
+        
         initView();
         methodRequiresTwoPermission();
         tvPageRegister.setVisibility(View.GONE);

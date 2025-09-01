@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:dist="http://schemas.android.com/apk/distribution"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:dist="http://schemas.android.com/apk/distribution">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -48,7 +47,8 @@
         <activity
             android:name="co.id.pdamkotasmg.HomeActivity"
             android:exported="false"
-            android:label="@string/title_activity_home" /> <!-- <activity -->
+            android:label="@string/title_activity_home"
+            android:theme="@style/Theme.HappyWork.DarkActionBar"/> <!-- <activity -->
         <!-- android:name="co.id.pdamkotasmg.BottomActivity" -->
         <!-- android:exported="false" -->
         <!-- android:label="@string/title_activity_bottom" /> -->

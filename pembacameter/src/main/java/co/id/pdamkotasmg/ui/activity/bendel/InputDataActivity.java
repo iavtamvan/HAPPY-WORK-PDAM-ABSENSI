@@ -23,7 +23,7 @@ public class InputDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        
         binding = ActivityInputDataBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
         setContentView(root);

@@ -43,7 +43,7 @@ public class DetailRiwayatPembacaMeterActivity extends AppCompatActivity {
         View root = binding.getRoot();
         setContentView(root);
 
-        getSupportActionBar().hide();
+        
         binding.ivHeaderBackArrow.setOnClickListener(view -> DetailRiwayatPembacaMeterActivity.this.finish());
         binding.tvHeaderJudul.setText("Detail Bacaan");
         binding.ivHeaderInfo.setVisibility(View.GONE);

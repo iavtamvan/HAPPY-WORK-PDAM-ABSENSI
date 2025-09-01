@@ -26,6 +26,7 @@ public class LoginController {
     //token
     private String access_token;
     private String token_type;
+    private String refresh_token;
     private String avatar;
 
     //user
@@ -102,6 +103,7 @@ public class LoginController {
                     access_token = dataLogin.getAccessToken();
                     Log.d("debug", "token: " + access_token);
                     token_type = dataLogin.getTokenType();
+                    refresh_token = dataLogin.getRefreshToken();
                     npp_profile = dataLogin.getUser().getNpp();
                     name = dataLogin.getUser().getName();
                     avatar = dataLogin.getUser().getAvatar();
@@ -208,6 +210,7 @@ public class LoginController {
         Log.d(TAG, "Access Token Good Day " + access_token);
 
         editor.putString(Config.SHARED_ACCESS_TOKEN, token_type + " " + access_token);
+        editor.putString(Config.SHARED_REFRESH_TOKEN, refresh_token);
         editor.putString(Config.SHARED_NPP_PROFILE, npp_profile);
         editor.putString(Config.SHARED_NAME, name);
         editor.putString(Config.SHARED_AVATAR, avatar);

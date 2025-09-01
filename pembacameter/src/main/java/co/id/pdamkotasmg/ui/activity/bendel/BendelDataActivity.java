@@ -41,7 +41,7 @@ public class BendelDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        
         binding = ActivityBendelDataBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
         setContentView(root);

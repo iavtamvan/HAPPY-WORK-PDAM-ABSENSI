@@ -33,7 +33,7 @@ public class RiwayatPembacaMeterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        
         binding = ActivityRiwayatPembacaMeterBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
         setContentView(root);

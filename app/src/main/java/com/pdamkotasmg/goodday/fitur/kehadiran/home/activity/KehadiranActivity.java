@@ -85,7 +85,7 @@ public class KehadiranActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kehadiran);
-        getSupportActionBar().hide();
+        
         initView();
         tvHeaderJudul.setText("Riwayat Rekam Kehadiran");
         ivHeaderInfo.setVisibility(View.GONE);

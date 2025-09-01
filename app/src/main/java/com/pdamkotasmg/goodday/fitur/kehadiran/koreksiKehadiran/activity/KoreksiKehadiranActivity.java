@@ -78,7 +78,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_koreksi_kehadiran);
-        getSupportActionBar().hide();
+        
         initView();
 
         tvHeaderJudul.setText("Detail Koreksi Kehadiran");

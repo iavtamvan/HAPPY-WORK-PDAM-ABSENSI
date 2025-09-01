@@ -35,7 +35,7 @@ public class VerifikasiDitolakActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        
         binding = ActivityVerifikasiDitolakBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
         setContentView(root);
