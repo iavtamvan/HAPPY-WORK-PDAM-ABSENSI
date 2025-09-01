@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins"
                     android:text="Iav Tamvan "
-                    android:textColor="@color/redPortal"
+                    android:textColor="@color/colorDarkGold"
                     android:textSize="18dp"
                     android:textStyle="bold" />
 
@@ -99,7 +99,7 @@
                 android:layout_marginBottom="4dp"
                 android:fontFamily="@font/poppins"
                 android:text="Pengembangan Program - Su Bid. PTI"
-                android:textColor="@color/blueSoft"
+                android:textColor="@color/md_red_200"
                 android:textSize="11dp"
                 android:textStyle="bold" />
 

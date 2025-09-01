@@ -16,7 +16,7 @@ android {
         minSdk 23
         targetSdk 35
 
-        versionCode 57 // update playstore
+        versionCode 58 // update playstore
         versionName "1.1.1" // ini diganti
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
