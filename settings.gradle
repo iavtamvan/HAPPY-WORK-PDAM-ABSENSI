@@ -1,2 +1,21 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        // JANGAN pakai jcenter kecuali terpaksa banget
+    }
+}
+
 include ':app'
 rootProject.name = "HappyWork"
+include ':app-pekerjaan-teknik'

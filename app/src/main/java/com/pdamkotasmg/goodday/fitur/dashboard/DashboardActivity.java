@@ -26,7 +26,6 @@ import com.pdamkotasmg.goodday.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.goodday.fitur.dashboard.model.permissionName.PermissionRootModel;
 import com.pdamkotasmg.goodday.fitur.feeds.controller.FeedsController;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.activity.KehadiranActivity;
-import com.pdamkotasmg.goodday.fitur.menuLainnya.ListWebViewActivity;
 import com.pdamkotasmg.goodday.fitur.payslip.PayslipActivity;
 import com.pdamkotasmg.goodday.fitur.permintaan.activity.PermintaanActivity;
 import com.pdamkotasmg.goodday.fitur.permintaan.activity.PersetujuanActivity;
@@ -215,7 +214,8 @@ public class DashboardActivity extends AppCompatActivity {
             startActivity(intent);
         });
         divOther.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), ListWebViewActivity.class));
+//            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+
         });
 
         divPayslip.setOnClickListener(v -> {
