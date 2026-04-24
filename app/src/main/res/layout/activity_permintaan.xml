@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fitur.permintaan.activity.PermintaanActivity">
+    tools:context=".fitur.permintaan_persetujuan.activity.PermintaanActivity">
 
     <include layout="@layout/content_header" />
 

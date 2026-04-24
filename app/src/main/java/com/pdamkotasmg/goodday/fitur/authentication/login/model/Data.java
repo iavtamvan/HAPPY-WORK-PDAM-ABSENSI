@@ -2,6 +2,8 @@ package com.pdamkotasmg.goodday.fitur.authentication.login.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Data{
 
     @SerializedName("access_token")
@@ -13,6 +15,9 @@ public class Data{
     @SerializedName("token_type")
     private String tokenType;
 
+    @SerializedName("refresh_token")
+    private String refreshToken;
+
     @SerializedName("expires_in")
     private Integer expiresIn;
 
@@ -21,6 +26,17 @@ public class Data{
 
     @SerializedName("device")
     private Device device;
+
+    @SerializedName("roles")
+    private ArrayList<String> roles;
+
+    public ArrayList<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(ArrayList<String> roles) {
+        this.roles = roles;
+    }
 
     public void setAccessToken(String accessToken){
         this.accessToken = accessToken;
@@ -44,6 +60,14 @@ public class Data{
 
     public String getTokenType(){
         return tokenType;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     public void setExpiresIn(Integer expiresIn){

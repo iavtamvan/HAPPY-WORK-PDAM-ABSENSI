@@ -54,14 +54,14 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
-            android:fontFamily="@font/poppins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
 
+                        android:fontFamily="@font/poppins"
                         android:gravity="left"
                         android:text="Tipe Cuti"
                         android:textColor="@color/black"
-                        android:layout_marginTop="10dp"
                         android:textSize="14dp" />
 
                     <com.jaredrummler.materialspinner.MaterialSpinner
@@ -86,9 +86,9 @@
                             android:orientation="vertical">
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="Masa berlaku sampai"
@@ -96,10 +96,10 @@
                                 android:textSize="12dp" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_validity_date_end"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="left"
                                 android:text="Staff"
@@ -116,9 +116,9 @@
                             android:orientation="vertical">
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="right"
                                 android:text="Sisa"
@@ -126,10 +126,10 @@
                                 android:textSize="12dp" />
 
                             <TextView
-            android:fontFamily="@font/poppins"
                                 android:id="@+id/tv_remaining"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
 
                                 android:gravity="right"
                                 android:text="40"
@@ -151,7 +151,6 @@
                             android:layout_height="wrap_content"
                             android:background="@color/white"
                             android:focusable="false"
-
                             android:hint="Dari tanggal" />
                     </com.google.android.material.textfield.TextInputLayout>
 

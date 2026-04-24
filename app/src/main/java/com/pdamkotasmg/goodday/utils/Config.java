@@ -20,37 +20,32 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.authentication.login.LoginActivity;
-import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.PresensiActivity;
 import com.pdamkotasmg.goodday.fitur.splash.SplashScreenActivity;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
+
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Random;
 
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import okhttp3.ResponseBody;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -62,23 +57,30 @@ public final class Config {
     public static final String APLICATION_NAME = "Happy Work";
 
     //API KEY
-    public static final String BASE_URL_IMAGE = "https://app.pdamkotasmg.co.id/api-gw-dev/portal-pegawai";
-    public static final String BASE_URL_IMAGE_HANDLER = "https://gateway.pdamkotasmg.co.id/api-gw-dev/file-handler/foto/?filename=";
+//    public static final String BASE_URL_IMAGE = "https://app.pdamkotasmg.co.id/api-gw-dev/portal-pegawai";
+    public static final String BASE_URL_IMAGE = "https://app.pdamkotasmg.co.id/api-gw/portal-pegawai";
+    public static final String BASE_URL_PORTAL_PEGAWAI = "https://gateway.pdamkotasmg.co.id/api-gw-balanced/portal-pegawai/";
+    //    public static final String BASE_URL_IMAGE_HANDLER = "https://gateway.pdamkotasmg.co.id/api-gw-dev/file-handler/foto/?filename=";
+    public static final String BASE_URL_IMAGE_HANDLER = "https://gateway.pdamkotasmg.co.id/api-gw/file-handler/foto/?filename=";
+    public static final String BASE_URL_IMAGE_SIRAMHPM_VENDOR = "https://app.pdamkotasmg.co.id/be-proxy/siramhpm/";
+    public static final String BASE_URL = "https://gateway.pdamkotasmg.co.id/api-gw-balanced/";
 
-    public static final String BASE_URL_NOTIF_FOTO_FAIL = "https://image.freepik.com/free-vector/people-with-sad-angry-emojis-illustration_53876-43293.jpg";
+    public static final String BASE_URL_NOTIF_FOTO_FAIL = "https://image.freepik.co8m/free-vector/people-with-sad-angry-emojis-illustration_53876-43293.jpg";
     public static final String BASE_URL_NOTIF_JIKA_TELAT = "https://image.freepik.com/free-vector/people-run-open-door-being-late-men-women-hurry-end-beginning-working-office-day-illustration_80590-9275.jpg";
     public static final String BASE_URL_NOTIF_JIKA_PULANG_AWAL = "https://image.freepik.com/free-vector/businessman-leaving-comfort-zone-flat-illustration_74855-16768.jpg";
     public static final String BASE_URL_NOTIF_NORMAL = "https://image.freepik.com/free-vector/people-jumping-trampoline_74855-4453.jpg";
     public static final String BASE_URL_NOTIF_ERROR = "https://image.freepik.com/free-vector/oops-404-error-with-broken-robot-concept-illustration_114360-1932.jpg";
 
-    public static final String ERROR_MSG = "Periksa Koneksi";
+    public static final String ERROR_MSG = "Failure: Pengambilan data Gagal, coba lagi nanti";
+    public static final String ERROR_NULL_DATA = "Data Kosong";
     public static final String ERROR_PASSWORD = "Pastikan Kata Sandi Anda Sama";
     public static final String ERROR_DATA_REGISTER = "Pastikan Data Anda Dengan Benar";
     public static final String ERROR_SESSION = "Sesi login anda telah habis, Login Ulang";
     public static final String ERROR_FAKE_GPS_TITLE = "Akun di NONAKTIFKAN \n Berbohong adalah suatu tindakan tidak terpuji \uD83D\uDE0A";
-    public static final String ERROR_ANDROID = "Not Supported Android x004423 javLang:unsupportedOsVersion";
+    public static final String ERROR_ANDROID = "Failed to measure fs-verity: Not Supported Android x004423 javLang:unsupportedOsVersion";
 
     public static final String SHARED_PERMISION_APPS = "permision_apps";
+    public static final int REQ_ACT_RESULT_CODE_MAPS = 1;
 
     //data akun
     public static final String SHARED_PREF_NAME = "HAPPY-WORK";
@@ -90,6 +92,7 @@ public final class Config {
     public static final String SHARED_GETSDKVERSION = "getSdkVersion";
     public static final String SHARED_GETBUILDNUMBER = "getBuildNumber";
     public static final String SHARED_GETBUILDINCREMENTAL = "getBuildIncremental";
+    public static final String SHARED_GETPASSWORD = "getpassword";
     public static final String SHARED_IPADRESS = "ipAdress";
     public static final String SHARED_CONNECTIONTYPE = "connectionType";
     public static final String SHARED_HWID = "hwid";
@@ -105,6 +108,7 @@ public final class Config {
     public static final String SHARED_LATI_CHECK_LOCATION = "lati_check_location";
     public static final String SHARED_LONGITUDE_CHECK_LOCATION = "longitude_check_location";
     public static final String SHARED_ACCESS_TOKEN = "access_token";
+    public static final String SHARED_REFRESH_TOKEN = "refresh_token";
     public static final String SHARED_NPP_PROFILE = "npp_profile";
     public static final String SHARED_NPP_QR_CODE = "npp_titip_absen";
     public static final String SHARED_NAME = "name";
@@ -130,6 +134,7 @@ public final class Config {
     public static final String SHARED_TLP = "tlp";
     public static final String SHARED_PEK = "pek";
     public static final String SHARED_ST_DATA = "st_data";
+    public static final String SHARED_ROLES = "roles";
     public static final String SHARED_SATKER_FORMATTED = "satker_formatted";
     public static final String SHARED_SUBSATKER_FORMATTED = "subsatker_formatted";
     public static final String SHARED_APP_VERSION = "app_version";
@@ -138,6 +143,8 @@ public final class Config {
     public static final String SHARED_START_TIME = "start_time";
     public static final String SHARED_END_TIME = "end_time";
     public static final String SHARED_SHIFT_DAILY_CODE = "shift_daily_code";
+    public static final String SHARED_ID_CABANG = "id_cabang";
+    public static final String SHARED_CABANG = "cabang";
 
     public static final String SHARED_COMPRESED_PHOTO_OFFLINE = "compressed_photo_offline";
     public static final String SHARED_LATI_OFFLINE = "latitude_offline";
@@ -182,6 +189,18 @@ public final class Config {
 
     public static final String SHARED_TYPE_WEB_vIEW = "shared_type_web_view";
 
+    public static final String SHARED_ARRAY_BENDEL = "shared_array_bendel";
+
+    public static final String SHARED_KD_AMBIL_PEKERJAAN = "shared_kd_ambil_pekerjaan";
+    public static final String SHARED_STATU_BOOKING = "shared_statu_booking";
+    public static final String SHARED_NPP_PENGAWAS = "npp_pengawas";
+    public static final String SHARED_NAME_PENGAWAS = "name_pengawas";
+    public static final String SHARED_NPP_KASUB = "npp_kasub";
+    public static final String SHARED_NAME_KASUB = "name_kasub";
+    public static final String SHARED_NPP_VERIFIKATOR = "npp_verifikator";
+    public static final String SHARED_NAME_VERIFIKATOR = "name_verifikator";
+    public static final String SHARED_TENAGA_LAINNYA = "tenaga_lainnya";
+
     //Firebase
     // global topic to receive app wide push notifications
     public static final String FIREBASE_NAME = "pdam-tirta-happy-work";
@@ -192,6 +211,7 @@ public final class Config {
     // id to handle the notification in the notification tray
     public static final int FIREBASE_NOTIFICATION_ID = 100;
     public static final int FIREBASE_NOTIFICATION_ID_BIG_IMAGE = 101;
+    public static final String SHARED_FIREBASE_TOKEN = "firebase_token";
 
     //bundle
     public static final String BUNDLE_STATUS_ABSENSI = "status_absensi";
@@ -202,6 +222,91 @@ public final class Config {
     public static final String BUNDLE_NUMBER_REQUEST = "number_request";
     public static final String BUNDLE_NUMBER_APPROVALS = "number_approvals";
 
+    public static final String BUNDLE_DATE_PAYSLIP = "date_payslip";
+    public static final String BUNDLE_OPT_PAYROLL_PERIOD = "opt_payroll_period";
+    public static final String BUNDLE_OPT_PERIOD_MONTH = "opt_period_month";
+    public static final String BUNDLE_OPT_PERIOD_YEAR = "opt_period_year";
+
+    // TODO Mulai EDMS
+    public static final String BUNDLE_NUMBER_TRX_SURAT = "number_trx_surat";
+    // TODO Selesai EDMS
+
+    // TODO Mulai Pembaca Meter
+    public static final String BUNDLE_PEMBACA_METER_CODE_INPUT_DATA = "bundle_pembaca_meter_code_input_data";
+    public static final String BUNDLE_PEMBACA_METER_CODE_BENDEL = "bundle_pembaca_meter_code_input_data";
+    public static final String BUNDLE_PEMBACA_METER_CODE_BENDEL_NEXT = "bundle_pembaca_meter_code_bendel_next";
+
+    public static final String BUNDLE_PEMBACA_METER_NOLANGG = "pembaca_meter_nolangg";
+    public static final String BUNDLE_PEMBACA_METER_KODE_INPUT_DATA = "pembaca_meter_kode_input_data";
+    public static final String BUNDLE_PEMBACA_METER_DISM = "pembaca_meter_dism";
+    public static final String BUNDLE_PEMBACA_METER_NAMA = "pembaca_meter_nama";
+    public static final String BUNDLE_PEMBACA_METER_ALAMAT = "pembaca_meter_alamat";
+    public static final String BUNDLE_PEMBACA_METER_TARIF = "pembaca_meter_tarif";
+    public static final String BUNDLE_PEMBACA_METER_SUMBER_LAIN = "pembaca_meter_sumber_lain";
+    public static final String BUNDLE_PEMBACA_METER_MEREK_METER = "pembaca_meter_merek_meter";
+    public static final String BUNDLE_PEMBACA_METER_LALU = "pembaca_meter_lalu";
+    public static final String BUNDLE_PEMBACA_METER_PING_INTERNET = "bundle_pembaca_meter_ping_internet";
+
+
+    public static final String SHARED_PERIODE = "shared_periode";
+    public static final String SHARED_PERIODE_BULAN_LALU = "shared_periode_bulan_lalu";
+    // TODO Selesai Pembaca Meter
+
+    // TODO pekerjaan teknik
+    public static final String BUNDLE_STATUS_INTENT = "bundle_status_intent";
+    public static final String BUNDLE_NO_LANGG = "bundle_no_langg";
+    public static final String BUNDLE_NAMA_PENGADU = "bundle_nama_pengadu";
+    public static final String BUNDLE_ALAMAT_PENGADU = "bundle_alamat_pengadu";
+    public static final String BUNDLE_TELP_PENGADU = "bundle_telp_pengadu";
+    public static final String BUNDLE_URAIAN_PENGADU = "bundle_uraian_pengadu";
+    public static final String BUNDLE_NO_PENGADUAN_CC = "bundle_no_pengaduan_cc";
+    public static final String BUNDLE_NO_TELP_PENGADU = "bundle_no_telp_cc";
+    public static final String BUNDLE_PETUGAS_ENTRY = "bundle_petugas_entry";
+    public static final String BUNDLE_PETUGAS_PROSES = "bundle_petugas_proses";
+    public static final String BUNDLE_LEMBUR = "bundle_lembur";
+    public static final String BUNDLE_KD_RIWAYAT = "bundle_kd_riwayat";
+    public static final String BUNDLE_NO_SPK = "bundle_no_spk";
+    public static final String BUNDLE_NO_CC = "bundle_no_cc";
+    public static final String BUNDLE_TGL_SPK = "bundle_tgl_spk";
+    public static final String BUNDLE_NM_LAPOR = "bundle_nm_lapor";
+    public static final String BUNDLE_ALAMAT_LAPOR = "bundle_alamat_lapor";
+    public static final String BUNDLE_NOLANGG_LAPOR = "bundle_nolangg_lapor";
+    public static final String BUNDLE_ASAL_LAPOR = "bundle_asal_lapor";
+    public static final String BUNDLE_NAMA = "bundle_nama";
+    public static final String BUNDLE_ALAMAT = "bundle_alamat";
+    public static final String BUNDLE_LOKASI = "bundle_lokasi";
+    public static final String BUNDLE_URAIAN = "bundle_uraian";
+    public static final String BUNDLE_KASUB = "bundle_kasub";
+    public static final String BUNDLE_PENGAWAS = "bundle_pengawas";
+    public static final String BUNDLE_VERIFIKATOR = "bundle_verifikator";
+    public static final String BUNDLE_USER_ENTRY = "bundle_user_entry";
+    public static final String BUNDLE_PC_ENTRY = "bundle_pc_entry";
+    public static final String BUNDLE_IP_ENTRY = "bundle_ip_entry";
+    public static final String BUNDLE_TANGGAL = "bundle_tanggal";
+    public static final String BUNDLE_CABANG = "bundle_cabang";
+    public static final String BUNDLE_BAGIAN = "bundle_bagian";
+    public static final String BUNDLE_BAGIAN_SUB = "bundle_bagian_sub";
+    public static final String BUNDLE_TGL_PELAKSANA = "bundle_tgl_pelaksana";
+    public static final String BUNDLE_JAM1 = "bundle_jam1";
+    public static final String BUNDLE_JAM2 = "bundle_jam2";
+    public static final String BUNDLE_JENIS_PIPA = "bundle_jenis_pipa";
+    public static final String BUNDLE_JML_TENAGA = "bundle_jml_tenaga";
+    public static final String BUNDLE_JML_TENAGA_KET = "bundle_jml_tenaga_ket";
+    public static final String BUNDLE_STATUS = "bundle_status";
+    public static final String BUNDLE_NO_SPK_SBL = "bundle_no_spk_sbl";
+    public static final String BUNDLE_LATITUDE = "bundle_latitude";
+    public static final String BUNDLE_LONGITUDE = "bundle_longitude";
+    public static final String BUNDLE_KD_PENANGAN = "bundle_kd_penangan";
+    public static final String BUNDLE_TKA = "bundle_tka";
+    public static final String BUNDLE_KD_PERBAIKAN = "bundle_kd_perbaikan";
+    public static final String BUNDLE_KD_ZONA = "bundle_kd_zona";
+    public static final String BUNDLE_TIPE_ZONA = "bundle_tipe_zona";
+    public static final String BUNDLE_KET_ZONA = "bundle_ket_zona";
+    public static final String BUNDLE_FOTO1 = "bundle_foto1";
+    public static final String BUNDLE_FOTO2 = "bundle_foto2";
+    public static final String BUNDLE_FOTO3 = "bundle_foto3";
+    public static final String BUNDLE_FOTO4 = "bundle_foto4";
+    public static final String BUNDLE_STATUS_VERIFIKASI = "bundle_status_verifikasi";
 
 
     public static final void changeNoHp(String noHpOriginal) {
@@ -308,27 +413,37 @@ public final class Config {
         editor.putString(SHARED_HELLO, "");
         editor.putString(SHARED_IMAGE_HEADER, "");
         editor.putString(SHARED_MESSAGE_INFO, "");
+        editor.putString(SHARED_GETPASSWORD, "");
+        editor.putString(SHARED_ROLES, "");
+        editor.putString(SHARED_CABANG, "");
+        editor.putString(SHARED_ID_CABANG, "");
         editor.apply();
 
         ((Activity) context).finishAffinity();
         context.startActivity(new Intent(context, SplashScreenActivity.class));
     }
 
-    public static void deleteFiles(String pathName, String log) {
-        // v TODO delete image original
+    public static void deleteFiles(String pathName, String msgLog) {
+        // TODO delete image original
         File file = new File(pathName);
         boolean deleted = file.delete();
-        Log.d("debug", log + " Deleted : " + deleted);
+        Log.d("debug", msgLog + " Deleted : " + deleted);
     }
 
-    public static void showNotification(Context context, String title, String content) {
+    public static void deleteFolders(String pathFolder, String msgLog) throws IOException {
+        File dir = new File(pathFolder);
+        FileUtils.deleteDirectory(dir);
+        Log.d(TAG, "deleted : true > " + dir + " -- " + msgLog);
+    }
+
+    public static void showNotification(Context context, String title, String content, Class classThis) {
         int noificationId = new Random().nextInt(100);
         Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.notification);
         Log.d("debug", "showNotification: " + sound);
         String channelId = "notification_channel_3";
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent = new Intent(context.getApplicationContext(), DashboardActivity.class);
+        Intent intent = new Intent(context.getApplicationContext(), classThis);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context.getApplicationContext(),
                 0, intent, PendingIntent.FLAG_MUTABLE);
@@ -351,7 +466,7 @@ public final class Config {
 //        }
 
 
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+        builder.setSmallIcon(R.drawable.logo_gd);
         builder.setDefaults(NotificationCompat.PRIORITY_MAX);
         builder.setContentTitle(title); // make suer change the channel for image
         builder.setContentText(content);
@@ -496,6 +611,7 @@ public final class Config {
                 .setPositiveButton("Buka Kembali", (dialogInterface, which) -> {
                     ((SplashScreenActivity) context).finishAffinity();
                     context.startActivity(new Intent(context, SplashScreenActivity.class));
+                    dialogInterface.dismiss();
 //                    context.startActivity(new Intent(context, SplashScreenActivity.class));
                 })
                 .build();
@@ -630,127 +746,8 @@ public final class Config {
         return md5StrBuff.toString().toUpperCase();
     }
 
-    public static InterstitialAd mInterstitialAd;
     public final static String adsInterestialDev = "ca-app-pub-3940256099942544/1033173712";
     public final static String adsInterestialProd = "ca-app-pub-6810772781589252/7755469730";
-
-//    public final static String adsBanner = "ca-app-pub-3940256099942544/6300978111"; // dev
-    public final static String adsBanner = "ca-app-pub-6810772781589252/4208134634"; // prod
-    public static void ads(Context context, AdView adView){
-        MobileAds.initialize(context, initializationStatus -> {
-        });
-        AdRequest adRequest = new AdRequest.Builder().build();
-        AdView adViews = new AdView(context);
-        adViews.setAdSize(AdSize.BANNER);
-        adViews.setAdUnitId(adsBanner);
-        adView.loadAd(adRequest);
-    }
-
-    public static void interestial(Context context) {
-        // TODO inisialisasi MobileAds
-        MobileAds.initialize(context, initializationStatus -> {
-        });
-        AdRequest adRequest = new AdRequest.Builder().build();
-        // TODO definisi InterstitialAd
-        InterstitialAd.load(context, adsInterestialProd, adRequest, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                // The mInterstitialAd reference will be null until
-                // an ad is loaded.
-                mInterstitialAd = interstitialAd;
-                Log.d(TAG, "onAdLoaded " + mInterstitialAd);
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(((Activity) context));
-                    mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                        @Override
-                        public void onAdDismissedFullScreenContent() {
-                            // Called when fullscreen content is dismissed.
-                            Log.d("TAG", "The ad was dismissed.");
-//                            context.startActivity(new Intent(context, classJava));
-                        }
-
-                        @Override
-                        public void onAdFailedToShowFullScreenContent(AdError adError) {
-                            // Called when fullscreen content failed to show.
-                            Log.d("TAG", "The ad failed to show.");
-                        }
-
-                        @Override
-                        public void onAdShowedFullScreenContent() {
-                            // Called when fullscreen content is shown.
-                            // Make sure to set your reference to null so you don't
-                            // show it a second time.
-                            mInterstitialAd = null;
-                            Log.d("TAG", "The ad was shown.");
-                        }
-                    });
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                // Handle the error
-                Log.d(TAG, loadAdError.getMessage());
-                mInterstitialAd = null;
-            }
-        });
-    }
-
-    public static void interestialIntent(Context context, Class classJava) {
-
-        // TODO inisialisasi MobileAds
-        MobileAds.initialize(context, initializationStatus -> {
-        });
-        AdRequest adRequest = new AdRequest.Builder().build();
-        // TODO definisi InterstitialAd
-        InterstitialAd.load(context, adsInterestialProd, adRequest, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                // The mInterstitialAd reference will be null until
-                // an ad is loaded.
-                mInterstitialAd = interstitialAd;
-                Log.d(TAG, "onAdLoaded " + mInterstitialAd);
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show(((Activity) context));
-                    mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                        @Override
-                        public void onAdDismissedFullScreenContent() {
-                            // Called when fullscreen content is dismissed.
-                            Log.d("TAG", "The ad was dismissed.");
-                            ((Activity) context).finishAffinity();
-                            context.startActivity(new Intent(context, classJava));
-                        }
-
-                        @Override
-                        public void onAdFailedToShowFullScreenContent(AdError adError) {
-                            // Called when fullscreen content failed to show.
-                            Log.d("TAG", "The ad failed to show.");
-                        }
-
-                        @Override
-                        public void onAdShowedFullScreenContent() {
-                            // Called when fullscreen content is shown.
-                            // Make sure to set your reference to null so you don't
-                            // show it a second time.
-                            mInterstitialAd = null;
-                            Log.d("TAG", "The ad was shown.");
-                        }
-                    });
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                }
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                // Handle the error
-                Log.d(TAG, loadAdError.getMessage());
-                mInterstitialAd = null;
-            }
-        });
-    }
 
     public static void saveSharedCheat(Context context, String cheat, String page, String countCheat) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
@@ -799,6 +796,7 @@ public final class Config {
                 , Manifest.permission.WRITE_SECURE_SETTINGS
                 , Manifest.permission.WRITE_EXTERNAL_STORAGE
                 , Manifest.permission.READ_EXTERNAL_STORAGE
+                , Manifest.permission.MANAGE_EXTERNAL_STORAGE
                 , Manifest.permission.USE_FINGERPRINT};
         if (EasyPermissions.hasPermissions(context, perms)) {
             // Already have permission, do the thing
@@ -830,6 +828,30 @@ public final class Config {
             EasyPermissions.requestPermissions((Activity) context, context.getString(R.string.app_name) ,
                     RC_CAMERA_AND_LOCATION, perms);
         }
+    }
+
+    public static void header(ImageView ivHeaderBackArrow, ImageView ivHeaderInfo, TextView tvHeaderJudul, Activity activitys, String textHeaderJudul){
+        ivHeaderBackArrow.setOnClickListener(view -> {
+            activitys.finish();
+        });
+        tvHeaderJudul.setText(textHeaderJudul);
+        ivHeaderInfo.setVisibility(View.GONE);
+    }
+
+    public static void popUpSuccesIntent(Activity activity, String message, Class toActivity) {
+        MaterialDialog mDialog = new MaterialDialog.Builder(activity)
+                .setTitle("Peringatan")
+                .setMessage(message)
+                .setAnimation("succes.json")
+                .setCancelable(false)
+                .setPositiveButton("Ok deh", (dialogInterface, which) -> {
+                    dialogInterface.dismiss();
+                    activity.finish();
+                    activity.startActivity(new Intent(activity, toActivity));
+                })
+                .build();
+        // Show Dialog
+        mDialog.show();
     }
 
 }

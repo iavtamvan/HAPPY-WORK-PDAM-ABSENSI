@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ public class DigitalSignatureActivity extends AppCompatActivity {
     private String fileTTE;
     private String fileKtp;
     private String access_token;
+    private String codeTTE;
 
     private ProgressDialog progressDialog;
 
@@ -76,6 +78,7 @@ public class DigitalSignatureActivity extends AppCompatActivity {
     private TextView tvNppName;
     private LinearLayout divTteCreate;
     private LinearLayout divUploadKtp;
+    private LinearLayout divUploadNikKtp;
     private ImageView ivFotoKtp;
     private LinearLayout divDigitalSignatureCreate;
     private TextView tvTutupDialog;
@@ -83,16 +86,18 @@ public class DigitalSignatureActivity extends AppCompatActivity {
     private Button btnReset;
     private Button btnSave;
     private Button btnSaveTte;
-    private ImageView ivFotoTte;
     private Button btnBatal;
     private LinearLayout divSimpanData;
+    private ImageView ivFotoResuiltDrawTte;
+    private EditText edtNikKtp;
+    private Button btnSelesaiTte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_digital_signature);
         initView();
-        getSupportActionBar().hide();
+        
 
         ivHeaderBackArrow.setOnClickListener(view -> {
             DigitalSignatureActivity.this.finish();
@@ -110,6 +115,7 @@ public class DigitalSignatureActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(DigitalSignatureActivity.this);
         progressDialog.setMessage("Mohon tunggu...");
         progressDialog.setCancelable(false);
+        codeTTE = "0";
         getDocumentTTE();
 
         divDigitalSignatureCreate.setOnClickListener(view -> {
@@ -127,52 +133,61 @@ public class DigitalSignatureActivity extends AppCompatActivity {
             });
 
             btnSave.setOnClickListener(view1 -> {
-                if (signaturePad.isEmpty() || compressedImageFile == null) {
-                    Toast.makeText(this, "Unggah KTP Terlebih Dahulu", Toast.LENGTH_SHORT).show();
-                } else {
+//                if (signaturePad.isEmpty() || compressedImageFile == null) {
+//                    Toast.makeText(this, "Unggah KTP Terlebih Dahulu", Toast.LENGTH_SHORT).show();
+//                } else {
 
-                    Log.d(TAG, "getSignatureBitmap: " + signaturePad.getSignatureBitmap());
-                    Log.d(TAG, "getTransparentSignatureBitmap: " + signaturePad.getTransparentSignatureBitmap());
+                Log.d(TAG, "getSignatureBitmap: " + signaturePad.getSignatureBitmap());
+                Log.d(TAG, "getTransparentSignatureBitmap: " + signaturePad.getTransparentSignatureBitmap());
 
-                    // Assume block needs to be inside a Try/Catch block.
-                    Date currentTime = Calendar.getInstance().getTime();
-                    Log.d(TAG, "currentTime: " + currentTime.getTime());
+                // Assume block needs to be inside a Try/Catch block.
+                Date currentTime = Calendar.getInstance().getTime();
+                Log.d(TAG, "currentTime: " + currentTime.getTime());
 
-                    File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                    OutputStream fOut = null;
-                    Integer counter = 0;
-                    File file = new File(path, "files_DS_" + npp + "_" + currentTime.getTime() + ".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
-                    try {
-                        fOut = new FileOutputStream(file);
-                        Bitmap pictureBitmap = signaturePad.getSignatureBitmap(); // obtaining the Bitmap
-                        pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
-                        fOut.flush(); // Not really required
-                        fOut.close(); // do not forget to close the stream
+//                    File path = Environment.getExternalStorageDirectory();
+                File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS + "/PDAM");
+//                File path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "/PDAM");
+//                path.mkdir();
+                OutputStream fOut = null;
+                Integer counter = 0;
+                File file = new File(path, "files_DS_" + npp + "_" + currentTime.getTime() + ".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
+                try {
+                    fOut = new FileOutputStream(file);
+                    Bitmap pictureBitmap = signaturePad.getSignatureBitmap(); // obtaining the Bitmap
+                    pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
+                    fOut.flush(); // Not really required
+                    fOut.close(); // do not forget to close the stream
 
-                        MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
-                        fileTTE = file.getAbsolutePath();
-                        Log.d(TAG, "getAbsolutePath: " + file.getAbsolutePath());
-                        Log.d(TAG, "getName: " + file.getName());
+                    MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+                    fileTTE = file.getAbsolutePath();
+                    Log.d(TAG, "getAbsolutePath: " + file.getAbsolutePath());
+                    Log.d(TAG, "getName: " + file.getName());
+                    codeTTE = "1";
 
-                        bottomSheetDialogDS.dismiss();
+                    bottomSheetDialogDS.dismiss();
 
-                        Glide.with(DigitalSignatureActivity.this).load(fileTTE).into(ivTte);
+                    Glide.with(DigitalSignatureActivity.this).load(fileTTE).into(ivTte);
 
-                        Glide.with(DigitalSignatureActivity.this).load(fileTTE).into(ivFotoTte);
-                        ivFotoTte.setVisibility(View.VISIBLE);
-                        divDigitalSignatureCreate.setVisibility(View.GONE);
+                    Glide.with(DigitalSignatureActivity.this).load(fileTTE).into(ivFotoResuiltDrawTte);
+                    ivFotoResuiltDrawTte.setVisibility(View.VISIBLE);
+                    divDigitalSignatureCreate.setVisibility(View.GONE);
 
 //                        Config.deleteFiles(compressedImageFile.getPath(), "ImageCompressed");
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
+//                }
 
             });
 
             bottomSheetDialogDS.show();
+        });
+
+        // upload KTP drom camera or files
+        divUploadKtp.setOnClickListener(view -> {
+            easyImage.openChooser(DigitalSignatureActivity.this);
         });
 
 
@@ -187,12 +202,18 @@ public class DigitalSignatureActivity extends AppCompatActivity {
             fileKtp = null;
             divTtePengguna.setVisibility(View.GONE);
             btnUpdateTTE.setVisibility(View.GONE);
+            btnSelesaiTte.setVisibility(View.GONE);
             ivFotoKtp.setVisibility(View.GONE);
-            ivFotoTte.setVisibility(View.GONE);
-            divUploadKtp.setVisibility(View.VISIBLE);
+            ivFotoResuiltDrawTte.setVisibility(View.GONE);
+            divUploadKtp.setVisibility(View.GONE);
             divTteCreate.setVisibility(View.VISIBLE);
             divDigitalSignatureCreate.setVisibility(View.VISIBLE);
             divSimpanData.setVisibility(View.VISIBLE);
+            codeTTE = "0";
+        });
+
+        btnSelesaiTte.setOnClickListener(view -> {
+            DigitalSignatureActivity.this.finish();
         });
 
         divUploadKtp.setOnClickListener(view -> {
@@ -207,7 +228,7 @@ public class DigitalSignatureActivity extends AppCompatActivity {
             divTtePengguna.setVisibility(View.GONE);
             btnUpdateTTE.setVisibility(View.GONE);
             ivFotoKtp.setVisibility(View.GONE);
-            ivFotoTte.setVisibility(View.GONE);
+            ivFotoResuiltDrawTte.setVisibility(View.GONE);
             divUploadKtp.setVisibility(View.VISIBLE);
             divTteCreate.setVisibility(View.VISIBLE);
             divDigitalSignatureCreate.setVisibility(View.VISIBLE);
@@ -215,13 +236,13 @@ public class DigitalSignatureActivity extends AppCompatActivity {
         });
 
         btnSaveTte.setOnClickListener(view -> {
-            if (fileTTE == null || fileKtp == null) {
+            if (edtNikKtp.getText().toString().isEmpty() || fileTTE == null) {
                 Toast.makeText(this, "Lengkapi Form di Atas", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Menigirim ke server...", Toast.LENGTH_SHORT).show();
 
                 Log.d(TAG, "fileTTE: " + fileTTE);
-                Log.d(TAG, "fileKtp: " + fileKtp);
+                Log.d(TAG, "nikKtp: " + edtNikKtp.getText().toString());
                 divSimpanData.setVisibility(View.GONE);
                 btnUpdateTTE.setVisibility(View.VISIBLE);
                 divTteCreate.setVisibility(View.GONE);
@@ -250,16 +271,24 @@ public class DigitalSignatureActivity extends AppCompatActivity {
                         divTtePengguna.setVisibility(View.GONE);
                         btnUpdateTTE.setVisibility(View.GONE);
                         ivFotoKtp.setVisibility(View.GONE);
-                        ivFotoTte.setVisibility(View.GONE);
+                        ivFotoResuiltDrawTte.setVisibility(View.GONE);
                         divUploadKtp.setVisibility(View.VISIBLE);
                         divTteCreate.setVisibility(View.VISIBLE);
                         divDigitalSignatureCreate.setVisibility(View.VISIBLE);
                         divSimpanData.setVisibility(View.VISIBLE);
                     } else {
                         divSimpanData.setVisibility(View.GONE);
-                        btnUpdateTTE.setVisibility(View.VISIBLE);
+//                        btnUpdateTTE.setVisibility(View.VISIBLE);
                         divTteCreate.setVisibility(View.GONE);
                         divTtePengguna.setVisibility(View.VISIBLE);
+
+                        if (codeTTE.equals("1")) {
+                            btnUpdateTTE.setVisibility(View.VISIBLE);
+                            btnSelesaiTte.setVisibility(View.VISIBLE);
+                        } else {
+                            btnSelesaiTte.setVisibility(View.GONE);
+                            btnUpdateTTE.setVisibility(View.VISIBLE);
+                        }
 
                         // Initializing the QR Encoder with your value to be encoded, type you required and Dimension
                         QRGEncoder qrgEncoder = new QRGEncoder(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().getFotoTtd(), null, QRGContents.Type.TEXT, 999);
@@ -272,6 +301,12 @@ public class DigitalSignatureActivity extends AppCompatActivity {
                     }
 
 
+                } else {
+                    progressDialog.cancel();
+                    divTteCreate.setVisibility(View.GONE);
+                    btnBatal.setVisibility(View.GONE);
+                    btnSaveTte.setVisibility(View.GONE);
+                    Toast.makeText(DigitalSignatureActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -286,22 +321,24 @@ public class DigitalSignatureActivity extends AppCompatActivity {
     private void postUploadTTE() {
         progressDialog.show();
         RequestBody nppBody = RequestBody.create(MediaType.parse("text/plain"), npp);
+        RequestBody nikKtpBody = RequestBody.create(MediaType.parse("text/plain"), edtNikKtp.getText().toString().trim());
 
-        File imageFileKtp = new File(fileKtp);
-        RequestBody requestFilePhotoKtp = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileKtp);
-        bodyPhotoKtp = MultipartBody.Part.createFormData("foto_ktp", imageFileKtp.getName(), requestFilePhotoKtp);
+//        File imageFileKtp = new File(fileKtp);
+//        RequestBody requestFilePhotoKtp = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileKtp);
+//        bodyPhotoKtp = MultipartBody.Part.createFormData("foto_ktp", imageFileKtp.getName(), requestFilePhotoKtp);
 
         File imageFileTTE = new File(fileTTE);
         RequestBody requestFilePhotoTTE = RequestBody.create(MediaType.parse("multipart/form-data"), imageFileTTE);
         bodyPhotoTTE = MultipartBody.Part.createFormData("foto_ttd", imageFileTTE.getName(), requestFilePhotoTTE);
 
         ApiService apiService = ApiConfig.getApiService(DigitalSignatureActivity.this);
-        apiService.postUploadTTE(access_token, nppBody, bodyPhotoKtp, bodyPhotoTTE)
+        apiService.postUploadTTE(access_token, nppBody, nikKtpBody, bodyPhotoTTE)
                 .enqueue(new Callback<FaceDetectionRootModel>() {
                     @Override
                     public void onResponse(Call<FaceDetectionRootModel> call, Response<FaceDetectionRootModel> response) {
                         if (response.isSuccessful()) {
                             progressDialog.cancel();
+                            getDocumentTTE();
                             Toast.makeText(DigitalSignatureActivity.this, "Sukses mengirim data", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -372,11 +409,14 @@ public class DigitalSignatureActivity extends AppCompatActivity {
         tvNppName = findViewById(R.id.tv_npp_name);
         divTteCreate = findViewById(R.id.div_tte_create);
         divUploadKtp = findViewById(R.id.div_upload_ktp);
+        divUploadNikKtp = findViewById(R.id.div_upload_nik_ktp);
         ivFotoKtp = findViewById(R.id.iv_foto_ktp);
         divDigitalSignatureCreate = findViewById(R.id.div_digital_signature_create);
         btnSaveTte = findViewById(R.id.btn_save_tte);
-        ivFotoTte = findViewById(R.id.iv_foto_tte);
+        ivFotoResuiltDrawTte = findViewById(R.id.iv_foto_resuilt_draw_tte);
         btnBatal = findViewById(R.id.btn_batal);
+        btnSelesaiTte = findViewById(R.id.btn_selesai_tte);
         divSimpanData = findViewById(R.id.div_simpan_data);
+        edtNikKtp = findViewById(R.id.edt_nik_ktp);
     }
 }

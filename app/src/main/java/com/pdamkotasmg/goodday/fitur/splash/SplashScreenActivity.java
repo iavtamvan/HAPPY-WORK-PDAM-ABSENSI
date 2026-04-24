@@ -30,11 +30,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.an.deviceinfo.device.model.Device;
 import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.google.android.gms.ads.AdView;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.pdamkotasmg.goodday.BuildConfig;
@@ -44,13 +43,13 @@ import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.dashboard.DashboardActivity;
 import com.pdamkotasmg.goodday.fitur.splash.model.updateAplikasi.UdpateAplikasiRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,7 +72,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
 
     //device info
-    private Device device;
+//    private Device device;
     private String getModel;
     private String getProduct;
     private String getDevice;
@@ -113,7 +112,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private List<String> stringslist;
 
     private FusedLocationProviderClient mFusedLocation;
-    private AdView adView;
+    
     private ImageView logo;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -121,11 +120,12 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        getSupportActionBar().hide();
         initView();
         Config.methodRequiresTwoPermission(SplashScreenActivity.this);
         androidVersionDevice = BuildConfig.VERSION_NAME;
-        Log.d(TAG, "onCreate: " + androidVersionDevice);
+//        androidVersionDevice = BuildConfig.VERSION_NAME;
+        Log.d(TAG, "androidVersionDevice: " + androidVersionDevice);
+        Log.d(TAG, "androidVersionDevice: " + androidVersionDevice);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -252,9 +252,9 @@ public class SplashScreenActivity extends AppCompatActivity {
                     Log.d(TAG, "updateApk: " + updateApk);
                     Log.d(TAG, "imageLogo: " + logoApps);
                     Glide.with(SplashScreenActivity.this).load(logoApps).override(512, 512).into(logo);
-                    if (!updateApk.equals(BuildConfig.VERSION_NAME)) {
+                    if (!updateApk.equals(androidVersionDevice)) {
                         MaterialDialog mDialog = new MaterialDialog.Builder(SplashScreenActivity.this)
-                                .setTitle("Aplikasi harus di update ke versi " + updateApk + ", \nsekarang memakai aplikasi versi " + BuildConfig.VERSION_NAME)
+                                .setTitle("Aplikasi harus di update ke versi " + updateApk + ", \nsekarang memakai aplikasi versi " + androidVersionDevice)
                                 .setMessage(response.body().getData().get(0).getMessageUpdate().toString().replace("[", "").replace("]", "").replace(",", "\n"))
                                 .setCancelable(false)
                                 .setPositiveButton("Update Sekarang", (dialogInterface, which) -> {
@@ -278,7 +278,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<UdpateAplikasiRootModel> call, Throwable t) {
-                Toast.makeText(SplashScreenActivity.this, "Get Device Update Error 001S778J", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SplashScreenActivity.this, "Error, Coba Buka Kembali (#001S778J)", Toast.LENGTH_SHORT).show();
+                finishAffinity();
             }
         });
     }
@@ -291,15 +292,24 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        device = new Device(SplashScreenActivity.this);
-        getModel = device.getModel();
-        getProduct = device.getProduct();
-        getDevice = device.getDevice();
-        getBuildBrand = device.getBuildBrand();
-        getOsVersion = device.getOsVersion();
-        getSdkVersion = String.valueOf(device.getSdkVersion());
+//        device = new Device(SplashScreenActivity.this);
+//        getModel = device.getModel();
+        getModel = android.os.Build.MODEL;
+        getProduct = android.os.Build.PRODUCT;
+        getDevice = android.os.Build.DEVICE;
+        getBuildBrand = android.os.Build.BRAND;
+        getOsVersion = android.os.Build.VERSION.RELEASE;
+        getSdkVersion = String.valueOf(android.os.Build.VERSION.SDK_INT);
         getBuildNumber = Build.ID;
         getBuildIncremental = Build.VERSION.INCREMENTAL;
+
+//        getProduct = device.getProduct();
+//        getDevice = device.getDevice();
+//        getBuildBrand = device.getBuildBrand();
+//        getOsVersion = device.getOsVersion();
+//        getSdkVersion = String.valueOf(device.getSdkVersion());
+//        getBuildNumber = Build.ID;
+//        getBuildIncremental = Build.VERSION.INCREMENTAL;
         getIpAdress = Formatter.formatIpAddress(ipAddress);
         getNetworkUsing = String.valueOf(cm.getActiveNetworkInfo().getTypeName());
         getHwid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -307,10 +317,15 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         Log.d(TAG, "SDKInteger: " + getSdkVersion);
 
+<<<<<<< HEAD
         // TODO check Android WAJIBBBBBBBBBBBBBBBBBBBBB 30
 //        if (Integer.parseInt(getSdkVersion) > 32) {
         if (Integer.parseInt(getSdkVersion) > 33) {
 //        if (Integer.parseInt(getSdkVersion) > 30) {
+=======
+        // TODO check Android WAJIBBBBBBBBBBBBBBBBBBBBB 32
+        if (Integer.parseInt(getSdkVersion) > 35) {
+>>>>>>> 6952bdd8461502f0e1c2413166e89d58df163e3c
             finishAffinity();
             Toast.makeText(this, Config.ERROR_ANDROID + " " + getSdkVersion, Toast.LENGTH_SHORT).show();
         } else {
@@ -507,6 +522,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             Log.d(TAG, "Status Fack: Tidak ada fake gps");
             SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
             String name = sp.getString(Config.SHARED_NAME, "");
+            String roles = sp.getString(Config.SHARED_ROLES, "");
             // TODO jika belum masuk ke welcome
             if (name.equalsIgnoreCase("") || TextUtils.isEmpty(name)) {
                 finishAffinity();
@@ -515,8 +531,15 @@ public class SplashScreenActivity extends AppCompatActivity {
             // TODO jika sudah nantinya akan masuk ke dashboard
             else {
                 finishAffinity();
-                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                if (roles.contains("petugas-baca-meter")){
+                    Intent intent = new Intent();
+                    intent.setClassName("com.pdamkotasmg.happywork", "co.id.pdamkotasmg.HomeActivity");
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                }
                 Log.d(TAG, "run: " + name);
+
             }
 
         }, SPLASH_TIME_OUT);
@@ -525,7 +548,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     // TODO Selesai cek Fake GPS
 
     private void initView() {
-        adView = findViewById(R.id.adView);
+        
         logo = findViewById(R.id.logo);
     }
 }

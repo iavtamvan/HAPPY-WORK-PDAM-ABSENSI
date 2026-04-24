@@ -1,0 +1,275 @@
+[33mcommit d6778ed8f95cb1b74e6cc767717e31a724c25986[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Thu Dec 22 12:01:51 2022 +0700
+
+    deleting persmission queries, adding queries manual in manifest (fake gps)
+
+[33mcommit 43f8cf46db5088dff4e5193ff7e8f3f2035b63fa[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Wed Dec 21 14:37:28 2022 +0700
+
+    ready to upload playsore before update android 12&13
+
+[33mcommit fe7f43c7ab46481b78044d4dcbbf9d74d4ba93ca[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Wed Dec 21 14:20:06 2022 +0700
+
+    ready to upload playsore before update android 12&13
+
+[33mcommit 3fe77e19b9a893cf847cf0227f148bec489a3399[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Wed Dec 21 14:19:44 2022 +0700
+
+    ready to upload playsore before update android 12&13
+
+[33mcommit e1abeaeb9a6cecdb9d20253225a358283e791b75[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Wed Dec 21 14:14:23 2022 +0700
+
+    preparation ready to android 12 and 13
+
+[33mcommit 64030b8cc94dc5bdff7b9b9152ff16701ff16d8c[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Wed Dec 21 11:12:52 2022 +0700
+
+    fixed notification
+
+[33mcommit f2cd5ff280b4187e99da7cfff59349700649088c[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Wed Dec 21 11:02:42 2022 +0700
+
+    fixing detail koreksi kehadiran, adding cuti approvals
+
+[33mcommit e15173e67b788f5fe3c158e186c3c020bc4cc060[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Thu Dec 15 11:08:55 2022 +0700
+
+    fix statuses in detail koreksi kehadiran
+
+[33mcommit 8eb069d4f8c4c7d60fab41b155b5df4393162cd2[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Wed Dec 14 11:26:28 2022 +0700
+
+    sending TTE to server
+
+[33mcommit c051e3cd700e7a95496dafd38353c307774b3526[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Mon Dec 12 15:54:44 2022 +0700
+
+    fixing ui/ux and ready to connect server
+
+[33mcommit a13e02a5c2c1594446d237222499661968ac7fa2[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Mon Dec 12 11:47:03 2022 +0700
+
+    fixing ui/ux and ready to connect server
+
+[33mcommit 0e8c5df1806d7478c16a6acefb040f04da45f532[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Fri Dec 9 11:48:41 2022 +0700
+
+    adding fitur TTE > belum upload file KTP
+
+[33mcommit 74849bf5bdf540a5572678007baf80753e1ceb1e[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Fri Dec 2 15:48:17 2022 +0700
+
+    fixing endpoint approvals, and detail RAC
+
+[33mcommit a814605ca51bced744a6d413c6c9774b83be2575[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Thu Dec 1 11:23:38 2022 +0700
+
+    adding persetujuan
+
+[33mcommit 91243b055e53056b5ec2a22fb34077cb642a6a8c[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Tue Nov 29 11:14:09 2022 +0700
+
+    change sdk to 32
+
+[33mcommit db0797c8f12c43dc1e028461d1260a9ba96a707d[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Tue Nov 29 11:08:21 2022 +0700
+
+    fixing notification push
+
+[33mcommit 694fe5323dfa4fa9bda38bdb90a964d0b0b32606[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Tue Nov 29 09:51:56 2022 +0700
+
+    fixing scrolling
+
+[33mcommit e6025441518673d91c56dd4ae6a9c3c8972cc2ed[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Tue Nov 29 09:41:00 2022 +0700
+
+    fixing date because force clsoe from librarry
+
+[33mcommit 58d3808c9860970b32f5cb766dfedb7dac2bd9af[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Mon Nov 28 11:19:53 2022 +0700
+
+    fixing permission splash, fixing presensi photo click, fixing another fitur
+
+[33mcommit 438840d9c664afa4c683579ca85749712ca9a530[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Mon Oct 24 08:15:31 2022 +0700
+
+    ready to upload playstore
+
+[33mcommit 9d85db005af10f284e2d3ff6b67edcb57df92b27[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Mon Oct 17 10:47:47 2022 +0700
+
+    lifecycle
+
+[33mcommit 4dea063c2fb05ae15ec784b53b1e877545e4181b[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Mon Oct 17 08:41:39 2022 +0700
+
+    change icon profile
+
+[33mcommit e0752ee4ec7ebee00eec3f1b73b35cfca60781cc[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Mon Oct 17 08:13:42 2022 +0700
+
+    fixing targeting S+
+
+[33mcommit 81734b6aeb9170fabafb35b3b6904ea252c0dd10[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Thu Oct 6 12:00:21 2022 +0700
+
+    fixing dashboard v2
+
+[33mcommit 7034233d92f0b4939548c7f3e0142571587a25c4[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Wed Oct 5 15:01:02 2022 +0700
+
+    adding dashboard v2 draft
+
+[33mcommit 86fe980fc18d596be3d2b1ffd9c65748130a9abf[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Wed Sep 21 11:02:07 2022 +0700
+
+    fixing ui
+
+[33mcommit 3e9c1efa24b9926685e63605ab8ed5a977038416[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Wed Sep 21 10:06:25 2022 +0700
+
+    fix null getphoto first
+
+[33mcommit 9423edfbaad47c0b24c6019f04d6b46bb0fab7a3[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Wed Sep 21 09:25:15 2022 +0700
+
+    fixing method perms
+
+[33mcommit 7b8c56885328e9457f55c5587269e17de243f213[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Fri Sep 16 11:59:13 2022 +0700
+
+    changing login xml, logo
+
+[33mcommit 05e78cdb61d7a0f377479ea43bc93b3b89bafe90[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Fri Sep 16 11:34:35 2022 +0700
+
+    change Font All to Poppins
+
+[33mcommit ae69d87e00e671b18d891dfc8e81f7b55a13444e[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Fri Sep 16 10:49:59 2022 +0700
+
+    adding intro NEW
+
+[33mcommit ca7cf6c4270a4d6dd55bfafd463f98b12b83fcf9[m
+Author: iavedu <iav@eudeka.id>
+Date:   Thu Aug 25 11:31:48 2022 +0700
+
+    add log action, and fixing
+
+[33mcommit f6f76b11af127f6f0e19085abc6b0845471147a4[m
+Author: iavedu <iav@eudeka.id>
+Date:   Thu Aug 25 11:31:22 2022 +0700
+
+    fix dialogbox logout
+
+[33mcommit 4e8232ade7e0455342ffefef7515ceeaa85b8340[m
+Author: iavedu <iav@eudeka.id>
+Date:   Thu Aug 25 08:23:29 2022 +0700
+
+    fix dialogbox logout
+
+[33mcommit 32bd05d3b090713915d2c3eb83d73065af7b0c5d[m
+Author: iavedu <iav@eudeka.id>
+Date:   Wed Aug 24 10:52:06 2022 +0700
+
+    added fix profile logout
+
+[33mcommit 450128f27c529207f1e201e60624186c6e0e9574[m
+Author: iavedu <iav@eudeka.id>
+Date:   Wed Aug 24 10:00:09 2022 +0700
+
+    added warning message dashboard
+
+[33mcommit da6e139624a8c7344cd151b36f767789074e445d[m
+Author: iavedu <iav@eudeka.id>
+Date:   Mon Aug 22 15:32:08 2022 +0700
+
+    fixing days, fix back arrow
+
+[33mcommit 714f8f7f53418bcd2e31ec1064f6c89c8180094d[m
+Author: iavedu <iav@eudeka.id>
+Date:   Tue Aug 16 11:53:53 2022 +0700
+
+    adding dinamic update apps, dashboard, profil; deleted model packagename, androidversion; added updateaplikasimodel
+
+[33mcommit 23946d59ad2960496d7e7afe220da82165836f90[m
+Author: iavedu <iav@eudeka.id>
+Date:   Tue Aug 16 09:10:16 2022 +0700
+
+    GET foto first, fixing dialg masalah permission
+
+[33mcommit cc3b9edb1c9a257ee9dc8437cdee6be4f77370f0[m
+Author: iavedu <iav@eudeka.id>
+Date:   Wed Aug 10 11:34:59 2022 +0700
+
+    ubah UI presensi
+
+[33mcommit f8eb1a1a3b50139197bcde40d3c4fe9e7faf3a51[m
+Author: iavedu <iav@eudeka.id>
+Date:   Tue Aug 9 11:10:37 2022 +0700
+
+    ready to release playstore
+
+[33mcommit 13ada0c4b97a5213323712db7bd52299545ea811[m
+Author: iavedu <iav@eudeka.id>
+Date:   Tue Aug 9 10:41:39 2022 +0700
+
+    adding Chuck Interceptor, adding parameter check_locaton
+
+[33mcommit 3dca39b7d7312a58d71871045fc6f10bb6aa4d65[m
+Author: iavedu <iav@eudeka.id>
+Date:   Tue Aug 9 08:39:58 2022 +0700
+
+    fixing location #1
+
+[33mcommit 1e522b53aa7417ed6804becb946c8b7a3582c1a2[m
+Author: iavedu <iav@eudeka.id>
+Date:   Thu Aug 4 11:25:43 2022 +0700
+
+    adding config and fixed location
+
+[33mcommit 0fdbcd56dba073f73282389a65cebd0167f64ef7[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Fri May 27 10:13:45 2022 +0700
+
+    fixing delete image notification
+
+[33mcommit 7b67a8cb4bf9bcc9e662c2bb5a984798b635597b[m
+Author: iavtamvan <ade.fajr.ariav@gmail.com>
+Date:   Fri May 20 09:00:31 2022 +0700
+
+    fixing android 8.1 sdk 27, 

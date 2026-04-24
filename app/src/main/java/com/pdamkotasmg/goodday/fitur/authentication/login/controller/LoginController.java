@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.pdamkotasmg.goodday.BuildConfig;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.authentication.login.LoginActivity;
@@ -20,15 +21,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginController {
+    private final String TAG = "debug";
     private Data dataLogin;
     //token
     private String access_token;
     private String token_type;
+    private String refresh_token;
     private String avatar;
 
     //user
     private String npp_profile;
     private String name;
+    private String idCabang;
+    private String cabang;
 
     //rlPegawai
     private String alamat;
@@ -55,6 +60,9 @@ public class LoginController {
     private String satker_formatted;
     private String subsatker_formatted;
     private String app_version;
+
+    // vendor
+    private String roles;
 
     private ProgressDialog loading;
 
@@ -95,14 +103,50 @@ public class LoginController {
                     access_token = dataLogin.getAccessToken();
                     Log.d("debug", "token: " + access_token);
                     token_type = dataLogin.getTokenType();
+                    refresh_token = dataLogin.getRefreshToken();
                     npp_profile = dataLogin.getUser().getNpp();
                     name = dataLogin.getUser().getName();
                     avatar = dataLogin.getUser().getAvatar();
+                    idCabang = dataLogin.getUser().getId_cabang();
+                    cabang = dataLogin.getUser().getId_cabang();
+
+                    if (cabang == null){
+                        Toast.makeText(context, "Role Pegawai", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (cabang.contains("1")) {
+                            cabang = "Selatan";
+                        } else if (cabang.contains("2")) {
+                            cabang = "Barat";
+                        } else if (cabang.contains("3")) {
+                            cabang = "Timur";
+                        } else if (cabang.contains("4")) {
+                            cabang = "Utara";
+                        } else if (cabang.contains("5")) {
+                            cabang = "Tengah";
+                        } else if (cabang.contains("0")) {
+                            cabang = "Pusat";
+                        }
+                    }
 
                     loading.cancel();
 
-                    if (dataLogin.getUser().getRlPegawai() == null){
+                    if (dataLogin.getUser().getRlPegawai() == null) {
                         Log.d("debug ", "RL Pegawai: Kosong");
+                        roles = dataLogin.getRoles().toString().replace("[", "").replace("]", "");
+
+                        Log.d(TAG, "debugRoles: " + roles);
+                        if (roles.contains("petugas-baca-meter")) {
+                            Log.d(TAG, "debugRoles: login redirect");
+                            roles = "petugas-baca-meter";
+                            Toast.makeText(context, "Login Success " + roles, Toast.LENGTH_SHORT).show();
+                            saveDataLogin(context, fcmToken, password);
+                            Intent intent = new Intent();
+                            intent.setClassName(BuildConfig.APPLICATION_ID, "co.id.pdamkotasmg.HomeActivity");
+                            context.startActivity(intent);
+                        } else {
+                            Log.d(TAG, "debugRoles: failed login redirect");
+                            Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show();
+                        }
                         loading.cancel();
                     } else {
                         alamat = dataLogin.getUser().getRlPegawai().getAlamat();
@@ -128,51 +172,18 @@ public class LoginController {
                         st_data = dataLogin.getUser().getRlPegawai().getStData();
                         satker_formatted = dataLogin.getUser().getRlPegawai().getSatkerFormatted();
                         subsatker_formatted = dataLogin.getUser().getRlPegawai().getSubsatkerFormatted();
+
+                        app_version = dataLogin.getDevice().getAppVersion();
+
+                        app_version = !dataLogin.getDevice().getAppVersion().isEmpty() ? dataLogin.getDevice().getAppVersion() : "";
+
+                        saveDataLogin(context, fcmToken, password);
+
+                        Toast.makeText(context, "Sukses Login " + appVersion, Toast.LENGTH_SHORT).show();
+                        ((LoginActivity) context).finishAffinity();
+                        context.startActivity(new Intent(context, DashboardActivity.class));
+
                     }
-
-                    app_version = dataLogin.getDevice().getAppVersion();
-
-                    app_version = !dataLogin.getDevice().getAppVersion().isEmpty() ? dataLogin.getDevice().getAppVersion(): "";
-
-
-                    SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                    editor.putString(Config.SHARED_ACCESS_TOKEN, token_type + " " + access_token);
-                    editor.putString(Config.SHARED_NPP_PROFILE, npp_profile);
-                    editor.putString(Config.SHARED_NAME, name);
-                    editor.putString(Config.SHARED_AVATAR, avatar);
-                    editor.putString(Config.SHARED_ALAMAT, alamat);
-                    editor.putString(Config.SHARED_RT, rt);
-                    editor.putString(Config.SHARED_RW, rw);
-                    editor.putString(Config.SHARED_KELURAHAN, kelurahan);
-                    editor.putString(Config.SHARED_KECAMATAN, kecamatan);
-                    editor.putString(Config.SHARED_KOTA, kota);
-                    editor.putString(Config.SHARED_JENIS_KEL, jenis_kel);
-                    editor.putString(Config.SHARED_TMPT_LAHIR, tmpt_lahir);
-                    editor.putString(Config.SHARED_TGL_LAHIR, tgl_lahir);
-                    editor.putString(Config.SHARED_TGL_MASUK, tgl_masuk);
-                    editor.putString(Config.SHARED_SATUS_PEG, satus_peg);
-                    editor.putString(Config.SHARED_AGAMA, agama);
-                    editor.putString(Config.SHARED_NAMASUSI, namasusi);
-                    editor.putString(Config.SHARED_PKTGOL, pktgol);
-                    editor.putString(Config.SHARED_SUBSATKER, subsatker);
-                    editor.putString(Config.SHARED_SATKER, satker);
-                    editor.putString(Config.SHARED_JABATAN, jabatan);
-                    editor.putString(Config.SHARED_KET, ket);
-                    editor.putString(Config.SHARED_TLP, tlp);
-                    editor.putString(Config.SHARED_PEK, pek);
-                    editor.putString(Config.SHARED_ST_DATA, st_data);
-                    editor.putString(Config.SHARED_SATKER_FORMATTED, satker_formatted);
-                    editor.putString(Config.SHARED_SUBSATKER_FORMATTED, subsatker_formatted);
-                    editor.putString(Config.SHARED_APP_VERSION, app_version);
-                    editor.putString(Config.SHARED_FCM_TOKEN, fcmToken);
-
-                    editor.apply();
-
-                    Toast.makeText(context, "Sukses Login " + appVersion, Toast.LENGTH_SHORT).show();
-                    ((LoginActivity) context).finishAffinity();
-                    context.startActivity(new Intent(context, DashboardActivity.class));
                 } else {
                     loading.cancel();
                     Log.d("debug login res server", "errorBody: " + response.errorBody());
@@ -189,5 +200,50 @@ public class LoginController {
                 Toast.makeText(context, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void saveDataLogin(Context context, String fcmToken, String password) {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Log.d(TAG, "Access Token Good Day " + access_token);
+
+        editor.putString(Config.SHARED_ACCESS_TOKEN, token_type + " " + access_token);
+        editor.putString(Config.SHARED_REFRESH_TOKEN, refresh_token);
+        editor.putString(Config.SHARED_NPP_PROFILE, npp_profile);
+        editor.putString(Config.SHARED_NAME, name);
+        editor.putString(Config.SHARED_AVATAR, avatar);
+        editor.putString(Config.SHARED_ALAMAT, alamat);
+        editor.putString(Config.SHARED_RT, rt);
+        editor.putString(Config.SHARED_RW, rw);
+        editor.putString(Config.SHARED_KELURAHAN, kelurahan);
+        editor.putString(Config.SHARED_KECAMATAN, kecamatan);
+        editor.putString(Config.SHARED_KOTA, kota);
+        editor.putString(Config.SHARED_JENIS_KEL, jenis_kel);
+        editor.putString(Config.SHARED_TMPT_LAHIR, tmpt_lahir);
+        editor.putString(Config.SHARED_TGL_LAHIR, tgl_lahir);
+        editor.putString(Config.SHARED_TGL_MASUK, tgl_masuk);
+        editor.putString(Config.SHARED_SATUS_PEG, satus_peg);
+        editor.putString(Config.SHARED_AGAMA, agama);
+        editor.putString(Config.SHARED_NAMASUSI, namasusi);
+        editor.putString(Config.SHARED_PKTGOL, pktgol);
+        editor.putString(Config.SHARED_SUBSATKER, subsatker);
+        editor.putString(Config.SHARED_SATKER, satker);
+        editor.putString(Config.SHARED_JABATAN, jabatan);
+        editor.putString(Config.SHARED_KET, ket);
+        editor.putString(Config.SHARED_TLP, tlp);
+        editor.putString(Config.SHARED_PEK, pek);
+        editor.putString(Config.SHARED_ST_DATA, st_data);
+        editor.putString(Config.SHARED_SATKER_FORMATTED, satker_formatted);
+        editor.putString(Config.SHARED_SUBSATKER_FORMATTED, subsatker_formatted);
+        editor.putString(Config.SHARED_APP_VERSION, app_version);
+        editor.putString(Config.SHARED_FCM_TOKEN, fcmToken);
+        editor.putString(Config.SHARED_GETPASSWORD, password);
+        editor.putString(Config.SHARED_ROLES, roles);
+        editor.putString(Config.SHARED_ID_CABANG, idCabang);
+        editor.putString(Config.SHARED_CABANG, cabang);
+
+        editor.apply();
     }
 }

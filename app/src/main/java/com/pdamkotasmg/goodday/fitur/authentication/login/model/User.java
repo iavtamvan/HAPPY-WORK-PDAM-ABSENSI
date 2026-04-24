@@ -25,6 +25,17 @@ public class User{
     @SerializedName("npp")
     private String npp;
 
+    @SerializedName("id_cabang")
+    private String id_cabang;
+
+    public String getId_cabang() {
+        return id_cabang;
+    }
+
+    public void setId_cabang(String id_cabang) {
+        this.id_cabang = id_cabang;
+    }
+
     public void setIsAdmin(Integer isAdmin){
         this.isAdmin = isAdmin;
     }

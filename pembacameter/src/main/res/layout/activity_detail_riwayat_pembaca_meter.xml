@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_white"
+    android:orientation="vertical"
+    tools:context="co.id.pdamkotasmg.ui.activity.DetailRiwayatPembacaMeterActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_header_back_arrow"
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:src="@drawable/arrrow_left" />
+
+            <TextView
+                android:fontFamily="@font/poppins"
+                android:id="@+id/tv_header_judul"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:gravity="left|center"
+                android:paddingLeft="10dp"
+                android:text="Judul"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="right">
+
+            <ImageView
+                android:id="@+id/iv_header_info"
+                android:layout_width="25dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/info" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="3dp"
+        android:animateLayoutChanges="true"
+        android:backgroundTint="@color/orangeLightGreatDay"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="4dp"
+        app:cardPreventCornerOverlap="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/orangeLightGreatDay"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_info_orange" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:fontFamily="@font/poppins"
+                android:text="Cek data yang tertera untuk memastikan Pembacaan Anda"
+                android:textColor="@color/orangeGreatDay"
+                android:textSize="11dp" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    app:cardCornerRadius="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="Detail Pembaca Meter"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_title_transfer"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="Status Data | Periode 202309"
+                                    android:textSize="12dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tv_nm_transfer"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="6dp"
+                                        android:fontFamily="@font/poppins"
+                                        android:text="--"
+                                        android:textColor="@color/black"
+                                        android:textSize="11dp"
+                                        android:textStyle="bold" />
+
+                                    <ImageView
+                                        android:id="@+id/iv_trf_kosong"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/close_req"
+                                        android:visibility="gone" />
+
+                                    <ImageView
+                                        android:id="@+id/iv_trf_siap"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/ic_running"
+                                        android:visibility="gone" />
+
+                                    <ImageView
+                                        android:id="@+id/iv_trf_verifikasi"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/succes_req"
+                                        android:visibility="gone" />
+
+                                    <ImageView
+                                        android:id="@+id/iv_trf_transfer"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/ic_transfer"
+                                        android:visibility="gone" />
+
+                                    <ImageView
+                                        android:id="@+id/iv_trf_pde"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/ic_double_check"
+                                        android:visibility="gone" />
+
+                                    <ImageView
+                                        android:id="@+id/iv_trf_koreksi"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/ic_correction"
+                                        android:visibility="gone" />
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <Button
+                                android:id="@+id/btn_koreksi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="8dp"
+                                android:backgroundTint="@color/red"
+                                android:text="KOREKSI"
+                                android:textSize="13dp"
+                                android:visibility="gone" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    app:cardCornerRadius="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="Informasi Pelanggan"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Nomor Langganan | DISM | STATUS PEL"
+                                android:textSize="12dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tv_nolangg_dism"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="5dp"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="-- | --"
+                                    android:textColor="@color/black"
+                                    android:textSize="11dp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tv_status_plg"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="5dp"
+                                    android:background="@color/greenGojek"
+                                    android:fontFamily="@font/poppins"
+                                    android:paddingLeft="4dp"
+                                    android:paddingTop="2dp"
+                                    android:paddingRight="4dp"
+                                    android:paddingBottom="2dp"
+                                    android:text="--"
+                                    android:textColor="@color/white"
+                                    android:textSize="11dp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Nama"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_nm_plg"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Alamat"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_alamat_plg"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Tarif"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_tarif_plg"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Meter | Nomor Meter"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_nm_mtr_no_mtr"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="-- | --"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="SUMUR"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_sumur"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Cabang"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_cabang"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    app:cardCornerRadius="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="Periode Bulan Lalu"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Periode"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_periode_bln_lalu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Tanggal Baca | Jam Baca"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_tgl_jam_baca_bln_lalu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="-- | --"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Pemakaian"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_pemakaian_bln_lalu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="-- - --"
+                                android:textColor="@color/md_material_blue_600"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Petugas"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_petugas_bln_lalu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Manometer"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_manometer_bln_lalu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Foto Meter"
+                                android:textSize="12dp" />
+
+                            <com.github.chrisbanes.photoview.PhotoView
+                                android:id="@+id/iv_foto_meter_bln_lalu"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp"
+                                android:src="@drawable/im_good_day" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Foto Manometer"
+                                android:textSize="12dp" />
+
+                            <com.github.chrisbanes.photoview.PhotoView
+                                android:id="@+id/iv_foto_manometer_bln_lalu"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp"
+                                android:src="@drawable/im_good_day" />
+
+<!--                            <ImageView-->
+<!--                                android:id="@+id/iv_foto_meter_bln_lalu"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="200dp"-->
+<!--                                android:src="@drawable/im_good_day" />-->
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    app:cardCornerRadius="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="Periode Bulan Sekarang"
+                            android:textColor="@color/dash_v2_bluedark"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Periode"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_periode_bln_sekarang"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Tanggal Baca | Jam baca"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_tgl_jam_baca_bln_sekarang"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="-- | --"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Pemakaian"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_pemakaian_bln_sekarang"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="-- - --"
+                                android:textColor="@color/md_material_blue_600"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Diperbarui ke"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_data_diperbarui_ke_bln_sekarang"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Status Meter"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_st_meter"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Keterangan"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_keterangan"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Petugas"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_petugas_bln_sekarang"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Manometer"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_manometer_bln_sekarang"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Petugas Verifikator"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_verfikator_jam_waktu_bln_sekarang"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="-- | --"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Status Verifikasi"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_status_verifikasi"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="--"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Petugas Pindah Data"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/tv_pindah_data_bln_sekarang"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="-- | --"
+                                android:textColor="@color/black"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Foto Meter"
+                                android:textSize="12dp" />
+
+                            <com.github.chrisbanes.photoview.PhotoView
+                                android:id="@+id/iv_foto_meter_bln_sekarang"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp"
+                                android:src="@drawable/im_good_day" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Foto Manometer"
+                                android:textSize="12dp" />
+
+                            <com.github.chrisbanes.photoview.PhotoView
+                                android:id="@+id/iv_foto_manometer_bln_sekarang"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp"
+                                android:src="@drawable/im_good_day" />
+
+                            <Button
+                                android:id="@+id/btn_cek_ulang"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="8dp"
+                                android:backgroundTint="@color/colorPrimaryVariant"
+                                android:text="CEK ULANG"
+                                android:textSize="13dp"
+                                android:visibility="gone" />
+
+                            <Button
+                                android:id="@+id/btn_ubah_data_ditolak_verifikator"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="8dp"
+                                android:backgroundTint="@color/red"
+                                android:text="UBAH DATA DITOLAK VERIFIKATOR"
+                                android:textSize="13dp"
+                                android:visibility="gone" />
+
+                            <Button
+                                android:id="@+id/btn_edit_data"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="8dp"
+                                android:backgroundTint="@color/greenGojek"
+                                android:visibility="gone"
+                                android:text="EDIT"
+                                android:textSize="13dp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_call_iav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:animateLayoutChanges="true"
+                    android:backgroundTint="@color/dash_v2_bluedark"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="4dp"
+                    app:cardPreventCornerOverlap="false">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@color/dash_v2_bluedark"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/ic_callcenter" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="Ada kesalahan data, Perlu Bantuan?\nKlik tombol ini saja!\nSaat jam kerja"
+                            android:textColor="@color/white"
+                            android:textSize="11dp" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

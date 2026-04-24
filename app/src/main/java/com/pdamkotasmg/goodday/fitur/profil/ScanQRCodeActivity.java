@@ -16,7 +16,7 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.fitur.presensi.CheckLocationActivity;
 import com.pdamkotasmg.goodday.utils.Config;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 
 public class ScanQRCodeActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
@@ -31,7 +31,7 @@ public class ScanQRCodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_q_r_code);
-        getSupportActionBar().hide();
+        
         initView();
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

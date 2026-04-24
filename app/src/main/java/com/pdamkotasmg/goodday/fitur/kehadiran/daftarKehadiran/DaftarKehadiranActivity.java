@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.gms.ads.AdView;
+
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
@@ -53,17 +53,16 @@ public class DaftarKehadiranActivity extends AppCompatActivity {
     private LinearLayout divAnimation;
     private LottieAnimationView animationView;
     private RecyclerView rvKehadiran;
-    private AdView adView;
+    
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daftar_kehadiran);
-        getSupportActionBar().hide();
+        
         initView();
 
-        Config.ads(DaftarKehadiranActivity.this, adView);
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         editor = sharedPreferences.edit();
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
@@ -124,6 +123,6 @@ public class DaftarKehadiranActivity extends AppCompatActivity {
         divAnimation = findViewById(R.id.div_animation);
         animationView = findViewById(R.id.animation_view);
         rvKehadiran = findViewById(R.id.rv_kehadiran);
-        adView = findViewById(R.id.adView);
+        
     }
 }

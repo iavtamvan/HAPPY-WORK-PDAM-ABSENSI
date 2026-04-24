@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.gms.ads.AdView;
+
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
 import com.pdamkotasmg.goodday.api.server.ApiService;
@@ -49,7 +49,7 @@ public class RiwayatKoreksiKehadiranActivity extends AppCompatActivity {
     private LinearLayout divAnimation;
     private LottieAnimationView animationView;
     private RecyclerView rvKoreksiKehadiran;
-    private AdView adView;
+    
     private Button btnNewRequest;
 
     @Override
@@ -57,9 +57,8 @@ public class RiwayatKoreksiKehadiranActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_riwayat_koreksi_kehadiran);
         initView();
-        getSupportActionBar().hide();
+        
 
-        Config.ads(RiwayatKoreksiKehadiranActivity.this, adView);
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accesToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
         Log.d(TAG, "token: " + accesToken);
@@ -126,7 +125,7 @@ public class RiwayatKoreksiKehadiranActivity extends AppCompatActivity {
         divAnimation = findViewById(R.id.div_animation);
         animationView = findViewById(R.id.animation_view);
         rvKoreksiKehadiran = findViewById(R.id.rv_koreksi_kehadiran);
-        adView = findViewById(R.id.adView);
+        
         btnNewRequest = findViewById(R.id.btn_new_request);
     }
 }

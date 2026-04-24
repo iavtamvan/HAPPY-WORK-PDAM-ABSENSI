@@ -1,0 +1,248 @@
+package co.id.pdamkotasmg.model.checkByNolangg;
+
+import com.google.gson.annotations.SerializedName;
+
+public class DataItem{
+
+    @SerializedName("st")
+    private String st;
+
+    @SerializedName("cabang")
+    private String cabang;
+
+    @SerializedName("sumur")
+    private Object sumur;
+
+    @SerializedName("rl_status_pelanggan")
+    private RlStatusPelanggan rlStatusPelanggan;
+
+    @SerializedName("rl_cabang")
+    private RlCabang rlCabang;
+
+    @SerializedName("kec")
+    private Object kec;
+
+    @SerializedName("tgl_meter")
+    private Object tglMeter;
+
+    @SerializedName("nolangg")
+    private String nolangg;
+
+    @SerializedName("alamat")
+    private String alamat;
+
+    @SerializedName("merek")
+    private String merek;
+
+    @SerializedName("dism")
+    private String dism;
+
+    @SerializedName("tgl_buka")
+    private Object tglBuka;
+
+    @SerializedName("tarif")
+    private String tarif;
+
+    @SerializedName("kel")
+    private Object kel;
+
+    @SerializedName("nama")
+    private String nama;
+
+    @SerializedName("tgl_pasang")
+    private Object tglPasang;
+
+    @SerializedName("diameter")
+    private String diameter;
+
+    @SerializedName("rl_status_tarif")
+    private RlStatusTarif rlStatusTarif;
+
+    @SerializedName("tlp")
+    private String tlp;
+
+    @SerializedName("tgl_tutup")
+    private Object tglTutup;
+
+    @SerializedName("nomormtr")
+    private String nomormtr;
+
+    @SerializedName("tanggal")
+    private String tanggal;
+
+    public void setSt(String st){
+        this.st = st;
+    }
+
+    public String getSt(){
+        return st;
+    }
+
+    public void setCabang(String cabang){
+        this.cabang = cabang;
+    }
+
+    public String getCabang(){
+        return cabang;
+    }
+
+    public void setSumur(Object sumur){
+        this.sumur = sumur;
+    }
+
+    public Object getSumur(){
+        return sumur;
+    }
+
+    public void setRlStatusPelanggan(RlStatusPelanggan rlStatusPelanggan){
+        this.rlStatusPelanggan = rlStatusPelanggan;
+    }
+
+    public RlStatusPelanggan getRlStatusPelanggan(){
+        return rlStatusPelanggan;
+    }
+
+    public void setRlCabang(RlCabang rlCabang){
+        this.rlCabang = rlCabang;
+    }
+
+    public RlCabang getRlCabang(){
+        return rlCabang;
+    }
+
+    public void setKec(Object kec){
+        this.kec = kec;
+    }
+
+    public Object getKec(){
+        return kec;
+    }
+
+    public void setTglMeter(Object tglMeter){
+        this.tglMeter = tglMeter;
+    }
+
+    public Object getTglMeter(){
+        return tglMeter;
+    }
+
+    public void setNolangg(String nolangg){
+        this.nolangg = nolangg;
+    }
+
+    public String getNolangg(){
+        return nolangg;
+    }
+
+    public void setAlamat(String alamat){
+        this.alamat = alamat;
+    }
+
+    public String getAlamat(){
+        return alamat;
+    }
+
+    public void setMerek(String merek){
+        this.merek = merek;
+    }
+
+    public String getMerek(){
+        return merek;
+    }
+
+    public void setDism(String dism){
+        this.dism = dism;
+    }
+
+    public String getDism(){
+        return dism;
+    }
+
+    public void setTglBuka(Object tglBuka){
+        this.tglBuka = tglBuka;
+    }
+
+    public Object getTglBuka(){
+        return tglBuka;
+    }
+
+    public void setTarif(String tarif){
+        this.tarif = tarif;
+    }
+
+    public String getTarif(){
+        return tarif;
+    }
+
+    public void setKel(Object kel){
+        this.kel = kel;
+    }
+
+    public Object getKel(){
+        return kel;
+    }
+
+    public void setNama(String nama){
+        this.nama = nama;
+    }
+
+    public String getNama(){
+        return nama;
+    }
+
+    public void setTglPasang(Object tglPasang){
+        this.tglPasang = tglPasang;
+    }
+
+    public Object getTglPasang(){
+        return tglPasang;
+    }
+
+    public void setDiameter(String diameter){
+        this.diameter = diameter;
+    }
+
+    public String getDiameter(){
+        return diameter;
+    }
+
+    public void setRlStatusTarif(RlStatusTarif rlStatusTarif){
+        this.rlStatusTarif = rlStatusTarif;
+    }
+
+    public RlStatusTarif getRlStatusTarif(){
+        return rlStatusTarif;
+    }
+
+    public void setTlp(String tlp){
+        this.tlp = tlp;
+    }
+
+    public String getTlp(){
+        return tlp;
+    }
+
+    public void setTglTutup(Object tglTutup){
+        this.tglTutup = tglTutup;
+    }
+
+    public Object getTglTutup(){
+        return tglTutup;
+    }
+
+    public void setNomormtr(String nomormtr){
+        this.nomormtr = nomormtr;
+    }
+
+    public String getNomormtr(){
+        return nomormtr;
+    }
+
+    public void setTanggal(String tanggal){
+        this.tanggal = tanggal;
+    }
+
+    public String getTanggal(){
+        return tanggal;
+    }
+}

@@ -26,7 +26,7 @@ import com.pdamkotasmg.goodday.api.server.ApiService;
 import com.pdamkotasmg.goodday.fitur.perangkat.PerangkatActivity;
 import com.pdamkotasmg.goodday.fitur.profil.controller.ProfileController;
 import com.pdamkotasmg.goodday.utils.Config;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
@@ -101,7 +101,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        getSupportActionBar().hide();
+        
         initView();
         profileController = new ProfileController();
         tvHeaderJudul.setText("Profil");
@@ -182,6 +182,7 @@ public class ProfileActivity extends AppCompatActivity {
                         .setNegativeButton("Gak", (dialogInterface, which) -> dialogInterface.dismiss())
                         .setPositiveButton("Iya", (dialogInterface, which) -> {
                             profileController.logout(ProfileActivity.this);
+                            dialogInterface.dismiss();
                         })
                         .build();
 

@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.ads.AdView;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.api.server.ApiConfig;
@@ -67,7 +67,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
     public EditText edtRequestFor;
     private EditText edtStartDate;
     private EditText edtEndDate;
-    private AdView adView;
+    
     private Button btnNewRequest;
     private RecyclerView rvDetailsAttedance;
     private TextView tvListKoreksiKehadiranDetailsText;
@@ -78,7 +78,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_koreksi_kehadiran);
-        getSupportActionBar().hide();
+        
         initView();
 
         tvHeaderJudul.setText("Detail Koreksi Kehadiran");
@@ -255,7 +255,7 @@ public class KoreksiKehadiranActivity extends AppCompatActivity implements DateP
         edtRequestFor = findViewById(R.id.edt_request_for);
         edtStartDate = findViewById(R.id.edt_start_date);
         edtEndDate = findViewById(R.id.edt_end_date);
-        adView = findViewById(R.id.adView);
+        
         btnNewRequest = findViewById(R.id.btn_new_request);
         rvDetailsAttedance = findViewById(R.id.rv_details_attedance);
         tvListKoreksiKehadiranDetailsText = findViewById(R.id.tv_list_koreksi_kehadiran_details_text);

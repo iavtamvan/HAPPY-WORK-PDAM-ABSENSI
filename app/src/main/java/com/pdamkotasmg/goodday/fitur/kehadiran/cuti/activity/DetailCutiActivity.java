@@ -65,7 +65,7 @@ public class DetailCutiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_cuti);
         initView();
-        getSupportActionBar().hide();
+        
 
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
@@ -101,10 +101,10 @@ public class DetailCutiActivity extends AppCompatActivity {
                 reqStatusCode = "APPROVED";
                 reqAprovals();
             });
-            Toast.makeText(this, "" + approveReq, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Admin" + approveReq, Toast.LENGTH_SHORT).show();
 //            btnCancel.setVisibility(View.GONE);
         } else {
-            Toast.makeText(this, "" + approveReq, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Staff" + approveReq, Toast.LENGTH_SHORT).show();
             btnCancel.setOnClickListener(v -> {
                 reqStatusCode = "CANCELLED";
                 reqCancel();

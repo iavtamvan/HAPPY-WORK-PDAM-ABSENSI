@@ -21,11 +21,13 @@ import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.details.
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.adapter.details.DetailsListApprovalAdapter;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKoreksiKehadiran.Data;
 import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKoreksiKehadiran.DetailKoreksiKehadiranRootModel;
+import com.pdamkotasmg.goodday.fitur.kehadiran.koreksiKehadiran.model.detailKoreksiKehadiran.ListOfApprovalsItem;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -66,7 +68,7 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_koreksi_kehadiran);
-        getSupportActionBar().hide();
+        
         initView();
 
         ivHeaderInfo.setOnClickListener(v -> {
@@ -103,10 +105,10 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
                 reqStatusCode = "APPROVED";
                 reqAprovals();
             });
-            Toast.makeText(this, "" + approveReq, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Admin " + approveReq, Toast.LENGTH_SHORT).show();
 //            btnCancel.setVisibility(View.GONE);
         } else {
-            Toast.makeText(this, "" + approveReq, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Staff" + approveReq, Toast.LENGTH_SHORT).show();
             btnCancel.setOnClickListener(v -> {
                 reqStatusCode = "CANCELLED";
                 reqCancel();
@@ -211,7 +213,14 @@ public class DetailKoreksiKehadiranActivity extends AppCompatActivity {
                             tvDetailsStatus.setText(status);
 
                             for (int i = 0; i < dataList.getListOfApprovals().size(); i++) {
-                                String statuses = dataList.getListOfApprovals().get(i).getApprovalStatus();
+                                List<ListOfApprovalsItem> dataArrayList = dataList.getListOfApprovals();
+                                ListOfApprovalsItem last = dataArrayList.get(dataArrayList.size() - 1);
+                                Toast.makeText(DetailKoreksiKehadiranActivity.this, "" + last.getApprovalStatus(), Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "statuses: " + last.getApprovalStatus());
+
+//                                String statuses = dataList.getListOfApprovals().get(i).getApprovalStatus();
+
+                                String statuses = last.getApprovalStatus();
                                 if (statuses.equalsIgnoreCase("Waiting")) {
                                     tvDetailsStatus.setTextColor(getResources().getColor(R.color.black));
                                 } else if (statuses.equalsIgnoreCase("Approved")) {

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <dist:module
+        dist:instant="false"
+        dist:title="@string/title_pembaca_meter">
+        <dist:delivery>
+            <dist:install-time />
+        </dist:delivery>
+
+        <dist:fusing dist:include="true" />
+    </dist:module>
+
+    <application android:icon="@mipmap/ic_launcher">
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.SingleManometerActivity"
+            android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.CariDataActivity"
+            android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.bendel.BendelPembacaKhususActivity"
+            android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.VerifikasiDitolakActivity"
+            android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.DetailRiwayatPembacaMeterActivity"
+            android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.RiwayatPembacaMeterActivity"
+            android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.PembacaMeterActivity"
+            android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.bendel.BendelDataActivity"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name="co.id.pdamkotasmg.ui.activity.InputActivity" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.bendel.InputDataActivity"
+            android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.HomeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_home"
+            android:theme="@style/Theme.HappyWork.DarkActionBar"/> <!-- <activity -->
+        <!-- android:name="co.id.pdamkotasmg.BottomActivity" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_bottom" /> -->
+        <activity
+            android:name="co.id.pdamkotasmg.MainActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <service android:name="co.id.pdamkotasmg.service.PingService" />
+    </application>
+
+</manifest>

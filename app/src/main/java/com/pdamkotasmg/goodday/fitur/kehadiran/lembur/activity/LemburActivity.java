@@ -89,7 +89,7 @@ public class LemburActivity extends AppCompatActivity implements DatePickerDialo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lembur);
-        getSupportActionBar().hide();
+        
         initView();
 
         tvHeaderJudul.setText("Lembur");

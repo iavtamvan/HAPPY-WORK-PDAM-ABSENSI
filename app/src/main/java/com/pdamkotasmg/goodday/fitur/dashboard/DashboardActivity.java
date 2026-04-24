@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,9 +28,16 @@ import com.pdamkotasmg.goodday.fitur.dashboard.model.ShfitPegawaiRootModel;
 import com.pdamkotasmg.goodday.fitur.dashboard.model.permissionName.PermissionRootModel;
 import com.pdamkotasmg.goodday.fitur.feeds.controller.FeedsController;
 import com.pdamkotasmg.goodday.fitur.kehadiran.home.activity.KehadiranActivity;
+<<<<<<< HEAD
 import com.pdamkotasmg.goodday.fitur.payslip.PayslipActivity;
 import com.pdamkotasmg.goodday.fitur.permintaan.activity.PermintaanActivity;
 import com.pdamkotasmg.goodday.fitur.permintaan.activity.PersetujuanActivity;
+=======
+import com.pdamkotasmg.goodday.fitur.menuLainnya.ListWebViewActivity;
+import com.pdamkotasmg.goodday.fitur.payslip.SalaryHistoryActivity;
+import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.activity.PermintaanActivity;
+import com.pdamkotasmg.goodday.fitur.permintaan_persetujuan.activity.PersetujuanActivity;
+>>>>>>> 6952bdd8461502f0e1c2413166e89d58df163e3c
 import com.pdamkotasmg.goodday.fitur.presensi.CheckLocationActivity;
 import com.pdamkotasmg.goodday.fitur.presensi.PresensiActivity;
 import com.pdamkotasmg.goodday.fitur.profil.ProfileActivity;
@@ -36,12 +45,13 @@ import com.pdamkotasmg.goodday.fitur.profil.controller.ProfileController;
 import com.pdamkotasmg.goodday.utils.Config;
 import com.pdamkotasmg.goodday.utils.Connectivity;
 import com.scottyab.rootbeer.RootBeer;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
@@ -82,6 +92,7 @@ public class DashboardActivity extends AppCompatActivity {
     private CircleImageView divProfil;
     private CircleImageView ivLogout;
     private CardView divApprovals;
+    private ImageView ivVerified;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -90,7 +101,7 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_v2);
-        getSupportActionBar().hide();
+        
         initView();
 
 //        Config.isMockSettingsONV2(DashboardActivity.this);
@@ -104,17 +115,25 @@ public class DashboardActivity extends AppCompatActivity {
 
         if (timeOfDay >= 0 && timeOfDay < 11) {
             tvGood.setText("Good Morning \uD83C\uDF04");
-            Config.showNotification(DashboardActivity.this, "Pekerjaan Sudah Siap", "Semangat kerja !!!");
+            Config.showNotification(DashboardActivity.this, "Pekerjaan Sudah Siap", "Semangat kerja !!!", DashboardActivity.class);
         } else if (timeOfDay >= 11 && timeOfDay < 15) {
             tvGood.setText("Good Afternoon \uD83C\uDF1E");
-            Config.showNotification(DashboardActivity.this, "Sudah Waktunya Istirahat", "Semangat!!!");
+            Config.showNotification(DashboardActivity.this, "Sudah Waktunya Istirahat", "Semangat!!!", DashboardActivity.class);
         } else if (timeOfDay >= 15 && timeOfDay < 18) {
-            Config.showNotification(DashboardActivity.this, "Saatnya Istirahat Sejenak", "Kalau lembur, jangan lupa klik LEMBUR YA!");
+            Config.showNotification(DashboardActivity.this, "Saatnya Istirahat Sejenak", "Kalau lembur, jangan lupa klik LEMBUR YA!", DashboardActivity.class);
             tvGood.setText("Good Evening \uD83C\uDF25");
         } else if (timeOfDay >= 18 && timeOfDay < 24) {
-            Config.showNotification(DashboardActivity.this, "Saatnya Tidur", "Kalau lembur, jangan lupa klik LEMBUR YA!");
+            Config.showNotification(DashboardActivity.this, "Saatnya Tidur", "Kalau lembur, jangan lupa klik LEMBUR YA!", DashboardActivity.class);
             tvGood.setText("Good Night \uD83D\uDECC \uD83D\uDCA4");
         }
+
+        ivVerified.setImageResource(R.drawable.verified);
+
+        tvGood.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.setClassName("com.pdamkotasmg.happywork", "id.pdamkotasmg.edms.fitur.suratMasuk.activity.EDMSHomeActivity");
+            startActivity(intent);
+        });
 
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -134,6 +153,9 @@ public class DashboardActivity extends AppCompatActivity {
         scrollingtext.setSelected(true);
         tvNameDashboard.setText(sharedPreferences.getString(Config.SHARED_NAME, ""));
         tvSatker.setText(satker);
+
+        File path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/PDAM");
+        path.mkdir();
 
         if (!messageInfo.isEmpty()) {
             cvInfoWarning.setVisibility(View.VISIBLE);
@@ -219,7 +241,7 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         divPayslip.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), PayslipActivity.class));
+            startActivity(new Intent(getApplicationContext(), SalaryHistoryActivity.class));
         });
 
         divRequest.setOnClickListener(v -> {
@@ -238,6 +260,7 @@ public class DashboardActivity extends AppCompatActivity {
                     .setNegativeButton("Gak", (dialogInterface, which) -> dialogInterface.dismiss())
                     .setPositiveButton("Iya", (dialogInterface, which) -> {
                         profileController.logout(DashboardActivity.this);
+                        dialogInterface.dismiss();
                     })
                     .build();
 
@@ -370,5 +393,6 @@ public class DashboardActivity extends AppCompatActivity {
         divProfil = findViewById(R.id.div_profil);
         ivLogout = findViewById(R.id.iv_logout);
         divApprovals = findViewById(R.id.div_approvals);
+        ivVerified = findViewById(R.id.iv_verified);
     }
 }

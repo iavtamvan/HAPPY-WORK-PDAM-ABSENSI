@@ -72,7 +72,7 @@ public class PerjalananDinasActivity extends AppCompatActivity implements DatePi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perjalanan_dinas);
-        getSupportActionBar().hide();
+        
         initView();
 
         ivHeaderBackArrow.setOnClickListener(v -> {

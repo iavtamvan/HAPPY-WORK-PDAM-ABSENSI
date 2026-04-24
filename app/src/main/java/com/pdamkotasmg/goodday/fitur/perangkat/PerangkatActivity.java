@@ -15,8 +15,9 @@ import com.pdamkotasmg.goodday.BuildConfig;
 import com.pdamkotasmg.goodday.R;
 import com.pdamkotasmg.goodday.fitur.perangkat.controller.PerangkatController;
 import com.pdamkotasmg.goodday.utils.Config;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
-import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
+
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 public class PerangkatActivity extends AppCompatActivity {
 
@@ -39,7 +40,7 @@ public class PerangkatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perangkat);
-        getSupportActionBar().hide();
+        
         initView();
         tvHeaderJudul.setText("Perangkat");
         perangkatController = new PerangkatController();
