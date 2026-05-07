@@ -25,6 +25,11 @@ allprojects {
         maven { url "https://jitpack.io" }
         maven { url 'https://repo1.maven.org/maven2' }
     }
+    configurations.configureEach {
+        resolutionStrategy {
+            force 'com.scottyab:rootbeer-lib:0.1.2'
+        }
+    }
 }
 
 tasks.register('clean', Delete) {

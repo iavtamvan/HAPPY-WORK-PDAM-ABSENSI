@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  v3 (Fase 4):
+  Refactor jadi container TabLayout + ViewPager2.
+  Konten lama dipindah ke fragment_settings.xml.
+
+  ID dipertahankan: iv_header_back_arrow, tv_header_judul.
+  ID baru: tab_layout, view_pager.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FCF9F8"
+    android:orientation="vertical"
+    tools:context="co.id.pdamkotasmg.ui.activity.settings.SettingsActivity">
+
+    <!-- App bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp">
+
+        <ImageView
+            android:id="@+id/iv_header_back_arrow"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Kembali"
+            android:padding="8dp"
+            android:src="@drawable/arrrow_left" />
+
+        <TextView
+            android:id="@+id/tv_header_judul"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins"
+            android:letterSpacing="-0.02"
+            android:text="Pengaturan"
+            android:textColor="#1C1B1F"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Tab layout -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#FCF9F8"
+        app:tabIndicatorColor="@color/redPortal"
+        app:tabIndicatorHeight="3dp"
+        app:tabMode="fixed"
+        app:tabPaddingStart="8dp"
+        app:tabPaddingEnd="8dp"
+        app:tabRippleColor="@color/redPortal"
+        app:tabSelectedTextColor="@color/redPortal"
+        app:tabTextAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:tabTextColor="#6B6770" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E6E0E1" />
+
+    <!-- ViewPager2 -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

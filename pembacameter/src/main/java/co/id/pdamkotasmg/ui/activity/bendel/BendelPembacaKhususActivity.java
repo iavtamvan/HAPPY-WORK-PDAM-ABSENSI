@@ -2,7 +2,6 @@ package co.id.pdamkotasmg.ui.activity.bendel;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +18,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -56,9 +57,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import co.id.pdamkotasmg.api.ApiConfig;
 import co.id.pdamkotasmg.api.ApiService;
+import co.id.pdamkotasmg.local.SettingsManager;
+import co.id.pdamkotasmg.local.db.entity.PendingBacaanEntity;
+import co.id.pdamkotasmg.local.repository.BacaanRepository;
 import co.id.pdamkotasmg.model.bendel.bendelNext.Data;
 import co.id.pdamkotasmg.model.checkPelangganSudahDibaca.CheckPelangganRootModel;
 import co.id.pdamkotasmg.model.fileHandler.PostFotoUploadRootModel;
@@ -81,6 +87,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * BendelPembacaKhususActivity — Fase 3.
+ *
+ * Tombol Simpan jadi cabang berdasarkan toggle Mode Offline:
+ *   ON  → save ke Room (PendingBacaanEntity + PendingFotoEntity)
+ *         + update cache pelanggan jadi sudah-dibaca
+ *         + tampilkan toast "Tersimpan offline, akan dikirim saat sync"
+ *   OFF → flow lama (upload foto → post bacaan ke API)
+ *         + update cache pelanggan jadi sudah-dibaca (post-API)
+ *
+ * Banner kuning di top tampil saat Mode Offline ON, untuk awareness user.
+ */
 public class BendelPembacaKhususActivity extends AppCompatActivity {
     private final String TAG = "debug";
     private ActivityBendelPembacaBinding binding;
@@ -103,10 +121,10 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private SharedPreferences.Editor editorSp;
 
-    private ProgressDialog progressDialog;
+    private ExecutorService geocoderExecutor;
+    private Handler mainHandler;
 
     private Date cDate;
-
     private String currentDateLocal;
     private String currentTimeLocal;
 
@@ -137,10 +155,16 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
     private Date currentTime;
     private String timestamp;
 
+    // FASE 3 ADDITIONS
+    private SettingsManager settings;
+    private BacaanRepository bacaanRepository;
+    private String periode;
+    private String cabang;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         binding = ActivityBendelPembacaBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
         setContentView(root);
@@ -153,7 +177,23 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
         npp = sp.getString(Config.SHARED_NPP_PROFILE, "");
         modelDevice = sp.getString(Config.SHARED_GETMODEL, "");
+        periode = sp.getString(Config.SHARED_PERIODE, "");
+        cabang = sp.getString(Config.SHARED_CABANG, "");
         nolangg = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG);
+
+        // Best-effort: Activity ini biasanya dibuka dari BendelDataActivity, jadi
+        // codeBendel kemungkinan tersimpan di SP. Kalau tidak ada, ambil dari Intent
+        // atau biarkan null (tidak fatal — cuma cache update yang skip).
+        codeBendel = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL);
+        if (codeBendel == null) {
+            codeBendel = sp.getString(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL, "");
+        }
+
+        if (nolangg == null) {
+            Toast.makeText(this, "Data tidak valid, silakan buka ulang dari menu", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         easyImage = new EasyImage.Builder(BendelPembacaKhususActivity.this)
                 .setCopyImagesToPublicGalleryFolder(false)
@@ -161,18 +201,22 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
                 .allowMultiple(true)
                 .build();
 
-        progressDialog = new ProgressDialog(BendelPembacaKhususActivity.this);
-        progressDialog.setMessage("Mohong tunggu ...");
-        progressDialog.setCancelable(false);
+        geocoderExecutor = Executors.newSingleThreadExecutor();
+        mainHandler = new Handler(Looper.getMainLooper());
 
         cDate = new Date();
-        currentDateLocal = new SimpleDateFormat("EEEE, dd MMM yyyy").format(cDate);
-        currentTimeLocal = new SimpleDateFormat("HH:mm").format(cDate);
+        currentDateLocal = new SimpleDateFormat("EEEE, dd MMM yyyy", Locale.getDefault()).format(cDate);
+        currentTimeLocal = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(cDate);
 
         randomUUID = UUID.randomUUID();
         randomUUIDString = randomUUID.toString();
         currentTime = Calendar.getInstance().getTime();
         timestamp = String.valueOf(currentTime.getTime());
+
+        // FASE 3 init
+        settings = SettingsManager.getInstance(this);
+        bacaanRepository = new BacaanRepository(this);
+        refreshOfflineBanner();
 
         getListGabungan();
 
@@ -181,26 +225,22 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
         }
 
         binding.tvLatlongAdress.setOnClickListener(view -> {
+            showLoading(true);
             getLocationAdress();
-            progressDialog.show();
-            progressDialog.setMessage("Refresh Lokasi");
-            progressDialog.setCancelable(false);
         });
 
         binding.spnStatusMeter.setOnItemSelectedListener((view, position, id, item) -> {
-            kodeStatusMeter = arrayStatusMeter.get(position).substring(0, 1).trim();
-//            Toast.makeText(this, "After " + kodeStatusMeter, Toast.LENGTH_SHORT).show();
+            if (position >= 0 && position < arrayStatusMeter.size()) {
+                String raw = arrayStatusMeter.get(position);
+                if (raw != null && raw.length() >= 1) {
+                    kodeStatusMeter = raw.substring(0, 1).trim();
+                }
+            }
         });
+
         binding.edtKini.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            @Override public void beforeTextChanged(CharSequence c, int i, int i1, int i2) {}
+            @Override public void onTextChanged(CharSequence c, int i, int i1, int i2) {}
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -209,21 +249,25 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
                     binding.tvHitungKubik.setText(" 0m3");
                     binding.tvHitungKubik.setTextColor(getColor(R.color.black));
                 } else {
-//                    if (codeInputData.contains("7")){
-//
-//                    } else {
-//                    String hitungm3 = String.valueOf(Integer.parseInt(editable.toString()) - Integer.parseInt(lalu));
-                    String hitungm3 = "0" ;
-                    hitungm3 = String.valueOf(Integer.parseInt(editable.toString()) - Integer.parseInt(lalu));
-                    binding.tvHitungKubik.setText(hitungm3 + "m3");
-
-                    if (Integer.parseInt(hitungm3) < 0) {
+                    int kini = safeParseInt(editable.toString(), -1);
+                    if (kini < 0) {
+                        binding.tvHitungKubik.setText(" 0m3");
+                        binding.tvHitungKubik.setTextColor(getColor(R.color.black));
+                        return;
+                    }
+                    if (lalu == null) {
+                        binding.tvHitungKubik.setText("menunggu data pelanggan...");
+                        binding.tvHitungKubik.setTextColor(getColor(R.color.black));
+                        return;
+                    }
+                    int prev = safeParseInt(lalu, 0);
+                    int hitung = kini - prev;
+                    binding.tvHitungKubik.setText(hitung + "m3");
+                    if (hitung < 0) {
                         binding.tvHitungKubik.setTextColor(getColor(R.color.red));
                     } else {
                         binding.tvHitungKubik.setTextColor(getColor(R.color.black));
                     }
-
-//                    }
                 }
             }
         });
@@ -242,38 +286,35 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
             if (compressedImageFileFotoMeter == null || binding.edtKini.getText().toString().isEmpty()) {
                 Toast.makeText(this, Config.ERROR_DATA_REGISTER, Toast.LENGTH_SHORT).show();
             } else {
-                // TODO send to server
-                // TODO 1 send picture to server
-                // TODO 2 send data to server 3.7
                 MaterialDialog mDialog = new MaterialDialog.Builder(BendelPembacaKhususActivity.this)
                         .setTitle("Apakah data Anda sudah benar?")
                         .setCancelable(false)
-                        .setNegativeButton("Belum", (dialogInterface, which) -> {
-                            dialogInterface.dismiss();
-                        })
+                        .setNegativeButton("Belum", (dialogInterface, which) -> dialogInterface.dismiss())
                         .setPositiveButton("Sudah", (dialogInterface, which) -> {
                             dialogInterface.dismiss();
                             codeSimpandanLanjut = "0";
-                            Log.d(TAG, "reqCodeRotateFotoMeter : " + reqCodeRotateFotoMeter);
-                            if (reqCodeRotateFotoMeter.equals("1")){
-                                // Ambil rotasi dari ImageView
-                                float rotation = binding.photoViewLeft.getRotation();
 
-                                // Dapatkan hasil Bitmap setelah rotasi
+                            // Apply rotate kalau dipakai
+                            if (reqCodeRotateFotoMeter != null && reqCodeRotateFotoMeter.equals("1")) {
+                                float rotation = binding.photoViewLeft.getRotation();
                                 Bitmap rotatedBitmap = getRotatedBitmap(binding.photoViewLeft, rotation);
-                                saveImageToExternalStorage(rotatedBitmap, "rotated_image");
-                                Log.d(TAG, "compressedImageFileFotoMeterRotated : " + compressedImageFileFotoMeter.getPath());
-                                postFotoMeter();
-                            } else {
-                                postFotoMeter();
+                                if (rotatedBitmap != null) {
+                                    saveImageToExternalStorage(rotatedBitmap, "rotated_image");
+                                }
                             }
 
+                            // ============== FASE 3: CABANG BERDASARKAN MODE OFFLINE ==============
+                            if (settings.isOfflineModeEnabled()) {
+                                Log.d(TAG, "Mode Offline ON → save offline");
+                                saveBacaanOffline();
+                            } else {
+                                Log.d(TAG, "Mode Offline OFF → upload to server");
+                                postFotoMeter();
+                            }
                         })
                         .build();
 
                 mDialog.show();
-
-                // TODO Selesai
             }
         });
 
@@ -281,7 +322,6 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
             Intent intent = new Intent(BendelPembacaKhususActivity.this, ProfilePelangganDanTagihanActivity.class);
             intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, nolangg);
             startActivity(intent);
-
         });
 
         binding.btnRotate.setOnClickListener(view -> {
@@ -290,15 +330,102 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Tampilkan banner kuning di top kalau Mode Offline ON.
+     * Pakai tv_system_update yang sudah ada di layout supaya tidak perlu modif XML.
+     */
+    private void refreshOfflineBanner() {
+        if (binding == null) return;
+        if (settings != null && settings.isOfflineModeEnabled()) {
+            binding.tvSystemUpdate.setText(
+                    "⚡ Mode Offline aktif — bacaan akan tersimpan di HP & dikirim saat sync");
+            binding.tvSystemUpdate.setTextColor(getColor(R.color.orangeGreatDay));
+        } else {
+            binding.tvSystemUpdate.setText("Pastikan semua data benar - System v.0.9");
+            binding.tvSystemUpdate.setTextColor(getColor(com.pdamkotasmg.goodday.R.color.dash_v2_bluedark));
+        }
+    }
+
+    // ============== FASE 3 — OFFLINE SAVE ==============
+
+    /**
+     * Simpan bacaan ke local Room storage (Mode Offline ON).
+     */
+    private void saveBacaanOffline() {
+        showLoading(true);
+
+        PendingBacaanEntity entity = new PendingBacaanEntity();
+        entity.jenis = PendingBacaanEntity.JENIS_KHUSUS_BENDEL;
+        entity.nolangg = nolangg;
+        entity.periode = periode;
+        entity.cabang = cabang;
+        entity.bendel = codeBendel;
+        entity.kini = binding.edtKini.getText().toString().trim();
+        entity.kodeStatusMeter = kodeStatusMeter;
+        entity.keterangan = binding.edtKeterangan.getText().toString().trim();
+        entity.manometer = binding.edtManometer.getText().toString().trim();
+        entity.latitude = lati;
+        entity.longitude = longi;
+        entity.addressGps = address_gps;
+        entity.actionCode = action_code;
+        entity.npp = npp;
+        entity.versionInfo = BuildConfig.VERSION_NAME + "-" + BuildConfig.VERSION_NAME + " - " + modelDevice;
+
+        String bendelId = (codeBendel != null && !codeBendel.isEmpty())
+                ? co.id.pdamkotasmg.local.db.entity.CachedBendelEntity.buildId(codeBendel, periode, cabang)
+                : null;
+
+        bacaanRepository.saveOffline(
+                entity,
+                compressedImageFileFotoMeter,
+                compressedImageFileManometer,
+                bendelId,
+                new BacaanRepository.SaveCallback() {
+                    @Override
+                    public void onSaved(long pendingBacaanId) {
+                        if (isActivityGone()) return;
+                        showLoading(false);
+
+                        Toast.makeText(BendelPembacaKhususActivity.this,
+                                "Tersimpan offline (#" + pendingBacaanId + "). Data akan dikirim saat sync.",
+                                Toast.LENGTH_LONG).show();
+
+                        // Cleanup foto sumber kalau ada (Compressor result di /cache)
+                        // Tapi karena BacaanRepository sudah COPY, foto asli boleh dihapus.
+                        // Skip dulu untuk safety — Android akan auto-cleanup cache nanti.
+
+                        // Langsung tutup Activity → balik ke BendelDataActivity yang akan
+                        // refresh list (pelanggan sudah ter-mark sudah-dibaca di cache).
+                        finish();
+                    }
+
+                    @Override
+                    public void onError(String message, Throwable t) {
+                        if (isActivityGone()) return;
+                        showLoading(false);
+                        Toast.makeText(BendelPembacaKhususActivity.this,
+                                message != null ? message : "Gagal menyimpan offline",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    // ============== ONLINE SAVE FLOW ==============
+
     private void postFotoMeter() {
-        progressDialog.setMessage("Mohon tunggu...");
-        progressDialog.show();
+        showLoading(true);
         Date currentTime = Calendar.getInstance().getTime();
         String timestamp = String.valueOf(currentTime.getTime());
         String year = new SimpleDateFormat("y", Locale.getDefault()).format(new Date());
         String month = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
         UUID randomUUID = UUID.randomUUID();
         String randomUUIDString = randomUUID.toString();
+
+        if (compressedImageFileFotoMeter == null) {
+            showLoading(false);
+            Toast.makeText(this, "Foto meter belum diambil", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         RequestBody path = RequestBody.create(MediaType.parse("text/plain"), "/pembaca-meter/foto-pembaca-meter/" + year + "/" + month);
         RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), "pembaca-meter-" + randomUUIDString + "-" + nolangg + "-" + npp + "-" + year + month + "-" + timestamp);
@@ -312,23 +439,30 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
                 .enqueue(new Callback<PostFotoUploadRootModel>() {
                     @Override
                     public void onResponse(Call<PostFotoUploadRootModel> call, Response<PostFotoUploadRootModel> response) {
-                        if (response.isSuccessful()) {
-                            Log.d(TAG, "uploadImage " + response.body().getData().getFileurl());
+                        if (isActivityGone()) return;
+
+                        if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
                             filePathServer = response.body().getData().getFilepath();
                             fileUrlServer = response.body().getData().getFileurl();
 
-                            if (reqCodeFoto.contains("1")) {
+                            if (reqCodeFoto != null && reqCodeFoto.contains("1")) {
                                 postDataPembacaMeter();
-                            } else if (reqCodeFoto.contains("2")){
+                            } else if (reqCodeFoto != null && reqCodeFoto.contains("2")) {
                                 postFotoManoMeter();
+                            } else {
+                                showLoading(false);
+                                Toast.makeText(BendelPembacaKhususActivity.this, "Kode foto tidak dikenali", Toast.LENGTH_SHORT).show();
                             }
-
+                        } else {
+                            showLoading(false);
+                            Toast.makeText(BendelPembacaKhususActivity.this, "Upload Foto gagal (HTTP " + response.code() + ")", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<PostFotoUploadRootModel> call, Throwable t) {
-                        progressDialog.cancel();
+                        if (isActivityGone()) return;
+                        showLoading(false);
                         Toast.makeText(BendelPembacaKhususActivity.this, "Upload Foto Gagal " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -342,6 +476,12 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
         UUID randomUUID = UUID.randomUUID();
         String randomUUIDString = randomUUID.toString();
 
+        if (compressedImageFileManometer == null) {
+            showLoading(false);
+            Toast.makeText(this, "Foto manometer belum diambil", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         RequestBody path = RequestBody.create(MediaType.parse("text/plain"), "/pembaca-meter/foto-pembaca-meter/" + year + "/" + month);
         RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), "pembaca-meter-manometer-" + randomUUIDString + "-" + nolangg + "-" + npp + "-" + year + month + "-" + timestamp);
 
@@ -354,17 +494,21 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
                 .enqueue(new Callback<PostFotoUploadRootModel>() {
                     @Override
                     public void onResponse(Call<PostFotoUploadRootModel> call, Response<PostFotoUploadRootModel> response) {
-                        if (response.isSuccessful()) {
-                            Log.d(TAG, "uploadImage " + response.body().getData().getFileurl());
+                        if (isActivityGone()) return;
+
+                        if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
                             getFilePathServerFotoManometer = response.body().getData().getFilepath();
-//                            fileUrlServer = response.body().getData().getFileurl();
                             postDataPembacaMeter();
+                        } else {
+                            showLoading(false);
+                            Toast.makeText(BendelPembacaKhususActivity.this, "Upload Foto Manometer gagal (HTTP " + response.code() + ")", Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<PostFotoUploadRootModel> call, Throwable t) {
-                        progressDialog.cancel();
+                        if (isActivityGone()) return;
+                        showLoading(false);
                         Toast.makeText(BendelPembacaKhususActivity.this, "Upload Foto Manometer Gagal " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
@@ -380,78 +524,74 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
                     @SuppressLint("UseCompatLoadingForDrawables")
                     @Override
                     public void onResponse(Call<UpdatePembacaMeterRootModel> call, Response<UpdatePembacaMeterRootModel> response) {
-//                        progressDialog.cancel();
-                        if (response.isSuccessful()) {
-//                            if (rootPathImage == null || pathImageWatermark == null) {
-//                                Log.d(TAG, "null path delete");
-//                                Toast.makeText(BendelPembacaActivity.this, "Success mengirim data : " + response.body().getData().getUpdateData(), Toast.LENGTH_LONG).show();
-//                                if (codeSimpandanLanjut.equals("1")) {
-//                                    binding.edtKini.setText("");
-//                                    binding.edtKeterangan.setText("");
-//                                    binding.photoView.setImageDrawable(getResources().getDrawable(com.pdamkotasmg.goodday.R.drawable.image_not_available));
-//                                    getLocationAdress();
-//                                    getBendel();
-//                                } else {
-//                                    progressDialog.cancel();
-//                                    BendelPembacaActivity.this.finish();
-//                                }
-//                            } else {
+                        if (isActivityGone()) return;
+
+                        if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
                             try {
                                 Config.deleteFolders(rootPathImage, "deletedFolders");
                                 Config.deleteFolders(pathImageWatermark, "ImgWatermarkDelete");
                             } catch (IOException e) {
-                                throw new RuntimeException(e);
+                                Log.e(TAG, "deleteFolders gagal (non-fatal)", e);
                             }
 
-                            Toast.makeText(BendelPembacaKhususActivity.this, "Success mengirim data : " + response.body().getData().getUpdateData(), Toast.LENGTH_LONG).show();
-//                                if (codeSimpandanLanjut.equals("1")) {
-//                                    binding.edtKini.setText("");
-//                                    binding.edtKeterangan.setText("");
-//                                    binding.photoView.setImageDrawable(getResources().getDrawable(com.pdamkotasmg.goodday.R.drawable.image_not_available));
-//                                    getLocationAdress();
-//                                    getBendel();
-//                                } else {
-//                            progressDialog.cancel();
-//                            BendelPembacaActivity.this.finish();
-//                                }
-//                            }
+                            // FASE 3: update cache pelanggan jadi sudah-dibaca
+                            // supaya saat user balik ke BendelDataActivity, list refresh-nya
+                            // konsisten — pelanggan ini sudah hilang dari list.
+                            if (codeBendel != null && !codeBendel.isEmpty()) {
+                                bacaanRepository.markPelangganAsRead(codeBendel, nolangg, null);
+                            }
+
+                            Toast.makeText(BendelPembacaKhususActivity.this,
+                                    "Success mengirim data : " + response.body().getData().getUpdateData(),
+                                    Toast.LENGTH_LONG).show();
                             bottomSheetSuksesSimpanData();
                         } else {
                             Toast.makeText(BendelPembacaKhususActivity.this, "postDataPembacaMeter: Gagal/Error, Coba lagi", Toast.LENGTH_SHORT).show();
-                            progressDialog.cancel();
+                            showLoading(false);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<UpdatePembacaMeterRootModel> call, Throwable t) {
-                        progressDialog.cancel();
+                        if (isActivityGone()) return;
+                        showLoading(false);
                         Toast.makeText(BendelPembacaKhususActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     private void getListGabungan() {
-        progressDialog.show();
+        showLoading(true);
         ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaKhususActivity.this);
         apiService.getListGabungan(token)
                 .enqueue(new Callback<ListGabunganRootModel>() {
                     @Override
                     public void onResponse(Call<ListGabunganRootModel> call, Response<ListGabunganRootModel> response) {
-                        if (response.isSuccessful()) {
+                        if (isActivityGone()) return;
+
+                        if (response.isSuccessful()
+                                && response.body() != null
+                                && response.body().getData() != null
+                                && response.body().getData().getStatusMeter() != null) {
                             getCheckPelanggan(nolangg);
                             statusMeterItems = response.body().getData().getStatusMeter();
+                            arrayStatusMeter.clear();
                             for (int i = 0; i < statusMeterItems.size(); i++) {
                                 String kode = statusMeterItems.get(i).getKode();
                                 String nameStatus = statusMeterItems.get(i).getStatus();
                                 arrayStatusMeter.add(kode + " " + nameStatus);
                             }
                             binding.spnStatusMeter.setItems(arrayStatusMeter);
+                        } else {
+                            showLoading(false);
+                            Toast.makeText(BendelPembacaKhususActivity.this, "Gagal memuat status meter (HTTP " + response.code() + ")", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ListGabunganRootModel> call, Throwable t) {
-                        progressDialog.cancel();
+                        if (isActivityGone()) return;
+                        showLoading(false);
                         Toast.makeText(BendelPembacaKhususActivity.this, "Status Meter Null | " + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -464,154 +604,146 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onResponse(Call<CheckPelangganRootModel> call, Response<CheckPelangganRootModel> response) {
-                        if (response.isSuccessful()) {
-                            getLocationAdress();
-                            progressDialog.cancel();
-                            if (response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("0") // kosong
-                                // ||
-//                                    response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode().contains("5") // koreksi
-//                                    || codeInputData.contains("6") // verifikasi ditolak
-//                                    || codeInputData.contains("7") // edit
-//                                    || codeInputData.contains("8") // BACA ULANG
-                            ) {
-                                lalu = response.body().getData().get(0).getRlTrbaca().get(0).getKini();
-//                                if (codeInputData.contains("7")) { // edit data bacaan
-//                                    binding.divStMeter.setVisibility(View.VISIBLE);
-//                                    binding.tvStMeter.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlStMeter().getStatus());
-//                                    binding.edtKini.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKini());
-//                                    binding.edtKeterangan.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKt());
-//
-//                                    Glide.with(BendelPembacaActivity.this)
-//                                            .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
-//                                            .error(com.pdamkotasmg.goodday.R.drawable.image_not_available)
-//                                            .into(binding.photoView);
-//
-//                                    filePathServer = response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile();
-//                                } else if (codeInputData.contains("8")) { // Baca Ulang
-//                                    if (response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getDt().contains("3")) {
-//                                        binding.divStMeter.setVisibility(View.VISIBLE);
-//                                        binding.tvStMeter.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlStMeter().getStatus());
-//                                        binding.edtKini.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKini());
-//                                        binding.edtKeterangan.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKt());
-//
-//                                        Glide.with(BendelPembacaActivity.this)
-//                                                .load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
-//                                                .error(com.pdamkotasmg.goodday.R.drawable.image_not_available)
-//                                                .into(binding.photoView);
-//
-//                                        filePathServer = response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile();
-//                                    } else {
-//                                        Toast.makeText(BendelPembacaActivity.this, "Nolangg belum bisa CU, status belum tertransfer", Toast.LENGTH_SHORT).show();
-//                                        binding.svContainer.setVisibility(View.GONE);
-//                                        binding.btnSimpanData.setVisibility(View.GONE);
-//                                        binding.btnSimpanLanjut.setVisibility(View.GONE);
-//                                        binding.tvSystemUpdate.setText(response.body().getData().get(0).getNolangg() +
-//                                                " Pelanggan sudah dalam status " +
-//                                                response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
-//                                    }
-//                                }
+                        if (isActivityGone()) return;
 
-                                binding.tvNolangg.setText(response.body().getData().get(0).getNolangg());
-                                binding.tvPeriode.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
-                                binding.tvDism.setText(response.body().getData().get(0).getDism());
-                                binding.tvNama.setText(response.body().getData().get(0).getNama());
-                                binding.tvAlamat.setText(response.body().getData().get(0).getAlamat());
-                                binding.tvTarif.setText(response.body().getData().get(0).getRlTarif().getKode() + " - " + response.body().getData().get(0).getRlTarif().getNmTarif());
-                                binding.tvKeteranganLain.setText("Keterangan " + response.body().getData().get(0).getRlTrbaca().get(0).getPeriode());
-                                binding.tvKtLain.setText(response.body().getData().get(0).getRlTrbaca().get(0).getKt());
-                                binding.tvMerekMeter.setText(response.body().getData().get(0).getMerek() + " / " + response.body().getData().get(0).getNomormtr());
-                                binding.tvLalu.setText(lalu + " - " + response.body().getData().get(0).getRlTrbaca().get(0).getM3() + "m3");
-                                binding.tvStatusData.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
+                        if (!response.isSuccessful() || response.body() == null) {
+                            showLoading(false);
+                            Toast.makeText(BendelPembacaKhususActivity.this, "Data pelanggan gagal dimuat (HTTP " + response.code() + ")", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        CheckPelangganRootModel body = response.body();
+                        if (body.getData() == null || body.getData().isEmpty()) {
+                            showLoading(false);
+                            Toast.makeText(BendelPembacaKhususActivity.this, "Data pelanggan kosong", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        try {
+                            getLocationAdress();
+                            showLoading(false);
+
+                            if (body.getData().get(0).getRlDtBacaPeriodeSkrg() == null
+                                    || body.getData().get(0).getRlDtBacaPeriodeSkrg().isEmpty()
+                                    || body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca() == null) {
+                                Toast.makeText(BendelPembacaKhususActivity.this, "Struktur data pelanggan tidak valid", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            String kode = body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getKode();
+                            if (kode != null && kode.contains("0")) {
+                                if (body.getData().get(0).getRlTrbaca() != null
+                                        && !body.getData().get(0).getRlTrbaca().isEmpty()) {
+                                    lalu = body.getData().get(0).getRlTrbaca().get(0).getKini();
+                                }
+
+                                binding.tvNolangg.setText(body.getData().get(0).getNolangg());
+                                binding.tvPeriode.setText(body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
+                                binding.tvDism.setText(body.getData().get(0).getDism());
+                                binding.tvNama.setText(body.getData().get(0).getNama());
+                                binding.tvAlamat.setText(body.getData().get(0).getAlamat());
+
+                                if (body.getData().get(0).getRlTarif() != null) {
+                                    binding.tvTarif.setText(body.getData().get(0).getRlTarif().getKode() + " - " + body.getData().get(0).getRlTarif().getNmTarif());
+                                }
+
+                                if (body.getData().get(0).getRlTrbaca() != null && !body.getData().get(0).getRlTrbaca().isEmpty()) {
+                                    binding.tvKeteranganLain.setText("Keterangan " + body.getData().get(0).getRlTrbaca().get(0).getPeriode());
+                                    binding.tvKtLain.setText(body.getData().get(0).getRlTrbaca().get(0).getKt());
+                                    binding.tvLalu.setText(lalu + " - " + body.getData().get(0).getRlTrbaca().get(0).getM3() + "m3");
+                                }
+
+                                binding.tvMerekMeter.setText(body.getData().get(0).getMerek() + " / " + body.getData().get(0).getNomormtr());
+                                binding.tvStatusData.setText(body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
                             } else {
                                 binding.svContainer.setVisibility(View.GONE);
                                 binding.btnSimpanData.setVisibility(View.GONE);
                                 binding.btnSimpanLanjut.setVisibility(View.GONE);
-                                binding.tvSystemUpdate.setText(response.body().getData().get(0).getNolangg() +
+                                binding.tvSystemUpdate.setText(body.getData().get(0).getNolangg() +
                                         " Pelanggan sudah dalam status " +
-                                        response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
+                                        body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlDtBaca().getNmStatus());
                             }
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error parsing data pelanggan", e);
+                            Toast.makeText(BendelPembacaKhususActivity.this, "Gagal memproses data pelanggan", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<CheckPelangganRootModel> call, Throwable t) {
+                        if (isActivityGone()) return;
                         Toast.makeText(BendelPembacaKhususActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
-                        progressDialog.cancel();
+                        showLoading(false);
                     }
                 });
     }
 
     private void getLocationAdress() {
         mFusedLocation = LocationServices.getFusedLocationProviderClient(BendelPembacaKhususActivity.this);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            showLoading(false);
             return;
         }
         mFusedLocation.getLastLocation().addOnSuccessListener(this, location -> {
-            if (location != null) {
-                // Do it all with location
-                Log.d("My Current location", "Lat : " + location.getLatitude() + " Long : " + location.getLongitude());
-                // Display in Toast
-                lati = location.getLatitude();
-                longi = location.getLongitude();
-                Log.d(TAG, "lat: " + lati);
-                Log.d(TAG, "long: " + longi);
-
-                if (lati == null || longi == null || lati == 0.0 || longi == 0.0) {
-                    Toast.makeText(this, "Alamat tidak ditemukan", Toast.LENGTH_SHORT).show();
-                    progressDialog.cancel();
-                } else {
-                    Geocoder geocoder;
-                    List<Address> addressList = new ArrayList<>();
-                    if (addressList == null) {
-                        Log.d("debug", "adress list : Null");
-                    } else {
-                        geocoder = new Geocoder(BendelPembacaKhususActivity.this, Locale.getDefault());
-                        try {
-                            Log.d(TAG, "Lati: " + lati + " longi" + longi);
-                            addressList = geocoder.getFromLocation(lati, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-                            address_gps = addressList.get(0).getAddressLine(0); // If any additional address_gps line present than only, check with max available address_gps lines by getMaxAddressLineIndex()
-                            Log.d(TAG, "onCreate: " + address_gps);
-                            if (address_gps == null) {
-                                address_gps = "alamat";
-                            }
-                            city = addressList.get(0).getLocality();
-                            if (city == null) {
-                                city = "kota";
-                            }
-                            state = addressList.get(0).getAdminArea();
-                            if (state == null) {
-                                state = ".";
-                            }
-                            country = addressList.get(0).getCountryName();
-                            if (country == null) {
-                                country = "negara";
-                            }
-                            postalCode = addressList.get(0).getPostalCode();
-                            if (postalCode == null) {
-                                postalCode = "postal";
-                            }
-                            knownName = addressList.get(0).getFeatureName(); // Only if available else return NULL
-                            if (knownName == null) {
-                                knownName = "name";
-                            }
-                            Log.d("debug", "loc: " + address_gps + " ");
-
-                            binding.tvLatlongAdress.setText(address_gps + " | lat: " + lati + " longi: " + longi + "\nTekan disini untuk refresh Lokasi");
-                            Log.d(TAG, "getLocationAdress:  " + codeSimpandanLanjut);
-
-                            if (codeSimpandanLanjut == null) {
-                                progressDialog.cancel();
-                            }
-
-                        } catch (IOException e) {
-                            progressDialog.cancel();
-                            e.printStackTrace();
-                        }
-                    }
-                }
+            if (location == null) {
+                showLoading(false);
+                Toast.makeText(this, "Lokasi belum tersedia. Pastikan GPS aktif.", Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
+            lati = location.getLatitude();
+            longi = location.getLongitude();
 
+            if (lati == null || longi == null || lati == 0.0 || longi == 0.0) {
+                Toast.makeText(this, "Alamat tidak ditemukan", Toast.LENGTH_SHORT).show();
+                showLoading(false);
+                return;
+            }
+
+            resolveAddressAsync(lati, longi);
+        }).addOnFailureListener(e -> {
+            if (isActivityGone()) return;
+            showLoading(false);
+            Toast.makeText(this, "Gagal mengambil lokasi: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void resolveAddressAsync(final double latitude, final double longitude) {
+        if (geocoderExecutor == null || geocoderExecutor.isShutdown()) return;
+
+        geocoderExecutor.execute(() -> {
+            List<Address> addressList = null;
+            try {
+                Geocoder geocoder = new Geocoder(BendelPembacaKhususActivity.this, Locale.getDefault());
+                addressList = geocoder.getFromLocation(latitude, longitude, 1);
+            } catch (Exception ignored) {}
+
+            final List<Address> finalList = addressList;
+            mainHandler.post(() -> {
+                if (isActivityGone()) return;
+
+                if (finalList == null || finalList.isEmpty()) {
+                    showLoading(false);
+                    Toast.makeText(BendelPembacaKhususActivity.this, "Gagal resolve alamat", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Address a = finalList.get(0);
+                address_gps = a.getAddressLine(0);
+                if (address_gps == null) address_gps = "alamat";
+                city = a.getLocality();   if (city == null) city = "kota";
+                state = a.getAdminArea(); if (state == null) state = ".";
+                country = a.getCountryName(); if (country == null) country = "negara";
+                postalCode = a.getPostalCode(); if (postalCode == null) postalCode = "postal";
+                knownName = a.getFeatureName(); if (knownName == null) knownName = "name";
+
+                binding.tvLatlongAdress.setText(address_gps + " | lat: " + latitude + " longi: " + longitude + "\nTekan disini untuk refresh Lokasi");
+
+                if (codeSimpandanLanjut == null) {
+                    showLoading(false);
+                }
+            });
+        });
     }
 
     @Override
@@ -621,68 +753,59 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
         easyImage.handleActivityResult(requestCode, resultCode, data, BendelPembacaKhususActivity.this, new EasyImage.Callbacks() {
             @Override
             public void onMediaFilesPicked(@NonNull MediaFile[] mediaFiles, @NonNull MediaSource mediaSource) {
+                if (mediaFiles == null || mediaFiles.length == 0 || mediaFiles[0] == null || mediaFiles[0].getFile() == null) return;
 
                 UUID randomUUID = UUID.randomUUID();
                 String randomUUIDString = randomUUID.toString();
-
                 Date currentTime = Calendar.getInstance().getTime();
                 String timestamp = String.valueOf(currentTime.getTime());
 
-                if (reqCodeFoto.contains("1")){
+                if (reqCodeFoto != null && reqCodeFoto.contains("1")) {
                     try {
                         compressedImageFileFotoMeter = new Compressor(BendelPembacaKhususActivity.this)
-                                .setMaxHeight(400)
-                                .setMaxWidth(400)
-                                .setQuality(50)
+                                .setMaxHeight(400).setMaxWidth(400).setQuality(50)
                                 .setCompressFormat(Bitmap.CompressFormat.WEBP)
                                 .setDestinationDirectoryPath(mediaFiles[0].getFile().getParent())
                                 .compressToFile(mediaFiles[0].getFile(), "comp1_PM_" + nolangg + "_" + timestamp + "_" + randomUUIDString + "_" + mediaFiles[0].getFile().getName());
                         showImageWatermark(compressedImageFileFotoMeter.getPath(), binding.photoViewLeft);
-//                    Log.d(TAG, "onMediaFilesPicked: " + compressedImageFileFotoMeter.getPath());
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        Log.e(TAG, "Compressor foto meter gagal", e);
+                        Toast.makeText(BendelPembacaKhususActivity.this, "Gagal mengompres foto meter", Toast.LENGTH_SHORT).show();
                     }
-                } else if (reqCodeFoto.contains("2")){
+                } else if (reqCodeFoto != null && reqCodeFoto.contains("2")) {
                     try {
                         compressedImageFileManometer = new Compressor(BendelPembacaKhususActivity.this)
-                                .setMaxHeight(400)
-                                .setMaxWidth(400)
-                                .setQuality(50)
+                                .setMaxHeight(400).setMaxWidth(400).setQuality(50)
                                 .setCompressFormat(Bitmap.CompressFormat.WEBP)
                                 .setDestinationDirectoryPath(mediaFiles[0].getFile().getParent())
                                 .compressToFile(mediaFiles[0].getFile(), "comp1_PM_MM_" + nolangg + "_" + timestamp + "_" + randomUUIDString + "_" + mediaFiles[0].getFile().getName());
-                        Glide.with(BendelPembacaKhususActivity.this).load(compressedImageFileManometer.getPath()).error(com.pdamkotasmg.goodday.R.drawable.image_not_available).into(binding.photoViewRight);
-//                        showImageWatermark(compressedImageFileManometer.getPath(), binding.photoViewRight);
-//                    Log.d(TAG, "onMediaFilesPicked: " + compressedImageFileFotoMeter.getPath());
+                        Glide.with(BendelPembacaKhususActivity.this).load(compressedImageFileManometer.getPath())
+                                .error(com.pdamkotasmg.goodday.R.drawable.image_not_available).into(binding.photoViewRight);
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        Log.e(TAG, "Compressor foto manometer gagal", e);
+                        Toast.makeText(BendelPembacaKhususActivity.this, "Gagal mengompres foto manometer", Toast.LENGTH_SHORT).show();
                     }
                 }
 
-                // TODO Cepret,Compress. delete file/image
-                // TODO delete image
-//                    Config.deleteFiles(mediaFiles[0].getFile().getPath(), "ImageOriginal");
                 rootPathImage = mediaFiles[0].getFile().getParent();
             }
 
-            @Override
-            public void onImagePickerError(@NonNull Throwable throwable, @NonNull MediaSource mediaSource) {
+            @Override public void onImagePickerError(@NonNull Throwable throwable, @NonNull MediaSource mediaSource) {
+                Log.e(TAG, "EasyImage error", throwable);
             }
 
-            @Override
-            public void onCanceled(@NonNull MediaSource mediaSource) {
-            }
+            @Override public void onCanceled(@NonNull MediaSource mediaSource) {}
         });
     }
 
     private void showImageWatermark(String file, PhotoView photoView) {
         Glide.with(BendelPembacaKhususActivity.this)
-                .asBitmap()
-                .load(file)
+                .asBitmap().load(file)
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                        // Create a Canvas to draw the watermark on the image
+                        if (isActivityGone()) return;
+
                         Canvas canvas = new Canvas(resource);
                         canvas.drawBitmap(resource, 0, 0, null);
 
@@ -692,99 +815,55 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
                                 nolangg + " (" + npp + ")"
                         };
 
-                        // Customize the watermark text with address and latitude/longitude
-                        String watermarkText = address_gps + ",\nLat: " + lati + "Long: " + longi + "\n" + nolangg + "\n" + npp;
-
-                        // Calculate the position to place the watermark (you can adjust this)
-                        int xPosition = 20; // X-coordinate
-                        int yPosition = 50; // Y-coordinate
-
-                        // Membuat objek Paint
+                        int yPosition = 50;
                         Paint paint = new Paint();
-
-                        // Mengatur warna teks
-                        paint.setColor(Color.WHITE); // Ganti dengan warna yang Anda inginkan
-
-                        // Mengatur ukuran font
-                        paint.setTextSize(20); // Ganti dengan ukuran font yang Anda inginkan
-
-                        // Mengatur gaya teks (contoh: bold)
+                        paint.setColor(Color.WHITE);
+                        paint.setTextSize(20);
                         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-
-                        // Mengatur antialiasing (opsional)
                         paint.setAntiAlias(true);
 
-                        // Add the watermark text to the image
                         int textHeight = (int) (paint.descent() - paint.ascent());
-                        int lineSpacing = 10; // Adjust the line spacing as needed
+                        int lineSpacing = 10;
                         for (String line : lines) {
                             canvas.drawText(line, 20, yPosition, paint);
-                            yPosition += textHeight + lineSpacing; // Move to the next line
+                            yPosition += textHeight + lineSpacing;
                         }
 
-                        // Set the final image with watermark to the ImageView
-//                        binding.ivCamera.setImageBitmap(resource);
                         photoView.setImageBitmap(resource);
-//                        Glide.with(BendelPembacaActivity.this).load(resource).error(com.pdamkotasmg.goodday.R.drawable.image_not_available).into(binding.photoView);
-
                         saveImageToExternalStorage(resource, "wtrmk_PM_");
                     }
 
-                    @Override
-                    public void onLoadCleared(Drawable placeholder) {
-                    }
+                    @Override public void onLoadCleared(Drawable placeholder) {}
                 });
     }
 
     private void saveImageToExternalStorage(Bitmap bitmap, String nameFile) {
-        // Define the directory where the image will be saved
+        if (bitmap == null) return;
         File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "/PDAM/PEMBACA-METER/FOTO");
         directory.mkdirs();
 
-        // Generate a random UUID
         UUID randomUUID = UUID.randomUUID();
-        // Convert the UUID to a string
         String randomUUIDString = randomUUID.toString();
-
-        // Create a unique file name based on the current date
         String fileName = nameFile + randomUUIDString + ".jpg";
-
-        // Create the destination file
         File destination = new File(directory, fileName);
 
         try {
-            // Create an OutputStream to write the image to the destination file
             OutputStream outputStream = new FileOutputStream(destination);
             bitmap.compress(Bitmap.CompressFormat.WEBP, 50, outputStream);
             outputStream.flush();
             outputStream.close();
 
-            // Add the image to the MediaStore (gallery)
-//            MediaStore.Images.Media.insertImage(getContentResolver(), destination.getAbsolutePath(), fileName, null);
-
             pathImageWatermark = destination.getParent();
             compressedImageFileFotoMeter = new File(destination.getPath());
 
             compressedImageFileFotoMeter = new Compressor(BendelPembacaKhususActivity.this)
-                    .setMaxHeight(400)
-                    .setMaxWidth(400)
-                    .setQuality(50)
+                    .setMaxHeight(400).setMaxWidth(400).setQuality(50)
                     .setCompressFormat(Bitmap.CompressFormat.WEBP)
                     .setDestinationDirectoryPath(rootPathImage)
                     .compressToFile(destination, "comp2_PM_" + nameFile + "_" + randomUUIDString + ".jpg");
-
-            // Show a toast message indicating that the image has been saved
-            Log.d(TAG, "Compresseddd: " + nameFile + " > " + compressedImageFileFotoMeter);
-//            Log.d(TAG, "ImageOriginal: " + rootPathImage);
-            Log.d(TAG, "ImageImageSavedWatrermark: " + nameFile + " > " + pathImageWatermark);
-
-            int file_size = Integer.parseInt(String.valueOf(compressedImageFileFotoMeter.length() / 1024));
-            Log.d(TAG, "Size Image : " + nameFile + " > " + file_size + " kb");
-//            Toast.makeText(this, "Size Image : " + nameFile + " > " + file_size + " kb", Toast.LENGTH_LONG).show();
-//            Toast.makeText(this, "Image saved" + nameFile + " > ", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Failed to save image " + nameFile + " > ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Failed to save image " + nameFile, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -817,7 +896,7 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
         btnClose.setOnClickListener(view -> {
             bottomSheetDialogResultDataBacaan.dismiss();
             BendelPembacaKhususActivity.this.finish();
-            progressDialog.cancel();
+            showLoading(false);
         });
 
         divEdit.setOnClickListener(view -> {
@@ -833,111 +912,117 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
         });
 
         ivRefreshData.setOnClickListener(view -> {
-            progressDialog.show();
+            showLoading(true);
             getDataHasilBacaan(tvTutupDialog, tvResultMsgServer, tvNolangg, tvDism, tvNama, tvPeriode, tvAlamat, tvStatusMeter, tvTarif, tvKtLain, tvMerekMeter, tvKini, tvManometer, tvPetugas, photoView);
         });
 
         getDataHasilBacaan(tvTutupDialog, tvResultMsgServer, tvNolangg, tvDism, tvNama, tvPeriode, tvAlamat, tvStatusMeter, tvTarif, tvKtLain, tvMerekMeter, tvKini, tvManometer, tvPetugas, photoView);
-
         bottomSheetDialogResultDataBacaan.show();
-
-
     }
 
-    private void getDataHasilBacaan(
-            TextView tvTutupDialog,
-            TextView tvResultMsgServer,
-            TextView tvNolangg,
-            TextView tvDism,
-            TextView tvNama,
-            TextView tvPeriode,
-            TextView tvAlamat,
-            TextView tvStatusMeter,
-            TextView tvTarif,
-            TextView tvKtLain,
-            TextView tvMerekMeter,
-            TextView tvKini,
-            TextView tvManometer,
-            TextView tvPetugas,
-            PhotoView photoView
-
-    ) {
+    private void getDataHasilBacaan(TextView tvTutupDialog, TextView tvResultMsgServer, TextView tvNolangg,
+                                    TextView tvDism, TextView tvNama, TextView tvPeriode, TextView tvAlamat,
+                                    TextView tvStatusMeter, TextView tvTarif, TextView tvKtLain, TextView tvMerekMeter,
+                                    TextView tvKini, TextView tvManometer, TextView tvPetugas, PhotoView photoView) {
         ApiService apiService = ApiConfig.getApiServiceGWAPI(BendelPembacaKhususActivity.this);
         apiService.getPelanggan(token, nolangg)
                 .enqueue(new Callback<CheckPelangganRootModel>() {
                     @Override
                     public void onResponse(Call<CheckPelangganRootModel> call, Response<CheckPelangganRootModel> response) {
-                        if (response.isSuccessful()) {
-                            progressDialog.cancel();
-                            tvTutupDialog.setText("Hasil Bacaan " + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
-                            tvResultMsgServer.setText("Berhasil Disimpan " + response.body().getMessage());
-                            tvNolangg.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getNolangg());
-                            tvDism.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getDism());
-                            tvNama.setText(response.body().getData().get(0).getNama());
-                            tvPeriode.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
-                            tvAlamat.setText(response.body().getData().get(0).getAlamat());
-                            tvStatusMeter.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlStMeter().getStatus());
-                            tvTarif.setText(response.body().getData().get(0).getRlTarif().getNmTarif());
+                        if (isActivityGone()) return;
+                        showLoading(false);
 
-                            String keterangan = response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKt();
-                            if (keterangan == null) {
-                                keterangan = "-";
+                        if (!response.isSuccessful() || response.body() == null) {
+                            Toast.makeText(BendelPembacaKhususActivity.this, "bottomSheetSuksesSimpanData: Error (HTTP " + response.code() + ")", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        try {
+                            CheckPelangganRootModel body = response.body();
+                            if (body.getData() == null || body.getData().isEmpty()
+                                    || body.getData().get(0).getRlDtBacaPeriodeSkrg() == null
+                                    || body.getData().get(0).getRlDtBacaPeriodeSkrg().isEmpty()) {
+                                Toast.makeText(BendelPembacaKhususActivity.this, "Data bacaan tidak tersedia", Toast.LENGTH_SHORT).show();
+                                return;
                             }
-                            tvKtLain.setText(keterangan);
-                            tvMerekMeter.setText(response.body().getData().get(0).getMerek() + " - " + response.body().getData().get(0).getNomormtr());
-                            tvKini.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKini());
-                            tvManometer.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getManometer());
-                            tvPetugas.setText(response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPcEntry() + " - " + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getIpEntry());
-                            Glide.with(BendelPembacaKhususActivity.this).load(Config.BASE_URL_IMAGE_HANDLER + response.body().getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
-                                    .error(com.pdamkotasmg.goodday.R.drawable.image_not_available)
-                                    .override(512, 512)
-                                    .into(photoView);
 
-                        } else {
-                            progressDialog.cancel();
-                            Toast.makeText(BendelPembacaKhususActivity.this, "bottomSheetSuksesSimpanData: Error", Toast.LENGTH_SHORT).show();
+                            tvTutupDialog.setText("Hasil Bacaan " + body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
+                            tvResultMsgServer.setText("Berhasil Disimpan " + body.getMessage());
+                            tvNolangg.setText(body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getNolangg());
+                            tvDism.setText(body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getDism());
+                            tvNama.setText(body.getData().get(0).getNama());
+                            tvPeriode.setText(body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPeriode());
+                            tvAlamat.setText(body.getData().get(0).getAlamat());
+
+                            if (body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlStMeter() != null) {
+                                tvStatusMeter.setText(body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getRlStMeter().getStatus());
+                            }
+                            if (body.getData().get(0).getRlTarif() != null) {
+                                tvTarif.setText(body.getData().get(0).getRlTarif().getNmTarif());
+                            }
+
+                            String keterangan = body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKt();
+                            if (keterangan == null) keterangan = "-";
+                            tvKtLain.setText(keterangan);
+                            tvMerekMeter.setText(body.getData().get(0).getMerek() + " - " + body.getData().get(0).getNomormtr());
+                            tvKini.setText(body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getKini());
+                            tvManometer.setText(body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getManometer());
+                            tvPetugas.setText(body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getPcEntry() + " - " + body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getIpEntry());
+
+                            Glide.with(BendelPembacaKhususActivity.this)
+                                    .load(Config.BASE_URL_IMAGE_HANDLER + body.getData().get(0).getRlDtBacaPeriodeSkrg().get(0).getFile())
+                                    .error(com.pdamkotasmg.goodday.R.drawable.image_not_available)
+                                    .override(512, 512).into(photoView);
+                        } catch (Exception e) {
+                            Log.e(TAG, "getDataHasilBacaan parsing error", e);
+                            Toast.makeText(BendelPembacaKhususActivity.this, "Gagal memproses hasil bacaan", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<CheckPelangganRootModel> call, Throwable t) {
-                        progressDialog.cancel();
+                        if (isActivityGone()) return;
+                        showLoading(false);
                         tvResultMsgServer.setText("Failure: Gagal mengambil data");
                         Toast.makeText(BendelPembacaKhususActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
-
                     }
                 });
     }
 
-
-    // TODO Mulai Function Rotate
-
     private Bitmap getRotatedBitmap(ImageView imageView, float rotationAngle) {
-        // Ambil Drawable dari ImageView
         Drawable drawable = imageView.getDrawable();
-        if (drawable == null) {
-            return null; // Pastikan drawable tidak null
-        }
-
-        // Konversi Drawable menjadi Bitmap
+        if (drawable == null) return null;
+        if (!(drawable instanceof BitmapDrawable)) return null;
         Bitmap originalBitmap = ((BitmapDrawable) drawable).getBitmap();
+        if (originalBitmap == null) return null;
 
-        // Buat Matrix untuk rotasi
         Matrix matrix = new Matrix();
         matrix.postRotate(rotationAngle);
 
-        // Terapkan rotasi pada Bitmap
-        return Bitmap.createBitmap(
-                originalBitmap,
-                0,
-                0,
-                originalBitmap.getWidth(),
-                originalBitmap.getHeight(),
-                matrix,
-                true
-        );
+        return Bitmap.createBitmap(originalBitmap, 0, 0,
+                originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
     }
 
-    // TODO Selesai Function Rotate
+    private void showLoading(boolean show) {
+        if (binding == null) return;
+        binding.progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
 
+    private boolean isActivityGone() {
+        return isFinishing() || isDestroyed() || binding == null;
+    }
+
+    private int safeParseInt(String s, int fallback) {
+        if (s == null) return fallback;
+        try { return Integer.parseInt(s.trim()); }
+        catch (NumberFormatException e) { return fallback; }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (geocoderExecutor != null && !geocoderExecutor.isShutdown()) {
+            geocoderExecutor.shutdownNow();
+        }
+        super.onDestroy();
+    }
 }

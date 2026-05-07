@@ -16,7 +16,7 @@ android {
         minSdk 23
         targetSdk 35
 
-        versionCode 58 // update playstore
+        versionCode 59 // update playstore
         versionName "1.1.1" // ini diganti
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -42,6 +42,12 @@ android {
         // Jika nanti upgrade ke AGP 8/Java 17, ganti ke VERSION_17
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+    }
+
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging true
+        }
     }
 
     // Dynamic Feature Modules
@@ -170,6 +176,11 @@ dependencies {
 
     // zoom image
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    def room_version = "2.6.1"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.work:work-runtime:2.9.1"
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'

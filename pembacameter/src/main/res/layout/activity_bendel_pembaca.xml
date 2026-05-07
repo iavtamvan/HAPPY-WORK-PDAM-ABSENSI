@@ -1,723 +1,827 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+  REDESIGN: Tampilan modernized & less-laggy.
+  - View hierarchy diratakan (flatten) untuk kurangi overdraw & lag saat scroll
+  - Grouping jadi card-card supaya rapi & mudah dibaca
+  - Placeholder foto pakai dashed border + ikon (lebih jelas "bisa diupload")
+  - Sticky bottom action bar
+  - Warna brand merah PDAM tetap dipakai tapi sebagai accent, bukan dominan
+  - SEMUA ID yang dipakai Java TIDAK DIUBAH:
+      iv_header_back_arrow, tv_header_judul, iv_header_info,
+      tv_latlong_adress, tv_nolangg, tv_dism, tv_nama, tv_periode, tv_alamat,
+      tv_tarif, tv_keterangan_lain, tv_kt_lain, tv_merek_meter, tv_lalu,
+      div_st_meter, tv_st_Meter, iv_camera, photoViewLeft, photoViewRight,
+      btn_rotate, edt_kini, tv_hitung_kubik, spn_status_meter, edt_manometer,
+      tv_status_data, edt_keterangan, tv_system_update, btn_simpan_data,
+      btn_simpan_lanjut, sv_container, progress_bar.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/white"
-    android:orientation="vertical"
+    android:background="#F5F6F8"
     tools:context="co.id.pdamkotasmg.ui.activity.bendel.BendelPembacaKhususActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+        <!-- =============== TOP APP BAR =============== -->
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/white"
+            android:elevation="2dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="4dp"
+            android:paddingEnd="12dp">
 
             <ImageView
                 android:id="@+id/iv_header_back_arrow"
-                android:layout_width="30dp"
-                android:layout_height="50dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Kembali"
+                android:padding="10dp"
                 android:src="@drawable/arrrow_left" />
 
             <TextView
                 android:id="@+id/tv_header_judul"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
                 android:fontFamily="@font/poppins"
-
-                android:gravity="left|center"
-                android:paddingLeft="10dp"
-                android:text="Judul"
+                android:text="Input Bacaan Khusus Bendel"
                 android:textColor="@color/black"
+                android:textSize="15sp"
                 android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="right">
 
             <ImageView
                 android:id="@+id/iv_header_info"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Riwayat"
+                android:padding="10dp"
                 android:src="@drawable/ic_history" />
 
         </LinearLayout>
-    </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/sv_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-
-        <LinearLayout
+        <!-- =============== SCROLLABLE CONTENT =============== -->
+        <ScrollView
+            android:id="@+id/sv_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingBottom="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingStart="12dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="12dp">
 
-                <androidx.cardview.widget.CardView
+                <!-- ===== Location card ===== -->
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
                     app:cardBackgroundColor="@color/greenGojek"
-                    app:cardCornerRadius="8dp">
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:layout_marginRight="4dp"
-                        android:orientation="vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="Lokasi"
+                            android:src="@drawable/ic_maps" />
+
+                        <TextView
+                            android:id="@+id/tv_latlong_adress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/poppins"
+                            android:lineSpacingExtra="2dp"
+                            android:text="Lokasi: | Lat: - Long: "
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ===== Customer info card ===== -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <!-- Baris: ID Pelanggan | DISM -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="ID Pelanggan"
+                                    android:textColor="#6B7280"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_nolangg"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="-"
+                                    android:textColor="@color/red"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="DISM"
+                                    android:textColor="#6B7280"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_dism"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="-"
+                                    android:textColor="@color/black"
+                                    android:textSize="13sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- Baris: Nama | Periode -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="Nama"
+                                    android:textColor="#6B7280"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_nama"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="-"
+                                    android:textColor="@color/black"
+                                    android:textSize="13sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="Periode"
+                                    android:textColor="#6B7280"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_periode"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="-"
+                                    android:textColor="@color/black"
+                                    android:textSize="13sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- Alamat (full width) -->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="Alamat"
+                            android:textColor="#6B7280"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tv_alamat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins"
+                            android:text="-"
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="12dp"
+                            android:background="#EDEFF3" />
+
+                        <!-- Baris: Tarif | Keterangan periode -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="Tarif"
+                                    android:textColor="#6B7280"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_tarif"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="-"
+                                    android:textColor="@color/black"
+                                    android:textSize="13sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_keterangan_lain"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="Keterangan"
+                                    android:textColor="#6B7280"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_kt_lain"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="-"
+                                    android:textColor="@color/black"
+                                    android:textSize="13sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- Baris: Merek Meter | Lalu -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="Merek Meter"
+                                    android:textColor="#6B7280"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_merek_meter"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="-"
+                                    android:textColor="@color/black"
+                                    android:textSize="13sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="Lalu"
+                                    android:textColor="#6B7280"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_lalu"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="-"
+                                    android:textColor="@color/black"
+                                    android:textSize="13sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- Status Meter display (optional, visibility gone by default) -->
+                        <LinearLayout
+                            android:id="@+id/div_st_meter"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Status Meter"
+                                android:textColor="#6B7280"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/tv_st_Meter"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="-"
+                                android:textColor="@color/orangeGreatDay"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ===== Photo card ===== -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <ImageView
-                                android:layout_width="20dp"
+                            <TextView
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/ic_maps" />
+                                android:layout_weight="1"
+                                android:fontFamily="@font/poppins"
+                                android:text="Foto Meter"
+                                android:textColor="#6B7280"
+                                android:textSize="10sp" />
 
                             <TextView
-                                android:id="@+id/tv_latlong_adress"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="4dp"
-                                android:layout_marginRight="4dp"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/poppins"
-                                android:gravity="center|left"
-                                android:text="Lokasi: | Lat: - Long: "
-                                android:textColor="@color/white"
-                                android:textSize="10dp"
-                                android:textStyle="bold" />
+                                android:text="Foto Manometer"
+                                android:textColor="#6B7280"
+                                android:visibility="gone"
+                                android:textSize="10sp" />
 
                         </LinearLayout>
-                    </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
+                        <!-- Hidden legacy ImageView (dipertahankan untuk kompatibilitas Java) -->
+                        <ImageView
+                            android:id="@+id/iv_camera"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="ID Pelanggan: "
-                            android:textColor="@color/grey"
-                            android:textSize="10dp" />
-
-                        <TextView
-                            android:id="@+id/tv_nolangg"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="-"
-                            android:textColor="@color/red"
-                            android:textSize="13dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="DISM: "
-                            android:textColor="@color/grey"
-                            android:textSize="10dp" />
-
-                        <TextView
-                            android:id="@+id/tv_dism"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="-"
-                            android:textColor="@color/black"
-                            android:textSize="13dp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="Nama: "
-                            android:textColor="@color/grey"
-                            android:textSize="10dp" />
-
-                        <TextView
-                            android:id="@+id/tv_nama"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="-"
-                            android:textColor="@color/black"
-                            android:textSize="13dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="Periode: "
-                            android:textColor="@color/grey"
-                            android:textSize="10dp" />
-
-                        <TextView
-                            android:id="@+id/tv_periode"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="-"
-                            android:textColor="@color/black"
-                            android:textSize="13dp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="left"
-                    android:text="Alamat: "
-                    android:textColor="@color/grey"
-                    android:textSize="10dp" />
-
-                <TextView
-                    android:id="@+id/tv_alamat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:text="-"
-                    android:textColor="@color/black"
-                    android:textSize="13dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="left"
-                            android:text="Tarif: "
-                            android:textColor="@color/grey"
-                            android:textSize="10dp" />
-
-                        <TextView
-                            android:id="@+id/tv_tarif"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="-"
-                            android:textColor="@color/black"
-                            android:textSize="13dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_keterangan_lain"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="left"
-                            android:text="Keterangan : "
-                            android:textColor="@color/grey"
-                            android:textSize="10dp" />
-
-                        <TextView
-                            android:id="@+id/tv_kt_lain"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="-"
-                            android:textColor="@color/black"
-                            android:textSize="13dp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="left"
-                            android:text="Merek Meter: "
-                            android:textColor="@color/grey"
-                            android:textSize="10dp" />
-
-                        <TextView
-                            android:id="@+id/tv_merek_meter"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="-"
-                            android:textColor="@color/black"
-                            android:textSize="13dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="left"
-                            android:text="Lalu: "
-                            android:textColor="@color/grey"
-                            android:textSize="10dp" />
-
-                        <TextView
-                            android:id="@+id/tv_lalu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="-"
-                            android:textColor="@color/black"
-                            android:textSize="13dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/div_st_meter"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="left"
-                            android:text="Status Meter: "
-                            android:textColor="@color/grey"
-                            android:textSize="10dp" />
-
-                        <TextView
-                            android:id="@+id/tv_st_Meter"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="-"
-                            android:textColor="@color/orangeGreatDay"
-                            android:textSize="13dp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <!-- TextView untuk "Foto Meter:" -->
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="start"
-                        android:maxLines="1"
-                        android:text="Foto Meter:"
-                        android:textColor="@color/grey"
-                        android:textSize="10sp" />
-
-                    <!-- TextView untuk "Foto Manometer:" -->
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="start"
-                        android:maxLines="1"
-                        android:text="Foto Manometer:"
-                        android:textColor="@color/grey"
-                        android:textSize="10sp" />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/iv_camera"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:src="@drawable/image_not_available"
-                    android:visibility="gone" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:padding="3dp">
-
-                    <!-- CardView Kiri -->
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_margin="2dp"
-                        app:cardCornerRadius="4dp"
-                        app:cardElevation="4dp">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <com.github.chrisbanes.photoview.PhotoView
-                                android:id="@+id/photoViewLeft"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/image_not_available"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <ImageView
-                                android:id="@+id/btn_rotate"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginBottom="4dp"
-                                android:layout_marginLeft="4dp"
-                                android:src="@drawable/refresh_green"
-                                app:layout_constraintBottom_toBottomOf="@+id/photoViewLeft"
-                                app:layout_constraintStart_toStartOf="@+id/photoViewLeft"
-                                tools:ignore="MissingConstraints" />
-
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- CardView Kanan -->
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:visibility="gone"
-                        android:layout_margin="2dp"
-                        app:cardCornerRadius="4dp"
-                        app:cardElevation="4dp">
-
-                        <com.github.chrisbanes.photoview.PhotoView
-                            android:id="@+id/photoViewRight"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/image_not_available" />
-                    </androidx.cardview.widget.CardView>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:text="Kini: "
-                            android:textColor="@color/grey"
-                            android:textSize="10dp" />
+                            android:layout_height="250dp"
+                            android:src="@drawable/image_not_available"
+                            android:visibility="gone" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"
+                            android:layout_marginTop="6dp"
+                            android:orientation="horizontal">
+
+                            <!-- Foto Meter (kiri) -->
+                            <FrameLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="6dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_photo_placeholder">
+
+                                <com.github.chrisbanes.photoview.PhotoView
+                                    android:id="@+id/photoViewLeft"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="Foto meter"
+                                    android:src="@drawable/image_not_available" />
+
+                                <ImageView
+                                    android:id="@+id/btn_rotate"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_gravity="start|bottom"
+                                    android:layout_margin="6dp"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:contentDescription="Rotate"
+                                    android:src="@drawable/refresh_green" />
+
+                            </FrameLayout>
+
+                            <!-- Foto Manometer (kanan) -->
+                            <FrameLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="6dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_photo_placeholder"
+                                android:visibility="gone">
+
+                                <com.github.chrisbanes.photoview.PhotoView
+                                    android:id="@+id/photoViewRight"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="Foto manometer"
+                                    android:src="@drawable/image_not_available" />
+
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ===== Input card ===== -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <!-- Kini input + hitung kubik -->
+                        <TextView
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins"
+                            android:text="Kini"
+                            android:textColor="#6B7280"
+                            android:textSize="10sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center_vertical"
                             android:orientation="horizontal">
 
                             <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_width="140dp"
+                                android:layout_height="wrap_content"
+                                app:boxBackgroundColor="@color/white"
+                                app:boxCornerRadiusBottomEnd="10dp"
+                                app:boxCornerRadiusBottomStart="10dp"
+                                app:boxCornerRadiusTopEnd="10dp"
+                                app:boxCornerRadiusTopStart="10dp"
+                                app:hintEnabled="false"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
-                                <EditText
+                                <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edt_kini"
-                                    android:layout_width="100dp"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/white"
+                                    android:fontFamily="@font/poppins"
                                     android:inputType="number"
-                                    android:maxLines="1" />
+                                    android:maxLines="1"
+                                    android:textSize="14sp" />
+
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <TextView
                                 android:id="@+id/tv_hitung_kubik"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="15dp"
-                                android:gravity="left|center"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:fontFamily="@font/poppins"
                                 android:text=" m3"
                                 android:textColor="@color/black"
-                                android:textSize="13dp" />
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+
                         </LinearLayout>
-                    </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
+                        <!-- Status Meter spinner -->
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="left"
-                            android:text="Status Meter: "
-                            android:textColor="@color/grey"
-                            android:textSize="10dp" />
+                            android:layout_marginTop="14dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="Status Meter"
+                            android:textColor="#6B7280"
+                            android:textSize="10sp" />
 
                         <com.jaredrummler.materialspinner.MaterialSpinner
                             android:id="@+id/spn_status_meter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
                             android:text="-- Pilih --" />
 
-                    </LinearLayout>
+                        <!-- Manometer + Status Data (2 kolom) -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:orientation="horizontal">
 
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="6dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
-                </LinearLayout>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="Manometer"
+                                    android:textColor="#6B7280"
+                                    android:textSize="10sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    app:boxBackgroundColor="@color/white"
+                                    app:boxCornerRadiusBottomEnd="10dp"
+                                    app:boxCornerRadiusBottomStart="10dp"
+                                    app:boxCornerRadiusTopEnd="10dp"
+                                    app:boxCornerRadiusTopStart="10dp"
+                                    app:hintEnabled="false"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/edt_manometer"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins"
+                                        android:imeActionLabel="Selesai"
+                                        android:inputType="numberDecimal"
+                                        android:maxLines="1"
+                                        android:textSize="14sp" />
 
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="Status Data"
+                                    android:textColor="#6B7280"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_status_data"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="48dp"
+                                    android:layout_marginTop="4dp"
+                                    android:fontFamily="@font/poppins"
+                                    android:gravity="start|center_vertical"
+                                    android:text="-"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- Keterangan -->
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-                            android:gravity="left|top"
-                            android:text="Manometer: "
-                            android:textColor="@color/grey"
-                            android:textSize="10dp" />
+                            android:layout_marginTop="14dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="Keterangan"
+                            android:textColor="#6B7280"
+                            android:textSize="10sp" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1">
+                            android:layout_marginTop="4dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxCornerRadiusBottomEnd="10dp"
+                            app:boxCornerRadiusBottomStart="10dp"
+                            app:boxCornerRadiusTopEnd="10dp"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:hintEnabled="false"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
-                            <EditText
-                                android:id="@+id/edt_manometer"
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_keterangan"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@color/white"
+                                android:fontFamily="@font/poppins"
                                 android:imeActionLabel="Selesai"
-                                android:inputType="numberDecimal"
-                                android:maxLines="1" />
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:textSize="14sp" />
+
                         </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="4dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="left"
-                            android:text="Status Data: "
-                            android:textColor="@color/grey"
-                            android:textSize="10dp" />
-
-                        <TextView
-                            android:id="@+id/tv_status_data"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="left|center"
-                            android:text="-"
-                            android:textColor="@color/black"
-                            android:textSize="13dp" />
 
                     </LinearLayout>
 
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_weight="1"
-                        android:gravity="left|top"
-                        android:text="Keterangan: "
-                        android:textColor="@color/grey"
-                        android:textSize="10dp" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <EditText
-                            android:id="@+id/edt_keterangan"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            android:imeActionLabel="Selesai"
-                            android:inputType="text"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 
+        </ScrollView>
 
-        </LinearLayout>
-    </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_system_update"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:gravity="left|center_vertical"
-            android:text="Pastikan semua data benar - System v.0.9"
-            android:textColor="@color/dash_v2_bluedark"
-            android:textSize="11dp"
-            android:textStyle="italic" />
-
+        <!-- =============== STICKY BOTTOM =============== -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@color/white"
+            android:elevation="8dp"
+            android:orientation="vertical"
+            android:paddingStart="12dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="12dp">
 
-            <Button
-                android:id="@+id/btn_simpan_data"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_margin="4dp"
-                android:layout_weight="1"
-                android:text="Simpan Data"
-                android:textSize="14dp"
-                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_system_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:gravity="start"
+                android:text="Pastikan semua data benar - System v.0.9"
+                android:textColor="@color/dash_v2_bluedark"
+                android:textSize="11sp"
+                android:textStyle="italic" />
 
-            <Button
-                android:id="@+id/btn_simpan_lanjut"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_margin="4dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/greenGojek"
-                android:text="Simpan dan Lanjut"
-                android:textSize="14dp"
-                android:textStyle="bold"
-                android:visibility="gone" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_simpan_data"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/poppins"
+                    android:text="Simpan Data"
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/redPortal"
+                    app:cornerRadius="12dp"
+                    app:elevation="0dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_simpan_lanjut"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/poppins"
+                    android:text="Simpan dan Lanjut"
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:backgroundTint="@color/greenGojek"
+                    app:cornerRadius="12dp"
+                    app:elevation="0dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+    <!-- ProgressBar overlay -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/redPortal"
+        android:visibility="gone" />
+
+</FrameLayout>

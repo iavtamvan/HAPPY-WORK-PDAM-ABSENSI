@@ -16,23 +16,29 @@ public class InputDataActivity extends AppCompatActivity {
 
     private ActivityInputDataBinding binding;
     private String codeInputData;
-
     private String cabang;
     private String periode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         binding = ActivityInputDataBinding.inflate(getLayoutInflater());
-        View root = binding.getRoot();
-        setContentView(root);
+        setContentView(binding.getRoot());
 
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         cabang = sharedPreferences.getString(Config.SHARED_CABANG, "");
         periode = sharedPreferences.getString(Config.SHARED_PERIODE, "");
 
+        // FIX: null-guard untuk codeInputData. Sebelumnya kalau intent extra null,
+        // `codeInputData.contains("1")` akan langsung NullPointerException -> CRASH.
         codeInputData = getIntent().getStringExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA);
+        if (codeInputData == null) {
+            Toast.makeText(this, "Data tidak valid, silakan buka ulang dari menu utama", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
         if (codeInputData.contains("1")) {
             binding.divInputBendel.setVisibility(View.VISIBLE);
             binding.tvBendelCabang.setText(cabang);
@@ -40,8 +46,10 @@ public class InputDataActivity extends AppCompatActivity {
         }
 
         binding.btnBukaData.setOnClickListener(view -> {
+            // codeInputData sudah pasti tidak null di sini (dicek di onCreate)
             if (codeInputData.contains("1")) {
-                String codeBendel = binding.edtBendel.getText().toString();
+                // FIX: tambah .trim() supaya spasi tidak lolos validasi
+                String codeBendel = binding.edtBendel.getText().toString().trim();
                 if (codeBendel.isEmpty()) {
                     Toast.makeText(this, "Isi bendel", Toast.LENGTH_SHORT).show();
                 } else {
@@ -51,6 +59,5 @@ public class InputDataActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 }
