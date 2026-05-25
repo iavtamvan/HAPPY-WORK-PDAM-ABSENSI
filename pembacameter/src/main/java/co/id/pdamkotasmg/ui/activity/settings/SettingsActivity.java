@@ -8,13 +8,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import co.id.pdamkotasmg.local.db.AppDatabase;
 import co.id.pdamkotasmg.pembacameter.databinding.ActivitySettingsOfflineBinding;
+import co.id.pdamkotasmg.ui.fragment.SettingsFragment;
 import co.id.pdamkotasmg.ui.fragment.settings.PendingDataFragment;
-import co.id.pdamkotasmg.ui.fragment.settings.SettingsFragment;
 
 /**
  * SettingsActivity refactored ke struktur Tab (Fase 4).

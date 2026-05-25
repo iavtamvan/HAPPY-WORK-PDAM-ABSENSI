@@ -25,19 +25,15 @@ import co.id.pdamkotasmg.local.db.entity.PendingFotoEntity;
 /**
  * Master Room database.
  *
- * VERSI 2 (Fase 3):
- *   - cached_bendel
+ * VERSI 3 (Fase 6):
+ *   - cached_bendel (+ field lastSyncAt)
  *   - cached_pelanggan_bendel
- *   - pending_bacaan        (BARU)
- *   - pending_foto          (BARU)
+ *   - pending_bacaan
+ *   - pending_foto
  *
- * Migration v1 → v2: tambah 2 tabel baru via SQL CREATE TABLE.
- *
- * THREADING — semua DAO method TIDAK boleh dipanggil di main thread.
- *   Pakai databaseExecutor:
- *     AppDatabase.databaseExecutor.execute(() -> {
- *         AppDatabase.getInstance(ctx).pendingBacaanDao().insert(entity);
- *     });
+ * Migration history:
+ *   v1 → v2 : tambah pending_bacaan + pending_foto (Fase 3)
+ *   v2 → v3 : tambah field lastSyncAt di cached_bendel (Fase 6)
  */
 @Database(
         entities = {
@@ -46,7 +42,7 @@ import co.id.pdamkotasmg.local.db.entity.PendingFotoEntity;
                 PendingBacaanEntity.class,
                 PendingFotoEntity.class
         },
-        version = 2,
+        version = 3,
         exportSchema = false
 )
 @TypeConverters({Converters.class})
@@ -72,7 +68,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                     context.getApplicationContext(),
                                     AppDatabase.class,
                                     DB_NAME)
-                            .addMigrations(MIGRATION_1_2)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                             .fallbackToDestructiveMigration()
                             .addCallback(seedCallback)
                             .build();
@@ -83,12 +79,11 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     /**
-     * Migration v1 → v2: tambah tabel pending_bacaan dan pending_foto.
+     * Migration v1 → v2: tambah tabel pending_bacaan dan pending_foto (Fase 3).
      */
     public static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            // Tabel pending_bacaan
             database.execSQL(
                     "CREATE TABLE IF NOT EXISTS `pending_bacaan` (" +
                             "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
@@ -123,7 +118,6 @@ public abstract class AppDatabase extends RoomDatabase {
                     "CREATE INDEX IF NOT EXISTS `index_pending_bacaan_jenis` ON `pending_bacaan` (`jenis`)"
             );
 
-            // Tabel pending_foto
             database.execSQL(
                     "CREATE TABLE IF NOT EXISTS `pending_foto` (" +
                             "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
@@ -143,6 +137,21 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
+    /**
+     * Migration v2 → v3: tambah field lastSyncAt di cached_bendel (Fase 6).
+     *
+     * Cache lama tetap dipertahankan, default lastSyncAt = 0
+     * (akan auto-update saat user buka bendel & fetch dari API).
+     */
+    public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL(
+                    "ALTER TABLE `cached_bendel` ADD COLUMN `lastSyncAt` INTEGER NOT NULL DEFAULT 0"
+            );
+        }
+    };
+
     private static final Callback seedCallback = new Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
@@ -153,7 +162,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public void clearAllData() {
         runInTransaction(() -> {
-            pendingFotoDao().deleteByPendingBacaan(0L); // no-op kalau tidak ada
+            pendingFotoDao().deleteByPendingBacaan(0L);
             cachedPelangganBendelDao().deleteAll();
             cachedBendelDao().deleteAll();
         });

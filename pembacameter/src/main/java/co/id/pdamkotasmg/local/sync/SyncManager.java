@@ -163,6 +163,9 @@ public class SyncManager {
 
                 if (successCount > 0) {
                     settings.markSyncSuccessNow();
+                    // Fase 6: Cleanup bendel-bendel yang sudah kosong setelah sync sukses
+                    co.id.pdamkotasmg.local.repository.BendelRepository
+                            .cleanupEmptyBendelsStatic(appContext);
                 }
             } catch (Exception e) {
                 Log.e(TAG, "Sync fatal error", e);
@@ -212,6 +215,9 @@ public class SyncManager {
                             1, 1, pending.nolangg, 1, 0));
                     deliverProgress(callback, SyncProgressEvent.allDone(1, 1, 0));
                     settings.markSyncSuccessNow();
+                    // Fase 6: Cleanup bendel-bendel yang sudah kosong setelah sync sukses
+                    co.id.pdamkotasmg.local.repository.BendelRepository
+                            .cleanupEmptyBendelsStatic(appContext);
                 } else {
                     deliverProgress(callback, SyncProgressEvent.allDone(1, 0, 1));
                 }

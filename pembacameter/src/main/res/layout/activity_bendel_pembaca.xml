@@ -206,7 +206,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="5dp"
                             android:orientation="horizontal">
 
                             <LinearLayout
@@ -265,7 +265,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="5dp"
                             android:fontFamily="@font/poppins"
                             android:text="Alamat"
                             android:textColor="#6B7280"
@@ -284,14 +284,14 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="8dp"
                             android:background="#EDEFF3" />
 
                         <!-- Baris: Tarif | Keterangan periode -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="5dp"
                             android:orientation="horizontal">
 
                             <LinearLayout
@@ -351,7 +351,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="5dp"
                             android:orientation="horizontal">
 
                             <LinearLayout
@@ -571,90 +571,20 @@
                             android:textSize="10sp" />
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="140dp"
-                                android:layout_height="wrap_content"
-                                app:boxBackgroundColor="@color/white"
-                                app:boxCornerRadiusBottomEnd="10dp"
-                                app:boxCornerRadiusBottomStart="10dp"
-                                app:boxCornerRadiusTopEnd="10dp"
-                                app:boxCornerRadiusTopStart="10dp"
-                                app:hintEnabled="false"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/edt_kini"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins"
-                                    android:inputType="number"
-                                    android:maxLines="1"
-                                    android:textSize="14sp" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <TextView
-                                android:id="@+id/tv_hitung_kubik"
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
-                                android:fontFamily="@font/poppins"
-                                android:text=" m3"
-                                android:textColor="@color/black"
-                                android:textSize="13sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                        <!-- Status Meter spinner -->
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="14dp"
-                            android:fontFamily="@font/poppins"
-                            android:text="Status Meter"
-                            android:textColor="#6B7280"
-                            android:textSize="10sp" />
-
-                        <com.jaredrummler.materialspinner.MaterialSpinner
-                            android:id="@+id/spn_status_meter"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="-- Pilih --" />
-
-                        <!-- Manometer + Status Data (2 kolom) -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="14dp"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="6dp"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins"
-                                    android:text="Manometer"
-                                    android:textColor="#6B7280"
-                                    android:textSize="10sp" />
+                                android:orientation="horizontal">
 
                                 <com.google.android.material.textfield.TextInputLayout
-                                    android:layout_width="match_parent"
+                                    android:layout_width="140dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp"
                                     app:boxBackgroundColor="@color/white"
                                     app:boxCornerRadiusBottomEnd="10dp"
                                     app:boxCornerRadiusBottomStart="10dp"
@@ -664,24 +594,32 @@
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                                     <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/edt_manometer"
+                                        android:id="@+id/edt_kini"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppins"
-                                        android:imeActionLabel="Selesai"
-                                        android:inputType="numberDecimal"
+                                        android:inputType="number"
                                         android:maxLines="1"
                                         android:textSize="14sp" />
 
                                 </com.google.android.material.textfield.TextInputLayout>
 
+                                <TextView
+                                    android:id="@+id/tv_hitung_kubik"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="12dp"
+                                    android:fontFamily="@font/poppins"
+                                    android:text=" m3"
+                                    android:textColor="@color/black"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
-                                android:layout_weight="1"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -706,39 +644,102 @@
 
                             </LinearLayout>
 
+
+
+
                         </LinearLayout>
 
-                        <!-- Keterangan -->
-                        <TextView
+                        <!-- Status Meter + Keterangan (2 kolom) -->
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="14dp"
-                            android:fontFamily="@font/poppins"
-                            android:text="Keterangan"
-                            android:textColor="#6B7280"
-                            android:textSize="10sp" />
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
+                            <!-- Kolom kiri: Status Meter -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="6dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="Status Meter"
+                                    android:textColor="#6B7280"
+                                    android:textSize="10sp" />
+
+                                <com.jaredrummler.materialspinner.MaterialSpinner
+                                    android:id="@+id/spn_status_meter"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="-- Pilih --" />
+
+                            </LinearLayout>
+
+                            <!-- Kolom kanan: Keterangan -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="Keterangan"
+                                    android:textColor="#6B7280"
+                                    android:textSize="10sp" />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    app:boxBackgroundColor="@color/white"
+                                    app:boxCornerRadiusBottomEnd="10dp"
+                                    app:boxCornerRadiusBottomStart="10dp"
+                                    app:boxCornerRadiusTopEnd="10dp"
+                                    app:boxCornerRadiusTopStart="10dp"
+                                    app:hintEnabled="false"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/edt_keterangan"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins"
+                                        android:imeActionLabel="Selesai"
+                                        android:inputType="text"
+                                        android:maxLines="1"
+                                        android:textSize="14sp" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- Manometer (hidden — dipertahankan supaya findViewById tidak null) -->
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            app:boxBackgroundColor="@color/white"
-                            app:boxCornerRadiusBottomEnd="10dp"
-                            app:boxCornerRadiusBottomStart="10dp"
-                            app:boxCornerRadiusTopEnd="10dp"
-                            app:boxCornerRadiusTopStart="10dp"
+                            android:visibility="gone"
                             app:hintEnabled="false"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_keterangan"
+                                android:id="@+id/edt_manometer"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins"
-                                android:imeActionLabel="Selesai"
-                                android:inputType="text"
-                                android:maxLines="1"
-                                android:textSize="14sp" />
+                                android:inputType="numberDecimal"
+                                android:maxLines="1" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 

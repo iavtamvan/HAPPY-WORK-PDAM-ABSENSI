@@ -16,20 +16,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.id.pdamkotasmg.adapter.BendelAdapter;
+import co.id.pdamkotasmg.local.NetworkUtil;
 import co.id.pdamkotasmg.local.repository.BendelRepository;
 import co.id.pdamkotasmg.local.repository.DataResult;
 import co.id.pdamkotasmg.model.bendel.DataItem;
 import co.id.pdamkotasmg.pembacameter.databinding.ActivityBendelDataBinding;
 
 /**
- * BendelDataActivity (Fase 2 patched).
+ * BendelDataActivity (Fase 6 — Cache-first dengan manual sync).
  *
- * List bendel SKIP toggle Mode Offline. Behavior:
- *   - ada koneksi → data segar dari API
- *   - no koneksi  → fallback cache + banner "Tidak ada koneksi"
+ * Behavior:
+ *   - Pertama kali buka bendel (cache kosong) → auto fetch API
+ *   - Buka lagi (cache ada) → tampil dari cache, no API hit
+ *   - Banner "Disinkron X jam/hari lalu" tampil di header
+ *   - User tap FAB Sync → force refresh dari API + cleanup empty bendels
+ *   - Pull-to-refresh = sama dengan FAB Sync (force refresh)
  *
- * Toggle Mode Offline TIDAK pengaruhi screen ini. Toggle khusus untuk
- * input bacaan (lihat BendelPembacaKhususActivity).
+ * Toggle Mode Offline TIDAK pengaruhi screen ini.
  */
 public class BendelDataActivity extends AppCompatActivity {
     private final String TAG = "debug";
@@ -74,22 +77,49 @@ public class BendelDataActivity extends AppCompatActivity {
                 com.pdamkotasmg.goodday.R.color.redPortal,
                 com.pdamkotasmg.goodday.R.color.greenGojek
         );
-        binding.swipeRefresh.setOnRefreshListener(this::getBendel);
+        binding.swipeRefresh.setOnRefreshListener(() -> getBendel(true));
 
-        binding.btnCari.setOnClickListener(view -> getBendel());
+        binding.btnCari.setOnClickListener(view -> getBendel(false));
+
+        binding.fabSync.setOnClickListener(view -> {
+            if (!NetworkUtil.isOnline(BendelDataActivity.this)) {
+                Toast.makeText(BendelDataActivity.this,
+                        "Tidak ada koneksi internet untuk sync",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Toast.makeText(BendelDataActivity.this,
+                    "Mengambil data terbaru dari server...",
+                    Toast.LENGTH_SHORT).show();
+            getBendel(true);
+        });
+
+        // Banner Sync Sekarang inline button
+        binding.btnBannerSync.setOnClickListener(view -> {
+            if (!NetworkUtil.isOnline(BendelDataActivity.this)) {
+                Toast.makeText(BendelDataActivity.this,
+                        "Tidak ada koneksi internet untuk sync",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            getBendel(true);
+        });
 
         bendelRepository = new BendelRepository(this);
-        getBendel();
+        getBendel(false); // pertama kali: cache-first
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.d(TAG, "onRestart: refresh data bendel");
-        getBendel();
+        Log.d(TAG, "onRestart: refresh data bendel from cache");
+        getBendel(false); // refresh tampilan dari cache (yang sudah ter-update via markAsRead)
     }
 
-    private void getBendel() {
+    /**
+     * @param forceRefresh true = paksa hit API (FAB / pull-to-refresh / banner button)
+     */
+    private void getBendel(boolean forceRefresh) {
         if (currentRequest != null && !currentRequest.isCancelled()) {
             currentRequest.cancel();
         }
@@ -97,7 +127,8 @@ public class BendelDataActivity extends AppCompatActivity {
         showLoading(true);
 
         String nolanggInput = binding.edtNolangg.getText().toString().trim();
-        currentRequest = bendelRepository.getBendel(token, codeBendel, nolanggInput, this::onBendelResult);
+        currentRequest = bendelRepository.getBendel(token, codeBendel, nolanggInput,
+                forceRefresh, this::onBendelResult);
     }
 
     private void onBendelResult(DataResult result) {
@@ -108,7 +139,7 @@ public class BendelDataActivity extends AppCompatActivity {
         if (!result.isSuccess()) {
             Toast.makeText(this,
                     result.getErrorMessage() != null ? result.getErrorMessage() : Config.ERROR_MSG,
-                    Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_LONG).show();
             showEmptyState(dataItems.isEmpty());
             updateBanner(result);
             return;
@@ -122,7 +153,7 @@ public class BendelDataActivity extends AppCompatActivity {
             showEmptyState(true);
 
             String msg = result.isFromCache()
-                    ? "Tidak ada data di cache lokal"
+                    ? "Tidak ada data tersisa di cache lokal"
                     : "Tidak dalam wilayah pembacaan Anda";
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         } else {
@@ -137,23 +168,61 @@ public class BendelDataActivity extends AppCompatActivity {
     }
 
     /**
-     * Banner kuning: hanya tampil saat data dari cache (= no koneksi fallback).
+     * Update banner di top sesuai sumber data:
+     *   - dari NETWORK (baru di-sync) → no banner
+     *   - dari CACHE → banner kuning "Disinkron X jam/hari lalu - [Sync sekarang]"
      */
     private void updateBanner(DataResult result) {
         if (binding == null) return;
-        boolean showBanner = result.isFromCache();
-        binding.bannerOffline.setVisibility(showBanner ? View.VISIBLE : View.GONE);
 
-        if (showBanner) {
-            binding.tvBannerOffline.setText(
-                    "Tidak ada koneksi — data ditampilkan dari cache terakhir");
+        if (result.isFromCache() && result.lastSyncAt > 0) {
+            String relTime = formatRelativeTime(result.lastSyncAt);
+            binding.bannerOffline.setVisibility(View.VISIBLE);
+            binding.tvBannerOffline.setText("Disinkron " + relTime + " — tap Sync untuk refresh");
+            binding.btnBannerSync.setVisibility(View.VISIBLE);
+        } else if (result.isFromCache()) {
+            // Cache lama tanpa timestamp (migration v2→v3)
+            binding.bannerOffline.setVisibility(View.VISIBLE);
+            binding.tvBannerOffline.setText("Data dari cache lokal — tap Sync untuk refresh");
+            binding.btnBannerSync.setVisibility(View.VISIBLE);
+        } else {
+            binding.bannerOffline.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * Format timestamp jadi "X menit/jam/hari lalu".
+     */
+    private static String formatRelativeTime(long timestamp) {
+        if (timestamp <= 0) return "tidak diketahui";
+
+        long now = System.currentTimeMillis();
+        long diffMs = now - timestamp;
+
+        if (diffMs < 0) return "baru saja";
+
+        long minutes = diffMs / (60 * 1000);
+        if (minutes < 1) return "baru saja";
+        if (minutes < 60) return minutes + " menit lalu";
+
+        long hours = minutes / 60;
+        if (hours < 24) return hours + " jam lalu";
+
+        long days = hours / 24;
+        if (days < 7) return days + " hari lalu";
+
+        long weeks = days / 7;
+        if (weeks < 4) return weeks + " minggu lalu";
+
+        long months = days / 30;
+        return months + " bulan lalu";
     }
 
     private void showLoading(boolean show) {
         if (binding == null) return;
         binding.progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
         binding.btnCari.setEnabled(!show);
+        binding.fabSync.setEnabled(!show);
         if (!show && binding.swipeRefresh.isRefreshing()) {
             binding.swipeRefresh.setRefreshing(false);
         }

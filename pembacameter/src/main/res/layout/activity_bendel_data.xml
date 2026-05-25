@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  v4 (Patch Fase 2):
-  - chip_offline DIHAPUS — toggle Mode Offline tidak pengaruhi screen ini
-  - banner_offline tetap, tampil hanya saat fallback cache (no koneksi)
+  v5 (Fase 6):
+  - Banner "Disinkron X jam lalu" + tombol [Sync sekarang] inline
+  - FAB Sync di pojok kanan bawah (fab_sync)
+  - Tetap pertahankan ID layout existing supaya BendelAdapter & Activity tidak break
 
-  ID lama tetap utuh (tv_bendel, edt_nolangg, btn_cari, tv_total_data_bendel,
-  swipe_refresh, rv, tv_empty_state, progress_bar, banner_offline, tv_banner_offline).
+  ID baru:
+    btn_banner_sync   - Button kecil di banner kuning
+    fab_sync          - FloatingActionButton di pojok kanan bawah
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -117,57 +119,84 @@
 
         </LinearLayout>
 
-        <!-- Banner cache fallback -->
+        <!-- Banner cache info dengan tombol Sync inline -->
         <LinearLayout
             android:id="@+id/banner_offline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="12dp"
             android:background="@drawable/bg_banner_offline"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="10dp"
-            android:visibility="gone">
+            android:padding="10dp">
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginStart="2dp"
-                android:src="@drawable/ic_info_orange" />
-
-            <TextView
-                android:id="@+id/tv_banner_offline"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="2dp"
+                    android:src="@drawable/ic_info_orange" />
+
+                <TextView
+                    android:id="@+id/tv_banner_offline"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/poppins"
+                    android:lineSpacingExtra="1dp"
+                    android:text="Disinkron 2 jam lalu"
+                    android:textColor="#78350F"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_banner_sync"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="6dp"
+                    android:fontFamily="@font/poppins"
+                    android:minWidth="72dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="Sync"
+                    android:textAllCaps="false"
+                    android:textColor="#78350F"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:cornerRadius="16dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_total_data_bendel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="4dp"
+                we
+                android:background="@drawable/bg_pill_counter"
                 android:fontFamily="@font/poppins"
-                android:lineSpacingExtra="1dp"
-                android:text="Tidak ada koneksi — data ditampilkan dari cache terakhir"
-                android:textColor="#78350F"
-                android:textSize="11sp"
+                android:paddingStart="14dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="6dp"
+                android:text="Data : 0 Pelanggan"
+                android:textColor="#374151"
+                android:textSize="12sp"
                 android:textStyle="bold" />
+
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_total_data_bendel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/bg_pill_counter"
-            android:fontFamily="@font/poppins"
-            android:paddingStart="14dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="14dp"
-            android:paddingBottom="6dp"
-            android:text="Data : 0 Pelanggan"
-            android:textColor="#374151"
-            android:textSize="12sp"
-            android:textStyle="bold" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -188,7 +217,7 @@
                     android:paddingStart="8dp"
                     android:paddingTop="8dp"
                     android:paddingEnd="8dp"
-                    android:paddingBottom="16dp"
+                    android:paddingBottom="96dp"
                     tools:listitem="@layout/item_list_bendel" />
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -225,7 +254,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/poppins"
                     android:gravity="center"
-                    android:text="Tarik ke bawah untuk refresh, atau periksa\nkoneksi &amp; data bendel Anda"
+                    android:text="Tarik ke bawah, tekan FAB Sync,\natau periksa koneksi &amp; bendel Anda"
                     android:textColor="#9CA3AF"
                     android:textSize="12sp" />
 
@@ -234,6 +263,20 @@
         </FrameLayout>
 
     </LinearLayout>
+
+    <!-- FAB Sync -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_sync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="Sync data"
+        android:src="@android:drawable/stat_sys_upload"
+        app:backgroundTint="@color/redPortal"
+        app:elevation="6dp"
+        app:tint="@color/white" />
 
     <ProgressBar
         android:id="@+id/progress_bar"

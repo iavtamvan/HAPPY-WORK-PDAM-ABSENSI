@@ -1,16 +1,15 @@
-package co.id.pdamkotasmg.ui.fragment.settings;
+package co.id.pdamkotasmg.ui.fragment;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -32,12 +31,12 @@ import co.id.pdamkotasmg.pembacameter.databinding.FragmentSettingsBinding;
 
 /**
  * Fragment untuk konten Settings.
- *
+ * <p>
  * Fase 5 additions:
- *   - Dropdown frekuensi auto-sync
- *   - Switch "Hanya WiFi"
- *   - Toggle Auto Sync sekarang benar-benar schedule WorkManager
- *   - Runtime permission POST_NOTIFICATIONS untuk Android 13+
+ * - Dropdown frekuensi auto-sync
+ * - Switch "Hanya WiFi"
+ * - Toggle Auto Sync sekarang benar-benar schedule WorkManager
+ * - Runtime permission POST_NOTIFICATIONS untuk Android 13+
  */
 public class SettingsFragment extends Fragment {
 
@@ -50,22 +49,18 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        notifPermissionLauncher = registerForActivityResult(
-                new ActivityResultContracts.RequestPermission(),
-                granted -> {
-                    if (!granted && binding != null) {
-                        // User decline — toggle balik OFF, kasih tahu
-                        binding.switchAutoSync.setChecked(false);
-                        showPermissionDeniedDialog();
-                    }
-                });
+        notifPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
+            if (!granted && binding != null) {
+                // User decline — toggle balik OFF, kasih tahu
+                binding.switchAutoSync.setChecked(false);
+                showPermissionDeniedDialog();
+            }
+        });
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -76,6 +71,7 @@ public class SettingsFragment extends Fragment {
         settings = SettingsManager.getInstance(requireContext());
 
         setupOfflineToggle();
+        setupAutoCleanupToggle();
         setupAutoSyncToggle();
         setupAutoSyncDetails();
         refreshConnectionStatus();
@@ -105,14 +101,20 @@ public class SettingsFragment extends Fragment {
     private void updateOfflineModeDescription(boolean enabled) {
         if (binding == null) return;
         if (enabled) {
-            binding.tvOfflineModeDesc.setText(
-                    "Aktif — bacaan akan disimpan di HP saat ditekan tombol Simpan.\n" +
-                            "Buka tab \"Data Pending\" untuk mengirim data ke server.");
+            binding.tvOfflineModeDesc.setText("Aktif — bacaan akan disimpan di HP saat ditekan tombol Simpan.\n" + "Buka tab \"Data Pending\" untuk mengirim data ke server.");
         } else {
-            binding.tvOfflineModeDesc.setText(
-                    "Nonaktif — input bacaan langsung dikirim ke server " +
-                            "(butuh koneksi internet saat menyimpan).");
+            binding.tvOfflineModeDesc.setText("Nonaktif — input bacaan langsung dikirim ke server " + "(butuh koneksi internet saat menyimpan).");
         }
+    }
+
+    // ============== AUTO-CLEANUP CACHE ==============
+
+    private void setupAutoCleanupToggle() {
+        if (binding == null) return;
+        binding.switchAutoCleanup.setChecked(settings.isAutoCleanupCacheEnabled());
+        binding.switchAutoCleanup.setOnCheckedChangeListener((btn, isChecked) -> {
+            settings.setAutoCleanupCacheEnabled(isChecked);
+        });
     }
 
     // ============== AUTO SYNC ==============
@@ -152,10 +154,7 @@ public class SettingsFragment extends Fragment {
 
     private void setupAutoSyncDetails() {
         // Spinner dropdown frekuensi
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                requireContext(),
-                android.R.layout.simple_spinner_item,
-                SettingsManager.INTERVAL_CHOICES_LABEL);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, SettingsManager.INTERVAL_CHOICES_LABEL);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerInterval.setAdapter(adapter);
         binding.spinnerInterval.setSelection(settings.getAutoSyncIntervalChoiceIndex(), false);
@@ -169,12 +168,14 @@ public class SettingsFragment extends Fragment {
                     settings.setAutoSyncIntervalMinutes(newInterval);
                     // Re-schedule kalau auto-sync sedang aktif
                     if (settings.isAutoSyncEnabled()) {
-                        SyncScheduler.enableAutoSync(
-                                requireContext(), newInterval, settings.isAutoSyncWifiOnly());
+                        SyncScheduler.enableAutoSync(requireContext(), newInterval, settings.isAutoSyncWifiOnly());
                     }
                 }
             }
-            @Override public void onNothingSelected(AdapterView<?> parent) {}
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
         // Switch WiFi only
@@ -183,8 +184,7 @@ public class SettingsFragment extends Fragment {
             settings.setAutoSyncWifiOnly(isChecked);
             // Re-schedule kalau aktif
             if (settings.isAutoSyncEnabled()) {
-                SyncScheduler.enableAutoSync(
-                        requireContext(), settings.getAutoSyncIntervalMinutes(), isChecked);
+                SyncScheduler.enableAutoSync(requireContext(), settings.getAutoSyncIntervalMinutes(), isChecked);
             }
         });
     }
@@ -200,9 +200,7 @@ public class SettingsFragment extends Fragment {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             return true; // Android < 13 tidak butuh
         }
-        return ContextCompat.checkSelfPermission(
-                requireContext(), Manifest.permission.POST_NOTIFICATIONS)
-                == PackageManager.PERMISSION_GRANTED;
+        return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestNotifPermission() {
@@ -215,12 +213,7 @@ public class SettingsFragment extends Fragment {
     }
 
     private void showPermissionDeniedDialog() {
-        new AlertDialog.Builder(requireContext())
-                .setTitle("Izin Notifikasi Diperlukan")
-                .setMessage("Auto-sync butuh izin notifikasi untuk memberi tahu Anda hasil sync di background. " +
-                        "Anda bisa aktifkan lagi nanti dari Pengaturan aplikasi.")
-                .setPositiveButton("OK", null)
-                .show();
+        new AlertDialog.Builder(requireContext()).setTitle("Izin Notifikasi Diperlukan").setMessage("Auto-sync butuh izin notifikasi untuk memberi tahu Anda hasil sync di background. " + "Anda bisa aktifkan lagi nanti dari Pengaturan aplikasi.").setPositiveButton("OK", null).show();
     }
 
     // ============== STATUS KONEKSI ==============
@@ -229,12 +222,8 @@ public class SettingsFragment extends Fragment {
         if (binding == null) return;
         String label = NetworkUtil.getConnectionLabel(requireContext());
         boolean online = !"Offline".equals(label);
-        binding.tvConnectionStatus.setText(online
-                ? "Terhubung (" + label + ")"
-                : "Tidak terhubung");
-        binding.ivConnectionDot.setBackgroundResource(online
-                ? R.drawable.bg_dot_green
-                : R.drawable.bg_dot_red);
+        binding.tvConnectionStatus.setText(online ? "Terhubung (" + label + ")" : "Tidak terhubung");
+        binding.ivConnectionDot.setBackgroundResource(online ? R.drawable.bg_dot_green : R.drawable.bg_dot_red);
     }
 
     private void refreshLastSync() {
@@ -243,8 +232,7 @@ public class SettingsFragment extends Fragment {
         if (ts <= 0) {
             binding.tvLastSync.setText("Belum pernah sync");
         } else {
-            String formatted = new SimpleDateFormat("dd MMM yyyy, HH:mm",
-                    Locale.getDefault()).format(new Date(ts));
+            String formatted = new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault()).format(new Date(ts));
             binding.tvLastSync.setText("Sync terakhir: " + formatted);
         }
     }

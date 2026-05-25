@@ -6,28 +6,35 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 /**
- * Cache satu bendel (header). Diisi dari API saat online,
- * dibaca dari local saat offline.
+ * Cached header bendel.
  *
- * Composite key bendel:
- *   - codeBendel (e.g. "2493")
- *   - periode (e.g. "202604")
- *   - cabang (e.g. "Barat")
+ * Composite ID: {codeBendel}_{periode}_{cabang}
+ * (1 codeBendel bisa beda data antar periode/cabang).
  *
- * Tapi untuk simplicity di Fase 1, kita pakai composite ID generated:
- *   "{codeBendel}_{periode}_{cabang}"
+ * SCHEMA NOTE:
+ *   Entity ini match schema asli yang sudah deployed di production:
+ *     - field: totalUnread, lastFetchedAt
+ *     - unique index pada (codeBendel, periode, cabang)
+ *
+ *   Field baru di Fase 6:
+ *     - lastSyncAt (ditambah via MIGRATION_2_3)
+ *
+ *   Why two timestamp fields (lastFetchedAt & lastSyncAt)?
+ *     - lastFetchedAt: existing dari schema lama, di-set tiap kali insert (saveToCache)
+ *     - lastSyncAt: dipakai oleh UI untuk display "Disinkron X jam lalu"
+ *     Keduanya di-set ke value yang sama saat ini, tapi dipisah supaya kalau
+ *     ke depan ada perbedaan semantic (mis. lastSyncAt untuk manual sync,
+ *     lastFetchedAt untuk auto refresh) bisa beda value.
  */
 @Entity(
         tableName = "cached_bendel",
-        indices = {
-                @Index(value = {"codeBendel", "periode", "cabang"}, unique = true)
-        }
+        indices = {@Index(value = {"codeBendel", "periode", "cabang"}, unique = true)}
 )
 public class CachedBendelEntity {
 
     @PrimaryKey
     @NonNull
-    public String id;  // composite: "{codeBendel}_{periode}_{cabang}"
+    public String id; // composite: codeBendel_periode_cabang
 
     @NonNull
     public String codeBendel;
@@ -38,22 +45,25 @@ public class CachedBendelEntity {
     @NonNull
     public String cabang;
 
-    /**
-     * Total pelanggan yang BELUM dibaca di bendel ini.
-     * Update setiap kali list di-refresh dari server.
-     */
     public int totalUnread;
 
     /**
-     * Timestamp (millis) terakhir cache ini di-refresh dari API.
-     * Untuk cek apakah cache stale.
+     * Timestamp millis kapan cache pertama kali dibuat / di-replace via saveToCache.
      */
     public long lastFetchedAt;
 
     /**
-     * Helper: build composite ID dari komponen.
+     * Timestamp millis kapan terakhir kali user lihat data segar dari API.
+     * Dipakai untuk display "Disinkron X jam lalu" di banner.
+     * Migration v2→v3 default 0; akan auto-update di saveToCache berikutnya.
      */
+    public long lastSyncAt;
+
     public static String buildId(String codeBendel, String periode, String cabang) {
-        return codeBendel + "_" + periode + "_" + cabang;
+        return safeStr(codeBendel) + "_" + safeStr(periode) + "_" + safeStr(cabang);
+    }
+
+    private static String safeStr(String s) {
+        return s == null ? "" : s;
     }
 }

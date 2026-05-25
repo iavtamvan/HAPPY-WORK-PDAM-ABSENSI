@@ -131,14 +131,16 @@ public class BendelMapper {
 
     // ============== BENDEL ENTITY HELPER ==============
 
-    public static CachedBendelEntity buildBendelEntity(String codeBendel, String periode, String cabang, int totalUnread) {
+    public static CachedBendelEntity buildBendelEntity(String codeBendel, String periode, String cabang, int unreadCount) {
         CachedBendelEntity bendel = new CachedBendelEntity();
         bendel.id = CachedBendelEntity.buildId(codeBendel, periode, cabang);
         bendel.codeBendel = nullSafe(codeBendel);
         bendel.periode = nullSafe(periode);
         bendel.cabang = nullSafe(cabang);
-        bendel.totalUnread = totalUnread;
-        bendel.lastFetchedAt = System.currentTimeMillis();
+        bendel.totalUnread = unreadCount;
+        long now = System.currentTimeMillis();
+        bendel.lastFetchedAt = now;
+        bendel.lastSyncAt = now;
         return bendel;
     }
 

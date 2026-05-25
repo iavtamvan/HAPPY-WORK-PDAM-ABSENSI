@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FCF9F8"
     android:overScrollMode="never"
-    tools:context="co.id.pdamkotasmg.ui.fragment.settings.SettingsFragment">
+    tools:context="co.id.pdamkotasmg.ui.fragment.SettingsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -148,6 +148,79 @@
                     android:text="Nonaktif — input bacaan langsung dikirim ke server."
                     android:textColor="#6B6770"
                     android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Auto-Cleanup Cache Bendel -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="1dp"
+            app:strokeColor="#E6E0E1"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins"
+                            android:text="Auto-Cleanup Cache Bendel"
+                            android:textColor="#1C1B1F"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="Hapus otomatis cache bendel yang sudah dibaca semua"
+                            android:textColor="#6B6770"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switch_auto_cleanup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/poppins"
+                    android:lineSpacingExtra="2dp"
+                    android:text="Berjalan saat tombol Sync ditekan atau auto-sync selesai. Hemat storage HP."
+                    android:textColor="#6B6770"
+                    android:textSize="11sp" />
 
             </LinearLayout>
 

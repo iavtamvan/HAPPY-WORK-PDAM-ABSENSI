@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import co.id.pdamkotasmg.api.ApiConfig;
 import co.id.pdamkotasmg.api.ApiService;
 import co.id.pdamkotasmg.local.NetworkUtil;
+import co.id.pdamkotasmg.local.SettingsManager;
 import co.id.pdamkotasmg.local.db.AppDatabase;
 import co.id.pdamkotasmg.local.db.entity.CachedBendelEntity;
 import co.id.pdamkotasmg.local.db.entity.CachedPelangganBendelEntity;
@@ -25,18 +26,17 @@ import retrofit2.Response;
 /**
  * Repository untuk data bendel.
  *
- * STRATEGI BARU (Fase 2 patch):
- *   List bendel SKIP toggle Mode Offline. Logikanya:
+ * STRATEGI v3 (Fase 6) — CACHE-FIRST DENGAN MANUAL SYNC:
  *
- *     ada koneksi  → SELALU hit API (data segar, banyak angka, sering berubah)
- *                    → cache di-overwrite dengan response terbaru
- *     no koneksi   → fallback ke cache + tampilkan banner "no koneksi"
+ *   getBendel(forceRefresh=false):
+ *     - Cache ada → tampilkan dari cache (no API hit)
+ *     - Cache kosong → auto fetch API
+ *     - No koneksi & cache kosong → error
  *
- *   Toggle Mode Offline TIDAK pengaruhi pembacaan list — toggle itu nanti
- *   khusus untuk INPUT bacaan (Fase 3+).
- *
- *   Alasan: petugas yang ada di kantor dan toggle Offline tetap mau lihat
- *   list yang akurat. Cache cuma untuk "darurat no signal", bukan default.
+ *   getBendel(forceRefresh=true):
+ *     - SELALU hit API (dipakai FAB Sync atau pull-to-refresh)
+ *     - Update cache + cleanup bendel kosong (kalau auto-cleanup ON)
+ *     - No koneksi → error
  */
 public class BendelRepository {
 
@@ -44,18 +44,17 @@ public class BendelRepository {
 
     private final Context appContext;
     private final AppDatabase db;
+    private final SettingsManager settings;
     private final Handler mainHandler;
 
     public BendelRepository(Context context) {
         this.appContext = context.getApplicationContext();
         this.db = AppDatabase.getInstance(appContext);
+        this.settings = SettingsManager.getInstance(appContext);
         this.mainHandler = new Handler(Looper.getMainLooper());
     }
 
     public interface ResultCallback {
-        /**
-         * Dipanggil sekali saat hasil siap. Selalu di main thread.
-         */
         void onResult(DataResult result);
     }
 
@@ -65,15 +64,11 @@ public class BendelRepository {
     }
 
     /**
-     * Ambil daftar pelanggan dalam satu bendel.
-     *
-     * @param token         access token
-     * @param codeBendel    kode bendel
-     * @param nolanggFilter optional filter nolangg
-     * @param callback      dipanggil sekali — di main thread
-     * @return Cancellable — Activity wajib cancel di onDestroy
+     * @param forceRefresh TRUE = paksa hit API (FAB Sync / pull-to-refresh),
+     *                     FALSE = cache-first
      */
-    public Cancellable getBendel(String token, String codeBendel, String nolanggFilter, ResultCallback callback) {
+    public Cancellable getBendel(String token, String codeBendel, String nolanggFilter,
+                                 boolean forceRefresh, ResultCallback callback) {
         String periode = appContext.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE)
                 .getString(Config.SHARED_PERIODE, "");
         String cabang = appContext.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE)
@@ -84,15 +79,44 @@ public class BendelRepository {
         AtomicBoolean cancelled = new AtomicBoolean(false);
         Call<BendelRootModel>[] currentCall = new Call[1];
 
-        // PATCH: list bendel skip toggle. Cek koneksi — kalau ada, ALWAYS hit API.
-        if (NetworkUtil.isOnline(appContext)) {
-            Log.d(TAG, "Online → hit API");
-            Call<BendelRootModel> call = fetchFromNetwork(token, codeBendel, nolanggFilter,
-                    bendelId, periode, cabang, cancelled, callback);
-            currentCall[0] = call;
+        if (forceRefresh) {
+            // ==== MODE 1: Force refresh (FAB Sync) ====
+            if (!NetworkUtil.isOnline(appContext)) {
+                deliverOnMain(callback, DataResult.error("Tidak ada koneksi internet", null));
+            } else {
+                Log.d(TAG, "Force refresh → hit API for " + bendelId);
+                Call<BendelRootModel> call = fetchFromNetwork(token, codeBendel, nolanggFilter,
+                        bendelId, periode, cabang, cancelled, callback);
+                currentCall[0] = call;
+            }
         } else {
-            Log.d(TAG, "No connection → fallback to cache");
-            loadFromCacheAsync(bendelId, nolanggFilter, cancelled, callback);
+            // ==== MODE 2: Cache-first ====
+            AppDatabase.databaseExecutor.execute(() -> {
+                if (cancelled.get()) return;
+
+                boolean hasCachedHeader = db.cachedBendelDao().exists(bendelId);
+
+                if (hasCachedHeader) {
+                    Log.d(TAG, "Cache HIT for " + bendelId + " → load from cache");
+                    loadFromCacheSync(bendelId, nolanggFilter, callback);
+                } else {
+                    if (!NetworkUtil.isOnline(appContext)) {
+                        Log.w(TAG, "Cache empty + no connection");
+                        deliverOnMain(callback, DataResult.error(
+                                "Tidak ada koneksi & belum ada data tersimpan untuk bendel ini.\n" +
+                                        "Coba lagi saat ada internet.",
+                                null));
+                        return;
+                    }
+                    Log.d(TAG, "Cache empty → auto fetch from API for " + bendelId);
+                    mainHandler.post(() -> {
+                        if (cancelled.get()) return;
+                        Call<BendelRootModel> call = fetchFromNetwork(token, codeBendel, nolanggFilter,
+                                bendelId, periode, cabang, cancelled, callback);
+                        currentCall[0] = call;
+                    });
+                }
+            });
         }
 
         return new Cancellable() {
@@ -109,6 +133,14 @@ public class BendelRepository {
                 return cancelled.get();
             }
         };
+    }
+
+    /**
+     * Backward compatibility — default cache-first.
+     */
+    public Cancellable getBendel(String token, String codeBendel, String nolanggFilter,
+                                 ResultCallback callback) {
+        return getBendel(token, codeBendel, nolanggFilter, false, callback);
     }
 
     // ============== NETWORK PATH ==============
@@ -128,12 +160,17 @@ public class BendelRepository {
                     final List<DataItem> items = response.body().getData();
 
                     if (items == null || items.isEmpty()) {
-                        deliverOnMain(callback, DataResult.fromNetwork(items));
+                        saveToCache(items, bendelId, codeBendel, periode, cabang);
+                        DataResult result = DataResult.fromNetwork(items);
+                        result.lastSyncAt = System.currentTimeMillis();
+                        deliverOnMain(callback, result);
                         return;
                     }
 
                     saveToCache(items, bendelId, codeBendel, periode, cabang);
-                    deliverOnMain(callback, DataResult.fromNetwork(items));
+                    DataResult result = DataResult.fromNetwork(items);
+                    result.lastSyncAt = System.currentTimeMillis();
+                    deliverOnMain(callback, result);
 
                 } else {
                     Log.w(TAG, "API non-success " + response.code() + " → fallback to cache");
@@ -156,30 +193,38 @@ public class BendelRepository {
 
     // ============== CACHE PATH ==============
 
+    private void loadFromCacheSync(String bendelId, String nolanggFilter, ResultCallback callback) {
+        try {
+            CachedBendelEntity header = db.cachedBendelDao().getById(bendelId);
+            long lastSyncAt = header != null ? header.lastSyncAt : 0;
+
+            List<CachedPelangganBendelEntity> entities;
+            if (nolanggFilter == null || nolanggFilter.trim().isEmpty()) {
+                entities = db.cachedPelangganBendelDao().getUnreadByBendel(bendelId);
+            } else {
+                CachedPelangganBendelEntity hit = db.cachedPelangganBendelDao()
+                        .findInBendel(bendelId, nolanggFilter.trim());
+                entities = hit == null
+                        ? new java.util.ArrayList<>()
+                        : java.util.Collections.singletonList(hit);
+            }
+
+            List<DataItem> data = BendelMapper.fromEntityList(entities);
+            DataResult result = DataResult.fromCache(data);
+            result.lastSyncAt = lastSyncAt;
+            deliverOnMain(callback, result);
+
+        } catch (Exception e) {
+            Log.e(TAG, "loadFromCacheSync error", e);
+            deliverOnMain(callback, DataResult.error("Gagal baca cache lokal", e));
+        }
+    }
+
     private void loadFromCacheAsync(String bendelId, String nolanggFilter,
                                     AtomicBoolean cancelled, ResultCallback callback) {
         AppDatabase.databaseExecutor.execute(() -> {
             if (cancelled.get()) return;
-            try {
-                List<CachedPelangganBendelEntity> entities;
-                if (nolanggFilter == null || nolanggFilter.trim().isEmpty()) {
-                    // Hanya tampilkan yang BELUM dibaca (kodeStatus=0)
-                    entities = db.cachedPelangganBendelDao().getUnreadByBendel(bendelId);
-                } else {
-                    CachedPelangganBendelEntity hit = db.cachedPelangganBendelDao()
-                            .findInBendel(bendelId, nolanggFilter.trim());
-                    entities = hit == null
-                            ? new java.util.ArrayList<>()
-                            : java.util.Collections.singletonList(hit);
-                }
-
-                List<DataItem> data = BendelMapper.fromEntityList(entities);
-                deliverOnMain(callback, DataResult.fromCache(data));
-
-            } catch (Exception e) {
-                Log.e(TAG, "loadFromCacheAsync error", e);
-                deliverOnMain(callback, DataResult.error("Gagal baca cache lokal", e));
-            }
+            loadFromCacheSync(bendelId, nolanggFilter, callback);
         });
     }
 
@@ -190,15 +235,22 @@ public class BendelRepository {
                 CachedBendelEntity bendelHeader = BendelMapper.buildBendelEntity(
                         codeBendel, periode, cabang, unreadCount);
 
-                List<CachedPelangganBendelEntity> entities = BendelMapper.toEntityList(items, bendelId);
+                List<CachedPelangganBendelEntity> entities = items == null
+                        ? new java.util.ArrayList<>()
+                        : BendelMapper.toEntityList(items, bendelId);
 
                 db.runInTransaction(() -> {
                     db.cachedBendelDao().insertOrReplace(bendelHeader);
                     db.cachedPelangganBendelDao().deleteByBendel(bendelId);
-                    db.cachedPelangganBendelDao().insertAll(entities);
+                    if (!entities.isEmpty()) {
+                        db.cachedPelangganBendelDao().insertAll(entities);
+                    }
                 });
 
                 Log.d(TAG, "Cached " + entities.size() + " pelanggan untuk bendel " + bendelId);
+
+                cleanupEmptyBendelsIfEnabled();
+
             } catch (Exception e) {
                 Log.e(TAG, "saveToCache error (non-fatal)", e);
             }
@@ -214,6 +266,46 @@ public class BendelRepository {
             }
         }
         return count;
+    }
+
+    // ============== CLEANUP ==============
+
+    /**
+     * Hapus bendel-bendel di cache yang sudah kosong (totalUnread=0).
+     * Dipanggil saat user tap FAB Sync atau auto-sync selesai.
+     */
+    public static void cleanupEmptyBendelsStatic(Context context) {
+        Context appContext = context.getApplicationContext();
+        AppDatabase database = AppDatabase.getInstance(appContext);
+        SettingsManager settingsManager = SettingsManager.getInstance(appContext);
+
+        if (!settingsManager.isAutoCleanupCacheEnabled()) {
+            Log.d(TAG, "Auto-cleanup disabled, skip");
+            return;
+        }
+
+        AppDatabase.databaseExecutor.execute(() -> {
+            try {
+                List<CachedBendelEntity> empty = database.cachedBendelDao().getEmptyBendels();
+                if (empty.isEmpty()) return;
+
+                int deletedCount = 0;
+                for (CachedBendelEntity bendel : empty) {
+                    database.runInTransaction(() -> {
+                        database.cachedPelangganBendelDao().deleteByBendel(bendel.id);
+                        database.cachedBendelDao().deleteById(bendel.id);
+                    });
+                    deletedCount++;
+                }
+                Log.d(TAG, "Cleanup: deleted " + deletedCount + " empty bendels");
+            } catch (Exception e) {
+                Log.e(TAG, "Cleanup error", e);
+            }
+        });
+    }
+
+    public void cleanupEmptyBendelsIfEnabled() {
+        cleanupEmptyBendelsStatic(appContext);
     }
 
     // ============== HELPERS ==============

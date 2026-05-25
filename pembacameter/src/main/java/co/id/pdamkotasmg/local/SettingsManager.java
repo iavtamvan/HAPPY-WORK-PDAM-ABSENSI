@@ -20,12 +20,14 @@ public class SettingsManager {
     private static final String KEY_LAST_SYNC_TIMESTAMP = "last_sync_timestamp";
     private static final String KEY_AUTO_SYNC_INTERVAL_MINUTES = "auto_sync_interval_minutes";
     private static final String KEY_AUTO_SYNC_WIFI_ONLY = "auto_sync_wifi_only";
+    private static final String KEY_AUTO_CLEANUP_CACHE = "auto_cleanup_cache_enabled";
 
     // Default values
     private static final boolean DEFAULT_OFFLINE_MODE = false;
     private static final boolean DEFAULT_AUTO_SYNC = false;  // Fase 5: default OFF — user opt-in
     private static final int DEFAULT_INTERVAL_MINUTES = 60;  // 1 jam
     private static final boolean DEFAULT_WIFI_ONLY = true;   // Hemat data petugas
+    private static final boolean DEFAULT_AUTO_CLEANUP = true; // Fase 6: default ON — hemat storage
 
     // Interval choices (untuk UI dropdown)
     public static final int[] INTERVAL_CHOICES_MINUTES = {15, 30, 60, 180, 360, 720};
@@ -115,5 +117,15 @@ public class SettingsManager {
 
     public void markSyncSuccessNow() {
         setLastSyncTimestamp(System.currentTimeMillis());
+    }
+
+    // ============== AUTO-CLEANUP CACHE BENDEL ==============
+
+    public boolean isAutoCleanupCacheEnabled() {
+        return prefs.getBoolean(KEY_AUTO_CLEANUP_CACHE, DEFAULT_AUTO_CLEANUP);
+    }
+
+    public void setAutoCleanupCacheEnabled(boolean enabled) {
+        prefs.edit().putBoolean(KEY_AUTO_CLEANUP_CACHE, enabled).apply();
     }
 }

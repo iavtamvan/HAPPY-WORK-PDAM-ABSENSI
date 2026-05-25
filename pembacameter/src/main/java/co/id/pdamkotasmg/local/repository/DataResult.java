@@ -5,7 +5,7 @@ import java.util.List;
 import co.id.pdamkotasmg.model.bendel.DataItem;
 
 /**
- * Wrapper hasil dari {@link BendelRepository getBendel}.
+ * Wrapper hasil dari {@link BendelRepository#getBendel}.
  *
  * Memberitahu UI:
  *   - data-nya ada (success / cache / empty)
@@ -39,6 +39,13 @@ public class DataResult {
     private final List<DataItem> data;
     private final String errorMessage;
     private final Throwable error;
+
+    /**
+     * Timestamp millis kapan data ini dibuat/di-cache.
+     * 0 = unknown.
+     * Dipakai untuk display "Disinkron X jam lalu" di UI.
+     */
+    public long lastSyncAt;
 
     private DataResult(Source source, List<DataItem> data, String errorMessage, Throwable error) {
         this.source = source;

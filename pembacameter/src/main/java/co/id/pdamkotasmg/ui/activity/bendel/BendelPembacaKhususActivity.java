@@ -534,11 +534,19 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
                                 Log.e(TAG, "deleteFolders gagal (non-fatal)", e);
                             }
 
-                            // FASE 3: update cache pelanggan jadi sudah-dibaca
-                            // supaya saat user balik ke BendelDataActivity, list refresh-nya
-                            // konsisten — pelanggan ini sudah hilang dari list.
+                            // FASE 6 FIX: Mark cache as read DENGAN CALLBACK supaya
+                            // guarantee selesai sebelum user balik ke BendelDataActivity.
+                            // Tanpa ini, ada race condition di mana onRestart trigger
+                            // sebelum cache ter-update.
                             if (codeBendel != null && !codeBendel.isEmpty()) {
-                                bacaanRepository.markPelangganAsRead(codeBendel, nolangg, null);
+                                bacaanRepository.markPelangganAsRead(codeBendel, nolangg, success -> {
+                                    Log.d(TAG, "Cache markAsRead done, success=" + success);
+                                });
+                            } else {
+                                // codeBendel kosong → fallback by nolangg
+                                bacaanRepository.markPelangganAsRead("", nolangg, success -> {
+                                    Log.d(TAG, "Cache markAsRead (fallback) done, success=" + success);
+                                });
                             }
 
                             Toast.makeText(BendelPembacaKhususActivity.this,
