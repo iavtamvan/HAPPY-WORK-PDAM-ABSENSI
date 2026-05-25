@@ -182,7 +182,6 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="4dp"
-                we
                 android:background="@drawable/bg_pill_counter"
                 android:fontFamily="@font/poppins"
                 android:paddingStart="14dp"

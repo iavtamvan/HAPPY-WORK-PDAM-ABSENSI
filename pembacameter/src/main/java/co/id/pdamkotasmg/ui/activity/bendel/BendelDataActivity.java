@@ -69,7 +69,7 @@ public class BendelDataActivity extends AppCompatActivity {
 
         binding.tvBendel.setText("DAFTAR BACAAN METER CABANG " + cabang + " BENDEL " + codeBendel + " PERIODE " + periode);
 
-        bendelAdapter = new BendelAdapter(this, dataItems);
+        bendelAdapter = new BendelAdapter(this, dataItems, codeBendel);
         binding.rv.setLayoutManager(new LinearLayoutManager(this));
         binding.rv.setAdapter(bendelAdapter);
 

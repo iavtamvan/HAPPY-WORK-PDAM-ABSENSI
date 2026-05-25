@@ -369,7 +369,7 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
         entity.addressGps = address_gps;
         entity.actionCode = action_code;
         entity.npp = npp;
-        entity.versionInfo = BuildConfig.VERSION_NAME + "-" + BuildConfig.VERSION_NAME + " - " + modelDevice;
+        entity.versionInfo = BuildConfig.VERSION_CODE + "-" + BuildConfig.VERSION_NAME + " - " + modelDevice;
 
         String bendelId = (codeBendel != null && !codeBendel.isEmpty())
                 ? co.id.pdamkotasmg.local.db.entity.CachedBendelEntity.buildId(codeBendel, periode, cabang)
@@ -519,7 +519,7 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
         apiService.postUpdatePembacaMeter(token, nolangg, binding.edtKini.getText().toString().trim(), filePathServer, "khusus-bendel",
                         kodeStatusMeter, binding.edtKeterangan.getText().toString().trim(),
                         action_code, String.valueOf(lati), String.valueOf(longi), address_gps, binding.edtManometer.getText().toString().trim(), getFilePathServerFotoManometer,
-                        BuildConfig.VERSION_NAME + "-" + BuildConfig.VERSION_NAME + " - " + modelDevice)
+                        BuildConfig.VERSION_CODE + "-" + BuildConfig.VERSION_NAME + " - " + modelDevice)
                 .enqueue(new Callback<UpdatePembacaMeterRootModel>() {
                     @SuppressLint("UseCompatLoadingForDrawables")
                     @Override

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew :pembacameter:compileDebugJavaWithJavac --offline -q)",
+      "Bash(./gradlew :pembacameter:compileDebugJavaWithJavac -q --no-daemon)"
+    ]
+  }
+}
