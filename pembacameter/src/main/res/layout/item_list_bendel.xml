@@ -1,347 +1,365 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  REDESIGN COMPACT v2 — struktur 2 kolom.
+  Layout:
+    ┌──────────────────────────────────────────────────┐
+    │ ID PELANGGAN                    📋 🗺️ ⚠️          │
+    │ 06371005                            LALU          │
+    │ [DISM 2493001] [ST Aktif]           733           │
+    │                                     15m3          │
+    │ PT KORONKA                                        │
+    │ 📍 Semarang Bizpark A1                            │
+    └──────────────────────────────────────────────────┘
+
+  SEMUA ID lama dipertahankan TIPE-NYA (supaya BendelAdapter tidak crash):
+    cvKlik (LinearLayout), cv_klik (MaterialCardView extends CardView/FrameLayout),
+    tv_no (TextView), div_nolangg (LinearLayout), tv_list_bendel_nolangg (TextView),
+    div_copy (LinearLayout), tv_list_bendel_nama (TextView),
+    tv_list_bendel_alamat (TextView), tv_list_bendel_lalu (TextView),
+    tv_list_bendel_dism (TextView), tv_list_bendel_st (TextView),
+    iv_survey_koordinat (ImageView), div_tandai (LinearLayout horizontal),
+    iv_tandai (ImageView), iv_tandai_success (ImageView).
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cvKlik"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="4dp"
-    android:layout_marginRight="4dp"
-    android:layout_marginBottom="2dp"
-    android:orientation="vertical"
-    app:cardElevation="4dp">
+    android:layout_marginStart="4dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="6dp"
+    android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_klik"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="8dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="2dp">
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="1dp"
+        app:strokeWidth="0dp">
 
-        <TextView
-            android:id="@+id/tv_no"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="55dp"
-            android:fontFamily="@font/audiowide"
-            android:gravity="center"
-            android:text="3"
-            android:textColor="#164E4E4E"
-            android:textSize="40dp" />
-
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="5dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
+
+            <!-- Watermark nomor urut -->
+            <TextView
+                android:id="@+id/tv_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|start"
+                android:layout_marginStart="14dp"
+                android:fontFamily="@font/audiowide"
+                android:includeFontPadding="false"
+                android:text="1"
+                android:textColor="#08000000"
+                android:textSize="52sp"
+                tools:text="3" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="10dp">
 
+                <!-- ═══════ BARIS ATAS (2 KOLOM) ═══════ -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
 
+                    <!-- === KOLOM KIRI: ID + DISM/ST chips (sejajar horizontal) === -->
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:id="@+id/div_nolangg"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:baselineAligned="false"
-                        android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins"
+                            android:includeFontPadding="false"
+                            android:letterSpacing="0.06"
+                            android:text="ID PELANGGAN"
+                            android:textColor="#9CA3AF"
+                            android:textSize="8sp"
+                            android:textStyle="bold" />
+
+                        <!-- Satu baris horizontal: ID value + DISM chip + ST chip -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:baselineAligned="false"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
+                            <TextView
+                                android:id="@+id/tv_list_bendel_nolangg"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:fontFamily="@font/poppins"
+                                android:includeFontPadding="false"
+                                android:text="--"
+                                android:textColor="@color/red"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                tools:text="06371005" />
 
-                                <LinearLayout
-                                    android:id="@+id/div_nolangg"
-                                    android:layout_width="match_parent"
+                            <!-- DISM chip (sebelah kanan ID) -->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/bg_chip_soft"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingStart="7dp"
+                                android:paddingTop="3dp"
+                                android:paddingEnd="7dp"
+                                android:paddingBottom="3dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
+                                    android:fontFamily="@font/poppins"
+                                    android:includeFontPadding="false"
+                                    android:letterSpacing="0.06"
+                                    android:text="DISM"
+                                    android:textColor="#9CA3AF"
+                                    android:textSize="8sp"
+                                    android:textStyle="bold" />
 
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="ID Pelanggan: "
-                                        android:textColor="@color/grey"
-                                        android:textSize="10dp" />
-
-                                    <TextView
-                                        android:id="@+id/tv_list_bendel_nolangg"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="left"
-                                        android:text="--"
-                                        android:textColor="@color/red"
-                                        android:textSize="12dp" />
-
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/div_copy"
-                                    android:layout_width="25dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginLeft="4dp"
-                                    android:orientation="horizontal">
-
-                                    <ImageView
-                                        android:layout_width="16dp"
-                                        android:layout_height="20dp"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="2dp"
-                                        android:src="@drawable/copy" />
-                                </LinearLayout>
-
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
+                                <TextView
+                                    android:id="@+id/tv_list_bendel_dism"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="2dp"
-                                    android:layout_marginRight="2dp"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="Nama: "
-                                        android:textColor="@color/grey"
-                                        android:textSize="10dp" />
-
-                                    <TextView
-                                        android:id="@+id/tv_list_bendel_nama"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="left"
-                                        android:gravity="center"
-                                        android:text="--"
-                                        android:textColor="@color/black"
-                                        android:textSize="12dp" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="2dp"
-                                    android:layout_marginRight="2dp"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="Alamat: "
-                                        android:textColor="@color/grey"
-                                        android:textSize="10dp" />
-
-                                    <TextView
-                                        android:id="@+id/tv_list_bendel_alamat"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="left"
-                                        android:text="--"
-                                        android:textColor="@color/black"
-                                        android:textSize="12dp" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="Lalu: "
-                                        android:textColor="@color/grey"
-                                        android:textSize="10dp" />
-
-                                    <TextView
-                                        android:id="@+id/tv_list_bendel_lalu"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="--"
-                                        android:textColor="@color/black"
-                                        android:textSize="12dp" />
-
-                                </LinearLayout>
-
+                                    android:layout_marginStart="4dp"
+                                    android:fontFamily="@font/poppins"
+                                    android:includeFontPadding="false"
+                                    android:text="--"
+                                    android:textColor="#374151"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"
+                                    tools:text="2493001" />
 
                             </LinearLayout>
 
+                            <!-- ST chip (sebelah kanan DISM) -->
                             <LinearLayout
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:layout_marginStart="5dp"
+                                android:background="@drawable/bg_chip_soft"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingStart="7dp"
+                                android:paddingTop="3dp"
+                                android:paddingEnd="7dp"
+                                android:paddingBottom="3dp">
 
-                                <LinearLayout
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="vertical">
+                                    android:fontFamily="@font/poppins"
+                                    android:includeFontPadding="false"
+                                    android:letterSpacing="0.06"
+                                    android:text="ST"
+                                    android:textColor="#9CA3AF"
+                                    android:textSize="8sp"
+                                    android:textStyle="bold" />
 
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="DISM: "
-                                        android:textColor="@color/grey"
-                                        android:textSize="10dp" />
-
-                                    <TextView
-                                        android:id="@+id/tv_list_bendel_dism"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="left"
-                                        android:text="--"
-                                        android:textColor="@color/black"
-                                        android:textSize="12dp" />
-                                </LinearLayout>
-
-                                <LinearLayout
+                                <TextView
+                                    android:id="@+id/tv_list_bendel_st"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="2dp"
-                                    android:layout_marginRight="2dp"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="ST: "
-                                        android:textColor="@color/grey"
-                                        android:textSize="10dp" />
-
-                                    <TextView
-                                        android:id="@+id/tv_list_bendel_st"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="--"
-                                        android:textColor="@color/black"
-                                        android:textSize="12dp" />
-
-                                </LinearLayout>
-
-
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="right"
-                                    android:gravity="right"
-                                    android:orientation="horizontal">
-
-                                    <ImageView
-                                        android:id="@+id/iv_survey_koordinat"
-                                        android:layout_width="30dp"
-                                        android:layout_height="25dp"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="30dp"
-                                        android:src="@drawable/ic_maps" />
-
-                                    <LinearLayout
-                                        android:id="@+id/div_tandai"
-                                        android:layout_width="60dp"
-                                        android:gravity="right"
-                                        android:layout_height="35dp"
-                                        android:orientation="horizontal">
-
-                                        <ImageView
-                                            android:id="@+id/iv_tandai"
-                                            android:layout_width="50dp"
-                                            android:layout_height="match_parent"
-                                            android:src="@drawable/mark_plg_before" />
-
-                                        <ImageView
-                                            android:id="@+id/iv_tandai_success"
-                                            android:layout_width="50dp"
-                                            android:layout_height="match_parent"
-                                            android:src="@drawable/mark_plg"
-                                            android:visibility="gone" />
-
-                                        <!--                                    <TextView-->
-                                        <!--                                        android:id="@+id/tv_list_bendel_dibuat"-->
-                                        <!--                                        android:layout_width="match_parent"-->
-                                        <!--                                        android:layout_height="match_parent"-->
-                                        <!--                                        android:layout_marginLeft="10dp"-->
-                                        <!--                                        android:layout_weight="1"-->
-                                        <!--                                        android:gravity="center"-->
-                                        <!--                                        android:text="Generate by System"-->
-                                        <!--                                        android:textColor="@color/dash_v2_bluedark"-->
-                                        <!--                                        android:textSize="11dp"-->
-                                        <!--                                        android:textStyle="italic" />-->
-
-                                    </LinearLayout>
-                                </LinearLayout>
-
+                                    android:layout_marginStart="4dp"
+                                    android:fontFamily="@font/poppins"
+                                    android:includeFontPadding="false"
+                                    android:letterSpacing="0.06"
+                                    android:text="--"
+                                    android:textColor="#059669"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"
+                                    tools:text="Aktif" />
 
                             </LinearLayout>
-
-
 
                         </LinearLayout>
+
                     </LinearLayout>
 
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="2dp"-->
-<!--                        android:orientation="horizontal">-->
+                    <!-- === KOLOM KANAN: action icons + LALU === -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="vertical">
 
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:gravity="left|center_vertical"-->
-<!--                            android:text="Dibuat : "-->
-<!--                            android:textColor="@color/grey"-->
-<!--                            android:textSize="12dp" />-->
+                        <!-- Row icons: copy + maps + tandai -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
-<!--                        <TextView-->
-<!--                            android:id="@+id/tv_list_bendel_dibuat"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:layout_marginLeft="10dp"-->
-<!--                            android:gravity="left|center_vertical"-->
-<!--                            android:text="Generate by System"-->
-<!--                            android:textColor="@color/dash_v2_bluedark"-->
-<!--                            android:textSize="11dp"-->
-<!--                            android:textStyle="italic" />-->
+                            <LinearLayout
+                                android:id="@+id/div_copy"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center">
 
-<!--                    </LinearLayout>-->
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="18dp"
+                                    android:contentDescription="Copy ID"
+                                    android:src="@drawable/copy" />
 
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/iv_survey_koordinat"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="2dp"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:contentDescription="Koordinat"
+                                android:focusable="true"
+                                android:padding="5dp"
+                                android:src="@drawable/ic_maps" />
+
+                            <LinearLayout
+                                android:id="@+id/div_tandai"
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
+                                android:layout_marginStart="2dp"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/iv_tandai"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="Belum ditandai"
+                                    android:padding="3dp"
+                                    android:src="@drawable/mark_plg_before" />
+
+                                <ImageView
+                                    android:id="@+id/iv_tandai_success"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="Sudah ditandai"
+                                    android:padding="3dp"
+                                    android:src="@drawable/mark_plg"
+                                    android:visibility="gone" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
+
+                <!-- ═══════ BARIS BAWAH (FULL WIDTH) ═══════ -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <!-- Nama -->
+                        <TextView
+                            android:id="@+id/tv_list_bendel_nama"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+                            android:text="--"
+                            android:textColor="#111827"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            tools:text="PT KORONKA" />
+
+                        <!-- Alamat -->
+                        <TextView
+                            android:id="@+id/tv_list_bendel_alamat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:drawablePadding="4dp"
+                            android:drawableTint="#9CA3AF"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+                            android:text="--"
+                            android:textColor="#6B7280"
+                            android:textSize="11sp"
+                            tools:ignore="UseCompatTextViewDrawableXml"
+                            tools:text="Semarang Bizpark A1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <!-- LALU di bawah icons (di bawah ⚠️) -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/poppins"
+                            android:includeFontPadding="false"
+                            android:letterSpacing="0.06"
+                            android:text="LALU"
+                            android:textColor="#9CA3AF"
+                            android:textSize="8sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_list_bendel_lalu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:fontFamily="@font/poppins"
+                            android:gravity="end"
+                            android:includeFontPadding="false"
+                            android:lineSpacingExtra="-2dp"
+                            android:text="--"
+                            android:textColor="#111827"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            tools:text="733\n15m3" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
 
+        </FrameLayout>
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

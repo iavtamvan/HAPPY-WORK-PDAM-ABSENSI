@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.pdamkotasmg.goodday.utils.Config;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -41,15 +40,20 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
     private String periode;
     private String cabang;
     private String token;
-    private String bendel;
     private String codeInputData;
+    private final String codeBendel;
     private List<DataItem> dataItems;
 
     private int markedPosition = 1; // Initially, no position is marked
 
     public BendelAdapter(Context context, List<DataItem> dataItems) {
+        this(context, dataItems, null);
+    }
+
+    public BendelAdapter(Context context, List<DataItem> dataItems, String codeBendel) {
         this.context = context;
         this.dataItems = dataItems;
+        this.codeBendel = codeBendel;
     }
 
     @NonNull
@@ -68,17 +72,43 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
         token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
         periode = sp.getString(Config.SHARED_PERIODE, "");
         cabang = sp.getString(Config.SHARED_CABANG, "");
-        bendel = dataItems.get(position).getDism().substring(0, 4);
 
-        holder.tvListBendelNolangg.setText(dataItems.get(position).getNolangg());
-        holder.tvListBendelDism.setText(dataItems.get(position).getDism());
-        holder.tvListBendelNama.setText(dataItems.get(position).getNama());
-        holder.tvListBendelAlamat.setText(dataItems.get(position).getAlamat());
+        DataItem item = dataItems.get(position);
 
-        if (dataItems.get(position).getRlDtBacaSekarang().get(0).getSurveyKoordinat() == null || dataItems.get(position).getRlDtBacaSekarang().get(0).getSurveyKoordinat().equals("0")) {
+        // FIX: null-safe parsing dari dism. Sebelumnya getDism().substring(0,4)
+        // bisa NPE kalau dism null & StringIndexOutOfBounds kalau panjang < 4.
+        // Prefer codeBendel dari Activity (kalau ada), fallback ke prefix dism.
+        // BUGFIX: `bendel` dulu field — saat scroll, value tertulis ulang oleh
+        // baris terakhir & click listener baris N pakai value salah. Sekarang
+        // pakai local `bendelLocal` yang di-capture per bind.
+        final String bendelLocal;
+        if (codeBendel != null && !codeBendel.isEmpty()) {
+            bendelLocal = codeBendel;
+        } else {
+            String dismRaw = item.getDism();
+            bendelLocal = (dismRaw != null && dismRaw.length() >= 4)
+                    ? dismRaw.substring(0, 4)
+                    : (dismRaw != null ? dismRaw : "");
+        }
+
+        holder.tvListBendelNolangg.setText(item.getNolangg());
+        holder.tvListBendelDism.setText(item.getDism());
+        holder.tvListBendelNama.setText(item.getNama());
+        holder.tvListBendelAlamat.setText(item.getAlamat());
+
+        // FIX: null-safe akses rl_dt_baca_periode_skrg.get(0). Sebelumnya NPE kalau
+        // list null/empty.
+        RlDataBacaSekarang bacaSekarang = null;
+        if (item.getRlDtBacaSekarang() != null && !item.getRlDtBacaSekarang().isEmpty()) {
+            bacaSekarang = item.getRlDtBacaSekarang().get(0);
+        }
+
+        String surveyKoordinat = bacaSekarang != null ? bacaSekarang.getSurveyKoordinat() : null;
+        if (surveyKoordinat == null || surveyKoordinat.equals("0")) {
             holder.ivSurveyKoordinat.setVisibility(View.GONE);
         } else {
-            Toast.makeText(context, "Ada Pelanggan yang harus sesuai Koordinatnya !!!", Toast.LENGTH_SHORT).show();
+            // FIX: hapus Toast disini — onBindViewHolder dipanggil tiap scroll → spam toast.
+            // Indikator icon sudah cukup.
             holder.ivSurveyKoordinat.setVisibility(View.VISIBLE);
         }
 
@@ -101,21 +131,23 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
         int incrementedNumber = position + 1; // Increment starting from 1
         holder.tvNo.setText("" + incrementedNumber);
 
-        String st = dataItems.get(position).getSt();
-        if (st.contains("2")) {
-            st = "Aktif";
-        } else {
-            st = "Tutup";
+        // FIX: null-safe getSt(). Sebelumnya kalau st null, st.contains("2") NPE.
+        String stRaw = item.getSt();
+        String stLabel = (stRaw != null && stRaw.contains("2")) ? "Aktif" : "Tutup";
+        holder.tvListBendelSt.setText(stLabel);
+
+        // FIX: null-safe akses rlTrbaca.get(0). Sebelumnya NPE kalau list null/empty.
+        String kini = "-";
+        String m3 = "-";
+        if (item.getRlTrbaca() != null && !item.getRlTrbaca().isEmpty()) {
+            String kiniRaw = item.getRlTrbaca().get(0).getKini();
+            if (kiniRaw != null) kini = kiniRaw;
+            String m3Raw = item.getRlTrbaca().get(0).getM3();
+            if (m3Raw != null) m3 = m3Raw;
         }
 
-        holder.tvListBendelSt.setText(st);
-
-        String kini = dataItems.get(position).getRlTrbaca().get(0).getKini();
-        if (kini == null) {
-            kini = "-";
-        }
-
-        if (Objects.equals(dataItems.get(position).getRlDtBacaSekarang().get(0).getTandai(), "1")) {
+        String tandaiVal = bacaSekarang != null ? bacaSekarang.getTandai() : null;
+        if (Objects.equals(tandaiVal, "1")) {
             holder.ivTandai.setVisibility(View.GONE);
             holder.ivTandaiPelanggan.setVisibility(View.VISIBLE);
         } else {
@@ -123,63 +155,65 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
             holder.ivTandaiPelanggan.setVisibility(View.GONE);
         }
 
-        holder.tvListBendelLalu.setText(kini + "\n"
-                + dataItems.get(position).getRlTrbaca().get(0).getM3() + "m3");
-//        holder.tvListBendelDibuat.setText("Generate by System Cabang " + cabang + "-" + periode);
+        holder.tvListBendelLalu.setText(kini + "\n" + m3 + "m3");
 
         holder.cvKlik.setOnClickListener(v -> {
             codeInputData = "1";
             Intent intent = new Intent(context, BendelPembacaKhususActivity.class);
-            intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, dataItems.get(position).getNolangg());
-//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL_NEXT, bendel);
-//            intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_INPUT_DATA, codeInputData);
+            intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, item.getNolangg());
+            // FIX: teruskan codeBendel supaya BendelPembacaKhususActivity bisa
+            // markPelangganAsRead di cache yang spesifik (tidak fallback global).
+            if (!bendelLocal.isEmpty()) {
+                intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL, bendelLocal);
+            }
             context.startActivity(intent);
         });
 
-        ArrayList<RlDataBacaSekarang> listDataBacaSekarang = new ArrayList<>();
-        RlDataBacaSekarang rlDataBacaSekarang = new RlDataBacaSekarang();
-        rlDataBacaSekarang.setTandai(dataItems.get(position).getRlDtBacaSekarang().get(0).getTandai());
-        listDataBacaSekarang.add(rlDataBacaSekarang);
+        // FIX: kalau bacaSekarang null, sembunyikan tombol tandai supaya tidak NPE saat klik.
+        if (bacaSekarang == null) {
+            holder.divTandai.setVisibility(View.GONE);
+            return;
+        }
+        holder.divTandai.setVisibility(View.VISIBLE);
 
-//        holder.ivTandai.setOnClickListener(view -> {
-//
-//        });
-//        holder.ivTandaiPelanggan.setOnClickListener(view -> {
-//            Toast.makeText(context, "Sudah ditandai", Toast.LENGTH_SHORT).show();
-//        });
-
-        String kodeTandaiServer = dataItems.get(position).getRlDtBacaSekarang().get(0).getTandai();
+        // FIX: kodeTandaiServer dulu di-capture sekali & tidak pernah diperbarui setelah
+        // toggle sukses, jadi klik kedua kirim nilai salah. Sekarang baca state TERKINI
+        // dari item tiap klik.
+        final RlDataBacaSekarang bacaSekarangFinal = bacaSekarang;
         holder.divTandai.setOnClickListener(view -> {
-            String kodeTandai = null;
-            if (kodeTandaiServer == null) {
+            String kodeTandaiCurrent = bacaSekarangFinal.getTandai();
+            final String kodeTandai;
+            if (kodeTandaiCurrent == null || kodeTandaiCurrent.equals("0")) {
                 kodeTandai = "1";
                 holder.ivTandai.setVisibility(View.GONE);
                 holder.ivTandaiPelanggan.setVisibility(View.VISIBLE);
-            } else if (kodeTandaiServer.equals("1")) {
+            } else {
                 kodeTandai = "0";
                 holder.ivTandai.setVisibility(View.VISIBLE);
                 holder.ivTandaiPelanggan.setVisibility(View.GONE);
-            } else if (kodeTandaiServer.equals("0")){
-                kodeTandai = "1";
-                holder.ivTandai.setVisibility(View.GONE);
-                holder.ivTandaiPelanggan.setVisibility(View.VISIBLE);
             }
 
             ApiService apiService = ApiConfig.getApiServiceGWAPI(context);
-            apiService.postUpdateTandaPlg(token, dataItems.get(position).getNolangg(), bendel, kodeTandai)
+            apiService.postUpdateTandaPlg(token, item.getNolangg(), bendelLocal, kodeTandai)
                     .enqueue(new Callback<TandaiBendelRootModel>() {
                         @SuppressLint("ResourceAsColor")
                         @Override
                         public void onResponse(Call<TandaiBendelRootModel> call, Response<TandaiBendelRootModel> response) {
                             if (response.isSuccessful()) {
-//                                holder.ivTandai.setVisibility(View.GONE);
-//                                holder.ivTandaiPelanggan.setVisibility(View.VISIBLE);
-                                Toast.makeText(context, "Sukses " + dataItems.get(position).getNolangg(), Toast.LENGTH_SHORT).show();
+                                // FIX: update state lokal setelah sukses supaya klik berikutnya
+                                // toggle ke arah yang benar.
+                                bacaSekarangFinal.setTandai(kodeTandai);
+                                Toast.makeText(context, "Sukses " + item.getNolangg(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                // Rollback UI kalau server tolak
+                                rollbackTandaiUi(holder, kodeTandaiCurrent);
+                                Toast.makeText(context, "Tandai PLG Gagal (HTTP " + response.code() + ")", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<TandaiBendelRootModel> call, Throwable t) {
+                            rollbackTandaiUi(holder, kodeTandaiCurrent);
                             Toast.makeText(context, "Tandai PLG Gagal", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -187,9 +221,19 @@ public class BendelAdapter extends RecyclerView.Adapter<BendelAdapter.ViewHolder
 
     }
 
+    private void rollbackTandaiUi(ViewHolder holder, String previousTandai) {
+        if ("1".equals(previousTandai)) {
+            holder.ivTandai.setVisibility(View.GONE);
+            holder.ivTandaiPelanggan.setVisibility(View.VISIBLE);
+        } else {
+            holder.ivTandai.setVisibility(View.VISIBLE);
+            holder.ivTandaiPelanggan.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public int getItemCount() {
-        return dataItems.size();
+        return dataItems == null ? 0 : dataItems.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

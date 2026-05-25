@@ -1,470 +1,534 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  REDESIGN fragment_home.xml — Material 3 inspired.
+  Background: warm-grey #FCF9F8.
+  Greeting card: gradient red dengan tagline pill, verified badge, name, role.
+  Stat cards: 3 kartu dengan top-bar accent (warm/cool/fresh).
+  Action cards: 2 kartu (Cek Data warm + Cek Koneksi cool).
+  Motivation: card dengan icon kuning gradient + text body.
+
+  SEMUA ID lama dipertahankan:
+    div_profil, scrollingtext, iv_refresh, iv_logout,
+    tv_good, tv_name_dashboard, iv_verified, tv_satker,
+    tv_total_hari_ini, tv_jam_awal, tv_periode, tv_total_periode,
+    div_in_profil_pelanggan, div_in_cek_koneksi,
+    tv_motivation, terminal_output (gone).
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FCF9F8"
     android:orientation="vertical"
     tools:context="co.id.pdamkotasmg.ui.fragment.HomeFragment">
 
+    <!-- ═══════ TOP BAR (avatar + marquee + refresh + logout) ═══════ -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:orientation="vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="4dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/div_profil"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/person_real" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/div_profil"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
-                android:src="@drawable/person_real" />
+        <TextView
+            android:id="@+id/scrollingtext"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_marquee_chip"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="Text from code"
+            android:textColor="#6B6770"
+            android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/scrollingtext"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:ellipsize="marquee"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:fontFamily="@font/poppins_medium"
-                android:gravity="center"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:text="Text from code"
-                android:textColor="@color/black"
-                android:textSize="15dp" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_refresh"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_icon_btn_circle"
+            android:padding="9dp"
+            android:src="@drawable/ic_refresh" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_refresh"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_refresh" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_logout"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
-                android:src="@drawable/logout" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_good"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins"
-                android:text="Good Morning"
-                android:textColor="@color/black"
-                android:textSize="25dp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tv_name_dashboard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins"
-                    android:text="Iav Tamvan "
-                    android:textColor="@color/colorDarkGold"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/iv_verified"
-                    android:layout_width="25dp"
-                    android:layout_height="19dp"
-                    android:layout_toRightOf="@id/tv_name_dashboard" />
-
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tv_satker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:fontFamily="@font/poppins"
-                android:text="Pengembangan Program - Su Bid. PTI"
-                android:textColor="@color/md_red_200"
-                android:textSize="11dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins"
-                android:text="Perumda Air Minum Tirta Moedal Kota Semarang"
-                android:textColor="@color/grey_great_day"
-                android:textSize="12dp"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins"
-                android:text="Let's work hard from now on"
-                android:textColor="@color/black"
-                android:textSize="14dp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_logout"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_icon_btn_circle"
+            android:padding="9dp"
+            android:src="@drawable/logout" />
 
     </LinearLayout>
 
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-45dp"
-        android:visibility="gone"
-        android:backgroundTint="@color/cranePurple"
-        app:cardCornerRadius="40dp">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:src="@drawable/strongman"
-            android:layout_marginTop="110dp"
-            android:layout_marginLeft="210dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginRight="10dp"
-            android:orientation="vertical">
-
-            <!--                        top photo n more-->
-            <!--                        top photo n more-->
-
-            <!--                        presensi sekarang-->
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
+    <!-- Sisa konten scrollable -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
 
+            <!-- ═══════ GREETING CARD (gradient red) ═══════ -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/gradient_greeting_red"
+                android:orientation="vertical"
+                android:padding="22dp">
 
-                <androidx.cardview.widget.CardView
+                <TextView
+                    android:id="@+id/tv_good"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1">
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:letterSpacing="-0.02"
+                    android:text="Good Morning"
+                    android:textColor="#FFFFFF"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:id="@+id/tv_name_dashboard"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:orientation="vertical">
+                        android:fontFamily="@font/poppins"
+                        android:text="Iav Tamvan "
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginBottom="4dp"
-                            android:fontFamily="@font/poppins"
-                            android:gravity="center"
-                            android:text="Total Hari Ini"
-                            android:textColor="@color/cranePurpleDark"
-                            android:textSize="12dp" />
+                    <ImageView
+                        android:id="@+id/iv_verified"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="2dp"
+                        android:layout_toEndOf="@id/tv_name_dashboard"
+                        android:background="@drawable/bg_verified_circle"
+                        android:padding="3dp"
+                        android:src="@android:drawable/checkbox_on_background"/>
 
-                        <TextView
-                            android:id="@+id/tv_total_hari_ini"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins"
-                            android:gravity="center"
-                            android:text="--"
-                            android:textColor="@color/orangeGreatDay"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
+                </RelativeLayout>
 
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="4dp"
-                        android:background="@color/orangeGreatDay" />
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
+                <TextView
+                    android:id="@+id/tv_satker"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/poppins"
+                    android:text="Pengembangan Program - Su Bid. PTI"
+                    android:textColor="#FFE9E9"
+                    android:textSize="11sp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginBottom="4dp"
-                            android:fontFamily="@font/poppins"
-                            android:gravity="center"
-                            android:text="Jam Awal"
-                            android:textColor="@color/cranePurpleDark"
-                            android:textSize="12dp" />
-
-                        <TextView
-                            android:id="@+id/tv_jam_awal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins"
-                            android:gravity="center"
-                            android:text="--"
-                            android:textColor="@color/dash_v2_bluedark"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="4dp"
-                        android:background="@color/dash_v2_bluedark" />
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
+                <!-- Hidden: dipertahankan dari original (visibility=gone) -->
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1">
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:text="Perumda Air Minum Tirta Moedal Kota Semarang"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_periode"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginBottom="4dp"
-                            android:fontFamily="@font/poppins"
-                            android:gravity="center"
-                            android:text="Total ---"
-                            android:textColor="@color/cranePurpleDark"
-                            android:textSize="12dp" />
-
-                        <TextView
-                            android:id="@+id/tv_total_periode"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins"
-                            android:gravity="center"
-                            android:text="--"
-                            android:textColor="@color/greenGojek"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="4dp"
-                        android:background="@color/greenGojek" />
-                </androidx.cardview.widget.CardView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_tagline_chip"
+                    android:fontFamily="@font/poppins"
+                    android:paddingStart="14dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="14dp"
+                    android:paddingBottom="6dp"
+                    android:text="⚡ Let's work hard from now on"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
-            <TextView
+            <!-- HIDDEN legacy CardView (dipertahankan dari original) -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:fontFamily="@font/poppins"
-                android:text="Data realtime setiap 30 menit"
-                android:textColor="@color/cranePurpleDark"
-                android:textSize="12dp"
-                android:textStyle="italic" />
+                android:layout_marginTop="-45dp"
+                android:backgroundTint="@color/cranePurple"
+                android:visibility="gone"
+                app:cardCornerRadius="40dp">
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="210dp"
+                    android:layout_marginTop="110dp"
+                    android:src="@drawable/strongman" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- ═══════ STAT CARDS (3 cards) ═══════ -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="12dp"
                 android:orientation="horizontal">
 
+                <!-- Stat 1: Total Hari Ini (warm/yellow) -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_stat_warm"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingStart="10dp"
+                    android:paddingTop="14dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
+                        android:letterSpacing="0.04"
+                        android:text="HARI INI"
+                        android:textColor="#6B6770"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_total_hari_ini"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/poppins"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="#B45309"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!-- Stat 2: Jam Awal (cool/blue) -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_stat_cool"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingStart="10dp"
+                    android:paddingTop="14dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
+                        android:letterSpacing="0.04"
+                        android:text="JAM AWAL"
+                        android:textColor="#6B6770"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_jam_awal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/poppins"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="#1D4ED8"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!-- Stat 3: Total/Periode (fresh/green) -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_stat_fresh"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingStart="10dp"
+                    android:paddingTop="14dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="14dp">
+
+                    <TextView
+                        android:id="@+id/tv_periode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
+                        android:gravity="center"
+                        android:letterSpacing="0.04"
+                        android:text="TOTAL"
+                        android:textColor="#6B6770"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_total_periode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/poppins"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="#047857"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- ═══════ Live caption ═══════ -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="14dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/bg_live_dot" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/poppins"
+                    android:text="Data realtime setiap 30 menit"
+                    android:textColor="#6B6770"
+                    android:textSize="11sp"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
+
+            <!-- ═══════ ACTION CARDS (Cek Data + Cek Koneksi) ═══════ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!-- Cek Data (warm) -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/div_in_profil_pelanggan"
-                    app:cardCornerRadius="10dp"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/dash_v2_yellowLight">
+                    android:background="@drawable/bg_card_warm"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="vertical">
+                        android:background="@drawable/bg_card_warm"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_data_integration" />
+                        <FrameLayout
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:background="@drawable/bg_icon_warm">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_data_integration" />
+
+                        </FrameLayout>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="12dp"
                             android:fontFamily="@font/poppins"
                             android:text="Cek Data"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            android:textSize="13dp" />
+                            android:textColor="#1C1B1F"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:fontFamily="@font/poppins"
                             android:text="Semua data pencarian pelanggan ada disini"
-                            android:textColor="@color/grey_dark"
-                            android:textStyle="bold"
-                            android:textSize="9dp" />
+                            android:textColor="#6B6770"
+                            android:textSize="10sp" />
+
                     </LinearLayout>
+
                 </androidx.cardview.widget.CardView>
 
+                <!-- Cek Koneksi (cool) -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/div_in_cek_koneksi"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/dash_v2_blueLightLumayan"
-                    app:cardCornerRadius="10dp">
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="vertical">
+                        android:background="@drawable/bg_card_cool"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_check_connection" />
+                        <FrameLayout
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:background="@drawable/bg_icon_cool">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_check_connection" />
+
+                        </FrameLayout>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="12dp"
                             android:fontFamily="@font/poppins"
                             android:text="Cek Koneksi"
-                            android:textColor="@color/black"
-                            android:textSize="13dp"
+                            android:textColor="#1C1B1F"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:fontFamily="@font/poppins"
                             android:text="Cek koneksi internetmu dan koneksi server"
-                            android:textColor="@color/grey_dark"
-                            android:textSize="9dp"
-                            android:textStyle="bold" />
+                            android:textColor="#6B6770"
+                            android:textSize="10sp" />
+
                     </LinearLayout>
+
                 </androidx.cardview.widget.CardView>
 
             </LinearLayout>
 
-            <LinearLayout
+            <!-- ═══════ MOTIVATION CARD ═══════ -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="1dp"
+                app:strokeColor="#E6E0E1"
+                app:strokeWidth="1dp">
 
-                <androidx.cardview.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="10dp">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="8dp"
-                        android:background="@color/yellowPortal" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="4dp"
-                        android:layout_marginRight="4dp"
-                        android:orientation="horizontal">
+                    <FrameLayout
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_motivation_icon">
 
                         <ImageView
                             android:layout_width="50dp"
                             android:layout_height="match_parent"
+                            android:layout_gravity="center"
                             android:src="@drawable/motivation" />
 
-                        <TextView
-                            android:id="@+id/tv_motivation"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:fontFamily="@font/poppins"
-                            android:textColor="@color/black"
-                            android:textSize="13dp" />
+                    </FrameLayout>
 
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_motivation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="14dp"
+                        android:fontFamily="@font/poppins"
+                        android:textColor="#1C1B1F"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
+                </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-
+            <!-- Hidden terminal output (dipertahankan dari original) -->
             <TextView
                 android:id="@+id/terminal_output"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_weight="1"
-                android:background="#000"
+                android:background="#000000"
                 android:textColor="#00FF00"
-                android:visibility="gone"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
         </LinearLayout>
+
     </ScrollView>
+
 </LinearLayout>

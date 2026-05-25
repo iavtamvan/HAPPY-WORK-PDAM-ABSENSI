@@ -52,6 +52,10 @@
         <!-- android:name="co.id.pdamkotasmg.BottomActivity" -->
         <!-- android:exported="false" -->
         <!-- android:label="@string/title_activity_bottom" /> -->
+
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.settings.SettingsActivity"
+            android:exported="false" />
         <activity
             android:name="co.id.pdamkotasmg.MainActivity"
             android:exported="false" />

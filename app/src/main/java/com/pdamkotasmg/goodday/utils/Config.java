@@ -233,7 +233,7 @@ public final class Config {
 
     // TODO Mulai Pembaca Meter
     public static final String BUNDLE_PEMBACA_METER_CODE_INPUT_DATA = "bundle_pembaca_meter_code_input_data";
-    public static final String BUNDLE_PEMBACA_METER_CODE_BENDEL = "bundle_pembaca_meter_code_input_data";
+    public static final String BUNDLE_PEMBACA_METER_CODE_BENDEL = "bundle_pembaca_meter_code_bendel";
     public static final String BUNDLE_PEMBACA_METER_CODE_BENDEL_NEXT = "bundle_pembaca_meter_code_bendel_next";
 
     public static final String BUNDLE_PEMBACA_METER_NOLANGG = "pembaca_meter_nolangg";

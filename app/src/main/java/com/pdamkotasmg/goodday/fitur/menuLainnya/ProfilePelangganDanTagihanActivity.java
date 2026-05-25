@@ -552,7 +552,7 @@ public class ProfilePelangganDanTagihanActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
 
                     if (response.body().getData().getQueryKardekDataBacaanTahunLalu() == null || response.body().getData().getQueryKardekDataBacaan() == null) {
-                        Toast.makeText(ProfilePelangganDanTagihanActivity.this, "Data tidak ditemukan", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfilePelangganDanTagihanActivity.this, "Data tidak ditemukan (IF)", Toast.LENGTH_SHORT).show();
                     } else {
 
                         // kardek tahun lalu

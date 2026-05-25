@@ -7,13 +7,8 @@ buildscript {
         maven { url 'https://repo1.maven.org/maven2' }
     }
     dependencies {
-<<<<<<< HEAD
-        classpath 'com.android.tools.build:gradle:7.4.2'
-        classpath 'com.google.gms:google-services:4.3.14'
-=======
-        classpath 'com.android.tools.build:gradle:8.4.0'
+        classpath 'com.android.tools.build:gradle:8.5.2'
         classpath 'com.google.gms:google-services:4.4.2'
->>>>>>> 6952bdd8461502f0e1c2413166e89d58df163e3c
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.2'
         classpath 'com.google.firebase:perf-plugin:1.4.2'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20'
@@ -23,22 +18,6 @@ buildscript {
     }
 }
 
-<<<<<<< HEAD
-plugins {
-    id 'com.android.application' version '7.4.2' apply false
-    id 'com.android.library' version '7.4.2' apply false
-}
-
-//allprojects {
-//    repositories {
-//        google()
-//        mavenCentral()
-//        maven { url "https://jitpack.io" }
-//    }
-//}
-
-task clean(type: Delete) {
-=======
 allprojects {
     repositories {
         google()
@@ -46,9 +25,13 @@ allprojects {
         maven { url "https://jitpack.io" }
         maven { url 'https://repo1.maven.org/maven2' }
     }
+    configurations.configureEach {
+        resolutionStrategy {
+            force 'com.scottyab:rootbeer-lib:0.1.2'
+        }
+    }
 }
 
 tasks.register('clean', Delete) {
->>>>>>> 6952bdd8461502f0e1c2413166e89d58df163e3c
     delete rootProject.buildDir
 }

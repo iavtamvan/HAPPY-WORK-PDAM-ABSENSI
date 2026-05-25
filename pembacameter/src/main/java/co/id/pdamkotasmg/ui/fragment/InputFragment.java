@@ -27,6 +27,7 @@ import co.id.pdamkotasmg.ui.activity.RiwayatPembacaMeterActivity;
 import co.id.pdamkotasmg.ui.activity.SingleManometerActivity;
 import co.id.pdamkotasmg.ui.activity.VerifikasiDitolakActivity;
 import co.id.pdamkotasmg.ui.activity.bendel.InputDataActivity;
+import co.id.pdamkotasmg.ui.activity.settings.SettingsActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,7 +54,7 @@ public class InputFragment extends Fragment {
         progressDialog.setMessage("Mohon tunggu...");
 
         binding.tvHeaderJudul.setText("Inpu Baca Meter");
-        binding.ivHeaderInfo.setOnClickListener(view -> Config.logout(getActivity()));
+        binding.ivHeaderInfo.setOnClickListener(view -> startActivity(new Intent(getActivity(), SettingsActivity.class)));
 
         binding.divInBendel.setOnClickListener(view -> {
             codeInputData = "1";

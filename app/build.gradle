@@ -26,7 +26,7 @@ android {
 =======
         targetSdk 35
 
-        versionCode 58 // update playstore
+        versionCode 61 // update playstore
         versionName "1.1.1" // ini diganti
 
 >>>>>>> 6952bdd8461502f0e1c2413166e89d58df163e3c
@@ -38,6 +38,13 @@ android {
             // aktifkan R8/proguard jika dibutuhkan
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            // Native debug symbols untuk Play Console / Crashlytics.
+            // SYMBOL_TABLE = ukuran kecil, cukup utk simbolisasi stacktrace native.
+            // FULL = + DWARF debug info (besar, jarang dibutuhkan kecuali debug NDK manual).
+            ndk {
+                debugSymbolLevel 'SYMBOL_TABLE'
+            }
         }
         debug {
             // tempatkan opsional flag debug di sini bila diperlukan
@@ -73,6 +80,15 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.7.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0'
 =======
+
+    packagingOptions {
+        jniLibs {
+            // 16 KB page size support (Play Store policy):
+            // - true  → .so terkompres di APK, tidak page-aligned → ditolak Play Store.
+            // - false → .so disimpan uncompressed & di-align 16 KB oleh AGP 8.5+.
+            useLegacyPackaging false
+        }
+    }
 
     // Dynamic Feature Modules
     dynamicFeatures = [':edms', ':pembacameter', ':pekerjaanteknik']
@@ -273,6 +289,11 @@ dependencies {
 
     // zoom image
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    def room_version = "2.6.1"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.work:work-runtime:2.9.1"
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
