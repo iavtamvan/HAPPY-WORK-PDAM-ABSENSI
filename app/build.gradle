@@ -16,7 +16,7 @@ android {
         minSdk 23
         targetSdk 35
 
-        versionCode 59 // update playstore
+        versionCode 61 // update playstore
         versionName "1.1.1" // ini diganti
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -27,6 +27,13 @@ android {
             // aktifkan R8/proguard jika dibutuhkan
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            // Native debug symbols untuk Play Console / Crashlytics.
+            // SYMBOL_TABLE = ukuran kecil, cukup utk simbolisasi stacktrace native.
+            // FULL = + DWARF debug info (besar, jarang dibutuhkan kecuali debug NDK manual).
+            ndk {
+                debugSymbolLevel 'SYMBOL_TABLE'
+            }
         }
         debug {
             // tempatkan opsional flag debug di sini bila diperlukan
@@ -46,7 +53,10 @@ android {
 
     packagingOptions {
         jniLibs {
-            useLegacyPackaging true
+            // 16 KB page size support (Play Store policy):
+            // - true  → .so terkompres di APK, tidak page-aligned → ditolak Play Store.
+            // - false → .so disimpan uncompressed & di-align 16 KB oleh AGP 8.5+.
+            useLegacyPackaging false
         }
     }
 
