@@ -72,6 +72,7 @@ public class SettingsFragment extends Fragment {
 
         setupOfflineToggle();
         setupAutoCleanupToggle();
+        setupInAppCameraToggle();
         setupAutoSyncToggle();
         setupAutoSyncDetails();
         refreshConnectionStatus();
@@ -114,6 +115,16 @@ public class SettingsFragment extends Fragment {
         binding.switchAutoCleanup.setChecked(settings.isAutoCleanupCacheEnabled());
         binding.switchAutoCleanup.setOnCheckedChangeListener((btn, isChecked) -> {
             settings.setAutoCleanupCacheEnabled(isChecked);
+        });
+    }
+
+    // ============== IN-APP CAMERA TOGGLE ==============
+
+    private void setupInAppCameraToggle() {
+        if (binding == null) return;
+        binding.switchInAppCamera.setChecked(settings.isInAppCameraEnabled());
+        binding.switchInAppCamera.setOnCheckedChangeListener((btn, isChecked) -> {
+            settings.setInAppCameraEnabled(isChecked);
         });
     }
 

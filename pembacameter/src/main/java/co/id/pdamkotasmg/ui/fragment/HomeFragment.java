@@ -26,6 +26,11 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.view.animation.DecelerateInterpolator;
+import androidx.core.widget.NestedScrollView;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.pdamkotasmg.goodday.fitur.menuLainnya.ProfilePelangganDanTagihanActivity;
 import com.pdamkotasmg.goodday.fitur.menuLainnya.WebViewActivity;
@@ -87,6 +92,9 @@ public class HomeFragment extends Fragment {
 
         binding.scrollingtext.setText("HALOOooo PEMBACA METER..... SELAMAT BEKERJA....");
         binding.scrollingtext.setSelected(true);
+
+        setupScrollAnimations();
+        playEntranceAnimations();
 
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
@@ -351,5 +359,70 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+    }
+
+    // ============== SCROLL ANIMATIONS (Fase #4) ==============
+
+    private static final int TOP_BAR_HIDE_THRESHOLD_PX = 240;
+
+    /**
+     * Listener scroll utk:
+     *   - Hide-on-scroll-down top bar (avatar + marquee + refresh + logout) dgn fade+translateY.
+     *   - Greeting card parallax subtle (translateY 0.3× scroll, alpha bleed 0.6).
+     *
+     * Pakai NestedScrollView.OnScrollChangeListener — tersedia sejak NestedScrollView 1.0.
+     */
+    private void setupScrollAnimations() {
+        if (binding == null) return;
+        binding.scrollHome.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(@NonNull NestedScrollView v, int x, int y, int oldX, int oldY) {
+                if (binding == null) return;
+
+                // Top bar: hide gradually saat scroll lewat threshold
+                float topProgress = Math.min(1f, (float) y / (float) TOP_BAR_HIDE_THRESHOLD_PX);
+                binding.topBar.setAlpha(1f - topProgress);
+                binding.topBar.setTranslationY(-topProgress * binding.topBar.getHeight() * 0.6f);
+
+                // Greeting card parallax + fade
+                if (binding.cardGreeting != null) {
+                    binding.cardGreeting.setTranslationY(-y * 0.18f);
+                    float greetAlpha = Math.max(0.35f, 1f - (y / 600f));
+                    binding.cardGreeting.setAlpha(greetAlpha);
+                }
+            }
+        });
+    }
+
+    /**
+     * Entrance staggered animation untuk kartu-kartu utama:
+     *   1. Greeting card slide-up + fade-in (delay 0ms, 400ms)
+     *   2. Row stats slide-up + fade-in   (delay 120ms, 400ms)
+     *   3. Row actions slide-up + fade-in (delay 240ms, 400ms)
+     *   4. Motivation slide-up + fade-in  (delay 360ms, 400ms)
+     */
+    private void playEntranceAnimations() {
+        if (binding == null) return;
+        View[] targets = {
+                binding.cardGreeting,
+                binding.rowStats,
+                binding.rowActions,
+                binding.cardMotivation
+        };
+        int delayStep = 110;
+        for (int i = 0; i < targets.length; i++) {
+            View t = targets[i];
+            if (t == null) continue;
+            t.setAlpha(0f);
+            t.setTranslationY(60f);
+            ObjectAnimator fade = ObjectAnimator.ofFloat(t, "alpha", 0f, 1f);
+            ObjectAnimator slide = ObjectAnimator.ofFloat(t, "translationY", 60f, 0f);
+            AnimatorSet set = new AnimatorSet();
+            set.playTogether(fade, slide);
+            set.setDuration(420);
+            set.setStartDelay((long) i * delayStep);
+            set.setInterpolator(new DecelerateInterpolator(1.6f));
+            set.start();
+        }
     }
 }

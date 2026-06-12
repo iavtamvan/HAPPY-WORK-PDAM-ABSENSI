@@ -2,6 +2,7 @@ package co.id.pdamkotasmg.ui.fragment.settings;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import co.id.pdamkotasmg.ui.activity.bendel.BendelPembacaKhususActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +21,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.pdamkotasmg.goodday.utils.Config;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import co.id.pdamkotasmg.local.NetworkUtil;
 import co.id.pdamkotasmg.local.db.AppDatabase;
@@ -91,13 +96,26 @@ public class PendingDataFragment extends Fragment implements PendingDataAdapter.
     private void loadPending() {
         AppDatabase.databaseExecutor.execute(() -> {
             try {
-                List<PendingBacaanEntity> all = AppDatabase.getInstance(requireContext())
-                        .pendingBacaanDao().getAllUnsynced();
+                AppDatabase appDb = AppDatabase.getInstance(requireContext());
+                List<PendingBacaanEntity> all = appDb.pendingBacaanDao().getAllUnsynced();
+
+                // Pre-fetch foto meter path per pending → diserahkan ke adapter supaya bisa
+                // langsung ditampilkan thumbnail tanpa query DB di onBindViewHolder.
+                Map<Long, String> fotoPaths = new HashMap<>(all.size());
+                for (PendingBacaanEntity p : all) {
+                    PendingFotoEntity foto = appDb.pendingFotoDao()
+                            .getByPendingBacaanAndJenis(p.id, PendingFotoEntity.JENIS_FOTO_METER);
+                    if (foto != null && foto.localFilePath != null) {
+                        fotoPaths.put(p.id, foto.localFilePath);
+                    }
+                }
+
                 if (binding == null) return;
                 requireActivity().runOnUiThread(() -> {
                     if (binding == null) return;
                     items.clear();
                     items.addAll(all);
+                    adapter.setFotoMeterPaths(fotoPaths);
                     adapter.notifyDataSetChanged();
                     updateEmptyState();
                     updateSyncButtonEnabled();
@@ -302,7 +320,20 @@ public class PendingDataFragment extends Fragment implements PendingDataAdapter.
 
     @Override
     public void onItemClick(PendingBacaanEntity entity) {
-        // Tampilkan detail singkat pakai dialog
+        // Hanya KHUSUS_BENDEL yang punya activity edit saat ini.
+        // Jenis lain (per_pelanggan, baca_ulang, dll) fallback ke dialog detail.
+        if (PendingBacaanEntity.JENIS_KHUSUS_BENDEL.equals(entity.jenis)) {
+            Intent intent = new Intent(requireContext(), BendelPembacaKhususActivity.class);
+            intent.putExtra(Config.BUNDLE_PEMBACA_METER_NOLANGG, entity.nolangg);
+            if (entity.bendel != null) {
+                intent.putExtra(Config.BUNDLE_PEMBACA_METER_CODE_BENDEL, entity.bendel);
+            }
+            intent.putExtra(Config.BUNDLE_PEMBACA_METER_EDIT_PENDING_ID, entity.id);
+            startActivity(intent);
+            return;
+        }
+
+        // Fallback: dialog detail untuk jenis yang belum punya edit screen
         StringBuilder sb = new StringBuilder();
         sb.append("Nolangg: ").append(entity.nolangg).append("\n");
         sb.append("Bendel: ").append(entity.bendel != null ? entity.bendel : "-").append("\n");

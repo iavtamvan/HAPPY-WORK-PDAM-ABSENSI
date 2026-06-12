@@ -219,24 +219,34 @@ public class PembacaMeterActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.toString().isEmpty()) {
+                // HARDENING: dulu Integer.parseInt(editable) & Integer.parseInt(lalu) bisa
+                // langsung NumberFormatException kalau input non-numeric atau lalu null.
+                String raw = editable.toString();
+                if (raw.isEmpty()) {
                     Toast.makeText(PembacaMeterActivity.this, "Isi meter Kini", Toast.LENGTH_SHORT).show();
                     binding.tvHitungKubik.setText(" 0m3");
                     binding.tvHitungKubik.setTextColor(getColor(R.color.black));
+                    return;
+                }
+
+                int kini = safeParseInt(raw, -1);
+                if (kini < 0) {
+                    binding.tvHitungKubik.setText(" 0m3");
+                    binding.tvHitungKubik.setTextColor(getColor(R.color.black));
+                    return;
+                }
+                if (lalu == null) {
+                    binding.tvHitungKubik.setText("menunggu data pelanggan...");
+                    binding.tvHitungKubik.setTextColor(getColor(R.color.black));
+                    return;
+                }
+                int prev = safeParseInt(lalu, 0);
+                int hitung = kini - prev;
+                binding.tvHitungKubik.setText(hitung + "m3");
+                if (hitung < 0) {
+                    binding.tvHitungKubik.setTextColor(getColor(R.color.red));
                 } else {
-//                    if (codeInputData.contains("7")){
-//
-//                    } else {
-                    String hitungm3 = String.valueOf(Integer.parseInt(editable.toString()) - Integer.parseInt(lalu));
-                    binding.tvHitungKubik.setText(hitungm3 + "m3");
-
-                    if (Integer.parseInt(hitungm3) < 0) {
-                        binding.tvHitungKubik.setTextColor(getColor(R.color.red));
-                    } else {
-                        binding.tvHitungKubik.setTextColor(getColor(R.color.black));
-                    }
-
-//                    }
+                    binding.tvHitungKubik.setTextColor(getColor(R.color.black));
                 }
             }
         });
@@ -830,6 +840,12 @@ public class PembacaMeterActivity extends AppCompatActivity {
                 Toast.makeText(PembacaMeterActivity.this, "" + Config.ERROR_MSG, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private int safeParseInt(String s, int fallback) {
+        if (s == null) return fallback;
+        try { return Integer.parseInt(s.trim()); }
+        catch (NumberFormatException e) { return fallback; }
     }
 
 }

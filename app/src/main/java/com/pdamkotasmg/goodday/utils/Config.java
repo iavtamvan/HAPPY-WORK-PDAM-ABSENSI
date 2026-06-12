@@ -246,6 +246,10 @@ public final class Config {
     public static final String BUNDLE_PEMBACA_METER_MEREK_METER = "pembaca_meter_merek_meter";
     public static final String BUNDLE_PEMBACA_METER_LALU = "pembaca_meter_lalu";
     public static final String BUNDLE_PEMBACA_METER_PING_INTERNET = "bundle_pembaca_meter_ping_internet";
+    /** Edit mode: ID PendingBacaanEntity yang sedang di-edit. -1 = mode input baru. */
+    public static final String BUNDLE_PEMBACA_METER_EDIT_PENDING_ID = "bundle_pembaca_meter_edit_pending_id";
+    /** Settings: toggle in-app camera (CameraX) vs system camera (EasyImage). */
+    public static final String SETTING_IN_APP_CAMERA_ENABLED = "in_app_camera_enabled";
 
 
     public static final String SHARED_PERIODE = "shared_periode";

@@ -21,6 +21,7 @@ public class SettingsManager {
     private static final String KEY_AUTO_SYNC_INTERVAL_MINUTES = "auto_sync_interval_minutes";
     private static final String KEY_AUTO_SYNC_WIFI_ONLY = "auto_sync_wifi_only";
     private static final String KEY_AUTO_CLEANUP_CACHE = "auto_cleanup_cache_enabled";
+    private static final String KEY_IN_APP_CAMERA = "in_app_camera_enabled";
 
     // Default values
     private static final boolean DEFAULT_OFFLINE_MODE = false;
@@ -28,6 +29,7 @@ public class SettingsManager {
     private static final int DEFAULT_INTERVAL_MINUTES = 60;  // 1 jam
     private static final boolean DEFAULT_WIFI_ONLY = true;   // Hemat data petugas
     private static final boolean DEFAULT_AUTO_CLEANUP = true; // Fase 6: default ON — hemat storage
+    private static final boolean DEFAULT_IN_APP_CAMERA = false; // default OFF — fallback ke EasyImage
 
     // Interval choices (untuk UI dropdown)
     public static final int[] INTERVAL_CHOICES_MINUTES = {15, 30, 60, 180, 360, 720};
@@ -127,5 +129,15 @@ public class SettingsManager {
 
     public void setAutoCleanupCacheEnabled(boolean enabled) {
         prefs.edit().putBoolean(KEY_AUTO_CLEANUP_CACHE, enabled).apply();
+    }
+
+    // ============== IN-APP CAMERA TOGGLE ==============
+
+    public boolean isInAppCameraEnabled() {
+        return prefs.getBoolean(KEY_IN_APP_CAMERA, DEFAULT_IN_APP_CAMERA);
+    }
+
+    public void setInAppCameraEnabled(boolean enabled) {
+        prefs.edit().putBoolean(KEY_IN_APP_CAMERA, enabled).apply();
     }
 }

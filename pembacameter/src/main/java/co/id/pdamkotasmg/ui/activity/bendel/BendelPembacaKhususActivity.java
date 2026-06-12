@@ -161,6 +161,11 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
     private String periode;
     private String cabang;
 
+    // EDIT MODE (Fase #1b)
+    private long editPendingId = -1;
+    private PendingBacaanEntity editingEntity;
+    private boolean isEditMode() { return editPendingId > 0; }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,7 +175,12 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
         setContentView(root);
 
         binding.ivHeaderBackArrow.setOnClickListener(view -> BendelPembacaKhususActivity.this.finish());
-        binding.tvHeaderJudul.setText("Input Bacaan Khusus Bendel");
+
+        // EDIT MODE: detect dari intent extra
+        editPendingId = getIntent().getLongExtra(Config.BUNDLE_PEMBACA_METER_EDIT_PENDING_ID, -1);
+        binding.tvHeaderJudul.setText(isEditMode()
+                ? "Edit Bacaan Pending #" + editPendingId
+                : "Input Bacaan Khusus Bendel");
 
         sp = getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         editorSp = sp.edit();
@@ -219,6 +229,11 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
         refreshOfflineBanner();
 
         getListGabungan();
+
+        // Edit mode: pre-fill form dari Room
+        if (isEditMode()) {
+            loadPendingForEdit(editPendingId);
+        }
 
         if (kodeStatusMeter == null) {
             kodeStatusMeter = "1";
@@ -274,12 +289,12 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
 
         binding.photoViewLeft.setOnClickListener(view -> {
             reqCodeFoto = "1";
-            easyImage.openChooser(BendelPembacaKhususActivity.this);
+            launchCameraOrPicker("foto_meter");
         });
 
         binding.photoViewRight.setOnClickListener(view -> {
             reqCodeFoto = "2";
-            easyImage.openChooser(BendelPembacaKhususActivity.this);
+            launchCameraOrPicker("foto_manometer");
         });
 
         binding.btnSimpanData.setOnClickListener(view -> {
@@ -303,8 +318,11 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
                                 }
                             }
 
-                            // ============== FASE 3: CABANG BERDASARKAN MODE OFFLINE ==============
-                            if (settings.isOfflineModeEnabled()) {
+                            // ============== EDIT MODE PRIORITAS ATAS OFFLINE TOGGLE ==============
+                            if (isEditMode()) {
+                                Log.d(TAG, "Edit mode → updatePendingOffline");
+                                updateBacaanOffline();
+                            } else if (settings.isOfflineModeEnabled()) {
                                 Log.d(TAG, "Mode Offline ON → save offline");
                                 saveBacaanOffline();
                             } else {
@@ -336,7 +354,13 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
      */
     private void refreshOfflineBanner() {
         if (binding == null) return;
-        if (settings != null && settings.isOfflineModeEnabled()) {
+        if (isEditMode()) {
+            binding.tvSystemUpdate.setText(
+                    "✏ Mode Edit — perubahan akan UPDATE data pending, bukan buat baru");
+            binding.tvSystemUpdate.setTextColor(getColor(R.color.orangeGreatDay));
+            // Simpan-lanjut tidak relevan saat edit
+            binding.btnSimpanLanjut.setVisibility(View.GONE);
+        } else if (settings != null && settings.isOfflineModeEnabled()) {
             binding.tvSystemUpdate.setText(
                     "⚡ Mode Offline aktif — bacaan akan tersimpan di HP & dikirim saat sync");
             binding.tvSystemUpdate.setTextColor(getColor(R.color.orangeGreatDay));
@@ -344,6 +368,137 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
             binding.tvSystemUpdate.setText("Pastikan semua data benar - System v.0.9");
             binding.tvSystemUpdate.setTextColor(getColor(com.pdamkotasmg.goodday.R.color.dash_v2_bluedark));
         }
+    }
+
+    // ============== EDIT MODE ==============
+
+    /**
+     * Load PendingBacaanEntity + foto-nya dari Room, pre-fill form.
+     */
+    private void loadPendingForEdit(long id) {
+        showLoading(true);
+        co.id.pdamkotasmg.local.db.AppDatabase.databaseExecutor.execute(() -> {
+            try {
+                co.id.pdamkotasmg.local.db.AppDatabase appDb =
+                        co.id.pdamkotasmg.local.db.AppDatabase.getInstance(this);
+                PendingBacaanEntity entity = appDb.pendingBacaanDao().getById(id);
+                if (entity == null) {
+                    runOnUiThread(() -> {
+                        if (isActivityGone()) return;
+                        showLoading(false);
+                        Toast.makeText(this, "Data pending #" + id + " tidak ditemukan",
+                                Toast.LENGTH_SHORT).show();
+                        finish();
+                    });
+                    return;
+                }
+
+                co.id.pdamkotasmg.local.db.entity.PendingFotoEntity fotoMeter =
+                        appDb.pendingFotoDao().getByPendingBacaanAndJenis(
+                                id, co.id.pdamkotasmg.local.db.entity.PendingFotoEntity.JENIS_FOTO_METER);
+                co.id.pdamkotasmg.local.db.entity.PendingFotoEntity fotoManometer =
+                        appDb.pendingFotoDao().getByPendingBacaanAndJenis(
+                                id, co.id.pdamkotasmg.local.db.entity.PendingFotoEntity.JENIS_FOTO_MANOMETER);
+
+                runOnUiThread(() -> {
+                    if (isActivityGone()) return;
+                    editingEntity = entity;
+                    prefillFormFromEntity(entity, fotoMeter, fotoManometer);
+                    showLoading(false);
+                });
+            } catch (Exception e) {
+                Log.e(TAG, "loadPendingForEdit error", e);
+                runOnUiThread(() -> {
+                    if (isActivityGone()) return;
+                    showLoading(false);
+                    Toast.makeText(this, "Gagal memuat data pending", Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+    }
+
+    private void prefillFormFromEntity(
+            PendingBacaanEntity entity,
+            co.id.pdamkotasmg.local.db.entity.PendingFotoEntity fotoMeter,
+            co.id.pdamkotasmg.local.db.entity.PendingFotoEntity fotoManometer) {
+
+        if (entity.kini != null) binding.edtKini.setText(entity.kini);
+        if (entity.keterangan != null) binding.edtKeterangan.setText(entity.keterangan);
+        if (entity.manometer != null) binding.edtManometer.setText(entity.manometer);
+        if (entity.kodeStatusMeter != null) kodeStatusMeter = entity.kodeStatusMeter;
+        if (entity.latitude != null) lati = entity.latitude;
+        if (entity.longitude != null) longi = entity.longitude;
+        if (entity.addressGps != null) {
+            address_gps = entity.addressGps;
+            binding.tvLatlongAdress.setText(address_gps + " | lat: " + lati + " longi: " + longi
+                    + "\nTekan disini untuk refresh Lokasi");
+        }
+        if (entity.actionCode != null) action_code = entity.actionCode;
+
+        // Foto: set ke compressedImageFile* + tampilkan di PhotoView
+        if (fotoMeter != null && fotoMeter.localFilePath != null) {
+            File f = new File(fotoMeter.localFilePath);
+            if (f.exists()) {
+                compressedImageFileFotoMeter = f;
+                Glide.with(this).load(f)
+                        .error(com.pdamkotasmg.goodday.R.drawable.image_not_available)
+                        .into(binding.photoViewLeft);
+                reqCodeFoto = "1";
+            }
+        }
+        if (fotoManometer != null && fotoManometer.localFilePath != null) {
+            File f = new File(fotoManometer.localFilePath);
+            if (f.exists()) {
+                compressedImageFileManometer = f;
+                Glide.with(this).load(f)
+                        .error(com.pdamkotasmg.goodday.R.drawable.image_not_available)
+                        .into(binding.photoViewRight);
+            }
+        }
+    }
+
+    /**
+     * UPDATE pending bacaan + foto (edit mode).
+     */
+    private void updateBacaanOffline() {
+        if (editingEntity == null) {
+            Toast.makeText(this, "Entity edit hilang, batal update", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        showLoading(true);
+
+        // Update field dari form
+        editingEntity.kini = binding.edtKini.getText().toString().trim();
+        editingEntity.kodeStatusMeter = kodeStatusMeter;
+        editingEntity.keterangan = binding.edtKeterangan.getText().toString().trim();
+        editingEntity.manometer = binding.edtManometer.getText().toString().trim();
+        editingEntity.latitude = lati;
+        editingEntity.longitude = longi;
+        editingEntity.addressGps = address_gps;
+
+        bacaanRepository.updatePendingOffline(
+                editingEntity,
+                compressedImageFileFotoMeter,
+                compressedImageFileManometer,
+                new BacaanRepository.SaveCallback() {
+                    @Override
+                    public void onSaved(long pendingBacaanId) {
+                        if (isActivityGone()) return;
+                        showLoading(false);
+                        Toast.makeText(BendelPembacaKhususActivity.this,
+                                "Pending #" + pendingBacaanId + " ter-update",
+                                Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                    @Override
+                    public void onError(String message, Throwable t) {
+                        if (isActivityGone()) return;
+                        showLoading(false);
+                        Toast.makeText(BendelPembacaKhususActivity.this,
+                                message != null ? message : "Gagal update",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     // ============== FASE 3 — OFFLINE SAVE ==============
@@ -754,9 +909,64 @@ public class BendelPembacaKhususActivity extends AppCompatActivity {
         });
     }
 
+    private static final int REQ_IN_APP_CAMERA = 9301;
+
+    /**
+     * Branch ke InAppCameraActivity kalau toggle ON, fallback EasyImage kalau OFF.
+     */
+    private void launchCameraOrPicker(String fileTag) {
+        if (settings != null && settings.isInAppCameraEnabled()) {
+            Intent intent = new Intent(this,
+                    co.id.pdamkotasmg.ui.activity.camera.InAppCameraActivity.class);
+            String wm = currentDateLocal + " " + currentTimeLocal + "\n" + nolangg + " (" + npp + ")";
+            intent.putExtra(co.id.pdamkotasmg.ui.activity.camera.InAppCameraActivity.EXTRA_WATERMARK_TEXT, wm);
+            intent.putExtra(co.id.pdamkotasmg.ui.activity.camera.InAppCameraActivity.EXTRA_FILE_TAG, fileTag);
+            startActivityForResult(intent, REQ_IN_APP_CAMERA);
+        } else {
+            easyImage.openChooser(BendelPembacaKhususActivity.this);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        // Branch hasil dari InAppCameraActivity (CameraX)
+        if (requestCode == REQ_IN_APP_CAMERA) {
+            if (resultCode == RESULT_OK && data != null) {
+                String path = data.getStringExtra(
+                        co.id.pdamkotasmg.ui.activity.camera.InAppCameraActivity.RESULT_FILE_PATH);
+                if (path != null) {
+                    File captured = new File(path);
+                    rootPathImage = captured.getParent();
+                    try {
+                        if ("1".equals(reqCodeFoto)) {
+                            compressedImageFileFotoMeter = new Compressor(BendelPembacaKhususActivity.this)
+                                    .setMaxHeight(800).setMaxWidth(800).setQuality(70)
+                                    .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                                    .setDestinationDirectoryPath(rootPathImage)
+                                    .compressToFile(captured, "iac_meter_" + System.currentTimeMillis() + ".webp");
+                            Glide.with(this).load(compressedImageFileFotoMeter)
+                                    .error(com.pdamkotasmg.goodday.R.drawable.image_not_available)
+                                    .into(binding.photoViewLeft);
+                        } else if ("2".equals(reqCodeFoto)) {
+                            compressedImageFileManometer = new Compressor(BendelPembacaKhususActivity.this)
+                                    .setMaxHeight(800).setMaxWidth(800).setQuality(70)
+                                    .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                                    .setDestinationDirectoryPath(rootPathImage)
+                                    .compressToFile(captured, "iac_mano_" + System.currentTimeMillis() + ".webp");
+                            Glide.with(this).load(compressedImageFileManometer)
+                                    .error(com.pdamkotasmg.goodday.R.drawable.image_not_available)
+                                    .into(binding.photoViewRight);
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "Compressor in-app camera gagal", e);
+                        Toast.makeText(this, "Gagal kompres foto", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            return;
+        }
 
         easyImage.handleActivityResult(requestCode, resultCode, data, BendelPembacaKhususActivity.this, new EasyImage.Callbacks() {
             @Override

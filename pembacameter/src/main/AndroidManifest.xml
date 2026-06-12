@@ -3,6 +3,8 @@
     xmlns:dist="http://schemas.android.com/apk/distribution">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <dist:module
         dist:instant="false"
@@ -59,6 +61,10 @@
         <activity
             android:name="co.id.pdamkotasmg.MainActivity"
             android:exported="false" />
+        <activity
+            android:name="co.id.pdamkotasmg.ui.activity.camera.InAppCameraActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="preloaded_fonts"

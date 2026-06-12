@@ -25,8 +25,10 @@
 
     <!-- ═══════ TOP BAR (avatar + marquee + refresh + logout) ═══════ -->
     <LinearLayout
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="0dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="16dp"
@@ -81,10 +83,12 @@
 
     </LinearLayout>
 
-    <!-- Sisa konten scrollable -->
-    <ScrollView
+    <!-- Sisa konten scrollable (NestedScrollView untuk dukung scroll animasi modern) -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:overScrollMode="never">
 
         <LinearLayout
@@ -95,6 +99,7 @@
 
             <!-- ═══════ GREETING CARD (gradient red) ═══════ -->
             <LinearLayout
+                android:id="@+id/card_greeting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -201,6 +206,7 @@
 
             <!-- ═══════ STAT CARDS (3 cards) ═══════ -->
             <LinearLayout
+                android:id="@+id/row_stats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
@@ -354,6 +360,7 @@
 
             <!-- ═══════ ACTION CARDS (Cek Data + Cek Koneksi) ═══════ -->
             <LinearLayout
+                android:id="@+id/row_actions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
@@ -472,6 +479,7 @@
 
             <!-- ═══════ MOTIVATION CARD ═══════ -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_motivation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -529,6 +537,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

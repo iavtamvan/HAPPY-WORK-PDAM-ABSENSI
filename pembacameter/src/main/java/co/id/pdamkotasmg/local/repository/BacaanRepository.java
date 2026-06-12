@@ -220,6 +220,91 @@ public class BacaanRepository {
         });
     }
 
+    /**
+     * Update pending bacaan yang sudah ada di Room (Mode Edit Pending Data tab).
+     *
+     * Behavior:
+     *   - UPDATE PendingBacaanEntity (id sama, field text di-replace dengan yang baru)
+     *   - Kalau fotoMeterFile != null & beda dari yang lama → replace foto file & PendingFotoEntity
+     *   - Reset syncStatus ke STATUS_PENDING + retryCount=0 supaya bisa di-sync ulang
+     *   - lastError di-null-kan
+     *
+     * @param entity              entity dengan id yang sudah ada
+     * @param newFotoMeterFile    null kalau foto tidak diganti
+     * @param newFotoManometerFile null kalau foto manometer tidak diganti
+     */
+    public void updatePendingOffline(
+            PendingBacaanEntity entity,
+            File newFotoMeterFile,
+            File newFotoManometerFile,
+            SaveCallback callback) {
+
+        AppDatabase.databaseExecutor.execute(() -> {
+            try {
+                if (entity.id == 0) {
+                    deliverError(callback, "Entity ID tidak valid untuk update", null);
+                    return;
+                }
+
+                entity.syncStatus = PendingBacaanEntity.STATUS_PENDING;
+                entity.retryCount = 0;
+                entity.lastError = null;
+
+                // Replace foto kalau ada yang baru
+                if (newFotoMeterFile != null) {
+                    replaceFoto(entity.id, PendingFotoEntity.JENIS_FOTO_METER,
+                            newFotoMeterFile, entity.nolangg);
+                }
+                if (newFotoManometerFile != null) {
+                    replaceFoto(entity.id, PendingFotoEntity.JENIS_FOTO_MANOMETER,
+                            newFotoManometerFile, entity.nolangg);
+                }
+
+                db.pendingBacaanDao().update(entity);
+
+                Log.d(TAG, "updatePendingOffline sukses id=" + entity.id);
+                mainHandler.post(() -> callback.onSaved(entity.id));
+
+            } catch (Exception e) {
+                Log.e(TAG, "updatePendingOffline error", e);
+                deliverError(callback, "Gagal update pending: " + e.getMessage(), e);
+            }
+        });
+    }
+
+    private void replaceFoto(long pendingBacaanId, String jenis, File newFile, String nolangg) {
+        PendingFotoEntity existing = db.pendingFotoDao()
+                .getByPendingBacaanAndJenis(pendingBacaanId, jenis);
+        File savedNew = photoStorage.copyToPendingStorage(newFile, nolangg, jenis);
+        if (savedNew == null) {
+            Log.w(TAG, "replaceFoto: gagal copy foto baru, skip update");
+            return;
+        }
+        if (existing != null) {
+            // Hapus file lama
+            try {
+                if (existing.localFilePath != null) {
+                    File old = new File(existing.localFilePath);
+                    if (old.exists()) old.delete();
+                }
+            } catch (Exception ignored) {}
+            existing.localFilePath = savedNew.getAbsolutePath();
+            existing.uploadStatus = PendingFotoEntity.STATUS_PENDING;
+            existing.serverPath = null;
+            existing.serverUrl = null;
+            existing.lastError = null;
+            db.pendingFotoDao().update(existing);
+        } else {
+            PendingFotoEntity foto = new PendingFotoEntity();
+            foto.pendingBacaanId = pendingBacaanId;
+            foto.jenis = jenis;
+            foto.localFilePath = savedNew.getAbsolutePath();
+            foto.createdAt = System.currentTimeMillis();
+            foto.uploadStatus = PendingFotoEntity.STATUS_PENDING;
+            db.pendingFotoDao().insert(foto);
+        }
+    }
+
     public void hasPendingForNolangg(String nolangg, java.util.function.Consumer<Boolean> callback) {
         AppDatabase.databaseExecutor.execute(() -> {
             boolean has = !db.pendingBacaanDao().getByNolangg(nolangg).isEmpty();

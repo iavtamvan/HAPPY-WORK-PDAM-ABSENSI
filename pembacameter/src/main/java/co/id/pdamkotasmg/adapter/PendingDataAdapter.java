@@ -8,10 +8,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
+import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import co.id.pdamkotasmg.local.db.entity.PendingBacaanEntity;
 import co.id.pdamkotasmg.pembacameter.R;
@@ -30,10 +35,17 @@ public class PendingDataAdapter extends RecyclerView.Adapter<PendingDataAdapter.
     private final Listener listener;
     private final SimpleDateFormat dateFmt = new SimpleDateFormat("dd MMM HH:mm", Locale.getDefault());
 
+    /** Map pendingBacaanId → local path foto meter. Di-set oleh fragment via {@link #setFotoMeterPaths}. */
+    private Map<Long, String> fotoMeterPaths = Collections.emptyMap();
+
     public PendingDataAdapter(Context ctx, List<PendingBacaanEntity> items, Listener listener) {
         this.ctx = ctx;
         this.items = items;
         this.listener = listener;
+    }
+
+    public void setFotoMeterPaths(Map<Long, String> paths) {
+        this.fotoMeterPaths = paths != null ? paths : Collections.emptyMap();
     }
 
     @NonNull
@@ -62,6 +74,20 @@ public class PendingDataAdapter extends RecyclerView.Adapter<PendingDataAdapter.
 
     private void bind(ItemPendingDataBinding b, PendingBacaanEntity item) {
         b.tvNolangg.setText(item.nolangg != null ? item.nolangg : "-");
+
+        // Foto meter thumbnail
+        String fotoPath = fotoMeterPaths.get(item.id);
+        if (fotoPath != null && new File(fotoPath).exists()) {
+            Glide.with(ctx)
+                    .load(new File(fotoPath))
+                    .placeholder(R.drawable.image_not_available)
+                    .error(R.drawable.image_not_available)
+                    .centerCrop()
+                    .into(b.ivFotoThumb);
+        } else {
+            Glide.with(ctx).clear(b.ivFotoThumb);
+            b.ivFotoThumb.setImageResource(R.drawable.image_not_available);
+        }
 
         // Sub info: jenis + bacaan kini
         StringBuilder sub = new StringBuilder();
