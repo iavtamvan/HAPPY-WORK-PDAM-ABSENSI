@@ -16,6 +16,36 @@
     <color name="redGojek">#E52A34</color>
     <color name="blueGojek">#388BF2</color>
 
+    <!-- Palet air Tirta Moedal -->
+    <color name="pdam_blue">#0096D1</color>
+    <color name="pdam_blue_dark">#00688F</color>
+    <color name="pdam_blue_deep">#004E6E</color>
+    <color name="pdam_blue_soft">#E4F4FB</color>
+    <color name="pdam_aqua">#22C1DC</color>
+    <color name="pdam_surface">#F4F8FB</color>
+    <color name="pdam_text">#132B36</color>
+    <color name="pdam_text_muted">#6A7F8A</color>
+    <color name="pdam_outline">#DCE7ED</color>
+
+    <!-- Warna kartu status pada daftar info/peringatan -->
+    <color name="pdam_info_bg">#FAEEDA</color>
+    <color name="pdam_info_title">#633806</color>
+    <color name="pdam_info_body">#854F0B</color>
+    <color name="pdam_warn_bg">#FCEBEB</color>
+    <color name="pdam_warn_title">#791F1F</color>
+    <color name="pdam_warn_body">#A32D2D</color>
+    <color name="pdam_ok_bg">#E1F5EE</color>
+    <color name="pdam_ok_title">#085041</color>
+    <color name="pdam_ok_body">#0F6E56</color>
+
+    <!-- Tanda bintang kolom wajib. Nilai yang sama ditulis langsung di
+         strings_form_spk.xml karena string resource tidak bisa merujuk @color. -->
+    <color name="pdam_required">#C62828</color>
+
+    <!-- Latar penampil foto layar penuh -->
+    <color name="pt_foto_latar">#0B1418</color>
+    <color name="pt_foto_teks_redup">#B3FFFFFF</color>
+
     <color name="orangeGreatDay">#D5840D</color>
     <color name="yellowPortal">#ffc107</color>
     <color name="redPortal">#dc3545</color>

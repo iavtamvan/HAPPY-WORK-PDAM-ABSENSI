@@ -1,132 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Data Call Center. Id wajib: spn_cabang dan spn_kategori (MaterialSpinner),
+    edt_search (EditText - tetap disembunyikan seperti sebelumnya, tetapi WAJIB ada
+    karena DaftarCallCenterActivity memasang TextWatcher padanya), rv, adView,
+    ditambah 3 id dari content_headers.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp"
+    android:background="@color/pdam_surface"
     android:orientation="vertical"
-    tools:context=".fitur.activity.spk.callCenter.DaftarCallCenterActivity">
+    tools:context="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.callCenter.DaftarCallCenterActivity">
 
     <include layout="@layout/content_headers" />
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
+        style="@style/PTCard"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="2dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
             android:orientation="vertical"
-            android:background="@drawable/shapes_rectangle_grey">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Filter"
-                android:textColor="@color/grey"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:textSize="11dp"
-                android:textStyle="italic"/>
+            android:padding="14dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/bg_icon_soft_blue"
+                    android:contentDescription="@null"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_pt_headset"
+                    android:tint="@color/pdam_blue_dark" />
+
+                <TextView
+                    style="@style/PTCardTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Filter" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/PTLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Work order (disposisi)"
-                        android:textColor="@android:color/black"
-                        android:textSize="13dp"
-                        android:textStyle="bold" />
+                        android:text="Work order (disposisi)" />
 
-                    <com.jaredrummler.materialspinner.MaterialSpinner
-                        android:id="@+id/spn_cabang"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="-- Pilih --" />
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_field_pdam"
+                        android:minHeight="48dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="6dp">
 
+                        <com.jaredrummler.materialspinner.MaterialSpinner
+                            android:id="@+id/spn_cabang"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="-- Pilih --" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/PTLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Kategori"
-                        android:textColor="@android:color/black"
-                        android:textSize="13dp"
-                        android:textStyle="bold" />
+                        android:text="Kategori" />
 
-                    <com.jaredrummler.materialspinner.MaterialSpinner
-                        android:id="@+id/spn_kategori"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="-- Pilih --" />
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_field_pdam"
+                        android:minHeight="48dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="6dp">
 
+                        <com.jaredrummler.materialspinner.MaterialSpinner
+                            android:id="@+id/spn_kategori"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="-- Pilih --" />
+                    </LinearLayout>
                 </LinearLayout>
-
             </LinearLayout>
-
-
         </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
+    <!-- Kolom cari tetap disembunyikan seperti tampilan lama, tetapi tidak boleh
+         dihapus: Java memasang TextWatcher pada edt_search saat layar dibuka. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/bg_search_pdam"
+        android:gravity="center_vertical"
+        android:minHeight="48dp"
+        android:orientation="horizontal"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_pt_search"
+            android:tint="@color/pdam_text_muted" />
+
+        <EditText
+            android:id="@+id/edt_search"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:visibility="gone">
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="Cari No CC"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/pdam_text"
+            android:textColorHint="@color/pdam_text_muted"
+            android:textSize="14sp" />
+    </LinearLayout>
 
-            <EditText
-                android:id="@+id/edt_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:hint="Cari No CC (Tersedia 50 Data)"
-                android:imeOptions="actionSearch"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
+    <!-- Daftar dan tampilan kosongnya (utils/KeadaanDaftar) dalam satu bingkai. -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:clipToPadding="false"
+            android:paddingLeft="12dp"
+            android:paddingTop="12dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="8dp"
+            android:scrollbars="none"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_list_perbaikan_cc" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:orientation="vertical">
+        <include layout="@layout/include_keadaan_daftar" />
+    </FrameLayout>
 
-            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/adView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                ads:adSize="BANNER"
-                ads:adUnitId="ca-app-pub-6810772781589252/9470804560"
-                tools:ignore="MissingClass" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-6810772781589252/9470804560" />
 
 </LinearLayout>

@@ -1,14 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+    Home SPK.
+    Isi halaman ada di content_spk (NestedScrollView). Bar atas melayang di atasnya:
+    transparan saat kartu utama terlihat, lalu memadat menjadi putih saat digulir
+    (diatur GerakHome).
+
+    Tiga id header (iv_header_back_arrow, tv_header_judul, iv_header_info) sengaja
+    didefinisikan di sini, bukan lewat content_headers, karena Config.header()
+    membutuhkan ketiganya sementara bar Home punya tampilan sendiri.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".activity.home.HomeSPKActivity">
-
-
-    <include layout="@layout/content_headers" />
+    android:background="@color/pdam_surface"
+    tools:context="co.id.pdamkotasmg.pekerjaanteknik.activity.home.HomeSPKActivity">
 
     <include layout="@layout/content_spk" />
 
-</LinearLayout>
+    <FrameLayout
+        android:id="@+id/div_bar_home"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <!-- Latar putih bar; alpha 0 di atas, 1 saat halaman sudah digulir -->
+        <View
+            android:id="@+id/v_bar_latar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="@drawable/bg_bar_home" />
+
+        <!-- Garis "aliran" yang terisi mengikuti posisi gulir -->
+        <View
+            android:id="@+id/v_garis_aliran"
+            android:layout_width="match_parent"
+            android:layout_height="2.5dp"
+            android:layout_gravity="bottom"
+            android:alpha="0"
+            android:background="@drawable/bg_garis_aliran"
+            android:scaleX="0" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <FrameLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp">
+
+                <!-- Dua latar yang saling berganti: kaca di atas biru, biru muda di atas putih -->
+                <View
+                    android:id="@+id/v_kembali_kaca"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_circle_glass" />
+
+                <View
+                    android:id="@+id/v_kembali_padat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0"
+                    android:background="@drawable/bg_icon_soft_blue" />
+
+                <ImageView
+                    android:id="@+id/iv_header_back_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Kembali"
+                    android:padding="9dp"
+                    android:src="@drawable/ic_pt_arrow_left" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_header_judul"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_weight="1"
+                android:alpha="0"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins_medium"
+                android:maxLines="1"
+                android:text="Home SPK"
+                android:textColor="@color/pdam_text"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Selalu disembunyikan oleh Config.header(), tetapi wajib ada -->
+            <ImageView
+                android:id="@+id/iv_header_info"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@null"
+                android:padding="9dp"
+                android:src="@drawable/ic_pt_info"
+                android:visibility="gone" />
+        </LinearLayout>
+    </FrameLayout>
+
+</FrameLayout>

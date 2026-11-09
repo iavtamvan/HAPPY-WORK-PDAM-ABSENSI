@@ -9,7 +9,6 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,6 +31,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.model.callCenter.mastCCSatker.MKategori
 import co.id.pdamkotasmg.pekerjaanteknik.model.callCenter.mastCCSatker.MastSatkerdanKategoriRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 import co.id.pdamkotasmg.pekerjaanteknik.utils.ConfigAds;
+import co.id.pdamkotasmg.pekerjaanteknik.utils.KeadaanDaftar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,6 +59,7 @@ public class DaftarCallCenterActivity extends AppCompatActivity {
     private ArrayList<String> arrayTipeMastkategori = new ArrayList<>();
     private ArrayList<String> arrayTipeMastkategoriId = new ArrayList<String>();
     private RecyclerView rv;
+    private KeadaanDaftar keadaan;
     private EditText edtSearch;
     private AdView adView;
     private ImageView ivHeaderBackArrow;
@@ -71,6 +72,7 @@ public class DaftarCallCenterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_daftar_call_center);
         
         initView();
+        keadaan = new KeadaanDaftar(findViewById(R.id.div_keadaan_daftar));
 
         Config.header(ivHeaderBackArrow, ivHeaderInfo, tvHeaderJudul, DaftarCallCenterActivity.this, "Data Call Center");
 
@@ -109,7 +111,11 @@ public class DaftarCallCenterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                daftarPerbaikanCCAdapter.getFilter().filter(s);
+                // Adapter baru dibuat setelah respons server datang, jadi mengetik
+                // saat daftar belum termuat sebelumnya menutup aplikasi.
+                if (daftarPerbaikanCCAdapter != null) {
+                    daftarPerbaikanCCAdapter.getFilter().filter(s);
+                }
             }
 
             @Override
@@ -121,6 +127,7 @@ public class DaftarCallCenterActivity extends AppCompatActivity {
     }
 
     public void getDataDisposisi() {
+        keadaan.siapMemuat();
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(this, Config.BASE_URL);
         apiService.getCallCenterAduanByDisposisi(accessToken, satkerCabangID, kategoriID)
@@ -128,28 +135,39 @@ public class DaftarCallCenterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<DisposisiRootModel> call, Response<DisposisiRootModel> response) {
                         progressDialog.cancel();
-                        if (response.isSuccessful()) {
+                        if (response.isSuccessful() && response.body() != null) {
                             dataItemsDisposisi = new ArrayList<>();
                             dataItemsDisposisi = response.body().getData();
                             daftarPerbaikanCCAdapter = new DaftarPerbaikanCCAdapter(DaftarCallCenterActivity.this, dataItemsDisposisi);
                             rv.setLayoutManager(new LinearLayoutManager(DaftarCallCenterActivity.this));
                             rv.setAdapter(daftarPerbaikanCCAdapter);
                             daftarPerbaikanCCAdapter.notifyDataSetChanged();
-
+                            keadaan.pantau(daftarPerbaikanCCAdapter, edtSearch, R.drawable.ic_pt_headset,
+                                    "Tidak ada aduan", "Belum ada aduan Call Center untuk work order dan kategori ini.");
+                        } else {
+                            // Dulu diam saja, sehingga daftar kosong tanpa penjelasan.
+                            keadaan.tampilkanGagal(KeadaanDaftar.pesanGagalServer(response.code()),
+                                    DaftarCallCenterActivity.this::getDataDisposisi);
                         }
-
                     }
 
                     @Override
                     public void onFailure(Call<DisposisiRootModel> call, Throwable t) {
                         progressDialog.cancel();
-                        Toast.makeText(DaftarCallCenterActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        keadaan.tampilkanGagal(KeadaanDaftar.PESAN_GAGAL_KONEKSI, DaftarCallCenterActivity.this::getDataDisposisi);
                     }
                 });
     }
 
+    /** Aduan baru dimuat setelah filter dipilih, jadi keadaan awalnya berupa petunjuk. */
+    private void tampilkanPetunjukFilter() {
+        keadaan.tampilkan(R.drawable.ic_pt_headset, "Pilih filter dulu",
+                "Pilih work order (disposisi) dan kategori untuk menampilkan aduan Call Center.");
+    }
+
     private void getSpinner() {
         Log.d(TAG, "token : " + accessToken);
+        keadaan.siapMemuat();
         progressDialog.show();
         ApiService apiService = ApiConfig.getApiService(this, Config.BASE_URL);
         apiService.getMastCCSatkerdanKategori(accessToken)
@@ -157,7 +175,7 @@ public class DaftarCallCenterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<MastSatkerdanKategoriRootModel> call, Response<MastSatkerdanKategoriRootModel> response) {
                         progressDialog.cancel();
-                        if (response.isSuccessful()) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
                             dataItemsMCcSatkerItems = new ArrayList<>();
                             dataItemsMCcSatkerItems = response.body().getData().getMCcSatker();
                             for (int i = 0; i < dataItemsMCcSatkerItems.size(); i++) {
@@ -179,14 +197,18 @@ public class DaftarCallCenterActivity extends AppCompatActivity {
                             }
                             Log.d(TAG, "onResponse: " + arrayTipeMastkategori);
                             spnKategori.setItems(arrayTipeMastkategori);
+                            tampilkanPetunjukFilter();
+                        } else {
+                            // Tanpa daftar work order dan kategori, layar ini tidak bisa dipakai.
+                            keadaan.tampilkanGagal(KeadaanDaftar.pesanGagalServer(response.code()),
+                                    DaftarCallCenterActivity.this::getSpinner);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<MastSatkerdanKategoriRootModel> call, Throwable t) {
                         progressDialog.cancel();
-                        Toast.makeText(DaftarCallCenterActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-
+                        keadaan.tampilkanGagal(KeadaanDaftar.PESAN_GAGAL_KONEKSI, DaftarCallCenterActivity.this::getSpinner);
                     }
                 });
     }
@@ -194,7 +216,14 @@ public class DaftarCallCenterActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getDataDisposisi();
+        if (adView != null) {
+            adView.resume();
+        }
+        // Dulu selalu memanggil ulang walau filter belum dipilih, sehingga saat
+        // layar dibuka ada dua permintaan sekaligus dan satu di antaranya tanpa filter.
+        if (satkerCabangID != null) {
+            getDataDisposisi();
+        }
     }
 
     private void initView() {
@@ -206,5 +235,23 @@ public class DaftarCallCenterActivity extends AppCompatActivity {
         tvHeaderJudul = findViewById(R.id.tv_header_judul);
         ivHeaderInfo = findViewById(R.id.iv_header_info);
         spnKategori = findViewById(R.id.spn_kategori);
+    }
+
+    @Override
+    protected void onPause() {
+        if (adView != null) {
+            adView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Tanpa destroy(), AdView terus menyegarkan iklan di latar dan
+        // menahan Activity beserta WebView internalnya di memori.
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
     }
 }

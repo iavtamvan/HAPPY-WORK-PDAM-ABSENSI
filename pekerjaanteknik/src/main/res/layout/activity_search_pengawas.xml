@@ -1,68 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Layar pencarian serbaguna (pengawas, kasub, zona, barang, SPK sebelumnya).
+    Id wajib: tv_judul (TextView, tetap gone - Java yang menampilkan),
+    edt_search (EditText), btn_cari (Button), refreshCity (SwipeRefreshLayout),
+    rvCity (RecyclerView), ditambah 3 id dari content_headers.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp"
+    android:background="@color/pdam_surface"
     android:orientation="vertical"
-    tools:context=".fitur.activity.spk.search.SearchPengawasActivity">
+    tools:context="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.search.SearchPengawasActivity">
 
     <include layout="@layout/content_headers" />
 
     <TextView
         android:id="@+id/tv_judul"
+        style="@style/PTLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
         android:text="Ini judul"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
+        android:textSize="12sp"
         android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
+        android:baselineAligned="false"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@drawable/bg_search_pdam"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:orientation="horizontal"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_pt_search"
+                android:tint="@color/pdam_text_muted" />
 
             <EditText
                 android:id="@+id/edt_search"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:hint="Ketik yang dicari" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="Ketik yang dicari"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/pdam_text"
+                android:textColorHint="@color/pdam_text_muted"
+                android:textSize="14sp" />
+        </LinearLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_cari"
+            style="@style/PTButtonPrimary"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:gravity="center"
-            android:text="Cari"
-            android:textColor="@android:color/white" />
-
-
+            android:minWidth="80dp"
+            android:text="Cari" />
     </LinearLayout>
-
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refreshCity"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="12dp"
+            android:scrollbars="none"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_list_pegawai" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
 </LinearLayout>

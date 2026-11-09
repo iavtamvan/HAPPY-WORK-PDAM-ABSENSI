@@ -50,7 +50,7 @@ public class PengawasAdapter extends RecyclerView.Adapter<PengawasAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return dataItem.size();
+        return dataItem == null ? 0 : dataItem.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

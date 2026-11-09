@@ -3,6 +3,9 @@ package co.id.pdamkotasmg.pekerjaanteknik.activity.spk.riwayat;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdView;
@@ -20,8 +24,12 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import co.id.pdamkotasmg.pekerjaanteknik.R;
 import co.id.pdamkotasmg.pekerjaanteknik.api.ApiConfig;
@@ -29,6 +37,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.api.ApiService;
 import co.id.pdamkotasmg.pekerjaanteknik.model.verifikasiSPK.statusVerifikasi.StatusVerifikasiRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 import co.id.pdamkotasmg.pekerjaanteknik.utils.ConfigAds;
+import co.id.pdamkotasmg.pekerjaanteknik.utils.PenampilFoto;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -121,6 +130,13 @@ public class DetailRiwayatSpkActivity extends AppCompatActivity {
         
         initView();
 
+        // Layar ini satu-satunya di modul yang tidak punya tombol kembali,
+        // sehingga petugas harus meraih tombol sistem. Sekarang disediakan.
+        ImageView ivKembali = findViewById(R.id.iv_header_back_arrow);
+        if (ivKembali != null) {
+            ivKembali.setOnClickListener(view -> finish());
+        }
+
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE);
         bagianPelapor = sharedPreferences.getString(Config.SHARED_SATKER, "");
         token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
@@ -158,23 +174,22 @@ public class DetailRiwayatSpkActivity extends AppCompatActivity {
         nocc = getIntent().getStringExtra(Config.BUNDLE_NO_CC);
         nppVerifikator = getIntent().getStringExtra(Config.BUNDLE_VERIFIKATOR);
         lembur = getIntent().getStringExtra(Config.BUNDLE_LEMBUR);
-        lati = Double.parseDouble(getIntent().getStringExtra(Config.BUNDLE_LATITUDE));
-        longi = Double.parseDouble(getIntent().getStringExtra(Config.BUNDLE_LONGITUDE));
-
-        if (lati == null || longi == null || lati.isNaN() || longi.isNaN()) {
-            lati = 0.0;
-            longi = 0.0;
-        }
+        // Koordinat dari server bisa kosong atau berisi teks "null" untuk SPK yang
+        // disimpan tanpa GPS. Double.parseDouble pada nilai seperti itu menutup aplikasi,
+        // dan pengecekan di bawahnya dulu dijalankan setelah parsing sehingga tidak berguna.
+        lati = bacaKoordinat(getIntent().getStringExtra(Config.BUNDLE_LATITUDE));
+        longi = bacaKoordinat(getIntent().getStringExtra(Config.BUNDLE_LONGITUDE));
 
         getMaps();
 
         Log.d("debug", "onCreate: " + foto1 + foto2);
 
-        if (status.equalsIgnoreCase("0")) {
+        // Literal di depan supaya extra yang kosong tidak menutup aplikasi.
+        if ("0".equalsIgnoreCase(status)) {
             status = "Belum Selesai";
-        } else if (status.equalsIgnoreCase("1")) {
+        } else if ("1".equalsIgnoreCase(status)) {
             status = "Selesai";
-        } else if (status.equalsIgnoreCase("2")) {
+        } else if ("2".equalsIgnoreCase(status)) {
             status = "Usulan Rehap";
         }
 
@@ -190,12 +205,15 @@ public class DetailRiwayatSpkActivity extends AppCompatActivity {
         if (list.contains("pekerjaan-teknik.delete-spk")) {
             if (status_verifikasi == null) {
                 tvStatusVerifikasi.setText("Tidak ada status Verifikasi");
+                warnaiStatus(tvStatusVerifikasi, R.color.pdam_text_muted);
                 btnVerifikasi.setVisibility(View.GONE);
             } else if (status_verifikasi.equalsIgnoreCase("0")) {
                 tvStatusVerifikasi.setText("Belum Terverifikasi");
+                warnaiStatus(tvStatusVerifikasi, R.color.pdam_warn_body);
                 btnHapus.setVisibility(View.VISIBLE);
             } else {
                 tvStatusVerifikasi.setText("Terverifikasi");
+                warnaiStatus(tvStatusVerifikasi, R.color.pdam_ok_title);
                 btnVerifikasi.setVisibility(View.GONE);
                 btnHapus.setVisibility(View.GONE);
             }
@@ -228,6 +246,15 @@ public class DetailRiwayatSpkActivity extends AppCompatActivity {
         tvJmlTenagaJmlTenagaKet.setText(jml_tenaga);
         tvNoSpkSebelumnya.setText(no_spk_sbl);
         tvStatus.setText(status);
+        // Dulu warna status dipaku di XML: "Belum Selesai" tetap tampil hijau
+        // dan "Terverifikasi" tampil merah. Sekarang warnanya mengikuti isinya.
+        if ("Selesai".equalsIgnoreCase(status)) {
+            warnaiStatus(tvStatus, R.color.pdam_ok_title);
+        } else if ("Usulan Rehap".equalsIgnoreCase(status)) {
+            warnaiStatus(tvStatus, R.color.pdam_info_title);
+        } else {
+            warnaiStatus(tvStatus, R.color.pdam_warn_body);
+        }
         tvKetZona.setText(ketZona);
         tvTka.setText(tka);
         tvBagianPelapor.setText(bagianPelapor);
@@ -240,6 +267,13 @@ public class DetailRiwayatSpkActivity extends AppCompatActivity {
         Glide.with(DetailRiwayatSpkActivity.this).load(foto2).override(512, 512).error(com.pdamkotasmg.goodday.R.drawable.image_not_available).into(ivFoto2);
         Glide.with(DetailRiwayatSpkActivity.this).load(foto3).override(512, 512).error(com.pdamkotasmg.goodday.R.drawable.image_not_available).into(ivFoto3);
         Glide.with(DetailRiwayatSpkActivity.this).load(foto4).override(512, 512).error(com.pdamkotasmg.goodday.R.drawable.image_not_available).into(ivFoto4);
+
+        // Foto dari server bisa dibuka layar penuh dan diperbesar. Hanya untuk
+        // dilihat, jadi tanpa tombol ganti. Slot tanpa foto memunculkan pesan singkat.
+        cvFoto1.setOnClickListener(v -> PenampilFoto.tampilkan(this, foto1, "Foto 1 · Foto Awal", null));
+        cvFoto2.setOnClickListener(v -> PenampilFoto.tampilkan(this, foto2, "Foto 2 · Foto Proses", null));
+        cvFoto3.setOnClickListener(v -> PenampilFoto.tampilkan(this, foto3, "Foto 3 · Foto Proses", null));
+        cvFoto4.setOnClickListener(v -> PenampilFoto.tampilkan(this, foto4, "Foto 4 · Foto Selesai", null));
 
         btnVerifikasi.setOnClickListener(v -> {
             MaterialDialog mDialog = new MaterialDialog.Builder(DetailRiwayatSpkActivity.this)
@@ -301,23 +335,16 @@ public class DetailRiwayatSpkActivity extends AppCompatActivity {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                         if (response.isSuccessful()) {
+                                            // Dulu keberhasilan dinilai dari response.message().equalsIgnoreCase("ok").
+                                            // Itu reason phrase HTTP yang kosong pada HTTP/2, sehingga penghapusan
+                                            // yang sebenarnya berhasil dilaporkan "Data Gagal dihapus".
                                             progressDialog.cancel();
-                                            String status = response.message();
-                                            Log.d(TAG, "onResponseMessage: " + status);
-                                            if (status.equalsIgnoreCase("ok")) {
-                                                progressDialog.cancel();
-                                                dialogInterface.dismiss();
-                                                Toast.makeText(DetailRiwayatSpkActivity.this, "Data berhasil dihapus", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(DetailRiwayatSpkActivity.this, RiwayatSpkActivity.class);
-                                                intent.putExtra(Config.BUNDLE_KD_RIWAYAT, "1");
-                                                startActivity(intent);
-                                                finish();
-//                                                Config.popUpSuccesIntent(DetailRiwayatSpkActivity.this, "Data berhasil dihapus", RiwayatSpkActivity.class);
-
-                                            } else {
-                                                progressDialog.cancel();
-                                                Toast.makeText(DetailRiwayatSpkActivity.this, "Data Gagal dihapus", Toast.LENGTH_SHORT).show();
-                                            }
+                                            dialogInterface.dismiss();
+                                            Toast.makeText(DetailRiwayatSpkActivity.this, "Data berhasil dihapus", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(DetailRiwayatSpkActivity.this, RiwayatSpkActivity.class);
+                                            intent.putExtra(Config.BUNDLE_KD_RIWAYAT, "1");
+                                            startActivity(intent);
+                                            finish();
                                         } else {
                                             progressDialog.cancel();
                                             Toast.makeText(DetailRiwayatSpkActivity.this, "" + response.errorBody(), Toast.LENGTH_SHORT).show();
@@ -342,27 +369,90 @@ public class DetailRiwayatSpkActivity extends AppCompatActivity {
 
     }
 
+    /** Mengubah teks koordinat menjadi angka; nilai kosong atau tidak valid jadi 0.0. */
+    private double bacaKoordinat(String nilai) {
+        if (nilai == null || nilai.trim().isEmpty() || "null".equalsIgnoreCase(nilai.trim())) {
+            return 0.0;
+        }
+        try {
+            return Double.parseDouble(nilai.trim());
+        } catch (NumberFormatException e) {
+            Log.d(TAG, "Koordinat tidak valid: " + nilai);
+            return 0.0;
+        }
+    }
+
     private void getMaps() {
         Log.d(TAG, "lat: " + lati);
         Log.d(TAG, "long: " + longi);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.maps);
+        if (mapFragment == null) {
+            return;
+        }
 
         mapFragment.getMapAsync(googleMap -> {
             mMap = googleMap;
-            LatLng sydney = new LatLng(lati, longi);
+            // SPK tanpa koordinat: jangan arahkan peta ke titik 0,0 di tengah laut.
+            if (lati == 0.0 && longi == 0.0) {
+                View tvPetaKosong = findViewById(R.id.tv_peta_kosong);
+                if (tvPetaKosong != null) {
+                    tvPetaKosong.setVisibility(View.VISIBLE);
+                }
+                return;
+            }
+            LatLng lokasi = new LatLng(lati, longi);
             CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(sydney)      // Sets the center of the map to Mountain View
-                    .zoom(17)                   // Sets the zoom
-                    .bearing(0)                // Sets the orientation of the camera to east
-                    .tilt(0)                   // Sets the tilt of the camera to 30 degrees
-                    .build();                   // Creates a CameraPosition from the builder
+                    .target(lokasi)
+                    .zoom(17)
+                    .bearing(0)
+                    .tilt(0)
+                    .build();
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+            // Penanda lokasi SPK. Dulu hanya gambar pin yang ditumpuk di tengah peta
+            // (ikut hilang saat tampilan didesain ulang dan tidak ikut bila peta digeser).
+            // Sekarang marker sungguhan tepat di koordinat, dengan gambar pin yang sama.
+            float dp = getResources().getDisplayMetrics().density;
+            mMap.addCircle(new CircleOptions()
+                    .center(lokasi)
+                    .radius(12)
+                    .strokeWidth(2f * dp)
+                    .strokeColor(0x990096D1)
+                    .fillColor(0x260096D1));
+            mMap.addMarker(new MarkerOptions()
+                    .position(lokasi)
+                    .title("Lokasi pekerjaan")
+                    .snippet(alamatGps)
+                    .icon(ikonPenanda())
+                    // Ujung pin ada di 22/24 tinggi gambar ic_marker.
+                    .anchor(0.5f, 22f / 24f));
         });
 //            }
 //        });
 
+    }
+
+    /** Gambar pin merah ic_marker (sama dengan pin lama) sebagai ikon marker peta. */
+    private BitmapDescriptor ikonPenanda() {
+        Drawable pin = ContextCompat.getDrawable(this, R.drawable.ic_marker);
+        if (pin == null) {
+            return BitmapDescriptorFactory.defaultMarker();
+        }
+        int ukuran = Math.round(44 * getResources().getDisplayMetrics().density);
+        Bitmap gambar = Bitmap.createBitmap(ukuran, ukuran, Bitmap.Config.ARGB_8888);
+        Canvas kanvas = new Canvas(gambar);
+        pin.setBounds(0, 0, ukuran, ukuran);
+        pin.draw(kanvas);
+        return BitmapDescriptorFactory.fromBitmap(gambar);
+    }
+
+    /** Memberi warna pada teks status sesuai maknanya. */
+    private void warnaiStatus(TextView target, int idWarna) {
+        if (target != null) {
+            target.setTextColor(ContextCompat.getColor(this, idWarna));
+        }
     }
 
     private void initView() {
@@ -404,5 +494,31 @@ public class DetailRiwayatSpkActivity extends AppCompatActivity {
         tvNppVerifikator = findViewById(R.id.tv_npp_verifikator);
         tvLembur = findViewById(R.id.tv_lembur);
         tvAlamatGps = findViewById(R.id.tv_alamat_gps);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        if (adView != null) {
+            adView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Tanpa destroy(), AdView terus menyegarkan iklan di latar dan
+        // menahan Activity beserta WebView internalnya di memori.
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
     }
 }

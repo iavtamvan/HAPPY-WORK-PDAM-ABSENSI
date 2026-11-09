@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Kartu info dari server muncul berurutan -->
+<layoutAnimation xmlns:android="http://schemas.android.com/apk/res/android"
+    android:animation="@anim/pt_masuk_naik"
+    android:animationOrder="normal"
+    android:delay="18%" />

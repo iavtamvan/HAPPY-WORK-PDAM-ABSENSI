@@ -37,13 +37,20 @@ public class SPKSebelumnyaAdapter extends RecyclerView.Adapter<SPKSebelumnyaAdap
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        // rl_pelaksana kosong untuk SPK yang belum dikerjakan.
+        if (dataItem.get(position) == null || dataItem.get(position).getRlPelaksana() == null) {
+            holder.itemView.setVisibility(View.GONE);
+            return;
+        }
+        holder.itemView.setVisibility(View.VISIBLE);
+
         holder.tvNoSpk.setText(dataItem.get(position).getNoSpk());
         holder.tvLokasi.setText(dataItem.get(position).getAlamat());
         holder.tvTglPelaksanaan.setText(dataItem.get(position).getRlPelaksana().getTglPelaksana());
         holder.tvUraianPekerjaan.setText(dataItem.get(position).getUraian());
 
         String statusPekerjaan = dataItem.get(position).getRlPelaksana().getStatus();
-        if (statusPekerjaan.equalsIgnoreCase("1")) {
+        if ("1".equalsIgnoreCase(statusPekerjaan)) {
             statusPekerjaan = "Selesai";
         } else {
             statusPekerjaan = "Blm Selesai";
@@ -60,7 +67,7 @@ public class SPKSebelumnyaAdapter extends RecyclerView.Adapter<SPKSebelumnyaAdap
 
     @Override
     public int getItemCount() {
-        return dataItem.size();
+        return dataItem == null ? 0 : dataItem.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

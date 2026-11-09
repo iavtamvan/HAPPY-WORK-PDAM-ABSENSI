@@ -141,18 +141,26 @@ public final class ConfigAds {
         });
     }
 
+    // Penanda agar MobileAds.initialize hanya dijalankan sekali per proses.
+    private static volatile boolean adsInitialized = false;
+
     public static void banner(Context context, AdView adView) {
-        // TODO inisialisasi MobileAds
-        MobileAds.initialize(context, initializationStatus -> {
-            Log.d(TAG, "banner: " + initializationStatus.getAdapterStatusMap());
-        });
-        AdRequest adRequest = new AdRequest.Builder().build();
-        // banner
-        AdView adViews = new AdView(context);
-        adViews.setAdSize(AdSize.BANNER);
-        adViews.setAdUnitId(adsBanner);
-//         TODO call showAdsBanner
-        adView.loadAd(adRequest);
+        if (adView == null) {
+            return;
+        }
+        // Dulu initialize dipanggil ulang di setiap layar yang memuat banner.
+        if (!adsInitialized) {
+            synchronized (ConfigAds.class) {
+                if (!adsInitialized) {
+                    MobileAds.initialize(context.getApplicationContext(), initializationStatus -> {
+                    });
+                    adsInitialized = true;
+                }
+            }
+        }
+        // AdView tambahan yang dulu dibuat di sini tidak pernah dipasang ke layar
+        // maupun dilepas. Ukuran dan unit id sudah ditetapkan pada AdView di layout.
+        adView.loadAd(new AdRequest.Builder().build());
     }
 
     public static void bannerIntent(Context context, AdView adView, Class to) {

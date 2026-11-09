@@ -528,28 +528,6 @@
                             android:orientation="horizontal">
 
                             <androidx.cardview.widget.CardView
-                                android:id="@+id/cv_klik_instagram"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
-                                app:cardCornerRadius="50dp"
-                                app:cardElevation="3dp">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_margin="20dp"
-                                    android:orientation="vertical">
-
-                                    <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:src="@drawable/instagram" />
-                                </LinearLayout>
-
-                            </androidx.cardview.widget.CardView>
-
-                            <androidx.cardview.widget.CardView
                                 android:id="@+id/cv_klik_wa"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

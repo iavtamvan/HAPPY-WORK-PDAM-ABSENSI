@@ -1,120 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Form Input SPK - tampilan Material Design bertema air PDAM.
+
+    ATURAN YANG TIDAK BOLEH DILANGGAR SAAT MENGUBAH BERKAS INI:
+    1. Seluruh 75 id di bawah dibaca InputSpkActivity lewat findViewById.
+       Menghapus atau mengganti nama satu id saja = NullPointerException saat layar dibuka.
+    2. Jenis View tiap id harus tetap sama (atau turunannya).
+       Contoh: rv_pengawas namanya "rv" tetapi jenisnya TextView, bukan RecyclerView.
+    3. Blok yang diberi android:visibility="gone" harus tetap "gone" di XML,
+       karena Java yang menentukan kapan ditampilkan.
+    Yang berubah hanya tampilan: warna, sudut, jarak, tipografi, dan pengelompokan kartu.
+    Alur pengisian dan urutan field tetap persis seperti sebelumnya.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/pdam_surface"
     android:orientation="vertical"
-    tools:context=".fitur.activity.spk.InputSpkActivity">
+    tools:context="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.InputSpkActivity">
 
     <include layout="@layout/content_headers" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
 
-            <androidx.cardview.widget.CardView
+            <!-- Keterangan tanda bintang. Label wajib memakai string pt_label_... dan pt_judul_...
+                 (strings_form_spk.xml) yang berisi bintang merah. -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardElevation="4dp">
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_pt_info"
+                    android:tint="@color/pdam_text_muted" />
+
+                <TextView
+                    style="@style/PTLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/pt_wajib_keterangan"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- ============================================================
+                 KARTU 1 - DATA PEKERJAAN
+                 ============================================================ -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/PTCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_icon_soft_blue"
+                            android:contentDescription="@null"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_pt_clipboard_check"
+                            android:tint="@color/pdam_blue_dark" />
+
+                        <TextView
+                            style="@style/PTCardTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="Data Pekerjaan" />
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="@string/pt_label_tgl_pelaksanaan" />
 
                     <LinearLayout
                         android:id="@+id/div_tgl_pelaksanaan"
+                        style="@style/PTPickerRow"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
+                        android:layout_marginTop="6dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Tanggal Pelaksanaan"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="klik disini untuk menentukan tanggal"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_pt_calendar"
+                            android:tint="@color/pdam_blue_dark" />
 
                         <TextView
                             android:id="@+id/tv_tgl_pelaksanaan"
-                            android:layout_width="match_parent"
+                            style="@style/PTValue"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="-"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp" />
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="-" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_pt_chevron_right"
+                            android:tint="@color/pdam_text_muted" />
                     </LinearLayout>
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Ketuk untuk memilih tanggal"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="@string/pt_label_tgl_spk" />
 
                     <LinearLayout
                         android:id="@+id/div_tgl_spk"
+                        style="@style/PTPickerRow"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
+                        android:layout_marginTop="6dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Tanggal SPK"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="klik disini untuk menentukan tanggal"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_pt_calendar"
+                            android:tint="@color/pdam_blue_dark" />
 
                         <TextView
                             android:id="@+id/tv_tgl_spk"
-                            android:layout_width="match_parent"
+                            style="@style/PTValue"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="-"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp" />
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="-" />
 
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_pt_chevron_right"
+                            android:tint="@color/pdam_text_muted" />
                     </LinearLayout>
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Ketuk untuk memilih tanggal"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="Jenis Pekerjaan" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Jenis Pekerjaan"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_field_pdam"
+                        android:minHeight="52dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="6dp">
 
                         <com.jaredrummler.materialspinner.MaterialSpinner
                             android:id="@+id/spn_jenis_pekerjaan"
@@ -123,19 +231,24 @@
                             android:text="-- Pilih --" />
                     </LinearLayout>
 
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="Asal" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Asal"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_field_pdam"
+                        android:minHeight="52dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="6dp">
 
                         <com.jaredrummler.materialspinner.MaterialSpinner
                             android:id="@+id/spn_asal"
@@ -144,22 +257,24 @@
                             android:text="-- Pilih --" />
                     </LinearLayout>
 
+                    <!-- Blok No. SPK sudah lama disembunyikan, tetapi input_no_spk
+                         masih dibaca Java, jadi harus tetap ada dan tetap gone. -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
+                        android:layout_marginTop="14dp"
                         android:orientation="vertical"
                         android:visibility="gone">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            style="@style/PTInputLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="No. SPK"
-                            app:hintEnabled="true">
+                            android:hint="No. SPK">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/input_no_spk"
+                                style="@style/PTInputText"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="text"
@@ -168,21 +283,23 @@
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
+                    <!-- Blok Call Center: Java yang menampilkan/menyembunyikan -->
                     <LinearLayout
                         android:id="@+id/div_no_aduan_cc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
+                        android:layout_marginTop="14dp"
                         android:orientation="vertical">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            style="@style/PTInputLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Nomor Aduan Call Center">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/input_no_aduan_cc"
+                                style="@style/PTInputText"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:enabled="false"
@@ -194,46 +311,934 @@
                             android:id="@+id/div_no_pelapor_cc"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:orientation="vertical">
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/bg_field_soft"
+                            android:orientation="horizontal"
+                            android:padding="12dp">
 
-                            <TextView
-                                android:layout_width="match_parent"
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:contentDescription="@null"
+                                android:src="@drawable/ic_pt_headset"
+                                android:tint="@color/pdam_blue_dark" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:text="No Telp. Pelapor Call Center"
-                                android:textColor="@android:color/black"
-                                android:textSize="13dp"
-                                android:textStyle="bold" />
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/tv_no_pelapor_cc"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:fontFamily="sans-serif-condensed-light"
-                                android:text="-"
-                                android:textColor="@android:color/black"
-                                android:textSize="15dp" />
+                                <TextView
+                                    style="@style/PTLabel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="No. Telp. Pelapor Call Center" />
 
+                                <TextView
+                                    android:id="@+id/tv_no_pelapor_cc"
+                                    style="@style/PTValueStrong"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:text="-" />
+                            </LinearLayout>
                         </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
+            <!-- ============================================================
+                 KARTU 2 - LOKASI PERBAIKAN
+                 ============================================================ -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/PTCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_icon_soft_blue"
+                            android:contentDescription="@null"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_pt_map_pin"
+                            android:tint="@color/pdam_blue_dark" />
+
+                        <TextView
+                            style="@style/PTCardTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="Lokasi Perbaikan" />
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/PTInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:hint="Alamat Perbaikan"
+                        app:hintEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_alamat_perbaikan"
+                            style="@style/PTInputText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="3" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/tv_klik_maps"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_field_soft"
+                        android:clickable="true"
+                        android:drawableLeft="@drawable/ic_pt_map_pin"
+                        android:drawablePadding="10dp"
+                        android:focusable="true"
+                        android:fontFamily="@font/poppins_medium"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:minHeight="48dp"
+                        android:paddingLeft="14dp"
+                        android:paddingRight="14dp"
+                        android:text="Buka peta untuk menandai lokasi"
+                        android:textColor="@color/pdam_blue_dark"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="Kode Zona" />
+
+                    <LinearLayout
+                        android:id="@+id/div_kode_zona"
+                        style="@style/PTPickerRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
+
+                        <TextView
+                            android:id="@+id/tv_kode_zona"
+                            style="@style/PTValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="-" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_pt_chevron_right"
+                            android:tint="@color/pdam_text_muted" />
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Ketuk untuk memilih kode zona"
+                        android:textSize="10sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ============================================================
+                 KARTU 3 - PETUGAS
+                 ============================================================ -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/PTCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_icon_soft_blue"
+                            android:contentDescription="@null"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_pt_user"
+                            android:tint="@color/pdam_blue_dark" />
+
+                        <TextView
+                            style="@style/PTCardTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="Petugas" />
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="Sub Bagian" />
+
+                    <TextView
+                        android:id="@+id/tv_subagian"
+                        style="@style/PTValueStrong"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_field_soft"
+                        android:gravity="center_vertical"
+                        android:minHeight="48dp"
+                        android:paddingLeft="14dp"
+                        android:paddingRight="14dp"
+                        android:text="-" />
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="@string/pt_label_pengawas" />
+
+                    <LinearLayout
+                        android:id="@+id/div_pengawas"
+                        style="@style/PTPickerRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
+
+                        <!-- rv_pengawas adalah TextView, bukan RecyclerView.
+                             Nama id-nya menyesatkan tetapi dibaca Java sebagai TextView. -->
+                        <TextView
+                            android:id="@+id/rv_pengawas"
+                            style="@style/PTValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="-" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_pt_chevron_right"
+                            android:tint="@color/pdam_text_muted" />
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Ketuk untuk memilih pengawas"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="@string/pt_label_kasub" />
+
+                    <LinearLayout
+                        android:id="@+id/div_kasub"
+                        style="@style/PTPickerRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
+
+                        <TextView
+                            android:id="@+id/tv_kasub"
+                            style="@style/PTValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="-" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_pt_chevron_right"
+                            android:tint="@color/pdam_text_muted" />
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Ketuk untuk memilih kasub"
+                        android:textSize="10sp" />
+
+                    <!-- Blok verifikator: tetap gone, dikendalikan Java -->
+                    <LinearLayout
+                        android:id="@+id/div_verifikator"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/PTLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Verifikator" />
+
+                        <TextView
+                            android:id="@+id/tv_verifikator"
+                            style="@style/PTValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:background="@drawable/bg_field_pdam"
+                            android:gravity="center_vertical"
+                            android:minHeight="48dp"
+                            android:paddingLeft="14dp"
+                            android:paddingRight="14dp"
+                            android:text="-" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ============================================================
+                 KARTU 4 - DATA PELAPOR
+                 ============================================================ -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/PTCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_icon_soft_blue"
+                            android:contentDescription="@null"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_pt_inbox"
+                            android:tint="@color/pdam_blue_dark" />
+
+                        <TextView
+                            style="@style/PTCardTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="Data Pelapor" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
+                        android:layout_marginTop="14dp"
+                        android:baselineAligned="false"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
+                            style="@style/PTInputLayout"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:hint="Alamat Perbaikan"
-                            app:hintEnabled="true">
+                            android:layout_weight="1"
+                            android:hint="Nolangg">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/input_alamat_perbaikan"
+                                android:id="@+id/input_nolangg"
+                                style="@style/PTInputText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="text"
+                                android:maxLines="1" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_cari_nolangg"
+                            style="@style/PTButtonPrimary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:minWidth="80dp"
+                            android:text="Cari" />
+                    </LinearLayout>
+
+                    <!-- Kartu hasil pencarian pelanggan: tetap gone, dibuka Java -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_nolangg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="@color/pdam_blue_soft"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="14dp">
+
+                            <TextView
+                                style="@style/PTLabel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Nama Pelanggan" />
+
+                            <TextView
+                                android:id="@+id/tv_nama_pelanggan"
+                                style="@style/PTValueStrong"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="-" />
+
+                            <TextView
+                                style="@style/PTLabel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="Cabang" />
+
+                            <TextView
+                                android:id="@+id/tv_cabang"
+                                style="@style/PTValue"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="-" />
+
+                            <TextView
+                                style="@style/PTLabel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="Alamat" />
+
+                            <TextView
+                                android:id="@+id/tv_alamat"
+                                style="@style/PTValue"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="-" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/PTInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="Nama Pelapor">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_nama_pelapor"
+                            style="@style/PTInputText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="1" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/PTInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="Alamat Pelapor">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_alamat_pelapor"
+                            style="@style/PTInputText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="3" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_gunakan_lokasi_maps"
+                        style="@style/PTButtonOutlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Sama Dengan Alamat Maps" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ============================================================
+                 KARTU 5 - PEKERJAAN YANG HARUS DIKERJAKAN
+                 ============================================================ -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/PTCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_icon_soft_blue"
+                            android:contentDescription="@null"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_pt_tool"
+                            android:tint="@color/pdam_blue_dark" />
+
+                        <TextView
+                            style="@style/PTCardTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="Pekerjaan yang Harus Dikerjakan" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:background="@drawable/bg_field_pdam"
+                        android:minHeight="52dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="6dp">
+
+                        <com.jaredrummler.materialspinner.MaterialSpinner
+                            android:id="@+id/spn_pekerjaan_yang_hrs_dikerjakan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="-- Pilih --" />
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/PTInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="Uraian Pekerjaan">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_pekerjaan_lainnya"
+                            style="@style/PTInputText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="3" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_tambah_pekerjaan"
+                            style="@style/PTButtonPrimary"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Masukan ke daftar" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_hapus_pekerjaan"
+                            style="@style/PTButtonDanger"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:layout_weight="1"
+                            android:text="Hapus daftar" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_pekerjaan_yang_hrs_dikerjakan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_list_pekerjaan" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ============================================================
+                 KARTU 6 - WAKTU PELAKSANAAN
+                 ============================================================ -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/PTCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_icon_soft_blue"
+                            android:contentDescription="@null"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_pt_clock"
+                            android:tint="@color/pdam_blue_dark" />
+
+                        <TextView
+                            style="@style/PTCardTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="Waktu Pelaksanaan" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/PTLabel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/pt_label_jam_mulai" />
+
+                            <LinearLayout
+                                android:id="@+id/div_jam_mulai"
+                                style="@style/PTPickerRow"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackground">
+
+                                <ImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:contentDescription="@null"
+                                    android:src="@drawable/ic_pt_clock"
+                                    android:tint="@color/pdam_blue_dark" />
+
+                                <TextView
+                                    android:id="@+id/tv_jam_mulai"
+                                    style="@style/PTValueStrong"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_weight="1"
+                                    android:maxLines="1"
+                                    android:text="-" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/PTLabel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/pt_label_jam_selesai" />
+
+                            <LinearLayout
+                                android:id="@+id/div_jam_selesai"
+                                style="@style/PTPickerRow"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackground">
+
+                                <ImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:contentDescription="@null"
+                                    android:src="@drawable/ic_pt_clock"
+                                    android:tint="@color/pdam_blue_dark" />
+
+                                <TextView
+                                    android:id="@+id/tv_jam_selesai"
+                                    style="@style/PTValueStrong"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_weight="1"
+                                    android:maxLines="1"
+                                    android:text="-" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Ketuk kolom jam untuk memilih waktu"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="@string/pt_label_lembur" />
+
+                    <RadioGroup
+                        android:id="@+id/rg_lembur"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb_ya_lembur"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_field_pdam"
+                            android:buttonTint="@color/pdam_blue"
+                            android:minHeight="48dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="Ya"
+                            android:textColor="@color/pdam_text"
+                            android:textSize="14sp" />
+
+                        <RadioButton
+                            android:id="@+id/rb_tidak_lembur"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_field_pdam"
+                            android:buttonTint="@color/pdam_blue"
+                            android:minHeight="48dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="Tidak"
+                            android:textColor="@color/pdam_text"
+                            android:textSize="14sp" />
+
+                    </RadioGroup>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ============================================================
+                 KARTU 7 - RINCIAN PERBAIKAN
+                 ============================================================ -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/PTCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_icon_soft_blue"
+                            android:contentDescription="@null"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_pt_verify"
+                            android:tint="@color/pdam_blue_dark" />
+
+                        <TextView
+                            style="@style/PTCardTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="Rincian Perbaikan" />
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="@string/pt_label_barang_diperbaiki" />
+
+                    <LinearLayout
+                        android:id="@+id/div_pekerjaan"
+                        style="@style/PTPickerRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
+
+                        <TextView
+                            android:id="@+id/tv_barang_yang_dikerjakan"
+                            style="@style/PTValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="-" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_pt_chevron_right"
+                            android:tint="@color/pdam_text_muted" />
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Ketuk untuk memilih barang"
+                        android:textSize="10sp" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/PTInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="Tekanan">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_tekanan"
+                            style="@style/PTInputText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:text="0" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Blok uraian lama: tetap gone, input_uraian masih dibaca Java -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/PTInputLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Uraian Pekerjaan">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/input_uraian"
+                                style="@style/PTInputText"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="text" />
@@ -242,1293 +1247,803 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tv_klik_maps"
+                        style="@style/PTLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="sans-serif-condensed-light"
-                        android:gravity="center"
-                        android:text="klik disini untuk melihat maps"
-                        android:textColor="@android:color/holo_green_light"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:id="@+id/div_kode_zona"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Kode Zona"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="klik disini untuk menentukan kode zona"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_kode_zona"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="-"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp" />
-
-                    </LinearLayout>
+                        android:layout_marginTop="14dp"
+                        android:text="@string/pt_label_tenaga" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Sub Bagian"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_subagian"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="-"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/div_pengawas"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Pengawas/Mandor"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="klik disini untuk menentukan pengawas"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/rv_pengawas"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="-"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/div_kasub"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Kasub"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="klik disini untuk menentukan kasub"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_kasub"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="-"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/div_verifikator"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_field_pdam"
+                        android:minHeight="52dp"
                         android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Verifikator"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="klik disini untuk menentukan verifikator"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_verifikator"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="-"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="horizontal">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="Nolangg"
-                            app:hintEnabled="true">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/input_nolangg"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="text" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <Button
-                            android:id="@+id/btn_cari_nolangg"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="4dp"
-                            android:gravity="center"
-                            android:text="Cari"
-                            android:textColor="@android:color/white" />
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="Nama Pelapor"
-                            app:hintEnabled="true">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/input_nama_pelapor"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="text" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="Alamat Pelapor"
-                            app:hintEnabled="true">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/input_alamat_pelapor"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="text" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/btn_gunakan_lokasi_maps"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="@android:color/holo_green_light"
-                        android:text="Sama Dengan Alamat Maps"
-                        android:textColor="@android:color/white" />
-
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cv_nolangg"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:visibility="gone"
-                        app:cardElevation="3dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Nama"
-                                        android:textColor="@android:color/black"
-                                        android:textSize="13dp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/tv_nama_pelanggan"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="4dp"
-                                        android:fontFamily="sans-serif-condensed-light"
-                                        android:text="-"
-                                        android:textColor="@android:color/black"
-                                        android:textSize="15dp" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Cabang"
-                                        android:textColor="@android:color/black"
-                                        android:textSize="13dp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/tv_cabang"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="4dp"
-                                        android:fontFamily="sans-serif-condensed-light"
-                                        android:text="-"
-                                        android:textColor="@android:color/black"
-                                        android:textSize="15dp" />
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Alamat"
-                                android:textColor="@android:color/black"
-                                android:textSize="13dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tv_alamat"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:fontFamily="sans-serif-condensed-light"
-                                android:text="-"
-                                android:textColor="@android:color/black"
-                                android:textSize="15dp" />
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Perkerjaan yang harus dikerjakan"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <com.jaredrummler.materialspinner.MaterialSpinner
-                            android:id="@+id/spn_pekerjaan_yang_hrs_dikerjakan"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="-- Pilih --" />
-
-                        <EditText
-                            android:id="@+id/edt_pekerjaan_lainnya"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Uraian Pekerjaan" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <Button
-                                android:id="@+id/btn_tambah_pekerjaan"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="5dp"
-                                android:layout_weight="1"
-                                android:backgroundTint="@android:color/holo_green_light"
-                                android:text="Masukan ke daftar"
-                                android:textColor="@android:color/white" />
-
-                            <Button
-                                android:id="@+id/btn_hapus_pekerjaan"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="5dp"
-                                android:backgroundTint="@android:color/holo_red_dark"
-                                android:text="Hapus daftar"
-                                android:textColor="@android:color/white" />
-
-                        </LinearLayout>
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_pekerjaan_yang_hrs_dikerjakan"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:visibility="gone"
-                            tools:itemCount="3"
-                            tools:listitem="@layout/item_list_pekerjaan" />
-                    </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:id="@+id/div_jam_mulai"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Jam Mulai"
-                                android:textColor="@android:color/black"
-                                android:textSize="13dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:fontFamily="sans-serif-condensed-light"
-                                android:text="klik disini untuk menentukan jam"
-                                android:textColor="@android:color/holo_red_dark"
-                                android:textSize="13dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tv_jam_mulai"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:fontFamily="sans-serif-condensed-light"
-                                android:text="-"
-                                android:textColor="@android:color/holo_green_dark"
-                                android:textSize="15dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/div_jam_selesai"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Jam Selesai"
-                                android:textColor="@android:color/black"
-                                android:textSize="13dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:fontFamily="sans-serif-condensed-light"
-                                android:text="klik disini untuk menentukan jam"
-                                android:textColor="@android:color/holo_red_dark"
-                                android:textSize="13dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tv_jam_selesai"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:fontFamily="sans-serif-condensed-light"
-                                android:text="-"
-                                android:textColor="@android:color/holo_red_dark"
-                                android:textSize="15dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Lembur?"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <RadioGroup
-                            android:id="@+id/rg_lembur"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/rb_ya_lembur"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Ya" />
-
-                            <RadioButton
-                                android:id="@+id/rb_tidak_lembur"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Tidak" />
-
-                        </RadioGroup>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/div_pekerjaan"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Barang yang diperbaiki"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="klik disini untuk menentukan barang"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_barang_yang_dikerjakan"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="-"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Tekanan"
-                            app:hintEnabled="true">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/input_tekanan"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="text"
-                                android:text="0" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Uraian Pekerjaan"
-                            app:hintEnabled="true">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/input_uraian"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="text" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Tenaga"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
+                        android:paddingLeft="10dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="6dp">
 
                         <com.jaredrummler.materialspinner.MaterialSpinner
                             android:id="@+id/spn_tenaga"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="-- Pilih --" />
-
-                        <EditText
-                            android:id="@+id/edt_tenaga_lainnya"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:enabled="false"
-                            android:hint="Isi tenaga lainnya" />
                     </LinearLayout>
 
-                    <LinearLayout
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/PTInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
+                        android:layout_marginTop="12dp"
+                        android:hint="Isi tenaga lainnya">
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_tenaga_lainnya"
+                            style="@style/PTInputText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Perkiraan TKA (m3)"
-                            app:hintEnabled="true">
+                            android:inputType="text"
+                            android:maxLines="1" />
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/input_perkiraan_tka"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="text"
-                                android:text="0" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/PTInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="Perkiraan TKA (m3)">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_perkiraan_tka"
+                            style="@style/PTInputText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:text="0" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="No. SPK Sebelumnya" />
 
                     <LinearLayout
                         android:id="@+id/div_spk_sebelumnya"
+                        style="@style/PTPickerRow"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="No SPK Sebelumnya"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="klik disini untuk menentukan spk sebelumnya"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
+                        android:layout_marginTop="6dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
 
                         <TextView
                             android:id="@+id/tv_spk_sebelumnya_dan_tanggal"
-                            android:layout_width="match_parent"
+                            style="@style/PTValue"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="-"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp" />
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="-" />
 
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_pt_chevron_right"
+                            android:tint="@color/pdam_text_muted" />
                     </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Ketuk untuk memilih SPK sebelumnya"
+                        android:textSize="10sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ============================================================
+                 KARTU 8 - PEMAKAIAN AKSESORIS
+                 ============================================================ -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/PTCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardElevation="4dp">
+                android:layout_marginBottom="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="14dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_icon_soft_blue"
+                            android:contentDescription="@null"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_pt_plus"
+                            android:tint="@color/pdam_blue_dark" />
+
+                        <TextView
+                            style="@style/PTCardTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/pt_judul_aksesoris" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/div_barang"
+                        style="@style/PTPickerRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_pt_search"
+                            android:tint="@color/pdam_blue_dark" />
+
+                        <TextView
+                            style="@style/PTValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="Cari / tambah aksesoris" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_pt_chevron_right"
+                            android:tint="@color/pdam_text_muted" />
+                    </LinearLayout>
+
+                    <!-- Kartu barang terpilih: tetap gone, dibuka Java -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_barang"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="@color/pdam_blue_soft"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp">
 
                         <LinearLayout
-                            android:id="@+id/div_barang"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:padding="14dp">
 
                             <TextView
+                                style="@style/PTLabel"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Pemakaian Accecories"
-                                android:textColor="@android:color/black"
-                                android:textSize="13dp"
-                                android:textStyle="bold" />
+                                android:text="Nama Barang" />
 
                             <TextView
+                                android:id="@+id/tv_nama_barang"
+                                style="@style/PTValueStrong"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:fontFamily="sans-serif-condensed-light"
-                                android:text="klik disini untuk mencari/menambah Accecories"
-                                android:textColor="@android:color/holo_red_dark"
-                                android:textSize="13dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/cv_barang"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="3dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginRight="3dp"
-                            android:layout_marginBottom="8dp"
-                            android:visibility="gone"
-                            app:cardElevation="3dp">
+                                android:layout_marginTop="2dp"
+                                android:text="-" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="8dp"
-                                android:orientation="vertical">
+                                android:layout_marginTop="10dp"
+                                android:baselineAligned="false"
+                                android:orientation="horizontal">
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
-
-                                        <TextView
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:text="Nama Barang"
-                                            android:textColor="@android:color/black"
-                                            android:textSize="13dp"
-                                            android:textStyle="bold" />
-
-                                        <TextView
-                                            android:id="@+id/tv_nama_barang"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="4dp"
-                                            android:fontFamily="sans-serif-condensed-light"
-                                            android:text="nama barang"
-                                            android:textColor="@android:color/black"
-                                            android:textSize="15dp" />
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
-
-                                        <TextView
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:text="Jenis barang"
-                                            android:textColor="@android:color/black"
-                                            android:textSize="13dp"
-                                            android:textStyle="bold" />
-
-                                        <TextView
-                                            android:id="@+id/tv_jenis_barang"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="4dp"
-                                            android:fontFamily="sans-serif-condensed-light"
-                                            android:text="jenis barang"
-                                            android:textColor="@android:color/black"
-                                            android:textSize="15dp" />
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
-
-                                        <TextView
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:text="Merek"
-                                            android:textColor="@android:color/black"
-                                            android:textSize="13dp"
-                                            android:textStyle="bold" />
-
-                                        <TextView
-                                            android:id="@+id/tv_merek"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="4dp"
-                                            android:fontFamily="sans-serif-condensed-light"
-                                            android:text="merek"
-                                            android:textColor="@android:color/black"
-                                            android:textSize="15dp" />
-                                    </LinearLayout>
-
-                                </LinearLayout>
-
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Jumlah"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="13dp"
-                                    android:textStyle="bold" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <EditText
-                                        android:id="@+id/edt_jumlah_barang"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:inputType="numberDecimal"
-                                        android:hint="jumlah" />
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
 
                                     <TextView
-                                        android:id="@+id/tv_satuan"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="4dp"
-                                        android:fontFamily="sans-serif-condensed-light"
-                                        android:gravity="center"
-                                        android:text="bh"
-                                        android:textColor="@android:color/darker_gray"
-                                        android:textSize="15dp" />
-
-                                    <Button
-                                        android:id="@+id/btn_tambah_barang"
+                                        style="@style/PTLabel"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_margin="5dp"
-                                        android:layout_weight="1"
-                                        android:backgroundTint="@android:color/holo_green_light"
-                                        android:text="Masukan ke daftar"
-                                        android:textColor="@android:color/white" />
+                                        android:text="Jenis Barang" />
 
+                                    <TextView
+                                        android:id="@+id/tv_jenis_barang"
+                                        style="@style/PTValue"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="2dp"
+                                        android:text="-" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        style="@style/PTLabel"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Merek" />
+
+                                    <TextView
+                                        android:id="@+id/tv_merek"
+                                        style="@style/PTValue"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="2dp"
+                                        android:text="-" />
                                 </LinearLayout>
                             </LinearLayout>
-                        </androidx.cardview.widget.CardView>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_barang"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            tools:itemCount="3"
-                            tools:listitem="@layout/item_list_barang_tambahan" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:baselineAligned="false"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
 
-                        <Button
-                            android:id="@+id/btn_hapus_barang"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            android:backgroundTint="@android:color/holo_red_dark"
-                            android:text="Hapus semua"
-                            android:textColor="@android:color/white"
-                            android:visibility="gone" />
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/PTInputLayout"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:hint="Jumlah">
 
-                    </LinearLayout>
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/edt_jumlah_barang"
+                                        style="@style/PTInputText"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="numberDecimal"
+                                        android:maxLines="1" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <TextView
+                                    android:id="@+id/tv_satuan"
+                                    style="@style/PTValueStrong"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:minWidth="44dp"
+                                    android:text="bh" />
+                            </LinearLayout>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_tambah_barang"
+                                style="@style/PTButtonPrimary"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:text="Masukan ke daftar" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_barang"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:nestedScrollingEnabled="false"
+                        android:visibility="gone"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_list_barang_tambahan" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_hapus_barang"
+                        style="@style/PTButtonDanger"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Hapus semua"
+                        android:visibility="gone" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
+            <!-- ============================================================
+                 KARTU 9 - FOTO PROGRES
+                 ============================================================ -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/PTCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardElevation="4dp">
+                android:layout_marginBottom="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="14dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_icon_soft_blue"
+                            android:contentDescription="@null"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_pt_camera"
+                            android:tint="@color/pdam_blue_dark" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            style="@style/PTCardTitle"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Upload Foto Progress"
-                            android:textColor="@android:color/black"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="sans-serif-condensed-light"
-                            android:text="Upload Foto minimal 2 maximal 4, TIDAK BOLEH 1 atau 3"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
+                            android:layout_marginLeft="10dp"
+                            android:text="Foto Progres" />
                     </LinearLayout>
+
+                    <TextView
+                        style="@style/PTLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/pt_foto_aturan"
+                        android:textSize="12sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:baselineAligned="false"
                         android:orientation="horizontal">
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cv_foto1"
-                            android:layout_width="match_parent"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
                             android:layout_weight="1"
-                            app:cardElevation="4dp">
+                            app:cardBackgroundColor="@color/pdam_blue_soft"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="0dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="3dp"
-                                    android:gravity="center"
-                                    android:text="Foto 1*"
-                                    android:textColor="@color/black"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:text="Foto Awal"
-                                    android:textColor="@color/grey"
-                                    android:textSize="11dp"
-                                    android:textStyle="bold" />
-
                                 <ImageView
                                     android:id="@+id/iv_foto1"
                                     android:layout_width="match_parent"
-                                    android:layout_height="150dp"
+                                    android:layout_height="130dp"
+                                    android:contentDescription="@null"
+                                    android:scaleType="centerCrop"
                                     android:src="@drawable/image_not_available" />
 
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/white"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        style="@style/PTValueStrong"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="Foto 1"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/bg_badge_warn"
+                                        android:paddingLeft="8dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="8dp"
+                                        android:paddingBottom="2dp"
+                                        android:text="Wajib"
+                                        android:textColor="@color/pdam_warn_title"
+                                        android:textSize="10sp" />
+                                </LinearLayout>
+
+                                <TextView
+                                    style="@style/PTLabel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/white"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
+                                    android:paddingBottom="8dp"
+                                    android:text="Foto Awal"
+                                    android:textSize="10sp" />
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cv_foto2"
-                            android:layout_width="match_parent"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_weight="1"
-                            app:cardElevation="4dp">
+                            app:cardBackgroundColor="@color/pdam_blue_soft"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="0dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="3dp"
-                                    android:gravity="center"
-                                    android:text="Foto 2*"
-                                    android:textColor="@color/black"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:text="Foto Proses"
-                                    android:textColor="@color/grey"
-                                    android:textSize="11dp"
-                                    android:textStyle="bold" />
 
                                 <ImageView
                                     android:id="@+id/iv_foto2"
                                     android:layout_width="match_parent"
-                                    android:layout_height="150dp"
+                                    android:layout_height="130dp"
+                                    android:contentDescription="@null"
+                                    android:scaleType="centerCrop"
                                     android:src="@drawable/image_not_available" />
 
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/white"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        style="@style/PTValueStrong"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="Foto 2"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/bg_badge_warn"
+                                        android:paddingLeft="8dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="8dp"
+                                        android:paddingBottom="2dp"
+                                        android:text="Wajib"
+                                        android:textColor="@color/pdam_warn_title"
+                                        android:textSize="10sp" />
+                                </LinearLayout>
+
+                                <TextView
+                                    style="@style/PTLabel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/white"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
+                                    android:paddingBottom="8dp"
+                                    android:text="Foto Proses"
+                                    android:textSize="10sp" />
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
-
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:baselineAligned="false"
                         android:orientation="horizontal">
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cv_foto3"
-                            android:layout_width="match_parent"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
                             android:layout_weight="1"
-                            app:cardElevation="4dp">
+                            app:cardBackgroundColor="@color/pdam_blue_soft"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="0dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
 
-                                <LinearLayout
+                                <FrameLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
+                                    android:layout_height="wrap_content">
 
-                                    <LinearLayout
+                                    <ImageView
+                                        android:id="@+id/iv_foto3"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
+                                        android:layout_height="130dp"
+                                        android:contentDescription="@null"
+                                        android:scaleType="centerCrop"
+                                        android:src="@drawable/image_not_available" />
 
-                                        <TextView
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_margin="3dp"
-                                            android:gravity="center"
-                                            android:text="Foto 3"
-                                            android:textColor="@color/black"
-                                            android:textStyle="bold" />
-
-                                        <TextView
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="center"
-                                            android:text="Foto Proses"
-                                            android:textColor="@color/grey"
-                                            android:textSize="11dp"
-                                            android:textStyle="bold" />
-                                    </LinearLayout>
-
+                                    <!-- div_delete_foto_3 harus tetap LinearLayout,
+                                         Java memasang listener hapus foto di sini. -->
                                     <LinearLayout
                                         android:id="@+id/div_delete_foto_3"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginRight="4dp"
+                                        android:layout_width="36dp"
+                                        android:layout_height="36dp"
+                                        android:layout_gravity="top|right"
+                                        android:layout_margin="6dp"
+                                        android:background="@drawable/bg_circle_delete"
+                                        android:clickable="true"
+                                        android:focusable="true"
+                                        android:gravity="center"
                                         android:orientation="vertical">
 
                                         <ImageView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="match_parent"
-                                            android:layout_gravity="center"
-                                            android:src="@drawable/close_req" />
+                                            android:layout_width="16dp"
+                                            android:layout_height="16dp"
+                                            android:contentDescription="@null"
+                                            android:src="@drawable/ic_pt_close" />
                                     </LinearLayout>
+                                </FrameLayout>
 
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/white"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        style="@style/PTValueStrong"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="Foto 3"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/bg_badge_info"
+                                        android:paddingLeft="8dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="8dp"
+                                        android:paddingBottom="2dp"
+                                        android:text="Opsional"
+                                        android:textColor="@color/pdam_info_title"
+                                        android:textSize="10sp" />
                                 </LinearLayout>
 
-                                <ImageView
-                                    android:id="@+id/iv_foto3"
+                                <TextView
+                                    style="@style/PTLabel"
                                     android:layout_width="match_parent"
-                                    android:layout_height="150dp"
-                                    android:src="@drawable/image_not_available" />
-
-
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/white"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
+                                    android:paddingBottom="8dp"
+                                    android:text="Foto Proses"
+                                    android:textSize="10sp" />
                             </LinearLayout>
-
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cv_foto4"
-                            android:layout_width="match_parent"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_weight="1"
-                            app:cardElevation="4dp">
+                            app:cardBackgroundColor="@color/pdam_blue_soft"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="0dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
 
-                                <LinearLayout
+                                <FrameLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
+                                    android:layout_height="wrap_content">
 
-                                    <LinearLayout
+                                    <ImageView
+                                        android:id="@+id/iv_foto4"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
-
-                                        <TextView
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_margin="3dp"
-                                            android:gravity="center"
-                                            android:text="Foto 4"
-                                            android:textColor="@color/black"
-                                            android:textStyle="bold" />
-
-                                        <TextView
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="center"
-                                            android:text="Foto Selesai"
-                                            android:textColor="@color/grey"
-                                            android:textSize="11dp"
-                                            android:textStyle="bold" />
-                                    </LinearLayout>
+                                        android:layout_height="130dp"
+                                        android:contentDescription="@null"
+                                        android:scaleType="centerCrop"
+                                        android:src="@drawable/image_not_available" />
 
                                     <LinearLayout
                                         android:id="@+id/div_delete_foto_4"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginRight="4dp"
+                                        android:layout_width="36dp"
+                                        android:layout_height="36dp"
+                                        android:layout_gravity="top|right"
+                                        android:layout_margin="6dp"
+                                        android:background="@drawable/bg_circle_delete"
+                                        android:clickable="true"
+                                        android:focusable="true"
+                                        android:gravity="center"
                                         android:orientation="vertical">
 
                                         <ImageView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="match_parent"
-                                            android:layout_gravity="center"
-                                            android:src="@drawable/close_req" />
+                                            android:layout_width="16dp"
+                                            android:layout_height="16dp"
+                                            android:contentDescription="@null"
+                                            android:src="@drawable/ic_pt_close" />
                                     </LinearLayout>
+                                </FrameLayout>
 
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/white"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        style="@style/PTValueStrong"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="Foto 4"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/bg_badge_info"
+                                        android:paddingLeft="8dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="8dp"
+                                        android:paddingBottom="2dp"
+                                        android:text="Opsional"
+                                        android:textColor="@color/pdam_info_title"
+                                        android:textSize="10sp" />
                                 </LinearLayout>
 
-                                <ImageView
-                                    android:id="@+id/iv_foto4"
+                                <TextView
+                                    style="@style/PTLabel"
                                     android:layout_width="match_parent"
-                                    android:layout_height="150dp"
-                                    android:src="@drawable/image_not_available" />
-
-
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/white"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
+                                    android:paddingBottom="8dp"
+                                    android:text="Foto Selesai"
+                                    android:textSize="10sp" />
                             </LinearLayout>
-
                         </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
+            <!-- ============================================================
+                 KARTU 10 - STATUS PENYELESAIAN
+                 ============================================================ -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/PTCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_icon_soft_blue"
+                            android:contentDescription="@null"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_pt_check_circle"
+                            android:tint="@color/pdam_blue_dark" />
+
+                        <TextView
+                            style="@style/PTCardTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/pt_judul_status_penyelesaian" />
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:background="@drawable/bg_field_pdam"
+                        android:minHeight="52dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="6dp">
+
+                        <com.jaredrummler.materialspinner.MaterialSpinner
+                            android:id="@+id/spn_status_penyelesaian"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="-- Pilih --" />
+                    </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
+            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Status Penyelesaian"
-                    android:textColor="@android:color/black"
-                    android:textSize="13dp"
-                    android:textStyle="bold" />
-
-                <com.jaredrummler.materialspinner.MaterialSpinner
-                    android:id="@+id/spn_status_penyelesaian"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="-- Pilih --" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/adView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    ads:adSize="LARGE_BANNER"
-                    ads:adUnitId="ca-app-pub-6810772781589252/9470804560" />
-
-            </LinearLayout>
-
-
-            <Button
-                android:id="@+id/btn_simpan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:backgroundTint="@android:color/holo_green_dark"
-                android:text="Simpan"
-                android:textColor="@android:color/white" />
+                android:layout_gravity="center_horizontal"
+                ads:adSize="LARGE_BANNER"
+                ads:adUnitId="ca-app-pub-6810772781589252/9470804560" />
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
+    <!-- Tombol simpan dipindah ke bar bawah supaya selalu terjangkau
+         tanpa harus menggulir sampai habis. Fungsinya tidak berubah. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_topbar_shadow"
+        android:orientation="vertical"
+        android:paddingLeft="14dp"
+        android:paddingTop="10dp"
+        android:paddingRight="14dp"
+        android:paddingBottom="10dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_simpan"
+            style="@style/PTButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Simpan" />
+    </LinearLayout>
 
 </LinearLayout>

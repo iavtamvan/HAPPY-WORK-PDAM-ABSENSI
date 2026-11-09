@@ -44,9 +44,22 @@ public class RiwayatSPKAdapter extends RecyclerView.Adapter<RiwayatSPKAdapter.Vi
     private List<DataItem> dataItem;
     private List<DataItem> dataItemFiltered;
 
+    // Dibaca sekali di konstruktor. Sebelumnya SharedPreferences dibuka ulang
+    // pada setiap onBindViewHolder, jadi tiap baris daftar menyentuh disk.
+    private final String token;
+    private final String namePengawas;
+
     public RiwayatSPKAdapter(Context context, List<DataItem> dataItem) {
         this.context = context;
         this.dataItem = dataItem;
+        SharedPreferences sp = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        this.token = sp.getString(Config.SHARED_ACCESS_TOKEN, "");
+        this.namePengawas = sp.getString(Config.SHARED_NAME_PENGAWAS, "");
+    }
+
+    /** Teks aman untuk nilai yang bisa null dari server. */
+    private static String aman(String nilai) {
+        return nilai == null ? "-" : nilai;
     }
 
     @NonNull
@@ -59,9 +72,13 @@ public class RiwayatSPKAdapter extends RecyclerView.Adapter<RiwayatSPKAdapter.Vi
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
-        String namePengawas = sharedPreferences.getString(Config.SHARED_NAME_PENGAWAS, "");
+        // rl_pelaksana bisa kosong untuk SPK yang belum punya data pelaksanaan.
+        // Seluruh baris di bawah membacanya, jadi dijaga sekali di sini.
+        if (dataItem.get(position) == null || dataItem.get(position).getRlPelaksana() == null) {
+            holder.itemView.setVisibility(View.GONE);
+            return;
+        }
+        holder.itemView.setVisibility(View.VISIBLE);
 
         ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
@@ -80,22 +97,23 @@ public class RiwayatSPKAdapter extends RecyclerView.Adapter<RiwayatSPKAdapter.Vi
         holder.tvListItemDate.setText(dataItem.get(position).getRlPelaksana().getTanggal());
         String kdPerbaikan = dataItem.get(position).getRlPelaksana().getKdPerbaikan();
         String namaPerbaikan = null;
-        if (kdPerbaikan.equals("0")) {
+        // Literal ditaruh di depan supaya nilai null dari server tidak menutup aplikasi.
+        if ("0".equals(kdPerbaikan)) {
             namaPerbaikan = "Lain-Lain (LL)";
-        } else if (kdPerbaikan.equals("1")) {
+        } else if ("1".equals(kdPerbaikan)) {
             namaPerbaikan = "Perbaikan Pipa Bocor (PB)";
-        } else if (kdPerbaikan.equals("2")) {
+        } else if ("2".equals(kdPerbaikan)) {
             namaPerbaikan = "Penanganan Air Mati / Aliran (PA)";
-        } else if (kdPerbaikan.equals("3")) {
+        } else if ("3".equals(kdPerbaikan)) {
             namaPerbaikan = "Pekerjaan Meter Induk (PM)";
-        } else if (kdPerbaikan.equals("4")) {
+        } else if ("4".equals(kdPerbaikan)) {
             namaPerbaikan = "Pelanggaran (PL)";
         }
         String finalNamaPerbaikan = namaPerbaikan;
         holder.tvListItemTypePekerjaan.setText(finalNamaPerbaikan);
 
         String statusVerif = dataItem.get(position).getRlPelaksana().getStatusVerif();
-        if (statusVerif.equalsIgnoreCase("0")) {
+        if ("0".equalsIgnoreCase(statusVerif)) {
             holder.divRequestWaiting.setVisibility(View.VISIBLE);
             holder.divRequestDisetujui.setVisibility(View.GONE);
         } else {
@@ -110,7 +128,7 @@ public class RiwayatSPKAdapter extends RecyclerView.Adapter<RiwayatSPKAdapter.Vi
             String dateRequestAtFix = new SimpleDateFormat("EEE, dd MMM yyyy").format(dateRequestAt);
             holder.tvTglSpkPelaksana.setText(dateRequestAtFix);
 
-        } catch (ParseException e) {
+        } catch (ParseException | NullPointerException e) {
             e.printStackTrace();
         }
 
@@ -121,7 +139,7 @@ public class RiwayatSPKAdapter extends RecyclerView.Adapter<RiwayatSPKAdapter.Vi
             String dateRequestAtFix = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss").format(dateRequestAt);
             holder.tvListItemDate.setText(dateRequestAtFix);
 
-        } catch (ParseException e) {
+        } catch (ParseException | NullPointerException e) {
             e.printStackTrace();
         }
 
@@ -130,7 +148,7 @@ public class RiwayatSPKAdapter extends RecyclerView.Adapter<RiwayatSPKAdapter.Vi
         String stLemburName = null;
         if (stLembur == null || stLembur.isEmpty()) {
             stLemburName = "-";
-        } else if (stLembur.equals("1")) {
+        } else if ("1".equals(stLembur)) {
             stLemburName = "Ya";
         } else {
             stLemburName = "Tidak";
@@ -155,6 +173,14 @@ public class RiwayatSPKAdapter extends RecyclerView.Adapter<RiwayatSPKAdapter.Vi
             EditText edtNoSpk = bottomSheetDialogRiwayatSPK.findViewById(R.id.edt_btm_nospk);
             Button btnUpdateNoCC = bottomSheetDialogRiwayatSPK.findViewById(R.id.btn_btm_update_nocc);
             Button btnLihatData = bottomSheetDialogRiwayatSPK.findViewById(R.id.btn_btm_lihat_data);
+
+            // Tombol "Tutup" di pojok kanan atas dulu tidak pernah dipasangi listener,
+            // jadi terlihat bisa ditekan padahal tidak melakukan apa pun.
+            View divTutup = bottomSheetDialogRiwayatSPK
+                    .findViewById(R.id.div_container_tutup_dialog_info_pendaftaran);
+            if (divTutup != null) {
+                divTutup.setOnClickListener(v2 -> bottomSheetDialogRiwayatSPK.dismiss());
+            }
 
             edtNoCC.setText(dataItem.get(position).getRlPelaksana().getNocc());
             edtNoSpk.setText(dataItem.get(position).getNoSpk());
@@ -213,23 +239,29 @@ public class RiwayatSPKAdapter extends RecyclerView.Adapter<RiwayatSPKAdapter.Vi
                 intent.putExtra(Config.BUNDLE_ALAMAT, dataItem.get(position).getAlamat());
                 intent.putExtra(Config.BUNDLE_LOKASI, dataItem.get(position).getLokasi());
                 intent.putExtra(Config.BUNDLE_URAIAN, dataItem.get(position).getUraian());
-                intent.putExtra(Config.BUNDLE_KASUB, dataItem.get(position).getRlKasub().getNama() + " (" + dataItem.get(position).getRlKasub().getNpp() + ") ");
-                intent.putExtra(Config.BUNDLE_PENGAWAS, dataItem.get(position).getRlPengawas().getNama() + " (" + dataItem.get(position).getRlPengawas().getNpp() + ") ");
-                intent.putExtra(Config.BUNDLE_PC_ENTRY, dataItem.get(position).getRlUserEntry().getNama() + " (" + dataItem.get(position).getRlUserEntry().getNpp() + ") ");
+                // Relasi kasub/pengawas/user entry bisa kosong pada SPK lama.
+                intent.putExtra(Config.BUNDLE_KASUB, dataItem.get(position).getRlKasub() == null ? "-"
+                        : aman(dataItem.get(position).getRlKasub().getNama()) + " (" + aman(dataItem.get(position).getRlKasub().getNpp()) + ") ");
+                intent.putExtra(Config.BUNDLE_PENGAWAS, dataItem.get(position).getRlPengawas() == null ? "-"
+                        : aman(dataItem.get(position).getRlPengawas().getNama()) + " (" + aman(dataItem.get(position).getRlPengawas().getNpp()) + ") ");
+                intent.putExtra(Config.BUNDLE_PC_ENTRY, dataItem.get(position).getRlUserEntry() == null ? "-"
+                        : aman(dataItem.get(position).getRlUserEntry().getNama()) + " (" + aman(dataItem.get(position).getRlUserEntry().getNpp()) + ") ");
                 intent.putExtra(Config.BUNDLE_TGL_PELAKSANA, dataItem.get(position).getRlPelaksana().getTglPelaksana());
                 intent.putExtra(Config.BUNDLE_JAM1, dataItem.get(position).getRlPelaksana().getJam1());
                 intent.putExtra(Config.BUNDLE_JAM2, dataItem.get(position).getRlPelaksana().getJam2());
-                intent.putExtra(Config.BUNDLE_JENIS_PIPA, dataItem.get(position).getRlPelaksana().getRlMBarang().getNmBrg() + " (" + dataItem.get(position).getRlPelaksana().getRlMBarang().getKdBrg() + ") ");
+                // rl_m_barang kosong bila SPK disimpan tanpa memilih jenis pipa.
+                intent.putExtra(Config.BUNDLE_JENIS_PIPA, dataItem.get(position).getRlPelaksana().getRlMBarang() == null ? "-"
+                        : aman(dataItem.get(position).getRlPelaksana().getRlMBarang().getNmBrg()) + " (" + aman(dataItem.get(position).getRlPelaksana().getRlMBarang().getKdBrg()) + ") ");
                 intent.putExtra(Config.BUNDLE_JML_TENAGA, dataItem.get(position).getRlPelaksana().getJmlTenaga() + " - " + dataItem.get(position).getRlPelaksana().getJmlTenagaKet());
                 intent.putExtra(Config.BUNDLE_NO_SPK_SBL, dataItem.get(position).getRlPelaksana().getNoSpkSbl());
                 intent.putExtra(Config.BUNDLE_KD_PERBAIKAN, finalNamaPerbaikan);
                 intent.putExtra(Config.BUNDLE_KET_ZONA, dataItem.get(position).getRlPelaksana().getKetZona());
                 intent.putExtra(Config.BUNDLE_TKA, dataItem.get(position).getRlPelaksana().getTka());
                 intent.putExtra(Config.BUNDLE_STATUS, dataItem.get(position).getRlPelaksana().getStatus());
-                intent.putExtra(Config.BUNDLE_FOTO1,Config.BASE_URL_IMAGE + dataItem.get(position).getRlPelaksana().getFoto1());
-                intent.putExtra(Config.BUNDLE_FOTO2,Config.BASE_URL_IMAGE + dataItem.get(position).getRlPelaksana().getFoto2());
-                intent.putExtra(Config.BUNDLE_FOTO3,Config.BASE_URL_IMAGE + dataItem.get(position).getRlPelaksana().getFoto3());
-                intent.putExtra(Config.BUNDLE_FOTO4,Config.BASE_URL_IMAGE + dataItem.get(position).getRlPelaksana().getFoto4());
+                intent.putExtra(Config.BUNDLE_FOTO1,Config.BASE_URL_IMAGE_HANDLER +dataItem.get(position).getRlPelaksana().getFoto1());
+                intent.putExtra(Config.BUNDLE_FOTO2,Config.BASE_URL_IMAGE_HANDLER +dataItem.get(position).getRlPelaksana().getFoto2());
+                intent.putExtra(Config.BUNDLE_FOTO3,Config.BASE_URL_IMAGE_HANDLER +dataItem.get(position).getRlPelaksana().getFoto3());
+                intent.putExtra(Config.BUNDLE_FOTO4,Config.BASE_URL_IMAGE_HANDLER +dataItem.get(position).getRlPelaksana().getFoto4());
                 intent.putExtra(Config.BUNDLE_STATUS_VERIFIKASI, dataItem.get(position).getRlPelaksana().getStatusVerif());
                 intent.putExtra(Config.BUNDLE_NO_CC, dataItem.get(position).getRlPelaksana().getNocc());
                 intent.putExtra(Config.BUNDLE_VERIFIKATOR, dataItem.get(position).getRlPelaksana().getUserVer());
@@ -247,7 +279,8 @@ public class RiwayatSPKAdapter extends RecyclerView.Adapter<RiwayatSPKAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return dataItem.size();
+        // Server bisa mengirim "data": null, dan filter juga bisa menghasilkan null.
+        return dataItem == null ? 0 : dataItem.size();
     }
 
     @Override
@@ -260,22 +293,30 @@ public class RiwayatSPKAdapter extends RecyclerView.Adapter<RiwayatSPKAdapter.Vi
 
                 if (dataItemFiltered == null)
                     dataItemFiltered = dataItem;
-                if (constraint != null) {
-                    if (dataItemFiltered != null & dataItemFiltered.size() > 0) {
-                        for (final DataItem g : dataItemFiltered) {
-                            if (g.getNoSpk().toLowerCase().contains(constraint.toString()))
-                                resultsItems.add(g);
+
+                // Kata kunci ikut dikecilkan. Sebelumnya hanya isi daftar yang
+                // dikecilkan, sehingga mengetik huruf besar tidak pernah cocok
+                // padahal nomor SPK memakai huruf besar.
+                String kunci = constraint == null ? "" : constraint.toString().toLowerCase();
+                if (dataItemFiltered != null) {
+                    for (final DataItem g : dataItemFiltered) {
+                        if (g != null && g.getNoSpk() != null
+                                && g.getNoSpk().toLowerCase().contains(kunci)) {
+                            resultsItems.add(g);
                         }
                     }
-                    oReturn.values = resultsItems;
                 }
+                oReturn.values = resultsItems;
 
                 return oReturn;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                dataItem = (ArrayList<DataItem>) results.values;
+                // Tanpa penjagaan ini, hasil null membuat daftar menutup aplikasi.
+                if (results != null && results.values != null) {
+                    dataItem = (List<DataItem>) results.values;
+                }
                 notifyDataSetChanged();
             }
         };

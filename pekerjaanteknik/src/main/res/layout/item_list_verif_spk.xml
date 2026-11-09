@@ -1,79 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+    Baris antrean Verifikasi Perbaikan. Dipakai VerifikasiSPKAdapter.
+    Id wajib: cvKlik (AKAR, CardView - MaterialCardView adalah turunannya),
+    tv_no_spk, tv_alamat, tv_uraian_pekerjaan (semua TextView).
+    Catatan: tv_alamat sebenarnya diisi getRlSpk().getLokasi(), jadi labelnya
+    ditulis "Lokasi" supaya tidak menyesatkan. Id-nya tetap tv_alamat.
+-->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cvKlik"
+    style="@style/PTCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    app:cardElevation="8dp">
+    android:layout_marginBottom="10dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:rippleColor="@color/pdam_blue_soft">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="14dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:background="@drawable/bg_icon_soft_blue"
+                android:contentDescription="@null"
+                android:padding="8dp"
+                android:src="@drawable/ic_pt_verify"
+                android:tint="@color/pdam_blue_dark" />
+
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="7dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_no_spk"
+                    style="@style/PTValueStrong"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/robotomedium"
-                    android:text="No SPK"
-                    android:textColor="@android:color/black"
-                    android:textSize="13dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_alamat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:text="--"
-                    android:textColor="@color/black"
-                    android:textSize="12dp" />
-
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    tools:text="0020/BRT/PB/IV/2022" />
 
                 <TextView
                     android:id="@+id/tv_uraian_pekerjaan"
+                    style="@style/PTLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/robotomedium"
-                    android:text="uraian"
-                    android:textColor="@android:color/black"
-                    android:textSize="11dp" />
-
+                    android:layout_marginTop="1dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    tools:text="Perbaikan pipa bocor" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/next" />
-
-            </LinearLayout>
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginLeft="6dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_pt_chevron_right"
+                android:tint="@color/pdam_text_muted" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/pdam_outline" />
 
+        <TextView
+            style="@style/PTLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Lokasi"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_alamat"
+            style="@style/PTValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            tools:text="Jl. Contoh No. 10" />
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+
+</com.google.android.material.card.MaterialCardView>

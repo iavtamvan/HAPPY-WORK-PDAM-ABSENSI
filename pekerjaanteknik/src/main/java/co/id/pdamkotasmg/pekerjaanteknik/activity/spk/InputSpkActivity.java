@@ -54,6 +54,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import co.id.pdamkotasmg.pekerjaanteknik.R;
 import co.id.pdamkotasmg.pekerjaanteknik.activity.spk.riwayat.RiwayatSpkActivity;
@@ -76,6 +78,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.model.post.responseReuired.ResponseReqR
 import co.id.pdamkotasmg.pekerjaanteknik.model.tagihan.BillingTagihanRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 import co.id.pdamkotasmg.pekerjaanteknik.utils.ConfigAds;
+import co.id.pdamkotasmg.pekerjaanteknik.utils.PenampilFoto;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import id.zelory.compressor.Compressor;
 import im.delight.android.location.SimpleLocation;
@@ -198,7 +201,13 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
     private BarangTambahanListAdapter barangTambahanListAdapter;
 
     private EasyImage easyImage;
-    private static int REQUEST_FOTO;
+    // Tidak lagi static: nilai static ikut hidup di luar Activity dan bisa membuat
+    // foto masuk ke kotak yang salah bila ada instance kedua.
+    private int REQUEST_FOTO;
+    // Satu thread untuk kompresi foto supaya main thread tidak membeku.
+    private final ExecutorService eksekutorFoto = Executors.newSingleThreadExecutor();
+    // Penjaga supaya tombol Simpan tidak bisa ditekan dua kali selama upload berjalan.
+    private boolean isSubmitting = false;
     private File compressedImageFile1;
     private File compressedImageFile2;
     private File compressedImageFile3;
@@ -420,48 +429,7 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
                 if (lati == null || longi == null || lati == 0.0 || longi == 0.0) {
                     Toast.makeText(this, "Alamat tidak ditemukan, input manual!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Geocoder geocoder;
-                    List<Address> addressList = new ArrayList<>();
-                    if (addressList == null) {
-                        Log.d("debug", "adress list : Null");
-                    } else {
-                        geocoder = new Geocoder(InputSpkActivity.this, Locale.getDefault());
-                        try {
-                            Log.d(TAG, "Lati: " + lati + " longi" + longi);
-                            addressList = geocoder.getFromLocation(lati, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-                            address_gps = addressList.get(0).getAddressLine(0); // If any additional address_gps line present than only, check with max available address_gps lines by getMaxAddressLineIndex()
-                            Log.d(TAG, "onCreate: " + address_gps);
-                            if (address_gps == null) {
-                                address_gps = "alamat";
-                            }
-                            city = addressList.get(0).getLocality();
-                            if (city == null) {
-                                city = "kota";
-                            }
-                            state = addressList.get(0).getAdminArea();
-                            if (state == null) {
-                                state = ".";
-                            }
-                            country = addressList.get(0).getCountryName();
-                            if (country == null) {
-                                country = "negara";
-                            }
-                            postalCode = addressList.get(0).getPostalCode();
-                            if (postalCode == null) {
-                                postalCode = "postal";
-                            }
-                            knownName = addressList.get(0).getFeatureName(); // Only if available else return NULL
-                            if (knownName == null) {
-                                knownName = "name";
-                            }
-                            Log.d("debug", "loc: " + address_gps + " ");
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    inputAlamatPerbaikan.setText(address_gps);
-//                    inputAlamatPelapor.setText(address_gps);
+                    isiAlamatDariKoordinat(lati, longi);
                 }
             }
         });
@@ -514,13 +482,19 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
 
         divJamMulai.setOnClickListener(v -> {
             flag = "jammulai";
-            TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(InputSpkActivity.this, Calendar.HOUR_OF_DAY, Calendar.MINUTE, Calendar.SECOND, true);
+            // Sebelumnya yang dikirim konstanta Calendar.HOUR_OF_DAY/MINUTE/SECOND,
+            // sehingga picker selalu terbuka di jam 11:12:13.
+            Calendar nowJamMulai = Calendar.getInstance();
+            TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(InputSpkActivity.this,
+                    nowJamMulai.get(Calendar.HOUR_OF_DAY), nowJamMulai.get(Calendar.MINUTE), nowJamMulai.get(Calendar.SECOND), true);
             timePickerDialog.show(getSupportFragmentManager(), "Timepickerdialog");
         });
 
         divJamSelesai.setOnClickListener(v -> {
             flag = "jamselesai";
-            TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(InputSpkActivity.this, Calendar.HOUR_OF_DAY, Calendar.MINUTE, Calendar.SECOND, true);
+            Calendar nowJamSelesai = Calendar.getInstance();
+            TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(InputSpkActivity.this,
+                    nowJamSelesai.get(Calendar.HOUR_OF_DAY), nowJamSelesai.get(Calendar.MINUTE), nowJamSelesai.get(Calendar.SECOND), true);
             timePickerDialog.show(getSupportFragmentManager(), "Timepickerdialog");
         });
 
@@ -804,28 +778,23 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
             btnHapusBarang.setVisibility(View.GONE);
         });
 
-        cvFoto1.setOnClickListener(v -> {
-            REQUEST_FOTO = 1;
-            easyImage.openChooser(InputSpkActivity.this);
-        });
-
-        cvFoto2.setOnClickListener(v -> {
-            REQUEST_FOTO = 2;
-            easyImage.openChooser(InputSpkActivity.this);
-        });
-
-        cvFoto3.setOnClickListener(v -> {
-            REQUEST_FOTO = 3;
-            easyImage.openChooser(InputSpkActivity.this);
-        });
-
-        cvFoto4.setOnClickListener(v -> {
-            REQUEST_FOTO = 4;
-            easyImage.openChooser(InputSpkActivity.this);
-        });
+        // Kotak kosong: langsung membuka kamera/galeri seperti sebelumnya.
+        // Kotak yang sudah berisi: membuka foto layar penuh, dengan tombol "Ganti Foto".
+        cvFoto1.setOnClickListener(v -> bukaAtauAmbilFoto(1, compressedImageFile1, "Foto 1 · Foto Awal"));
+        cvFoto2.setOnClickListener(v -> bukaAtauAmbilFoto(2, compressedImageFile2, "Foto 2 · Foto Proses"));
+        cvFoto3.setOnClickListener(v -> bukaAtauAmbilFoto(3, compressedImageFile3, "Foto 3 · Foto Proses"));
+        cvFoto4.setOnClickListener(v -> bukaAtauAmbilFoto(4, compressedImageFile4, "Foto 4 · Foto Selesai"));
 
 
         btnSimpan.setOnClickListener(v -> {
+            // Validasi dijalankan lebih dulu. Tanpa ini, isian yang belum dipilih
+            // (foto, barang, tenaga, status, lembur) membuat aplikasi tertutup
+            // sendiri saat payload dibentuk.
+            if (!validasiSebelumSimpan()) {
+                return;
+            }
+            isSubmitting = true;
+            btnSimpan.setEnabled(false);
             postUploadFoto1();
 //            // TODO 1. Cek kosong atau tidak editText pekerjaan lainya dan tenaga sudah
 //            // TODO 2. cek sudah di isi semua atau belum sudah
@@ -900,11 +869,51 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
 
     }
 
+    /**
+     * Geocoder dijalankan di thread terpisah. Memanggilnya langsung di main thread
+     * menahan tampilan karena prosesnya menghubungi layanan lokasi, dan hasilnya
+     * bisa berupa daftar kosong sehingga get(0) menutup aplikasi.
+     */
+    private void isiAlamatDariKoordinat(final double latitude, final double longitude) {
+        new Thread(() -> {
+            String alamatHasil = null;
+            try {
+                Geocoder geocoder = new Geocoder(InputSpkActivity.this, Locale.getDefault());
+                List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
+                if (addressList != null && !addressList.isEmpty()) {
+                    Address alamat = addressList.get(0);
+                    alamatHasil = alamat.getAddressLine(0);
+                    city = alamat.getLocality() == null ? "kota" : alamat.getLocality();
+                    state = alamat.getAdminArea() == null ? "." : alamat.getAdminArea();
+                    country = alamat.getCountryName() == null ? "negara" : alamat.getCountryName();
+                    postalCode = alamat.getPostalCode() == null ? "postal" : alamat.getPostalCode();
+                    knownName = alamat.getFeatureName() == null ? "name" : alamat.getFeatureName();
+                }
+            } catch (Exception e) {
+                Log.d(TAG, "Geocoder gagal: " + e.getMessage());
+            }
+
+            final String alamatFinal = alamatHasil;
+            runOnUiThread(() -> {
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                if (alamatFinal == null) {
+                    Toast.makeText(InputSpkActivity.this, "Alamat tidak ditemukan, isi manual", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                address_gps = alamatFinal;
+                inputAlamatPerbaikan.setText(address_gps);
+            });
+        }).start();
+    }
+
     private void postUploadFoto1() {
         progressDialog.show();
         Date currentTime = Calendar.getInstance().getTime();
         String timestamp = String.valueOf(currentTime.getTime());
-        String year = new SimpleDateFormat("Y", Locale.getDefault()).format(new Date());
+        // "Y" adalah week-year: pada akhir Desember foto bisa tersimpan di folder tahun berikutnya.
+        String year = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
         String month = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
         RequestBody path = RequestBody.create(MediaType.parse("text/plain"), "/pekerjaan-teknik/foto/" + year + "/" + month);
         RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), "ft-1-" + nppPengawas + "-" + year + month + "-" + timestamp);
@@ -918,17 +927,18 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
                 .enqueue(new Callback<PostFotoUploadRootModel>() {
                     @Override
                     public void onResponse(Call<PostFotoUploadRootModel> call, Response<PostFotoUploadRootModel> response) {
-                        if (response.isSuccessful()) {
-                            Log.d(TAG, "uploadImage " + response.body().getData().getFileurl());
+                        if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
                             filePathServer1 = response.body().getData().getFilepath();
                             postUploadFoto2(month, year, timestamp);
+                        } else {
+                            // Tanpa cabang ini, respons selain 2xx membuat dialog menggantung selamanya.
+                            gagalKirim("Upload Foto 1 gagal (kode " + response.code() + ")");
                         }
                     }
 
                     @Override
                     public void onFailure(Call<PostFotoUploadRootModel> call, Throwable t) {
-                        progressDialog.cancel();
-                        Toast.makeText(InputSpkActivity.this, "Upload Foto 1 Gagal " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        gagalKirim("Upload Foto 1 gagal: " + t.getLocalizedMessage());
                     }
                 });
     }
@@ -946,25 +956,26 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
                 .enqueue(new Callback<PostFotoUploadRootModel>() {
                     @Override
                     public void onResponse(Call<PostFotoUploadRootModel> call, Response<PostFotoUploadRootModel> response) {
-                        if (response.isSuccessful()) {
-                            Log.d(TAG, "uploadImage " + response.body().getData().getFileurl());
+                        if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
                             filePathServer2 = response.body().getData().getFilepath();
 
-                            if (compressedImageFile3 != null || compressedImageFile4 != null) {
+                            // Dulu cukup salah satu dari foto 3/4 terisi untuk masuk ke upload foto 3,
+                            // padahal upload 3 dan 4 langsung memakai filenya, jadi yang kosong = crash.
+                            if (compressedImageFile3 != null) {
                                 postUploadFoto3(month, year, timestamp);
+                            } else if (compressedImageFile4 != null) {
+                                postUploadFoto4(month, year, timestamp);
                             } else {
-//                                Toast.makeText(InputSpkActivity.this, "Post Data 2", Toast.LENGTH_SHORT).show();
                                 postDataSPK2();
                             }
-
-
+                        } else {
+                            gagalKirim("Upload Foto 2 gagal (kode " + response.code() + ")");
                         }
                     }
 
                     @Override
                     public void onFailure(Call<PostFotoUploadRootModel> call, Throwable t) {
-                        progressDialog.cancel();
-                        Toast.makeText(InputSpkActivity.this, "Upload Foto 2 Gagal " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        gagalKirim("Upload Foto 2 gagal: " + t.getLocalizedMessage());
                     }
                 });
     }
@@ -982,17 +993,21 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
                 .enqueue(new Callback<PostFotoUploadRootModel>() {
                     @Override
                     public void onResponse(Call<PostFotoUploadRootModel> call, Response<PostFotoUploadRootModel> response) {
-                        if (response.isSuccessful()) {
-                            Log.d(TAG, "uploadImage " + response.body().getData().getFileurl());
+                        if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
                             filePathServer3 = response.body().getData().getFilepath();
-                            postUploadFoto4(month, year, timestamp);
+                            if (compressedImageFile4 != null) {
+                                postUploadFoto4(month, year, timestamp);
+                            } else {
+                                postDataSPK2();
+                            }
+                        } else {
+                            gagalKirim("Upload Foto 3 gagal (kode " + response.code() + ")");
                         }
                     }
 
                     @Override
                     public void onFailure(Call<PostFotoUploadRootModel> call, Throwable t) {
-                        progressDialog.cancel();
-                        Toast.makeText(InputSpkActivity.this, "Upload Foto 3 Gagal " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        gagalKirim("Upload Foto 3 gagal: " + t.getLocalizedMessage());
                     }
                 });
     }
@@ -1010,22 +1025,17 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
                 .enqueue(new Callback<PostFotoUploadRootModel>() {
                     @Override
                     public void onResponse(Call<PostFotoUploadRootModel> call, Response<PostFotoUploadRootModel> response) {
-                        if (response.isSuccessful()) {
-                            Log.d(TAG, "uploadImage " + response.body().getData().getFileurl());
+                        if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
                             filePathServer4 = response.body().getData().getFilepath();
-                            Toast.makeText(InputSpkActivity.this, "Post Data 4", Toast.LENGTH_SHORT).show();
                             postDataSPK2();
-                            Log.d(TAG, "file1: " + filePathServer1);
-                            Log.d(TAG, "file2: " + filePathServer2);
-                            Log.d(TAG, "file3: " + filePathServer3);
-                            Log.d(TAG, "file4: " + filePathServer4);
+                        } else {
+                            gagalKirim("Upload Foto 4 gagal (kode " + response.code() + ")");
                         }
                     }
 
                     @Override
                     public void onFailure(Call<PostFotoUploadRootModel> call, Throwable t) {
-                        progressDialog.cancel();
-                        Toast.makeText(InputSpkActivity.this, "Upload Foto 4 Gagal " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        gagalKirim("Upload Foto 4 gagal: " + t.getLocalizedMessage());
                     }
                 });
     }
@@ -1066,11 +1076,11 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
         RequestBody tgl_pelaksana = RequestBody.create(MediaType.parse("text/plain"), tvTglPelaksanaan.getText().toString().trim());
         RequestBody jam1 = RequestBody.create(MediaType.parse("text/plain"), tvJamMulai.getText().toString().trim());
         RequestBody jam2 = RequestBody.create(MediaType.parse("text/plain"), tvJamSelesai.getText().toString().trim());
-        RequestBody jenis_pipa = RequestBody.create(MediaType.parse("text/plain"), kodeBarangDikerjakan);
-        RequestBody diameter = RequestBody.create(MediaType.parse("text/plain"), diameterBarangDikerjakan);
+        RequestBody jenis_pipa = text(kodeBarangDikerjakan);
+        RequestBody diameter = text(diameterBarangDikerjakan);
         RequestBody tekanan = RequestBody.create(MediaType.parse("text/plain"), inputTekanan.getText().toString().trim());
         RequestBody uraian = RequestBody.create(MediaType.parse("text/plain"), edtPekerjaanLainnya.getText().toString().trim());
-        RequestBody jml_tenaga = RequestBody.create(MediaType.parse("text/plain"), tenagaString);
+        RequestBody jml_tenaga = text(tenagaString);
         RequestBody jml_tenaga_ket = RequestBody.create(MediaType.parse("text/plain"), edtTenagaLainnya.getText().toString().trim());
         RequestBody kasub = RequestBody.create(MediaType.parse("text/plain"), nppKasub);
         RequestBody pengawas = RequestBody.create(MediaType.parse("text/plain"), nppPengawas);
@@ -1095,26 +1105,28 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
         RequestBody alamat = RequestBody.create(MediaType.parse("text/plain"), tvAlamat.getText().toString().trim());
         RequestBody lokasi = RequestBody.create(MediaType.parse("text/plain"), inputAlamatPerbaikan.getText().toString().trim());
         RequestBody kd_jns = RequestBody.create(MediaType.parse("text/plain"), jenisPekerjaanKdJenis);
-        RequestBody st_lembur = RequestBody.create(MediaType.parse("text/plain"), kodeLembur);
+        RequestBody st_lembur = text(kodeLembur);
         RequestBody user_ver = RequestBody.create(MediaType.parse("text/plain"), "-");
 
         RequestBody no_pengaduan_cc = RequestBody.create(MediaType.parse("text/plain"), inputNoAduanCc.getText().toString());
         RequestBody no_aduan = RequestBody.create(MediaType.parse("text/plain"), inputNoAduanCc.getText().toString());
-        RequestBody penyelesaian = RequestBody.create(MediaType.parse("text/plain"), keetCC);
+        RequestBody penyelesaian = text(keetCC);
 //        RequestBody petugas = RequestBody.create(MediaType.parse("text/plain"), namePengawas);
 //        RequestBody tgl_selesai = RequestBody.create(MediaType.parse("text/plain"), tvTglPelaksanaan.getText().toString().trim());
-        RequestBody status_kode_cc = RequestBody.create(MediaType.parse("text/plain"), kodeCC);
+        RequestBody status_kode_cc = text(kodeCC);
 
-        RequestBody file1 = RequestBody.create(MediaType.parse("text/plain"), filePathServer1);
-        RequestBody file2 = RequestBody.create(MediaType.parse("text/plain"), filePathServer2);
+        RequestBody file1 = text(filePathServer1);
+        RequestBody file2 = text(filePathServer2);
 
-//        filePathServer3 = null;
-//        filePathServer4 = null;
+        // Dikirim hanya untuk foto yang benar-benar ada. Sebelumnya, jika hanya
+        // foto 4 yang diisi, foto 3 bernilai null dan aplikasi tertutup di sini.
         RequestBody file3 = null;
         RequestBody file4 = null;
-        if (compressedImageFile3 != null || compressedImageFile4 != null) {
-            file3 = RequestBody.create(MediaType.parse("text/plain"), filePathServer3);
-            file4 = RequestBody.create(MediaType.parse("text/plain"), filePathServer4);
+        if (compressedImageFile3 != null) {
+            file3 = text(filePathServer3);
+        }
+        if (compressedImageFile4 != null) {
+            file4 = text(filePathServer4);
         }
 
         Gson gson = new Gson();
@@ -1132,28 +1144,85 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
                     @Override
                     public void onResponse(Call<ResponseReqRootModel> call, Response<ResponseReqRootModel> response) {
                         if (response.isSuccessful()) {
-                            Log.d(TAG, "file1 send postDataSPK2: " + filePathServer1);
-                            Log.d(TAG, "file2 send postDataSPK2: " + filePathServer2);
-                            progressDialog.cancel();
+                            isSubmitting = false;
+                            tutupDialogKirim();
                             Toast.makeText(InputSpkActivity.this, "Data berhasil disimpan", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(InputSpkActivity.this, RiwayatSpkActivity.class);
                             intent.putExtra(Config.BUNDLE_KD_RIWAYAT, "1");
                             startActivity(intent);
                             finish();
-//                            startActivity(new Intent(getApplicationContext(), RiwayatSpkActivity.class));
                         } else {
-                            progressDialog.cancel();
-                            Log.d(TAG, "onResponse: " + response.body());
-                            Toast.makeText(InputSpkActivity.this, "Error : " + response.body(), Toast.LENGTH_LONG).show();
+                            // response.body() selalu null saat gagal, pesan server ada di errorBody.
+                            String pesanServer = "";
+                            try {
+                                if (response.errorBody() != null) {
+                                    pesanServer = response.errorBody().string();
+                                }
+                            } catch (IOException e) {
+                                Log.d(TAG, "Gagal membaca errorBody: " + e.getMessage());
+                            }
+                            gagalKirim("Simpan SPK gagal (kode " + response.code() + ") " + pesanServer);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseReqRootModel> call, Throwable t) {
-                        progressDialog.cancel();
-                        Toast.makeText(InputSpkActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        gagalKirim("Simpan SPK gagal: " + t.getMessage());
                     }
                 });
+    }
+
+    /** RequestBody teks yang aman untuk nilai null. OkHttp 4 menolak String null. */
+    private static RequestBody text(String value) {
+        return RequestBody.create(MediaType.parse("text/plain"), value == null ? "" : value);
+    }
+
+    /** Menutup dialog kirim tanpa error meskipun halaman sudah ditutup. */
+    private void tutupDialogKirim() {
+        if (progressDialog != null && progressDialog.isShowing() && !isFinishing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    /** Dipakai seluruh callback upload dan simpan supaya dialog tidak menggantung. */
+    private void gagalKirim(String pesan) {
+        if (isFinishing() || isDestroyed()) {
+            return;
+        }
+        isSubmitting = false;
+        tutupDialogKirim();
+        if (btnSimpan != null) {
+            btnSimpan.setEnabled(true);
+        }
+        Toast.makeText(InputSpkActivity.this, pesan, Toast.LENGTH_LONG).show();
+    }
+
+    /** Isian yang wajib ada sebelum payload SPK dibentuk dan foto mulai diunggah. */
+    private boolean validasiSebelumSimpan() {
+        if (isSubmitting) {
+            return false;
+        }
+        if (compressedImageFile1 == null || compressedImageFile2 == null) {
+            Toast.makeText(this, "Lengkapi Foto 1 (Awal) dan Foto 2 (Proses)", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (kodeBarangDikerjakan == null || diameterBarangDikerjakan == null) {
+            Toast.makeText(this, "Pilih Barang yang diperbaiki", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (tenagaString == null) {
+            Toast.makeText(this, "Pilih Tenaga", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (kodeCC == null || keetCC == null) {
+            Toast.makeText(this, "Pilih Status Penyelesaian", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (kodeLembur == null) {
+            Toast.makeText(this, "Pilih Lembur: Ya atau Tidak", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void cekNolangg() {
@@ -1302,111 +1371,12 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
 
             @Override
             public void onMediaFilesPicked(@NonNull MediaFile[] mediaFiles, @NonNull MediaSource mediaSource) {
-                if (REQUEST_FOTO == 1) {
-                    // TODO jepret foto
-                    Log.d(TAG, "onMediaFilesPickedPath: " + mediaFiles[0].getFile().getPath());
-                    Log.d(TAG, "onMediaFilesPickedAbsoluthPath: " + mediaFiles[0].getFile().getAbsolutePath());
-                    Log.d(TAG, "onMediaFilesPickedGetName: " + mediaFiles[0].getFile().getName());
-                    Log.d(TAG, "onMediaFilesPickedGetParent: " + mediaFiles[0].getFile().getParent());
-
-                    // TODO Compress file/image
-                    try {
-                        compressedImageFile1 = new Compressor(InputSpkActivity.this)
-                                .setMaxHeight(640)
-                                .setMaxWidth(480)
-                                .setQuality(70)
-                                .setCompressFormat(Bitmap.CompressFormat.WEBP)
-                                .setDestinationDirectoryPath(mediaFiles[0].getFile().getParent())
-                                .compressToFile(mediaFiles[0].getFile(), "comp_1_" + mediaFiles[0].getFile().getName());
-                        Log.d(TAG, "compressed: " + compressedImageFile1.getPath());
-                        Glide.with(InputSpkActivity.this).load(compressedImageFile1.getPath()).override(512, 512).into(ivFoto1);
-
-                        // TODO delete image
-//                    Config.deleteFiles(mediaFiles[0].getFile().getPath(), "ImageOriginal");
-
-                    } catch (IOException e) {
-                        Log.d(TAG, "failureCOmpressed 111: " + e.getMessage());
-                        e.printStackTrace();
-                    }
-                } else if (REQUEST_FOTO == 2) {
-                    // TODO jepret foto
-                    Log.d(TAG, "onMediaFilesPickedPath 222: " + mediaFiles[0].getFile().getPath());
-                    Log.d(TAG, "onMediaFilesPickedAbsoluthPath 222: " + mediaFiles[0].getFile().getAbsolutePath());
-                    Log.d(TAG, "onMediaFilesPickedGetName 222: " + mediaFiles[0].getFile().getName());
-                    Log.d(TAG, "onMediaFilesPickedGetParent 222: " + mediaFiles[0].getFile().getParent());
-
-                    // TODO Compress file/image
-                    try {
-                        compressedImageFile2 = new Compressor(InputSpkActivity.this)
-                                .setMaxHeight(640)
-                                .setMaxWidth(480)
-                                .setQuality(70)
-                                .setCompressFormat(Bitmap.CompressFormat.WEBP)
-                                .setDestinationDirectoryPath(mediaFiles[0].getFile().getParent())
-                                .compressToFile(mediaFiles[0].getFile(), "comp_2_" + mediaFiles[0].getFile().getName());
-                        Log.d(TAG, "compressed 222: " + compressedImageFile2.getPath());
-                        Glide.with(InputSpkActivity.this).load(compressedImageFile2.getPath()).override(512, 512).into(ivFoto2);
-
-                        // TODO delete image
-//                    Config.deleteFiles(mediaFiles[0].getFile().getPath(), "ImageOriginal");
-
-                    } catch (IOException e) {
-                        Log.d(TAG, "failureCOmpressed: " + e.getMessage());
-                        e.printStackTrace();
-                    }
-                } else if (REQUEST_FOTO == 3) {
-                    // TODO jepret foto
-                    Log.d(TAG, "onMediaFilesPickedPath 333: " + mediaFiles[0].getFile().getPath());
-                    Log.d(TAG, "onMediaFilesPickedAbsoluthPath 333: " + mediaFiles[0].getFile().getAbsolutePath());
-                    Log.d(TAG, "onMediaFilesPickedGetName 333: " + mediaFiles[0].getFile().getName());
-                    Log.d(TAG, "onMediaFilesPickedGetParent 333: " + mediaFiles[0].getFile().getParent());
-
-                    // TODO Compress file/image
-                    try {
-                        compressedImageFile3 = new Compressor(InputSpkActivity.this)
-                                .setMaxHeight(640)
-                                .setMaxWidth(480)
-                                .setQuality(70)
-                                .setCompressFormat(Bitmap.CompressFormat.WEBP)
-                                .setDestinationDirectoryPath(mediaFiles[0].getFile().getParent())
-                                .compressToFile(mediaFiles[0].getFile(), "comp_3_" + mediaFiles[0].getFile().getName());
-                        Log.d(TAG, "compressed 333: " + compressedImageFile3.getPath());
-                        Glide.with(InputSpkActivity.this).load(compressedImageFile3.getPath()).override(512, 512).into(ivFoto3);
-
-                        // TODO delete image
-//                    Config.deleteFiles(mediaFiles[0].getFile().getPath(), "ImageOriginal");
-
-                    } catch (IOException e) {
-                        Log.d(TAG, "failureCOmpressed: " + e.getMessage());
-                        e.printStackTrace();
-                    }
-                } else if (REQUEST_FOTO == 4) {
-                    // TODO jepret foto
-                    Log.d(TAG, "onMediaFilesPickedPath 444: " + mediaFiles[0].getFile().getPath());
-                    Log.d(TAG, "onMediaFilesPickedAbsoluthPath 444: " + mediaFiles[0].getFile().getAbsolutePath());
-                    Log.d(TAG, "onMediaFilesPickedGetName 444: " + mediaFiles[0].getFile().getName());
-                    Log.d(TAG, "onMediaFilesPickedGetParent 444: " + mediaFiles[0].getFile().getParent());
-
-                    // TODO Compress file/image
-                    try {
-                        compressedImageFile4 = new Compressor(InputSpkActivity.this)
-                                .setMaxHeight(640)
-                                .setMaxWidth(480)
-                                .setQuality(70)
-                                .setCompressFormat(Bitmap.CompressFormat.WEBP)
-                                .setDestinationDirectoryPath(mediaFiles[0].getFile().getParent())
-                                .compressToFile(mediaFiles[0].getFile(), "comp_4_" + mediaFiles[0].getFile().getName());
-                        Log.d(TAG, "compressed 444: " + compressedImageFile4.getPath());
-                        Glide.with(InputSpkActivity.this).load(compressedImageFile4.getPath()).override(512, 512).into(ivFoto4);
-
-                        // TODO delete image
-//                    Config.deleteFiles(mediaFiles[0].getFile().getPath(), "ImageOriginal");
-
-                    } catch (IOException e) {
-                        Log.d(TAG, "failureCOmpressed: " + e.getMessage());
-                        e.printStackTrace();
-                    }
+                if (mediaFiles == null || mediaFiles.length == 0 || mediaFiles[0].getFile() == null) {
+                    return;
                 }
+                // Slot disalin ke variabel lokal: REQUEST_FOTO bisa berubah bila
+                // pengguna menekan kotak foto lain sebelum proses di latar selesai.
+                kompresFotoDiLatar(mediaFiles[0].getFile(), REQUEST_FOTO);
             }
 
             @Override
@@ -1415,6 +1385,76 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
             }
         });
 
+    }
+
+    /**
+     * Foto yang sudah diambil dibuka layar penuh (bisa diperbesar). Bila slot masih
+     * kosong, kamera/galeri langsung dibuka seperti perilaku semula.
+     */
+    private void bukaAtauAmbilFoto(final int slot, File fotoTersimpan, String judul) {
+        if (fotoTersimpan == null || !fotoTersimpan.exists()) {
+            REQUEST_FOTO = slot;
+            easyImage.openChooser(InputSpkActivity.this);
+            return;
+        }
+        PenampilFoto.tampilkan(this, fotoTersimpan, judul, () -> {
+            REQUEST_FOTO = slot;
+            easyImage.openChooser(InputSpkActivity.this);
+        });
+    }
+
+    /**
+     * Kompresi foto dijalankan di thread terpisah. Sebelumnya berjalan di main thread
+     * di dalam onActivityResult, sehingga layar membeku beberapa ratus milidetik tiap
+     * kali selesai memotret dan petugas sering menekan tombol dua kali.
+     */
+    private void kompresFotoDiLatar(final File asli, final int slot) {
+        Toast.makeText(this, "Memproses foto ...", Toast.LENGTH_SHORT).show();
+        eksekutorFoto.execute(() -> {
+            File hasil = null;
+            try {
+                hasil = new Compressor(getApplicationContext())
+                        .setMaxHeight(640)
+                        .setMaxWidth(480)
+                        .setQuality(70)
+                        .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                        .setDestinationDirectoryPath(asli.getParent())
+                        .compressToFile(asli, "comp_" + slot + "_" + asli.getName());
+            } catch (Exception e) {
+                Log.d(TAG, "Kompresi foto gagal: " + e.getMessage());
+            }
+
+            final File hasilAkhir = hasil;
+            runOnUiThread(() -> {
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                if (hasilAkhir == null) {
+                    Toast.makeText(InputSpkActivity.this, "Foto gagal diproses, silakan ulangi", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                switch (slot) {
+                    case 1:
+                        compressedImageFile1 = hasilAkhir;
+                        Glide.with(InputSpkActivity.this).load(hasilAkhir).override(512, 512).into(ivFoto1);
+                        break;
+                    case 2:
+                        compressedImageFile2 = hasilAkhir;
+                        Glide.with(InputSpkActivity.this).load(hasilAkhir).override(512, 512).into(ivFoto2);
+                        break;
+                    case 3:
+                        compressedImageFile3 = hasilAkhir;
+                        Glide.with(InputSpkActivity.this).load(hasilAkhir).override(512, 512).into(ivFoto3);
+                        break;
+                    case 4:
+                        compressedImageFile4 = hasilAkhir;
+                        Glide.with(InputSpkActivity.this).load(hasilAkhir).override(512, 512).into(ivFoto4);
+                        break;
+                    default:
+                        break;
+                }
+            });
+        });
     }
 
     private void getListGabungan() {
@@ -1604,7 +1644,8 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        // super dipanggil lebih dulu membuat halaman langsung tertutup, sehingga
+        // dialog konfirmasi di bawah tidak pernah sempat berguna.
         MaterialDialog mDialog = new MaterialDialog.Builder(InputSpkActivity.this)
                 .setTitle("Kembali ke halaman utama?")
                 .setCancelable(false)
@@ -1617,5 +1658,35 @@ public class InputSpkActivity extends AppCompatActivity implements TimePickerDia
                 .build();
 
         mDialog.show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        if (adView != null) {
+            adView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Tanpa destroy(), AdView terus menyegarkan iklan di latar dan
+        // menahan Activity beserta WebView internalnya di memori.
+        if (adView != null) {
+            adView.destroy();
+        }
+        eksekutorFoto.shutdownNow();
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+        super.onDestroy();
     }
 }

@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Pilih lokasi di peta. Id wajib: div_container (LinearLayout),
+    container_layout (ConstraintLayout), map (fragment SupportMapFragment),
+    idSearchView (androidx.appcompat.widget.SearchView), tv_bottom_alamat (TextView),
+    btn_simpan_maps (Button), btn_refresh_maps (Button), plus 3 id content_headers.
+
+    Perbaikan tampilan:
+    - Titik yang benar-benar disimpan adalah PUSAT layar. Ujung bawah pin
+      sekarang disejajarkan ke pusat itu (marginBottom = tinggi pin), dulu
+      meleset 35dp sehingga petugas menandai titik yang salah.
+    - Teks alamat tidak lagi diawali kata "null".
+    - Tombol memakai warna tema: Simpan biru utama, Lokasi Sekarang berbingkai.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fitur.activity.spk.MapsAdressActivity">
+    tools:context="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.MapsAdressActivity">
 
     <include layout="@layout/content_headers" />
-
 
     <LinearLayout
         android:id="@+id/div_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/white"
         android:orientation="vertical">
 
@@ -28,25 +41,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/idSearchView"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="#FAFAFA"
-                android:clickable="true"
-                android:elevation="8dp"
-                android:focusable="true"
-                app:defaultQueryHint="cari alamat disini"
-                app:iconifiedByDefault="false"
+                android:layout_margin="12dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="6dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/idSearchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:minHeight="48dp"
+                    app:defaultQueryHint="Cari alamat di sini"
+                    app:iconifiedByDefault="false" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Lingkaran ini menandai titik yang benar-benar disimpan -->
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:alpha="0.3"
+                android:contentDescription="@null"
                 android:src="@drawable/ic_circle_shape"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -56,21 +79,21 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginBottom="35dp"
+                android:layout_marginBottom="40dp"
+                android:contentDescription="@null"
                 android:src="@drawable/ic_marker"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
+                style="@style/PTCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="30dp"
-                app:cardCornerRadius="8dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="16dp"
                 app:cardElevation="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -79,69 +102,75 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="14dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
+                        android:baselineAligned="false"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:src="@drawable/ic_marker" />
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+                            android:background="@drawable/bg_icon_soft_blue"
+                            android:contentDescription="@null"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_pt_map_pin"
+                            android:tint="@color/pdam_blue_dark" />
 
-                        <TextView
-                            android:id="@+id/tv_bottom_alamat"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="4dp"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginRight="4dp"
-                            android:gravity="center|left"
-                            android:text="null"
-                            android:textColor="@color/black"
-                            android:textSize="12dp" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
+                            <TextView
+                                style="@style/PTLabel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Alamat terpilih"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/tv_bottom_alamat"
+                                style="@style/PTValue"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:text="-" />
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
+                        android:layout_marginTop="12dp"
                         android:orientation="horizontal">
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_simpan_maps"
-                            android:layout_width="wrap_content"
+                            style="@style/PTButtonPrimary"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="8dp"
-                            android:backgroundTint="@color/greenGojek"
-                            android:text="Simpan"
-                            android:textColor="@android:color/white" />
+                            android:layout_weight="1"
+                            android:text="Simpan" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_refresh_maps"
-                            android:layout_width="wrap_content"
+                            style="@style/PTButtonOutlined"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="8dp"
-                            android:backgroundTint="@color/red"
-                            android:text="Lokasi Sekarang"
-                            android:textColor="@android:color/white" />
-
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="Lokasi Sekarang" />
                     </LinearLayout>
-
                 </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </LinearLayout>
 

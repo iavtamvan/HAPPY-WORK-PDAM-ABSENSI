@@ -1,72 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Verifikasi Perbaikan. Id wajib: edt_search (EditText), rv (RecyclerView),
+    ditambah 3 id dari content_headers. Tidak ada tombol dan tidak ada iklan.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/pdam_surface"
     android:orientation="vertical"
-    tools:context=".fitur.activity.spk.VerifikasiActivity">
+    tools:context="co.id.pdamkotasmg.pekerjaanteknik.activity.spk.VerifikasiActivity">
 
     <include layout="@layout/content_headers" />
 
-    <androidx.cardview.widget.CardView
+    <!-- Peringatan dibuat sebagai kartu lembut, bukan blok merah penuh,
+         supaya tetap terbaca tanpa mendominasi seluruh layar. -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:cardBackgroundColor="@color/red"
-        app:cardCornerRadius="8dp">
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/bg_card_warn"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="1dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_pt_alert"
+            android:tint="@color/pdam_warn_body" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:fontFamily="@font/poppins_medium"
+                android:text="Periksa dengan teliti"
+                android:textColor="@color/pdam_warn_title"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/danger" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:gravity="center|left"
-                    android:text="Baca dengan fokus saat memverifikasi, karena tidak dapat dibatalkan!"
-                    android:textColor="@color/white"
-                    android:textSize="12dp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Verifikasi tidak dapat dibatalkan setelah dikirim."
+                android:textColor="@color/pdam_warn_body"
+                android:textSize="11sp" />
         </LinearLayout>
+    </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
-
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp">
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/bg_search_pdam"
+        android:gravity="center_vertical"
+        android:minHeight="48dp"
+        android:orientation="horizontal"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_pt_search"
+            android:tint="@color/pdam_text_muted" />
 
         <EditText
             android:id="@+id/edt_search"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:hint="Cari No SPK (Tersedia 50 Data)"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="Cari No SPK"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
             android:maxLines="1"
-            android:imeOptions="actionSearch" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:textColor="@color/pdam_text"
+            android:textColorHint="@color/pdam_text_muted"
+            android:textSize="14sp" />
+    </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
+    <!-- Daftar dan tampilan kosongnya (utils/KeadaanDaftar) dalam satu bingkai. -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingLeft="12dp"
+            android:paddingTop="12dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="12dp"
+            android:scrollbars="none"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_list_verif_spk" />
+
+        <include layout="@layout/include_keadaan_daftar" />
+    </FrameLayout>
 
 </LinearLayout>

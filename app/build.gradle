@@ -14,9 +14,9 @@ android {
     defaultConfig {
         applicationId "com.pdamkotasmg.happywork"
         minSdk 23
-        targetSdk 35
+        targetSdk 36
 
-        versionCode 61 // update playstore
+        versionCode 66 // update playstore
         versionName "1.1.1" // ini diganti
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -191,6 +191,12 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "androidx.work:work-runtime:2.9.1"
+
+    // Dipakai bersama oleh dynamic feature :pekerjaanteknik (lewat work-runtime 2.10)
+    // dan :pembacameter (lewat CameraX 1.4). Wajib ada di base module, kalau tidak
+    // task checkDebugLibraries gagal: "all package the same library".
+    implementation 'androidx.concurrent:concurrent-futures-ktx:1.1.0'
+    implementation 'androidx.tracing:tracing-ktx:1.2.0'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'

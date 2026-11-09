@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Label kolom wajib di form Input SPK.
+
+    Tanda bintang merah dibuat dengan <font color> supaya cukup satu TextView per
+    label, tanpa menambah view baru. Warna #C62828 sama dengan @color/pdam_required
+    (string resource tidak bisa merujuk @color, jadi ditulis langsung).
+
+    Daftar kolom yang ditandai mengikuti teks merah di form lama, ditambah kolom
+    yang memang diperiksa sebelum Simpan (Tenaga, Status Penyelesaian, Lembur, Foto 1-2).
+-->
+<resources>
+    <string name="pt_wajib_keterangan">Kolom bertanda <font color="#C62828"><b>*</b></font> wajib diisi.</string>
+
+    <string name="pt_label_tgl_pelaksanaan">Tanggal Pelaksanaan <font color="#C62828"><b>*</b></font></string>
+    <string name="pt_label_tgl_spk">Tanggal SPK <font color="#C62828"><b>*</b></font></string>
+    <string name="pt_label_pengawas">Pengawas / Mandor <font color="#C62828"><b>*</b></font></string>
+    <string name="pt_label_kasub">Kasub <font color="#C62828"><b>*</b></font></string>
+    <string name="pt_label_jam_mulai">Jam Mulai <font color="#C62828"><b>*</b></font></string>
+    <string name="pt_label_jam_selesai">Jam Selesai <font color="#C62828"><b>*</b></font></string>
+    <string name="pt_label_lembur">Lembur? <font color="#C62828"><b>*</b></font></string>
+    <string name="pt_label_barang_diperbaiki">Barang yang diperbaiki <font color="#C62828"><b>*</b></font></string>
+    <string name="pt_label_tenaga">Tenaga <font color="#C62828"><b>*</b></font></string>
+    <string name="pt_judul_aksesoris">Pemakaian Aksesoris <font color="#C62828"><b>*</b></font></string>
+    <string name="pt_judul_status_penyelesaian">Status Penyelesaian <font color="#C62828"><b>*</b></font></string>
+
+    <string name="pt_foto_aturan">Foto 1 dan Foto 2 <font color="#C62828"><b>wajib</b></font>, Foto 3 dan Foto 4 opsional. Ketuk foto yang sudah diambil untuk melihat atau menggantinya.</string>
+    <string name="pt_foto_petunjuk_detail">Ketuk foto untuk memperbesar.</string>
+</resources>

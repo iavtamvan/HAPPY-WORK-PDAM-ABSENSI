@@ -42,9 +42,16 @@ public class PekerjaanTambahanAdapter extends RecyclerView.Adapter<PekerjaanTamb
         holder.tvKeteranganPekerjaanTambahan.setText(dataItem.get(position).getJnsPekrjLain());
 
         holder.divDeleteData.setOnClickListener(view -> {
-            dataItem.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeRemoved(position, dataItem.size());
+            // position dari onBind sudah usang setelah ada baris lain dihapus, dan
+            // notifyItemRangeRemoved melaporkan penghapusan kedua kalinya sehingga
+            // hitungan internal RecyclerView rusak lalu menutup aplikasi.
+            int posisi = holder.getAdapterPosition();
+            if (posisi == RecyclerView.NO_POSITION) {
+                return;
+            }
+            dataItem.remove(posisi);
+            notifyItemRemoved(posisi);
+            notifyItemRangeChanged(posisi, dataItem.size() - posisi);
 
             Log.d("debug", "size : " + dataItem.size());
             Log.d("debug", "size : " + dataItem);
@@ -54,7 +61,7 @@ public class PekerjaanTambahanAdapter extends RecyclerView.Adapter<PekerjaanTamb
 
     @Override
     public int getItemCount() {
-        return dataItem.size();
+        return dataItem == null ? 0 : dataItem.size();
     }
 
 

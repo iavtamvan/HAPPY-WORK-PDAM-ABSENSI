@@ -73,7 +73,7 @@ public class WarningAdapter extends RecyclerView.Adapter<WarningAdapter.ViewHold
 //
 //        }
 
-        if (dataItem.get(position).getVerifikator().isEmpty()) {
+        if (dataItem.get(position).getVerifikator() == null || dataItem.get(position).getVerifikator().isEmpty()) {
             holder.divVerifikator.setVisibility(View.GONE);
         } else {
             ArrayList<String> verifikatorList = new ArrayList<>();
@@ -85,7 +85,7 @@ public class WarningAdapter extends RecyclerView.Adapter<WarningAdapter.ViewHold
             holder.tvVerifikator.setText(resultVerifikator);
         }
 
-        if (dataItem.get(position).getPeringatan().isEmpty()) {
+        if (dataItem.get(position).getPeringatan() == null || dataItem.get(position).getPeringatan().isEmpty()) {
             holder.divPeringatan.setVisibility(View.GONE);
         } else {
             ArrayList<String> peringatanList = new ArrayList<>();
@@ -97,7 +97,7 @@ public class WarningAdapter extends RecyclerView.Adapter<WarningAdapter.ViewHold
             holder.tvPeringatan.setText(resultPeringatan);
         }
 
-        if (dataItem.get(position).getInfo().isEmpty()) {
+        if (dataItem.get(position).getInfo() == null || dataItem.get(position).getInfo().isEmpty()) {
             holder.divInfo.setVisibility(View.GONE);
         } else {
             ArrayList<String> infoList = new ArrayList<>();
@@ -113,7 +113,7 @@ public class WarningAdapter extends RecyclerView.Adapter<WarningAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return dataItem.size();
+        return dataItem == null ? 0 : dataItem.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

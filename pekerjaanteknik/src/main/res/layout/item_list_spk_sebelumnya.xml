@@ -1,162 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+    Baris pilihan "No SPK Sebelumnya". Dipakai SPKSebelumnyaAdapter.
+    Id wajib: cv_klik (CardView), tv_no_spk, tv_lokasi, tv_tgl_pelaksanaan,
+    tv_uraian_pekerjaan, tv_satuan (semua TextView).
+
+    Catatan: tv_satuan di layout ini sebenarnya berisi STATUS ("Selesai" /
+    "Blm Selesai"), bukan satuan barang. Id-nya tidak boleh diganti karena
+    dibaca adapter, jadi labelnya saja yang ditulis "Status".
+-->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_klik"
+    style="@style/PTCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:layout_marginBottom="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:rippleColor="@color/pdam_blue_soft">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_klik"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="4dp">
+        android:orientation="vertical"
+        android:padding="14dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="3dp"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:background="@drawable/bg_icon_soft_blue"
+                android:contentDescription="@null"
+                android:padding="8dp"
+                android:src="@drawable/ic_pt_history"
+                android:tint="@color/pdam_blue_dark" />
+
+            <TextView
+                android:id="@+id/tv_no_spk"
+                style="@style/PTValueStrong"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="0020/BRT/PB/IV/2022" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="No SPK"
-                    android:textColor="@android:color/black"
-                    android:textSize="10dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_no_spk"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="sans-serif-condensed-light"
-                    android:text="99"
-                    android:textColor="@android:color/black"
-                    android:textSize="12dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Lokasi"
-                    android:textColor="@android:color/black"
-                    android:textSize="10dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_lokasi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="sans-serif-condensed-light"
-                    android:gravity="center"
-                    android:text="lokasi"
-                    android:textColor="@android:color/black"
-                    android:textSize="12dp" />
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/tv_satuan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Tanggal Pelaksanaan"
-                    android:textColor="@android:color/black"
-                    android:textSize="10dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_tgl_pelaksanaan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="sans-serif-condensed-light"
-                    android:gravity="center"
-                    android:text="tgl Pelaksanaan"
-                    android:textColor="@android:color/black"
-                    android:textSize="12dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Uraian Pekerjaan"
-                    android:textColor="@android:color/black"
-                    android:textSize="10dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_uraian_pekerjaan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="sans-serif-condensed-light"
-                    android:gravity="center"
-                    android:text="merek"
-                    android:textColor="@android:color/black"
-                    android:textSize="12dp" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Status"
-                    android:textColor="@android:color/black"
-                    android:textSize="10dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_satuan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="sans-serif-condensed-light"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="@android:color/black"
-                    android:textSize="12dp" />
-            </LinearLayout>
-
-
+                android:layout_marginLeft="6dp"
+                android:background="@drawable/bg_badge_info"
+                android:fontFamily="@font/poppins_medium"
+                android:paddingLeft="10dp"
+                android:paddingTop="4dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="4dp"
+                android:textColor="@color/pdam_info_title"
+                android:textSize="11sp"
+                tools:text="Selesai" />
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/pdam_outline" />
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_pt_calendar"
+                android:tint="@color/pdam_text_muted" />
+
+            <TextView
+                android:id="@+id/tv_tgl_pelaksanaan"
+                style="@style/PTValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="08 Apr 2022" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/PTLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Lokasi"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_lokasi"
+            style="@style/PTValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            tools:text="Jl. Contoh No. 10" />
+
+        <TextView
+            style="@style/PTLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Uraian Pekerjaan"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_uraian_pekerjaan"
+            style="@style/PTValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            tools:text="Perbaikan pipa bocor" />
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

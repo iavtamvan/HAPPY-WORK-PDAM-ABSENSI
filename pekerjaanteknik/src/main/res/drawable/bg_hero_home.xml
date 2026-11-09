@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Latar kartu utama Home. Bagian atas sewarna status bar (#0096D1) supaya menyatu,
+     makin dalam ke bawah. Cahaya lembut digambar AnimasiPipaView. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="270"
+        android:centerColor="@color/pdam_blue_dark"
+        android:endColor="@color/pdam_blue_deep"
+        android:startColor="@color/pdam_blue" />
+</shape>

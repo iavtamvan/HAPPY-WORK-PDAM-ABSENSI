@@ -1,103 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Baris daftar "Pekerjaan yang harus dikerjakan" di form Input SPK.
+    Dipakai PekerjaanTambahanAdapter.
+    Id wajib: tv_no, tv_kode_pekerjaan_tambahan, tv_keterangan_pekerjaan_tambahan,
+    div_delete_data (LinearLayout, dipasangi listener hapus).
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:orientation="horizontal">
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/bg_field_soft"
+    android:baselineAligned="false"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="12dp"
+    android:paddingTop="10dp"
+    android:paddingRight="8dp"
+    android:paddingBottom="10dp">
 
+    <!-- Blok nomor urut: disembunyikan sejak dulu dan Java juga
+         memanggil tvNo.setVisibility(GONE), jadi tetap dipertahankan. -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:orientation="vertical"
         android:visibility="gone">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="No"
-            android:textColor="@android:color/black"
-            android:textSize="12dp"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/tv_no"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="sans-serif-condensed-light"
             android:text="1"
-            android:textColor="@android:color/black"
-            android:textSize="11dp" />
+            android:textColor="@color/pdam_text"
+            android:textSize="11sp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_kode_pekerjaan_tambahan"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:background="@drawable/bg_badge_blue"
+        android:fontFamily="@font/poppins_medium"
+        android:minWidth="44dp"
         android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Kode"
-            android:textColor="@android:color/black"
-            android:textSize="12dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_kode_pekerjaan_tambahan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="sans-serif-condensed-light"
-            android:gravity="center"
-            android:text="99"
-            android:textColor="@android:color/black"
-            android:textSize="11dp" />
-    </LinearLayout>
+        android:paddingLeft="10dp"
+        android:paddingTop="4dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="4dp"
+        android:textColor="@color/pdam_blue_dark"
+        android:textSize="12sp"
+        tools:text="99" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
+            style="@style/PTLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:text="Keterangan"
-            android:textColor="@android:color/black"
-            android:textSize="12dp"
-            android:textStyle="bold" />
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/tv_keterangan_pekerjaan_tambahan"
+            style="@style/PTValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="sans-serif-condensed-light"
-            android:gravity="center"
-            android:text="Pekerjaan lainnya"
-            android:textColor="@android:color/black"
-            android:textSize="11dp" />
+            android:layout_marginTop="1dp"
+            tools:text="Pekerjaan lainnya" />
     </LinearLayout>
 
+    <!-- Sasaran sentuh hapus dinaikkan jadi 40dp; sebelumnya hanya seukuran ikon -->
     <LinearLayout
         android:id="@+id/div_delete_data"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/bg_icon_soft_blue"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:src="@drawable/close_req" />
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_pt_trash"
+            android:tint="@color/pdam_warn_body" />
     </LinearLayout>
-
 
 </LinearLayout>

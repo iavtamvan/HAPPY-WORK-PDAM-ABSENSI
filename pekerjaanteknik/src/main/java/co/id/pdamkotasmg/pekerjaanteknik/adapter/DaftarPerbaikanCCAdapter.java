@@ -59,6 +59,27 @@ public class DaftarPerbaikanCCAdapter extends RecyclerView.Adapter<DaftarPerbaik
     public DaftarPerbaikanCCAdapter(Context context, List<DataItem> dataItem) {
         this.context = context;
         this.dataItem = dataItem;
+
+        // Dipindah dari onBindViewHolder. Sebelumnya SharedPreferences dibuka dan
+        // ProgressDialog baru dibuat untuk SETIAP baris daftar, dan dialog yang
+        // sedang tampil bisa tergantikan instance baru sehingga tidak bisa ditutup.
+        sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
+        name = sharedPreferences.getString(Config.SHARED_NAME, "");
+        npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+        kdAmbilRiwayatCC = sharedPreferences.getString(Config.SHARED_KD_AMBIL_PEKERJAAN, "");
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Mohon tunggu...");
+    }
+
+    /** Menutup dialog hanya bila memang sedang tampil. */
+    private void tutupDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.cancel();
+        }
     }
 
     @NonNull
@@ -71,16 +92,9 @@ public class DaftarPerbaikanCCAdapter extends RecyclerView.Adapter<DaftarPerbaik
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        accessToken = sharedPreferences.getString(Config.SHARED_ACCESS_TOKEN, "");
-        name = sharedPreferences.getString(Config.SHARED_NAME, "");
-        npp = sharedPreferences.getString(Config.SHARED_NPP_PROFILE, "");
+        // kdAmbilRiwayatCC dibaca ulang di sini karena nilainya diubah layar Home
+        // tepat sebelum daftar dibuka.
         kdAmbilRiwayatCC = sharedPreferences.getString(Config.SHARED_KD_AMBIL_PEKERJAAN, "");
-
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Mohon tunggu...");
 
         holder.tvNoCc.setText(dataItem.get(position).getNoPengaduanCc());
         holder.tvNoSpk.setText(dataItem.get(position).getNoSpk());
@@ -98,7 +112,7 @@ public class DaftarPerbaikanCCAdapter extends RecyclerView.Adapter<DaftarPerbaik
             String dateRequestAtFix = new SimpleDateFormat("EEE, dd MMM yyyy").format(dateRequestAt);
             holder.tvTglAduan.setText(dateRequestAtFix);
 
-        } catch (ParseException e) {
+        } catch (ParseException | NullPointerException e) {
             e.printStackTrace();
         }
 
@@ -140,14 +154,14 @@ public class DaftarPerbaikanCCAdapter extends RecyclerView.Adapter<DaftarPerbaik
             String dateRequestAtFix = new SimpleDateFormat("EEE, dd MMM yyyy").format(dateRequestAt);
             holder.tvTanggal.setText(dateRequestAtFix);
 
-        } catch (ParseException e) {
+        } catch (ParseException | NullPointerException e) {
             e.printStackTrace();
         }
 
         holder.cvKlik.setOnClickListener(v -> {
 
             if (dataItem.get(position).getTenaga() != null) {
-                if (kdAmbilRiwayatCC.equals("1")) { // dari fitur HOME
+                if ("1".equals(kdAmbilRiwayatCC)) { // dari fitur HOME
                     MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
                             .setTitle("Batalkan booking " + holder.tvNoCc.getText().toString().trim() + "?")
                             .setCancelable(true)
@@ -223,22 +237,27 @@ public class DaftarPerbaikanCCAdapter extends RecyclerView.Adapter<DaftarPerbaik
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        // Dialog ditutup di semua jalur. Sebelumnya hanya pada jalur
+                        // sukses, sehingga saat server menolak dialog menggantung.
+                        tutupDialog();
                         if (response.isSuccessful()) {
-                            progressDialog.cancel();
                             Toast.makeText(context, note, Toast.LENGTH_SHORT).show();
 
-                            if (kdAmbilRiwayatCC.equals("1")) { // dari fitur HOME
+                            // Jenis layar dicek dari objeknya, bukan dari flag SharedPreferences.
+                            // Flag yang tertinggal dari sesi sebelumnya bisa membuat cast salah.
+                            if (context instanceof RiwayatAmbilPekerjaanActivity) {
                                 ((RiwayatAmbilPekerjaanActivity) context).getRiwayatAmbilPekerjaan();
-                            } else {
+                            } else if (context instanceof DaftarCallCenterActivity) {
                                 ((DaftarCallCenterActivity) context).getDataDisposisi();
                             }
-
-
+                        } else {
+                            Toast.makeText(context, "Gagal memproses pekerjaan (kode " + response.code() + ")", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        tutupDialog();
                         Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -252,25 +271,26 @@ public class DaftarPerbaikanCCAdapter extends RecyclerView.Adapter<DaftarPerbaik
                 .enqueue(new Callback<DisposisiRootModel>() {
                     @Override
                     public void onResponse(Call<DisposisiRootModel> call, Response<DisposisiRootModel> response) {
-                        if (response.isSuccessful()) {
-//                            progressDialog.cancel();
-                            Log.d("debug", "data cek booking: " + response.body().getData().size());
-
-                            if (response.body().getData().size() >= 1){
-                                progressDialog.cancel();
+                        if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                            if (response.body().getData().size() >= 1) {
+                                tutupDialog();
                                 Toast.makeText(context, "Selesaikan Pekerjaan Yang di Booking", Toast.LENGTH_SHORT).show();
                             } else {
                                 editor.putString(Config.SHARED_STATU_BOOKING, "1");
                                 editor.apply();
+                                // Dialog sengaja dibiarkan tampil, ditutup oleh ambilDanBatalPekerjaanCC.
                                 ambilDanBatalPekerjaanCC(noCC, name + " (" + npp + ")", "Berhasil booking pekerjaan");
                             }
-
+                        } else {
+                            // Tanpa cabang ini, dialog menggantung saat server menolak.
+                            tutupDialog();
+                            Toast.makeText(context, "Gagal memeriksa booking (kode " + response.code() + ")", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<DisposisiRootModel> call, Throwable t) {
-                        progressDialog.cancel();
+                        tutupDialog();
                         Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -278,7 +298,7 @@ public class DaftarPerbaikanCCAdapter extends RecyclerView.Adapter<DaftarPerbaik
 
     @Override
     public int getItemCount() {
-        return dataItem.size();
+        return dataItem == null ? 0 : dataItem.size();
     }
 
     @Override
@@ -291,22 +311,27 @@ public class DaftarPerbaikanCCAdapter extends RecyclerView.Adapter<DaftarPerbaik
 
                 if (dataItemFiltered == null)
                     dataItemFiltered = dataItem;
-                if (constraint != null) {
-                    if (dataItemFiltered != null & dataItemFiltered.size() > 0) {
-                        for (final DataItem g : dataItemFiltered) {
-                            if (g.getNoPengaduanCc().toLowerCase().contains(constraint.toString()))
-                                resultsItems.add(g);
+                // Kata kunci ikut dikecilkan supaya pencarian huruf besar tetap cocok.
+                String kunci = constraint == null ? "" : constraint.toString().toLowerCase();
+                if (dataItemFiltered != null) {
+                    for (final DataItem g : dataItemFiltered) {
+                        if (g != null && g.getNoPengaduanCc() != null
+                                && g.getNoPengaduanCc().toLowerCase().contains(kunci)) {
+                            resultsItems.add(g);
                         }
                     }
-                    oReturn.values = resultsItems;
                 }
+                oReturn.values = resultsItems;
 
                 return oReturn;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                dataItem = (ArrayList<DataItem>) results.values;
+                // Hasil null sebelumnya membuat daftar menutup aplikasi.
+                if (results != null && results.values != null) {
+                    dataItem = (List<DataItem>) results.values;
+                }
                 notifyDataSetChanged();
             }
         };

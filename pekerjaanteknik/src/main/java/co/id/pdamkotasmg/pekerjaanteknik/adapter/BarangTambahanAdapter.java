@@ -40,13 +40,12 @@ public class BarangTambahanAdapter extends RecyclerView.Adapter<BarangTambahanAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvKodeBarang.setText(dataItem.get(position).getKdBrg());
 //        if (dataItem.get(position).getNmBrg().contains("�")){
+        // Nama barang dan relasi jenisnya bisa kosong pada data master lama.
         String data = dataItem.get(position).getNmBrg();
-        String rpl = data.replace("�", "Ø");
-        Log.d("debug", "onBindViewHolder: " + rpl);
+        String rpl = data == null ? "-" : data.replace("�", "Ø");
         holder.tvNamaBarang.setText(rpl);
-//        }
-//        holder.tvNamaBarang.setText(dataItem.get(position).getNmBrg());
-        holder.tvJenisBarang.setText(dataItem.get(position).getRlBarangJenis1().getNmJns1());
+        holder.tvJenisBarang.setText(dataItem.get(position).getRlBarangJenis1() == null
+                ? "-" : dataItem.get(position).getRlBarangJenis1().getNmJns1());
         holder.tvMerek.setText("-");
         holder.tvSatuan.setText(dataItem.get(position).getSatuan());
         holder.cvKlik.setOnClickListener(v -> {
@@ -63,7 +62,7 @@ public class BarangTambahanAdapter extends RecyclerView.Adapter<BarangTambahanAd
 
     @Override
     public int getItemCount() {
-        return dataItem.size();
+        return dataItem == null ? 0 : dataItem.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

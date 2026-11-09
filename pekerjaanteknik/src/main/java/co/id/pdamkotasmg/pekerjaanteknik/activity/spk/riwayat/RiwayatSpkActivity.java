@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +30,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.model.riwayatSpk.mandor.DataItem;
 import co.id.pdamkotasmg.pekerjaanteknik.model.riwayatSpk.mandor.RiwayatSPKMandorRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 import co.id.pdamkotasmg.pekerjaanteknik.utils.ConfigAds;
+import co.id.pdamkotasmg.pekerjaanteknik.utils.KeadaanDaftar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,6 +46,7 @@ public class RiwayatSpkActivity extends AppCompatActivity {
     private List<DataItem> dataItem = new ArrayList<>();
     private EditText edtSearch;
     private RecyclerView rv;
+    private KeadaanDaftar keadaan;
     private AdView adView;
     private Button btnHalamanUtama;
     private ImageView ivHeaderBackArrow;
@@ -57,6 +58,7 @@ public class RiwayatSpkActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_riwayat_spk);
         initView();
+        keadaan = new KeadaanDaftar(findViewById(R.id.div_keadaan_daftar));
         
         ConfigAds.banner(RiwayatSpkActivity.this, adView);
         Config.header(ivHeaderBackArrow, ivHeaderInfo, tvHeaderJudul, RiwayatSpkActivity.this, "Riwayat SPK");
@@ -89,7 +91,11 @@ public class RiwayatSpkActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                riwayatSPKAdapter.getFilter().filter(s);
+                // Adapter baru dibuat setelah respons server datang, jadi mengetik
+                // saat daftar belum termuat sebelumnya menutup aplikasi.
+                if (riwayatSPKAdapter != null) {
+                    riwayatSPKAdapter.getFilter().filter(s);
+                }
             }
 
             @Override
@@ -100,6 +106,7 @@ public class RiwayatSpkActivity extends AppCompatActivity {
     }
 
     private void getRiwayatSPK() {
+        keadaan.siapMemuat();
         ProgressDialog progressDialog = new ProgressDialog(RiwayatSpkActivity.this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Mohon tunggu");
@@ -109,23 +116,27 @@ public class RiwayatSpkActivity extends AppCompatActivity {
                 .enqueue(new Callback<RiwayatSPKMandorRootModel>() {
                     @Override
                     public void onResponse(Call<RiwayatSPKMandorRootModel> call, Response<RiwayatSPKMandorRootModel> response) {
-                        if (response.isSuccessful()) {
+                        if (response.isSuccessful() && response.body() != null) {
                             progressDialog.cancel();
                             dataItem = response.body().getData();
                             riwayatSPKAdapter = new RiwayatSPKAdapter(RiwayatSpkActivity.this, dataItem);
                             rv.setLayoutManager(new LinearLayoutManager(RiwayatSpkActivity.this));
                             rv.setAdapter(riwayatSPKAdapter);
                             riwayatSPKAdapter.notifyDataSetChanged();
+                            keadaan.pantau(riwayatSPKAdapter, edtSearch, R.drawable.ic_pt_history,
+                                    "Belum ada riwayat SPK", "SPK yang Anda simpan akan muncul di sini.");
                         } else {
                             progressDialog.cancel();
-                            Toast.makeText(RiwayatSpkActivity.this, "" + response.headers(), Toast.LENGTH_SHORT).show();
+                            // Dulu menampilkan isi header HTTP mentah sebagai toast.
+                            keadaan.tampilkanGagal(KeadaanDaftar.pesanGagalServer(response.code()),
+                                    RiwayatSpkActivity.this::getRiwayatSPK);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<RiwayatSPKMandorRootModel> call, Throwable t) {
-                        Toast.makeText(RiwayatSpkActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
+                        keadaan.tampilkanGagal(KeadaanDaftar.PESAN_GAGAL_KONEKSI, RiwayatSpkActivity.this::getRiwayatSPK);
                     }
                 });
     }
@@ -138,5 +149,31 @@ public class RiwayatSpkActivity extends AppCompatActivity {
         ivHeaderBackArrow = findViewById(R.id.iv_header_back_arrow);
         tvHeaderJudul = findViewById(R.id.tv_header_judul);
         ivHeaderInfo = findViewById(R.id.iv_header_info);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        if (adView != null) {
+            adView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Tanpa destroy(), AdView terus menyegarkan iklan di latar dan
+        // menahan Activity beserta WebView internalnya di memori.
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
     }
 }

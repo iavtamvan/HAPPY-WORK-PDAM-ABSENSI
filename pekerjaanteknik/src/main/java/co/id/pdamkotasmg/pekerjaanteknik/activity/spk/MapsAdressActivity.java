@@ -87,36 +87,30 @@ public class MapsAdressActivity extends AppCompatActivity implements OnMapReadyC
 
                 List<Address> addressList = null;
 
-                if (location != null || location.equals("")) {
-                    progressDialog.cancel();
+                // Dulu memakai "location != null || location.equals("")" yang justru
+                // meloloskan teks kosong, lalu addressList dipakai tanpa penjagaan
+                // padahal tetap null bila pencarian gagal atau tidak ada koneksi.
+                if (location != null && !location.trim().isEmpty()) {
                     Geocoder geocoder = new Geocoder(MapsAdressActivity.this);
                     try {
                         addressList = geocoder.getFromLocationName(location, 1);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    progressDialog.cancel();
 
-                    if (addressList.size() == 0) {
-                        progressDialog.cancel();
-                        Toast.makeText(MapsAdressActivity.this, "Tidak ditemukan", Toast.LENGTH_SHORT).show();
+                    if (addressList == null || addressList.isEmpty()) {
+                        Toast.makeText(MapsAdressActivity.this, "Alamat tidak ditemukan", Toast.LENGTH_SHORT).show();
+                    } else if (mMap == null) {
+                        Toast.makeText(MapsAdressActivity.this, "Peta belum siap, coba lagi", Toast.LENGTH_SHORT).show();
                     } else {
-                        progressDialog.cancel();
                         Address address = addressList.get(0);
-
-                        if (addressList.isEmpty()) {
-                            Toast.makeText(MapsAdressActivity.this, "Tidak ditemukan", Toast.LENGTH_SHORT).show();
-                        } else {
-                            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-
-                            // on below line we are adding marker to that position.
-//                    mMap.addMarker(new MarkerOptions().position(latLng).title(location));
-//                    LatLng target = mMap.getCameraPosition().target;
-
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
-                        }
+                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
                     }
-
-
+                } else {
+                    progressDialog.cancel();
+                    Toast.makeText(MapsAdressActivity.this, "Isi dulu alamat yang dicari", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -189,45 +183,31 @@ public class MapsAdressActivity extends AppCompatActivity implements OnMapReadyC
                             if (latNew == 0.0 || longiNew == 0.0) {
                                 Toast.makeText(MapsAdressActivity.this, "Alamat tidak ditemukan, input manual!", Toast.LENGTH_SHORT).show();
                             } else {
-                                Geocoder geocoder;
-                                List<Address> addressList = new ArrayList<>();
-                                if (addressList == null) {
-                                    Log.d("debug", "adress list : Null");
-                                } else {
-                                    geocoder = new Geocoder(MapsAdressActivity.this, Locale.getDefault());
-                                    try {
-                                        addressList = geocoder.getFromLocation(latNew, longiNew, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-                                        address_gps = addressList.get(0).getAddressLine(0); // If any additional address_gps line present than only, check with max available address_gps lines by getMaxAddressLineIndex()
+                                // Pengecekan lama "addressList == null" atas ArrayList yang baru
+                                // dibuat tidak pernah bernilai benar, sementara hasil Geocoder
+                                // bisa kosong sehingga get(0) menutup aplikasi. Titik di laut
+                                // atau tanpa koneksi adalah kejadian biasa di lapangan.
+                                Geocoder geocoder = new Geocoder(MapsAdressActivity.this, Locale.getDefault());
+                                try {
+                                    List<Address> addressList = geocoder.getFromLocation(latNew, longiNew, 1);
+                                    if (addressList == null || addressList.isEmpty()) {
+                                        Log.d("debug", "adress list : kosong");
+                                    } else {
+                                        Address alamat = addressList.get(0);
+                                        address_gps = alamat.getAddressLine(0);
                                         if (address_gps == null || address_gps.isEmpty()) {
                                             address_gps = "alamat";
                                         }
-                                        city = addressList.get(0).getLocality();
-                                        if (city == null) {
-                                            city = "kota";
-                                        }
-                                        state = addressList.get(0).getAdminArea();
-                                        if (state == null) {
-                                            state = ".";
-                                        }
-                                        country = addressList.get(0).getCountryName();
-                                        if (country == null) {
-                                            country = "negara";
-                                        }
-                                        postalCode = addressList.get(0).getPostalCode();
-                                        if (postalCode == null) {
-                                            postalCode = "postal";
-                                        }
-                                        knownName = addressList.get(0).getFeatureName(); // Only if available else return NULL
-                                        if (knownName == null) {
-                                            knownName = "name";
-                                        }
-                                        Log.d("debug", "loc: " + address_gps + " ");
+                                        city = alamat.getLocality() == null ? "kota" : alamat.getLocality();
+                                        state = alamat.getAdminArea() == null ? "." : alamat.getAdminArea();
+                                        country = alamat.getCountryName() == null ? "negara" : alamat.getCountryName();
+                                        postalCode = alamat.getPostalCode() == null ? "postal" : alamat.getPostalCode();
+                                        knownName = alamat.getFeatureName() == null ? "name" : alamat.getFeatureName();
 
                                         tvBottomAlamat.setText(address_gps);
-
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
                                     }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
                             }
                         }

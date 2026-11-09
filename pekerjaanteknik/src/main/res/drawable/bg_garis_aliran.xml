@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Garis tipis di bawah bar atas, terisi mengikuti posisi gulir -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="0"
+        android:endColor="@color/pdam_blue"
+        android:startColor="@color/pdam_aqua" />
+</shape>

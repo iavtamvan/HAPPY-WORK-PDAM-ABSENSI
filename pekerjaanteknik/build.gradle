@@ -36,6 +36,10 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 
+    // lihat foto layar penuh + zoom dua jari. Versi sengaja sama dengan modul
+    // app dan pembacameter, jadi tidak ada unduhan baru dan ukuran APK tidak bertambah.
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
     // ambil gambar
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

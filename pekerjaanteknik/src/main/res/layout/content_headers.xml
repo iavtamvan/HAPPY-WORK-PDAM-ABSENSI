@@ -1,54 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Header bersama modul Pekerjaan Teknik. Disertakan oleh 11 layar, jadi
+    perubahan di sini langsung menyeragamkan semuanya.
+    Id dan jenis View dipertahankan persis seperti dipakai Config.header():
+    iv_header_back_arrow (ImageView), tv_header_judul (TextView), iv_header_info (ImageView).
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:orientation="horizontal">
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+        <!-- Sasaran sentuh 40dp, sebelumnya hanya ikon 30x50 tanpa latar -->
+        <ImageView
+            android:id="@+id/iv_header_back_arrow"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_icon_soft_blue"
+            android:contentDescription="@null"
+            android:padding="9dp"
+            android:src="@drawable/ic_pt_arrow_left" />
 
-            <ImageView
-                android:id="@+id/iv_header_back_arrow"
-                android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:src="@drawable/arrrow_left" />
+        <TextView
+            android:id="@+id/tv_header_judul"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="@font/poppins_medium"
+            android:maxLines="1"
+            android:text="Judul"
+            android:textColor="@color/pdam_text"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tv_header_judul"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/poppins_medium"
-                android:gravity="left|center"
-                android:paddingLeft="10dp"
-                android:text="Judul"
-                android:textColor="@color/black"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="right">
-
-            <ImageView
-                android:id="@+id/iv_header_info"
-                android:layout_width="25dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:src="@drawable/info" />
-
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_header_info"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_icon_soft_blue"
+            android:contentDescription="@null"
+            android:padding="9dp"
+            android:src="@drawable/ic_pt_info"
+            android:tint="@color/pdam_text_muted" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/pdam_outline" />
 
 </LinearLayout>

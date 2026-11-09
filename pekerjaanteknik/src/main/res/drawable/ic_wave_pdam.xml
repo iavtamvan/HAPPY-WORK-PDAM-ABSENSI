@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Gelombang air: satu pola penuh dipakai sebagai hiasan bawah kartu utama. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="360dp"
+    android:height="56dp"
+    android:viewportWidth="360"
+    android:viewportHeight="56">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M0,28 C30,8 60,8 90,28 C120,48 150,48 180,28 C210,8 240,8 270,28 C300,48 330,48 360,28 L360,56 L0,56 Z" />
+</vector>

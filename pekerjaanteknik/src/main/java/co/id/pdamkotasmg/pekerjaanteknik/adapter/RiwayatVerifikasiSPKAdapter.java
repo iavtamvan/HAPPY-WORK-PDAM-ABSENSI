@@ -45,6 +45,13 @@ public class RiwayatVerifikasiSPKAdapter extends RecyclerView.Adapter<RiwayatVer
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        // rl_spk kosong bila baris verifikasi kehilangan induk SPK-nya.
+        if (dataItem.get(position) == null || dataItem.get(position).getRlSpk() == null) {
+            holder.itemView.setVisibility(View.GONE);
+            return;
+        }
+        holder.itemView.setVisibility(View.VISIBLE);
+
         holder.tvNoSpk.setText(dataItem.get(position).getNoSpk());
         holder.tvNoCc.setText(dataItem.get(position).getNocc());
         holder.tvTglSpkPelaksana.setText(dataItem.get(position).getTglPelaksana());
@@ -55,22 +62,22 @@ public class RiwayatVerifikasiSPKAdapter extends RecyclerView.Adapter<RiwayatVer
         holder.tvListItemDate.setText(dataItem.get(position).getTanggal());
         String kdPerbaikan = dataItem.get(position).getKdPerbaikan();
         String namaPerbaikan = null;
-        if (kdPerbaikan.equals("0")) {
+        if ("0".equals(kdPerbaikan)) {
             namaPerbaikan = "Lain-Lain (LL)";
-        } else if (kdPerbaikan.equals("1")) {
+        } else if ("1".equals(kdPerbaikan)) {
             namaPerbaikan = "Perbaikan Pipa Bocor (PB)";
-        } else if (kdPerbaikan.equals("2")) {
+        } else if ("2".equals(kdPerbaikan)) {
             namaPerbaikan = "Penanganan Air Mati / Aliran (PA)";
-        } else if (kdPerbaikan.equals("3")) {
+        } else if ("3".equals(kdPerbaikan)) {
             namaPerbaikan = "Pekerjaan Meter Induk (PM)";
-        } else if (kdPerbaikan.equals("4")) {
+        } else if ("4".equals(kdPerbaikan)) {
             namaPerbaikan = "Pelanggaran (PL)";
         }
         String finalNamaPerbaikan = namaPerbaikan;
         holder.tvListItemTypePekerjaan.setText(finalNamaPerbaikan);
 
         String statusVerif = dataItem.get(position).getStatusVerif();
-        if (statusVerif.equalsIgnoreCase("0")) {
+        if ("0".equalsIgnoreCase(statusVerif)) {
             holder.divRequestWaiting.setVisibility(View.VISIBLE);
             holder.divRequestDisetujui.setVisibility(View.GONE);
         } else {
@@ -85,7 +92,7 @@ public class RiwayatVerifikasiSPKAdapter extends RecyclerView.Adapter<RiwayatVer
             String dateRequestAtFix = new SimpleDateFormat("EEE, dd MMM yyyy").format(dateRequestAt);
             holder.tvTglSpkPelaksana.setText(dateRequestAtFix);
 
-        } catch (ParseException e) {
+        } catch (ParseException | NullPointerException e) {
             e.printStackTrace();
         }
 
@@ -96,7 +103,7 @@ public class RiwayatVerifikasiSPKAdapter extends RecyclerView.Adapter<RiwayatVer
             String dateRequestAtFix = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss").format(dateRequestAt);
             holder.tvListItemDate.setText(dateRequestAtFix);
 
-        } catch (ParseException e) {
+        } catch (ParseException | NullPointerException e) {
             e.printStackTrace();
         }
 
@@ -104,7 +111,7 @@ public class RiwayatVerifikasiSPKAdapter extends RecyclerView.Adapter<RiwayatVer
         String stLemburName = null;
         if (stLembur == null || stLembur.isEmpty()){
             stLemburName = "-";
-        } else if (stLembur.equals("1")){
+        } else if ("1".equals(stLembur)){
             stLemburName = "Ya";
         } else {
             stLemburName = "Tidak";
@@ -136,10 +143,10 @@ public class RiwayatVerifikasiSPKAdapter extends RecyclerView.Adapter<RiwayatVer
             intent.putExtra(Config.BUNDLE_KET_ZONA, dataItem.get(position).getKetZona());
             intent.putExtra(Config.BUNDLE_TKA, dataItem.get(position).getTka());
             intent.putExtra(Config.BUNDLE_STATUS, dataItem.get(position).getStatus());
-            intent.putExtra(Config.BUNDLE_FOTO1, Config.BASE_URL_IMAGE + dataItem.get(position).getFoto1());
-            intent.putExtra(Config.BUNDLE_FOTO2, Config.BASE_URL_IMAGE + dataItem.get(position).getFoto2());
-            intent.putExtra(Config.BUNDLE_FOTO3, Config.BASE_URL_IMAGE + dataItem.get(position).getFoto3());
-            intent.putExtra(Config.BUNDLE_FOTO4, Config.BASE_URL_IMAGE + dataItem.get(position).getFoto4());
+            intent.putExtra(Config.BUNDLE_FOTO1, Config.BASE_URL_IMAGE_HANDLER +dataItem.get(position).getFoto1());
+            intent.putExtra(Config.BUNDLE_FOTO2, Config.BASE_URL_IMAGE_HANDLER +dataItem.get(position).getFoto2());
+            intent.putExtra(Config.BUNDLE_FOTO3, Config.BASE_URL_IMAGE_HANDLER +dataItem.get(position).getFoto3());
+            intent.putExtra(Config.BUNDLE_FOTO4, Config.BASE_URL_IMAGE_HANDLER +dataItem.get(position).getFoto4());
             intent.putExtra(Config.BUNDLE_STATUS_VERIFIKASI, dataItem.get(position).getStatusVerif());
             intent.putExtra(Config.BUNDLE_VERIFIKATOR, dataItem.get(position).getUserVer());
             intent.putExtra(Config.BUNDLE_NO_CC, dataItem.get(position).getNocc());
@@ -152,7 +159,7 @@ public class RiwayatVerifikasiSPKAdapter extends RecyclerView.Adapter<RiwayatVer
 
     @Override
     public int getItemCount() {
-        return dataItem.size();
+        return dataItem == null ? 0 : dataItem.size();
     }
 
     @Override
@@ -165,22 +172,27 @@ public class RiwayatVerifikasiSPKAdapter extends RecyclerView.Adapter<RiwayatVer
 
                 if (dataItemFiltered == null)
                     dataItemFiltered = dataItem;
-                if (constraint != null) {
-                    if (dataItemFiltered != null & dataItemFiltered.size() > 0) {
-                        for (final DataItem g : dataItemFiltered) {
-                            if (g.getNoSpk().toLowerCase().contains(constraint.toString()))
-                                resultsItems.add(g);
+                // Kata kunci ikut dikecilkan supaya pencarian huruf besar tetap cocok.
+                String kunci = constraint == null ? "" : constraint.toString().toLowerCase();
+                if (dataItemFiltered != null) {
+                    for (final DataItem g : dataItemFiltered) {
+                        if (g != null && g.getNoSpk() != null
+                                && g.getNoSpk().toLowerCase().contains(kunci)) {
+                            resultsItems.add(g);
                         }
                     }
-                    oReturn.values = resultsItems;
                 }
+                oReturn.values = resultsItems;
 
                 return oReturn;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                dataItem = (ArrayList<DataItem>) results.values;
+                // Hasil null sebelumnya membuat daftar menutup aplikasi.
+                if (results != null && results.values != null) {
+                    dataItem = (List<DataItem>) results.values;
+                }
                 notifyDataSetChanged();
             }
         };

@@ -28,10 +28,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
@@ -39,8 +40,12 @@ import com.pdamkotasmg.goodday.fitur.authentication.login.LoginActivity;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import co.id.pdamkotasmg.pekerjaanteknik.R;
@@ -60,6 +65,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.model.warning.DataItem;
 import co.id.pdamkotasmg.pekerjaanteknik.model.warning.WarningRootModel;
 import com.pdamkotasmg.goodday.utils.Config;
 import co.id.pdamkotasmg.pekerjaanteknik.utils.ConfigAds;
+import co.id.pdamkotasmg.pekerjaanteknik.view.AnimasiPipaView;
 import okhttp3.ResponseBody;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -87,7 +93,6 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
     private List<DataItem> data;
     private WarningAdapter warningAdapter;
 
-    private CardView cvKlikInstagram;
     private CardView cvKlikFacebook;
     private CardView cvKlikGmail;
     private LinearLayout divContainerInputSpk;
@@ -99,7 +104,35 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
     private LinearLayout divContainerRiwayatVerifikasi;
     //    private LinearLayout divContainerHubungiPti;
     private AdView adView;
-    private LottieAnimationView ltKecoa;
+
+    // Kartu utama beranimasi (pipa, aliran air, katup, manometer, perbaikan bocor)
+    // dan seluruh gerak halaman yang diatur GerakHome.
+    private View divHero;
+    private AnimasiPipaView vAnimasiPipa;
+    private NestedScrollView svHomeSpk;
+    private View divIsiHome;
+    private View divTulisanHero;
+    private View divHeroAtas;
+    private View divLembarHome;
+    private TextView tvSapaan;
+    private TextView tvNamaPengguna;
+    private TextView tvSatkerPengguna;
+    private TextView tvTanggalHome;
+    private View vBarLatar;
+    private View vGarisAliran;
+    private View vKembaliKaca;
+    private View vKembaliPadat;
+    private View divMenuKerangka;
+    private View divMenuGagal;
+    private View btnMenuCobaLagi;
+    private View divJudulProgres;
+    private View divBantuan;
+    private View divIklanHome;
+    private View divSloganHome;
+    private GerakHome gerak;
+    // Mencegah permintaan ganda: dulu dicegah oleh dialog modal yang menutup layar.
+    private boolean sedangMuatAkses = false;
+    private boolean sedangMuatProgres = false;
     private LinearLayout divSurveyPelanggan;
     private LinearLayout divContainerCallCenter;
     private TextView tvAkses;
@@ -151,8 +184,14 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
 
         progressDialog = new ProgressDialog(HomeSPKActivity.this);
         progressDialog.setCancelable(false);
+
+        isiSapaan();
+        siapkanGerak();
+
 //        getSyncPengaduan();
         getAuthMe();
+
+        btnMenuCobaLagi.setOnClickListener(v -> getAuthMe());
 
         divContainerInputSpk.setOnClickListener(v -> {
             String statusBooking = sharedPreferences.getString(Config.SHARED_STATU_BOOKING, "");
@@ -181,11 +220,6 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
         divContainerRiwayatVerifikasi.setOnClickListener(v -> {
             startActivity(new Intent(HomeSPKActivity.this, RiwayatVerifikasiActivity.class));
             customType(HomeSPKActivity.this, "fadein-to-fadeout");
-        });
-
-        cvKlikInstagram.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/iav_ariav/"));
-            startActivity(browserIntent);
         });
 
         cvKlikWa.setOnClickListener(v -> {
@@ -217,7 +251,8 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
             dpd.show(getSupportFragmentManager(), "Datepickerdialog");
         });
         ivRefreshProgress.setOnClickListener(v -> {
-            getProgres();
+            // Notifikasi hanya untuk penyegaran manual, bukan tiap layar dibuka.
+            getProgres(true);
 //            showNotification(HomeSPKActivity.this, "Berhasil singkron", "Mantappss");
 //            showNotificationMessage(HomeSPKActivity.this, "Berhasil singkron", "Mantappss");
         });
@@ -319,7 +354,11 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
 //                            getAuthMe();
                         } else {
                             Toast.makeText(HomeSPKActivity.this, "Sinkronisasi Pengaduan Gagal, Hubungi PTI " + response.message(), Toast.LENGTH_SHORT).show();
-                            tvAkses.setText("Sinkronisasi Pengaduan Gagal, Hubungi PTI");
+                            // tv_akses hanya ada di layout HomeActivity, tidak di layar ini,
+                            // sehingga baris ini dulu menutup aplikasi setiap sinkron gagal.
+                            if (tvAkses != null) {
+                                tvAkses.setText("Sinkronisasi Pengaduan Gagal, Hubungi PTI");
+                            }
                         }
                     }
 
@@ -350,13 +389,22 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
     }
 
     private void getAuthMe() {
-        progressDialog.setMessage("Mohon Tunggu ...");
-        progressDialog.show();
+        if (sedangMuatAkses) {
+            return;
+        }
+        // Dulu memakai dialog modal "Mohon Tunggu" yang meredupkan seluruh layar,
+        // sehingga animasi Home baru terlihat saat pengguna kembali ke layar ini.
+        // Sekarang kerangka menu berdenyut di tempatnya.
+        siapMuatMenu();
         ApiService apiService = ApiConfig.getApiService(this, Config.BASE_URL_PORTAL_PEGAWAI);
         apiService.me(token)
                 .enqueue(new Callback<LoginRootModel>() {
                     @Override
                     public void onResponse(Call<LoginRootModel> call, Response<LoginRootModel> response) {
+                        // Tanpa dialog modal pengguna bisa keluar sebelum jawaban datang.
+                        if (isFinishing() || isDestroyed()) {
+                            return;
+                        }
                         if (response.isSuccessful()) {
                             Log.d(TAG, "onResponse: " + response.body().getData().getPermissions());
                             List<String> list = response.body().getData().getPermissions();
@@ -365,7 +413,9 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
                             Gson gson = new Gson();
                             String json = gson.toJson(list);
                             editor.putString(Config.SHARED_PERMISION_APPS, json);
-                            editor.commit();
+                            // apply() menulis ke memori seketika lalu menyimpan ke disk di latar,
+                            // commit() menahan main thread sampai proses tulis disk selesai.
+                            editor.apply();
 
                             String sets = sharedPreferences.getString(Config.SHARED_PERMISION_APPS, null);
                             Log.d(TAG, "====== Permission Dashboard ====== ");
@@ -375,13 +425,9 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
 //                                divSpk.setVisibility(View.VISIBLE);
                             // TODO ADS/IKLAN
                             if (list.contains("pekerjaan-teknik.ads-banner")) {
-                                Log.d(TAG, "pekerjaan-teknik.ads-banner: true ");
                                 adView.setVisibility(View.VISIBLE);
-                                ltKecoa.setVisibility(View.VISIBLE);
                             } else {
-                                Log.d(TAG, "fail: ");
                                 adView.setVisibility(View.GONE);
-                                ltKecoa.setVisibility(View.GONE);
                             }
 
                             // TODO input SPK
@@ -395,7 +441,7 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
                                 divContainerRiwayatAmbilPerbaikan.setVisibility(View.VISIBLE);
 
                                 divProgress.setVisibility(View.VISIBLE);
-                                getProgres();
+                                getProgres(false);
                                 getWarning();
 
 //                                    divContainerHubungiPti.setVisibility(View.GONE);
@@ -430,7 +476,7 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
                                 Log.d(TAG, "fail: ");
                                 divContainerRiwayatVerifikasi.setVisibility(View.GONE);
                             }
-                            progressDialog.cancel();
+                            selesaiMuatMenu(true);
 //                            } else {
 //                                progressDialog.cancel();
 //                                divSpk.setVisibility(View.GONE);
@@ -438,7 +484,7 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
 //                            }
                         } else {
                             divContainerVerifikasiPerbaikan.setVisibility(View.GONE);
-                            progressDialog.cancel();
+                            selesaiMuatMenu(false);
                             Config.logout(HomeSPKActivity.this);
                             finishAffinity();
                             Toast.makeText(HomeSPKActivity.this, "Token kadaluarsa, lakukan login kembali", Toast.LENGTH_SHORT).show();
@@ -448,8 +494,15 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
 
                     @Override
                     public void onFailure(Call<LoginRootModel> call, Throwable t) {
+                        if (isFinishing() || isDestroyed()) {
+                            return;
+                        }
                         divContainerVerifikasiPerbaikan.setVisibility(View.GONE);
-                        progressDialog.cancel();
+                        selesaiMuatMenu(false);
+                        // Pengguna bisa mencoba lagi tanpa keluar lalu membuka ulang layar.
+                        divMenuGagal.setAlpha(0f);
+                        divMenuGagal.setVisibility(View.VISIBLE);
+                        divMenuGagal.animate().alpha(1f).setDuration(250).start();
                         Toast.makeText(HomeSPKActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -466,6 +519,8 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
                     rv.setAdapter(warningAdapter);
                     rv.setLayoutManager(new LinearLayoutManager(HomeSPKActivity.this));
                     warningAdapter.notifyDataSetChanged();
+                    // Kartu info muncul berurutan (android:layoutAnimation di content_spk).
+                    rv.scheduleLayoutAnimation();
                 }
             }
 
@@ -476,35 +531,209 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
         });
     }
 
-    private void getProgres() {
-        progressDialog.setMessage("Ambil data progress");
-        progressDialog.show();
+    private void getProgres(boolean tampilkanNotifikasi) {
+        if (sedangMuatProgres) {
+            return;
+        }
+        // Dulu dialog modal "Ambil data progress". Sekarang ikon segarkan berputar
+        // dan angka berdenyut di tempatnya, tanpa menutup layar.
+        mulaiMuatProgres();
         ApiService apiService = ApiConfig.getApiService(this, Config.BASE_URL);
         apiService.progressMandor(token)
                 .enqueue(new Callback<ProgressMandorRootModel>() {
                     @Override
                     public void onResponse(Call<ProgressMandorRootModel> call, Response<ProgressMandorRootModel> response) {
-                        if (response.isSuccessful()) {
-                            tvPekerjaanDiambil.setText(response.body().getData().getPekerjaanNpp());
-                            tvPekerjaanCabangSatker.setText(response.body().getData().getCabBlnIni());
-                            tvPekerjaanSelesai.setText(response.body().getData().getJmlBulanSelesai());
-                            tvPekerjaanBelumSelesai.setText(response.body().getData().getJmlBulanBlmSelesai());
-                            getWarning();
-                            progressDialog.cancel();
+                        if (isFinishing() || isDestroyed()) {
+                            return;
+                        }
+                        selesaiMuatProgres();
+                        if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                            // Angka menghitung naik; teks akhirnya tetap persis nilai dari server.
+                            gerak.hitungNaik(tvPekerjaanDiambil, response.body().getData().getPekerjaanNpp());
+                            gerak.hitungNaik(tvPekerjaanCabangSatker, response.body().getData().getCabBlnIni());
+                            gerak.hitungNaik(tvPekerjaanSelesai, response.body().getData().getJmlBulanSelesai());
+                            gerak.hitungNaik(tvPekerjaanBelumSelesai, response.body().getData().getJmlBulanBlmSelesai());
+                            // getWarning() sudah dipanggil dari getAuthMe, pemanggilan kedua di
+                            // sini membuat permintaan ganda setiap kali layar dibuka.
+                            if (!tampilkanNotifikasi) {
+                                return;
+                            }
                             showNotification(HomeSPKActivity.this, "Berhasil singkron SPK", "Ayo Kerja \uD83E\uDD38\uD83C\uDFFD\u200D♂️⛹\uD83C\uDFFD\u200D♀️ ⛹\uD83C\uDFFD ⛹\uD83C\uDFFD\u200D♂️ \uD83C\uDFCB\uD83C\uDFFD\u200D♀️ \uD83C\uDFCB\uD83C\uDFFD \uD83C\uDFCB\uD83C\uDFFD\u200D♂️");
+                        } else {
+                            Toast.makeText(HomeSPKActivity.this, "Gagal mengambil data progress", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ProgressMandorRootModel> call, Throwable t) {
-                        progressDialog.cancel();
+                        if (isFinishing() || isDestroyed()) {
+                            return;
+                        }
+                        selesaiMuatProgres();
                         Toast.makeText(HomeSPKActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
+    // ---------------------------------------------------------------------
+    // Tampilan Home: sapaan, gerak, dan keadaan pemuatan (tidak mengubah data)
+    // ---------------------------------------------------------------------
+
+    /** Sapaan sesuai jam, nama petugas, unit kerja, dan tanggal hari ini. */
+    private void isiSapaan() {
+        tvSapaan.setText(sapaanWaktu() + ",");
+        String nama = name == null ? "" : name.trim();
+        tvNamaPengguna.setText(nama.isEmpty() ? "Petugas Teknik" : nama);
+        String unit = gabungUnit(satker, subSatker);
+        if (unit.isEmpty()) {
+            tvSatkerPengguna.setVisibility(View.GONE);
+        } else {
+            tvSatkerPengguna.setText(unit);
+        }
+        tvTanggalHome.setText(new SimpleDateFormat("EEE, d MMM yyyy", new Locale("id", "ID")).format(new Date()));
+    }
+
+    private String sapaanWaktu() {
+        int jam = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        if (jam >= 4 && jam < 11) {
+            return "Selamat pagi";
+        } else if (jam >= 11 && jam < 15) {
+            return "Selamat siang";
+        } else if (jam >= 15 && jam < 18) {
+            return "Selamat sore";
+        }
+        return "Selamat malam";
+    }
+
+    private String gabungUnit(String a, String b) {
+        String kiri = a == null ? "" : a.trim();
+        String kanan = b == null ? "" : b.trim();
+        if (kiri.isEmpty()) {
+            return kanan;
+        }
+        if (kanan.isEmpty()) {
+            return kiri;
+        }
+        return kiri + " · " + kanan;
+    }
+
+    /** Delapan ubin menu, urut sesuai tampilan. */
+    private LinearLayout[] daftarUbin() {
+        return new LinearLayout[]{
+                divContainerInputSpk, divContainerRiwayatSpk, divContainerRiwayatAmbilPerbaikan,
+                divContainerCallCenter, divContainerSyncCallCenter, divSurveyPelanggan,
+                divContainerVerifikasiPerbaikan, divContainerRiwayatVerifikasi};
+    }
+
+    /** Kartu pembungkus tiap ubin (yang dianimasikan). */
+    private View[] kartuUbin() {
+        LinearLayout[] ubin = daftarUbin();
+        View[] kartu = new View[ubin.length];
+        for (int i = 0; i < ubin.length; i++) {
+            kartu[i] = ubin[i] == null ? null : (View) ubin[i].getParent();
+        }
+        return kartu;
+    }
+
+    private void siapkanGerak() {
+        gerak = new GerakHome(svHomeSpk, divIsiHome, divHero, divTulisanHero, vAnimasiPipa,
+                vBarLatar, vGarisAliran, tvHeaderJudul,
+                ivHeaderBackArrow, vKembaliKaca, vKembaliPadat,
+                ContextCompat.getColor(this, R.color.white),
+                ContextCompat.getColor(this, R.color.pdam_blue_dark));
+        gerak.pasang();
+        gerak.animasiPembuka(divLembarHome, divHeroAtas, tvSapaan, tvNamaPengguna, tvSatkerPengguna);
+        gerak.daftarkanMuncul(divJudulProgres, divProgress, divBantuan, divIklanHome, divSloganHome);
+
+        for (LinearLayout ubin : daftarUbin()) {
+            if (ubin != null) {
+                gerak.pasangEfekTekan(ubin, (View) ubin.getParent());
+            }
+        }
+        gerak.pasangEfekTekan(cvKlikWa, cvKlikWa);
+
+        // Mengetuk judul bar menggulir halus kembali ke atas.
+        tvHeaderJudul.setOnClickListener(v -> gerak.gulirKeAtas());
+    }
+
+    private void siapMuatMenu() {
+        sedangMuatAkses = true;
+        divMenuGagal.setVisibility(View.GONE);
+        divMenuKerangka.animate().cancel();
+        divMenuKerangka.setAlpha(1f);
+        divMenuKerangka.setVisibility(View.VISIBLE);
+        gerak.mulaiDenyut(divMenuKerangka);
+    }
+
+    private void selesaiMuatMenu(boolean berhasil) {
+        sedangMuatAkses = false;
+        // Kerangka dilepas seketika, tidak memudar: bila ubin yang tampil lebih sedikit
+        // dari delapan kerangka (misal pengguna kasub), isi di bawahnya tidak "melompat"
+        // setelah kerangka hilang. Ubin sendiri masuk berurutan dengan pantulan kecil.
+        gerak.hentikanDenyut(divMenuKerangka, false);
+        divMenuKerangka.setVisibility(View.GONE);
+        if (berhasil) {
+            gerak.masukkanMenu(kartuUbin());
+        }
+    }
+
+    private void mulaiMuatProgres() {
+        sedangMuatProgres = true;
+        gerak.mulaiPutar(ivRefreshProgress);
+        gerak.mulaiDenyut(tvPekerjaanDiambil);
+        gerak.mulaiDenyut(tvPekerjaanCabangSatker);
+        gerak.mulaiDenyut(tvPekerjaanSelesai);
+        gerak.mulaiDenyut(tvPekerjaanBelumSelesai);
+    }
+
+    private void selesaiMuatProgres() {
+        sedangMuatProgres = false;
+        gerak.hentikanPutar(ivRefreshProgress);
+        gerak.hentikanDenyut(tvPekerjaanDiambil, false);
+        gerak.hentikanDenyut(tvPekerjaanCabangSatker, false);
+        gerak.hentikanDenyut(tvPekerjaanSelesai, false);
+        gerak.hentikanDenyut(tvPekerjaanBelumSelesai, false);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+        if (gerak != null) {
+            gerak.setLayarAktif(true);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        // Animasi dijeda saat layar lain terbuka; dulu terus berjalan di latar.
+        if (gerak != null) {
+            gerak.setLayarAktif(false);
+        }
+        if (adView != null) {
+            adView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Tanpa pembersihan ini, animasi dan AdView terus berjalan serta menahan Activity.
+        if (gerak != null) {
+            gerak.lepas();
+        }
+        if (adView != null) {
+            adView.destroy();
+        }
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+        super.onDestroy();
+    }
+
     private void initView() {
-        cvKlikInstagram = findViewById(R.id.cv_klik_instagram);
         divContainerInputSpk = findViewById(R.id.div_container_input_spk);
         divContainerRiwayatSpk = findViewById(R.id.div_container_riwayat_spk);
         cvKlikWa = findViewById(R.id.cv_klik_wa);
@@ -512,7 +741,28 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
         divContainerRiwayatVerifikasi = findViewById(R.id.div_container_riwayat_verifikasi);
 //        divContainerHubungiPti = findViewById(R.id.div_container_hubungi_pti);
         adView = findViewById(R.id.adView);
-        ltKecoa = findViewById(R.id.lt_kecoa);
+        divHero = findViewById(R.id.div_hero);
+        vAnimasiPipa = findViewById(R.id.v_animasi_pipa);
+        svHomeSpk = findViewById(R.id.sv_home_spk);
+        divIsiHome = findViewById(R.id.div_isi_home);
+        divTulisanHero = findViewById(R.id.div_tulisan_hero);
+        divHeroAtas = findViewById(R.id.div_hero_atas);
+        divLembarHome = findViewById(R.id.div_lembar_home);
+        tvSapaan = findViewById(R.id.tv_sapaan);
+        tvNamaPengguna = findViewById(R.id.tv_nama_pengguna);
+        tvSatkerPengguna = findViewById(R.id.tv_satker_pengguna);
+        tvTanggalHome = findViewById(R.id.tv_tanggal_home);
+        vBarLatar = findViewById(R.id.v_bar_latar);
+        vGarisAliran = findViewById(R.id.v_garis_aliran);
+        vKembaliKaca = findViewById(R.id.v_kembali_kaca);
+        vKembaliPadat = findViewById(R.id.v_kembali_padat);
+        divMenuKerangka = findViewById(R.id.div_menu_kerangka);
+        divMenuGagal = findViewById(R.id.div_menu_gagal);
+        btnMenuCobaLagi = findViewById(R.id.btn_menu_coba_lagi);
+        divJudulProgres = findViewById(R.id.div_judul_progres);
+        divBantuan = findViewById(R.id.div_bantuan);
+        divIklanHome = findViewById(R.id.div_iklan_home);
+        divSloganHome = findViewById(R.id.div_slogan_home);
         divSurveyPelanggan = findViewById(R.id.div_survey_pelanggan);
         divContainerCallCenter = findViewById(R.id.div_container_call_center);
         tvAkses = findViewById(R.id.tv_akses);
@@ -535,15 +785,19 @@ public class HomeSPKActivity extends AppCompatActivity implements TimePickerDial
     @RequiresApi(api = Build.VERSION_CODES.M)
     @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)
     private void methodRequiresTwoPermission() {
-        String[] perms = {Manifest.permission.CAMERA
-                , Manifest.permission.INTERNET
-                , Manifest.permission.ACCESS_WIFI_STATE
-                , Manifest.permission.ACCESS_NETWORK_STATE
-                , Manifest.permission.ACCESS_FINE_LOCATION
-                , Manifest.permission.ACCESS_COARSE_LOCATION
-                , Manifest.permission.WRITE_SECURE_SETTINGS
-                , Manifest.permission.WRITE_EXTERNAL_STORAGE
-                , Manifest.permission.READ_EXTERNAL_STORAGE};
+        // Daftar lama memuat izin yang tidak pernah bisa diberikan ke aplikasi biasa
+        // (WRITE_SECURE_SETTINGS) dan izin penyimpanan yang tidak berlaku lagi di
+        // Android 13+. Akibatnya hasil pengecekan selalu gagal dan kotak izin muncul
+        // setiap kali layar dibuka. Sekarang hanya izin yang benar-benar dipakai.
+        List<String> daftarIzin = new ArrayList<>();
+        daftarIzin.add(Manifest.permission.CAMERA);
+        daftarIzin.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        daftarIzin.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Tanpa izin ini notifikasi tidak pernah muncul di Android 13+.
+            daftarIzin.add(Manifest.permission.POST_NOTIFICATIONS);
+        }
+        String[] perms = daftarIzin.toArray(new String[0]);
         if (EasyPermissions.hasPermissions(HomeSPKActivity.this, perms)) {
             // Already have permission, do the thing
             Log.d(TAG, "methodRequiresTwoPermission: Sukses");

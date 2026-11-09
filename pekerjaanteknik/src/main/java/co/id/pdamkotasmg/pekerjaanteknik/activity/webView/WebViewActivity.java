@@ -62,6 +62,28 @@ public class WebViewActivity extends AppCompatActivity {
         webView = findViewById(R.id.webview);
     }
 
+    @Override
+    public void onBackPressed() {
+        // Tombol kembali dulu langsung menutup layar walau pengguna sudah masuk
+        // beberapa halaman ke dalam survey. Sekarang mundur dulu di riwayat halaman.
+        if (webView != null && webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        // WebView menahan Context dan proses renderer-nya bila tidak dilepas.
+        if (webView != null) {
+            webView.loadUrl("about:blank");
+            webView.destroy();
+            webView = null;
+        }
+        super.onDestroy();
+    }
+
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {

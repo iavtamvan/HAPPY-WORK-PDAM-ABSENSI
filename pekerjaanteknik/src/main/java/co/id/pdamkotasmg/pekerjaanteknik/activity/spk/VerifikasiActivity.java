@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +22,7 @@ import co.id.pdamkotasmg.pekerjaanteknik.api.ApiConfig;
 import co.id.pdamkotasmg.pekerjaanteknik.api.ApiService;
 import co.id.pdamkotasmg.pekerjaanteknik.model.riwayatSpk.verifikator.DataItem;
 import co.id.pdamkotasmg.pekerjaanteknik.model.riwayatSpk.verifikator.VerifikatorRootModel;
+import co.id.pdamkotasmg.pekerjaanteknik.utils.KeadaanDaftar;
 import com.pdamkotasmg.goodday.utils.Config;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +37,7 @@ public class VerifikasiActivity extends AppCompatActivity {
     private List<DataItem> dataItem = new ArrayList<>();
 
     private RecyclerView rv;
+    private KeadaanDaftar keadaan;
     private EditText edtSearch;
     private ImageView ivHeaderBackArrow;
     private TextView tvHeaderJudul;
@@ -47,6 +48,7 @@ public class VerifikasiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verifikasi);
         initView();
+        keadaan = new KeadaanDaftar(findViewById(R.id.div_keadaan_daftar));
         
         Config.header(ivHeaderBackArrow, ivHeaderInfo, tvHeaderJudul, VerifikasiActivity.this, "Verifikasi Perbaikan");
 
@@ -63,7 +65,11 @@ public class VerifikasiActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                verifikasiSPKAdapter.getFilter().filter(s);
+                // Adapter baru dibuat setelah respons server datang, jadi mengetik
+                // saat daftar belum termuat sebelumnya menutup aplikasi.
+                if (verifikasiSPKAdapter != null) {
+                    verifikasiSPKAdapter.getFilter().filter(s);
+                }
             }
 
             @Override
@@ -74,6 +80,7 @@ public class VerifikasiActivity extends AppCompatActivity {
     }
 
     private void getListVerifikasi() {
+        keadaan.siapMemuat();
         ProgressDialog progressDialog = new ProgressDialog(VerifikasiActivity.this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Mohon tunggu");
@@ -83,22 +90,28 @@ public class VerifikasiActivity extends AppCompatActivity {
                 .enqueue(new Callback<VerifikatorRootModel>() {
                     @Override
                     public void onResponse(Call<VerifikatorRootModel> call, Response<VerifikatorRootModel> response) {
-                        if (response.isSuccessful()) {
+                        if (response.isSuccessful() && response.body() != null) {
                             progressDialog.cancel();
                             dataItem = response.body().getData();
                             verifikasiSPKAdapter = new VerifikasiSPKAdapter(VerifikasiActivity.this, dataItem);
                             rv.setLayoutManager(new LinearLayoutManager(VerifikasiActivity.this));
                             rv.setAdapter(verifikasiSPKAdapter);
                             verifikasiSPKAdapter.notifyDataSetChanged();
+                            // Antrean kosong adalah kabar baik, jadi ditampilkan dengan suasana hijau.
+                            keadaan.pantau(verifikasiSPKAdapter, edtSearch, R.drawable.ic_pt_check_circle,
+                                    "Semua sudah diverifikasi", "Tidak ada SPK yang menunggu verifikasi saat ini.", true);
                         } else {
                             progressDialog.cancel();
+                            // Dulu diam saja, sehingga layar putih tanpa penjelasan.
+                            keadaan.tampilkanGagal(KeadaanDaftar.pesanGagalServer(response.code()),
+                                    VerifikasiActivity.this::getListVerifikasi);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<VerifikatorRootModel> call, Throwable t) {
-                        Toast.makeText(VerifikasiActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
+                        keadaan.tampilkanGagal(KeadaanDaftar.PESAN_GAGAL_KONEKSI, VerifikasiActivity.this::getListVerifikasi);
                     }
                 });
     }

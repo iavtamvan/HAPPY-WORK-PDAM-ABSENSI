@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -102,7 +103,21 @@ public class SearchPengawasActivity extends AppCompatActivity {
         } else if (reqCode == 6) {
             tvHeaderJudul.setText("Pilih Barang Tambahan");
             tvJudul.setText("Cari berdasarkan Nama Barang");
+        } else if (reqCode == 9) {
+            // Sebelumnya tidak ada cabang untuk verifikator, sehingga layar
+            // menampilkan teks contoh "Judul" dan "Ini judul".
+            tvHeaderJudul.setText("Pilih Verifikator");
+            tvJudul.setText("Cari berdasarkan Nama");
         }
+
+        // Tombol "Cari" di papan ketik ikut menjalankan pencarian.
+        edtSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                btnCari.performClick();
+                return true;
+            }
+            return false;
+        });
 
         btnCari.setOnClickListener(v -> {
             ProgressDialog progressDialog = new ProgressDialog(SearchPengawasActivity.this);
@@ -121,6 +136,9 @@ public class SearchPengawasActivity extends AppCompatActivity {
                                     pengawasAdapter = new PengawasAdapter(SearchPengawasActivity.this, dataItem);
                                     rvCity.setAdapter(pengawasAdapter);
                                     rvCity.setLayoutManager(new LinearLayoutManager(SearchPengawasActivity.this));
+                                    // Sekali gagal, rvCity di-GONE dan dulu tidak pernah ditampilkan lagi,
+                                    // sehingga pencarian berikutnya tampak kosong padahal datanya ada.
+                                    rvCity.setVisibility(View.VISIBLE);
                                     pengawasAdapter.notifyDataSetChanged();
                                     if (dataItem.isEmpty()) {
                                         Toast.makeText(SearchPengawasActivity.this, "Data tidak ada", Toast.LENGTH_SHORT).show();
@@ -150,6 +168,9 @@ public class SearchPengawasActivity extends AppCompatActivity {
                                     pengawasAdapter = new PengawasAdapter(SearchPengawasActivity.this, dataItem);
                                     rvCity.setAdapter(pengawasAdapter);
                                     rvCity.setLayoutManager(new LinearLayoutManager(SearchPengawasActivity.this));
+                                    // Sekali gagal, rvCity di-GONE dan dulu tidak pernah ditampilkan lagi,
+                                    // sehingga pencarian berikutnya tampak kosong padahal datanya ada.
+                                    rvCity.setVisibility(View.VISIBLE);
                                     pengawasAdapter.notifyDataSetChanged();
                                     if (dataItem.isEmpty()) {
                                         Toast.makeText(SearchPengawasActivity.this, "Data tidak ada", Toast.LENGTH_SHORT).show();
@@ -179,6 +200,9 @@ public class SearchPengawasActivity extends AppCompatActivity {
                                     barangDikerjakanAdapter = new BarangDikerjakanAdapter(SearchPengawasActivity.this, dataItemBarang);
                                     rvCity.setAdapter(barangDikerjakanAdapter);
                                     rvCity.setLayoutManager(new LinearLayoutManager(SearchPengawasActivity.this));
+                                    // Sekali gagal, rvCity di-GONE dan dulu tidak pernah ditampilkan lagi,
+                                    // sehingga pencarian berikutnya tampak kosong padahal datanya ada.
+                                    rvCity.setVisibility(View.VISIBLE);
                                     barangDikerjakanAdapter.notifyDataSetChanged();
                                     if (dataItemBarang.isEmpty()) {
                                         Toast.makeText(SearchPengawasActivity.this, "Data tidak ada", Toast.LENGTH_SHORT).show();
@@ -209,6 +233,9 @@ public class SearchPengawasActivity extends AppCompatActivity {
                                     spkSebelumnyaAdapter = new SPKSebelumnyaAdapter(SearchPengawasActivity.this, dataItemSPK);
                                     rvCity.setAdapter(spkSebelumnyaAdapter);
                                     rvCity.setLayoutManager(new LinearLayoutManager(SearchPengawasActivity.this));
+                                    // Sekali gagal, rvCity di-GONE dan dulu tidak pernah ditampilkan lagi,
+                                    // sehingga pencarian berikutnya tampak kosong padahal datanya ada.
+                                    rvCity.setVisibility(View.VISIBLE);
                                     spkSebelumnyaAdapter.notifyDataSetChanged();
                                     if (dataItemSPK.isEmpty()) {
                                         Toast.makeText(SearchPengawasActivity.this, "Data tidak ada", Toast.LENGTH_SHORT).show();
@@ -238,6 +265,9 @@ public class SearchPengawasActivity extends AppCompatActivity {
                                     barangTambahanAdapter = new BarangTambahanAdapter(SearchPengawasActivity.this, dataItemBarang);
                                     rvCity.setAdapter(barangTambahanAdapter);
                                     rvCity.setLayoutManager(new LinearLayoutManager(SearchPengawasActivity.this));
+                                    // Sekali gagal, rvCity di-GONE dan dulu tidak pernah ditampilkan lagi,
+                                    // sehingga pencarian berikutnya tampak kosong padahal datanya ada.
+                                    rvCity.setVisibility(View.VISIBLE);
                                     barangTambahanAdapter.notifyDataSetChanged();
                                     if (dataItemBarang.isEmpty()) {
                                         Toast.makeText(SearchPengawasActivity.this, "Data tidak ada", Toast.LENGTH_SHORT).show();
@@ -268,6 +298,9 @@ public class SearchPengawasActivity extends AppCompatActivity {
                                     zonaAdapter = new ZonaAdapter(SearchPengawasActivity.this, zonaRootModelItems);
                                     rvCity.setAdapter(zonaAdapter);
                                     rvCity.setLayoutManager(new LinearLayoutManager(SearchPengawasActivity.this));
+                                    // Sekali gagal, rvCity di-GONE dan dulu tidak pernah ditampilkan lagi,
+                                    // sehingga pencarian berikutnya tampak kosong padahal datanya ada.
+                                    rvCity.setVisibility(View.VISIBLE);
                                     zonaAdapter.notifyDataSetChanged();
                                 } else {
                                     rvCity.setVisibility(View.GONE);
@@ -295,6 +328,9 @@ public class SearchPengawasActivity extends AppCompatActivity {
                                     pengawasAdapter = new PengawasAdapter(SearchPengawasActivity.this, dataItem);
                                     rvCity.setAdapter(pengawasAdapter);
                                     rvCity.setLayoutManager(new LinearLayoutManager(SearchPengawasActivity.this));
+                                    // Sekali gagal, rvCity di-GONE dan dulu tidak pernah ditampilkan lagi,
+                                    // sehingga pencarian berikutnya tampak kosong padahal datanya ada.
+                                    rvCity.setVisibility(View.VISIBLE);
                                     pengawasAdapter.notifyDataSetChanged();
                                     if (dataItem.isEmpty()) {
                                         Toast.makeText(SearchPengawasActivity.this, "Data tidak ada", Toast.LENGTH_SHORT).show();
@@ -312,6 +348,12 @@ public class SearchPengawasActivity extends AppCompatActivity {
                                 Toast.makeText(SearchPengawasActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
+            } else {
+                // Kode pencarian yang belum ditangani (termasuk 7 "No Aduan CC" yang
+                // cabangnya masih dinonaktifkan di bawah) dulu meninggalkan dialog
+                // "Mohon tunggu" terbuka selamanya karena tidak ada cabang penutup.
+                progressDialog.cancel();
+                Toast.makeText(SearchPengawasActivity.this, "Jenis pencarian belum tersedia", Toast.LENGTH_SHORT).show();
             }
 //            else if (reqCode == 7){
 //                ApiService apiService = ApiConfig.getApiService(this, Config.BASE_URL);
@@ -353,6 +395,12 @@ public class SearchPengawasActivity extends AppCompatActivity {
     private void initView() {
         btnCari = findViewById(R.id.btn_cari);
         refreshCity = findViewById(R.id.refreshCity);
+        // Tarik-untuk-muat-ulang tidak pernah dipasangi listener, sehingga kalau
+        // ditarik lingkaran muatnya berputar selamanya. Gesture-nya dimatikan
+        // sampai ada penanganan yang benar; pencarian tetap lewat tombol Cari.
+        if (refreshCity != null) {
+            refreshCity.setEnabled(false);
+        }
         rvCity = findViewById(R.id.rvCity);
         edtSearch = findViewById(R.id.edt_search);
         tvJudul = findViewById(R.id.tv_judul);

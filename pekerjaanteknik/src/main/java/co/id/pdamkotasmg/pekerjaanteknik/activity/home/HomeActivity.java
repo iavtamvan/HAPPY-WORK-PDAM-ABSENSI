@@ -78,7 +78,6 @@ public class HomeActivity extends AppCompatActivity {
     private TextView tvPekerjaanRehap;
     private TextView tvPekerjaanVerifikasiBlmverifikasi;
     private TextView tvPekerjaanPekerjaanSemua;
-    private CardView cvKlikInstagram;
     private CardView cvKlikWa;
     private ImageView ivRefresh;
     private TextView tvPoint;
@@ -192,11 +191,6 @@ public class HomeActivity extends AppCompatActivity {
 
         ivRefresh.setOnClickListener(view -> {
             getAuthMe(token);
-        });
-
-        cvKlikInstagram.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/iav_ariav/"));
-            startActivity(browserIntent);
         });
 
         cvKlikWa.setOnClickListener(v -> {
@@ -476,7 +470,6 @@ public class HomeActivity extends AppCompatActivity {
         tvPekerjaanRehap = findViewById(R.id.tv_pekerjaan_rehap);
         tvPekerjaanVerifikasiBlmverifikasi = findViewById(R.id.tv_pekerjaan_verifikasi_blmverifikasi);
         tvPekerjaanPekerjaanSemua = findViewById(R.id.tv_pekerjaan_pekerjaan_semua);
-        cvKlikInstagram = findViewById(R.id.cv_klik_instagram);
         cvKlikWa = findViewById(R.id.cv_klik_wa);
         ivRefresh = findViewById(R.id.iv_refresh);
         tvPoint = findViewById(R.id.tv_point);

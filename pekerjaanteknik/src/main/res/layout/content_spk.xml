@@ -1,706 +1,1034 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+    Isi Home SPK - Pekerjaan Teknik.
+
+    Catatan untuk pengembang berikutnya:
+    - Semua id lama tetap dipakai HomeSPKActivity.initView(). Jangan ubah nama id
+      maupun jenis View-nya (div_container_* harus LinearLayout, cv_* harus CardView).
+    - Delapan div_container_* dan div_progress harus tetap visibility="gone" di XML;
+      Java yang menampilkannya sesuai izin pengguna.
+    - div_progress HANYA membungkus kartu statistik, supaya pengguna kasub tidak
+      mendapat layar kosong.
+    - Jangan memberi elevation pada div_hero: lembar konten (div_lembar_home) harus
+      tergambar DI ATAS kartu utama saat efek parallax berjalan.
+    - Jangan memberi android:alpha pada view yang dianimasikan masuk (GerakHome);
+      pakai warna teks beralpha supaya animasi tidak menimpa nilai desain.
+-->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sv_home_spk"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fillViewport="true"
+    android:scrollbars="none">
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/div_isi_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <!-- ================= KARTU UTAMA (animasi pekerjaan teknik) ================= -->
+        <FrameLayout
+            android:id="@+id/div_hero"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="20dp"
-            android:orientation="vertical">
+            android:layout_height="280dp"
+            android:background="@drawable/bg_hero_home">
+
+            <!-- Pipa, aliran air, katup, manometer, dan cerita perbaikan kebocoran -->
+            <co.id.pdamkotasmg.pekerjaanteknik.view.AnimasiPipaView
+                android:id="@+id/v_animasi_pipa"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
             <LinearLayout
+                android:id="@+id/div_tulisan_hero"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
+                <!-- Sisi kiri 64dp dikosongkan untuk tombol kembali yang melayang -->
                 <LinearLayout
-                    android:id="@+id/div_progress"
+                    android:id="@+id/div_hero_atas"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="64dp"
+                    android:paddingRight="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/poppins_medium"
+                        android:maxLines="1"
+                        android:text="Pekerjaan Teknik"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_chip_kaca"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="11dp"
+                        android:paddingBottom="5dp">
+
+                        <ImageView
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_pt_calendar"
+                            android:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/tv_tanggal_home"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="6dp"
+                            android:textColor="@color/white"
+                            android:textSize="11sp"
+                            tools:text="Sen, 21 Sep 2026" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Sapaan. Sisi kanan dikosongkan untuk manometer dan katup. -->
+                <LinearLayout
+                    android:id="@+id/div_sapaan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="136dp">
+
+                    <TextView
+                        android:id="@+id/tv_sapaan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Selamat datang,"
+                        android:textColor="#E6FFFFFF"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_nama_pengguna"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/poppins_medium"
+                        android:maxLines="1"
+                        android:text="Petugas Teknik"
+                        android:textColor="@color/white"
+                        android:textSize="21sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_satker_pengguna"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="#CCFFFFFF"
+                        android:textSize="12sp"
+                        tools:text="Cabang Barat · Distribusi" />
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+        <!-- ================= LEMBAR KONTEN (menumpang di atas kartu utama) ================= -->
+        <LinearLayout
+            android:id="@+id/div_lembar_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-28dp"
+            android:background="@drawable/bg_lembar_home"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingTop="22dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="28dp">
+
+            <!-- ============ MENU ============ -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Menu Pekerjaan"
+                android:textColor="@color/pdam_text"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="1dp"
+                android:text="Pilih pekerjaan yang ingin dikerjakan hari ini"
+                android:textColor="@color/pdam_text_muted"
+                android:textSize="11sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <!-- Ubin menu sebenarnya. Isinya tampil setelah izin pengguna diterima. -->
+                <LinearLayout
+                    android:id="@+id/div_menu_asli"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:id="@+id/div_container_verifikasi_perbaikan"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:visibility="gone">
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/PTCard"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1">
 
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/verif" />
-
-                            <TextView
+                            <LinearLayout
+                                android:id="@+id/div_container_input_spk"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:fontFamily="sans-serif"
+                                android:background="?attr/selectableItemBackground"
                                 android:gravity="center"
-                                android:text="Verifikasi\nPerbaikan"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
+                                android:orientation="vertical"
+                                android:paddingTop="12dp"
+                                android:paddingBottom="12dp"
+                                android:visibility="gone">
 
-                        <LinearLayout
-                            android:id="@+id/div_container_input_spk"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:visibility="gone">
+                                <FrameLayout
+                                    android:layout_width="44dp"
+                                    android:layout_height="44dp"
+                                    android:background="@drawable/bg_icon_soft_blue">
 
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/spk" />
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_gravity="center"
+                                        android:contentDescription="@null"
+                                        android:src="@drawable/ic_pt_tool" />
+                                </FrameLayout>
 
-                            <TextView
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center"
+                                    android:text="Penanganan\nPerbaikan"
+                                    android:textColor="@color/pdam_text"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/PTCard"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1">
+
+                            <LinearLayout
+                                android:id="@+id/div_container_riwayat_spk"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:fontFamily="sans-serif"
+                                android:background="?attr/selectableItemBackground"
                                 android:gravity="center"
-                                android:text="Penanganan\nPerbaikan (SPK)"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
+                                android:orientation="vertical"
+                                android:paddingTop="12dp"
+                                android:paddingBottom="12dp"
+                                android:visibility="gone">
 
-                        <LinearLayout
-                            android:id="@+id/div_container_riwayat_spk"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:visibility="gone">
+                                <FrameLayout
+                                    android:layout_width="44dp"
+                                    android:layout_height="44dp"
+                                    android:background="@drawable/bg_icon_soft_blue">
 
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/riwayat_spk" />
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_gravity="center"
+                                        android:contentDescription="@null"
+                                        android:src="@drawable/ic_pt_history" />
+                                </FrameLayout>
 
-                            <TextView
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center"
+                                    android:text="Riwayat\nPerbaikan"
+                                    android:textColor="@color/pdam_text"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/PTCard"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1">
+
+                            <LinearLayout
+                                android:id="@+id/div_container_riwayat_ambil_perbaikan"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:fontFamily="sans-serif"
+                                android:background="?attr/selectableItemBackground"
                                 android:gravity="center"
-                                android:text="Riwayat\nPerbaikan (SPK)"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
+                                android:orientation="vertical"
+                                android:paddingTop="12dp"
+                                android:paddingBottom="12dp"
+                                android:visibility="gone">
 
-                        <LinearLayout
-                            android:id="@+id/div_container_riwayat_verifikasi"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:visibility="gone">
+                                <FrameLayout
+                                    android:layout_width="44dp"
+                                    android:layout_height="44dp"
+                                    android:background="@drawable/bg_icon_soft_blue">
 
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/riwayat_spk_kasub" />
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_gravity="center"
+                                        android:contentDescription="@null"
+                                        android:src="@drawable/ic_pt_bookmark" />
+                                </FrameLayout>
 
-                            <TextView
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center"
+                                    android:text="Riwayat\nBooking"
+                                    android:textColor="@color/pdam_text"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/PTCard"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1">
+
+                            <LinearLayout
+                                android:id="@+id/div_container_call_center"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:fontFamily="sans-serif"
+                                android:background="?attr/selectableItemBackground"
                                 android:gravity="center"
-                                android:text="Riwayat\nVerifikasi"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
+                                android:orientation="vertical"
+                                android:paddingTop="12dp"
+                                android:paddingBottom="12dp"
+                                android:visibility="gone">
 
+                                <FrameLayout
+                                    android:layout_width="44dp"
+                                    android:layout_height="44dp"
+                                    android:background="@drawable/bg_icon_soft_blue">
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_gravity="center"
+                                        android:contentDescription="@null"
+                                        android:src="@drawable/ic_pt_headset" />
+                                </FrameLayout>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center"
+                                    android:text="Call\nCenter"
+                                    android:textColor="@color/pdam_text"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:id="@+id/div_container_riwayat_ambil_perbaikan"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:visibility="gone">
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/PTCard"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1">
 
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/work_history" />
-
-                            <TextView
+                            <LinearLayout
+                                android:id="@+id/div_container_sync_call_center"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:fontFamily="sans-serif"
+                                android:background="?attr/selectableItemBackground"
                                 android:gravity="center"
-                                android:text="Riwayat\nBooking"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
+                                android:orientation="vertical"
+                                android:paddingTop="12dp"
+                                android:paddingBottom="12dp"
+                                android:visibility="gone">
 
-                        <LinearLayout
-                            android:id="@+id/div_container_call_center"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:visibility="gone">
+                                <FrameLayout
+                                    android:layout_width="44dp"
+                                    android:layout_height="44dp"
+                                    android:background="@drawable/bg_icon_soft_blue">
 
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/call_center" />
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_gravity="center"
+                                        android:contentDescription="@null"
+                                        android:src="@drawable/ic_pt_sync" />
+                                </FrameLayout>
 
-                            <TextView
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center"
+                                    android:text="Sinkron\nCall Center"
+                                    android:textColor="@color/pdam_text"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/PTCard"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1">
+
+                            <LinearLayout
+                                android:id="@+id/div_survey_pelanggan"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:fontFamily="sans-serif"
+                                android:background="?attr/selectableItemBackground"
                                 android:gravity="center"
-                                android:text="Call\nCenter"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
+                                android:orientation="vertical"
+                                android:paddingTop="12dp"
+                                android:paddingBottom="12dp"
+                                android:visibility="gone">
 
-                        <LinearLayout
-                            android:id="@+id/div_container_sync_call_center"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:visibility="gone">
+                                <FrameLayout
+                                    android:layout_width="44dp"
+                                    android:layout_height="44dp"
+                                    android:background="@drawable/bg_icon_soft_blue">
 
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/sync" />
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_gravity="center"
+                                        android:contentDescription="@null"
+                                        android:src="@drawable/ic_pt_survey" />
+                                </FrameLayout>
 
-                            <TextView
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center"
+                                    android:text="Survey\nPelanggan"
+                                    android:textColor="@color/pdam_text"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/PTCard"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1">
+
+                            <LinearLayout
+                                android:id="@+id/div_container_verifikasi_perbaikan"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:fontFamily="sans-serif"
+                                android:background="?attr/selectableItemBackground"
                                 android:gravity="center"
-                                android:text="Sinkron Call\nCenter"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
+                                android:orientation="vertical"
+                                android:paddingTop="12dp"
+                                android:paddingBottom="12dp"
+                                android:visibility="gone">
 
-                        <LinearLayout
-                            android:id="@+id/div_survey_pelanggan"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:visibility="gone">
+                                <FrameLayout
+                                    android:layout_width="44dp"
+                                    android:layout_height="44dp"
+                                    android:background="@drawable/bg_icon_soft_blue">
 
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/survey_plg" />
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_gravity="center"
+                                        android:contentDescription="@null"
+                                        android:src="@drawable/ic_pt_verify" />
+                                </FrameLayout>
 
-                            <TextView
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center"
+                                    android:text="Verifikasi\nPerbaikan"
+                                    android:textColor="@color/pdam_text"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/PTCard"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1">
+
+                            <LinearLayout
+                                android:id="@+id/div_container_riwayat_verifikasi"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:fontFamily="sans-serif"
+                                android:background="?attr/selectableItemBackground"
                                 android:gravity="center"
-                                android:text="Survey\nPelanggan"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
+                                android:orientation="vertical"
+                                android:paddingTop="12dp"
+                                android:paddingBottom="12dp"
+                                android:visibility="gone">
 
+                                <FrameLayout
+                                    android:layout_width="44dp"
+                                    android:layout_height="44dp"
+                                    android:background="@drawable/bg_icon_soft_blue">
 
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_gravity="center"
+                                        android:contentDescription="@null"
+                                        android:src="@drawable/ic_pt_clipboard_check" />
+                                </FrameLayout>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center"
+                                    android:text="Riwayat\nVerifikasi"
+                                    android:textColor="@color/pdam_text"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
                     </LinearLayout>
+                </LinearLayout>
 
-                    <!--                info warning-->
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="10dp"
-                        tools:itemCount="1"
-                        tools:listitem="@layout/list_item_warning" />
+                <!-- Kerangka pemuatan menu: berdenyut sampai izin pengguna diterima,
+                     menggantikan dialog "Mohon Tunggu" yang dulu menutupi layar. -->
+                <LinearLayout
+                    android:id="@+id/div_menu_kerangka"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/tv_name_progress"
+                        <include
+                            layout="@layout/item_kerangka_ubin"
+                            android:layout_width="0dp"
+                            android:layout_height="104dp"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1" />
+
+                        <include
+                            layout="@layout/item_kerangka_ubin"
+                            android:layout_width="0dp"
+                            android:layout_height="104dp"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1" />
+
+                        <include
+                            layout="@layout/item_kerangka_ubin"
+                            android:layout_width="0dp"
+                            android:layout_height="104dp"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1" />
+
+                        <include
+                            layout="@layout/item_kerangka_ubin"
+                            android:layout_width="0dp"
+                            android:layout_height="104dp"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <include
+                            layout="@layout/item_kerangka_ubin"
+                            android:layout_width="0dp"
+                            android:layout_height="104dp"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1" />
+
+                        <include
+                            layout="@layout/item_kerangka_ubin"
+                            android:layout_width="0dp"
+                            android:layout_height="104dp"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1" />
+
+                        <include
+                            layout="@layout/item_kerangka_ubin"
+                            android:layout_width="0dp"
+                            android:layout_height="104dp"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1" />
+
+                        <include
+                            layout="@layout/item_kerangka_ubin"
+                            android:layout_width="0dp"
+                            android:layout_height="104dp"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Menu gagal dimuat (koneksi putus): pengguna bisa mencoba lagi
+                 tanpa harus keluar lalu membuka ulang layar. -->
+            <LinearLayout
+                android:id="@+id/div_menu_gagal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@drawable/bg_card_warn"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_pt_alert"
+                    android:tint="@color/pdam_warn_body" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Menu belum bisa dimuat"
+                    android:textColor="@color/pdam_warn_title"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:text="Periksa koneksi internet, lalu coba lagi."
+                    android:textColor="@color/pdam_warn_body"
+                    android:textSize="12sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_menu_coba_lagi"
+                    style="@style/PTButtonOutlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:minWidth="140dp"
+                    android:text="Coba lagi" />
+            </LinearLayout>
+
+            <!-- ============ INFO / PERINGATAN DARI SERVER ============ -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layoutAnimation="@anim/pt_tata_masuk"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never" />
+
+            <!-- ============ PROGRES ============ -->
+            <LinearLayout
+                android:id="@+id/div_judul_progres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="4dp">
+
+                <TextView
+                    android:id="@+id/tv_name_progress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/poppins_medium"
+                    android:maxLines="2"
+                    android:text="Progres per bulan"
+                    android:textColor="@color/pdam_text"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/iv_refresh_progress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_icon_soft_blue"
+                    android:contentDescription="Segarkan progres"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_pt_sync" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/div_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/PTCard"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:layout_weight="1">
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_weight="1"
-                            android:fontFamily="sans-serif"
-                            android:text="Progress per bulan"
-                            android:textColor="@android:color/black"
-                            android:textSize="14dp"
-                            android:textStyle="bold" />
+                            android:orientation="vertical"
+                            android:padding="14dp">
 
-                        <ImageView
-                            android:id="@+id/iv_refresh_progress"
-                            android:layout_width="50dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/refresh_progress" />
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:background="@drawable/bg_badge_ok"
+                                android:contentDescription="@null"
+                                android:padding="7dp"
+                                android:src="@drawable/ic_pt_bookmark"
+                                android:tint="@color/pdam_ok_body" />
 
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_margin="4dp"
-                            android:layout_weight="1"
-                            app:cardElevation="3dp">
-
-                            <LinearLayout
+                            <TextView
+                                android:id="@+id/tv_pekerjaan_diambil"
                                 android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_margin="5dp"
-                                android:orientation="vertical">
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:text="--"
+                                android:textColor="@color/pdam_text"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
 
-                                <TextView
-                                    android:id="@+id/tv_pekerjaan_diambil"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="--"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="15dp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="Pekerjaan Diambil"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="10dp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="Android by NPP"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="10dp" />
-
-                                <View
-                                    android:layout_width="100dp"
-                                    android:layout_height="3dp"
-                                    android:background="@color/greenGojek" />
-
-                            </LinearLayout>
-
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_margin="4dp"
-                            android:layout_weight="1"
-                            app:cardElevation="3dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_margin="5dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tv_pekerjaan_cabang_satker"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="--"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="15dp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="Pekerjaan Satker"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="10dp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="Android"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="10dp" />
-
-                                <View
-                                    android:layout_width="100dp"
-                                    android:layout_height="3dp"
-                                    android:background="@color/orangeGojek" />
-
-                            </LinearLayout>
-
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_margin="4dp"
-                            android:layout_weight="1"
-                            app:cardElevation="3dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_margin="5dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tv_pekerjaan_selesai"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="--"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="15dp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="Pekerjaan Selesai"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="10dp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="Android by NPP"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="10dp" />
-
-                                <View
-                                    android:layout_width="100dp"
-                                    android:layout_height="3dp"
-                                    android:background="@color/redGojek" />
-
-                            </LinearLayout>
-
-                        </androidx.cardview.widget.CardView>
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_margin="4dp"
-                            android:layout_weight="1"
-                            app:cardElevation="3dp">
-
-                            <LinearLayout
+                            <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_margin="5dp"
-                                android:orientation="vertical">
+                                android:layout_height="wrap_content"
+                                android:text="Pekerjaan Diambil"
+                                android:textColor="@color/pdam_text_muted"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-                                <TextView
-                                    android:id="@+id/tv_pekerjaan_belum_selesai"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="--"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="20dp"
-                                    android:textStyle="bold" />
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/PTCard"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:layout_weight="1">
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="Pekerjaan Belum Selesai (Android by NPP)"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="10dp"
-                                    android:textStyle="bold" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="14dp">
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="Abaikan jika sudah diselesaikan dengan SPK yang baru"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="10dp" />
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:background="@drawable/bg_badge_info"
+                                android:contentDescription="@null"
+                                android:padding="7dp"
+                                android:src="@drawable/ic_pt_user"
+                                android:tint="@color/pdam_info_body" />
 
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="3dp"
-                                    android:background="@color/blueGojek" />
-
-                            </LinearLayout>
-
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_margin="4dp"
-                            android:layout_weight="1"
-                            android:visibility="gone"
-                            app:cardElevation="3dp">
-
-                            <LinearLayout
+                            <TextView
+                                android:id="@+id/tv_pekerjaan_cabang_satker"
                                 android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_margin="5dp"
-                                android:orientation="vertical">
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:text="--"
+                                android:textColor="@color/pdam_text"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="250"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="15dp"
-                                    android:textStyle="bold" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Pekerjaan Satker"
+                                android:textColor="@color/pdam_text_muted"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="Pekerjaan Cabang"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="10dp"
-                                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="Android"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="10dp" />
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/PTCard"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:layout_weight="1">
 
-                                <View
-                                    android:layout_width="100dp"
-                                    android:layout_height="3dp"
-                                    android:background="@color/orangeGojek" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="14dp">
 
-                            </LinearLayout>
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:background="@drawable/bg_badge_blue"
+                                android:contentDescription="@null"
+                                android:padding="7dp"
+                                android:src="@drawable/ic_pt_check_circle"
+                                android:tint="@color/pdam_blue_dark" />
 
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_margin="4dp"
-                            android:layout_weight="1"
-                            android:visibility="gone"
-                            app:cardElevation="3dp">
-
-                            <LinearLayout
+                            <TextView
+                                android:id="@+id/tv_pekerjaan_selesai"
                                 android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_margin="5dp"
-                                android:orientation="vertical">
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:text="--"
+                                android:textColor="@color/pdam_text"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="4"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="15dp"
-                                    android:textStyle="bold" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Pekerjaan Selesai"
+                                android:textColor="@color/pdam_text_muted"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="Pekerjaan Selesai"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="10dp"
-                                    android:textStyle="bold" />
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/PTCard"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:layout_weight="1">
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="Android"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="10dp" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="14dp">
 
-                                <View
-                                    android:layout_width="100dp"
-                                    android:layout_height="3dp"
-                                    android:background="@color/redGojek" />
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:background="@drawable/bg_badge_warn"
+                                android:contentDescription="@null"
+                                android:padding="7dp"
+                                android:src="@drawable/ic_pt_clock"
+                                android:tint="@color/pdam_warn_body" />
 
-                            </LinearLayout>
+                            <TextView
+                                android:id="@+id/tv_pekerjaan_belum_selesai"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:text="--"
+                                android:textColor="@color/pdam_text"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
 
-                        </androidx.cardview.widget.CardView>
-
-
-                    </LinearLayout>
-
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Belum Selesai"
+                                android:textColor="@color/pdam_text_muted"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="sans-serif"
-                    android:text="Contact Me"
-                    android:textColor="@android:color/black"
-                    android:textSize="12dp"
-                    android:textStyle="bold" />
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="6dp"
+                    android:text="Pekerjaan belum selesai bisa diabaikan jika sudah diselesaikan dengan SPK baru."
+                    android:textColor="@color/pdam_text_muted"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- ============ BANTUAN ============ -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/div_bantuan"
+                style="@style/PTCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cv_klik_instagram"
-                        android:layout_width="wrap_content"
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_icon_soft_blue"
+                        android:contentDescription="@null"
+                        android:padding="9dp"
+                        android:src="@drawable/ic_pt_headset"
+                        android:tint="@color/pdam_blue_dark" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        app:cardCornerRadius="50dp"
-                        app:cardElevation="3dp">
+                        android:layout_marginLeft="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="20dp"
-                            android:orientation="vertical">
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="Butuh bantuan?"
+                            android:textColor="@color/pdam_text"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/instagram" />
-                        </LinearLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:text="Hubungi pengembang aplikasi"
+                            android:textColor="@color/pdam_text_muted"
+                            android:textSize="11sp" />
+                    </LinearLayout>
 
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
+                    <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cv_klik_wa"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        app:cardCornerRadius="50dp"
-                        app:cardElevation="3dp">
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_marginLeft="8dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="22dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/pdam_outline"
+                        app:strokeWidth="1dp">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="20dp"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/whatsapp" />
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="WhatsApp"
+                            android:src="@drawable/whatsapp" />
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            </LinearLayout>
-
+            <!-- ============ IKLAN ============ -->
             <LinearLayout
+                android:id="@+id/div_iklan_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="bottom"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
                 android:orientation="vertical">
 
-                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                <com.google.android.gms.ads.AdView
                     android:id="@+id/adView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:visibility="gone"
                     ads:adSize="LARGE_BANNER"
                     ads:adUnitId="ca-app-pub-6810772781589252/4208134634" />
-
             </LinearLayout>
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lt_kecoa"
+            <!-- ============ SLOGAN ============ -->
+            <LinearLayout
+                android:id="@+id/div_slogan_home"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_gravity="bottom"
-                android:visibility="gone"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
-                app:lottie_autoPlay="true"
-                app:lottie_fileName="coro.json"
-                app:lottie_loop="true"
-                app:lottie_speed="1"
-                tools:ignore="MissingConstraints" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_water_drop_white"
+                    android:tint="@color/pdam_aqua" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:text="Perumda Air Minum Tirta Moedal · Layani pelanggan, alirkan kepercayaan"
+                    android:textColor="@color/pdam_text_muted"
+                    android:textSize="10sp" />
+            </LinearLayout>
         </LinearLayout>
-
-    </ScrollView>
-
-
-</LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

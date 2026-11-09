@@ -40,9 +40,9 @@ public class BarangDikerjakanAdapter extends RecyclerView.Adapter<BarangDikerjak
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvKodeBarang.setText(dataItem.get(position).getKdBrg());
 //        if (dataItem.get(position).getNmBrg().contains("�")){
+        // Nama barang bisa kosong pada data master lama.
         String data = dataItem.get(position).getNmBrg();
-        String rpl = data.replace("�", "Ø").replace("º", "°");
-        Log.d("debug", "onBindViewHolder: " + rpl);
+        String rpl = data == null ? "-" : data.replace("�", "Ø").replace("º", "°");
         holder.tvNamaBarang.setText(rpl);
 //        }
 //        holder.tvNamaBarang.setText(dataItem.get(position).getNmBrg());
@@ -53,7 +53,8 @@ public class BarangDikerjakanAdapter extends RecyclerView.Adapter<BarangDikerjak
             Intent source = new Intent();
             source.putExtra("kode", holder.tvKodeBarang.getText().toString().trim());
             source.putExtra("nm_brg", holder.tvNamaBarang.getText().toString().trim());
-            source.putExtra("jns_pipa", dataItem.get(position).getRlBarangJenis1().getNmJns1());
+            source.putExtra("jns_pipa", dataItem.get(position).getRlBarangJenis1() == null
+                    ? "-" : dataItem.get(position).getRlBarangJenis1().getNmJns1());
             source.putExtra("diameter", dataItem.get(position).getDiameter());
             ((Activity) context).setResult(Activity.RESULT_OK, source);
             ((Activity) context).finish();
@@ -61,7 +62,7 @@ public class BarangDikerjakanAdapter extends RecyclerView.Adapter<BarangDikerjak
     }
     @Override
     public int getItemCount() {
-        return dataItem.size();
+        return dataItem == null ? 0 : dataItem.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
